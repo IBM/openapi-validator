@@ -7,3 +7,10 @@ Install and run
 
 Run tests
 - npm run test
+
+
+Please note that most if this code is from swagger-api/swagger editor.  This project adds custom validations agreed upon various teams at IBM
+
+Reference:
+https://github.com/swagger-api/swagger-editor
+
