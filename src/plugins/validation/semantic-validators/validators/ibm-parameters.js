@@ -26,18 +26,18 @@ export function validate({ resolvedSpec }) {
       if(obj.name !== snakecase(obj.name)) {
         errors.push({
           path,
-          message: "Parameters must use snake case when appropriate."
+          message: "Parameter name must use snake case."
         })
       }
 
-      // 3
+      // 3  Note this check is fast but is slow rendering in the UI so I may remove
       if(obj.$$ref) {
       var lastSplit =  last((obj.$$ref).split("/"))
         if(lastSplit !== snakecase(lastSplit)) {
 
           warnings.push({
             path,
-            message: "Internal parameters does not use snake case."
+            message: "Internal referece is using camel case."
           })
         }
       }
