@@ -37,7 +37,7 @@ export function validate({ resolvedSpec }) {
 
           warnings.push({
             path,
-            message: "Internal referece is using camel case."
+            message: "Internal reference is not using snake case."
           })
         }
       }

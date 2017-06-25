@@ -74,7 +74,7 @@ describe("validation plugin - semantic - parameters", () => {
     let res = validate({ resolvedSpec: spec })
     expect(res.errors.length).toEqual(1)
     expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
-    expect(res.errors[0].message).toEqual("Parameters must use snake case when appropriate.")
+    expect(res.errors[0].message).toEqual("Parameter name must use snake case.")
     expect(res.warnings.length).toEqual(0)
   })
 })
