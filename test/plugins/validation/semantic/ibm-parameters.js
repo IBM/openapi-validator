@@ -77,4 +77,29 @@ describe("validation plugin - semantic - parameters", () => {
     expect(res.errors[0].message).toEqual("Parameter name must use snake case.")
     expect(res.warnings.length).toEqual(0)
   })
+
+  it("should return an error when JSON is in the description", () => {
+    const spec = {
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                "name": "good_name",
+                "in": "query",
+                "description": "Please do not put json in the description.",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    let res = validate({ resolvedSpec: spec })
+    expect(res.errors.length).toEqual(1)
+    expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
+    expect(res.errors[0].message).toEqual("Descriptions should not state that the model is a JSON object.")
+    expect(res.warnings.length).toEqual(0)
+  })
 })

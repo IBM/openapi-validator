@@ -3,6 +3,7 @@
 
 import snakecase from "lodash/snakecase"
 import last from "lodash/last"
+import includes from "lodash/includes"
 
 export function validate({ resolvedSpec }) {
   let errors = []
@@ -19,6 +20,13 @@ export function validate({ resolvedSpec }) {
         errors.push({
           path,
           message: "Parameters with a description must have content in it."
+        })
+      }
+
+      if("description" in obj && includes(obj.description.toLowerCase(), " json ")) {
+        errors.push({
+          path,
+          message: "Descriptions should not state that the model is a JSON object."
         })
       }
 
