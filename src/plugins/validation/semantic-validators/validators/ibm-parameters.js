@@ -1,7 +1,7 @@
 // Assertation 1:
 // The description when present should not be empty or contain empty space
 
-import snakecase from "lodash/snakecase"
+import snakecase from "lodash/snakeCase"
 import last from "lodash/last"
 import includes from "lodash/includes"
 
