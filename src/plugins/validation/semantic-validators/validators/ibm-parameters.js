@@ -24,7 +24,7 @@ export function validate({ resolvedSpec }) {
       }
 
       if("description" in obj && includes(obj.description.toLowerCase(), " json ")) {
-        errors.push({
+        warnings.push({
           path,
           message: "Descriptions should not state that the model is a JSON object."
         })
