@@ -1,12 +1,5 @@
 // Walks an entire spec.
 
-// Assertation 1:
-// In specific areas of a spec, allowed $ref values are restricted.
-
-// Assertation 2:
-// Sibling keys with $refs are not allowed.
-
-
 export function validate({ jsSpec }) {
   let errors = []
   let warnings = []

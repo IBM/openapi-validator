@@ -17,15 +17,7 @@ export function validate({resolvedSpec}) {
     // 1
     if(path[path.length - 2] === "parameters") {
       if (obj.name === "api_key") {
-        //debugger
       }
-        // if(("description" in obj) && !("$$ref" in obj) && (obj.description.length === 0 || !obj.description.trim())) {
-        //   errors.push({
-        //     path,
-        //     message: "Parameters with a description must have content in it."
-        //   })
-        // }
-        //
         if("description" in obj && includes(obj.description.toLowerCase(), " json ")) {
           warnings.push({
             path,
@@ -64,7 +56,6 @@ export function validate({resolvedSpec}) {
                 valid = includes(["byte","date","date-time","password"], obj.format.toLowerCase())
               break
             case "number":
-                // debugger
                 valid = includes(["float","double"], obj.format.toLowerCase())
               break
             case "boolean":
