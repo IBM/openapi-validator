@@ -1,4 +1,5 @@
 // Walks an entire spec.
+import includes from "lodash/includes"
 
 export function validate({ jsSpec }) {
   let errors = []
@@ -21,7 +22,7 @@ export function validate({ jsSpec }) {
 
     if(keys.length) {
       return keys.map(k => {
-        if(k === "description"){
+        if(k === "description" && !(includes(path, "examples"))){
           var descriptionValue = values[keys.indexOf("description")].toString()
           if ((descriptionValue.length === 0) || (!descriptionValue.trim())) {
           errors.push({
