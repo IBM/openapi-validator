@@ -7,6 +7,7 @@ import { getLineNumberForPath } from "../ast/ast"
 import getTimestamp from "./get-timestamp"
 import registerPromiseWorker from "promise-worker/register"
 import modes from "./modes"
+import isArray from "lodash/isArray"
 
 registerPromiseWorker(function ({ jsSpec, resolvedSpec, specStr, mode }) {
   let boundGetLineNumber = getLineNumberForPath.bind(null, specStr)
@@ -40,6 +41,12 @@ registerPromiseWorker(function ({ jsSpec, resolvedSpec, specStr, mode }) {
 
   let combinedErrors = concat([], semanticValidatorResult, structuralValidationResult)
   markStep("combine")
+
+  console.log("------------------------- START -------------------------------")
+  combinedErrors.forEach(err => {
+      console.log(`${err.level} : ${err.message} | ${err.path} | ${err.line}`.toLowerCase())
+  })
+  console.log("------------------------- END ---------------------------------")
 
   if(LOG_VALIDATION_PERF) {
     perfArray.forEach((el, i) => {

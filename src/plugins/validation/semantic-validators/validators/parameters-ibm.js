@@ -14,10 +14,30 @@ export function validate({resolvedSpec}) {
       return
     }
 
-    // 1
-    if(path[path.length - 2] === "parameters") {
-      if (obj.name === "api_key") {
+    if(path[0] === "definitions"  && path[path.length - 2] === "properties" && path[path.length - 3] !== "items" && !obj.$$ref) {
+      if(!(obj.description)) {
+        errors.push({
+          path,
+          message: "Parameters must have a description must have content in it."
+        })
       }
+    }
+
+    if(path[path.length - 2] === "parameters") {
+          if( ("$$ref" in obj) && (obj.description.length === 0 || !obj.description.trim()) ) {
+            errors.push({
+              path,
+              message: "Parameters with a description must have content in it."
+            })
+          }
+
+          if(!(obj.description)) {
+            errors.push({
+              path,
+              message: "Parameters with a description must have content in it."
+            })
+          }
+
         if("description" in obj && includes(obj.description.toLowerCase(), " json ")) {
           warnings.push({
             path,
@@ -25,7 +45,6 @@ export function validate({resolvedSpec}) {
           })
         }
 
-        // 2
         if( obj.in && (obj.in !== "header") && !obj.$$ref && obj.name !== snakecase(obj.name)) {
           errors.push({
             path,
@@ -45,7 +64,6 @@ export function validate({resolvedSpec}) {
           }
         }
 
-      // 5
       var valid = true
       if (obj.format && !obj.$$ref) {
         switch (obj.type) {
