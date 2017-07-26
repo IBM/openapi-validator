@@ -1,7 +1,7 @@
 import expect from "expect"
 import { validate } from "plugins/validation/semantic-validators/validators/walker-ibm"
 
-describe("validation plugin - semantic - parameters", () => {
+describe("validation plugin - semantic - walker-ibm", () => {
 
   it("should return an error when description is empty", () => {
     const spec = {

@@ -1,7 +1,7 @@
 import expect from "expect"
-import { validate } from "plugins/validation/semantic-validators/validators/ibm-parameters"
+import { validate } from "plugins/validation/semantic-validators/validators/parameters-ibm"
 
-describe("validation plugin - semantic - parameters", () => {
+describe("validation plugin - semantic - parameters-ibm", () => {
 
   it("should return an error when snake case is not used", () => {
     const spec = {

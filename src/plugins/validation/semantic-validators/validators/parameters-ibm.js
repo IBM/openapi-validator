@@ -14,34 +14,39 @@ export function validate({resolvedSpec}) {
       return
     }
 
+    if(path[0] === "definitions") {
+      // debugger
+    }
+
     if(path[0] === "definitions"  && path[path.length - 2] === "properties" && path[path.length - 3] !== "items" && !obj.$$ref) {
+      // debugger
       if(!(obj.description)) {
         errors.push({
           path,
-          message: "Parameters must have a description must have content in it."
+          message: "Parameters must have a description with content in it."
         })
       }
     }
 
+    if(obj.description && includes(obj.description.toLowerCase(), "json")) {
+      warnings.push({
+        path: path,
+        message: "Descriptions should not state that the model is a JSON object."
+      })
+    }
+
     if(path[path.length - 2] === "parameters") {
-          if( ("$$ref" in obj) && (obj.description.length === 0 || !obj.description.trim()) ) {
-            errors.push({
-              path,
-              message: "Parameters with a description must have content in it."
-            })
-          }
-
-          if(!(obj.description)) {
-            errors.push({
-              path,
-              message: "Parameters with a description must have content in it."
-            })
-          }
-
-        if("description" in obj && includes(obj.description.toLowerCase(), " json ")) {
-          warnings.push({
+        if( ("$$ref" in obj) && (obj.description.length === 0 || !obj.description.trim()) ) {
+          errors.push({
             path,
-            message: "Descriptions should not state that the model is a JSON object."
+            message: "Parameters with a description must have content in it."
+          })
+        }
+
+        if(!(obj.description)) {
+          errors.push({
+            path,
+            message: "Parameters with a description must have content in it."
           })
         }
 

@@ -7,8 +7,6 @@ export function validate({ jsSpec }) {
 
   function walk(value, path) {
 
-    // let curr = path[path.length - 1]
-
     if(value === null) {
       return null
     }
