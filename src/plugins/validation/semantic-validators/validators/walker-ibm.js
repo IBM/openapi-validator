@@ -16,12 +16,11 @@ export function validate({ jsSpec }) {
     }
 
     let keys = Object.keys(value)
-    let values = Object.values(value)
 
     if(keys.length) {
       return keys.map(k => {
         if(k === "description" && !(includes(path, "examples"))){
-          var descriptionValue = values[keys.indexOf("description")].toString()
+          var descriptionValue = value["description"].toString()
           if ((descriptionValue.length === 0) || (!descriptionValue.trim())) {
           errors.push({
             path: path.concat([k]),
