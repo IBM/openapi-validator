@@ -78,6 +78,33 @@ describe("validation plugin - semantic - parameters-ibm", () => {
     expect(res.warnings[0].message).toEqual("Descriptions should not state that the model is a JSON object.")
   })
 
+  it("should not die when a schema contains a description property", () => {
+    const spec = {
+      "definitions": {
+        "Notice": {
+          "type": "object",
+          "description": "A notice produced for the collection",
+          "properties": {
+            "notice_id": {
+              "type": "string",
+              "readOnly": true,
+              "description": "Identifies the notice. Many notices may have the same ID. This field exists so that user applications can programmatically identify a notice and take automatic corrective action."
+            },
+            "description": {
+              "type": "string",
+              "readOnly": true,
+              "description": "The description of the notice"
+            }
+          }
+        }
+      }
+    }
+
+    let res = validate({ resolvedSpec: spec })
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(0)
+  })
+
   it("should return an error when type integer does not have a format", () => {
     const spec = {
       "paths": {
