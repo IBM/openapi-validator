@@ -42,7 +42,7 @@ export function validate({ resolvedSpec }) {
           })
         }
 
-        if(!op.summary || (op.summary.length === 0) || (!op.summary.toString().trim())) {
+        if(op.summary && ((op.summary.length === 0) || (!op.summary.toString().trim()))) {
             errors.push({
               path: `paths.${pathKey}.${opKey}.summary`,
               message: "Operations must have a summary with content."
