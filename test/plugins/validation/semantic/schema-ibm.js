@@ -50,4 +50,27 @@ describe("validation plugin - semantic - schema", () => {
     expect(res.warnings.length).toEqual(0)
   })
 
+  it("should return an error when a response does not use a well defined property type", () => {
+    const spec = {
+      responses: {
+        Thing: {
+          schema: {
+            properties: {
+              level: {
+                type: "number",
+                format: "integer"
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let res = validate({ resolvedSpec: spec })
+    expect(res.errors.length).toEqual(1)
+    expect(res.errors[0].path).toEqual(["responses", "Thing", "schema", "properties", "level", "type"])
+    expect(res.errors[0].message).toEqual("Properties must use well defined property types.")
+    expect(res.warnings.length).toEqual(0)
+  })
+
 })

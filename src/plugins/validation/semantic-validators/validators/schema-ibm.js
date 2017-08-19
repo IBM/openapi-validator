@@ -17,6 +17,14 @@ export function validate({ resolvedSpec }) {
     })
   }
 
+  if(resolvedSpec.responses) {
+    each(resolvedSpec.responses, (response, name) => {
+      if(response.schema && !response.schema.$$ref) {
+        schemas.push({ schema: response.schema, path: ["responses", name, "schema"] })
+      }
+    })
+  }
+
   if(resolvedSpec.paths) {
     each(resolvedSpec.paths, (path, pathName) => {
       each(path, (op, opName) => {
