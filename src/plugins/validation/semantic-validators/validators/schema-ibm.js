@@ -67,7 +67,7 @@ function generateFormatErrors(schema, contextPath) {
   if(!schema.properties) { return arr }
 
   forIn( schema.properties, (property, propName) => {
-    if (property.$ref) { return }
+    if (property.$$ref) { return }
     var path = contextPath.concat(["properties",propName,"type"])
     var valid = true
     switch (property.type) {
@@ -100,7 +100,7 @@ function generateFormatErrors(schema, contextPath) {
 }
 
 function formatValid(property) {
-  if (property.$ref) { return true }
+  if (property.$$ref) { return true }
   var valid = true
   switch (property.type) {
     case "integer":
