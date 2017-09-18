@@ -23,6 +23,13 @@ export function validate({ resolvedSpec }) {
           }
         }
 
+        if (opKey.toLowerCase() === "get" && op.consumes) {
+          errors.push({
+            path: `paths.${pathKey}.${opKey}.consumes`,
+            message: "Operations with get should not specify consumes."
+          })
+        }
+
         // if(op.description && includes(op.description.toLowerCase(), "json")) {
         //   debugger
         //   warnings.push({
