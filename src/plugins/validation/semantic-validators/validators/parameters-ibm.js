@@ -33,7 +33,7 @@ export function validate({jsSpec}) {
     if(path[path.length - 2] === "parameters") {
 
         // *****
-        // i cannot think of / find a situation where this check would occur
+        // when would this check occur?
         if( ("$ref" in obj) && (obj.description.length === 0 || !obj.description.trim()) ) {
           errors.push({
             path,
@@ -58,7 +58,7 @@ export function validate({jsSpec}) {
 
         // 3  Note this check is fast but is slow rendering in the UI so I may remove
         // *****
-        // i cannot think of / find a situation where this check would occur
+        // when would this check occur?
         if(obj.$ref && obj.in && obj.in !== "header") {
         var lastSplit = last((obj.$ref).split("/"))
           if(lastSplit !== snakecase(lastSplit)) {
