@@ -2,7 +2,7 @@ import each from "lodash/each"
 import forIn from "lodash/forIn"
 import includes from "lodash/includes"
 
-export function validate({ resolvedSpec }) {
+export function validate({ jsSpec }) {
   let errors = []
   let warnings = []
 
@@ -10,27 +10,27 @@ export function validate({ resolvedSpec }) {
 
   let schemas = []
 
-  if(resolvedSpec.definitions) {
-    each(resolvedSpec.definitions, (def, name) => {
+  if(jsSpec.definitions) {
+    each(jsSpec.definitions, (def, name) => {
       def.name = name
       schemas.push({ schema: def, path: ["definitions", name] })
     })
   }
 
-  if(resolvedSpec.responses) {
-    each(resolvedSpec.responses, (response, name) => {
-      if(response.schema && !response.schema.$$ref) {
+  if(jsSpec.responses) {
+    each(jsSpec.responses, (response, name) => {
+      if(response.schema && !response.schema.$ref) {
         schemas.push({ schema: response.schema, path: ["responses", name, "schema"] })
       }
     })
   }
 
-  if(resolvedSpec.paths) {
-    each(resolvedSpec.paths, (path, pathName) => {
+  if(jsSpec.paths) {
+    each(jsSpec.paths, (path, pathName) => {
       each(path, (op, opName) => {
         if(op && op.parameters) {
           op.parameters.forEach((parameter, parameterIndex) => {
-            if(parameter.in === "body" && parameter.schema && ! parameter.schema.$$ref) {
+            if(parameter.in === "body" && parameter.schema && ! parameter.schema.$ref) {
               schemas.push({
                 schema: parameter.schema,
                 path: ["paths", pathName, opName, "parameters", parameterIndex.toString(), "schema"]
@@ -40,7 +40,7 @@ export function validate({ resolvedSpec }) {
         }
         if(op && op.responses) {
           each(op.responses, (response, responseName) => {
-            if(response && response.schema && !response.schema.$$ref) {
+            if(response && response.schema && !response.schema.$ref) {
               schemas.push({
                 schema: response.schema,
                 path: ["paths", pathName, opName, "responses", responseName, "schema"]
@@ -67,7 +67,7 @@ function generateFormatErrors(schema, contextPath) {
   if(!schema.properties) { return arr }
 
   forIn( schema.properties, (property, propName) => {
-    if (property.$$ref) { return }
+    if (property.$ref) { return }
     var path = contextPath.concat(["properties",propName,"type"])
     var valid = true
     switch (property.type) {
@@ -100,7 +100,7 @@ function generateFormatErrors(schema, contextPath) {
 }
 
 function formatValid(property) {
-  if (property.$$ref) { return true }
+  if (property.$ref) { return true }
   var valid = true
   switch (property.type) {
     case "integer":

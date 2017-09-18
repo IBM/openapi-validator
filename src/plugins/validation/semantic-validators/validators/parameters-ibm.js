@@ -5,21 +5,17 @@ import snakecase from "lodash/snakeCase"
 import last from "lodash/last"
 import includes from "lodash/includes"
 
-export function validate({resolvedSpec}) {
+export function validate({jsSpec}) {
   let errors = []
   let warnings = []
+  //debugger
 
   function walk(obj, path) {
     if(typeof obj !== "object" || obj === null) {
       return
     }
 
-    if(path[0] === "definitions") {
-      // debugger
-    }
-
-    if(path[0] === "definitions"  && path[path.length - 2] === "properties" && path[path.length - 3] !== "items" && !obj.$$ref) {
-      // debugger
+    if(path[0] === "definitions" && path[path.length - 2] === "properties" && path[path.length - 3] !== "items" && !obj.$ref) {
       if(!(obj.description)) {
         errors.push({
           path,
@@ -34,9 +30,11 @@ export function validate({resolvedSpec}) {
         message: "Descriptions should not state that the model is a JSON object."
       })
     }
-
     if(path[path.length - 2] === "parameters") {
-        if( ("$$ref" in obj) && (obj.description.length === 0 || !obj.description.trim()) ) {
+
+        // *****
+        // i cannot think of / find a situation where this check would occur
+        if( ("$ref" in obj) && (obj.description.length === 0 || !obj.description.trim()) ) {
           errors.push({
             path,
             message: "Parameters with a description must have content in it."
@@ -50,7 +48,8 @@ export function validate({resolvedSpec}) {
           })
         }
 
-        if( obj.in && (obj.in !== "header") && !obj.$$ref && obj.name !== snakecase(obj.name)) {
+        // the 'in' property is required by openapi for parameters
+        if( obj.in && (obj.in !== "header") && !obj.$ref && obj.name !== snakecase(obj.name)) {
           errors.push({
             path,
             message: "Parameter name must use snake case."
@@ -58,8 +57,10 @@ export function validate({resolvedSpec}) {
         }
 
         // 3  Note this check is fast but is slow rendering in the UI so I may remove
-        if(obj.$$ref && obj.in && obj.in !== "header") {
-        var lastSplit =  last((obj.$$ref).split("/"))
+        // *****
+        // i cannot think of / find a situation where this check would occur
+        if(obj.$ref && obj.in && obj.in !== "header") {
+        var lastSplit = last((obj.$ref).split("/"))
           if(lastSplit !== snakecase(lastSplit)) {
 
             warnings.push({
@@ -70,7 +71,7 @@ export function validate({resolvedSpec}) {
         }
 
       var valid = true
-      if (obj.format && !obj.$$ref) {
+      if (obj.format && !obj.$ref) {
         switch (obj.type) {
             case "integer":
                 valid = includes(["int32","int64"], obj.format.toLowerCase())
@@ -104,6 +105,6 @@ export function validate({resolvedSpec}) {
     }
   }
 
-  walk(resolvedSpec, [])
+  walk(jsSpec, [])
   return { errors, warnings }
 }
