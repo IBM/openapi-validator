@@ -50,12 +50,6 @@ describe("validation plugin - semantic - schema-ibm", () => {
     expect(res.warnings.length).toEqual(0)
   })
 
-  // *****
-  // Why does this expect an error when the description says it should not error?
-  // This check only passes on the master branch because the resolvedSpec variable
-  // is not actually 'resolved' during the testing. The validator checks for '$$ref'
-  // but that key only exists in the resolvedSpec. So, an error is thrown because
-  // the test sends an object with the key '$ref'
   it("should not error when an array property's items is a ref", () => {
     const spec = {
       definitions: {
@@ -77,9 +71,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
     }
 
     let res = validate({ jsSpec: spec })
-    expect(res.errors.length).toEqual(1)
-    expect(res.errors[0].path).toEqual(["definitions", "Thing", "properties", "level", "items", "type"])
-    expect(res.errors[0].message).toEqual("Properties must use well defined property types.")
+    expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
 

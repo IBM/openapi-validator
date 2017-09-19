@@ -2,13 +2,11 @@
 // The description when present should not be empty or contain empty space
 
 import snakecase from "lodash/snakeCase"
-import last from "lodash/last"
 import includes from "lodash/includes"
 
 export function validate({jsSpec}) {
   let errors = []
   let warnings = []
-  //debugger
 
   function walk(obj, path) {
     if(typeof obj !== "object" || obj === null) {
@@ -32,15 +30,6 @@ export function validate({jsSpec}) {
     }
     if(path[path.length - 2] === "parameters") {
 
-        // *****
-        // when would this check occur?
-        if( ("$ref" in obj) && (obj.description.length === 0 || !obj.description.trim()) ) {
-          errors.push({
-            path,
-            message: "Parameters with a description must have content in it."
-          })
-        }
-
         if(!(obj.description)) {
           errors.push({
             path,
@@ -54,20 +43,6 @@ export function validate({jsSpec}) {
             path,
             message: "Parameter name must use snake case."
           })
-        }
-
-        // 3  Note this check is fast but is slow rendering in the UI so I may remove
-        // *****
-        // when would this check occur?
-        if(obj.$ref && obj.in && obj.in !== "header") {
-        var lastSplit = last((obj.$ref).split("/"))
-          if(lastSplit !== snakecase(lastSplit)) {
-
-            warnings.push({
-              path,
-              message: "Internal reference is not using snake case."
-            })
-          }
         }
 
       var valid = true
