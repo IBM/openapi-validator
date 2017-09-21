@@ -1,5 +1,17 @@
 // Assertation 1:
-// The description when present should not be empty or contain empty space
+// The description, when present, should not be empty or contain empty space
+
+// Assertation 2:
+// Objects within the 'properties' object in 'definitions' should have a description
+
+// Assertation 3:
+// Descriptions should not state that model will be a JSON object
+
+// Assertation 4:
+// Parameters must have descriptions, and parameter names must be snake_case
+
+// Assertation 5:
+// If parameters define their own format, they must follow the formatting rules.
 
 import snakecase from "lodash/snakeCase"
 import includes from "lodash/includes"
@@ -9,41 +21,59 @@ export function validate({jsSpec}) {
   let warnings = []
 
   function walk(obj, path) {
-    if(typeof obj !== "object" || obj === null) {
+    if (typeof obj !== "object" || obj === null) {
       return
     }
 
-    if(path[0] === "definitions" && path[path.length - 2] === "properties" && path[path.length - 3] !== "items" && !obj.$ref) {
-      if(!(obj.description)) {
-        errors.push({
-          path,
-          message: "Parameters must have a description with content in it."
-        })
-      }
+    let isInDefinitions = path[0] === "definitions"
+    let contentsOfPropertiesObject = path[path.length - 2] === "properties"
+    let childOfItemsObject = path[path.length - 3] === "items"
+    let isRef = !!obj.$ref
+
+    // conditions:
+    // in the definitions section
+    // obj is a properties object
+    // obj is not a sub-object of an items list
+    // obj is not defined by a ref
+    let conditionsMet = isInDefinitions && contentsOfPropertiesObject && !childOfItemsObject && !isRef    
+    if (conditionsMet && !obj.description) {
+      warnings.push({
+        path,
+        message: "Properties must have a description with content in it."
+      })
     }
 
-    if(obj.description && (obj.description.toLowerCase !== undefined) && includes(obj.description.toLowerCase(), "json")) {
+    let mentionsJSON = obj.description && (obj.description.toLowerCase !== undefined) && includes(obj.description.toLowerCase(), "json")
+    if (mentionsJSON) {
       warnings.push({
         path: path,
         message: "Descriptions should not state that the model is a JSON object."
       })
     }
-    if(path[path.length - 2] === "parameters") {
 
-        if(!(obj.description)) {
-          errors.push({
-            path,
-            message: "Parameters with a description must have content in it."
-          })
-        }
+    let contentsOfParameterObject = path[path.length - 2] === "parameters"
 
-        // the 'in' property is required by openapi for parameters
-        if( obj.in && (obj.in !== "header") && !obj.$ref && obj.name !== snakecase(obj.name)) {
-          errors.push({
-            path,
-            message: "Parameter name must use snake case."
-          })
-        }
+    // obj is a parameter object
+    if (contentsOfParameterObject) {
+
+      if(!(obj.description)) {
+        errors.push({
+          path,
+          message: "Parameters with a description must have content in it."
+        })
+      }
+
+      let isParameter = obj.in // the `in` property is required by OpenAPI for parameters - this should be true
+      let isHeaderParameter = (obj.in == "header") // header params need not be snake_case
+      let isSnakecase = obj.name == snakecase(obj.name)
+
+      // if the parameter is defined by a ref, no need to check the ref path for snake_case
+      if (isParameter && !isHeaderParameter && !isRef && !isSnakecase) {
+        warnings.push({
+          path,
+          message: "Parameter name must use snake case."
+        })
+      }
 
       var valid = true
       if (obj.format && !obj.$ref) {
@@ -72,7 +102,7 @@ export function validate({jsSpec}) {
         })
       }
     }
-    if(Object.keys(obj).length) {
+    if (Object.keys(obj).length) {
       return Object.keys(obj).map(k => walk(obj[k], [...path, k]))
 
     } else {

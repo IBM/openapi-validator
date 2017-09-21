@@ -1,3 +1,6 @@
+// Assertation 1:
+// Schemas need to have properly matching type/format pairs
+
 import each from "lodash/each"
 import forIn from "lodash/forIn"
 import includes from "lodash/includes"
@@ -5,8 +8,6 @@ import includes from "lodash/includes"
 export function validate({ jsSpec }) {
   let errors = []
   let warnings = []
-
-  //debugger
 
   let schemas = []
 

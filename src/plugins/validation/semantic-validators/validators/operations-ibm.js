@@ -1,3 +1,11 @@
+// Assertation 1:
+// PUT and POST operations must have a non-empty `consumes` field
+
+// Assertation 2:
+// Operations must have a non-empty `operationId`
+
+// Assertation 3:
+// Operations must have a non-empty `summary` field.
 
 import pick from "lodash/pick"
 import map from "lodash/map"
@@ -8,39 +16,39 @@ export function validate({ jsSpec }) {
   let errors = []
   let warnings = []
 
-  // check for global consumes
-  let globalConsumes = !!jsSpec.consumes
+  map(jsSpec.paths, (path, pathKey) => {
+    let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
+    each(pathOps, (op, opKey) => {
+      if(includes(["put","post"], opKey.toLowerCase())) {
 
-  map(jsSpec.paths,
-    (path, pathKey) => {
-      let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
-      each(pathOps, (op, opKey) => {
+        let hasLocalConsumes = op.consumes && op.consumes.length > 0 && !!op.consumes.join("").trim()
+        let hasGlobalConsumes = !!jsSpec.consumes
 
-        if(includes(["put","post"], opKey.toLowerCase())) {
-          if((!op.consumes || op.consumes.length === 0 || !op.consumes.toString().trim()) && !globalConsumes) {
-            errors.push({
-              path: `paths.${pathKey}.${opKey}.consumes`,
-              message: "Operations with put and post must have a consumes with content."
-            })
-          }
-        }     
-
-        if(!op.operationId || op.operationId.length === 0 || !op.operationId.toString().trim()) {
+        if(!hasLocalConsumes && !hasGlobalConsumes) {
           errors.push({
-            path: `paths.${pathKey}.${opKey}.operationId`,
-            message: "Operations must have an operationId with value."
+            path: `paths.${pathKey}.${opKey}.consumes`,
+            message: "PUT and POST operations must have a non-empty `consumes` field."
           })
         }
+      }     
 
+      let hasOperationId = op.operationId && op.operationId.length > 0 && !!op.operationId.toString().trim()
+      if(!hasOperationId) {
+        warnings.push({
+          path: `paths.${pathKey}.${opKey}.operationId`,
+          message: "Operations must have a non-empty `operationId`."
+        })
+      }
 
-        if (op.summary && ((op.summary.length === 0) || (!op.summary.toString().trim()))) {
-          errors.push({
-            path: `paths.${pathKey}.${opKey}.summary`,
-            message: "Operations must have a summary with content."
-          })
-        }
-      })
+      let hasSummary = op.summary && op.summary.length > 0 && !!op.summary.toString().trim()
+      if (!hasSummary) {
+        errors.push({
+          path: `paths.${pathKey}.${opKey}.summary`,
+          message: "Operations must have a non-empty `summary` field."
+        })
+      }
     })
+  })
 
   return { errors, warnings }
 }
