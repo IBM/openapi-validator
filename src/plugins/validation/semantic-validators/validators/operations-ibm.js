@@ -2,9 +2,15 @@
 // PUT and POST operations must have a non-empty `consumes` field
 
 // Assertation 2:
-// Operations must have a non-empty `operationId`
+// GET operations should not specify a consumes field.
 
 // Assertation 3:
+// GET operations must have a non-empty `produces` field.
+
+// Assertation 4:
+// Operations must have a non-empty `operationId`
+
+// Assertation 5:
 // Operations must have a non-empty `summary` field.
 
 import pick from "lodash/pick"
@@ -32,13 +38,29 @@ export function validate({ jsSpec }) {
         }
       }
 
-      // still need to finish this
-      if (opKey.toLowerCase() === "get" && op.consumes) {
-        errors.push({
-          path: `paths.${pathKey}.${opKey}.consumes`,
-          message: "Operations with get should not specify consumes."
-        })
+      let isGetOperation = opKey.toLowerCase() === "get"
+      if (isGetOperation) {
+
+        // get operations should not have a consumes property
+        if (op.consumes) {
+          warnings.push({
+            path: `paths.${pathKey}.${opKey}.consumes`,
+            message: "GET operations should not specify a consumes field."
+          })
+        }
+
+        // get operations should have a produces property
+        let hasLocalProduces = op.produces && op.produces.length > 0 && !!op.produces.join("").trim()
+        let hasGlobalProduces = !!jsSpec.produces
+
+        if (!hasLocalProduces && !hasGlobalProduces) {
+          errors.push({
+            path: `paths.${pathKey}.${opKey}.produces`,
+            message: "GET operations must have a non-empty `produces` field."
+          })
+        }
       }
+
 
       let hasOperationId = op.operationId && op.operationId.length > 0 && !!op.operationId.toString().trim()
       if(!hasOperationId) {
@@ -50,7 +72,7 @@ export function validate({ jsSpec }) {
 
       let hasSummary = op.summary && op.summary.length > 0 && !!op.summary.toString().trim()
       if (!hasSummary) {
-        errors.push({
+        warnings.push({
           path: `paths.${pathKey}.${opKey}.summary`,
           message: "Operations must have a non-empty `summary` field."
         })
