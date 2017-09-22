@@ -21,7 +21,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       }
     }
 
-    let res = validate({ resolvedSpec: spec })
+    let res = validate({ jsSpec: spec })
     expect(res.errors.length).toEqual(1)
     expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
     expect(res.errors[0].message).toEqual("Parameter name must use snake case.")
@@ -46,7 +46,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       }
     }
 
-    let res = validate({ resolvedSpec: spec })
+    let res = validate({ jsSpec: spec })
     expect(res.errors.length).toEqual(0)
     //expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
     //expect(res.errors[0].message).toEqual("Parameter name must use snake case.")
@@ -71,7 +71,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       }
     }
 
-    let res = validate({ resolvedSpec: spec })
+    let res = validate({ jsSpec: spec })
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(1)
     expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
@@ -100,7 +100,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       }
     }
 
-    let res = validate({ resolvedSpec: spec })
+    let res = validate({ jsSpec: spec })
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
@@ -124,7 +124,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       }
     }
 
-    let res = validate({ resolvedSpec: spec })
+    let res = validate({ jsSpec: spec })
     expect(res.errors.length).toEqual(1)
     expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
     expect(res.errors[0].message).toEqual("Incorrect Format of int32 with Type of number and Description of This is a good description.")
