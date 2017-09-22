@@ -1,62 +1,62 @@
+// Assertation 1:
+// PUT and POST operations must have a non-empty `consumes` field
+
+// Assertation 2:
+// Operations must have a non-empty `operationId`
+
+// Assertation 3:
+// Operations must have a non-empty `summary` field.
 
 import pick from "lodash/pick"
 import map from "lodash/map"
 import each from "lodash/each"
 import includes from "lodash/includes"
 
-export function validate({ resolvedSpec }) {
+export function validate({ jsSpec }) {
   let errors = []
   let warnings = []
 
-  map(resolvedSpec.paths,
-    (path, pathKey) => {
-      let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
-      each(pathOps, (op, opKey) => {
+  map(jsSpec.paths, (path, pathKey) => {
+    let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
+    each(pathOps, (op, opKey) => {
+      if(includes(["put","post"], opKey.toLowerCase())) {
 
-        if(includes(["put","post"], opKey.toLowerCase())) {
+        let hasLocalConsumes = op.consumes && op.consumes.length > 0 && !!op.consumes.join("").trim()
+        let hasGlobalConsumes = !!jsSpec.consumes
 
-          if(!op.consumes || op.consumes.length === 0 || !op.consumes.toString().trim()) {
-            errors.push({
-              path: `paths.${pathKey}.${opKey}.consumes`,
-              message: "Operations with put and post must have a consumes with content."
-            })
-          }
-        }
-
-        if (opKey.toLowerCase() === "get" && op.consumes) {
+        if(!hasLocalConsumes && !hasGlobalConsumes) {
           errors.push({
             path: `paths.${pathKey}.${opKey}.consumes`,
-            message: "Operations with get should not specify consumes."
+            message: "PUT and POST operations must have a non-empty `consumes` field."
           })
         }
+      }
 
-        // if(op.description && includes(op.description.toLowerCase(), "json")) {
-        //   debugger
-        //   warnings.push({
-        //     path: `paths.${pathKey}.${opKey}.description`,
-        //     message: "Descriptions should not state that the model is a JSON object."
-        //   })
-        // }
+      // still need to finish this
+      if (opKey.toLowerCase() === "get" && op.consumes) {
+        errors.push({
+          path: `paths.${pathKey}.${opKey}.consumes`,
+          message: "Operations with get should not specify consumes."
+        })
+      }
 
-        if( op.summary === "Creates list of users with given input array") {
-          // debugger
-        }
+      let hasOperationId = op.operationId && op.operationId.length > 0 && !!op.operationId.toString().trim()
+      if(!hasOperationId) {
+        warnings.push({
+          path: `paths.${pathKey}.${opKey}.operationId`,
+          message: "Operations must have a non-empty `operationId`."
+        })
+      }
 
-        if(!op.operationId || op.operationId.length === 0 || !op.operationId.toString().trim()) {
-          errors.push({
-            path: `paths.${pathKey}.${opKey}.operationId`,
-            message: "Operations must have an operationId with value."
-          })
-        }
-
-        if(op.summary && ((op.summary.length === 0) || (!op.summary.toString().trim()))) {
-            errors.push({
-              path: `paths.${pathKey}.${opKey}.summary`,
-              message: "Operations must have a summary with content."
-            })
-          }
-      })
+      let hasSummary = op.summary && op.summary.length > 0 && !!op.summary.toString().trim()
+      if (!hasSummary) {
+        errors.push({
+          path: `paths.${pathKey}.${opKey}.summary`,
+          message: "Operations must have a non-empty `summary` field."
+        })
+      }
     })
+  })
 
   return { errors, warnings }
 }
