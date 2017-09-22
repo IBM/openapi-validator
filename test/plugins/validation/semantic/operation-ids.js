@@ -14,7 +14,7 @@ describe("validation plugin - semantic - operation-ids", function () {
           },
           get: {
             summary: "get operation",
-            operation: "bestOperation"
+            operationId: "bestOperation"
           }
         }
       }
