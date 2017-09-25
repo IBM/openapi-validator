@@ -7,7 +7,7 @@ Here is the squad info plus information around SDK and API reference generation 
 
 ## Running locally
 
-To run a local instance with hot-reload funcationlity then invoke `npm run dev`. 
+To run a local instance with validation and hot-reload funcationlity then invoke `npm run dev`. 
 
 To run the tests then invoke `npm run test`. 
 
@@ -18,6 +18,8 @@ To run the tests then invoke `npm run test`.
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
 
 Otherwise, you can open `index.html` directly from your filesystem in your browser.
+
+Note: At this time, if the editor is opened using `npm start` or `index.html`, the validations will __not__ be run.
 
 If you'd like to make code changes to Swagger-Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`. 
 

@@ -1,3 +1,6 @@
+// Assertation 1:
+// The description, when present, should not be empty or contain empty space
+
 // Walks an entire spec.
 import includes from "lodash/includes"
 
@@ -22,10 +25,10 @@ export function validate({ jsSpec }) {
         if(k === "description" && !(includes(path, "examples"))){
           var descriptionValue = value["description"].toString()
           if ((descriptionValue.length === 0) || (!descriptionValue.trim())) {
-          errors.push({
-            path: path.concat([k]),
-            message: "Items with a description must have content in it."
-          })
+            errors.push({
+              path: path.concat([k]),
+              message: "Items with a description must have content in it."
+            })
         }
       }
         return walk(value[k], [...path, k])
@@ -36,6 +39,7 @@ export function validate({ jsSpec }) {
     }
 
   }
+
   walk(jsSpec, [])
 
   return { errors, warnings }
