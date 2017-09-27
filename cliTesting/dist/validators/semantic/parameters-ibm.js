@@ -56,6 +56,7 @@ function validate(_ref) {
     // obj is not defined by a ref
     var conditionsMet = isInDefinitions && contentsOfPropertiesObject && !childOfItemsObject && !isRef;
     if (conditionsMet && !obj.description) {
+      //console.log(jsSpec.definitions.Pet);
       warnings.push({
         path: path,
         message: "Properties must have a description with content in it."

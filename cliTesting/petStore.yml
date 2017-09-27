@@ -31,12 +31,9 @@ paths:
     post:
       tags:
       - "pet"
-      summary: "Add a new pet to the store"
+      summary: "   "
       description: "post a pet to store"
-      operationId: "addPet"
-      consumes:
-      - "application/json"
-      - "application/xml"
+      operationId: "   "
       produces:
       - "application/xml"
       - "application/json"
@@ -89,7 +86,7 @@ paths:
       tags:
       - "pet"
       summary: "Finds Pets by status"
-      description: "Multiple status values can be provided with comma separated strings"
+      description: "hey its me, JSON"
       operationId: "findPetsByStatus"
       produces:
       - "application/xml"
