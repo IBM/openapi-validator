@@ -6,7 +6,7 @@ var last = require('lodash/last');
 var parser = require('swagger-parser');
 
 // import the validators
-var semanticValidators = require('require-all')(__dirname + '/validators/semantic');
+var semanticValidators = require('require-all')(__dirname + '/semantic-validators');
 
 // append a blank line for readability
 console.log();
@@ -125,7 +125,7 @@ function validate(allSpecs) {
     return problem
   });
 
-  // if there were no errors or warnings, don't bother returning the object
+  // if there were no errors or warnings, don't bother passing along
   semanticResults = semanticResults.filter(res => res.errors.length || res.warnings.length);
 
   validationResults.semantic = semanticResults;

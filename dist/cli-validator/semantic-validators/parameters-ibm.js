@@ -56,7 +56,6 @@ function validate(_ref) {
     // obj is not defined by a ref
     var conditionsMet = isInDefinitions && contentsOfPropertiesObject && !childOfItemsObject && !isRef;
     if (conditionsMet && !obj.description) {
-      //console.log(jsSpec.definitions.Pet);
       warnings.push({
         path: path,
         message: "Properties must have a description with content in it."
@@ -65,7 +64,7 @@ function validate(_ref) {
 
     var mentionsJSON = obj.description && obj.description.toLowerCase !== undefined && (0, _includes2.default)(obj.description.toLowerCase(), "json");
     if (mentionsJSON) {
-      warnings.push({
+      errors.push({
         path: path,
         message: "Descriptions should not state that the model is a JSON object."
       });

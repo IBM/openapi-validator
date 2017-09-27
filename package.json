@@ -1,8 +1,8 @@
 {
-  "name": "swagger-editor",
+  "name": "swagger-editor-ibm",
   "description": "Swagger Editor",
   "version": "3.0.13",
-  "main": "dist/swagger-editor.js",
+  "main": "karma.conf.js",
   "repository": "git@github.com:swagger-api/swagger-editor.git",
   "license": "Apache-2.0",
   "contributors": [
@@ -19,6 +19,11 @@
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-standalone.config.js --colors",
+
+    "build-cli-validator": "npm run build-source-for-cli && npm run build-validators-for-cli && npm link",
+    "build-source-for-cli": "babel ./src/cli-validator/ -d dist/cli-validator/",
+    "build-validators-for-cli": "babel ./src/plugins/validation/semantic-validators/validators -d dist/cli-validator/semantic-validators/",
+
     "deps-check": "npm run deps-license && npm run deps-size",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
@@ -44,11 +49,13 @@
     "boron": "^0.2.3",
     "bowser": "1.6.1",
     "classnames": "^2.1.3",
+    "commander": "^2.11.0",
     "core-js": "^2.4.1",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
     "json-beautify": "^1.0.1",
     "jsonschema": "^1.1.0",
+    "load-json-file": "^3.0.0",
     "react": "^15.x",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dd-menu": "^2.0.0",
@@ -56,13 +63,17 @@
     "react-file-download": "^0.3.2",
     "react-redux": "^4.x.x",
     "react-transition-group": "^1.1.1",
+    "read-yaml": "^1.1.0",
     "redux": "^3.x.x",
+    "require-all": "^2.2.0",
     "swagger-client": "3.0.16",
+    "swagger-parser": "^3.4.2",
     "swagger-ui": "3.0.17",
     "whatwg-fetch": "^2.0.3"
   },
   "devDependencies": {
     "autoprefixer": "6.6.1",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.23.1",
     "babel-eslint": "^6.1.2",
     "babel-loader": "^6.3.2",
@@ -127,5 +138,8 @@
   ],
   "optionalDependencies": {
     "webpack-dev-server": "1.14.0"
+  },
+  "bin": {
+    "validate-swagger": "./dist/cli-validator/index.js"
   }
 }
