@@ -24,7 +24,7 @@ if (program.args.length !== 1) {
 
 // interpret the options/arguments
 let filePath = program.args[0];
-let printValidators = !! program.print_validator;
+let printValidators = !! program.print_validator_module;
 let turnOffColoring = !! program.no_colors;
 
 // turn on coloring by default
@@ -168,7 +168,7 @@ function printInfo(problems, type, color) {
     // problems is an array of objects with errors, warnings, and validation properties
     // but none of the type (errors or warnings) properties are empty
 
-    console.log(chalk[color].bold(`${type}\n`));
+    console.log(chalk[color].black.bold(`${type}\n`));
 
     // convert 'color' from a background color to foreground color
     color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'

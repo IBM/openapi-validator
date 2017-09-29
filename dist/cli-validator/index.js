@@ -18,13 +18,13 @@ program.usage('[options] <file>').option('-v, --print_validator_module', 'print 
 
 // require that exactly one filename is passed in
 if (program.args.length !== 1) {
-  console.log("\n" + chalkPackage.bgBlack.red("Error") + " Exactly one file must be passed as an argument. See usage details below:");
+  console.log('\n' + chalkPackage.bgBlack.red('Error') + ' Exactly one file must be passed as an argument. See usage details below:');
   program.help();
 }
 
 // interpret the options/arguments
 var filePath = program.args[0];
-var printValidators = !!program.print_validator;
+var printValidators = !!program.print_validator_module;
 var turnOffColoring = !!program.no_colors;
 
 // turn on coloring by default
@@ -40,7 +40,7 @@ var chalk = new chalkPackage.constructor({ enabled: colors });
 var isAbsolutePath = filePath[0] === '/';
 
 if (!isAbsolutePath) {
-  filePath = process.cwd() + "/" + filePath;
+  filePath = process.cwd() + '/' + filePath;
 }
 
 // get the actual file name to use in error messages
@@ -55,10 +55,10 @@ var hasExtension = filename.includes('.');
 var badExtension = false;
 
 if (!hasExtension) {
-  console.log("\n" + chalk.bgBlack.red("Error") + " Files must have an extension!");
+  console.log('\n' + chalk.bgBlack.red('Error') + ' Files must have an extension!');
   badExtension = true;
 } else if (!supportedFileTypes.includes(fileExtension)) {
-  console.log("\n" + chalk.bgBlack.red("Error") + " Invalid file extension: " + chalk.red("." + fileExtension));
+  console.log('\n' + chalk.bgBlack.red('Error') + ' Invalid file extension: ' + chalk.red('.' + fileExtension));
   badExtension = true;
 }
 
@@ -85,8 +85,8 @@ try {
     throw 'The given input in ' + filename + ' is not a valid object.';
   }
 } catch (err) {
-  console.log("\n" + chalk.bgBlack.red("Error") + " Invalid input file: " + chalk.red(filename) + ". See below for details.\n");
-  console.log(chalk.cyan(err) + "\n");
+  console.log('\n' + chalk.bgBlack.red('Error') + ' Invalid input file: ' + chalk.red(filename) + '. See below for details.\n');
+  console.log(chalk.cyan(err) + '\n');
   process.exit();
 }
 
@@ -153,8 +153,8 @@ function displayValidationResults(rawResults) {
     });
 
     console.log();
-    printInfo(errors, "errors", "bgRed");
-    printInfo(warnings, "warnings", "bgYellow");
+    printInfo(errors, 'errors', 'bgRed');
+    printInfo(warnings, 'warnings', 'bgYellow');
   }
 }
 
@@ -165,7 +165,7 @@ function printInfo(problems, type, color) {
     // problems is an array of objects with errors, warnings, and validation properties
     // but none of the type (errors or warnings) properties are empty
 
-    console.log(chalk[color].bold(type + '\n'));
+    console.log(chalk[color].black.bold(type + '\n'));
 
     // convert 'color' from a background color to foreground color
     color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
