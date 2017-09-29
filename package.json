@@ -19,11 +19,10 @@
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-standalone.config.js --colors",
-
-    "build-cli-validator": "npm run build-source-for-cli && npm run build-validators-for-cli && npm link",
+    "build-cli-all": "npm run build-source-for-cli && npm run build-validators-for-cli && npm run build-cli-tool",
     "build-source-for-cli": "babel ./src/cli-validator/ -d dist/cli-validator/",
     "build-validators-for-cli": "babel ./src/plugins/validation/semantic-validators/validators -d dist/cli-validator/semantic-validators/",
-
+    "build-cli-tool": "npm link",
     "deps-check": "npm run deps-license && npm run deps-size",
     "deps-license": "license-checker --production --csv --out $npm_package_config_deps_check_dir/licenses.csv && license-checker --development --csv --out $npm_package_config_deps_check_dir/licenses-dev.csv",
     "deps-size": "webpack -p --config webpack.check.js --json | webpack-bundle-size-analyzer >| $npm_package_config_deps_check_dir/sizes.txt",
@@ -48,6 +47,7 @@
   "dependencies": {
     "boron": "^0.2.3",
     "bowser": "1.6.1",
+    "chalk": "^2.1.0",
     "classnames": "^2.1.3",
     "commander": "^2.11.0",
     "core-js": "^2.4.1",
