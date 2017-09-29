@@ -1,0 +1,2 @@
+# do not lint the code used for the command line tool
+src/cli-validator
