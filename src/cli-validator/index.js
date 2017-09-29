@@ -18,7 +18,7 @@ program
 
 // require that exactly one filename is passed in
 if (program.args.length !== 1) {
-  console.log("\n" + chalkPackage.bgBlack.red("Error") + " Exactly one file must be passed as an argument. See usage details below:");
+  console.log('\n' + chalkPackage.bgBlack.red('Error') + ' Exactly one file must be passed as an argument. See usage details below:');
   program.help();
 }
 
@@ -40,7 +40,7 @@ const chalk = new chalkPackage.constructor({enabled: colors});
 const isAbsolutePath = filePath[0] === '/';
 
 if (!isAbsolutePath) {
-  filePath = process.cwd() + "/" + filePath;
+  filePath = process.cwd() + '/' + filePath;
 }
 
 // get the actual file name to use in error messages
@@ -56,11 +56,11 @@ const hasExtension = filename.includes('.');
 let badExtension = false;
 
 if (!hasExtension) {
-  console.log("\n" + chalk.bgBlack.red("Error") + " Files must have an extension!");
+  console.log('\n' + chalk.bgBlack.red('Error') + ' Files must have an extension!');
   badExtension = true;
 }
 else if (!supportedFileTypes.includes(fileExtension)) {
-  console.log("\n" + chalk.bgBlack.red("Error") + " Invalid file extension: " + chalk.red("." + fileExtension) );
+  console.log('\n' + chalk.bgBlack.red('Error') + ' Invalid file extension: ' + chalk.red('.' + fileExtension) );
   badExtension = true;
 }
 
@@ -89,8 +89,8 @@ try {
   }
 }
 catch (err) {
-  console.log("\n" + chalk.bgBlack.red("Error") + " Invalid input file: " + chalk.red(filename) + ". See below for details.\n");
-  console.log(chalk.cyan(err) + "\n");
+  console.log('\n' + chalk.bgBlack.red('Error') + ' Invalid input file: ' + chalk.red(filename) + '. See below for details.\n');
+  console.log(chalk.cyan(err) + '\n');
   process.exit();
 }
 
@@ -156,8 +156,8 @@ function displayValidationResults(rawResults) {
     const warnings = semantic.filter(obj => obj.warnings.length);
 
     console.log();
-    printInfo(errors, "errors", "bgRed");
-    printInfo(warnings, "warnings", "bgYellow");
+    printInfo(errors, 'errors', 'bgRed');
+    printInfo(warnings, 'warnings', 'bgYellow');
   }
 }
 
