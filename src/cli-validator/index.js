@@ -12,7 +12,7 @@ const semanticValidators = require('require-all')(__dirname + '/semantic-validat
 // set up the command line options
 program
   .usage('[options] <file>')
-  .option('-v, --print_validator_module', 'print the validators that catch each error/warning')
+  .option('-v, --print_validator_modules', 'print the validators that catch each error/warning')
   .option('-n, --no_colors', 'turn off output coloring')
   .parse(process.argv)
 
