@@ -179,9 +179,21 @@ function printInfo(problems, type, color) {
         console.log(chalk.underline(`Validator: ${object.validation}`));
       }
 
+/*      if (object.validation === 'parameters-ibm') {
+        console.log(typeof object[type][0].path);
+        console.log(object[type][0].path.keys());
+      }*/
+
       object[type].forEach(problem => {
 
-        console.log(chalk[color](`  Path   :   ${problem.path}`));
+        // some validators store 'path' as a string, some store it as an array
+        // if it is an array, print the array separated with periods for consistency
+        let path = problem.path;
+        if (Array.isArray(path)) {
+          path = path.join('.');
+        }
+
+        console.log(chalk[color](`  Path   :   ${path}`));
         console.log(chalk[color](`  Message:   ${problem.message}`));
         console.log();
 
