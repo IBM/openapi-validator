@@ -3,7 +3,7 @@
 Swagger Editor lets you edit [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) in YAML inside your browser and to preview documentations in real time.
 This version of the swagger editor adds custom validations based on finds and guidelines working with SDK generation team.  
 
-This repository also includes a command line tool for validating Swagger files outside of the browser. See the Command Line Tool section for installation and usage details.
+This repository also includes a command line tool for validating Swagger files outside of the browser. See the [Command Line Tool section](#command-line-tool) for installation and usage details.
 
 Here is the squad info plus information around SDK and API reference generation [sdk-squad](https://pages.github.ibm.com/arf/planning-sdk-squad/)
 
@@ -44,7 +44,7 @@ Note: This creates a symbolic link so if this project folder is moved, the tool 
 
 [options]
 
--  -v (print_validator_modules) : Print the name of the source file the error/warning was caught it. This is primarliy for developing validations.
+-  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarliy for developing validations.
 -  -n (no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -h (help) : This option prints the usage menu.
 

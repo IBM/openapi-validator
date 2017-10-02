@@ -74,10 +74,10 @@ let loader = null;
 
 // both readJson and readYaml have 'sync' methods for synchronously
 //   reading their respective file types
-if (fileExtension[0] === 'j') {
+if (fileExtension === 'json') {
   loader = readJson;
 }
-else if (fileExtension[0] === 'y') {
+else if (fileExtension === 'yaml' || fileExtension === "yml") {
   loader = readYaml;
 }
 
