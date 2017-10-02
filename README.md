@@ -31,26 +31,28 @@ Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE1
 
 ## Command Line Tool
 
-##### Installatation
+##### Installation
 
 1. Clone or download this repository
-2. In the root directory of this project, run `npm run build-cli-all`.
+2. Navigate to the root directory of this project.
+3. Install the dependencies using `npm install`
+4. To install the command line tool, run `npm run build-cli-all`.
 
-Note: This creates a symbolic link so if this project folder is moved, the tool will need to be re-installed by running 'npm run build-command-for-cli' in the new location.
+Note: This creates a symbolic link so if this project folder is moved, the tool will need to be re-installed by running `npm run build-command-for-cli` in the new location.
 
 ##### Usage
 
 `validate-swagger [options] <file>`
 
-[options]
+###### [options]
 
 -  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarliy for developing validations.
 -  -n (no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -h (help) : This option prints the usage menu.
 
-\<file>
+###### \<file>
 
-The Swagger file to be validated. It must be a valid JSON or YAML file (only .json, .yml, and .yaml file extensions are supported).
+- The Swagger file to be validated. It must be a valid JSON or YAML file (only .json, .yml, and .yaml file extensions are supported).
 
 _Currently, this tool only runs semantic validations._
 
