@@ -34,9 +34,9 @@ Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE1
 ##### Installatation
 
 1. Clone or download this repository
-2. In the root directory of this project, run `npm run build-cli-tool`.
+2. In the root directory of this project, run `npm run build-cli-all`.
 
-Note: This creates a symbolic link so if this project folder is moved, the tool will need to be re-installed by running this command again in the new location.
+Note: This creates a symbolic link so if this project folder is moved, the tool will need to be re-installed by running 'npm run build-command-for-cli' in the new location.
 
 ##### Usage
 
