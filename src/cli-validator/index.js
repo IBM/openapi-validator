@@ -24,7 +24,7 @@ if (program.args.length !== 1) {
 
 // interpret the options/arguments
 let filePath = program.args[0];
-let printValidators = !! program.print_validator_module;
+let printValidators = !! program.print_validator_modules;
 let turnOffColoring = !! program.no_colors;
 
 // turn on coloring by default
