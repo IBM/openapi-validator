@@ -147,8 +147,6 @@ function generateDescriptionWarnings(schema, contextPath) {
 
     var path = contextPath.concat(["properties", propName, "description"])
 
-    // do we need to check if its within an items list?
-
     let hasDescription = property.description && property.description.toString().trim().length 
     if (!hasDescription) {
       arr.push({
