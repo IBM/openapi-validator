@@ -5,17 +5,18 @@ const commandLineValidator = require("../../../dist/cli-validator/runValidator")
 
 const Sync = require('sync');
 
-// run the tests here
+// for an explanation of the text interceptor and the sync package,
+//  see the comments for the first test in expectedOutput.js
 
-describe("cli tool - option handling", function() {
+describe("cli tool - test option handling", function() {
 
   it ("should color output by default", function(done) {
 
     let captured_text = [];
      
     let unhook_intercept = intercept(function(txt) {
-        captured_text.push(txt);
-        return '';
+      captured_text.push(txt);
+      return '';
     });
 
     let program = {};
@@ -26,17 +27,17 @@ describe("cli tool - option handling", function() {
       commandLineValidator.sync(null, program)
       unhook_intercept();
 
-        try {
-          captured_text.forEach(function(line) {
-            if (line !== '\n') {
-              expect(line).toNotEqual(stripAnsiFrom(line));
-            }
-          });
-          done();
-        }
-        catch (err) {
-          done(err);
-        }
+      try {
+        captured_text.forEach(function(line) {
+          if (line !== '\n') {
+            expect(line).toNotEqual(stripAnsiFrom(line));
+          }
+        });
+        done();
+      }
+      catch (err) {
+        done(err);
+      }
     });
   });
 
@@ -59,11 +60,11 @@ describe("cli tool - option handling", function() {
       unhook_intercept();
 
       try {
-          captured_text.forEach(function(line) {
-            expect(line).toEqual(stripAnsiFrom(line));
-          });
+        captured_text.forEach(function(line) {
+          expect(line).toEqual(stripAnsiFrom(line));
+        });
 
-          done();
+        done();
       }
       catch (err) {
         done(err);
@@ -76,8 +77,8 @@ describe("cli tool - option handling", function() {
     let captured_text = [];
      
     let unhook_intercept = intercept(function(txt) {
-        captured_text.push(stripAnsiFrom(txt));
-        return '';
+      captured_text.push(stripAnsiFrom(txt));
+      return '';
     });
 
     let program = {};
@@ -98,9 +99,7 @@ describe("cli tool - option handling", function() {
       catch (err) {
         done(err);
       }
-
     });
-
   });
 
   it("should print validator source file when -v option is given", function(done) {
@@ -108,8 +107,8 @@ describe("cli tool - option handling", function() {
     let captured_text = [];
      
     let unhook_intercept = intercept(function(txt) {
-        captured_text.push(stripAnsiFrom(txt));
-        return '';
+      captured_text.push(stripAnsiFrom(txt));
+      return '';
     });
 
     let program = {};

@@ -9,4 +9,5 @@ program
   .option('-n, --no_colors', 'turn off output coloring')
   .parse(process.argv)
 
+// run the program
 cliValidator(program);

@@ -12,6 +12,7 @@ const semanticValidators = require('require-all')(__dirname + '/semantic-validat
 let printValidators = false;
 let chalk = undefined;
 
+// this function processes the input, does the error handling, and acts as the main function for the program
 const processInput = function (program, callback) {
 
   let args = program.args;
@@ -121,7 +122,7 @@ const processInput = function (program, callback) {
     })
     .then(() => {
       const results = validateSwagger(swagger);
-      const problems = displayValidationResults(results);
+      const problems = structureValidationResults(results);
       if (problems) {
         printInfo(problems.errors, 'errors', 'bgRed');
         printInfo(problems.warnings, 'warnings', 'bgYellow');
@@ -141,7 +142,7 @@ const processInput = function (program, callback) {
     });
 }
 
-
+// this function runs the validators on the swagger object
 function validateSwagger(allSpecs) {
   
   // use an object to make it easier to incorporate structural validations
@@ -160,7 +161,8 @@ function validateSwagger(allSpecs) {
   return validationResults;
 }
 
-function displayValidationResults(rawResults) {
+// this function takes the results from the validation and structures them into a more organized format
+function structureValidationResults(rawResults) {
   // rawResults = { semantic: [], structural: [] } (for now, just semantic)
   let structuredResults = {};
 
@@ -177,6 +179,7 @@ function displayValidationResults(rawResults) {
   }
 }
 
+// this function prints all of the output
 function printInfo(problems, type, color) {
 
   if (problems.length) {
@@ -215,5 +218,6 @@ function printInfo(problems, type, color) {
   return;
 }
 
+// this exports the entire program so it can be used or tested
 module.exports = processInput;
 
