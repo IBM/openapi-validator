@@ -164,7 +164,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(1)
     expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "properties", "anyObject", "description"])
-    expect(res.warnings[0].message).toEqual("Descriptions should not state that the model is a JSON object.")
+    expect(res.warnings[0].message).toEqual("Not all languages use JSON, so descriptions should not state that the model is a JSON object.")
   })
 
   it("should not die when a schema contains a description property", () => {

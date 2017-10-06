@@ -160,7 +160,7 @@ function generateDescriptionWarnings(schema, contextPath) {
       if (mentionsJSON) {
         arr.push({
           path: path,
-          message: "Descriptions should not state that the model is a JSON object."
+          message: "Not all languages use JSON, so descriptions should not state that the model is a JSON object."
         })
       }
     }
