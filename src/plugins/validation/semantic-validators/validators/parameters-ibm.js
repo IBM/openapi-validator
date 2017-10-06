@@ -1,16 +1,7 @@
 // Assertation 1:
-// The description, when present, should not be empty or contain empty space
-
-// Assertation 2:
-// Objects within the 'properties' object in 'definitions' should have a description
-
-// Assertation 3:
-// Descriptions should not state that model will be a JSON object
-
-// Assertation 4:
 // Parameters must have descriptions, and parameter names must be snake_case
 
-// Assertation 5:
+// Assertation 2:
 // If parameters define their own format, they must follow the formatting rules.
 
 import snakecase from "lodash/snakeCase"
@@ -25,32 +16,6 @@ export function validate({jsSpec}) {
       return
     }
 
-    let isInDefinitions = path[0] === "definitions"
-    let contentsOfPropertiesObject = path[path.length - 2] === "properties"
-    let childOfItemsObject = path[path.length - 3] === "items"
-    let isRef = !!obj.$ref
-
-    // conditions:
-    // in the definitions section
-    // obj is a properties object
-    // obj is not a sub-object of an items list
-    // obj is not defined by a ref
-    let conditionsMet = isInDefinitions && contentsOfPropertiesObject && !childOfItemsObject && !isRef    
-    if (conditionsMet && !obj.description) {
-      warnings.push({
-        path,
-        message: "Properties must have a description with content in it."
-      })
-    }
-
-    let mentionsJSON = obj.description && (obj.description.toLowerCase !== undefined) && includes(obj.description.toLowerCase(), "json")
-    if (mentionsJSON) {
-      warnings.push({
-        path: path,
-        message: "Descriptions should not state that the model is a JSON object."
-      })
-    }
-
     let contentsOfParameterObject = path[path.length - 2] === "parameters"
 
     // obj is a parameter object
@@ -63,6 +28,7 @@ export function validate({jsSpec}) {
         })
       }
 
+      let isRef = !!obj.$ref
       let isParameter = obj.in // the `in` property is required by OpenAPI for parameters - this should be true
       let isHeaderParameter = (obj.in == "header") // header params need not be snake_case
       let isSnakecase = obj.name == snakecase(obj.name)
