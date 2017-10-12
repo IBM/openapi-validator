@@ -11,6 +11,7 @@ const semanticValidators = require('require-all')(__dirname + '/semantic-validat
 // set up variables that need to be global
 let printValidators = false;
 let chalk = undefined;
+let reportingStats = false;
 
 // this function processes the input, does the error handling, and acts as the main function for the program
 const processInput = function (program, callback) {
@@ -20,6 +21,7 @@ const processInput = function (program, callback) {
   // interpret the options
   let turnOffColoring = !! program.no_colors;
   printValidators = !! program.print_validator_modules;
+  reportingStats = !! program.report_statistics;
   
   // turn on coloring by default
   let colors = true;
@@ -124,8 +126,7 @@ const processInput = function (program, callback) {
       const results = validateSwagger(swagger);
       const problems = structureValidationResults(results);
       if (problems) {
-        printInfo(problems.errors, 'errors', 'bgRed');
-        printInfo(problems.warnings, 'warnings', 'bgYellow');
+        printInfo(problems);
       }
     })
     .then(() => {
@@ -180,38 +181,102 @@ function structureValidationResults(rawResults) {
 }
 
 // this function prints all of the output
-function printInfo(problems, type, color) {
+function printInfo(problems) {
 
-  if (problems.length) {
+  let types = ['errors', 'warnings'];
+  let colors = {
+    errors: 'bgRed',
+    warnings: 'bgYellow'
+  };
 
-    // problems is an array of objects with errors, warnings, and validation properties
-    // but none of the type (errors or warnings) properties are empty
 
-    console.log(chalk[color].black.bold(`${type}\n`));
+  // define an object template in the case that statistics reporting is turned on
+  let stats = {
+    errors: {
+      total: 0
+    },
+    warnings: {
+      total: 0
+    }
+  }; 
 
-    // convert 'color' from a background color to foreground color
-    color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
+  
 
-    problems.forEach(object => {
+  types.forEach(type => {
 
-      if (printValidators) {
-        console.log(chalk.underline(`Validator: ${object.validation}`));
-      }
+    if (problems[type].length) {
 
-      object[type].forEach(problem => {
+      // problems is an array of objects with errors, warnings, and validation properties
+      // but none of the type (errors or warnings) properties are empty
 
-        // some validators store 'path' as a string, some store it as an array
-        // if it is an array, print the array separated with periods for consistency
-        let path = problem.path;
-        if (Array.isArray(path)) {
-          path = path.join('.');
+      let color = colors[type];
+
+      console.log(chalk[color].bold(`${type}\n`));
+
+      // convert 'color' from a background color to foreground color
+      color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
+
+      problems[type].forEach(object => {
+
+        if (printValidators) {
+          console.log(chalk.underline(`Validator: ${object.validation}`));
         }
 
-        console.log(chalk[color](`  Path   :   ${path}`));
-        console.log(chalk[color](`  Message:   ${problem.message}`));
-        console.log();
+        object[type].forEach(problem => {
+
+          let path = problem.path;
+          let message = problem.message;
+
+          // collect info for stats reporting, if applicable
+          if (reportingStats) {
+
+            stats[type].total += 1;
+
+            if (stats[type][message]) {
+              stats[type][message] += 1;
+            }
+            else {
+              stats[type][message] = 1;
+            }
+          }
+
+          // some validators store 'path' as a string, some store it as an array
+          // if it is an array, print the array separated with periods for consistency
+          if (Array.isArray(path)) {
+            path = path.join('.');
+          }
+
+          console.log(chalk[color](`  Path   :   ${path}`));
+          console.log(chalk[color](`  Message:   ${message}`));
+          console.log();
+
+        });
+      });
+    }
+  });
+
+  // print the stats here, if applicable
+  if (reportingStats && (stats.errors.total || stats.errors.total)) {
+    console.log(chalk.bgCyan('statistics\n'));
+
+    types.forEach(type => {
+
+      console.log('  ' + chalk.underline.cyan(type));
+
+      Object.keys(stats[type]).forEach(message => {
+
+        if (message !== 'total') {
+          // calculate percentage
+          let percentage = (Math.round(stats[type][message] / stats[type].total * 100)).toString();
+          // if single digit, pad with a space to keep allignment
+          if (percentage.length === 1) {
+            percentage = ' ' + percentage;
+          }
+          console.log(chalk.cyan(`  ${percentage}% : ${message}`));
+        }
 
       });
+      console.log();
     });
   }
 
