@@ -23,6 +23,7 @@ describe('cli tool - test expected output', function() {
     // set up mock user input
     let program = {};
     program.args = ['./test/cli-validator/mockFiles/clean.yml'];
+    program.default_mode = true;
 
     // wrapping within the Sync package allows any function to be run in synchronous mode
     Sync (function() {
@@ -57,6 +58,7 @@ describe('cli tool - test expected output', function() {
 
     let program = {};
     program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.default_mode = true;
 
     Sync (function() {
       
