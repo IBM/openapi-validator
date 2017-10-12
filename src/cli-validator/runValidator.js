@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const fs = require('fs');
 const readYaml     = require('read-yaml');
 const readJson     = require('load-json-file');
 const last         = require('lodash/last');
@@ -8,9 +9,13 @@ const chalkPackage = require('chalk');
 // import the validators
 const semanticValidators = require('require-all')(__dirname + '/semantic-validators');
 
+// get line-number-producing, 'magic' code from Swagger Editor 
+const getLineNumberForPath = require(__dirname + '/ast/ast').getLineNumberForPath;
+
 // set up variables that need to be global
 let printValidators = false;
 let chalk = undefined;
+let originalFile = '';
 
 // this function processes the input, does the error handling, and acts as the main function for the program
 const processInput = function (program, callback) {
@@ -98,6 +103,10 @@ const processInput = function (program, callback) {
     return;
   }
 
+  // everything is valid, keep the original file in string form
+  //  to extract line numbers from
+  originalFile = fs.readFileSync(filePath, 'utf8');
+
   // initialize an object to be passed through all the validators
   let swagger = {};
 
@@ -107,6 +116,7 @@ const processInput = function (program, callback) {
   // formatting the JSON string with indentations is necessary for the 
   //   validations that use it with regular expressions (e.g. refs.js)
   const indentationSpaces = 2;
+
   swagger.specStr = JSON.stringify(input, null, indentationSpaces);
 
   // deep copy input to a jsSpec by parsing the spec string.
@@ -200,15 +210,26 @@ function printInfo(problems, type, color) {
 
       object[type].forEach(problem => {
 
-        // some validators store 'path' as a string, some store it as an array
-        // if it is an array, print the array separated with periods for consistency
         let path = problem.path;
-        if (Array.isArray(path)) {
-          path = path.join('.');
+
+        // path needs to be an array to get the line number
+        if (!Array.isArray(path)) {
+          path = path.split('.');
         }
 
-        console.log(chalk[color](`  Path   :   ${path}`));
+        // get line number from the path of strings to the problem
+        // as they say in src/plugins/validation/semantic-validators/hook.js,
+        //
+        //                  "it's magic!"
+        //
+        let lineNumber = getLineNumberForPath(originalFile, path);
+
+
+        // print the path array as a dot-separated string
+
         console.log(chalk[color](`  Message:   ${problem.message}`));
+        console.log(chalk[color](`  Path   :   ${path.join('.')}`));
+        console.log(chalk[color](`  Line   :   ${lineNumber}`));
         console.log();
 
       });
