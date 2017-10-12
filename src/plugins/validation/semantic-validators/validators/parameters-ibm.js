@@ -24,7 +24,7 @@ export function validate({jsSpec}) {
       if(!(obj.description)) {
         errors.push({
           path,
-          message: "Parameters with a description must have content in it."
+          message: "Parameter objects must have a `description` field."
         })
       }
 

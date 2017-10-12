@@ -3,6 +3,30 @@ import { validate } from "plugins/validation/semantic-validators/validators/para
 
 describe("validation plugin - semantic - parameters-ibm", () => {
 
+  it("should return an error when a parameter does not have a description", () => {
+    const spec = {
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                "name": "name",
+                "in": "query",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec })
+    expect(res.warnings.length).toEqual(0)
+    expect(res.errors.length).toEqual(1)
+    expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
+    expect(res.errors[0].message).toEqual("Parameter objects must have a `description` field.")
+  })
+
   it("should return an error when snake case is not used", () => {
     const spec = {
       "paths": {
