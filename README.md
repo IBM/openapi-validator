@@ -49,6 +49,7 @@ Note: This creates a symbolic link so if this project folder is moved, the tool 
 -  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarliy for developing validations.
 -  -n (no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -d (default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
+-  -s (report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
 -  -h (help) : This option prints the usage menu.
 
 #### \<file>
@@ -115,7 +116,7 @@ Each rule can be assigned a status. The supported statuses are "error", "warning
 
 #### Configuration file
 
-Configurations are defined in a file titled '.validaterc' that must be at the root directory of this project.
+Configurations are defined in a file, titled __.validaterc__, that must be at the root directory of this project.
 
 The configuration file must be structured as a JSON object with categories as first-level keys, rules as second-level keys, and statuses as values for the 'rules' objects.
 
