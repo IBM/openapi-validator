@@ -21,6 +21,7 @@ describe("cli tool - test option handling", function() {
 
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
+    program.default_mode = true;
 
     Sync (function() {
       
@@ -53,6 +54,7 @@ describe("cli tool - test option handling", function() {
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
     program.no_colors = true;
+    program.default_mode = true;
 
     Sync (function() {
 
@@ -83,6 +85,7 @@ describe("cli tool - test option handling", function() {
 
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
+    program.default_mode = true;
 
     Sync (function() {
 
@@ -114,6 +117,7 @@ describe("cli tool - test option handling", function() {
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
     program.print_validator_modules = true;
+    program.default_mode = true;
 
     Sync (function() {
 

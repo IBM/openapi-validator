@@ -18,9 +18,26 @@ import map from "lodash/map"
 import each from "lodash/each"
 import includes from "lodash/includes"
 
-export function validate({ jsSpec }) {
-  let errors = []
-  let warnings = []
+export function validate({ jsSpec }, config) {
+
+  let result = {}
+  result.error = []
+  result.warning = []
+
+  // maintain browser functionality
+  // if no object is passed in, set to default
+  if (typeof config === "undefined") {
+    config = {
+      no_consumes_for_put_or_post: "error",
+      get_op_has_consumes: "warning",
+      no_produces_for_get: "error",
+      no_operation_id: "warning",
+      no_summary: "warning"
+    }
+  }
+  else {
+    config = config.operations
+  }
 
   map(jsSpec.paths, (path, pathKey) => {
     let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
@@ -31,10 +48,14 @@ export function validate({ jsSpec }) {
         let hasGlobalConsumes = !!jsSpec.consumes
 
         if(!hasLocalConsumes && !hasGlobalConsumes) {
-          errors.push({
-            path: `paths.${pathKey}.${opKey}.consumes`,
-            message: "PUT and POST operations must have a non-empty `consumes` field."
-          })
+          let checkStatus = config.no_consumes_for_put_or_post
+          
+          if (checkStatus !== "off") {
+            result[checkStatus].push({
+              path: `paths.${pathKey}.${opKey}.consumes`,
+              message: "PUT and POST operations must have a non-empty `consumes` field."
+            })
+          } 
         }
       }
 
@@ -43,10 +64,14 @@ export function validate({ jsSpec }) {
 
         // get operations should not have a consumes property
         if (op.consumes) {
-          warnings.push({
-            path: `paths.${pathKey}.${opKey}.consumes`,
-            message: "GET operations should not specify a consumes field."
-          })
+          let checkStatus = config.get_op_has_consumes
+
+          if (checkStatus !== "off") {
+            result[checkStatus].push({
+              path: `paths.${pathKey}.${opKey}.consumes`,
+              message: "GET operations should not specify a consumes field."
+            })
+          }
         }
 
         // get operations should have a produces property
@@ -54,31 +79,43 @@ export function validate({ jsSpec }) {
         let hasGlobalProduces = !!jsSpec.produces
 
         if (!hasLocalProduces && !hasGlobalProduces) {
-          errors.push({
-            path: `paths.${pathKey}.${opKey}.produces`,
-            message: "GET operations must have a non-empty `produces` field."
-          })
+          let checkStatus = config.no_produces_for_get
+
+          if (checkStatus !== "off") {
+            result[checkStatus].push({
+              path: `paths.${pathKey}.${opKey}.produces`,
+              message: "GET operations must have a non-empty `produces` field."
+            })
+          }
         }
       }
 
 
       let hasOperationId = op.operationId && op.operationId.length > 0 && !!op.operationId.toString().trim()
       if(!hasOperationId) {
-        warnings.push({
-          path: `paths.${pathKey}.${opKey}.operationId`,
-          message: "Operations must have a non-empty `operationId`."
-        })
+
+        let checkStatus = config.no_operation_id
+        if (checkStatus !== "off") {
+          result[checkStatus].push({
+            path: `paths.${pathKey}.${opKey}.operationId`,
+            message: "Operations must have a non-empty `operationId`."
+          })
+        }
       }
 
       let hasSummary = op.summary && op.summary.length > 0 && !!op.summary.toString().trim()
       if (!hasSummary) {
-        warnings.push({
-          path: `paths.${pathKey}.${opKey}.summary`,
-          message: "Operations must have a non-empty `summary` field."
-        })
+
+        let checkStatus = config.no_summary
+        if (checkStatus !== "off") {
+          result[checkStatus].push({
+            path: `paths.${pathKey}.${opKey}.summary`,
+            message: "Operations must have a non-empty `summary` field."
+          })
+        }
       }
     })
   })
 
-  return { errors, warnings }
+  return { errors: result.error, warnings: result.warning }
 }
