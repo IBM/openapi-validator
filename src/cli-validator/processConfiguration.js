@@ -42,9 +42,9 @@ const getConfigObject = function (defaultMode, chalk) {
 			no_summary: 'warning'
 		},
 		parameters : {
-	    no_parameter_description: 'error',
-	    snake_case_only: 'warning',
-	    invalid_type_format_pair: 'error'
+		    no_parameter_description: 'error',
+		    snake_case_only: 'warning',
+		    invalid_type_format_pair: 'error'
 		},
 		schemas : {
 			invalid_type_format_pair: 'error',
@@ -73,33 +73,33 @@ const getConfigObject = function (defaultMode, chalk) {
 					message: `'${category}' is not a valid category.`,
 					correction: `Valid categories are: ${allowedCategories.join(', ')}`
 				});
+				return; // skip rules for invalid category
 			}
-			else {
-				// check that all rules are valid
-				let allowedRules = Object.keys(defaultObject[category]);
-				let userRules = Object.keys(configObject[category]);
-				userRules.forEach(function(rule) {
-					if (!allowedRules.includes(rule)) {
-						validObject = false;
-						configErrors.push({
-							message: `'${rule}' is not a valid rule for the ${category} category`,
-							correction: `Valid rules are: ${allowedRules.join(', ')}`
-						});
-					}
-					else {
-						// check that all statuses are valid (either 'error', 'warning', or 'off')
-						let allowedStatusValues = ['error', 'warning', 'off'];
-						let userStatus = configObject[category][rule];
-						if (!allowedStatusValues.includes(userStatus)) {
-							validObject = false;
-							configErrors.push({
-								message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
-								correction: `For any rule, the only valid statuses are: ${allowedStatusValues.join(', ')}`
-							});
-						}
-					}
-				});
-			}
+
+			// check that all rules are valid
+			let allowedRules = Object.keys(defaultObject[category]);
+			let userRules = Object.keys(configObject[category]);
+			userRules.forEach(function(rule) {
+				if (!allowedRules.includes(rule)) {
+					validObject = false;
+					configErrors.push({
+						message: `'${rule}' is not a valid rule for the ${category} category`,
+						correction: `Valid rules are: ${allowedRules.join(', ')}`
+					});
+					return; // skip statuses for invalid rule
+				}
+
+				// check that all statuses are valid (either 'error', 'warning', or 'off')
+				let allowedStatusValues = ['error', 'warning', 'off'];
+				let userStatus = configObject[category][rule];
+				if (!allowedStatusValues.includes(userStatus)) {
+					validObject = false;
+					configErrors.push({
+						message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
+						correction: `For any rule, the only valid statuses are: ${allowedStatusValues.join(', ')}`
+					});
+				}
+			});
 		});
 
 		// if the object is valid, resolve any missing features
@@ -114,7 +114,7 @@ const getConfigObject = function (defaultMode, chalk) {
 				let userRules = Object.keys(configObject[category]);
 				requiredRules.forEach(function(rule) {
 					if (!userRules.includes(rule)) {
-						configObject[category][rule] = 'off';
+						configObject[category][rule] = defaultObject[category][rule];
 					}
 				});
 			});

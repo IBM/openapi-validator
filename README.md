@@ -119,7 +119,7 @@ Configurations are defined in a file titled '.validaterc' that must be at the ro
 
 The configuration file must be structured as a JSON object with categories as first-level keys, rules as second-level keys, and statuses as values for the 'rules' objects.
 
-**If a rule is not included in the file, that rule will be set to 'off' automatically.**
+If a rule is not included in the file, that rule will be set to the default status automatically. See the [Default Values](#default-values) for more info.
 
 An [example file](https://github.ibm.com/MIL/swagger-editor-ibm/blob/master/.validaterc) is included in the repo to get started with.
 
@@ -131,10 +131,11 @@ Default mode can be turned on with the command line option '-d'. If this option 
 
 If a .validaterc file does not exist at the root directory of this project, the validator will automatically run in default mode.
 
+The default values for each rule are described below.
 
-The default values for each rule are described below:
+##### Default Values
 
-##### operations
+###### operations
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_consumes_for_put_or_post | error   |
@@ -143,14 +144,14 @@ The default values for each rule are described below:
 | no_operation_id             | warning |
 | no_summary                  | warning |
 
-##### parameters
+###### parameters
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_parameter_description    | error   |
 | snake_case_only             | warning |
 | invalid_type_format_pair    | error   |
 
-##### schemas
+###### schemas
 | Rule                        | Default |
 | --------------------------- | --------|
 | invalid_type_format_pair    | error   |
@@ -158,7 +159,7 @@ The default values for each rule are described below:
 | description_mentions_json   | warning |
 
 
-##### walker
+###### walker
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_empty_descriptions       | error   |
