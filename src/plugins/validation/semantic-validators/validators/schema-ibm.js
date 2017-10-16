@@ -11,11 +11,24 @@ import each from "lodash/each"
 import forIn from "lodash/forIn"
 import includes from "lodash/includes"
 
-export function validate({ jsSpec }) {
+export function validate({ jsSpec }, config) {
   let errors = []
   let warnings = []
 
   let schemas = []
+
+  // maintain browser functionality
+  // if no object is passed in, set to default
+  if (typeof config === "undefined") {
+    config = {
+      invalid_type_format_pair: "error",
+      no_property_description: "warning",
+      description_mentions_json: "warning"
+    }
+  }
+  else {
+    config = config.schemas
+  }
 
   if(jsSpec.definitions) {
     each(jsSpec.definitions, (def, name) => {
@@ -60,8 +73,13 @@ export function validate({ jsSpec }) {
   }
 
   schemas.forEach(({ schema, path }) => {
-    errors.push(...generateFormatErrors(schema, path))
-    warnings.push(...generateDescriptionWarnings(schema, path))
+    let res = generateFormatErrors(schema, path, config)
+    errors.push(...res.error)
+    warnings.push(...res.warning)
+
+    res = generateDescriptionWarnings(schema, path, config)
+    errors.push(...res.error)
+    warnings.push(...res.warning)
   })
 
   return { errors, warnings }
@@ -69,10 +87,12 @@ export function validate({ jsSpec }) {
 
 // Flag as an error any property that does not have a recognized "type" and "format" according to the
 // [Swagger 2.0 spec](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types)
-function generateFormatErrors(schema, contextPath) {
-  let arr = []
+function generateFormatErrors(schema, contextPath, config) {
+  let result = {}
+  result.error = []
+  result.warning = []
 
-  if(!schema.properties) { return arr }
+  if(!schema.properties) { return result }
 
   forIn( schema.properties, (property, propName) => {
     if (property.$ref) { return }
@@ -97,14 +117,18 @@ function generateFormatErrors(schema, contextPath) {
     }
 
     if (!valid) {
-      arr.push({
-        path: path,
-        message: "Properties must use well defined property types."
-      })
+      let message = "Properties must use well defined property types."
+      let checkStatus = config.invalid_type_format_pair
+      if (checkStatus !== "off") {
+        result[checkStatus].push({
+          path,
+          message
+        })
+      }
     }
   })
 
-  return arr
+  return result
 }
 
 function formatValid(property) {
@@ -133,11 +157,13 @@ function formatValid(property) {
 }
 
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#models
-function generateDescriptionWarnings(schema, contextPath) {
+function generateDescriptionWarnings(schema, contextPath, config) {
 
-  let arr = []
+  let result = {}
+  result.error = []
+  result.warning = []
 
-  if(!schema.properties) { return arr }
+  if(!schema.properties) { return result }
 
   // verify that every property of the model has a description
   forIn( schema.properties, (property, propName) => {
@@ -149,22 +175,30 @@ function generateDescriptionWarnings(schema, contextPath) {
 
     let hasDescription = property.description && property.description.toString().trim().length 
     if (!hasDescription) {
-      arr.push({
-        path,
-        message: "Schema properties must have a description with content in it."
-      })
+      let message = "Schema properties must have a description with content in it."
+      let checkStatus = config.no_property_description
+      if (checkStatus !== "off") {
+        result[checkStatus].push({
+          path,
+          message
+        })
+      }
     }
     else {
       // if the property does have a description, "Avoid describing a model as a 'JSON object' since this will be incorrect for some SDKs."
       let mentionsJSON = includes(property.description.toLowerCase(), "json")
       if (mentionsJSON) {
-        arr.push({
-          path: path,
-          message: "Not all languages use JSON, so descriptions should not state that the model is a JSON object."
-        })
+        let message = "Not all languages use JSON, so descriptions should not state that the model is a JSON object."
+        let checkStatus = config.description_mentions_json
+        if (checkStatus !== "off") {
+          result[checkStatus].push({
+            path,
+            message
+          })
+        }
       }
     }
   })
 
-  return arr
+  return result
 }

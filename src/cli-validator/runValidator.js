@@ -6,6 +6,9 @@ const last         = require('lodash/last');
 const parser       = require('swagger-parser');
 const chalkPackage = require('chalk');
 
+// import the config processing module
+const config       = require('./processConfiguration');
+
 // import the validators
 const semanticValidators = require('require-all')(__dirname + '/semantic-validators');
 
@@ -23,9 +26,10 @@ const processInput = function (program, callback) {
   let args = program.args;
 
   // interpret the options
-  let turnOffColoring = !! program.no_colors;
   printValidators = !! program.print_validator_modules;
-  
+  let turnOffColoring = !! program.no_colors;
+  let defaultMode = !! program.default_mode;
+
   // turn on coloring by default
   let colors = true;
 
@@ -37,7 +41,7 @@ const processInput = function (program, callback) {
 
   // require that exactly one filename is passed in
   if (args.length !== 1) {
-    console.log('\n' + chalkPackage.bgBlack.red('Error') + ' Exactly one file must be passed as an argument. See usage details below:');
+    console.log('\n' + chalk.red('Error') + ' Exactly one file must be passed as an argument. See usage details below:');
     program.help();
     return;
   }
@@ -65,16 +69,16 @@ const processInput = function (program, callback) {
   let badExtension = false;
 
   if (!hasExtension) {
-    console.log('\n' + chalk.bgBlack.red('Error') + ' Files must have an extension!');
+    console.log('\n' + chalk.red('Error') + ' Files must have an extension!');
     badExtension = true;
   }
   else if (!supportedFileTypes.includes(fileExtension)) {
-    console.log('\n' + chalk.bgBlack.red('Error') + ' Invalid file extension: ' + chalk.red('.' + fileExtension) );
+    console.log('\n' + chalk.red('Error') + ' Invalid file extension: ' + chalk.red('.' + fileExtension) );
     badExtension = true;
   }
 
   if (badExtension) {
-    console.log(chalk.cyan('Supported file types are JSON (.json) and YAML (.yml, .yaml)\n'));
+    console.log(chalk.magenta('Supported file types are JSON (.json) and YAML (.yml, .yaml)\n'));
     return; 
   }
 
@@ -98,14 +102,19 @@ const processInput = function (program, callback) {
     }
   }
   catch (err) {
-    console.log('\n' + chalk.bgBlack.red('Error') + ' Invalid input file: ' + chalk.red(filename) + '. See below for details.\n');
-    console.log(chalk.cyan(err) + '\n');
+    console.log('\n' + chalk.red('Error') + ' Invalid input file: ' + chalk.red(filename) + '. See below for details.\n');
+    console.log(chalk.magenta(err) + '\n');
     return;
   }
 
   // everything is valid, keep the original file in string form
   //  to extract line numbers from
   originalFile = fs.readFileSync(filePath, 'utf8');
+
+
+  // process the config file for the validations
+  let configObject = config(defaultMode, chalk);
+
 
   // initialize an object to be passed through all the validators
   let swagger = {};
@@ -131,7 +140,7 @@ const processInput = function (program, callback) {
       swagger.resolvedSpec = spec;
     })
     .then(() => {
-      const results = validateSwagger(swagger);
+      const results = validateSwagger(swagger, configObject);
       const problems = structureValidationResults(results);
       if (problems) {
         printInfo(problems.errors, 'errors', 'bgRed');
@@ -153,14 +162,14 @@ const processInput = function (program, callback) {
 }
 
 // this function runs the validators on the swagger object
-function validateSwagger(allSpecs) {
+function validateSwagger(allSpecs, config) {
   
   // use an object to make it easier to incorporate structural validations
   let validationResults = {};
 
   // run semantic validators
   const semanticResults = Object.keys(semanticValidators).map(key => {
-    let problem = semanticValidators[key].validate(allSpecs);
+    let problem = semanticValidators[key].validate(allSpecs, config);
     problem.validation = key;
     return problem
   });
