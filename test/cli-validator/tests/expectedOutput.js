@@ -23,6 +23,7 @@ describe('cli tool - test expected output', function() {
     // set up mock user input
     let program = {};
     program.args = ['./test/cli-validator/mockFiles/clean.yml'];
+    program.default_mode = true;
 
     // wrapping within the Sync package allows any function to be run in synchronous mode
     Sync (function() {
@@ -57,6 +58,7 @@ describe('cli tool - test expected output', function() {
 
     let program = {};
     program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.default_mode = true;
 
     Sync (function() {
       
@@ -77,6 +79,43 @@ describe('cli tool - test expected output', function() {
       try {
         expect(whichProblems[0]).toEqual('errors');
         expect(whichProblems[1]).toEqual('warnings');
+        done();
+      }
+      catch (err) {
+        done(err);
+      }
+    });
+  });
+
+  it ('should print the correct line numbers for each error/warning', function(done) {
+
+    let captured_text = [];
+     
+    let unhook_intercept = intercept(function(txt) {
+        captured_text.push(stripAnsiFrom(txt));
+        return '';
+    });
+
+    let program = {};
+    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.default_mode = true;
+
+    Sync (function() {
+      
+      commandLineValidator.sync(null, program)
+      unhook_intercept();
+
+      try {
+
+        // .match(/\S+/g) returns an array of all non-whitespace strings
+        //   example output would be [ 'Line', ':', '59' ]
+        expect(captured_text[4].match(/\S+/g)[2]).toEqual('59');
+        expect(captured_text[8].match(/\S+/g)[2]).toEqual('31');
+        expect(captured_text[12].match(/\S+/g)[2]).toEqual('54');
+        expect(captured_text[17].match(/\S+/g)[2]).toEqual('36');
+        expect(captured_text[21].match(/\S+/g)[2]).toEqual('59');
+        expect(captured_text[25].match(/\S+/g)[2]).toEqual('134');
+
         done();
       }
       catch (err) {

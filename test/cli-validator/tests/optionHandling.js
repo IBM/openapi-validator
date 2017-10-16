@@ -21,6 +21,7 @@ describe("cli tool - test option handling", function() {
 
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
+    program.default_mode = true;
 
     Sync (function() {
       
@@ -53,6 +54,7 @@ describe("cli tool - test option handling", function() {
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
     program.no_colors = true;
+    program.default_mode = true;
 
     Sync (function() {
 
@@ -83,6 +85,7 @@ describe("cli tool - test option handling", function() {
 
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
+    program.default_mode = true;
 
     Sync (function() {
 
@@ -114,6 +117,7 @@ describe("cli tool - test option handling", function() {
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
     program.print_validator_modules = true;
+    program.default_mode = true;
 
     Sync (function() {
 
@@ -168,9 +172,13 @@ describe("cli tool - test option handling", function() {
           } 
         });
 
+        // .match(/\S+/g) returns an array of all non-whitespace strings
+        //   example output would be [ '33%', ':', 'operationIds', 'must', 'be', 'unique' ]
         expect(statisticsReported).toEqual(true);
-        expect(captured_text[23].split(' ')[2]).toEqual('33%');
-        expect(captured_text[24].split(' ')[2]).toEqual('67%');
+        expect(captured_text[29].match(/\S+/g)[0]).toEqual('33%');
+        expect(captured_text[30].match(/\S+/g)[0]).toEqual('67%');
+        expect(captured_text[33].match(/\S+/g)[0]).toEqual('67%');
+        expect(captured_text[34].match(/\S+/g)[0]).toEqual('33%');
 
         done();
       }

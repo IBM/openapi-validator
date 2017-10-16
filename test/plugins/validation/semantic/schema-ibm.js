@@ -4,6 +4,13 @@ import { validate } from "plugins/validation/semantic-validators/validators/sche
 describe("validation plugin - semantic - schema-ibm", () => {
 
   it("should return an error when a property does not use a well defined property type", () => {
+
+    const config = {
+      "schemas" : {
+        "invalid_type_format_pair": "error"
+      }
+    }
+
     const spec = {
       definitions: {
         WordStyle: {
@@ -19,7 +26,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
       }
     }
 
-    let res = validate({ jsSpec: spec })
+    let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
     expect(res.errors[0].path).toEqual(["definitions", "WordStyle", "properties", "level", "type"])
     expect(res.errors[0].message).toEqual("Properties must use well defined property types.")
@@ -27,6 +34,13 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should return an error when an array property's items does not use a well defined property type", () => {
+    
+    const config = {
+      "schemas" : {
+        "invalid_type_format_pair": "error"
+      }
+    }
+
     const spec = {
       definitions: {
         Thing: {
@@ -45,7 +59,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
       }
     }
 
-    let res = validate({ jsSpec: spec })
+    let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
     expect(res.errors[0].path).toEqual(["definitions", "Thing", "properties", "level", "items", "type"])
     expect(res.errors[0].message).toEqual("Properties must use well defined property types.")
@@ -53,6 +67,13 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should not error when an array property's items is a ref", () => {
+    
+    const config = {
+      "schemas" : {
+        "invalid_type_format_pair": "error"
+      }
+    }
+
     const spec = {
       definitions: {
         Thing: {
@@ -73,12 +94,19 @@ describe("validation plugin - semantic - schema-ibm", () => {
       }
     }
 
-    let res = validate({ jsSpec: spec })
+    let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
 
   it("should return an error when a response does not use a well defined property type", () => {
+    
+    const config = {
+      "schemas" : {
+        "invalid_type_format_pair": "error"
+      }
+    }
+
     const spec = {
       responses: {
         Thing: {
@@ -95,7 +123,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
       }
     }
 
-    let res = validate({ jsSpec: spec })
+    let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
     expect(res.errors[0].path).toEqual(["responses", "Thing", "schema", "properties", "level", "type"])
     expect(res.errors[0].message).toEqual("Properties must use well defined property types.")
@@ -103,6 +131,13 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should return an error when a schema property has no description", () => {
+    
+    const config = {
+      "schemas" : {
+        "no_property_description": "warning"
+      }
+    }
+
     const spec = {
       "paths": {
         "/pets": {
@@ -127,7 +162,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
       }
     }
 
-    let res = validate({ jsSpec: spec })
+    let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(1)
     expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "properties", "badProperty", "description"])
@@ -135,6 +170,13 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should return an error when JSON is in the description", () => {
+    
+    const config = {
+      "schemas" : {
+        "description_mentions_json": "warning"
+      }
+    }
+
     const spec = {
       "paths": {
         "/pets": {
@@ -160,7 +202,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
       }
     }
 
-    let res = validate({ jsSpec: spec })
+    let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(1)
     expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "0", "schema", "properties", "anyObject", "description"])
@@ -168,6 +210,15 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should not die when a schema contains a description property", () => {
+    
+    const config = {
+      "schemas" : {
+        "invalid_type_format_pair": "error",
+        "no_property_description": "warning",
+        "description_mentions_json": "warning"
+      }
+    }
+
     const spec = {
       "definitions": {
         "Notice": {
@@ -189,7 +240,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
       }
     }
 
-    let res = validate({ jsSpec: spec })
+    let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
