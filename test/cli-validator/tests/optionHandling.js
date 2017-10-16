@@ -156,6 +156,7 @@ describe("cli tool - test option handling", function() {
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
     program.report_statistics = true;
+    program.default_mode = true;
 
     Sync (function() {
 
@@ -199,6 +200,7 @@ describe("cli tool - test option handling", function() {
 
     let program = {};
     program.args = ["./test/cli-validator/mockFiles/errAndWarn.yaml"];
+    program.default_mode = true;
 
     Sync (function() {
 
