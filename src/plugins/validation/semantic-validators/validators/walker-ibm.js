@@ -4,9 +4,22 @@
 // Walks an entire spec.
 import includes from "lodash/includes"
 
-export function validate({ jsSpec }) {
-  let errors = []
-  let warnings = []
+export function validate({ jsSpec }, config) {
+  
+  let result = {}
+  result.error = []
+  result.warning = []
+
+  // maintain browser functionality
+  // if no object is passed in, set to default
+  if (typeof config === "undefined") {
+    config = {
+      no_empty_descriptions: "error"
+    }
+  }
+  else {
+    config = config.walker
+  }
 
   function walk(value, path) {
 
@@ -25,12 +38,17 @@ export function validate({ jsSpec }) {
         if(k === "description" && !(includes(path, "examples"))){
           var descriptionValue = value["description"].toString()
           if ((descriptionValue.length === 0) || (!descriptionValue.trim())) {
-            errors.push({
-              path: path.concat([k]),
-              message: "Items with a description must have content in it."
-            })
+
+            let checkStatus = config.no_empty_descriptions
+            if (checkStatus !== "off") {
+              result[checkStatus].push({
+                path: path.concat([k]),
+                message: "Items with a description must have content in it."
+              })
+            }
+
+          }
         }
-      }
         return walk(value[k], [...path, k])
       })
 
@@ -42,5 +60,5 @@ export function validate({ jsSpec }) {
 
   walk(jsSpec, [])
 
-  return { errors, warnings }
+  return { errors: result.error, warnings: result.warning }
 }

@@ -7,9 +7,23 @@
 import snakecase from "lodash/snakeCase"
 import includes from "lodash/includes"
 
-export function validate({jsSpec}) {
-  let errors = []
-  let warnings = []
+export function validate({jsSpec}, config) {
+  let result = {}
+  result.error = []
+  result.warning = []
+
+  // maintain browser functionality
+  // if no object is passed in, set to default
+  if (typeof config === "undefined") {
+    config = {
+      no_parameter_description: "error",
+      snake_case_only: "warning",
+      invalid_type_format_pair: "error"
+    }
+  }
+  else {
+    config = config.parameters
+  }
 
   function walk(obj, path) {
     if (typeof obj !== "object" || obj === null) {
@@ -22,10 +36,14 @@ export function validate({jsSpec}) {
     if (contentsOfParameterObject) {
 
       if(!(obj.description)) {
-        errors.push({
-          path,
-          message: "Parameters with a description must have content in it."
-        })
+        let message = "Parameters with a description must have content in it."
+        let checkStatus = config.no_parameter_description
+        if (checkStatus !== "off") {
+          result[checkStatus].push({
+            path,
+            message
+          })
+        }
       }
 
       let isRef = !!obj.$ref
@@ -35,10 +53,14 @@ export function validate({jsSpec}) {
 
       // if the parameter is defined by a ref, no need to check the ref path for snake_case
       if (isParameter && !isHeaderParameter && !isRef && !isSnakecase) {
-        warnings.push({
-          path,
-          message: "Parameter name must use snake case."
-        })
+        let message = "Parameter name must use snake case."
+        let checkStatus = config.snake_case_only
+        if (checkStatus !== "off") {
+          result[checkStatus].push({
+            path,
+            message
+          })
+        }
       }
 
       var valid = true
@@ -62,10 +84,14 @@ export function validate({jsSpec}) {
         }
 
       if (!valid) {
-        errors.push({
-          path,
-          message: "Incorrect Format of " + obj.format + " with Type of " + obj.type + " and Description of " + obj.description
-        })
+        let message = "Incorrect Format of " + obj.format + " with Type of " + obj.type + " and Description of " + obj.description
+        let checkStatus = config.invalid_type_format_pair
+        if (checkStatus !== "off") {
+          result[checkStatus].push({
+            path,
+            message
+          })
+        }
       }
     }
     if (Object.keys(obj).length) {
@@ -77,5 +103,5 @@ export function validate({jsSpec}) {
   }
 
   walk(jsSpec, [])
-  return { errors, warnings }
+  return { errors: result.error , warnings: result.warning }
 }
