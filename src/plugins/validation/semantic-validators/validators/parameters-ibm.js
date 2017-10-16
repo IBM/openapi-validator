@@ -35,7 +35,10 @@ export function validate({jsSpec}, config) {
     // obj is a parameter object
     if (contentsOfParameterObject) {
 
-      if(!(obj.description)) {
+      let isRef = !!obj.$ref
+      let hasDescription = !!obj.description
+
+      if(!hasDescription && !isRef) {
         let message = "Parameter objects must have a `description` field."
         let checkStatus = config.no_parameter_description
         if (checkStatus !== "off") {
@@ -46,7 +49,6 @@ export function validate({jsSpec}, config) {
         }
       }
 
-      let isRef = !!obj.$ref
       let isParameter = obj.in // the `in` property is required by OpenAPI for parameters - this should be true
       let isHeaderParameter = (obj.in == "header") // header params need not be snake_case
       let isSnakecase = obj.name == snakecase(obj.name)
