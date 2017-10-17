@@ -42,6 +42,13 @@ export function validate({ jsSpec }, config) {
   map(jsSpec.paths, (path, pathKey) => {
     let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
     each(pathOps, (op, opKey) => {
+
+      // if operation is excluded, don't validate it
+      if (op["x-sdk-exclude"]) {
+        // skip this operation in the 'each' loop
+        return;
+      }
+
       if(includes(["put","post"], opKey.toLowerCase())) {
 
         let hasLocalConsumes = op.consumes && op.consumes.length > 0 && !!op.consumes.join("").trim()
