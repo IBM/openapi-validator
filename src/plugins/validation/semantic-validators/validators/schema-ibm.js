@@ -48,6 +48,10 @@ export function validate({ jsSpec }, config) {
   if(jsSpec.paths) {
     each(jsSpec.paths, (path, pathName) => {
       each(path, (op, opName) => {
+        // skip schemas within operations that are excluded
+        if (op["x-sdk-exclude"] === true) {
+          return
+        }
         if(op && op.parameters) {
           op.parameters.forEach((parameter, parameterIndex) => {
             if(parameter.in === "body" && parameter.schema && ! parameter.schema.$ref) {
