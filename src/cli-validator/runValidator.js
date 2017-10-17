@@ -19,6 +19,7 @@ const getLineNumberForPath = require(__dirname + '/ast/ast').getLineNumberForPat
 let printValidators = false;
 let chalk = undefined;
 let originalFile = '';
+let reportingStats = false;
 
 // this function processes the input, does the error handling, and acts as the main function for the program
 const processInput = function (program, callback) {
@@ -27,6 +28,8 @@ const processInput = function (program, callback) {
 
   // interpret the options
   printValidators = !! program.print_validator_modules;
+  reportingStats = !! program.report_statistics;
+  
   let turnOffColoring = !! program.no_colors;
   let defaultMode = !! program.default_mode;
 
@@ -143,8 +146,7 @@ const processInput = function (program, callback) {
       const results = validateSwagger(swagger, configObject);
       const problems = structureValidationResults(results);
       if (problems) {
-        printInfo(problems.errors, 'errors', 'bgRed');
-        printInfo(problems.warnings, 'warnings', 'bgYellow');
+        printInfo(problems);
       }
     })
     .then(() => {
@@ -199,49 +201,110 @@ function structureValidationResults(rawResults) {
 }
 
 // this function prints all of the output
-function printInfo(problems, type, color) {
+function printInfo(problems) {
 
-  if (problems.length) {
+  let types = ['errors', 'warnings'];
+  let colors = {
+    errors: 'bgRed',
+    warnings: 'bgYellow'
+  };
 
-    // problems is an array of objects with errors, warnings, and validation properties
-    // but none of the type (errors or warnings) properties are empty
 
-    console.log(chalk[color].black.bold(`${type}\n`));
+  // define an object template in the case that statistics reporting is turned on
+  let stats = {
+    errors: {
+      total: 0
+    },
+    warnings: {
+      total: 0
+    }
+  }; 
 
-    // convert 'color' from a background color to foreground color
-    color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
+  types.forEach(type => {
 
-    problems.forEach(object => {
+    if (problems[type].length) {
 
-      if (printValidators) {
-        console.log(chalk.underline(`Validator: ${object.validation}`));
-      }
+      // problems is an array of objects with errors, warnings, and validation properties
+      // but none of the type (errors or warnings) properties are empty
 
-      object[type].forEach(problem => {
+      let color = colors[type];
 
-        let path = problem.path;
+      console.log(chalk[color].bold(`${type}\n`));
 
-        // path needs to be an array to get the line number
-        if (!Array.isArray(path)) {
-          path = path.split('.');
+      // convert 'color' from a background color to foreground color
+      color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
+
+      problems[type].forEach(object => {
+
+        if (printValidators) {
+          console.log(chalk.underline(`Validator: ${object.validation}`));
         }
 
-        // get line number from the path of strings to the problem
-        // as they say in src/plugins/validation/semantic-validators/hook.js,
-        //
-        //                  "it's magic!"
-        //
-        let lineNumber = getLineNumberForPath(originalFile, path);
+        object[type].forEach(problem => {
 
+          let path = problem.path;
+          let message = problem.message;
 
-        // print the path array as a dot-separated string
+          // collect info for stats reporting, if applicable
+          if (reportingStats) {
 
-        console.log(chalk[color](`  Message:   ${problem.message}`));
-        console.log(chalk[color](`  Path   :   ${path.join('.')}`));
-        console.log(chalk[color](`  Line   :   ${lineNumber}`));
-        console.log();
+            stats[type].total += 1;
 
+            if (!stats[type][message]) {
+              stats[type][message] = 0;
+            }
+
+            stats[type][message] += 1;
+          }
+
+          // path needs to be an array to get the line number
+          if (!Array.isArray(path)) {
+            path = path.split('.');
+          }
+
+          // get line number from the path of strings to the problem
+          // as they say in src/plugins/validation/semantic-validators/hook.js,
+          //
+          //                  "it's magic!"
+          //
+          let lineNumber = getLineNumberForPath(originalFile, path);
+
+          // print the path array as a dot-separated string
+          console.log(chalk[color](`  Message:   ${problem.message}`));
+          console.log(chalk[color](`  Path   :   ${path.join('.')}`));
+          console.log(chalk[color](`  Line   :   ${lineNumber}`));
+          console.log();
+
+        });
       });
+    }
+  });
+
+  // print the stats here, if applicable
+  if (reportingStats && (stats.errors.total || stats.warnings.total)) {
+    console.log(chalk.bgCyan('statistics\n'));
+
+    types.forEach(type => {
+
+      if (stats[type].total) {
+        console.log('  ' + chalk.underline.cyan(type));
+      }
+
+      Object.keys(stats[type]).forEach(message => {
+
+        if (message !== 'total') {
+          // calculate percentage
+          let percentage = (Math.round(stats[type][message] / stats[type].total * 100)).toString();
+          // if single digit, pad with a space to keep allignment
+          if (percentage.length === 1) {
+            percentage = ' ' + percentage;
+          }
+          console.log(chalk.cyan(`  ${percentage}% : ${message}`));
+        }
+      });
+      if (stats[type].total) {
+        console.log();
+      }
     });
   }
 
