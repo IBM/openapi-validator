@@ -44,9 +44,9 @@ export function validate({ jsSpec }, config) {
     each(pathOps, (op, opKey) => {
 
       // if operation is excluded, don't validate it
-      if (op["x-sdk-exclude"]) {
+      if (op["x-sdk-exclude"] === true) {
         // skip this operation in the 'each' loop
-        return;
+        return
       }
 
       if(includes(["put","post"], opKey.toLowerCase())) {

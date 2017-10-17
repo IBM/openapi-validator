@@ -34,6 +34,10 @@ export function validate({ jsSpec }, config) {
     let keys = Object.keys(value)
 
     if(keys.length) {
+      // skip walking down operations that are excluded
+      if (value["x-sdk-exclude"] === true) {
+        return null
+      }
       return keys.map(k => {
         if(k === "description" && !(includes(path, "examples"))){
           var descriptionValue = value["description"].toString()

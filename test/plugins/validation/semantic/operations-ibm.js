@@ -376,4 +376,42 @@ describe("validation plugin - semantic - operations-ibm", function(){
     expect(res.warnings[0].message).toEqual("Operations must have a non-empty `summary` field.")
     expect(res.errors.length).toEqual(0)
   })
+
+  it("should not complain about anything when x-sdk-exclude is true", function(){
+
+    const config = {
+      "operations" : {
+        "no_consumes_for_put_or_post": "error",
+        "get_op_has_consumes": "warning",
+        "no_produces_for_get": "error",
+        "no_operation_id": "warning",
+        "no_summary": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/CoolPath": {
+          put: {
+            "x-sdk-exclude": true,
+            summary: "  ",
+            parameters: [{
+              name: "BadParameter",
+              in: "body",
+              schema: {
+                required: ["Property"],
+                properties: [{
+                  name: "Property"
+                }]
+              }
+            }]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(0)
+    expect(res.errors.length).toEqual(0)
+  })
 })

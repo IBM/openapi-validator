@@ -30,6 +30,11 @@ export function validate({jsSpec}, config) {
       return
     }
 
+    // skip parameters within operations that are excluded
+    if (obj["x-sdk-exclude"] === true) {
+      return
+    }
+
     let contentsOfParameterObject = path[path.length - 2] === "parameters"
 
     // obj is a parameter object
