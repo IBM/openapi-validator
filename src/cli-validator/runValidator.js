@@ -250,12 +250,11 @@ function printInfo(problems) {
 
             stats[type].total += 1;
 
-            if (stats[type][message]) {
-              stats[type][message] += 1;
+            if (!stats[type][message]) {
+              stats[type][message] = 0;
             }
-            else {
-              stats[type][message] = 1;
-            }
+
+            stats[type][message] += 1;
           }
 
           // path needs to be an array to get the line number
@@ -282,12 +281,14 @@ function printInfo(problems) {
   });
 
   // print the stats here, if applicable
-  if (reportingStats && (stats.errors.total || stats.errors.total)) {
+  if (reportingStats && (stats.errors.total || stats.warnings.total)) {
     console.log(chalk.bgCyan('statistics\n'));
 
     types.forEach(type => {
 
-      console.log('  ' + chalk.underline.cyan(type));
+      if (stats[type].total) {
+        console.log('  ' + chalk.underline.cyan(type));
+      }
 
       Object.keys(stats[type]).forEach(message => {
 
@@ -301,7 +302,9 @@ function printInfo(problems) {
           console.log(chalk.cyan(`  ${percentage}% : ${message}`));
         }
       });
-      console.log();
+      if (stats[type].total) {
+        console.log();
+      }
     });
   }
 
