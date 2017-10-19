@@ -5,6 +5,7 @@ const readJson     = require('load-json-file');
 const last         = require('lodash/last');
 const parser       = require('swagger-parser');
 const chalkPackage = require('chalk');
+const pad          = require('pad');
 
 // import the config processing module
 const config       = require('./processConfiguration');
@@ -300,10 +301,13 @@ function printInfo(problems) {
           let total = stats[type].total;
           let percentage = (Math.round(number / total * 100)).toString();
 
-          console.log();
-          console.log(chalk.cyan(`  Message   : ${message}`));
-          console.log(chalk.cyan(`  Amount    : ${number}`));
-          console.log(chalk.cyan(`  Frequency : ${percentage}%`));
+          // pad(<number>, <string>) right-aligns <string> to the <number>th column, padding with spaces
+          // use 4, two for the appended spaces of every line and two for the number (assuming errors/warnings won't go to triple digits)
+          let numberString = pad(4, number.toString());
+          // use 6 for largest case of '(100%)'
+          let frequencyString = pad(6, `(${percentage}%)`);
+
+          console.log(chalk.cyan(`${numberString} ${frequencyString} : ${message}`));
         }
       });
       if (stats[type].total) {

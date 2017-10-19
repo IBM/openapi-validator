@@ -57,6 +57,7 @@
     "json-beautify": "^1.0.1",
     "jsonschema": "^1.1.0",
     "load-json-file": "^3.0.0",
+    "pad": "^2.0.1",
     "react": "^15.x",
     "react-addons-css-transition-group": "^15.4.2",
     "react-dd-menu": "^2.0.0",
