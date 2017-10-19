@@ -246,16 +246,14 @@ function printInfo(problems) {
           let message = problem.message;
 
           // collect info for stats reporting, if applicable
-          if (reportingStats) {
 
-            stats[type].total += 1;
+          stats[type].total += 1;
 
-            if (!stats[type][message]) {
-              stats[type][message] = 0;
-            }
-
-            stats[type][message] += 1;
+          if (!stats[type][message]) {
+            stats[type][message] = 0;
           }
+
+          stats[type][message] += 1;
 
           // path needs to be an array to get the line number
           if (!Array.isArray(path)) {
@@ -270,9 +268,9 @@ function printInfo(problems) {
           let lineNumber = getLineNumberForPath(originalFile, path);
 
           // print the path array as a dot-separated string
-          console.log(chalk[color](`  Message:   ${problem.message}`));
-          console.log(chalk[color](`  Path   :   ${path.join('.')}`));
-          console.log(chalk[color](`  Line   :   ${lineNumber}`));
+          console.log(chalk[color](`  Message :   ${problem.message}`));
+          console.log(chalk[color](`  Path    :   ${path.join('.')}`));
+          console.log(chalk[color](`  Line    :   ${lineNumber}`));
           console.log();
 
         });
@@ -284,8 +282,12 @@ function printInfo(problems) {
   if (reportingStats && (stats.errors.total || stats.warnings.total)) {
     console.log(chalk.bgCyan('statistics\n'));
 
+    console.log(chalk.cyan(`  Total number of errors   : ${stats.errors.total}`));
+    console.log(chalk.cyan(`  Total number of warnings : ${stats.warnings.total}\n`));
+
     types.forEach(type => {
 
+      // print the type, either error or warning
       if (stats[type].total) {
         console.log('  ' + chalk.underline.cyan(type));
       }
@@ -294,12 +296,14 @@ function printInfo(problems) {
 
         if (message !== 'total') {
           // calculate percentage
-          let percentage = (Math.round(stats[type][message] / stats[type].total * 100)).toString();
-          // if single digit, pad with a space to keep allignment
-          if (percentage.length === 1) {
-            percentage = ' ' + percentage;
-          }
-          console.log(chalk.cyan(`  ${percentage}% : ${message}`));
+          let number = stats[type][message];
+          let total = stats[type].total;
+          let percentage = (Math.round(number / total * 100)).toString();
+
+          console.log();
+          console.log(chalk.cyan(`  Message   : ${message}`));
+          console.log(chalk.cyan(`  Amount    : ${number}`));
+          console.log(chalk.cyan(`  Frequency : ${percentage}%`));
         }
       });
       if (stats[type].total) {
