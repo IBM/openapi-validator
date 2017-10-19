@@ -176,10 +176,21 @@ describe("cli tool - test option handling", function() {
         // .match(/\S+/g) returns an array of all non-whitespace strings
         //   example output would be [ '33%', ':', 'operationIds', 'must', 'be', 'unique' ]
         expect(statisticsReported).toEqual(true);
-        expect(captured_text[29].match(/\S+/g)[0]).toEqual('33%');
-        expect(captured_text[30].match(/\S+/g)[0]).toEqual('67%');
-        expect(captured_text[33].match(/\S+/g)[0]).toEqual('67%');
-        expect(captured_text[34].match(/\S+/g)[0]).toEqual('33%');
+
+        expect(captured_text[28].match(/\S+/g)[5]).toEqual('3');
+        expect(captured_text[29].match(/\S+/g)[5]).toEqual('3');
+
+        expect(captured_text[31].match(/\S+/g)[0]).toEqual('1');
+        expect(captured_text[31].match(/\S+/g)[1]).toEqual('(33%)');
+
+        expect(captured_text[32].match(/\S+/g)[0]).toEqual('2');
+        expect(captured_text[32].match(/\S+/g)[1]).toEqual('(67%)');
+
+        expect(captured_text[35].match(/\S+/g)[0]).toEqual('2');
+        expect(captured_text[35].match(/\S+/g)[1]).toEqual('(67%)');
+
+        expect(captured_text[36].match(/\S+/g)[0]).toEqual('1');
+        expect(captured_text[36].match(/\S+/g)[1]).toEqual('(33%)');
 
         done();
       }
