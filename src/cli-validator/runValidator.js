@@ -11,10 +11,14 @@ const pad          = require('pad');
 const config       = require('./processConfiguration');
 
 // import the validators
-const semanticValidators = require('require-all')(__dirname + '/semantic-validators');
+const semanticValidators = require('require-all')(__dirname + '/../plugins/validation/semantic-validators/validators');
+const structuralValidator = require(__dirname + '/../plugins/validation/structural-validation/validator');
+
+// get the api schema to perform structural validation against
+const apiSchema = require(__dirname + '/../plugins/validation/apis/schema').default;
 
 // get line-number-producing, 'magic' code from Swagger Editor 
-const getLineNumberForPath = require(__dirname + '/ast/ast').getLineNumberForPath;
+const getLineNumberForPath = require(__dirname + '/../plugins/ast/ast').getLineNumberForPath;
 
 // set up variables that need to be global
 let printValidators = false;
@@ -123,6 +127,12 @@ const processInput = function (program, callback) {
   // initialize an object to be passed through all the validators
   let swagger = {};
 
+  // the structural validation expects a settings object describing which schemas to validate against
+  swagger.settings = {
+    schemas: [apiSchema],
+    testSchema: apiSchema
+  };
+
   // ### all validations expect an object with three properties: ###
   // ###          jsSpec, resolvedSpec, and specStr              ###
 
@@ -179,26 +189,50 @@ function validateSwagger(allSpecs, config) {
 
   // if there were no errors or warnings, don't bother passing along
   validationResults.semantic = semanticResults.filter(res => res.errors.length || res.warnings.length);
+
+
+  // run structural validator
+  //  treat all structural validations as errors
+  let arr = [];
+  let obj = {};
+  validationResults.structural = [];
+  const structuralResults = structuralValidator.validate(allSpecs);
+  Object.keys(structuralResults).forEach(key => {
+    let message = `Schema error: ${structuralResults[key].message}`;
+    let path = structuralResults[key].path;
+    arr.push({message, path});
+  });
+  // arr = errors
+  obj.errors = arr;
+  obj.validation = 'structural-validator';
+  validationResults.structural.push(obj);
  
   return validationResults;
 }
 
 // this function takes the results from the validation and structures them into a more organized format
 function structureValidationResults(rawResults) {
-  // rawResults = { semantic: [], structural: [] } (for now, just semantic)
+  // rawResults = { semantic: [], structural: [] }
   let structuredResults = {};
 
   const semantic = rawResults.semantic;
+  const structural = rawResults.structural;
 
   if (semantic.length) {
     // ...then there are problems in the semantic validators
 
     structuredResults.errors = semantic.filter(obj => obj.errors.length);
     structuredResults.warnings = semantic.filter(obj => obj.warnings.length);
-
-    console.log();
-    return structuredResults;
   }
+
+  console.log(JSON.stringify(structuredResults, null, 3));
+
+  if (structural.length) {
+    structuredResults.errors.push(...structural);
+  }
+
+  console.log();
+  return structuredResults;
 }
 
 // this function prints all of the output
