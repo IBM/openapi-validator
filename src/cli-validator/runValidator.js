@@ -193,19 +193,22 @@ function validateSwagger(allSpecs, config) {
 
   // run structural validator
   //  treat all structural validations as errors
-  let arr = [];
-  let obj = {};
+  let structuralProblems = [];
+  let structuralValidations = {};
+
   validationResults.structural = [];
+  
   const structuralResults = structuralValidator.validate(allSpecs);
   Object.keys(structuralResults).forEach(key => {
     let message = `Schema error: ${structuralResults[key].message}`;
     let path = structuralResults[key].path;
-    arr.push({message, path});
+    structuralProblems.push({message, path});
   });
-  // arr = errors
-  obj.errors = arr;
-  obj.validation = 'structural-validator';
-  validationResults.structural.push(obj);
+
+  // format the structural validations in the same way as the semantic
+  structuralValidations.errors = structuralProblems;
+  structuralValidations.validation = 'structural-validator';
+  validationResults.structural.push(structuralValidations);
  
   return validationResults;
 }
@@ -224,8 +227,6 @@ function structureValidationResults(rawResults) {
     structuredResults.errors = semantic.filter(obj => obj.errors.length);
     structuredResults.warnings = semantic.filter(obj => obj.warnings.length);
   }
-
-  console.log(JSON.stringify(structuredResults, null, 3));
 
   if (structural.length) {
     structuredResults.errors.push(...structural);
