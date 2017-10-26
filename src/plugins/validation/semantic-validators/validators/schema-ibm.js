@@ -32,7 +32,6 @@ export function validate({ jsSpec }, config) {
 
   if(jsSpec.definitions) {
     each(jsSpec.definitions, (def, name) => {
-      def.name = name
       schemas.push({ schema: def, path: ["definitions", name] })
     })
   }

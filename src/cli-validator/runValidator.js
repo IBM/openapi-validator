@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fs = require('fs');
+const fs           = require('fs');
 const readYaml     = require('read-yaml');
 const readJson     = require('load-json-file');
 const last         = require('lodash/last');
@@ -141,7 +141,7 @@ const processInput = function (program, callback) {
   const indentationSpaces = 2;
 
   swagger.specStr = JSON.stringify(input, null, indentationSpaces);
-
+  
   // deep copy input to a jsSpec by parsing the spec string.
   // just setting it equal to 'input' and then calling 'dereference'
   //   replaces 'input' with the dereferenced object, which is bad
@@ -192,13 +192,14 @@ function validateSwagger(allSpecs, config) {
 
 
   // run structural validator
-  //  treat all structural validations as errors
+  // all structural problems are errors
   let structuralProblems = [];
   let structuralValidations = {};
 
   validationResults.structural = [];
   
   const structuralResults = structuralValidator.validate(allSpecs);
+
   Object.keys(structuralResults).forEach(key => {
     let message = `Schema error: ${structuralResults[key].message}`;
     let path = structuralResults[key].path;
@@ -222,8 +223,6 @@ function structureValidationResults(rawResults) {
   const structural = rawResults.structural;
 
   if (semantic.length) {
-    // ...then there are problems in the semantic validators
-
     structuredResults.errors = semantic.filter(obj => obj.errors.length);
     structuredResults.warnings = semantic.filter(obj => obj.warnings.length);
   }
@@ -337,7 +336,8 @@ function printInfo(problems) {
           let percentage = (Math.round(number / total * 100)).toString();
 
           // pad(<number>, <string>) right-aligns <string> to the <number>th column, padding with spaces
-          // use 4, two for the appended spaces of every line and two for the number (assuming errors/warnings won't go to triple digits)
+          // use 4, two for the appended spaces of every line and two for the number
+          //   (assuming errors/warnings won't go to triple digits)
           let numberString = pad(4, number.toString());
           // use 6 for largest case of '(100%)'
           let frequencyString = pad(6, `(${percentage}%)`);
