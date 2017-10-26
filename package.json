@@ -19,7 +19,7 @@
     "build-bundle": "webpack --config webpack-dist-bundle.config.js --colors",
     "build-core": "webpack --config webpack-dist.config.js --colors",
     "build-standalone": "webpack --config webpack-standalone.config.js --colors",
-    "build-cli-all": "rm -rf ./dist/src && npm unlink && npm run build-validators-for-cli && npm run build-source-for-cli && npm run build-command-for-cli",
+    "build-cli-all": "rm -rf ./dist/src ./dist/cli-validator && npm unlink && npm run build-validators-for-cli && npm run build-source-for-cli && npm run build-command-for-cli",
     "build-source-for-cli": "babel ./src/plugins/ast/ast.js -d dist/ && babel ./src/cli-validator/ -d dist/src/cli-validator && babel ./src/path-translator.js -d dist/ && babel src/plugins/validation/apis/schema.js -d dist",
     "build-validators-for-cli": "babel ./src/plugins/validation/semantic-validators/validators -d dist/src/plugins/validation/semantic-validators/validators && babel ./src/plugins/validation/structural-validation -d dist/src/plugins/validation/structural-validation",
     "build-command-for-cli": "npm link",
