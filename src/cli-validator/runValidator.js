@@ -231,6 +231,9 @@ function structureValidationResults(rawResults) {
   }
 
   if (structural.length) {
+    if (!structuredResults.errors) {
+      structuredResults.errors = [];
+    }
     structuredResults.errors.push(...structural);
   }
 
@@ -261,7 +264,7 @@ function printInfo(problems) {
 
   types.forEach(type => {
 
-    if (problems[type].length) {
+    if (problems[type] && problems[type].length) {
 
       // problems is an array of objects with errors, warnings, and validation properties
       // but none of the type (errors or warnings) properties are empty
