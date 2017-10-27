@@ -207,9 +207,12 @@ function validateSwagger(allSpecs, config) {
   });
 
   // format the structural validations in the same way as the semantic
-  structuralValidations.errors = structuralProblems;
-  structuralValidations.validation = 'structural-validator';
-  validationResults.structural.push(structuralValidations);
+  if (structuralProblems.length) {
+    structuralValidations.errors = structuralProblems;
+    structuralValidations.validation = 'structural-validator';
+    validationResults.structural.push(structuralValidations);
+  }
+
  
   return validationResults;
 }
@@ -218,6 +221,8 @@ function validateSwagger(allSpecs, config) {
 function structureValidationResults(rawResults) {
   // rawResults = { semantic: [], structural: [] }
   let structuredResults = {};
+  structuredResults.errors = [];
+  structuredResults.warnings = [];
 
   const semantic = rawResults.semantic;
   const structural = rawResults.structural;
