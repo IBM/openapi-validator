@@ -156,7 +156,7 @@ const processInput = function (program, callback) {
     .then(() => {
       const results = validateSwagger(swagger, configObject);
       const problems = structureValidationResults(results);
-      if (problems) {
+      if (Object.keys(problems).length) {
         printInfo(problems);
       }
     })
@@ -221,8 +221,6 @@ function validateSwagger(allSpecs, config) {
 function structureValidationResults(rawResults) {
   // rawResults = { semantic: [], structural: [] }
   let structuredResults = {};
-  structuredResults.errors = [];
-  structuredResults.warnings = [];
 
   const semantic = rawResults.semantic;
   const structural = rawResults.structural;
@@ -236,7 +234,6 @@ function structureValidationResults(rawResults) {
     structuredResults.errors.push(...structural);
   }
 
-  console.log();
   return structuredResults;
 }
 
@@ -258,7 +255,9 @@ function printInfo(problems) {
     warnings: {
       total: 0
     }
-  }; 
+  };
+
+  console.log();
 
   types.forEach(type => {
 
