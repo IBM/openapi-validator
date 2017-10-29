@@ -11,7 +11,7 @@ describe('cli tool - test expected output', function() {
 
     // set a variable to store text intercepted from stdout
     let captured_text = [];
-    
+
     // this variable intercepts incoming text and pushes it into captured_text
     let unhook_intercept = intercept(function(txt) {
       captured_text.push(txt);
@@ -27,7 +27,7 @@ describe('cli tool - test expected output', function() {
 
     // wrapping within the Sync package allows any function to be run in synchronous mode
     Sync (function() {
-      
+
       // run the validator in sync so that all output logging happens before
       //   the interceptor is unhooked
       commandLineValidator.sync(null, program)
@@ -50,7 +50,7 @@ describe('cli tool - test expected output', function() {
   it ('should produce errors, then warnings from mockFiles/errAndWarn.yaml', function(done) {
 
     let captured_text = [];
-     
+
     let unhook_intercept = intercept(function(txt) {
         captured_text.push(txt);
         return '';
@@ -61,7 +61,7 @@ describe('cli tool - test expected output', function() {
     program.default_mode = true;
 
     Sync (function() {
-      
+
       commandLineValidator.sync(null, program)
       unhook_intercept();
 
@@ -90,7 +90,7 @@ describe('cli tool - test expected output', function() {
   it ('should print the correct line numbers for each error/warning', function(done) {
 
     let captured_text = [];
-     
+
     let unhook_intercept = intercept(function(txt) {
         captured_text.push(stripAnsiFrom(txt));
         return '';
@@ -101,7 +101,7 @@ describe('cli tool - test expected output', function() {
     program.default_mode = true;
 
     Sync (function() {
-      
+
       commandLineValidator.sync(null, program)
       unhook_intercept();
 
@@ -116,6 +116,7 @@ describe('cli tool - test expected output', function() {
         expect(captured_text[21].match(/\S+/g)[2]).toEqual('36');
         expect(captured_text[25].match(/\S+/g)[2]).toEqual('59');
         expect(captured_text[29].match(/\S+/g)[2]).toEqual('134');
+        expect(captured_text[33].match(/\S+/g)[2]).toEqual('170');
 
         done();
       }

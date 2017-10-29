@@ -1,15 +1,21 @@
-// Assertation 1:
+// invalid_type_format_pair:
 // Schemas need to have properly matching type/format pairs
 
-// Assertation 2:
+
+// snake_case_only:
+// Names MUST be lower snake case.
+// https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
+
+// no_property_description:
 // Properties within schema objects should have descriptions
 
-// Assertation 3:
+// description_mentions_json:
 // Schema property descriptions should not state that model will be a JSON object
 
 import each from "lodash/each"
 import forIn from "lodash/forIn"
 import includes from "lodash/includes"
+import snakecase from "lodash/snakeCase"
 
 export function validate({ jsSpec }, config) {
   let errors = []
@@ -22,6 +28,7 @@ export function validate({ jsSpec }, config) {
   if (typeof config === "undefined") {
     config = {
       invalid_type_format_pair: "error",
+      snake_case_only: "warning",
       no_property_description: "warning",
       description_mentions_json: "warning"
     }
@@ -83,6 +90,13 @@ export function validate({ jsSpec }, config) {
     res = generateDescriptionWarnings(schema, path, config)
     errors.push(...res.error)
     warnings.push(...res.warning)
+
+    let checkStatus = config.snake_case_only
+    if (checkStatus !== "off") {
+      res = checkPropNames(schema, path, config)
+      errors.push(...res.error)
+      warnings.push(...res.warning)
+    }
   })
 
   return { errors, warnings }
@@ -114,6 +128,9 @@ function generateFormatErrors(schema, contextPath, config) {
         break
       case "object":
         valid = true   // TODO: validate nested schemas
+        break
+      case null:
+        valid = true  // Not valid, but should be flagged because type is required
         break
       default:
         valid = false
@@ -176,7 +193,7 @@ function generateDescriptionWarnings(schema, contextPath, config) {
 
     var path = contextPath.concat(["properties", propName, "description"])
 
-    let hasDescription = property.description && property.description.toString().trim().length 
+    let hasDescription = property.description && property.description.toString().trim().length
     if (!hasDescription) {
       let message = "Schema properties must have a description with content in it."
       let checkStatus = config.no_property_description
@@ -199,6 +216,33 @@ function generateDescriptionWarnings(schema, contextPath, config) {
             message
           })
         }
+      }
+    }
+  })
+
+  return result
+}
+
+// https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
+function checkPropNames(schema, contextPath, config) {
+
+  let result = {}
+  result.error = []
+  result.warning = []
+
+  if (!schema.properties) { return result }
+
+  // flag any property whose name is not "lower snake case"
+  forIn( schema.properties, (property, propName) => {
+
+    let checkStatus = config.snake_case_only || "off"
+    if (checkStatus.match("error|warning")) {
+      let isSnakecase = propName == snakecase(propName)
+      if (!isSnakecase) {
+        result[checkStatus].push({
+           path: contextPath.concat(["properties", propName]),
+           message: "Property names must be lower snake case."
+        })
       }
     }
   })

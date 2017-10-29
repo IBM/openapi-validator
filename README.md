@@ -84,7 +84,7 @@ Each category contains a group of rules. The supported rules are described below
 | --------------------------- | -------------------------------------------------------------------- |
 | no_consumes_for_put_or_post | Flag 'put' or 'post' operations that do not have a 'consumes' field. |
 | get_op_has_consumes         | Flag 'get' operations that contain a 'consumes' field.               |
-| no_produces_for_get         | Flag 'get' operations that do not have a 'prodcues' field.           |
+| no_produces_for_get         | Flag 'get' operations that do not have a 'produces' field.           |
 | no_operation_id             | Flag any operations that do not have an 'operationId' field.         |
 | no_summary                  | Flag any operations that do not have a 'summary' field.              |
 | no_array_responses          | Flag any operations with a top-level array response.                 |
@@ -100,6 +100,7 @@ Each category contains a group of rules. The supported rules are described below
 | Rule                        | Description                                                                  |
 | --------------------------- | ---------------------------------------------------------------------------- |
 | invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat) |
+| snake_case_only             | Flag any property with a 'name' that is not lower snake case. |
 | no_property_description     | Flag any schema that contains a 'property' without a 'description' field.    |
 | description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'. |
 
@@ -158,6 +159,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | invalid_type_format_pair    | error   |
+| snake_case_only             | warning |
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 
