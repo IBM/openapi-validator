@@ -13,6 +13,10 @@
 // Assertation 5:
 // Operations must have a non-empty `summary` field.
 
+// Assertation 6:
+// Arrays MUST NOT be returned as the top-level structure in a response body.
+// ref: https://pages.github.ibm.com/CloudEngineering/api_handbook/fundamentals/format.html#object-encapsulation
+
 import pick from "lodash/pick"
 import map from "lodash/map"
 import each from "lodash/each"
@@ -32,7 +36,8 @@ export function validate({ jsSpec }, config) {
       get_op_has_consumes: "warning",
       no_produces_for_get: "error",
       no_operation_id: "warning",
-      no_summary: "warning"
+      no_summary: "warning",
+      no_array_responses: "error"
     }
   }
   else {
@@ -56,13 +61,13 @@ export function validate({ jsSpec }, config) {
 
         if(!hasLocalConsumes && !hasGlobalConsumes) {
           let checkStatus = config.no_consumes_for_put_or_post
-          
+
           if (checkStatus !== "off") {
             result[checkStatus].push({
               path: `paths.${pathKey}.${opKey}.consumes`,
               message: "PUT and POST operations must have a non-empty `consumes` field."
             })
-          } 
+          }
         }
       }
 
@@ -94,6 +99,34 @@ export function validate({ jsSpec }, config) {
               message: "GET operations must have a non-empty `produces` field."
             })
           }
+        }
+
+        // Arrays MUST NOT be returned as the top-level structure in a response body.
+        let checkStatus = config.no_array_responses
+        if (checkStatus !== "off") {
+          each(op.responses, (response, name) => {
+            if (response.schema) {
+              if (!response.schema.$ref) {
+                if (response.schema.type == "array") {
+                  result[checkStatus].push({
+                    path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
+                    message: "Arrays MUST NOT be returned as the top-level structure in a response body."
+                  })
+                }
+              } else {
+                let def = response.schema.$ref.match(/#\/definitions\/(\w+)/)
+                if (def) {
+                  let foo = jsSpec.definitions[def[1]]
+                  if (foo && foo.type == "array") {
+                    result[checkStatus].push({
+                      path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
+                      message: "Arrays MUST NOT be returned as the top-level structure in a response body."
+                    })
+                  }
+                }
+              }
+            }
+          })
         }
       }
 

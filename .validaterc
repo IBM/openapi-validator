@@ -4,7 +4,8 @@
     "get_op_has_consumes": "warning",
     "no_produces_for_get": "error",
     "no_operation_id": "warning",
-    "no_summary": "warning"
+    "no_summary": "warning",
+    "no_array_responses": "error"
   },
   "parameters" : {
     "no_parameter_description": "error",
