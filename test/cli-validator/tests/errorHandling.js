@@ -1,7 +1,7 @@
 const intercept = require("intercept-stdout");
 const expect = require("expect");
 const stripAnsiFrom = require('strip-ansi');
-const commandLineValidator = require("../../../dist/cli-validator/runValidator");
+const commandLineValidator = require("../../../dist/src/cli-validator/runValidator");
 
 // because all output is logged in the main function (processInput() in runValidator.js) for these tests,
 // the Sync package is not needed. for an explanation of the text interceptor, see the comments for the

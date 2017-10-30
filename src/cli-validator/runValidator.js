@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const fs = require('fs');
+const fs           = require('fs');
 const readYaml     = require('read-yaml');
 const readJson     = require('load-json-file');
 const last         = require('lodash/last');
@@ -11,10 +11,14 @@ const pad          = require('pad');
 const config       = require('./processConfiguration');
 
 // import the validators
-const semanticValidators = require('require-all')(__dirname + '/semantic-validators');
+const semanticValidators = require('require-all')(__dirname + '/../plugins/validation/semantic-validators/validators');
+const structuralValidator = require(__dirname + '/../plugins/validation/structural-validation/validator');
+
+// get the api schema to perform structural validation against
+const apiSchema = require(__dirname + '/../plugins/validation/apis/schema').default;
 
 // get line-number-producing, 'magic' code from Swagger Editor 
-const getLineNumberForPath = require(__dirname + '/ast/ast').getLineNumberForPath;
+const getLineNumberForPath = require(__dirname + '/../plugins/ast/ast').getLineNumberForPath;
 
 // set up variables that need to be global
 let printValidators = false;
@@ -123,6 +127,12 @@ const processInput = function (program, callback) {
   // initialize an object to be passed through all the validators
   let swagger = {};
 
+  // the structural validation expects a settings object describing which schemas to validate against
+  swagger.settings = {
+    schemas: [apiSchema],
+    testSchema: apiSchema
+  };
+
   // ### all validations expect an object with three properties: ###
   // ###          jsSpec, resolvedSpec, and specStr              ###
 
@@ -131,7 +141,7 @@ const processInput = function (program, callback) {
   const indentationSpaces = 2;
 
   swagger.specStr = JSON.stringify(input, null, indentationSpaces);
-
+  
   // deep copy input to a jsSpec by parsing the spec string.
   // just setting it equal to 'input' and then calling 'dereference'
   //   replaces 'input' with the dereferenced object, which is bad
@@ -146,7 +156,7 @@ const processInput = function (program, callback) {
     .then(() => {
       const results = validateSwagger(swagger, configObject);
       const problems = structureValidationResults(results);
-      if (problems) {
+      if (Object.keys(problems).length) {
         printInfo(problems);
       }
     })
@@ -179,26 +189,55 @@ function validateSwagger(allSpecs, config) {
 
   // if there were no errors or warnings, don't bother passing along
   validationResults.semantic = semanticResults.filter(res => res.errors.length || res.warnings.length);
+
+
+  // run structural validator
+  // all structural problems are errors
+  let structuralProblems = [];
+  let structuralValidations = {};
+
+  validationResults.structural = [];
+  
+  const structuralResults = structuralValidator.validate(allSpecs);
+
+  Object.keys(structuralResults).forEach(key => {
+    let message = `Schema error: ${structuralResults[key].message}`;
+    let path = structuralResults[key].path;
+    structuralProblems.push({message, path});
+  });
+
+  // format the structural validations in the same way as the semantic
+  if (structuralProblems.length) {
+    structuralValidations.errors = structuralProblems;
+    structuralValidations.validation = 'structural-validator';
+    validationResults.structural.push(structuralValidations);
+  }
+
  
   return validationResults;
 }
 
 // this function takes the results from the validation and structures them into a more organized format
 function structureValidationResults(rawResults) {
-  // rawResults = { semantic: [], structural: [] } (for now, just semantic)
+  // rawResults = { semantic: [], structural: [] }
   let structuredResults = {};
 
   const semantic = rawResults.semantic;
+  const structural = rawResults.structural;
 
   if (semantic.length) {
-    // ...then there are problems in the semantic validators
-
     structuredResults.errors = semantic.filter(obj => obj.errors.length);
     structuredResults.warnings = semantic.filter(obj => obj.warnings.length);
-
-    console.log();
-    return structuredResults;
   }
+
+  if (structural.length) {
+    if (!structuredResults.errors) {
+      structuredResults.errors = [];
+    }
+    structuredResults.errors.push(...structural);
+  }
+
+  return structuredResults;
 }
 
 // this function prints all of the output
@@ -219,11 +258,13 @@ function printInfo(problems) {
     warnings: {
       total: 0
     }
-  }; 
+  };
+
+  console.log();
 
   types.forEach(type => {
 
-    if (problems[type].length) {
+    if (problems[type] && problems[type].length) {
 
       // problems is an array of objects with errors, warnings, and validation properties
       // but none of the type (errors or warnings) properties are empty
@@ -302,7 +343,8 @@ function printInfo(problems) {
           let percentage = (Math.round(number / total * 100)).toString();
 
           // pad(<number>, <string>) right-aligns <string> to the <number>th column, padding with spaces
-          // use 4, two for the appended spaces of every line and two for the number (assuming errors/warnings won't go to triple digits)
+          // use 4, two for the appended spaces of every line and two for the number
+          //   (assuming errors/warnings won't go to triple digits)
           let numberString = pad(4, number.toString());
           // use 6 for largest case of '(100%)'
           let frequencyString = pad(6, `(${percentage}%)`);

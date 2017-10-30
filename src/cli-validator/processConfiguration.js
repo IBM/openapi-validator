@@ -12,7 +12,7 @@ const getConfigObject = function (defaultMode, chalk) {
 	if (!defaultMode){
 		try {
 			// the config file must be in the root folder of the project
-			configObject = readJson.sync( __dirname + '/../../' + filename);
+			configObject = readJson.sync( __dirname + '/../../../' + filename);
 		}
 		catch (err) {
 

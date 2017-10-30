@@ -1,7 +1,7 @@
 const intercept = require('intercept-stdout');
 const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
-const commandLineValidator = require('../../../dist/cli-validator/runValidator');
+const commandLineValidator = require('../../../dist/src/cli-validator/runValidator');
 
 const Sync = require('sync');
 
