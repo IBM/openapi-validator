@@ -177,20 +177,24 @@ describe("cli tool - test option handling", function() {
         //   example output would be [ '33%', ':', 'operationIds', 'must', 'be', 'unique' ]
         expect(statisticsReported).toEqual(true);
 
-        expect(captured_text[28].match(/\S+/g)[5]).toEqual('3');
-        expect(captured_text[29].match(/\S+/g)[5]).toEqual('3');
+        let statsSection = captured_text.findIndex(x => x.includes('statistics'))
+        expect(captured_text[statsSection+1].match(/\S+/g)[5]).toEqual('4');
+        expect(captured_text[statsSection+2].match(/\S+/g)[5]).toEqual('3');
 
-        expect(captured_text[31].match(/\S+/g)[0]).toEqual('1');
-        expect(captured_text[31].match(/\S+/g)[1]).toEqual('(33%)');
+        expect(captured_text[statsSection+4].match(/\S+/g)[0]).toEqual('1');
+        expect(captured_text[statsSection+4].match(/\S+/g)[1]).toEqual('(25%)');
 
-        expect(captured_text[32].match(/\S+/g)[0]).toEqual('2');
-        expect(captured_text[32].match(/\S+/g)[1]).toEqual('(67%)');
+        expect(captured_text[statsSection+5].match(/\S+/g)[0]).toEqual('2');
+        expect(captured_text[statsSection+5].match(/\S+/g)[1]).toEqual('(50%)');
 
-        expect(captured_text[35].match(/\S+/g)[0]).toEqual('2');
-        expect(captured_text[35].match(/\S+/g)[1]).toEqual('(67%)');
+        expect(captured_text[statsSection+6].match(/\S+/g)[0]).toEqual('1');
+        expect(captured_text[statsSection+6].match(/\S+/g)[1]).toEqual('(25%)');
 
-        expect(captured_text[36].match(/\S+/g)[0]).toEqual('1');
-        expect(captured_text[36].match(/\S+/g)[1]).toEqual('(33%)');
+        expect(captured_text[statsSection+9].match(/\S+/g)[0]).toEqual('2');
+        expect(captured_text[statsSection+9].match(/\S+/g)[1]).toEqual('(67%)');
+
+        expect(captured_text[statsSection+10].match(/\S+/g)[0]).toEqual('1');
+        expect(captured_text[statsSection+10].match(/\S+/g)[1]).toEqual('(33%)');
 
         done();
       }

@@ -414,4 +414,42 @@ describe("validation plugin - semantic - operations-ibm", function(){
     expect(res.warnings.length).toEqual(0)
     expect(res.errors.length).toEqual(0)
   })
+
+  it("should complain about an anonymouse array response model", function(){
+
+    const config = {
+      "operations" : {
+        "no_array_responses": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/stuff": {
+          get: {
+            summary: "list stuff",
+            operationId: "listStuff",
+            produces: ["application/json"],
+            responses: {
+              200: {
+                description: "successful operation",
+                schema: {
+                  type: "array",
+                  items: {
+                    type: "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(1)
+    expect(res.warnings[0].path).toEqual(["paths./stuff.get.responses.200.schema"])
+    expect(res.warnings[0].message).toEqual("Arrays MUST NOT be returned as the top-level structure in a response body.")
+    expect(res.errors.length).toEqual(0)
+  })
 })

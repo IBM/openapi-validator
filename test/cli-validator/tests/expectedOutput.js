@@ -112,9 +112,10 @@ describe('cli tool - test expected output', function() {
         expect(captured_text[4].match(/\S+/g)[2]).toEqual('59');
         expect(captured_text[8].match(/\S+/g)[2]).toEqual('31');
         expect(captured_text[12].match(/\S+/g)[2]).toEqual('54');
-        expect(captured_text[17].match(/\S+/g)[2]).toEqual('36');
-        expect(captured_text[21].match(/\S+/g)[2]).toEqual('59');
-        expect(captured_text[25].match(/\S+/g)[2]).toEqual('134');
+        expect(captured_text[16].match(/\S+/g)[2]).toEqual('108');
+        expect(captured_text[21].match(/\S+/g)[2]).toEqual('36');
+        expect(captured_text[25].match(/\S+/g)[2]).toEqual('59');
+        expect(captured_text[29].match(/\S+/g)[2]).toEqual('134');
 
         done();
       }
