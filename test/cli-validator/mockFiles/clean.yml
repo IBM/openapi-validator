@@ -112,9 +112,13 @@ paths:
         200:
           description: "successful operation"
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/Pet"
+            type: "object"
+            properties:
+              pets:
+                type: "array"
+                description: "list of pets"
+                items:
+                  $ref: "#/definitions/Pet"
         400:
           description: "Invalid status value"
       security:

@@ -9,9 +9,9 @@ Here is the squad info plus information around SDK and API reference generation 
 
 ## Running locally
 
-To run a local instance with validation and hot-reload funcationlity then invoke `npm run dev`. 
+To run a local instance with validation and hot-reload funcationlity then invoke `npm run dev`.
 
-To run the tests then invoke `npm run test`. 
+To run the tests then invoke `npm run test`.
 
 ##### Prerequisites
 - Node 6.x
@@ -23,7 +23,7 @@ Otherwise, you can open `index.html` directly from your filesystem in your brows
 
 Note: At this time, if the editor is opened using `npm start` or `index.html`, the validations will __not__ be run.
 
-If you'd like to make code changes to Swagger-Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`. 
+If you'd like to make code changes to Swagger-Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`.
 
 ##### Browser support
 
@@ -87,6 +87,7 @@ Each category contains a group of rules. The supported rules are described below
 | no_produces_for_get         | Flag 'get' operations that do not have a 'prodcues' field.           |
 | no_operation_id             | Flag any operations that do not have an 'operationId' field.         |
 | no_summary                  | Flag any operations that do not have a 'summary' field.              |
+| no_array_responses          | Flag any operations with a top-level array response.                 |
 
 ##### parameters
 | Rule                        | Description                                                          |
@@ -144,6 +145,7 @@ The default values for each rule are described below.
 | no_produces_for_get         | error   |
 | no_operation_id             | warning |
 | no_summary                  | warning |
+| no_array_responses          | error   |
 
 ###### parameters
 | Rule                        | Default |
