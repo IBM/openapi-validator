@@ -166,7 +166,7 @@ definitions:
     type: "object"
     required:
     - "name"
-    - "photoUrls"
+    - "photo_urls"
     properties:
       id:
         type: "integer"
@@ -178,11 +178,11 @@ definitions:
         type: "string"
         example: "doggie"
         description: "string"
-      photoUrls:
+      photo_urls:
         type: "array"
         description: "string"
         xml:
-          name: "photoUrl"
+          name: "photo_url"
           wrapped: true
         items:
           type: "string"

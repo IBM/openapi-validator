@@ -13,7 +13,7 @@ describe("cli tool - test option handling", function() {
   it ("should color output by default", function(done) {
 
     let captured_text = [];
-     
+
     let unhook_intercept = intercept(function(txt) {
       captured_text.push(txt);
       return '';
@@ -24,7 +24,7 @@ describe("cli tool - test option handling", function() {
     program.default_mode = true;
 
     Sync (function() {
-      
+
       commandLineValidator.sync(null, program)
       unhook_intercept();
 
@@ -45,7 +45,7 @@ describe("cli tool - test option handling", function() {
   it("should not color output when -n option is given", function(done) {
 
     let captured_text = [];
-     
+
     let unhook_intercept = intercept(function(txt) {
         captured_text.push(txt);
         return '';
@@ -77,7 +77,7 @@ describe("cli tool - test option handling", function() {
   it("should not print validator source file by default", function(done) {
 
     let captured_text = [];
-     
+
     let unhook_intercept = intercept(function(txt) {
       captured_text.push(stripAnsiFrom(txt));
       return '';
@@ -108,7 +108,7 @@ describe("cli tool - test option handling", function() {
   it("should print validator source file when -v option is given", function(done) {
 
     let captured_text = [];
-     
+
     let unhook_intercept = intercept(function(txt) {
       captured_text.push(stripAnsiFrom(txt));
       return '';
@@ -131,7 +131,7 @@ describe("cli tool - test option handling", function() {
         captured_text.forEach(function(line) {
           if (line.includes('Validator')) {
             validatorsPrinted = true;
-          } 
+          }
         });
 
         expect(validatorsPrinted).toEqual(true);
@@ -147,7 +147,7 @@ describe("cli tool - test option handling", function() {
   it("should print correct statistics report when -s option is given", function(done) {
 
     let captured_text = [];
-     
+
     let unhook_intercept = intercept(function(txt) {
       captured_text.push(stripAnsiFrom(txt));
       return '';
@@ -170,7 +170,7 @@ describe("cli tool - test option handling", function() {
         captured_text.forEach(function(line) {
           if (line.includes('statistics')) {
             statisticsReported = true;
-          } 
+          }
         });
 
         // .match(/\S+/g) returns an array of all non-whitespace strings
@@ -179,7 +179,7 @@ describe("cli tool - test option handling", function() {
 
         let statsSection = captured_text.findIndex(x => x.includes('statistics'))
         expect(captured_text[statsSection+1].match(/\S+/g)[5]).toEqual('4');
-        expect(captured_text[statsSection+2].match(/\S+/g)[5]).toEqual('3');
+        expect(captured_text[statsSection+2].match(/\S+/g)[5]).toEqual('4');
 
         expect(captured_text[statsSection+4].match(/\S+/g)[0]).toEqual('1');
         expect(captured_text[statsSection+4].match(/\S+/g)[1]).toEqual('(25%)');
@@ -191,10 +191,13 @@ describe("cli tool - test option handling", function() {
         expect(captured_text[statsSection+6].match(/\S+/g)[1]).toEqual('(25%)');
 
         expect(captured_text[statsSection+9].match(/\S+/g)[0]).toEqual('2');
-        expect(captured_text[statsSection+9].match(/\S+/g)[1]).toEqual('(67%)');
+        expect(captured_text[statsSection+9].match(/\S+/g)[1]).toEqual('(50%)');
 
         expect(captured_text[statsSection+10].match(/\S+/g)[0]).toEqual('1');
-        expect(captured_text[statsSection+10].match(/\S+/g)[1]).toEqual('(33%)');
+        expect(captured_text[statsSection+10].match(/\S+/g)[1]).toEqual('(25%)');
+
+        expect(captured_text[statsSection+11].match(/\S+/g)[0]).toEqual('1');
+        expect(captured_text[statsSection+11].match(/\S+/g)[1]).toEqual('(25%)');
 
         done();
       }
@@ -207,7 +210,7 @@ describe("cli tool - test option handling", function() {
   it("should not print statistics report by default", function(done) {
 
     let captured_text = [];
-     
+
     let unhook_intercept = intercept(function(txt) {
       captured_text.push(stripAnsiFrom(txt));
       return '';

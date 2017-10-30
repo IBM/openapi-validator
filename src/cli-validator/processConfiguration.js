@@ -49,6 +49,7 @@ const getConfigObject = function (defaultMode, chalk) {
 		},
 		schemas : {
 			invalid_type_format_pair: 'error',
+			snake_case_only: 'warning',
 			no_property_description: 'warning',
 			description_mentions_json: 'warning'
 		},

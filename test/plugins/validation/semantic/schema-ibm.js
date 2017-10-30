@@ -34,7 +34,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should return an error when an array property's items does not use a well defined property type", () => {
-    
+
     const config = {
       "schemas" : {
         "invalid_type_format_pair": "error"
@@ -67,7 +67,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should not error when an array property's items is a ref", () => {
-    
+
     const config = {
       "schemas" : {
         "invalid_type_format_pair": "error"
@@ -100,7 +100,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should return an error when a response does not use a well defined property type", () => {
-    
+
     const config = {
       "schemas" : {
         "invalid_type_format_pair": "error"
@@ -130,10 +130,40 @@ describe("validation plugin - semantic - schema-ibm", () => {
     expect(res.warnings.length).toEqual(0)
   })
 
-  it("should return an error when a schema property has no description", () => {
-    
+  it("should return a warning when a property name is not snake case", () => {
+
     const config = {
       "schemas" : {
+        "snake_case_only": "warning"
+      }
+    }
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: "object",
+          properties: {
+            thingString: {
+              type: "string",
+              description: "thing string"
+            }
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(1)
+    expect(res.warnings[0].path).toEqual(["definitions", "Thing", "properties", "thingString"])
+    expect(res.warnings[0].message).toEqual("Property names must be lower snake case.")
+  })
+
+  it("should return an error when a schema property has no description", () => {
+
+    const config = {
+      "schemas" : {
+        "snake_case_only": "off",
         "no_property_description": "warning"
       }
     }
@@ -170,7 +200,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should return an error when JSON is in the description", () => {
-    
+
     const config = {
       "schemas" : {
         "description_mentions_json": "warning"
@@ -210,7 +240,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should not die when a schema contains a description property", () => {
-    
+
     const config = {
       "schemas" : {
         "invalid_type_format_pair": "error",
@@ -246,7 +276,7 @@ describe("validation plugin - semantic - schema-ibm", () => {
   })
 
   it("should not complain about anything when x-sdk-exclude is true", () => {
-    
+
     const config = {
       "schemas" : {
         "invalid_type_format_pair": "error",
