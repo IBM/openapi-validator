@@ -9,6 +9,14 @@ const commandLineValidator = require("../../../dist/src/cli-validator/runValidat
 
 describe ("cli tool - test error handling", function() {
 
+  let helpMessage = function() {
+    console.log("\n  Usage: validate-swagger [options] <file>\n\n");
+    console.log("  Options:\n");
+    console.log("    -v, --print_validator_modules  print the validators that catch each error/warning");
+    console.log("    -n, --no_colors                turn off output coloring");
+    console.log("    -h, --help                     output usage information");
+  }
+
   it ("should return an error when there is no filename given", function() {
 
     let captured_text = [];
@@ -20,13 +28,7 @@ describe ("cli tool - test error handling", function() {
 
     let program = {};
     program.args = [];
-    program.help = function() {
-      console.log("\n  Usage: validate-swagger [options] <file>\n\n");
-      console.log("  Options:\n");
-      console.log("    -v, --print_validator_modules  print the validators that catch each error/warning");
-      console.log("    -n, --no_colors                turn off output coloring");
-      console.log("    -h, --help                     output usage information");
-    }
+    program.help = helpMessage;
 
     commandLineValidator(program);
 
@@ -52,13 +54,7 @@ describe ("cli tool - test error handling", function() {
 
     let program = {};
     program.args = ["first.json", "second.yml"];
-    program.help = function() {
-      console.log("\n  Usage: validate-swagger [options] <file>\n\n");
-      console.log("  Options:\n");
-      console.log("    -v, --print_validator_modules  print the validators that catch each error/warning");
-      console.log("    -n, --no_colors                turn off output coloring");
-      console.log("    -h, --help                     output usage information");
-    }
+    program.help = helpMessage;
 
     commandLineValidator(program);
 
