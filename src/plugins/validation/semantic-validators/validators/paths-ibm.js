@@ -1,5 +1,5 @@
 // Assertation 1. If a path has a parameter, all operations must have a parameter of type
-// 'path' and name 'parameterName' ( whatever is in the {} )
+// 'path' and name 'parameterName' ( parameterName matching what is contained in curly brackets -> {} )
 
 export function validate({ jsSpec }, config) {
 
@@ -30,6 +30,7 @@ export function validate({ jsSpec }, config) {
     if (parameters) {
 
       // parameter strings will still have curly braces around them
+      //   from regex match - take them out
       parameters = parameters.map(param => {
         return param.slice(1, -1)
       })
