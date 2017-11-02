@@ -128,4 +128,24 @@ describe ("cli tool - test error handling", function() {
     expect(captured_text[0]).toEqual("\nError Invalid input file: badJson.json. See below for details.\n\n");
     expect(captured_text[1]).toEqual("JSONError: Unexpected token ';' in test/cli-validator/mockFiles/badJson.json:2:12\n\t\"hi there\"; \"its me, a bad json object\"\n\t          ^\n\n");
   });
+
+  it ("should return an error when a json file has duplicated key mappings", function() {
+
+    let captured_text = [];
+     
+    let unhook_intercept = intercept(function(txt) {
+      captured_text.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    let program = {};
+    program.args = ["./test/cli-validator/mockFiles/duplicateKeys.json"];
+    commandLineValidator(program);
+
+    unhook_intercept();
+
+    expect(captured_text.length).toEqual(2);
+    expect(captured_text[0]).toEqual("\nError Invalid input file: duplicateKeys.json. See below for details.\n\n");
+    expect(captured_text[1]).toEqual("Syntax error: duplicated keys \"version\" near sion\": \"1.\n\n");
+  });
 });

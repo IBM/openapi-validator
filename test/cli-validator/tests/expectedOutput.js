@@ -125,4 +125,39 @@ describe('cli tool - test expected output', function() {
       }
     });
   });
+
+  it ('should print an error upon catching a circular reference', function(done) {
+
+    let captured_text = [];
+
+    let unhook_intercept = intercept(function(txt) {
+        captured_text.push(stripAnsiFrom(txt));
+        return '';
+    });
+
+    let program = {};
+    program.args = ['./test/cli-validator/mockFiles/circularRefs.yml'];
+    program.default_mode = true;
+
+    Sync (function() {
+
+      commandLineValidator.sync(null, program)
+      unhook_intercept();
+
+      try {
+        expect(captured_text[0]).toEqual('\nError Circular references detected. See below for details.\n\n');
+
+        expect(captured_text[2].match(/\S+/g)[2]).toEqual('definitions.Pet.properties.category.$ref');
+        expect(captured_text[3].match(/\S+/g)[2]).toEqual('176');
+
+        expect(captured_text[6].match(/\S+/g)[2]).toEqual('definitions.Pet.properties.tags.items.$ref');
+        expect(captured_text[7].match(/\S+/g)[2]).toEqual('196');
+
+        done();
+      }
+      catch (err) {
+        done(err);
+      }
+    });
+  });
 });
