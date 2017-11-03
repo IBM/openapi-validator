@@ -1,9 +1,11 @@
 // Assertation 1:
 // The description, when present, should not be empty or contain empty space
 
-// Walks an entire spec.
 import includes from "lodash/includes"
 
+import defaults from "../../../../.defaultsForValidator.js"
+
+// Walks an entire spec.
 export function validate({ jsSpec }, config) {
   
   let result = {}
@@ -13,13 +15,11 @@ export function validate({ jsSpec }, config) {
   // maintain browser functionality
   // if no object is passed in, set to default
   if (typeof config === "undefined") {
-    config = {
-      no_empty_descriptions: "error"
-    }
+    config = defaults
   }
-  else {
-    config = config.walker
-  }
+
+  config = config.walker
+
 
   function walk(value, path) {
 

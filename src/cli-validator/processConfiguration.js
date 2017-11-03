@@ -1,18 +1,25 @@
 const readJson = require('load-json-file');
 
+const pathToSrc = __dirname + '/../';
+const defaultsFile = '.defaultsForValidator';
+
+// import the default object
+const defaultObject = require(pathToSrc + defaultsFile);
+
 const getConfigObject = function (defaultMode, chalk) {
 
 	let configObject = {};
 	let configErrors = [];
 	let validObject = true;
 
-	let filename = '.validaterc';
+	const pathToRoot = __dirname + '/../../../';
+	const filename = '.validaterc';
 
 	// if the user specified to run in default mode, no need to read the file
 	if (!defaultMode){
 		try {
 			// the config file must be in the root folder of the project
-			configObject = readJson.sync( __dirname + '/../../../' + filename);
+			configObject = readJson.sync(pathToRoot + filename);
 		}
 		catch (err) {
 
@@ -28,33 +35,6 @@ const getConfigObject = function (defaultMode, chalk) {
 				console.log(chalk.magenta(err) + '\n');
 				process.exit(1);
 			}
-		}
-	}
-
-
-	// object defining all supported categories and rules that can be configured. holds all defaults
-	let defaultObject = {
-		operations : {
-			no_consumes_for_put_or_post: 'error',
-			get_op_has_consumes: 'warning',
-			no_produces_for_get: 'error',
-			no_operation_id: 'warning',
-			no_summary: 'warning',
-			no_array_responses: "error"
-		},
-		parameters : {
-		    no_parameter_description: 'error',
-		    snake_case_only: 'warning',
-		    invalid_type_format_pair: 'error'
-		},
-		schemas : {
-			invalid_type_format_pair: 'error',
-			snake_case_only: 'warning',
-			no_property_description: 'warning',
-			description_mentions_json: 'warning'
-		},
-		walker : {
-			no_empty_descriptions : 'error'
 		}
 	}
 

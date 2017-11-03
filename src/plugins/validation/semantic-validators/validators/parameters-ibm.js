@@ -7,6 +7,8 @@
 import snakecase from "lodash/snakeCase"
 import includes from "lodash/includes"
 
+import defaults from "../../../../.defaultsForValidator"
+
 export function validate({jsSpec}, config) {
   let result = {}
   result.error = []
@@ -15,15 +17,11 @@ export function validate({jsSpec}, config) {
   // maintain browser functionality
   // if no object is passed in, set to default
   if (typeof config === "undefined") {
-    config = {
-      no_parameter_description: "error",
-      snake_case_only: "warning",
-      invalid_type_format_pair: "error"
-    }
+    config = defaults
   }
-  else {
-    config = config.parameters
-  }
+
+  config = config.parameters
+
 
   function walk(obj, path) {
     if (typeof obj !== "object" || obj === null) {
