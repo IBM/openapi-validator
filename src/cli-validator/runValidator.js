@@ -1,11 +1,12 @@
 #!/usr/bin/env node
-const fs           = require('fs');
-const readYaml     = require('read-yaml');
-const readJson     = require('load-json-file');
-const last         = require('lodash/last');
-const parser       = require('swagger-parser');
-const chalkPackage = require('chalk');
-const pad          = require('pad');
+const fs            = require('fs');
+const readYaml      = require('read-yaml');
+const readJson      = require('load-json-file');
+const last          = require('lodash/last');
+const SwaggerParser = require('swagger-parser');
+const chalkPackage  = require('chalk');
+const pad           = require('pad');
+const jsonValidator = require('json-dup-key-validator');
 
 // import the config processing module
 const config       = require('./processConfiguration');
@@ -102,11 +103,21 @@ const processInput = function (program, callback) {
     loader = readYaml;
   }
 
+  // keep the original file in string form to validate with and
+  //   to extract line numbers from
+  originalFile = fs.readFileSync(filePath, 'utf8');
+
   // ensure the file contains a valid json/yaml object before running validator
   try {
     var input = loader.sync(filePath);
     if (typeof input !== 'object') {
       throw `The given input in ${filename} is not a valid object.`;
+    }
+    // jsonValidator looks through the originalFile string for duplicate JSON keys
+    //   this is checked for by default in readYaml
+    let duplicateKeysError = jsonValidator.validate(originalFile)
+    if (fileExtension === 'json' && duplicateKeysError) {
+      throw duplicateKeysError;
     }
   }
   catch (err) {
@@ -114,11 +125,6 @@ const processInput = function (program, callback) {
     console.log(chalk.magenta(err) + '\n');
     return;
   }
-
-  // everything is valid, keep the original file in string form
-  //  to extract line numbers from
-  originalFile = fs.readFileSync(filePath, 'utf8');
-
 
   // process the config file for the validations
   let configObject = config(defaultMode, chalk);
@@ -149,11 +155,32 @@ const processInput = function (program, callback) {
 
   // dereference() resolves all references. it esentially returns the resolvedSpec,
   //   but without the $$ref tags (which are not used in the validations)
+  let parser = new SwaggerParser();
+  parser.dereference.circular = false;
   parser.dereference(input)
     .then(spec => {
       swagger.resolvedSpec = spec;
     })
     .then(() => {
+      if (parser.$refs.circular) {
+        // there are circular references, find them and return an error
+        let circularReferenceInfo = findCircularRef(swagger.jsSpec);
+
+        // ref_s_ = reference(s) - determine if plural or not
+        let ref_s_ = circularReferenceInfo.length > 1 ? 'references' : 'reference';
+
+        console.log('\n' + chalk.red('Error') + ` Circular ${ref_s_} detected. See below for details.\n`);
+
+        // print all detected cicular references
+        circularReferenceInfo.forEach(function(model) {
+          console.log(chalk.magenta(`  Model   :   ${model.name}`));
+          console.log(chalk.magenta(`  Path    :   ${model.path.join('.')}`));
+          console.log(chalk.magenta(`  Line    :   ${model.line}`));
+          console.log();
+        });
+
+        return;
+      }
       const results = validateSwagger(swagger, configObject);
       const problems = structureValidationResults(results);
       if (Object.keys(problems).length) {
@@ -172,6 +199,50 @@ const processInput = function (program, callback) {
     .catch(err => {
       console.log(err);
     });
+}
+
+// this function recursively walks the spec looking for a circular reference
+function findCircularRef(jsSpec) {
+
+  let circularReferenceInfo = [];
+
+  function walk(object, path) {
+
+    if (object === null) {
+      return null;
+    }
+
+    if (typeof object !== 'object') {
+      return null;
+    }
+
+    let keys = Object.keys(object);
+
+    if (!keys.length) {
+      return null;
+    }
+
+    return keys.forEach(function(key) {
+
+      if (key === '$ref') {
+        let ref = object[key];
+        let modelName = last(ref.split('/'));
+        if (path.includes(modelName)) {
+          path = [...path, key];
+          let lineNumber = getLineNumberForPath(originalFile, path);
+          circularReferenceInfo.push({
+            name: modelName,
+            path: path,
+            line: lineNumber
+          });
+        }
+      }
+      return walk(object[key], [...path, key]);
+    });
+  }
+
+  walk(jsSpec, []);
+  return circularReferenceInfo;
 }
 
 // this function runs the validators on the swagger object
