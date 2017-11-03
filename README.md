@@ -72,6 +72,7 @@ Rules are organized by categories. The supported categories are described below:
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | operations | Rules pertaining to [Operation Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operationObject) |
 | parameters | Rules pertaining to [Parameter Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#parameterObject) |
+| paths      | Rules pertaining to [Paths Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#pathsObject)         |
 | schemas    | Rules pertaining to [Schema Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject)       |
 | walker     | Rules pertaining to the entire spec.                                                                                              |
 
@@ -95,6 +96,11 @@ Each category contains a group of rules. The supported rules are described below
 | no_parameter_description    | Flag any parameter that does not contain a 'description' field.      |
 | snake_case_only             | Flag any parameter with a 'name' field that does not use snake case. |
 | invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat) |
+
+##### paths
+| Rule                        | Description                                                                                                  |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------ |
+| missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. |
 
 ##### schemas
 | Rule                        | Description                                                                  |
@@ -154,6 +160,11 @@ The default values for each rule are described below.
 | no_parameter_description    | error   |
 | snake_case_only             | warning |
 | invalid_type_format_pair    | error   |
+
+###### paths
+| Rule                        | Default |
+| --------------------------- | --------|
+| missing_path_parameter      | error   |
 
 ###### schemas
 | Rule                        | Default |

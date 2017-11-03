@@ -29,6 +29,9 @@ const defaults = {
     "snake_case_only": "warning",
     "invalid_type_format_pair": "error"
   },
+  "paths" : {
+    "missing_path_parameter": "error"
+  },
   "schemas" : {
     "invalid_type_format_pair": "error",
     "snake_case_only": "warning",
