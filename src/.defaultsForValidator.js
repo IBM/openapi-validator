@@ -1,4 +1,21 @@
-{
+/*
+    **********   DO NOT MODIFY THIS FILE   **********
+    
+    
+    To configure the validator, edit the '.validaterc'
+    file in the root folder of this project.
+    
+    This file contains the defaults rules for the 
+    validator. It is used to check for errors in
+    the .validaterc file and for running the 
+    validator in default mode.
+
+    NOTE: If you are contributing a validation to this code
+    base, you should add the default rule to this object.
+    In that case, please modify this file.
+*/
+
+const defaults = {
   "operations" : {
     "no_consumes_for_put_or_post": "error",
     "get_op_has_consumes": "warning",
@@ -24,4 +41,6 @@
   "walker" : {
     "no_empty_descriptions" : "error"
   }
-}
+};
+
+module.exports = defaults;

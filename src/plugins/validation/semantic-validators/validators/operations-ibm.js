@@ -22,6 +22,8 @@ import map from "lodash/map"
 import each from "lodash/each"
 import includes from "lodash/includes"
 
+import defaults from "../../../../.defaultsForValidator"
+
 export function validate({ jsSpec }, config) {
 
   let result = {}
@@ -31,18 +33,10 @@ export function validate({ jsSpec }, config) {
   // maintain browser functionality
   // if no object is passed in, set to default
   if (typeof config === "undefined") {
-    config = {
-      no_consumes_for_put_or_post: "error",
-      get_op_has_consumes: "warning",
-      no_produces_for_get: "error",
-      no_operation_id: "warning",
-      no_summary: "warning",
-      no_array_responses: "error"
-    }
+    config = defaults
   }
-  else {
-    config = config.operations
-  }
+
+  config = config.operations
 
   map(jsSpec.paths, (path, pathKey) => {
     let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])

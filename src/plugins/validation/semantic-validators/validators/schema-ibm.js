@@ -17,6 +17,8 @@ import forIn from "lodash/forIn"
 import includes from "lodash/includes"
 import snakecase from "lodash/snakeCase"
 
+import defaults from "../../../../.defaultsForValidator"
+
 export function validate({ jsSpec }, config) {
   let errors = []
   let warnings = []
@@ -26,16 +28,10 @@ export function validate({ jsSpec }, config) {
   // maintain browser functionality
   // if no object is passed in, set to default
   if (typeof config === "undefined") {
-    config = {
-      invalid_type_format_pair: "error",
-      snake_case_only: "warning",
-      no_property_description: "warning",
-      description_mentions_json: "warning"
-    }
+    config = defaults
   }
-  else {
-    config = config.schemas
-  }
+
+  config = config.schemas
 
   if(jsSpec.definitions) {
     each(jsSpec.definitions, (def, name) => {

@@ -8,3 +8,4 @@ package-lock.json
 dist/swagger-editor.js*
 dist/validation.worker.js*
 dist/src
+.validaterc
