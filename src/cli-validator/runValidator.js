@@ -113,12 +113,11 @@ const processInput = function (program, callback) {
     // keep the original file in string form to validate with and
     //   to extract line numbers from
     originalFile = fs.readFileSync(filePath, 'utf8');
-    
+
     // jsonValidator looks through the originalFile string for duplicate JSON keys
     //   this is checked for by default in readYaml
     let duplicateKeysError = jsonValidator.validate(originalFile)
     if (fileExtension === 'json' && duplicateKeysError) {
-      console.log('lalalala');
       throw duplicateKeysError;
     }
   }
