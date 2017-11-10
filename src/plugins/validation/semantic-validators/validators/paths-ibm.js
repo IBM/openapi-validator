@@ -42,7 +42,7 @@ export function validate({ jsSpec }, config) {
       let globalParameters = []
       if (operations.includes("parameters")) {
         globalParameters = path.parameters
-                           .filter(param => param.in === "path")
+                           .filter(param => param.in.toLowerCase() === "path")
                            .map(param => param.name)
       }
 
@@ -53,12 +53,15 @@ export function validate({ jsSpec }, config) {
         }
 
         let operation = path[opName]
-        let opParameters = operation.parameters
 
         // get array of 'names' for parameters of type 'path' in the operation
-        let givenParameters = opParameters
-                              .filter(param => param.in === "path")
-                              .map(param => param.name)
+        let givenParameters = []
+        if (operation.parameters) {
+          givenParameters = operation.parameters
+                            .filter(param => param.in.toLowerCase() === "path")
+                            .map(param => param.name)
+        }
+
 
         let accountsForAllParameters = true
         let missingParameters = []

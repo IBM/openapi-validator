@@ -2,6 +2,7 @@ const intercept = require("intercept-stdout");
 const expect = require("expect");
 const stripAnsiFrom = require('strip-ansi');
 const chalk = require('chalk');
+
 const configFileValidator = require("../../../dist/src/cli-validator/processConfiguration").validate;
 
 describe('cli tool - test config file validator', function() {
@@ -33,8 +34,6 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    let configString = JSON.stringify(config, null, 2);
-
     let captured_text = [];
      
     let unhook_intercept = intercept(function(txt) {
@@ -43,12 +42,10 @@ describe('cli tool - test config file validator', function() {
     });
 
     let res = configFileValidator(config, chalk);
-    let resString = JSON.stringify(res, null, 2);
 
     unhook_intercept();
 
     expect(captured_text.length).toEqual(0);
-    expect(resString).toEqual(configString);
   });
 
   it('should print an error for an unsupported category', function() {
@@ -90,7 +87,7 @@ describe('cli tool - test config file validator', function() {
     unhook_intercept();
 
     expect(captured_text[0]).toEqual('\nError Invalid configuration in .validaterc file. See below for details.\n\n');
-    expect(captured_text[1]).toEqual(' - \'nonValidCategory\' is not a valid category.\n   Valid categories are: operations, parameters, schemas, walker\n\n');
+    expect(captured_text[1].split('\n')[0]).toEqual(' - \'nonValidCategory\' is not a valid category.');
   });
 
   it('should print an error for an unsupported rule name', function() {
@@ -132,7 +129,7 @@ describe('cli tool - test config file validator', function() {
     unhook_intercept();
 
     expect(captured_text[0]).toEqual('\nError Invalid configuration in .validaterc file. See below for details.\n\n');
-    expect(captured_text[1]).toEqual(' - \'nonValidRule\' is not a valid rule for the operations category\n   Valid rules are: no_consumes_for_put_or_post, get_op_has_consumes, no_produces_for_get, no_operation_id, no_summary, no_array_responses\n\n');
+    expect(captured_text[1].split('\n')[0]).toEqual(' - \'nonValidRule\' is not a valid rule for the operations category');
   });
 
   it('should print an error for an unsupported rule status', function() {
