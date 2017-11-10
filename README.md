@@ -60,7 +60,7 @@ _Currently, this tool only runs semantic validations._
 
 ### Configuration
 
-The command line validator is built so that each IBM validation can be configured.
+The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, create a file in the root directory of this project with the name `.validaterc` and continue reading this section.
 
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
 
@@ -74,6 +74,8 @@ Rules are organized by categories. The supported categories are described below:
 | parameters | Rules pertaining to [Parameter Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#parameterObject) |
 | paths      | Rules pertaining to [Paths Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#pathsObject)         |
 | schemas    | Rules pertaining to [Schema Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject)       |
+| security_definitions | Rules pertaining to [Security Definition Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject) |
+| security   | Rules pertaining to [Security Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject) |
 | walker     | Rules pertaining to the entire spec.                                                                                              |
 
 #### Rules
@@ -110,6 +112,16 @@ Each category contains a group of rules. The supported rules are described below
 | no_property_description     | Flag any schema that contains a 'property' without a 'description' field.    |
 | description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'. |
 
+##### security_definitions
+| Rule                        | Description                                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------- |
+| unused_security_schemes     | Flag any security scheme defined in securityDefinitions that is not used in the spec. |
+| unused_security_scopes      | Flag any security scope defined in securityDefinitions that is not used in the spec.  |
+
+##### security
+| Rule                             | Description                                                  |
+| -------------------------------- | ------------------------------------------------------------ |
+| invalid_non_empty_security_array | Flag any non-empty security array this is not of type OAuth2 |
 
 ##### walker
 | Rule                        | Description                                                                  |
@@ -130,7 +142,7 @@ The configuration file must be structured as a JSON object with categories as fi
 
 If a rule is not included in the file, that rule will be set to the default status automatically. See the [Default Values](#default-values) for more info.
 
-An [example file](https://github.ibm.com/MIL/swagger-editor-ibm/blob/master/.validaterc) is included in the repo to get started with.
+For an example of the structure, see the [defaults file](https://github.ibm.com/MIL/swagger-editor-ibm/blob/master/src/.defaultsForValidator.js). The JSON object in this file can be copied and pasted into the .validaterc file to get started configuring the validator.
 
 #### Default Mode
 
@@ -174,6 +186,16 @@ The default values for each rule are described below.
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 
+###### security_definitions
+| Rule                        | Default |
+| --------------------------- | --------|
+| unused_security_schemes     | warning |
+| unused_security_scopes      | warning |
+
+###### security
+| Rule                             | Default |
+| -------------------------------- | ------- |
+| invalid_non_empty_security_array | error   |
 
 ###### walker
 | Rule                        | Default |
