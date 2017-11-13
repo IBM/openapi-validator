@@ -178,9 +178,12 @@ describe("cli tool - test option handling", function() {
         expect(statisticsReported).toEqual(true);
 
         let statsSection = captured_text.findIndex(x => x.includes('statistics'))
-        expect(captured_text[statsSection+1].match(/\S+/g)[5]).toEqual('4');
-        expect(captured_text[statsSection+2].match(/\S+/g)[5]).toEqual('4');
 
+        // totals
+        expect(captured_text[statsSection+1].match(/\S+/g)[5]).toEqual('4');
+        expect(captured_text[statsSection+2].match(/\S+/g)[5]).toEqual('5');
+
+        // errors
         expect(captured_text[statsSection+4].match(/\S+/g)[0]).toEqual('1');
         expect(captured_text[statsSection+4].match(/\S+/g)[1]).toEqual('(25%)');
 
@@ -190,14 +193,18 @@ describe("cli tool - test option handling", function() {
         expect(captured_text[statsSection+6].match(/\S+/g)[0]).toEqual('1');
         expect(captured_text[statsSection+6].match(/\S+/g)[1]).toEqual('(25%)');
 
+        // warnings
         expect(captured_text[statsSection+9].match(/\S+/g)[0]).toEqual('2');
-        expect(captured_text[statsSection+9].match(/\S+/g)[1]).toEqual('(50%)');
+        expect(captured_text[statsSection+9].match(/\S+/g)[1]).toEqual('(40%)');
 
         expect(captured_text[statsSection+10].match(/\S+/g)[0]).toEqual('1');
-        expect(captured_text[statsSection+10].match(/\S+/g)[1]).toEqual('(25%)');
+        expect(captured_text[statsSection+10].match(/\S+/g)[1]).toEqual('(20%)');
 
         expect(captured_text[statsSection+11].match(/\S+/g)[0]).toEqual('1');
-        expect(captured_text[statsSection+11].match(/\S+/g)[1]).toEqual('(25%)');
+        expect(captured_text[statsSection+11].match(/\S+/g)[1]).toEqual('(20%)');
+
+        expect(captured_text[statsSection+12].match(/\S+/g)[0]).toEqual('1');
+        expect(captured_text[statsSection+12].match(/\S+/g)[1]).toEqual('(20%)');
 
         done();
       }

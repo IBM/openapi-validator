@@ -16,7 +16,7 @@
 */
 
 const defaults = {
-  "operations" : {
+  "operations": {
     "no_consumes_for_put_or_post": "error",
     "get_op_has_consumes": "warning",
     "no_produces_for_get": "error",
@@ -24,21 +24,28 @@ const defaults = {
     "no_summary": "warning",
     "no_array_responses": "error"
   },
-  "parameters" : {
+  "parameters": {
     "no_parameter_description": "error",
     "snake_case_only": "warning",
     "invalid_type_format_pair": "error"
   },
-  "paths" : {
+  "paths": {
     "missing_path_parameter": "error"
   },
-  "schemas" : {
+  "schemas": {
     "invalid_type_format_pair": "error",
     "snake_case_only": "warning",
     "no_property_description": "warning",
     "description_mentions_json": "warning"
   },
-  "walker" : {
+  "security_definitions": {
+    "unused_security_schemes": "warning",
+    "unused_security_scopes": "warning"
+  },
+  "security": {
+    "invalid_non_empty_security_array": "error"
+  },
+  "walker": {
     "no_empty_descriptions" : "error"
   }
 };
