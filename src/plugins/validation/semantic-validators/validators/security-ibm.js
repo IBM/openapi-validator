@@ -44,7 +44,20 @@ export function validate({ jsSpec }, config) {
 
     security.forEach(schemeObject => {
 
-      const schemeName = Object.keys(schemeObject)[0]
+      // each object in this array should only have one key - the name of the scheme
+      const schemeNames = Object.keys(schemeObject)
+      const schemeName = schemeNames[0]
+
+      // if there is more than one key, they will be ignored. the structural validator should
+      // catch these but in case the spec changes in later versions of swagger,
+      // a non-configurable warning should be printed to alert the user
+      if (schemeNames.length > 1) {
+        result.warning.push({
+          path,
+          message: "The validator expects only 1 key-value pair for each object in a security array."
+        })
+      }
+
       const isNonEmptyArray = schemeObject[schemeName].length > 0
       const schemeIsDefined = jsSpec.securityDefinitions[schemeName]
 

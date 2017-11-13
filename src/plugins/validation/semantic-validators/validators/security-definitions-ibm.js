@@ -63,11 +63,11 @@ export function validate({ jsSpec }, config) {
   })
 
 
-  function flagUsedDefinitions(securityArray) {
+  function flagUsedDefinitions(security, ) {
 
-    securityArray.forEach(scheme => {
+    security.forEach(scheme => {
 
-      // each object in this array has only one key - the name of the scheme
+      // each object in this array should only have one key - the name of the scheme
       const name = Object.keys(scheme)[0]
 
       // make sure this scheme was in the securityDefinitions, then label as used

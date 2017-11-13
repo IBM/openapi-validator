@@ -1,7 +1,7 @@
 // Assertation 1. If a path has a parameter, all operations must have a parameter of type
 // 'path' and name 'parameterName' ( parameterName matching what is contained in curly brackets -> {} )
 
-export function validate({ jsSpec }, config) {
+export function validate({ resolvedSpec }, config) {
 
   let result = {}
   result.error = []
@@ -18,7 +18,7 @@ export function validate({ jsSpec }, config) {
     config = config.paths
   }
 
-  let pathNames = Object.keys(jsSpec.paths)
+  let pathNames = Object.keys(resolvedSpec.paths)
 
   pathNames.forEach(pathName => {
 
@@ -35,7 +35,7 @@ export function validate({ jsSpec }, config) {
         return param.slice(1, -1)
       })
 
-      let path = jsSpec.paths[pathName]
+      let path = resolvedSpec.paths[pathName]
       let operations = Object.keys(path)
       
       // paths can have a global parameters object that applies to all operations

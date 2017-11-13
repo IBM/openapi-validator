@@ -45,7 +45,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
       }
     }
 
-    let res = validate({ jsSpec: spec }, config)
+    let res = validate({ resolvedSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
     expect(res.warnings.length).toEqual(0)
     expect(res.errors[0].path).toEqual("paths./CoolPath/{id}.post.parameters")
@@ -104,7 +104,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
       }
     }
 
-    let res = validate({ jsSpec: spec }, config)
+    let res = validate({ resolvedSpec: spec }, config)
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
