@@ -1,9 +1,11 @@
+require("babel-polyfill");
+
 const intercept = require("intercept-stdout");
 const expect = require("expect");
 const stripAnsiFrom = require('strip-ansi');
 const chalk = require('chalk');
 
-const configFileValidator = require("../../../dist/src/cli-validator/processConfiguration").validate;
+const configFileValidator = require("../../../dist/src/cli-validator/utils/processConfiguration").validate;
 
 describe('cli tool - test config file validator', function() {
 
@@ -45,6 +47,7 @@ describe('cli tool - test config file validator', function() {
 
     unhook_intercept();
 
+    expect(res.invalid).toEqual(false);
     expect(captured_text.length).toEqual(0);
   });
 
@@ -86,6 +89,7 @@ describe('cli tool - test config file validator', function() {
 
     unhook_intercept();
 
+    expect(res.invalid).toEqual(true);
     expect(captured_text[0]).toEqual('\nError Invalid configuration in .validaterc file. See below for details.\n\n');
     expect(captured_text[1].split('\n')[0]).toEqual(' - \'nonValidCategory\' is not a valid category.');
   });
@@ -128,6 +132,7 @@ describe('cli tool - test config file validator', function() {
 
     unhook_intercept();
 
+    expect(res.invalid).toEqual(true);
     expect(captured_text[0]).toEqual('\nError Invalid configuration in .validaterc file. See below for details.\n\n');
     expect(captured_text[1].split('\n')[0]).toEqual(' - \'nonValidRule\' is not a valid rule for the operations category');
   });
@@ -170,6 +175,7 @@ describe('cli tool - test config file validator', function() {
 
     unhook_intercept();
 
+    expect(res.invalid).toEqual(true);
     expect(captured_text[0]).toEqual('\nError Invalid configuration in .validaterc file. See below for details.\n\n');
     expect(captured_text[1]).toEqual(' - \'nonValidStatus\' is not a valid status for the no_empty_descriptions rule in the walker category.\n   For any rule, the only valid statuses are: error, warning, off\n\n');
   });
@@ -226,6 +232,7 @@ describe('cli tool - test config file validator', function() {
     let defaultSchemas = JSON.stringify(defaults.schemas, null, 2);
     let configSchemas = JSON.stringify(res.schemas, null, 2);
 
+    expect(res.invalid).toEqual(false);
     expect(captured_text.length).toEqual(0);
     expect(defaultSchemas).toEqual(configSchemas);
   });

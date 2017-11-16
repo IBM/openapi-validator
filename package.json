@@ -46,6 +46,7 @@
     "watch": "webpack --config  ./webpack-dist.config.js --watch --progress"
   },
   "dependencies": {
+    "babel-polyfill": "^6.26.0",
     "boron": "^0.2.3",
     "bowser": "1.6.1",
     "chalk": "^2.1.0",
@@ -57,7 +58,6 @@
     "json-beautify": "^1.0.1",
     "json-dup-key-validator": "^1.0.2",
     "jsonschema": "^1.1.0",
-    "load-json-file": "^3.0.0",
     "pad": "^2.0.1",
     "react": "^15.x",
     "react-addons-css-transition-group": "^15.4.2",
@@ -66,7 +66,6 @@
     "react-file-download": "^0.3.2",
     "react-redux": "^4.x.x",
     "react-transition-group": "^1.1.1",
-    "read-yaml": "^1.1.0",
     "redux": "^3.x.x",
     "require-all": "^2.2.0",
     "swagger-client": "3.0.16",
