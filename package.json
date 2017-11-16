@@ -126,7 +126,6 @@
     "standard-loader": "^5.0.0",
     "strip-ansi": "^4.0.0",
     "style-loader": "0.13.0",
-    "sync": "^0.2.5",
     "url-loader": "0.5.6",
     "webpack": "^1.14.0",
     "webpack-bundle-size-analyzer": "^2.5.0",
