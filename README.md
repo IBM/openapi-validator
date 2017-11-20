@@ -14,8 +14,8 @@ To run a local instance with validation and hot-reload funcationlity then invoke
 To run the tests then invoke `npm run test`.
 
 ##### Prerequisites
-- Node 6.x
-- NPM 3.x
+- Node 8.9.x
+- NPM 5.x
 
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
 

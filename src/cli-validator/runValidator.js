@@ -1,43 +1,39 @@
 #!/usr/bin/env node
+const util          = require('util');
 const fs            = require('fs');
-const readYaml      = require('read-yaml');
-const readJson      = require('load-json-file');
+const readYaml      = require('js-yaml');
 const last          = require('lodash/last');
 const SwaggerParser = require('swagger-parser');
 const chalkPackage  = require('chalk');
-const pad           = require('pad');
 const jsonValidator = require('json-dup-key-validator');
 
 // import the config processing module
-const config       = require('./processConfiguration');
+const config = require('./utils/processConfiguration');
 
-// import the validators
-const semanticValidators = require('require-all')(__dirname + '/../plugins/validation/semantic-validators/validators');
-const structuralValidator = require(__dirname + '/../plugins/validation/structural-validation/validator');
+// import the circular references handler module
+const handleCircularReferences = require('./utils/handleCircularReferences');
+
+// import the validator
+const validator = require('./utils/validator');
+
+// import the printing module
+const print = require('./utils/printResults');
 
 // get the api schema to perform structural validation against
 const apiSchema = require(__dirname + '/../plugins/validation/apis/schema').default;
 
-// get line-number-producing, 'magic' code from Swagger Editor 
-const getLineNumberForPath = require(__dirname + '/../plugins/ast/ast').getLineNumberForPath;
-
-// set up variables that need to be global
-let printValidators = false;
-let chalk = undefined;
-let originalFile = '';
-let reportingStats = false;
-
-// this function processes the input, does the error handling, and acts as the main function for the program
-const processInput = function (program, callback) {
+// this function processes the input, does the error handling,
+//  and acts as the main function for the program
+const processInput = async function (program) {
 
   let args = program.args;
 
   // interpret the options
-  printValidators = !! program.print_validator_modules;
-  reportingStats = !! program.report_statistics;
+  const printValidators = !! program.print_validator_modules;
+  const reportingStats = !! program.report_statistics;
   
-  let turnOffColoring = !! program.no_colors;
-  let defaultMode = !! program.default_mode;
+  const turnOffColoring = !! program.no_colors;
+  const defaultMode = !! program.default_mode;
 
   // turn on coloring by default
   let colors = true;
@@ -46,13 +42,16 @@ const processInput = function (program, callback) {
     colors = false;
   }
 
-  chalk = new chalkPackage.constructor({enabled: colors});
+  const chalk = new chalkPackage.constructor({enabled: colors});
 
   // require that exactly one filename is passed in
   if (args.length !== 1) {
-    console.log('\n' + chalk.red('Error') + ' Exactly one file must be passed as an argument. See usage details below:');
+    console.log(
+      '\n' + chalk.red('Error') + 
+      ' Exactly one file must be passed as an argument. See usage details below:'
+    );
     program.help();
-    return;
+    return Promise.reject(2);
   }
 
   // interpret the arguments
@@ -68,7 +67,6 @@ const processInput = function (program, callback) {
   // get the actual file name to use in error messages
   const filename = last(filePath.split('/'));
 
-
   // determine if file is json or yaml by extension
   // only allow files with a supported extension
   const supportedFileTypes = ['json', 'yml', 'yaml'];
@@ -82,37 +80,40 @@ const processInput = function (program, callback) {
     badExtension = true;
   }
   else if (!supportedFileTypes.includes(fileExtension)) {
-    console.log('\n' + chalk.red('Error') + ' Invalid file extension: ' + chalk.red('.' + fileExtension) );
+    console.log(
+      '\n' + chalk.red('Error') +
+      ' Invalid file extension: ' + chalk.red('.' + fileExtension)
+    );
     badExtension = true;
   }
 
   if (badExtension) {
-    console.log(chalk.magenta('Supported file types are JSON (.json) and YAML (.yml, .yaml)\n'));
-    return; 
-  }
-
-  // prep a variable to contain either a json or yaml file loader
-  let loader = null;
-
-  // both readJson and readYaml have 'sync' methods for synchronously
-  //   reading their respective file types
-  if (fileExtension === 'json') {
-    loader = readJson;
-  }
-  else if (fileExtension === 'yaml' || fileExtension === "yml") {
-    loader = readYaml;
+    console.log(
+      chalk.magenta('Supported file types are JSON (.json) and YAML (.yml, .yaml)\n')
+    );
+    return Promise.reject(2); 
   }
 
   // ensure the file contains a valid json/yaml object before running validator
+
+  // fs module does not return promises by default
+  // create a version of the 'readFile' function that does
+  const readFile = util.promisify(fs.readFile);
+  let originalFile;
+  let input;
   try {
-    var input = loader.sync(filePath);
+    originalFile = await readFile(filePath, 'utf8');
+
+    if (fileExtension === 'json') {
+      input = JSON.parse(originalFile)
+    }
+    else if (fileExtension === 'yaml' || fileExtension === "yml") {
+      input = readYaml.safeLoad(originalFile);
+    }
+
     if (typeof input !== 'object') {
       throw `The given input in ${filename} is not a valid object.`;
     }
-
-    // keep the original file in string form to validate with and
-    //   to extract line numbers from
-    originalFile = fs.readFileSync(filePath, 'utf8');
 
     // jsonValidator looks through the originalFile string for duplicate JSON keys
     //   this is checked for by default in readYaml
@@ -122,19 +123,29 @@ const processInput = function (program, callback) {
     }
   }
   catch (err) {
-    console.log('\n' + chalk.red('Error') + ' Invalid input file: ' + chalk.red(filename) + '. See below for details.\n');
+    console.log(
+      '\n' + chalk.red('Error') + 
+      ' Invalid input file: ' + chalk.red(filename) + 
+      '. See below for details.\n'
+    );
     console.log(chalk.magenta(err) + '\n');
-    return;
+    return Promise.reject(2);
   }
 
   // process the config file for the validations
-  let configObject = config(defaultMode, chalk);
-
+  let configObject;
+  try {
+    configObject = await config(defaultMode, chalk);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+  
 
   // initialize an object to be passed through all the validators
-  let swagger = {};
+  const swagger = {};
 
-  // the structural validation expects a settings object describing which schemas to validate against
+  // the structural validation expects a `settings` object
+  //  describing which schemas to validate against
   swagger.settings = {
     schemas: [apiSchema],
     testSchema: apiSchema
@@ -158,281 +169,29 @@ const processInput = function (program, callback) {
   //   but without the $$ref tags (which are not used in the validations)
   let parser = new SwaggerParser();
   parser.dereference.circular = false;
-  parser.dereference(input)
-    .then(spec => {
-      swagger.resolvedSpec = spec;
-    })
-    .then(() => {
-      if (parser.$refs.circular) {
-        // there are circular references, find them and return an error
-        let circularReferenceInfo = findCircularRef(swagger.jsSpec);
+  swagger.resolvedSpec = await parser.dereference(input);
 
-        // ref_s_ = reference(s) - determine if plural or not
-        let ref_s_ = circularReferenceInfo.length > 1 ? 'references' : 'reference';
+  // define an exit code to return. this will tell the parent program whether
+  // the validator passed or not
+  let exitCode = 0;
 
-        console.log('\n' + chalk.red('Error') + ` Circular ${ref_s_} detected. See below for details.\n`);
-
-        // print all detected cicular references
-        circularReferenceInfo.forEach(function(model) {
-          console.log(chalk.magenta(`  Model   :   ${model.name}`));
-          console.log(chalk.magenta(`  Path    :   ${model.path.join('.')}`));
-          console.log(chalk.magenta(`  Line    :   ${model.line}`));
-          console.log();
-        });
-
-        return;
-      }
-      const results = validateSwagger(swagger, configObject);
-      const problems = structureValidationResults(results);
-      if (Object.keys(problems).length) {
-        printInfo(problems);
-      }
-    })
-    .then(() => {
-      // don't end the function until everything is printed - for testing
-      if (callback) {
-        callback();
-      }
-      else {
-        return;
-      }
-    })
-    .catch(err => {
-      console.log(err);
-    });
-}
-
-// this function recursively walks the spec looking for a circular reference
-function findCircularRef(jsSpec) {
-
-  let circularReferenceInfo = [];
-
-  function walk(object, path) {
-
-    if (object === null) {
-      return null;
-    }
-
-    if (typeof object !== 'object') {
-      return null;
-    }
-
-    let keys = Object.keys(object);
-
-    if (!keys.length) {
-      return null;
-    }
-
-    return keys.forEach(function(key) {
-
-      if (key === '$ref') {
-        let ref = object[key];
-        let modelName = last(ref.split('/'));
-        if (path.includes(modelName)) {
-          path = [...path, key];
-          let lineNumber = getLineNumberForPath(originalFile, path);
-          circularReferenceInfo.push({
-            name: modelName,
-            path: path,
-            line: lineNumber
-          });
-        }
-      }
-      return walk(object[key], [...path, key]);
-    });
+  if (parser.$refs.circular) {
+    // there are circular references, find them and return an error
+    handleCircularReferences(swagger.jsSpec, originalFile, chalk);
+    return Promise.reject(2);
   }
 
-  walk(jsSpec, []);
-  return circularReferenceInfo;
-}
 
-// this function runs the validators on the swagger object
-function validateSwagger(allSpecs, config) {
+  // run validator, print the results, and determine if validator passed
+  const results = validator(swagger, configObject);
+  if (!results.cleanSwagger) {
+    print(results, chalk, printValidators, reportingStats, originalFile);
+    exitCode = 1;
+  }
   
-  // use an object to make it easier to incorporate structural validations
-  let validationResults = {};
 
-  // run semantic validators
-  const semanticResults = Object.keys(semanticValidators).map(key => {
-    let problem = semanticValidators[key].validate(allSpecs, config);
-    problem.validation = key;
-    return problem
-  });
-
-  // if there were no errors or warnings, don't bother passing along
-  validationResults.semantic = semanticResults.filter(res => res.errors.length || res.warnings.length);
-
-
-  // run structural validator
-  // all structural problems are errors
-  let structuralProblems = [];
-  let structuralValidations = {};
-
-  validationResults.structural = [];
-  
-  const structuralResults = structuralValidator.validate(allSpecs);
-
-  Object.keys(structuralResults).forEach(key => {
-    let message = `Schema error: ${structuralResults[key].message}`;
-    let path = structuralResults[key].path;
-    structuralProblems.push({message, path});
-  });
-
-  // format the structural validations in the same way as the semantic
-  if (structuralProblems.length) {
-    structuralValidations.errors = structuralProblems;
-    structuralValidations.validation = 'structural-validator';
-    validationResults.structural.push(structuralValidations);
-  }
-
- 
-  return validationResults;
-}
-
-// this function takes the results from the validation and structures them into a more organized format
-function structureValidationResults(rawResults) {
-  // rawResults = { semantic: [], structural: [] }
-  let structuredResults = {};
-
-  const semantic = rawResults.semantic;
-  const structural = rawResults.structural;
-
-  if (semantic.length) {
-    structuredResults.errors = semantic.filter(obj => obj.errors.length);
-    structuredResults.warnings = semantic.filter(obj => obj.warnings.length);
-  }
-
-  if (structural.length) {
-    if (!structuredResults.errors) {
-      structuredResults.errors = [];
-    }
-    structuredResults.errors.push(...structural);
-  }
-
-  return structuredResults;
-}
-
-// this function prints all of the output
-function printInfo(problems) {
-
-  let types = ['errors', 'warnings'];
-  let colors = {
-    errors: 'bgRed',
-    warnings: 'bgYellow'
-  };
-
-
-  // define an object template in the case that statistics reporting is turned on
-  let stats = {
-    errors: {
-      total: 0
-    },
-    warnings: {
-      total: 0
-    }
-  };
-
-  console.log();
-
-  types.forEach(type => {
-
-    if (problems[type] && problems[type].length) {
-
-      // problems is an array of objects with errors, warnings, and validation properties
-      // but none of the type (errors or warnings) properties are empty
-
-      let color = colors[type];
-
-      console.log(chalk[color].bold(`${type}\n`));
-
-      // convert 'color' from a background color to foreground color
-      color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
-
-      problems[type].forEach(object => {
-
-        if (printValidators) {
-          console.log(chalk.underline(`Validator: ${object.validation}`));
-        }
-
-        object[type].forEach(problem => {
-
-          let path = problem.path;
-          let message = problem.message;
-
-          // collect info for stats reporting, if applicable
-
-          stats[type].total += 1;
-
-          if (!stats[type][message]) {
-            stats[type][message] = 0;
-          }
-
-          stats[type][message] += 1;
-
-          // path needs to be an array to get the line number
-          if (!Array.isArray(path)) {
-            path = path.split('.');
-          }
-
-          // get line number from the path of strings to the problem
-          // as they say in src/plugins/validation/semantic-validators/hook.js,
-          //
-          //                  "it's magic!"
-          //
-          let lineNumber = getLineNumberForPath(originalFile, path);
-
-          // print the path array as a dot-separated string
-          console.log(chalk[color](`  Message :   ${problem.message}`));
-          console.log(chalk[color](`  Path    :   ${path.join('.')}`));
-          console.log(chalk[color](`  Line    :   ${lineNumber}`));
-          console.log();
-
-        });
-      });
-    }
-  });
-
-  // print the stats here, if applicable
-  if (reportingStats && (stats.errors.total || stats.warnings.total)) {
-    console.log(chalk.bgCyan('statistics\n'));
-
-    console.log(chalk.cyan(`  Total number of errors   : ${stats.errors.total}`));
-    console.log(chalk.cyan(`  Total number of warnings : ${stats.warnings.total}\n`));
-
-    types.forEach(type => {
-
-      // print the type, either error or warning
-      if (stats[type].total) {
-        console.log('  ' + chalk.underline.cyan(type));
-      }
-
-      Object.keys(stats[type]).forEach(message => {
-
-        if (message !== 'total') {
-          // calculate percentage
-          let number = stats[type][message];
-          let total = stats[type].total;
-          let percentage = (Math.round(number / total * 100)).toString();
-
-          // pad(<number>, <string>) right-aligns <string> to the <number>th column, padding with spaces
-          // use 4, two for the appended spaces of every line and two for the number
-          //   (assuming errors/warnings won't go to triple digits)
-          let numberString = pad(4, number.toString());
-          // use 6 for largest case of '(100%)'
-          let frequencyString = pad(6, `(${percentage}%)`);
-
-          console.log(chalk.cyan(`${numberString} ${frequencyString} : ${message}`));
-        }
-      });
-      if (stats[type].total) {
-        console.log();
-      }
-    });
-  }
-
-  return;
+  return exitCode;
 }
 
 // this exports the entire program so it can be used or tested
 module.exports = processInput;
-
