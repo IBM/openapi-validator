@@ -5,7 +5,8 @@ const cliValidator = require('./runValidator');
 
 // set up the command line options
 program
-  .usage('[options] <file>')
+  .description('Run the validator on a specified file')
+  .arguments('[<file>]')
   .option(
     '-v, --print_validator_modules',
     'print the validators that catch each error/warning'
@@ -22,7 +23,13 @@ program
     '-s, --report_statistics',
     'report the frequency of each occurring error/warning'
   )
-  .parse(process.argv)
+
+program
+  .command('init')
+  .description('Initialize/reset the .validaterc file')
+
+
+program.parse(process.argv)
 
 // run the program
 cliValidator(program)
