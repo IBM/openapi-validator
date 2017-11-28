@@ -42,7 +42,7 @@ Note: This creates a symbolic link so if this project folder is moved, the tool 
 
 ### Usage
 
-`validate-swagger [options] <file>`
+`validate-swagger [options] [command] [<file>]`
 
 #### [options]
 
@@ -52,6 +52,14 @@ Note: This creates a symbolic link so if this project folder is moved, the tool 
 -  -s (report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
 -  -h (help) : This option prints the usage menu.
 
+_These options only apply to running the validator on a file, not to any commands._
+
+#### [command]
+
+- init : The `init` command initializes a .validaterc file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
+
+None of the above options pertain to this command.
+
 #### \<file>
 
 - The Swagger file to be validated. It must be a valid JSON or YAML file (only .json, .yml, and .yaml file extensions are supported).
@@ -60,9 +68,16 @@ _Currently, this tool only runs semantic validations._
 
 ### Configuration
 
-The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, create a file in the root directory of this project with the name `.validaterc` and continue reading this section.
+The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a file in the root directory of this project with the name `.validaterc` and continue reading this section.
 
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
+
+#### Setup
+
+To set up the configuration capability, simply run the command `validate-swagger init`
+This will create a .validaterc file with all rules set to their [default value](#default-values). These rules can then be changed to configure the validator. Continue reading for more details.
+
+Note: If a .validaterc file already exists and has been customized, this command will reset all rules to their default values.
 
 #### Categories
 

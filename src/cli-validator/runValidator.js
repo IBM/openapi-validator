@@ -22,6 +22,9 @@ const print = require('./utils/printResults');
 // get the api schema to perform structural validation against
 const apiSchema = require(__dirname + '/../plugins/validation/apis/schema').default;
 
+// import the init module for creating a .validaterc file
+const init = require('./utils/init.js');
+
 // this function processes the input, does the error handling,
 //  and acts as the main function for the program
 const processInput = async function (program) {
@@ -52,6 +55,17 @@ const processInput = async function (program) {
     );
     program.help();
     return Promise.reject(2);
+  }
+
+  // if the 'init' command is given, run the module
+  // and exit the program
+  if (args[0] === 'init') {
+    try {
+      await init(chalk);
+      return Promise.resolve(0);
+    } catch (err) {
+      return Promise.reject(2);
+    }
   }
 
   // interpret the arguments
