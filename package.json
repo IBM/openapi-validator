@@ -1,7 +1,7 @@
 {
   "name": "swagger-validator-ibm",
   "description": "Swagger Validator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "main": "src/index.js",
   "repository": "https://github.ibm.com/dustinpopp/swagger-validator-ibm.git",
   "license": "Apache-2.0",
