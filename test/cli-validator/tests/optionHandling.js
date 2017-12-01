@@ -29,7 +29,7 @@ describe("cli tool - test option handling", function() {
  
     captured_text.forEach(function(line) {
       if (line !== '\n') {
-        expect(line).toNotEqual(stripAnsiFrom(line));
+        expect(line).not.toEqual(stripAnsiFrom(line));
       }
     });
   });

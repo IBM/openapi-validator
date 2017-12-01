@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "plugins/validation/semantic-validators/validators/schema-ibm"
+import { validate } from "../../../../src/plugins/validation/semantic-validators/validators/schema-ibm"
 
 describe("validation plugin - semantic - schema-ibm", () => {
 
