@@ -64,8 +64,6 @@ None of the above options pertain to this command.
 
 - The Swagger file to be validated. It must be a valid JSON or YAML file (only .json, .yml, and .yaml file extensions are supported).
 
-_Currently, this tool only runs semantic validations._
-
 ### Configuration
 
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a file in the root directory of this project with the name `.validaterc` and continue reading this section.
