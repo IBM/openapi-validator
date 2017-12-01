@@ -1,7 +1,7 @@
 {
   "name": "swagger-validator-ibm",
   "description": "Swagger Validator",
-  "version": "1.0.2",
+  "version": "1.0.0",
   "main": "src/index.js",
   "repository": "https://github.ibm.com/dustinpopp/swagger-validator-ibm.git",
   "license": "Apache-2.0",
@@ -25,7 +25,8 @@
     "matcher": "^1.0.0",
     "pad": "^2.0.3",
     "require-all": "^2.2.0",
-    "swagger-parser": "^3.4.2"
+    "swagger-parser": "^3.4.2",
+    "yaml-js": "^0.1.4"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -35,8 +36,7 @@
     "husky": "^0.14.3",
     "intercept-stdout": "^0.1.2",
     "mocha": "^3.2.0",
-    "strip-ansi": "^4.0.0",
-    "yaml-js": "^0.1.4"
+    "strip-ansi": "^4.0.0"
   },
   "bin": {
     "lint-swagger": "./dist/src/cli-validator/index.js"
