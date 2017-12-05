@@ -49,5 +49,5 @@ cliValidator(program)
 //    in the Swagger file
 //
 // err
-// 2: the program encountered a runtime error that prevented
-//    the validator from running 
+// 2: the program encountered an error that prevented
+//    the validator from running on any files 

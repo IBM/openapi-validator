@@ -6,17 +6,12 @@ const last          = require('lodash/last');
 const SwaggerParser = require('swagger-parser');
 const chalkPackage  = require('chalk');
 const jsonValidator = require('json-dup-key-validator');
+const globby        = require('globby');
 
-// import the config processing module
+const ext = require('./utils/fileExtensionValidator');
 const config = require('./utils/processConfiguration');
-
-// import the circular references handler module
 const handleCircularReferences = require('./utils/handleCircularReferences');
-
-// import the validator
 const validator = require('./utils/validator');
-
-// import the printing module
 const print = require('./utils/printResults');
 
 // get the api schema to perform structural validation against
@@ -30,6 +25,12 @@ const init = require('./utils/init.js');
 const processInput = async function (program) {
 
   let args = program.args;
+
+  // require that arguments are passed in
+  if (args.length === 0) {
+    program.help();
+    return Promise.reject(2);
+  }
 
   // interpret the options
   const printValidators = !! program.print_validator_modules;
@@ -47,16 +48,6 @@ const processInput = async function (program) {
 
   const chalk = new chalkPackage.constructor({enabled: colors});
 
-  // require that exactly one filename is passed in
-  if (args.length !== 1) {
-    console.log(
-      '\n' + chalk.red('Error') + 
-      ' Exactly one file must be passed as an argument. See usage details below:'
-    );
-    program.help();
-    return Promise.reject(2);
-  }
-
   // if the 'init' command is given, run the module
   // and exit the program
   if (args[0] === 'init') {
@@ -68,81 +59,53 @@ const processInput = async function (program) {
     }
   }
 
-  // interpret the arguments
-  let filePath = args[0];
-
-  // generate an absolute path if a relative path is given
-  const isAbsolutePath = filePath[0] === '/';
-
-  if (!isAbsolutePath) {
-    filePath = process.cwd() + '/' + filePath;
-  }
-
-  // get the actual file name to use in error messages
-  const filename = last(filePath.split('/'));
-
-  // determine if file is json or yaml by extension
-  // only allow files with a supported extension
+  // otherwise, run the validator on the passed in files
+  // first, process the given files to handle bad input
   const supportedFileTypes = ['json', 'yml', 'yaml'];
-  const fileExtension = last(filename.split('.')).toLowerCase();
-  const hasExtension = filename.includes('.');
+  const properExtensions = [];
+  let unsupportedExtensionsFound = false;
+  args.forEach(match => {
+    const filename = last(match.split('/'));
+    if (ext.supportedFileExtension(filename, supportedFileTypes)) {
+      properExtensions.push(match);
+    } else {
+      if (!unsupportedExtensionsFound) console.log();
+      unsupportedExtensionsFound = true;
+      console.log(
+        chalk.yellow('Warning') + 
+        ` Skipping file with unsupported file type: ${filename}`
+      );
+    }
+  });
 
-  let badExtension = false;
-
-  if (!hasExtension) {
-    console.log('\n' + chalk.red('Error') + ' Files must have an extension!');
-    badExtension = true;
-  }
-  else if (!supportedFileTypes.includes(fileExtension)) {
+  if (unsupportedExtensionsFound) {
     console.log(
-      '\n' + chalk.red('Error') +
-      ' Invalid file extension: ' + chalk.red('.' + fileExtension)
+      chalk.magenta(
+        'Supported file types are JSON (.json) and YAML (.yml, .yaml)\n'
+      )
     );
-    badExtension = true;
   }
 
-  if (badExtension) {
+  // globby looks in the file system and matches existing 
+  // files with the names in properExtensions
+  const filesToValidate = await globby(properExtensions);
+  const nonExistentFiles = properExtensions.filter(
+    file => !filesToValidate.includes(file)
+  );
+  if (nonExistentFiles.length) console.log();
+  nonExistentFiles.forEach(file => {
     console.log(
-      chalk.magenta('Supported file types are JSON (.json) and YAML (.yml, .yaml)\n')
+      chalk.yellow('Warning') + 
+      ` Skipping non-existent file: ${file}`
     );
-    return Promise.reject(2); 
-  }
+  });
 
-  // ensure the file contains a valid json/yaml object before running validator
-
-  // fs module does not return promises by default
-  // create a version of the 'readFile' function that does
-  const readFile = util.promisify(fs.readFile);
-  let originalFile;
-  let input;
-  try {
-    originalFile = await readFile(filePath, 'utf8');
-
-    if (fileExtension === 'json') {
-      input = JSON.parse(originalFile)
-    }
-    else if (fileExtension === 'yaml' || fileExtension === "yml") {
-      input = readYaml.safeLoad(originalFile);
-    }
-
-    if (typeof input !== 'object') {
-      throw `The given input in ${filename} is not a valid object.`;
-    }
-
-    // jsonValidator looks through the originalFile string for duplicate JSON keys
-    //   this is checked for by default in readYaml
-    let duplicateKeysError = jsonValidator.validate(originalFile)
-    if (fileExtension === 'json' && duplicateKeysError) {
-      throw duplicateKeysError;
-    }
-  }
-  catch (err) {
+  // if no passed in files are valid, exit the program
+  if (filesToValidate.length === 0) {
     console.log(
       '\n' + chalk.red('Error') + 
-      ' Invalid input file: ' + chalk.red(filename) + 
-      '. See below for details.\n'
+      ' None of the given arguments are valid files.\n'
     );
-    console.log(chalk.magenta(err) + '\n');
     return Promise.reject(2);
   }
 
@@ -153,56 +116,103 @@ const processInput = async function (program) {
   } catch (err) {
     return Promise.reject(err);
   }
-  
-
-  // initialize an object to be passed through all the validators
-  const swagger = {};
-
-  // the structural validation expects a `settings` object
-  //  describing which schemas to validate against
-  swagger.settings = {
-    schemas: [apiSchema],
-    testSchema: apiSchema
-  };
-
-  // ### all validations expect an object with three properties: ###
-  // ###          jsSpec, resolvedSpec, and specStr              ###
-
-  // formatting the JSON string with indentations is necessary for the 
-  //   validations that use it with regular expressions (e.g. refs.js)
-  const indentationSpaces = 2;
-
-  swagger.specStr = JSON.stringify(input, null, indentationSpaces);
-  
-  // deep copy input to a jsSpec by parsing the spec string.
-  // just setting it equal to 'input' and then calling 'dereference'
-  //   replaces 'input' with the dereferenced object, which is bad
-  swagger.jsSpec = JSON.parse(swagger.specStr);
-
-  // dereference() resolves all references. it esentially returns the resolvedSpec,
-  //   but without the $$ref tags (which are not used in the validations)
-  let parser = new SwaggerParser();
-  parser.dereference.circular = false;
-  swagger.resolvedSpec = await parser.dereference(input);
 
   // define an exit code to return. this will tell the parent program whether
   // the validator passed or not
   let exitCode = 0;
 
-  if (parser.$refs.circular) {
-    // there are circular references, find them and return an error
-    handleCircularReferences(swagger.jsSpec, originalFile, chalk);
-    return Promise.reject(2);
-  }
+  // fs module does not return promises by default
+  // create a version of the 'readFile' function that does
+  const readFile = util.promisify(fs.readFile);
+  let originalFile;
+  let input;
 
+  for (let validFile of filesToValidate) {
+    if (filesToValidate.length > 1) {
+      console.log(
+        '\n    ' + chalk.underline(`Validation Results for ${validFile}:`)
+      );
+    }
+    try {
+      originalFile = await readFile(validFile, 'utf8');
 
-  // run validator, print the results, and determine if validator passed
-  const results = validator(swagger, configObject);
-  if (!results.cleanSwagger) {
-    print(results, chalk, printValidators, reportingStats, originalFile);
-    exitCode = 1;
+      const fileExtension = ext.getFileExtension(validFile);
+      if (fileExtension === 'json') {
+        input = JSON.parse(originalFile);
+      }
+      else if (fileExtension === 'yaml' || fileExtension === "yml") {
+        input = readYaml.safeLoad(originalFile);
+      }
+
+      if (typeof input !== 'object') {
+        throw `The given input in ${validFile} is not a valid object.`;
+      }
+
+      // jsonValidator looks through the originalFile string for duplicate JSON keys
+      //   this is checked for by default in readYaml
+      let duplicateKeysError = jsonValidator.validate(originalFile)
+      if (fileExtension === 'json' && duplicateKeysError) {
+        throw duplicateKeysError;
+      }
+    }
+    catch (err) {
+      console.log(
+        '\n' + chalk.red('Error') + 
+        ' Invalid input file: ' + chalk.red(validFile) + 
+        '. See below for details.\n'
+      );
+      console.log(chalk.magenta(err) + '\n');
+      exitCode = 1;
+      continue;
+    }
+
+    // initialize an object to be passed through all the validators
+    const swagger = {};
+
+    // the structural validation expects a `settings` object
+    //  describing which schemas to validate against
+    swagger.settings = {
+      schemas: [apiSchema],
+      testSchema: apiSchema
+    };
+
+    // ### all validations expect an object with three properties: ###
+    // ###          jsSpec, resolvedSpec, and specStr              ###
+
+    // formatting the JSON string with indentations is necessary for the 
+    //   validations that use it with regular expressions (e.g. refs.js)
+    const indentationSpaces = 2;
+
+    swagger.specStr = JSON.stringify(input, null, indentationSpaces);
+    
+    // deep copy input to a jsSpec by parsing the spec string.
+    // just setting it equal to 'input' and then calling 'dereference'
+    //   replaces 'input' with the dereferenced object, which is bad
+    swagger.jsSpec = JSON.parse(swagger.specStr);
+
+    // dereference() resolves all references. it esentially returns the resolvedSpec,
+    //   but without the $$ref tags (which are not used in the validations)
+    let parser = new SwaggerParser();
+    parser.dereference.circular = false;
+    swagger.resolvedSpec = await parser.dereference(input);
+
+    if (parser.$refs.circular) {
+      // there are circular references, find them and return an error
+      handleCircularReferences(swagger.jsSpec, originalFile, chalk);
+      exitCode = 1;
+      continue;
+    }
+
+    // run validator, print the results, and determine if validator passed
+    const results = validator(swagger, configObject);
+    if (!results.cleanSwagger) {
+      print(results, chalk, printValidators, reportingStats, originalFile);
+      exitCode = 1;
+    } else {
+      console.log(chalk.green(`\n${validFile} passed the validator`));
+      if (validFile === last(filesToValidate)) console.log();
+    }
   }
-  
 
   return exitCode;
 }
