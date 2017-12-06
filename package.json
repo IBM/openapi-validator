@@ -17,6 +17,7 @@
     "babel-polyfill": "^6.26.0",
     "chalk": "^2.1.0",
     "commander": "^2.11.0",
+    "globby": "^7.1.1",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
     "json-dup-key-validator": "^1.0.2",
@@ -25,6 +26,7 @@
     "matcher": "^1.0.0",
     "pad": "^2.0.3",
     "require-all": "^2.2.0",
+    "semver": "^5.4.1",
     "swagger-parser": "^3.4.2",
     "yaml-js": "^0.1.4"
   },

@@ -3,6 +3,11 @@ require("babel-polyfill");
 const program = require('commander');
 const cliValidator = require('./runValidator');
 
+// this module enforces that the user is running a supported version
+// of Node by exiting the process if the version is less than
+// the passed in argument (currently 8.9.x)
+const enforceVersion = require('./utils/enforceVersion')('8.9.0');
+
 // set up the command line options
 program
   .description('Run the validator on a specified file')
@@ -49,5 +54,5 @@ cliValidator(program)
 //    in the Swagger file
 //
 // err
-// 2: the program encountered a runtime error that prevented
-//    the validator from running 
+// 2: the program encountered an error that prevented
+//    the validator from running on any files 
