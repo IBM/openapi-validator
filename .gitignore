@@ -1,11 +1,6 @@
 node_modules
-.idea
-.deps_check
 .DS_Store
 npm-debug.log*
 .eslintcache
-package-lock.json
-dist/swagger-editor.js*
-dist/validation.worker.js*
-dist/src
+dist
 .validaterc

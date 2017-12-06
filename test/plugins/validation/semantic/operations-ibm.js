@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "plugins/validation/semantic-validators/validators/operations-ibm"
+import { validate } from "../../../../src/plugins/validation/semantic-validators/validators/operations-ibm"
 
 describe("validation plugin - semantic - operations-ibm", function(){
 
@@ -36,7 +36,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
-    expect(res.errors[0].path).toEqual(["paths./CoolPath.put.consumes"])
+    expect(res.errors[0].path).toEqual("paths./CoolPath.put.consumes")
     expect(res.errors[0].message).toEqual("PUT and POST operations must have a non-empty `consumes` field.")
     expect(res.warnings.length).toEqual(0)
   })
@@ -75,7 +75,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
-    expect(res.errors[0].path).toEqual(["paths./CoolPath.post.consumes"])
+    expect(res.errors[0].path).toEqual("paths./CoolPath.post.consumes")
     expect(res.errors[0].message).toEqual("PUT and POST operations must have a non-empty `consumes` field.")
     expect(res.warnings.length).toEqual(0)
   })
@@ -152,7 +152,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     let res = validate({ jsSpec: spec }, config)
     expect(res.warnings.length).toEqual(1)
-    expect(res.warnings[0].path).toEqual(["paths./CoolPath.get.consumes"])
+    expect(res.warnings[0].path).toEqual("paths./CoolPath.get.consumes")
     expect(res.warnings[0].message).toEqual("GET operations should not specify a consumes field.")
     expect(res.errors.length).toEqual(0)
   })
@@ -190,7 +190,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
-    expect(res.errors[0].path).toEqual(["paths./CoolPath.get.produces"])
+    expect(res.errors[0].path).toEqual("paths./CoolPath.get.produces")
     expect(res.errors[0].message).toEqual("GET operations must have a non-empty `produces` field.")
     expect(res.warnings.length).toEqual(0)
   })
@@ -262,7 +262,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
    let res = validate({ jsSpec: spec }, config)
    expect(res.warnings.length).toEqual(1)
-   expect(res.warnings[0].path).toEqual(["paths./CoolPath.put.operationId"])
+   expect(res.warnings[0].path).toEqual("paths./CoolPath.put.operationId")
    expect(res.warnings[0].message).toEqual("Operations must have a non-empty `operationId`.")
    expect(res.errors.length).toEqual(0)
   })
@@ -299,7 +299,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     let res = validate({ jsSpec: spec }, config)
     expect(res.warnings.length).toEqual(1)
-    expect(res.warnings[0].path).toEqual(["paths./CoolPath.put.operationId"])
+    expect(res.warnings[0].path).toEqual("paths./CoolPath.put.operationId")
     expect(res.warnings[0].message).toEqual("Operations must have a non-empty `operationId`.")
     expect(res.errors.length).toEqual(0)
   })
@@ -335,7 +335,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
    let res = validate({ jsSpec: spec }, config)
    expect(res.warnings.length).toEqual(1)
-   expect(res.warnings[0].path).toEqual(["paths./CoolPath.put.summary"])
+   expect(res.warnings[0].path).toEqual("paths./CoolPath.put.summary")
    expect(res.warnings[0].message).toEqual("Operations must have a non-empty `summary` field.")
    expect(res.errors.length).toEqual(0)
   })
@@ -372,7 +372,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     let res = validate({ jsSpec: spec }, config)
     expect(res.warnings.length).toEqual(1)
-    expect(res.warnings[0].path).toEqual(["paths./CoolPath.put.summary"])
+    expect(res.warnings[0].path).toEqual("paths./CoolPath.put.summary")
     expect(res.warnings[0].message).toEqual("Operations must have a non-empty `summary` field.")
     expect(res.errors.length).toEqual(0)
   })
@@ -448,7 +448,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     let res = validate({ jsSpec: spec }, config)
     expect(res.warnings.length).toEqual(1)
-    expect(res.warnings[0].path).toEqual(["paths./stuff.get.responses.200.schema"])
+    expect(res.warnings[0].path).toEqual("paths./stuff.get.responses.200.schema")
     expect(res.warnings[0].message).toEqual("Arrays MUST NOT be returned as the top-level structure in a response body.")
     expect(res.errors.length).toEqual(0)
   })

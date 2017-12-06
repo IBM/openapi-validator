@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "plugins/validation/semantic-validators/validators/operation-ids"
+import { validate } from "../../../../src/plugins/validation/semantic-validators/validators/operation-ids"
 
 describe("validation plugin - semantic - operation-ids", function () {
   
@@ -22,7 +22,7 @@ describe("validation plugin - semantic - operation-ids", function () {
 
     let res = validate({ jsSpec: spec })
     expect(res.errors.length).toEqual(1)
-    expect(res.errors[0].path).toEqual(["paths./coolPath.get.operationId"])
+    expect(res.errors[0].path).toEqual("paths./coolPath.get.operationId")
     expect(res.errors[0].message).toEqual("operationIds must be unique")
     expect(res.warnings.length).toEqual(0)
   })
@@ -52,7 +52,7 @@ describe("validation plugin - semantic - operation-ids", function () {
 
     let res = validate({ jsSpec: spec })
     expect(res.errors.length).toEqual(1)
-    expect(res.errors[0].path).toEqual(["paths./greatPath.put.operationId"])
+    expect(res.errors[0].path).toEqual("paths./greatPath.put.operationId")
     expect(res.errors[0].message).toEqual("operationIds must be unique")
     expect(res.warnings.length).toEqual(0)
   })
