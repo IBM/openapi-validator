@@ -61,19 +61,22 @@ const processInput = async function (program) {
 
   // otherwise, run the validator on the passed in files
   // first, process the given files to handle bad input
+
+  // at this point, `args` is an array of file names passed in by the user.
+  // nothing in `args` will be a glob type, as glob types are automatically
+  // converted to arrays of matching file names by the shell.
   const supportedFileTypes = ['json', 'yml', 'yaml'];
-  const properExtensions = [];
+  const filesWithValidExtensions = [];
   let unsupportedExtensionsFound = false;
-  args.forEach(match => {
-    const filename = last(match.split('/'));
-    if (ext.supportedFileExtension(filename, supportedFileTypes)) {
-      properExtensions.push(match);
+  args.forEach(arg => {
+    if (ext.supportedFileExtension(arg, supportedFileTypes)) {
+      filesWithValidExtensions.push(arg);
     } else {
       if (!unsupportedExtensionsFound) console.log();
       unsupportedExtensionsFound = true;
       console.log(
         chalk.yellow('Warning') + 
-        ` Skipping file with unsupported file type: ${filename}`
+        ` Skipping file with unsupported file type: ${arg}`
       );
     }
   });
@@ -86,10 +89,16 @@ const processInput = async function (program) {
     );
   }
 
-  // globby looks in the file system and matches existing 
-  // files with the names in properExtensions
-  const filesToValidate = await globby(properExtensions);
-  const nonExistentFiles = properExtensions.filter(
+  // globby is used in an unconventional way here. we are not passing in globs,
+  // but an array of file names. what globby does is search through the file
+  // system looking for files that match the names in the array. it returns a
+  // list of matches (file names). Therefore, any files that are in
+  // filesWithValidExtensions, but are NOT in the array globby returns, do
+  // not actually exist. This is a convenient way of checking for file
+  // existence before iterating through and running the validator on
+  // every file.
+  const filesToValidate = await globby(filesWithValidExtensions);
+  const nonExistentFiles = filesWithValidExtensions.filter(
     file => !filesToValidate.includes(file)
   );
   if (nonExistentFiles.length) console.log();
