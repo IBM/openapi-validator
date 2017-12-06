@@ -1,5 +1,4 @@
 # Swagger-Validator-IBM
-
 This command line tool lets you validate Swagger files according to the [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style). 
 
 ##### Prerequisites
@@ -7,18 +6,15 @@ This command line tool lets you validate Swagger files according to the [Swagger
 - NPM 5.x
 
 ### Installation
-
 1. Clone or download this repository
 2. Navigate to the root directory of this project.
 3. Install the dependencies using `npm install`
 4. Build the command line tool, run `npm run build`.
 
 ### Usage
-
-`lint-swagger [options] [command] [<file>]`
+`lint-swagger [options] [command] [<files>]`
 
 #### [options]
-
 -  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarliy for developing validations.
 -  -n (no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -d (default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
@@ -28,14 +24,14 @@ This command line tool lets you validate Swagger files according to the [Swagger
 _These options only apply to running the validator on a file, not to any commands._
 
 #### [command]
-
 - init : The `init` command initializes a .validaterc file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
 
 None of the above options pertain to this command.
 
-#### \<file>
+#### \<files>
+- The Swagger file(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
+- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `validate-swagger files/*` will run the validator on all files in "files/")
 
-- The Swagger file to be validated. It must be a valid JSON or YAML file (only .json, .yml, and .yaml file extensions are supported).
 
 ### Configuration
 
@@ -44,7 +40,6 @@ The command line validator is built so that each IBM validation can be configure
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
 
 #### Setup
-
 To set up the configuration capability, simply run the command `validate-swagger init`
 This will create a .validaterc file with all rules set to their [default value](#default-values). These rules can then be changed to configure the validator. Continue reading for more details.
 

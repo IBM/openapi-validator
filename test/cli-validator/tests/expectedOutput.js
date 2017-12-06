@@ -31,7 +31,11 @@ describe('cli tool - test expected output', function() {
     unhook_intercept();
 
     expect(exitCode).toEqual(0);
-    expect(captured_text.length).toEqual(0);
+    expect(captured_text.length).toEqual(2);
+    expect(captured_text[0].trim()).toEqual(
+      "./test/cli-validator/mockFiles/clean.yml passed the validator"
+    );
+    expect(captured_text[1].trim()).toEqual("");
   });
 
   it ('should produce errors, then warnings from mockFiles/errAndWarn.yaml', async function() {
@@ -39,8 +43,8 @@ describe('cli tool - test expected output', function() {
     let captured_text = [];
 
     let unhook_intercept = intercept(function(txt) {
-        captured_text.push(txt);
-        return '';
+      captured_text.push(txt);
+      return '';
     });
 
     let program = {};
@@ -97,6 +101,37 @@ describe('cli tool - test expected output', function() {
     expect(captured_text[33].match(/\S+/g)[2]).toEqual('170');
   });
 
+  it ('should handle an array of file names', async function() {
+
+    let captured_text = [];
+
+    let unhook_intercept = intercept(function(txt) {
+      captured_text.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    let program = {};
+    program.args = [
+      './test/cli-validator/mockFiles/errAndWarn.yaml',
+      'notAFile.json',
+      './test/cli-validator/mockFiles/clean.yml',
+      './test/cli-validator/mockFiles/circularRefs.yml'
+    ];
+    program.default_mode = true;
+
+    const exitCode = await commandLineValidator(program);
+    unhook_intercept();
+
+    expect(exitCode).toEqual(1);
+
+    const allOutput = captured_text.join('');
+
+    expect(allOutput.includes('Warning Skipping non-existent file: notAFile.json')).toEqual(true);
+    expect(allOutput.includes('Validation Results for ./test/cli-validator/mockFiles/errAndWarn.yaml:')).toEqual(true);
+    expect(allOutput.includes('Validation Results for ./test/cli-validator/mockFiles/clean.yml:')).toEqual(true);
+    expect(allOutput.includes('Error Circular references detected. See below for details.')).toEqual(true);
+  });
+
   it ('should print an error upon catching a circular reference', async function() {
 
     let captured_text = [];
@@ -120,7 +155,7 @@ describe('cli tool - test expected output', function() {
     
     unhook_intercept();
 
-    expect(exitCode).toEqual(2);
+    expect(exitCode).toEqual(1);
 
     expect(captured_text[0]).toEqual('\nError Circular references detected. See below for details.\n\n');
 

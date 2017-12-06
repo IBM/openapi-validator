@@ -29,7 +29,9 @@ module.exports = function print(results, chalk, printValidators, reportingStats,
   types.forEach(type => {
 
     let color = colors[type];
-    console.log(chalk[color].bold(`${type}\n`));
+    if (Object.keys(results[type]).length) {
+      console.log(chalk[color].bold(`${type}\n`));
+    }
 
     // convert 'color' from a background color to foreground color
     color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
@@ -37,7 +39,7 @@ module.exports = function print(results, chalk, printValidators, reportingStats,
     each(results[type], (problems, validator) => {
 
       if (printValidators) {
-        console.log(chalk.underline(`Validator: ${validator}`));
+        console.log(`Validator: ${validator}`);
       }
 
       problems.forEach(problem => {
