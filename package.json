@@ -69,6 +69,7 @@
     "react-transition-group": "^1.1.1",
     "redux": "^3.x.x",
     "require-all": "^2.2.0",
+    "semver": "^5.4.1",
     "swagger-client": "3.0.16",
     "swagger-parser": "^3.4.2",
     "swagger-ui": "3.0.17",
