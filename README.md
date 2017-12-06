@@ -2,15 +2,12 @@
 
 Swagger Editor lets you edit [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) in YAML inside your browser and to preview documentations in real time.
 This version of the swagger editor adds custom validations based on finds and guidelines working with SDK generation team.  
-
 This repository also includes a command line tool for validating Swagger files outside of the browser. See the [Command Line Tool section](#command-line-tool) for installation and usage details.
-
 Here is the squad info plus information around SDK and API reference generation [sdk-squad](https://pages.github.ibm.com/arf/planning-sdk-squad/)
 
 ## Running locally
 
 To run a local instance with validation and hot-reload funcationlity then invoke `npm run dev`.
-
 To run the tests then invoke `npm run test`.
 
 ##### Prerequisites
@@ -18,11 +15,8 @@ To run the tests then invoke `npm run test`.
 - NPM 5.x
 
 If you have Node.js and npm installed, you can run `npm start` to spin up a static server.
-
 Otherwise, you can open `index.html` directly from your filesystem in your browser.
-
 Note: At this time, if the editor is opened using `npm start` or `index.html`, the validations will __not__ be run.
-
 If you'd like to make code changes to Swagger-Editor, you can start up a Webpack hot-reloading dev server via `npm run dev`.
 
 ##### Browser support
@@ -32,7 +26,6 @@ Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE1
 ## Command Line Tool
 
 ### Installation
-
 1. Clone or download this repository
 2. Navigate to the root directory of this project.
 3. Install the dependencies using `npm install`
@@ -41,11 +34,9 @@ Swagger UI works in the latest versions of Chrome, Safari, Firefox, Edge and IE1
 Note: This creates a symbolic link so if this project folder is moved, the tool will need to be re-installed by running `npm run build-command-for-cli` in the new location.
 
 ### Usage
-
-`validate-swagger [options] [command] [<file>]`
+`validate-swagger [options] [command] [<files>]`
 
 #### [options]
-
 -  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarliy for developing validations.
 -  -n (no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -d (default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
@@ -55,14 +46,13 @@ Note: This creates a symbolic link so if this project folder is moved, the tool 
 _These options only apply to running the validator on a file, not to any commands._
 
 #### [command]
-
 - init : The `init` command initializes a .validaterc file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
 
 None of the above options pertain to this command.
 
 #### \<file>
-
-- The Swagger file to be validated. It must be a valid JSON or YAML file (only .json, .yml, and .yaml file extensions are supported).
+- The Swagger file(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
+- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `validate-swagger files/*` will run the validator on all files in "files/")
 
 ### Configuration
 
@@ -71,7 +61,6 @@ The command line validator is built so that each IBM validation can be configure
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
 
 #### Setup
-
 To set up the configuration capability, simply run the command `validate-swagger init`
 This will create a .validaterc file with all rules set to their [default value](#default-values). These rules can then be changed to configure the validator. Continue reading for more details.
 
