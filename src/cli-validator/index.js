@@ -39,9 +39,11 @@ program.parse(process.argv)
 // run the program
 cliValidator(program)
   .then(exitCode => {
+    process.exitCode = exitCode;
     return exitCode;
   })
   .catch(err => {
+    process.exitCode = err;
     return err;
   });
 
