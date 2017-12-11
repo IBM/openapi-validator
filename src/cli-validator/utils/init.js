@@ -1,8 +1,9 @@
 const fs = require('fs');
 const util = require('util');
+const pathToRoot = require('./projectPath');
 
 const defaults = require('../../.defaultsForValidator');
-const fileToCreate = `${__dirname}/../../../../.validaterc`;
+const fileToCreate = pathToRoot + '.validaterc';
 
 module.exports = async function (chalk) {
   const writeFile = util.promisify(fs.writeFile);

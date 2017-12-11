@@ -2,16 +2,11 @@ const fs = require('fs');
 const util = require('util');
 const path = require('path');
 const globby = require('globby');
+const pathToRoot = require('./projectPath');
+const defaultObject = require('../../.defaultsForValidator');
 
-const pathToSrc = path.normalize(__dirname + '/../../');
-const defaultsFile = '.defaultsForValidator';
-
-const pathToRoot = path.normalize(__dirname + '/../../../../');
+// global objects
 const filename = '.validaterc';
-const ignoreFile = '.validateignore';
-
-// import the default object
-const defaultObject = require(pathToSrc + defaultsFile);
 const readFile = util.promisify(fs.readFile);
 
 const getConfigObject = async function (defaultMode, chalk) {
@@ -144,6 +139,7 @@ const validateConfigObject = function(configObject, chalk) {
 };
 
 const getFilesToIgnore = async function() {
+  const ignoreFile = '.validateignore';
   let filesToIgnore;
   try {
     const fileAsString = await readFile(
