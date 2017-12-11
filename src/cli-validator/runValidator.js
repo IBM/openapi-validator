@@ -214,9 +214,10 @@ const processInput = async function (program) {
 
     // run validator, print the results, and determine if validator passed
     const results = validator(swagger, configObject);
-    if (!results.cleanSwagger) {
+    if (results.error || results.warning) {
       print(results, chalk, printValidators, reportingStats, originalFile);
-      exitCode = 1;
+      // fail on errors, but not if there are only warnings
+      if (results.error) exitCode = 1;
     } else {
       console.log(chalk.green(`\n${validFile} passed the validator`));
       if (validFile === last(filesToValidate)) console.log();
