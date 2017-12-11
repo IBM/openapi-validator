@@ -1,19 +1,22 @@
 const fs = require('fs');
 const util = require('util');
+const path = require('path');
+const globby = require('globby');
 
-const pathToSrc = __dirname + '/../../';
+const pathToSrc = path.normalize(__dirname + '/../../');
 const defaultsFile = '.defaultsForValidator';
 
-const pathToRoot = __dirname + '/../../../../';
+const pathToRoot = path.normalize(__dirname + '/../../../../');
 const filename = '.validaterc';
+const ignoreFile = '.validateignore';
 
 // import the default object
 const defaultObject = require(pathToSrc + defaultsFile);
+const readFile = util.promisify(fs.readFile);
 
 const getConfigObject = async function (defaultMode, chalk) {
 
   let configObject = {};
-  const readFile = util.promisify(fs.readFile);
 
   // if the user specified to run in default mode, no need to read the file
   if (!defaultMode){
@@ -140,5 +143,34 @@ const validateConfigObject = function(configObject, chalk) {
 
 };
 
-module.exports = getConfigObject;
+const getFilesToIgnore = async function() {
+  let filesToIgnore;
+  try {
+    const fileAsString = await readFile(
+      pathToRoot + ignoreFile, 'utf8'
+    );
+
+    // convert each glob in ignore file to an absolute path.
+    // globby takes args relative to the process cwd, but we
+    // want these to stay relative to project root
+    const globsToIgnore = fileAsString.split('\n').map(
+      glob => pathToRoot + glob
+    );
+
+    filesToIgnore = await globby(
+      globsToIgnore, {
+        expandDirectories: true,
+        dot: true
+      }
+    );
+  }
+  catch (err) {
+    // if file does not exist, thats fine. it is optional
+    filesToIgnore = [];
+  }
+  return filesToIgnore;
+}
+
+module.exports.get = getConfigObject;
 module.exports.validate = validateConfigObject;
+module.exports.ignore = getFilesToIgnore;

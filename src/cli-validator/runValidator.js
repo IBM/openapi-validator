@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const util          = require('util');
 const fs            = require('fs');
+const path          = require('path');
 const readYaml      = require('js-yaml');
 const last          = require('lodash/last');
 const SwaggerParser = require('swagger-parser');
@@ -62,6 +63,12 @@ const processInput = async function (program) {
   // otherwise, run the validator on the passed in files
   // first, process the given files to handle bad input
 
+  // ignore files in .validateignore by comparing absolute paths
+  const ignoredFiles = await config.ignore();
+  args = args.filter(file =>
+    !ignoredFiles.includes(path.resolve(file))
+  );
+
   // at this point, `args` is an array of file names passed in by the user.
   // nothing in `args` will be a glob type, as glob types are automatically
   // converted to arrays of matching file names by the shell.
@@ -121,7 +128,7 @@ const processInput = async function (program) {
   // process the config file for the validations
   let configObject;
   try {
-    configObject = await config(defaultMode, chalk);
+    configObject = await config.get(defaultMode, chalk);
   } catch (err) {
     return Promise.reject(err);
   }
