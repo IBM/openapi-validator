@@ -2,22 +2,24 @@ const fs = require('fs');
 const util = require('util');
 const path = require('path');
 const globby = require('globby');
-const pathToRoot = require('./projectPath');
+const findUp = require('find-up');
+
 const defaultObject = require('../../.defaultsForValidator');
 
 // global objects
-const filename = '.validaterc';
 const readFile = util.promisify(fs.readFile);
 
 const getConfigObject = async function (defaultMode, chalk) {
-
   let configObject = {};
+  // search up the file system for the first instance
+  // of the config file
+  const configFile = await findUp('.validaterc');
 
   // if the user specified to run in default mode, no need to read the file
   if (!defaultMode){
     try {
       // the config file must be in the root folder of the project
-      const fileAsString = await readFile(pathToRoot + filename, 'utf8');
+      const fileAsString = await readFile(configFile, 'utf8');
       configObject = JSON.parse(fileAsString);
     }
     catch (err) {
@@ -139,18 +141,21 @@ const validateConfigObject = function(configObject, chalk) {
 };
 
 const getFilesToIgnore = async function() {
-  const ignoreFile = '.validateignore';
+  // search up the file system for the first instance
+  // of the ignore file
+  const ignoreFile = await findUp('.validateignore');
+  const pathToFile = `${path.dirname(ignoreFile)}/`;
+  console.log(pathToFile);
+
   let filesToIgnore;
   try {
-    const fileAsString = await readFile(
-      pathToRoot + ignoreFile, 'utf8'
-    );
+    const fileAsString = await readFile(ignoreFile, 'utf8');
 
     // convert each glob in ignore file to an absolute path.
     // globby takes args relative to the process cwd, but we
     // want these to stay relative to project root
     const globsToIgnore = fileAsString.split('\n').map(
-      glob => pathToRoot + glob
+      glob => pathToFile + glob
     );
 
     filesToIgnore = await globby(
@@ -164,6 +169,7 @@ const getFilesToIgnore = async function() {
     // if file does not exist, thats fine. it is optional
     filesToIgnore = [];
   }
+  console.log(filesToIgnore);
   return filesToIgnore;
 }
 
