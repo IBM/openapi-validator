@@ -101,6 +101,28 @@ describe('cli tool - test expected output', function() {
     expect(captured_text[33].match(/\S+/g)[2]).toEqual('170');
   });
 
+  it ('should return exit code of 0 if there are only warnings', async function() {
+
+    let captured_text = [];
+
+    let unhook_intercept = intercept(function(txt) {
+        captured_text.push(stripAnsiFrom(txt));
+        return '';
+    });
+
+    let program = {};
+    program.args = ['./test/cli-validator/mockFiles/justWarn.yml'];
+    program.default_mode = true;
+
+    const exitCode = await commandLineValidator(program);
+    unhook_intercept();
+
+    expect(exitCode).toEqual(0);
+
+    const allOutput = captured_text.join('');
+    expect(allOutput.includes('warnings')).toEqual(true);
+  });
+
   it ('should handle an array of file names', async function() {
 
     let captured_text = [];
