@@ -55,16 +55,17 @@ None of the above options pertain to this command.
 - Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `validate-swagger files/*` will run the validator on all files in "files/")
 
 ### Configuration
-
-The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a file in the root directory of this project with the name `.validaterc` and continue reading this section.
-
+The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a file with the name `.validaterc` and continue reading this section.
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
+Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 #### Setup
 To set up the configuration capability, simply run the command `validate-swagger init`
 This will create a .validaterc file with all rules set to their [default value](#default-values). These rules can then be changed to configure the validator. Continue reading for more details.
-
 Note: If a .validaterc file already exists and has been customized, this command will reset all rules to their default values.
+Note: This command does not create a `.validateignore`. That file must be created manually.
+
+It is ideal to place these files in the root directory of your project. The code will recursively search up the filesystem for these files from wherever the validator is being run. Wherever in the file system the validator is being run, the nearest versions of these files will be used.
 
 #### Categories
 
@@ -138,7 +139,7 @@ Each rule can be assigned a status. The supported statuses are "error", "warning
 
 #### Configuration file
 
-Configurations are defined in a file, titled __.validaterc__, that must be at the root directory of this project.
+Configurations are defined in a file, titled __.validaterc__, that must be at the root directory of your project.
 
 The configuration file must be structured as a JSON object with categories as first-level keys, rules as second-level keys, and statuses as values for the 'rules' objects.
 
@@ -152,7 +153,7 @@ The validator has a set of predefined default statuses for each rule that are us
 
 Default mode can be turned on with the command line option '-d'. If this option is given, the .validaterc file will be ignored.
 
-If a .validaterc file does not exist at the root directory of this project, the validator will automatically run in default mode.
+If a .validaterc file does not exist at the root directory of your project, the validator will automatically run in default mode.
 
 The default values for each rule are described below.
 
