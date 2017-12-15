@@ -129,6 +129,7 @@ Each category contains a group of rules. The supported rules are described below
 | Rule                        | Description                                                                  |
 | --------------------------- | ---------------------------------------------------------------------------- |
 | no_empty_descriptions       | Flag any 'description' field in the spec with an empty or whitespace string. |
+| has_circular_references     | Flag any circular references found in the Swagger spec.                      |
 
 
 #### Status
@@ -203,6 +204,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_empty_descriptions       | error   |
+| has_circular_references     | warning |
 
 
 _Note, configuration is only supported for the command line tool. The Swagger Editor in the browser is not configurable._

@@ -7,10 +7,10 @@ const SwaggerParser = require('swagger-parser');
 const chalkPackage  = require('chalk');
 const jsonValidator = require('json-dup-key-validator');
 const globby        = require('globby');
+const circularJSON  = require('circular-json');
 
 const ext = require('./utils/fileExtensionValidator');
 const config = require('./utils/processConfiguration');
-const handleCircularReferences = require('./utils/handleCircularReferences');
 const validator = require('./utils/validator');
 const print = require('./utils/printResults');
 
@@ -204,13 +204,7 @@ const processInput = async function (program) {
     let parser = new SwaggerParser();
     parser.dereference.circular = false;
     swagger.resolvedSpec = await parser.dereference(input);
-
-    if (parser.$refs.circular) {
-      // there are circular references, find them and return an error
-      handleCircularReferences(swagger.jsSpec, originalFile, chalk);
-      exitCode = 1;
-      continue;
-    }
+    swagger.circular = parser.$refs.circular;
 
     // run validator, print the results, and determine if validator passed
     const results = validator(swagger, configObject);
