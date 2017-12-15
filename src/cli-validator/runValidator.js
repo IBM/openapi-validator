@@ -8,7 +8,6 @@ const SwaggerParser = require('swagger-parser');
 const chalkPackage  = require('chalk');
 const jsonValidator = require('json-dup-key-validator');
 const globby        = require('globby');
-const circularJSON  = require('circular-json');
 
 const ext = require('./utils/fileExtensionValidator');
 const config = require('./utils/processConfiguration');
