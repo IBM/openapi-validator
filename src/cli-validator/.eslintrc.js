@@ -12,5 +12,5 @@ module.exports = {
     'no-var': 'error',
     'prefer-const': 'error',
   },
-  'extends': 'prettier'
+  'extends': ['prettier', 'eslint:recommended']
 };
