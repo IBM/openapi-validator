@@ -1,21 +1,26 @@
 const each = require('lodash/each');
 const pad = require('pad');
 
-// get line-number-producing, 'magic' code from Swagger Editor 
-const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast').getLineNumberForPath;
+// get line-number-producing, 'magic' code from Swagger Editor
+const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast')
+  .getLineNumberForPath;
 
 // this function prints all of the output
-module.exports = function print(results, chalk, printValidators, reportingStats, originalFile) {
-
+module.exports = function print(
+  results,
+  chalk,
+  printValidators,
+  reportingStats,
+  originalFile
+) {
   const types = ['errors', 'warnings'];
   const colors = {
     errors: 'bgRed',
     warnings: 'bgYellow'
   };
 
-
   // define an object template in the case that statistics reporting is turned on
-  let stats = {
+  const stats = {
     errors: {
       total: 0
     },
@@ -27,7 +32,6 @@ module.exports = function print(results, chalk, printValidators, reportingStats,
   console.log();
 
   types.forEach(type => {
-
     let color = colors[type];
     if (Object.keys(results[type]).length) {
       console.log(chalk[color].bold(`${type}\n`));
@@ -37,13 +41,11 @@ module.exports = function print(results, chalk, printValidators, reportingStats,
     color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
 
     each(results[type], (problems, validator) => {
-
       if (printValidators) {
         console.log(`Validator: ${validator}`);
       }
 
       problems.forEach(problem => {
-
         const message = problem.message;
         let path = problem.path;
 
@@ -74,7 +76,6 @@ module.exports = function print(results, chalk, printValidators, reportingStats,
         console.log(chalk[color](`  Path    :   ${path.join('.')}`));
         console.log(chalk[color](`  Line    :   ${lineNumber}`));
         console.log();
-
       });
     });
   });
@@ -83,23 +84,25 @@ module.exports = function print(results, chalk, printValidators, reportingStats,
   if (reportingStats && (stats.errors.total || stats.warnings.total)) {
     console.log(chalk.bgCyan('statistics\n'));
 
-    console.log(chalk.cyan(`  Total number of errors   : ${stats.errors.total}`));
-    console.log(chalk.cyan(`  Total number of warnings : ${stats.warnings.total}\n`));
+    console.log(
+      chalk.cyan(`  Total number of errors   : ${stats.errors.total}`)
+    );
+    console.log(
+      chalk.cyan(`  Total number of warnings : ${stats.warnings.total}\n`)
+    );
 
     types.forEach(type => {
-
       // print the type, either error or warning
       if (stats[type].total) {
         console.log('  ' + chalk.underline.cyan(type));
       }
 
       Object.keys(stats[type]).forEach(message => {
-
         if (message !== 'total') {
           // calculate percentage
           const number = stats[type][message];
           const total = stats[type].total;
-          const percentage = (Math.round(number / total * 100)).toString();
+          const percentage = Math.round(number / total * 100).toString();
 
           // pad(<number>, <string>) right-aligns <string> to the <number>th column, padding with spaces.
           // use 4, two for the appended spaces of every line and two for the number
@@ -108,7 +111,9 @@ module.exports = function print(results, chalk, printValidators, reportingStats,
           // use 6 for largest case of '(100%)'
           const frequencyString = pad(6, `(${percentage}%)`);
 
-          console.log(chalk.cyan(`${numberString} ${frequencyString} : ${message}`));
+          console.log(
+            chalk.cyan(`${numberString} ${frequencyString} : ${message}`)
+          );
         }
       });
       if (stats[type].total) {
@@ -116,4 +121,4 @@ module.exports = function print(results, chalk, printValidators, reportingStats,
       }
     });
   }
-}
+};

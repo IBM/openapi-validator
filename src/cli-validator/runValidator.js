@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-const util          = require('util');
-const fs            = require('fs');
-const path          = require('path');
-const readYaml      = require('js-yaml');
-const last          = require('lodash/last');
+const util = require('util');
+const fs = require('fs');
+const path = require('path');
+const readYaml = require('js-yaml');
+const last = require('lodash/last');
 const SwaggerParser = require('swagger-parser');
-const chalkPackage  = require('chalk');
+const chalkPackage = require('chalk');
 const jsonValidator = require('json-dup-key-validator');
-const globby        = require('globby');
+const globby = require('globby');
 
 const ext = require('./utils/fileExtensionValidator');
 const config = require('./utils/processConfiguration');
@@ -16,15 +16,15 @@ const validator = require('./utils/validator');
 const print = require('./utils/printResults');
 
 // get the api schema to perform structural validation against
-const apiSchema = require(__dirname + '/../plugins/validation/apis/schema').default;
+const apiSchema = require(__dirname + '/../plugins/validation/apis/schema')
+  .default;
 
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
 
 // this function processes the input, does the error handling,
 //  and acts as the main function for the program
-const processInput = async function (program) {
-
+const processInput = async function(program) {
   let args = program.args;
 
   // require that arguments are passed in
@@ -34,11 +34,11 @@ const processInput = async function (program) {
   }
 
   // interpret the options
-  const printValidators = !! program.print_validator_modules;
-  const reportingStats = !! program.report_statistics;
-  
-  const turnOffColoring = !! program.no_colors;
-  const defaultMode = !! program.default_mode;
+  const printValidators = !!program.print_validator_modules;
+  const reportingStats = !!program.report_statistics;
+
+  const turnOffColoring = !!program.no_colors;
+  const defaultMode = !!program.default_mode;
 
   // turn on coloring by default
   let colors = true;
@@ -47,7 +47,7 @@ const processInput = async function (program) {
     colors = false;
   }
 
-  const chalk = new chalkPackage.constructor({enabled: colors});
+  const chalk = new chalkPackage.constructor({ enabled: colors });
 
   // if the 'init' command is given, run the module
   // and exit the program
@@ -65,9 +65,7 @@ const processInput = async function (program) {
 
   // ignore files in .validateignore by comparing absolute paths
   const ignoredFiles = await config.ignore();
-  args = args.filter(file =>
-    !ignoredFiles.includes(path.resolve(file))
-  );
+  args = args.filter(file => !ignoredFiles.includes(path.resolve(file)));
 
   // at this point, `args` is an array of file names passed in by the user.
   // nothing in `args` will be a glob type, as glob types are automatically
@@ -82,8 +80,8 @@ const processInput = async function (program) {
       if (!unsupportedExtensionsFound) console.log();
       unsupportedExtensionsFound = true;
       console.log(
-        chalk.yellow('Warning') + 
-        ` Skipping file with unsupported file type: ${arg}`
+        chalk.yellow('Warning') +
+          ` Skipping file with unsupported file type: ${arg}`
       );
     }
   });
@@ -111,16 +109,16 @@ const processInput = async function (program) {
   if (nonExistentFiles.length) console.log();
   nonExistentFiles.forEach(file => {
     console.log(
-      chalk.yellow('Warning') + 
-      ` Skipping non-existent file: ${file}`
+      chalk.yellow('Warning') + ` Skipping non-existent file: ${file}`
     );
   });
 
   // if no passed in files are valid, exit the program
   if (filesToValidate.length === 0) {
     console.log(
-      '\n' + chalk.red('Error') + 
-      ' None of the given arguments are valid files.\n'
+      '\n' +
+        chalk.red('Error') +
+        ' None of the given arguments are valid files.\n'
     );
     return Promise.reject(2);
   }
@@ -143,7 +141,7 @@ const processInput = async function (program) {
   let originalFile;
   let input;
 
-  for (let validFile of filesToValidate) {
+  for (const validFile of filesToValidate) {
     if (filesToValidate.length > 1) {
       console.log(
         '\n    ' + chalk.underline(`Validation Results for ${validFile}:`)
@@ -155,8 +153,7 @@ const processInput = async function (program) {
       const fileExtension = ext.getFileExtension(validFile);
       if (fileExtension === 'json') {
         input = JSON.parse(originalFile);
-      }
-      else if (fileExtension === 'yaml' || fileExtension === "yml") {
+      } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
         input = readYaml.safeLoad(originalFile);
       }
 
@@ -166,16 +163,17 @@ const processInput = async function (program) {
 
       // jsonValidator looks through the originalFile string for duplicate JSON keys
       //   this is checked for by default in readYaml
-      let duplicateKeysError = jsonValidator.validate(originalFile)
+      const duplicateKeysError = jsonValidator.validate(originalFile);
       if (fileExtension === 'json' && duplicateKeysError) {
         throw duplicateKeysError;
       }
-    }
-    catch (err) {
+    } catch (err) {
       console.log(
-        '\n' + chalk.red('Error') + 
-        ' Invalid input file: ' + chalk.red(validFile) + 
-        '. See below for details.\n'
+        '\n' +
+          chalk.red('Error') +
+          ' Invalid input file: ' +
+          chalk.red(validFile) +
+          '. See below for details.\n'
       );
       console.log(chalk.magenta(err) + '\n');
       exitCode = 1;
@@ -195,12 +193,12 @@ const processInput = async function (program) {
     // ### all validations expect an object with three properties: ###
     // ###          jsSpec, resolvedSpec, and specStr              ###
 
-    // formatting the JSON string with indentations is necessary for the 
+    // formatting the JSON string with indentations is necessary for the
     //   validations that use it with regular expressions (e.g. refs.js)
     const indentationSpaces = 2;
 
     swagger.specStr = JSON.stringify(input, null, indentationSpaces);
-    
+
     // deep copy input to a jsSpec by parsing the spec string.
     // just setting it equal to 'input' and then calling 'dereference'
     //   replaces 'input' with the dereferenced object, which is bad
@@ -208,7 +206,7 @@ const processInput = async function (program) {
 
     // dereference() resolves all references. it esentially returns the resolvedSpec,
     //   but without the $$ref tags (which are not used in the validations)
-    let parser = new SwaggerParser();
+    const parser = new SwaggerParser();
     parser.dereference.circular = false;
     swagger.resolvedSpec = await parser.dereference(input);
 
@@ -232,7 +230,7 @@ const processInput = async function (program) {
   }
 
   return exitCode;
-}
+};
 
 // this exports the entire program so it can be used or tested
 module.exports = processInput;

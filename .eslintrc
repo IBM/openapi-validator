@@ -22,7 +22,7 @@
   "rules": {
     "semi": [2, "never"],
     "strict": 0,
-    "quotes": 2,
+    "quotes": ["error", "double", { "allowTemplateLiterals": true }],
     "no-unused-vars": 2,
     "no-multi-spaces": 1,
     "camelcase": 1,
@@ -32,6 +32,7 @@
     "comma-dangle": 0,
     "no-console": ["error", { allow: ["warn", "error"] }],
     "react/jsx-no-bind": 1,
-    "react/display-name": 0
+    "react/display-name": 0,
+    "no-useless-escape": 0
   }
 }

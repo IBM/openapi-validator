@@ -1,15 +1,23 @@
 const last = require('lodash/last');
-const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast').getLineNumberForPath;
+const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast')
+  .getLineNumberForPath;
 
 // find the circular references and print them out
-module.exports = function handleCircularReferences(jsSpec, originalFile, chalk) {
-
+module.exports = function handleCircularReferences(
+  jsSpec,
+  originalFile,
+  chalk
+) {
   const circularReferenceInfo = findCircularRef(jsSpec, originalFile);
 
-  // ref_s_ = reference(s) - determine if plural or not
-  const ref_s_ = circularReferenceInfo.length > 1 ? 'references' : 'reference';
+  // refS = reference(s) - determine if plural or not
+  const refS = circularReferenceInfo.length > 1 ? 'references' : 'reference';
 
-  console.log('\n' + chalk.red('Error') + ` Circular ${ref_s_} detected. See below for details.\n`);
+  console.log(
+    '\n' +
+      chalk.red('Error') +
+      ` Circular ${refS} detected. See below for details.\n`
+  );
 
   // print all detected cicular references
   circularReferenceInfo.forEach(function(model) {
@@ -18,15 +26,13 @@ module.exports = function handleCircularReferences(jsSpec, originalFile, chalk) 
     console.log(chalk.magenta(`  Line    :   ${model.line}`));
     console.log();
   });
-}
+};
 
 // this function recursively walks the spec looking for a circular reference
 function findCircularRef(jsSpec, originalFile) {
-
-  let circularReferenceInfo = [];
+  const circularReferenceInfo = [];
 
   function walk(object, path) {
-
     if (object === null) {
       return null;
     }
@@ -42,13 +48,12 @@ function findCircularRef(jsSpec, originalFile) {
     }
 
     return keys.forEach(function(key) {
-
       if (key === '$ref') {
-        let ref = object[key];
-        let modelName = last(ref.split('/'));
+        const ref = object[key];
+        const modelName = last(ref.split('/'));
         if (path.includes(modelName)) {
           path = [...path, key];
-          let lineNumber = getLineNumberForPath(originalFile, path);
+          const lineNumber = getLineNumberForPath(originalFile, path);
           circularReferenceInfo.push({
             name: modelName,
             path: path,

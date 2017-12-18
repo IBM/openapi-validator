@@ -9,58 +9,8 @@ const defaultObject = require('../../.defaultsForValidator');
 // global objects
 const readFile = util.promisify(fs.readFile);
 
-const getConfigObject = async function (defaultMode, chalk) {
-  let configObject;
-  // search up the file system for the first instance
-  // of the config file
-  const configFile = await findUp('.validaterc');
-
-  // if the user does not have a config file, run in default mode and warn them
-  // (findUp returns null if it does not find a file)
-  if (configFile === null) {
-    console.log(
-      '\n' + chalk.yellow('Warning') +
-      ` No ${chalk.underline('.validaterc')} file found. The validator will run in ` +
-      chalk.bold.cyan('default mode.')
-    );
-    console.log(
-      `To configure the validator, the .validaterc file must be in the root directory of this project.`
-    );
-    defaultMode = true;
-  }
-
-  if (defaultMode) {
-    configObject = defaultObject;
-  }
-  else {
-    try {
-      // the config file must be in the root folder of the project
-      const fileAsString = await readFile(configFile, 'utf8');
-      configObject = JSON.parse(fileAsString);
-    }
-    catch (err) {
-      // this most likely means there is a problem in the json syntax itself
-      console.log(
-        '\n' + chalk.red('Error') +
-        ` There is a problem with the .validaterc file. See below for details.\n`
-      );
-      console.log(chalk.magenta(err) + '\n');
-      return Promise.reject(2);
-    }
-
-    // validate the user object
-    configObject = validateConfigObject(configObject, chalk);
-    if (configObject.invalid) {
-      return Promise.reject(2);
-    }
-  }
-
-  return configObject;
-};
-
 const validateConfigObject = function(configObject, chalk) {
-
-  let configErrors = [];
+  const configErrors = [];
   let validObject = true;
 
   // check that all categories are valid
@@ -96,7 +46,9 @@ const validateConfigObject = function(configObject, chalk) {
         validObject = false;
         configErrors.push({
           message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
-          correction: `For any rule, the only valid statuses are: ${allowedStatusValues.join(', ')}`
+          correction: `For any rule, the only valid statuses are: ${allowedStatusValues.join(
+            ', '
+          )}`
         });
       }
     });
@@ -119,21 +71,76 @@ const validateConfigObject = function(configObject, chalk) {
       });
     });
     configObject.invalid = false;
-  }
-  // if the object is not valid, exit and tell the user why
-  else {
+  } else {
+    // if the object is not valid, exit and tell the user why
     console.log(
-      chalk.red("\nError ") +
-      `Invalid configuration in ${chalk.underline('.validaterc')} file. See below for details.\n`
+      chalk.red('\nError ') +
+        `Invalid configuration in ${chalk.underline(
+          '.validaterc'
+        )} file. See below for details.\n`
     );
     configErrors.forEach(function(problem) {
-      console.log(` - ${chalk.red(problem.message)}\n   ${chalk.magenta(problem.correction)}\n`);
+      console.log(
+        ` - ${chalk.red(problem.message)}\n   ${chalk.magenta(
+          problem.correction
+        )}\n`
+      );
     });
     configObject.invalid = true;
   }
 
   return configObject;
+};
 
+const getConfigObject = async function(defaultMode, chalk) {
+  let configObject;
+  // search up the file system for the first instance
+  // of the config file
+  const configFile = await findUp('.validaterc');
+
+  // if the user does not have a config file, run in default mode and warn them
+  // (findUp returns null if it does not find a file)
+  if (configFile === null) {
+    console.log(
+      '\n' +
+        chalk.yellow('Warning') +
+        ` No ${chalk.underline(
+          '.validaterc'
+        )} file found. The validator will run in ` +
+        chalk.bold.cyan('default mode.')
+    );
+    console.log(
+      `To configure the validator, the .validaterc file must be in the root directory of this project.`
+    );
+    defaultMode = true;
+  }
+
+  if (defaultMode) {
+    configObject = defaultObject;
+  } else {
+    try {
+      // the config file must be in the root folder of the project
+      const fileAsString = await readFile(configFile, 'utf8');
+      configObject = JSON.parse(fileAsString);
+    } catch (err) {
+      // this most likely means there is a problem in the json syntax itself
+      console.log(
+        '\n' +
+          chalk.red('Error') +
+          ` There is a problem with the .validaterc file. See below for details.\n`
+      );
+      console.log(chalk.magenta(err) + '\n');
+      return Promise.reject(2);
+    }
+
+    // validate the user object
+    configObject = validateConfigObject(configObject, chalk);
+    if (configObject.invalid) {
+      return Promise.reject(2);
+    }
+  }
+
+  return configObject;
 };
 
 const getFilesToIgnore = async function() {
@@ -153,23 +160,20 @@ const getFilesToIgnore = async function() {
     // convert each glob in ignore file to an absolute path.
     // globby takes args relative to the process cwd, but we
     // want these to stay relative to project root
-    const globsToIgnore = fileAsString.split('\n').map(
-      glob => pathToFile + glob
-    );
+    const globsToIgnore = fileAsString
+      .split('\n')
+      .map(glob => pathToFile + glob);
 
-    filesToIgnore = await globby(
-      globsToIgnore, {
-        expandDirectories: true,
-        dot: true
-      }
-    );
-  }
-  catch (err) {
+    filesToIgnore = await globby(globsToIgnore, {
+      expandDirectories: true,
+      dot: true
+    });
+  } catch (err) {
     filesToIgnore = [];
   }
 
   return filesToIgnore;
-}
+};
 
 module.exports.get = getConfigObject;
 module.exports.validate = validateConfigObject;
