@@ -139,10 +139,22 @@ describe('cli tool - test expected output', function() {
 
     expect(exitCode).toEqual(1);
 
-    const allOutput = captured_text.join('');
+    const allOutput = capturedText.join('');
 
-    expect(allOutput.includes('Warning Skipping non-existent file: notAFile.json')).toEqual(true);
-    expect(allOutput.includes('Validation Results for ./test/cli-validator/mockFiles/errAndWarn.yaml:')).toEqual(true);
-    expect(allOutput.includes('Validation Results for ./test/cli-validator/mockFiles/clean.yml:')).toEqual(true);
+    expect(
+      allOutput.includes('Warning Skipping non-existent file: notAFile.json')
+    ).toEqual(true);
+
+    expect(
+      allOutput.includes(
+        'Validation Results for ./test/cli-validator/mockFiles/errAndWarn.yaml:'
+      )
+    ).toEqual(true);
+
+    expect(
+      allOutput.includes(
+        'Validation Results for ./test/cli-validator/mockFiles/clean.yml:'
+      )
+    ).toEqual(true);
   });
 });
