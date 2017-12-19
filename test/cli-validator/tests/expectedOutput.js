@@ -130,8 +130,7 @@ describe('cli tool - test expected output', function() {
     program.args = [
       './test/cli-validator/mockFiles/errAndWarn.yaml',
       'notAFile.json',
-      './test/cli-validator/mockFiles/clean.yml',
-      './test/cli-validator/mockFiles/circularRefs.yml'
+      './test/cli-validator/mockFiles/clean.yml'
     ];
     program.default_mode = true;
 
@@ -140,66 +139,10 @@ describe('cli tool - test expected output', function() {
 
     expect(exitCode).toEqual(1);
 
-    const allOutput = capturedText.join('');
+    const allOutput = captured_text.join('');
 
-    expect(
-      allOutput.includes('Warning Skipping non-existent file: notAFile.json')
-    ).toEqual(true);
-
-    expect(
-      allOutput.includes(
-        'Validation Results for ./test/cli-validator/mockFiles/errAndWarn.yaml:'
-      )
-    ).toEqual(true);
-
-    expect(
-      allOutput.includes(
-        'Validation Results for ./test/cli-validator/mockFiles/clean.yml:'
-      )
-    ).toEqual(true);
-
-    expect(
-      allOutput.includes(
-        'Error Circular references detected. See below for details.'
-      )
-    ).toEqual(true);
-  });
-
-  it('should print an error upon catching a circular reference', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
-    const program = {};
-    program.args = ['./test/cli-validator/mockFiles/circularRefs.yml'];
-    program.default_mode = true;
-
-    let exitCode;
-    try {
-      exitCode = await commandLineValidator(program);
-    } catch (err) {
-      exitCode = err;
-    }
-
-    unhookIntercept();
-
-    expect(exitCode).toEqual(1);
-
-    expect(capturedText[0]).toEqual(
-      '\nError Circular references detected. See below for details.\n\n'
-    );
-
-    expect(capturedText[2].match(/\S+/g)[2]).toEqual(
-      'definitions.Pet.properties.category.$ref'
-    );
-    expect(capturedText[3].match(/\S+/g)[2]).toEqual('176');
-
-    expect(capturedText[6].match(/\S+/g)[2]).toEqual(
-      'definitions.Pet.properties.tags.items.$ref'
-    );
-    expect(capturedText[7].match(/\S+/g)[2]).toEqual('196');
+    expect(allOutput.includes('Warning Skipping non-existent file: notAFile.json')).toEqual(true);
+    expect(allOutput.includes('Validation Results for ./test/cli-validator/mockFiles/errAndWarn.yaml:')).toEqual(true);
+    expect(allOutput.includes('Validation Results for ./test/cli-validator/mockFiles/clean.yml:')).toEqual(true);
   });
 });

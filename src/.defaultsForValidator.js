@@ -46,7 +46,8 @@ const defaults = {
     "invalid_non_empty_security_array": "error"
   },
   "walker": {
-    "no_empty_descriptions" : "error"
+    "no_empty_descriptions" : "error",
+    "has_circular_references": "warning"
   }
 };
 
