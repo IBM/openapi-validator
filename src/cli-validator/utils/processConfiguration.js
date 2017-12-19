@@ -1,57 +1,53 @@
 const fs = require('fs');
 const util = require('util');
+const path = require('path');
+const globby = require('globby');
+const findUp = require('find-up');
 
-const pathToSrc = __dirname + '/../../';
-const defaultsFile = '.defaultsForValidator';
+const defaultObject = require('../../.defaultsForValidator');
 
-const pathToRoot = __dirname + '/../../../../';
-const filename = '.validaterc';
-
-// import the default object
-const defaultObject = require(pathToSrc + defaultsFile);
+// global objects
+const readFile = util.promisify(fs.readFile);
 
 const getConfigObject = async function (defaultMode, chalk) {
+  let configObject;
+  // search up the file system for the first instance
+  // of the config file
+  const configFile = await findUp('.validaterc');
 
-  let configObject = {};
-  const readFile = util.promisify(fs.readFile);
-
-  // if the user specified to run in default mode, no need to read the file
-  if (!defaultMode){
-    try {
-      // the config file must be in the root folder of the project
-      const fileAsString = await readFile(pathToRoot + filename, 'utf8');
-      configObject = JSON.parse(fileAsString);
-    }
-    catch (err) {
-
-      // if the user does not have a config file, run in default mode and warn them
-      if (err.code === 'ENOENT') {
-        console.log(
-          '\n' + chalk.yellow('Warning') +
-          ` No ${chalk.underline(filename)} file found. The validator will run in ` +
-          chalk.bold.cyan('default mode.')
-        );
-        console.log(
-          `To configure the validator, the ${filename} file must be in the root directory of this project.`
-        );
-        defaultMode = true;
-      }
-      // this most likely means there is a problem in the json syntax itself
-      else {
-        console.log(
-          '\n' + chalk.red('Error') +
-          ` There is a problem with the ${chalk.underline(filename)} file. See below for details.\n`
-        );
-        console.log(chalk.magenta(err) + '\n');
-        return Promise.reject(2);
-      }
-    }
+  // if the user does not have a config file, run in default mode and warn them
+  // (findUp returns null if it does not find a file)
+  if (configFile === null) {
+    console.log(
+      '\n' + chalk.yellow('Warning') +
+      ` No ${chalk.underline('.validaterc')} file found. The validator will run in ` +
+      chalk.bold.cyan('default mode.')
+    );
+    console.log(
+      `To configure the validator, the .validaterc file must be in the root directory of this project.`
+    );
+    defaultMode = true;
   }
 
   if (defaultMode) {
     configObject = defaultObject;
   }
   else {
+    try {
+      // the config file must be in the root folder of the project
+      const fileAsString = await readFile(configFile, 'utf8');
+      configObject = JSON.parse(fileAsString);
+    }
+    catch (err) {
+      // this most likely means there is a problem in the json syntax itself
+      console.log(
+        '\n' + chalk.red('Error') +
+        ` There is a problem with the .validaterc file. See below for details.\n`
+      );
+      console.log(chalk.magenta(err) + '\n');
+      return Promise.reject(2);
+    }
+
     // validate the user object
     configObject = validateConfigObject(configObject, chalk);
     if (configObject.invalid) {
@@ -128,7 +124,7 @@ const validateConfigObject = function(configObject, chalk) {
   else {
     console.log(
       chalk.red("\nError ") +
-      `Invalid configuration in ${chalk.underline(filename)} file. See below for details.\n`
+      `Invalid configuration in ${chalk.underline('.validaterc')} file. See below for details.\n`
     );
     configErrors.forEach(function(problem) {
       console.log(` - ${chalk.red(problem.message)}\n   ${chalk.magenta(problem.correction)}\n`);
@@ -140,5 +136,41 @@ const validateConfigObject = function(configObject, chalk) {
 
 };
 
-module.exports = getConfigObject;
+const getFilesToIgnore = async function() {
+  // search up the file system for the first instance
+  // of the ignore file
+  const ignoreFile = await findUp('.validateignore');
+
+  // if file does not exist, thats fine. it is optional
+  if (ignoreFile === null) return [];
+
+  const pathToFile = `${path.dirname(ignoreFile)}/`;
+
+  let filesToIgnore;
+  try {
+    const fileAsString = await readFile(ignoreFile, 'utf8');
+
+    // convert each glob in ignore file to an absolute path.
+    // globby takes args relative to the process cwd, but we
+    // want these to stay relative to project root
+    const globsToIgnore = fileAsString.split('\n').map(
+      glob => pathToFile + glob
+    );
+
+    filesToIgnore = await globby(
+      globsToIgnore, {
+        expandDirectories: true,
+        dot: true
+      }
+    );
+  }
+  catch (err) {
+    filesToIgnore = [];
+  }
+
+  return filesToIgnore;
+}
+
+module.exports.get = getConfigObject;
 module.exports.validate = validateConfigObject;
+module.exports.ignore = getFilesToIgnore;

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const util          = require('util');
 const fs            = require('fs');
+const path          = require('path');
 const readYaml      = require('js-yaml');
 const last          = require('lodash/last');
 const SwaggerParser = require('swagger-parser');
@@ -10,7 +11,6 @@ const globby        = require('globby');
 
 const ext = require('./utils/fileExtensionValidator');
 const config = require('./utils/processConfiguration');
-const handleCircularReferences = require('./utils/handleCircularReferences');
 const validator = require('./utils/validator');
 const print = require('./utils/printResults');
 
@@ -61,6 +61,12 @@ const processInput = async function (program) {
 
   // otherwise, run the validator on the passed in files
   // first, process the given files to handle bad input
+
+  // ignore files in .validateignore by comparing absolute paths
+  const ignoredFiles = await config.ignore();
+  args = args.filter(file =>
+    !ignoredFiles.includes(path.resolve(file))
+  );
 
   // at this point, `args` is an array of file names passed in by the user.
   // nothing in `args` will be a glob type, as glob types are automatically
@@ -121,7 +127,7 @@ const processInput = async function (program) {
   // process the config file for the validations
   let configObject;
   try {
-    configObject = await config(defaultMode, chalk);
+    configObject = await config.get(defaultMode, chalk);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -204,19 +210,14 @@ const processInput = async function (program) {
     let parser = new SwaggerParser();
     parser.dereference.circular = false;
     swagger.resolvedSpec = await parser.dereference(input);
-
-    if (parser.$refs.circular) {
-      // there are circular references, find them and return an error
-      handleCircularReferences(swagger.jsSpec, originalFile, chalk);
-      exitCode = 1;
-      continue;
-    }
+    swagger.circular = parser.$refs.circular;
 
     // run validator, print the results, and determine if validator passed
     const results = validator(swagger, configObject);
-    if (!results.cleanSwagger) {
+    if (results.error || results.warning) {
       print(results, chalk, printValidators, reportingStats, originalFile);
-      exitCode = 1;
+      // fail on errors, but not if there are only warnings
+      if (results.error) exitCode = 1;
     } else {
       console.log(chalk.green(`\n${validFile} passed the validator`));
       if (validFile === last(filesToValidate)) console.log();

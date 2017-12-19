@@ -101,6 +101,28 @@ describe('cli tool - test expected output', function() {
     expect(captured_text[33].match(/\S+/g)[2]).toEqual('170');
   });
 
+  it ('should return exit code of 0 if there are only warnings', async function() {
+
+    let captured_text = [];
+
+    let unhook_intercept = intercept(function(txt) {
+        captured_text.push(stripAnsiFrom(txt));
+        return '';
+    });
+
+    let program = {};
+    program.args = ['./test/cli-validator/mockFiles/justWarn.yml'];
+    program.default_mode = true;
+
+    const exitCode = await commandLineValidator(program);
+    unhook_intercept();
+
+    expect(exitCode).toEqual(0);
+
+    const allOutput = captured_text.join('');
+    expect(allOutput.includes('warnings')).toEqual(true);
+  });
+
   it ('should handle an array of file names', async function() {
 
     let captured_text = [];
@@ -114,8 +136,7 @@ describe('cli tool - test expected output', function() {
     program.args = [
       './test/cli-validator/mockFiles/errAndWarn.yaml',
       'notAFile.json',
-      './test/cli-validator/mockFiles/clean.yml',
-      './test/cli-validator/mockFiles/circularRefs.yml'
+      './test/cli-validator/mockFiles/clean.yml'
     ];
     program.default_mode = true;
 
@@ -129,40 +150,5 @@ describe('cli tool - test expected output', function() {
     expect(allOutput.includes('Warning Skipping non-existent file: notAFile.json')).toEqual(true);
     expect(allOutput.includes('Validation Results for ./test/cli-validator/mockFiles/errAndWarn.yaml:')).toEqual(true);
     expect(allOutput.includes('Validation Results for ./test/cli-validator/mockFiles/clean.yml:')).toEqual(true);
-    expect(allOutput.includes('Error Circular references detected. See below for details.')).toEqual(true);
-  });
-
-  it ('should print an error upon catching a circular reference', async function() {
-
-    let captured_text = [];
-
-    let unhook_intercept = intercept(function(txt) {
-        captured_text.push(stripAnsiFrom(txt));
-        return '';
-    });
-
-    let program = {};
-    program.args = ['./test/cli-validator/mockFiles/circularRefs.yml'];
-    program.default_mode = true;
-
-    let exitCode;
-    try {
-      exitCode = await commandLineValidator(program);
-    }
-    catch (err) {
-      exitCode = err;
-    }
-    
-    unhook_intercept();
-
-    expect(exitCode).toEqual(1);
-
-    expect(captured_text[0]).toEqual('\nError Circular references detected. See below for details.\n\n');
-
-    expect(captured_text[2].match(/\S+/g)[2]).toEqual('definitions.Pet.properties.category.$ref');
-    expect(captured_text[3].match(/\S+/g)[2]).toEqual('176');
-
-    expect(captured_text[6].match(/\S+/g)[2]).toEqual('definitions.Pet.properties.tags.items.$ref');
-    expect(captured_text[7].match(/\S+/g)[2]).toEqual('196');
   });
 });

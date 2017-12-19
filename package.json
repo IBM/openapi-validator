@@ -17,6 +17,8 @@
     "babel-polyfill": "^6.26.0",
     "chalk": "^2.1.0",
     "commander": "^2.11.0",
+    "core-js": "^2.4.1",
+    "find-up": "^2.1.0",
     "globby": "^7.1.1",
     "immutable": "^3.x.x",
     "js-yaml": "^3.5.5",
