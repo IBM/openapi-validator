@@ -51,12 +51,10 @@ module.exports = function validateSwagger(allSpecs, config) {
 
   if (structuralKeys.length) {
     validationResults.error = true;
-    validationResults.errors['structural-validator'] = structuralKeys.map(key => {
-      return {
-        message: `Schema error: ${structuralResults[key].message}`,
-        path: structuralResults[key].path
-      };
-    });
+    validationResults.errors['structural-validator'] = structuralKeys.map(key => ({
+      message: `Schema error: ${structuralResults[key].message}`,
+      path: structuralResults[key].path
+    }));
   }
  
   return validationResults;
