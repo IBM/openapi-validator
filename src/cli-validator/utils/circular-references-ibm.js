@@ -1,7 +1,3 @@
-const last = require('lodash/last');
-const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast')
-                             .getLineNumberForPath;
-
 // find the circular references,
 // correct them,
 // and return them as problems if applicable
@@ -17,17 +13,15 @@ const validate = function({ jsSpec, resolvedSpec }, config) {
       path
     }));
   }
-  return { errors: result.error , warnings: result.warning };
-}
+  return { errors: result.error, warnings: result.warning };
+};
 
 // this function finds circular references in the resolved spec and
 // cuts them off to allow recursive walks in the validators
 const correctSpec = function(resolvedSpec) {
-
-  let paths = [];
+  const paths = [];
 
   function walk(object, path, visitedObjects) {
-
     if (object === null) {
       return null;
     }
@@ -56,18 +50,18 @@ const correctSpec = function(resolvedSpec) {
 
   walk(resolvedSpec, [], []);
   return paths;
-}
+};
 
 // this function takes the paths found while correcting the spec and
 // finds where the circular references are happening in the actual spec
 const convertPaths = function(jsSpec, resolvedPaths) {
-  let realPaths = [];
+  const realPaths = [];
   resolvedPaths.forEach(path => {
     let realPath = [];
     let previous = jsSpec;
     // path is an array of keys leading to the circular reference
     for (let i = 0; i < path.length; i++) {
-      let key = path[i];
+      const key = path[i];
       realPath.push(key);
 
       // access the next nested object using the given key
@@ -80,8 +74,9 @@ const convertPaths = function(jsSpec, resolvedPaths) {
       const lastKey = i === path.length - 1;
       if (current.$ref && !lastKey) {
         // locationArray holds the keys to the references object in the spec
-        let locationArray = current.$ref.split('/')
-                                        .filter(refKey => refKey !== '#');
+        const locationArray = current.$ref
+          .split('/')
+          .filter(refKey => refKey !== '#');
         // since we are following a ref to the first object level,
         // realPath needs to be reset
         realPath = [...locationArray];
@@ -89,8 +84,8 @@ const convertPaths = function(jsSpec, resolvedPaths) {
         // to follow the keys to the ref object we need to start looking in,
         // a mini-version of the parent loop is necessary
         let refPrevious = jsSpec;
-        for (let refKey of locationArray) {
-          let refCurrent = refPrevious[refKey];
+        for (const refKey of locationArray) {
+          const refCurrent = refPrevious[refKey];
           refPrevious = refCurrent;
         }
         // set the parent current object to the object found at the
@@ -98,13 +93,13 @@ const convertPaths = function(jsSpec, resolvedPaths) {
         current = refPrevious;
       }
 
-      previous = current
+      previous = current;
     }
     realPaths.push(realPath.join('.'));
   });
 
   return realPaths;
-}
+};
 
 module.exports.validate = validate;
 module.exports.correct = correctSpec;

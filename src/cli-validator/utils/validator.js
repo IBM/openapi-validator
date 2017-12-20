@@ -2,14 +2,14 @@
 const semanticValidators = require('require-all')(
   __dirname + '/../../plugins/validation/semantic-validators/validators'
 );
-const structuralValidator = require(
-  __dirname + '/../../plugins/validation/structural-validation/validator'
-);
+
+const structuralValidator = require(__dirname +
+  '/../../plugins/validation/structural-validation/validator');
+
 const circularRefsValidator = require('./circular-references-ibm');
 
 // this function runs the validators on the swagger object
 module.exports = function validateSwagger(allSpecs, config) {
-  
   const validationResults = {
     errors: {},
     warnings: {},
@@ -45,17 +45,19 @@ module.exports = function validateSwagger(allSpecs, config) {
   });
 
   // run structural validator
-  // all structural problems are errors  
+  // all structural problems are errors
   const structuralResults = structuralValidator.validate(allSpecs);
   const structuralKeys = Object.keys(structuralResults);
 
   if (structuralKeys.length) {
     validationResults.error = true;
-    validationResults.errors['structural-validator'] = structuralKeys.map(key => ({
-      message: `Schema error: ${structuralResults[key].message}`,
-      path: structuralResults[key].path
-    }));
+    validationResults.errors['structural-validator'] = structuralKeys.map(
+      key => ({
+        message: `Schema error: ${structuralResults[key].message}`,
+        path: structuralResults[key].path
+      })
+    );
   }
- 
+
   return validationResults;
-}
+};
