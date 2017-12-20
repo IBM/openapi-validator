@@ -8,10 +8,11 @@
   "scripts": {
     "prepush": "npm test",
     "build": "babel src -d dist/src --quiet && babel src/.defaultsForValidator.js -o dist/src/.defaultsForValidator.js --quiet && npm i -g",
-    "test": "npm run just-test-in-node && npm run test-cli-tool",
+    "test": "npm run lint-errors && npm run just-test-in-node && npm run test-cli-tool",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/plugins",
     "debug-test-in-node": "mocha --inspect --debug-brk --recursive --compilers js:babel-core/register test/plugins",
-    "test-cli-tool": "mocha --compilers js:babel-core/register test/cli-validator/tests"
+    "test-cli-tool": "mocha --compilers js:babel-core/register test/cli-validator/tests",
+    "lint-errors": "eslint --cache --quiet --ext '.js' src test"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
@@ -37,9 +38,14 @@
     "babel-core": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "expect": "^21.2.1",
+    "babel-eslint": "^8.0.3",
+    "eslint": "^4.13.1",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-prettier": "^2.4.0",
     "husky": "^0.14.3",
     "intercept-stdout": "^0.1.2",
     "mocha": "^3.2.0",
+    "prettier": "1.9.2",
     "strip-ansi": "^4.0.0"
   },
   "bin": {

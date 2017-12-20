@@ -7,7 +7,9 @@ const getExtension = filename => {
 const validateExtension = (filename, supportedFileTypes) => {
   const fileExtension = getExtension(filename);
   const hasExtension = filename.includes('.');
-  const goodExtension = hasExtension && supportedFileTypes.includes(fileExtension);
+  const goodExtension =
+    hasExtension && supportedFileTypes.includes(fileExtension);
+
   return goodExtension;
 };
 

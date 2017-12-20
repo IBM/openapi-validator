@@ -1,4 +1,4 @@
-require("babel-polyfill");
+require('babel-polyfill');
 
 const intercept = require('intercept-stdout');
 const expect = require('expect');
@@ -7,33 +7,36 @@ const commandLineValidator = require('../../../dist/src/cli-validator/runValidat
 const circularRefsValidator = require('../../../dist/src/cli-validator/utils/circular-references-ibm');
 
 describe('cli tool - test expected output', function() {
+  it('should correctly validate a file with circular references', async function() {
+    const capturedText = [];
 
-  it ('should correctly validate a file with circular references', async function() {
-
-    let captured_text = [];
-
-    let unhook_intercept = intercept(function(txt) {
-      captured_text.push(stripAnsiFrom(txt));
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
       return '';
     });
 
-    let program = {};
+    const program = {};
     program.args = ['./test/cli-validator/mockFiles/circularRefs.yml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
 
-    unhook_intercept();
+    unhookIntercept();
 
     expect(exitCode).toEqual(0);
 
-    const allOutput = captured_text.join('');
+    const allOutput = capturedText.join('');
 
-    expect(allOutput.includes('Swagger object must not contain circular references.')).toEqual(true);
-    expect(allOutput.includes('Definition was declared but never used in document')).toEqual(true);
+    expect(
+      allOutput.includes('Swagger object must not contain circular references.')
+    ).toEqual(true);
+
+    expect(
+      allOutput.includes('Definition was declared but never used in document')
+    ).toEqual(true);
   });
 
-  it ('should correct an arbitrary object with cyclic paths', function() {
+  it('should correct an arbitrary object with cyclic paths', function() {
     const testObject = {};
     const nestedObject = {
       foo: {
@@ -46,17 +49,17 @@ describe('cli tool - test expected output', function() {
     expect(paths[0].join('.')).toEqual('key.foo.bar');
   });
 
-  it ('should correctly convert a resolved path to a real one using refs', function() {
+  it('should correctly convert a resolved path to a real one using refs', function() {
     const testObject = {
       first: {
         second: {
-          '$ref': '#/definitions/something'
+          $ref: '#/definitions/something'
         }
       },
       definitions: {
         something: {
           foo: {
-            '$ref': '#/definitions/something'
+            $ref: '#/definitions/something'
           }
         }
       }
