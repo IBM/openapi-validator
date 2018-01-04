@@ -22,7 +22,6 @@ export function validate({jsSpec}, config) {
 
   config = config.parameters
 
-
   function walk(obj, path) {
     if (typeof obj !== "object" || obj === null) {
       return
@@ -100,8 +99,12 @@ export function validate({jsSpec}, config) {
       }
     }
     if (Object.keys(obj).length) {
-      return Object.keys(obj).map(k => walk(obj[k], [...path, k]))
-
+      return Object.keys(obj).map(k => {
+        // ignore validating all extensions - users need to use custom schemas
+        if (k.slice(0,2) !== "x-") {
+          return walk(obj[k], [...path, k])
+        }
+      })
     } else {
       return null
     }

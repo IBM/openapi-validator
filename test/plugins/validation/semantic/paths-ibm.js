@@ -108,4 +108,51 @@ describe("validation plugin - semantic - paths-ibm", function(){
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
+
+  it("should not return an error when incorrect path parameter is in an excluded operation", function(){
+
+    const config = {
+      "paths" : {
+        "missing_path_parameter": "error"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/CoolPath/{id}": {
+          get: {
+            parameters:
+            [
+              {
+                name: "id",
+                in: "path",
+                description: "good parameter",
+                required: true,
+                type: "integer",
+                "format": "int64"
+              }
+            ]
+          },
+          post: {
+            "x-sdk-exclude": true,
+            parameters: 
+            [
+              {
+                name: "id",
+                in: "body",
+                description: "bad parameter",
+                required: true,
+                type: "integer",
+                "format": "int64"
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    let res = validate({ resolvedSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(0)
+  })
 })
