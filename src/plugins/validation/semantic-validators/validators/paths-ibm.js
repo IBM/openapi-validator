@@ -47,7 +47,7 @@ export function validate({ resolvedSpec }, config) {
 
       operations.forEach(opName => {
 
-        if (opName === "$ref" || opName === "parameters") {
+        if (opName === "$ref" || opName === "parameters" || opName.slice(0,2) === "x-") {
           return
         }
 

@@ -39,6 +39,9 @@ export function validate({ jsSpec }, config) {
   config = config.operations
 
   map(jsSpec.paths, (path, pathKey) => {
+    if (pathKey.slice(0,2) === "x-") {
+      return
+    }
     let pathOps = pick(path, ["get", "head", "post", "put", "patch", "delete", "options"])
     each(pathOps, (op, opKey) => {
 

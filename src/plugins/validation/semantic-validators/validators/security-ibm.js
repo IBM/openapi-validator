@@ -32,7 +32,9 @@ export function validate({ jsSpec }, config) {
   // 2) within operations objects
   const paths = jsSpec.paths
   each(paths, (operations, pathName) => {
+    if (pathName.slice(0,2) === "x-") return
     each(operations, (operation, opName) => {
+      if (opName.slice(0,2) === "x-") return
       if (operation.security) {
         const path = `paths.${pathName}.${opName}.security`
         checkForInvalidNonEmptyArrays(operation.security, path)

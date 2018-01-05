@@ -39,6 +39,8 @@ export function validate({ jsSpec }, config) {
         return null
       }
       return keys.map(k => {
+        // skip walking down any vendor extensions
+        if (k.slice(0,2) === "x-") return null
         if(k === "description" && !(includes(path, "examples"))){
           var descriptionValue = value["description"].toString()
           if ((descriptionValue.length === 0) || (!descriptionValue.trim())) {

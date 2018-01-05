@@ -452,4 +452,39 @@ describe("validation plugin - semantic - operations-ibm", function(){
     expect(res.warnings[0].message).toEqual("Arrays MUST NOT be returned as the top-level structure in a response body.")
     expect(res.errors.length).toEqual(0)
   })
+
+  it("should complain about an empty summary", function(){
+
+    const config = {
+      "operations" : {
+        "no_summary": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/CoolPath": {
+          "x-vendor-put-op": {
+            consumes: ["consumes"],
+            summary: "  ",
+            operationId: "operationId",
+            parameters: [{
+              name: "BadParameter",
+              in: "body",
+              schema: {
+                required: ["Property"],
+                properties: [{
+                  name: "Property"
+                }]
+              }
+            }]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(0)
+    expect(res.errors.length).toEqual(0)
+  })
 })
