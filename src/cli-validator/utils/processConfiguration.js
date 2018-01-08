@@ -160,8 +160,10 @@ const getFilesToIgnore = async function() {
     // convert each glob in ignore file to an absolute path.
     // globby takes args relative to the process cwd, but we
     // want these to stay relative to project root
+    // also, ignore any blank lines
     const globsToIgnore = fileAsString
       .split('\n')
+      .filter(line => line.length !== 0)
       .map(glob => pathToFile + glob);
 
     filesToIgnore = await globby(globsToIgnore, {
