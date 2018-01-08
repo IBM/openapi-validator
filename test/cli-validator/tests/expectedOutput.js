@@ -142,7 +142,7 @@ describe('cli tool - test expected output', function() {
     const allOutput = capturedText.join('');
 
     expect(
-      allOutput.includes('Warning Skipping non-existent file: notAFile.json')
+      allOutput.includes('[Warning] Skipping non-existent file: notAFile.json')
     ).toEqual(true);
 
     expect(

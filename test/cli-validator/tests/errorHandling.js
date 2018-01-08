@@ -81,13 +81,13 @@ describe('cli tool - test error handling', function() {
     expect(capturedText.length).toEqual(4);
     expect(capturedText[0].trim()).toEqual('');
     expect(capturedText[1].trim()).toEqual(
-      'Warning Skipping file with unsupported file type: json'
+      '[Warning] Skipping file with unsupported file type: json'
     );
     expect(capturedText[2].trim()).toEqual(
       'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
     );
     expect(capturedText[3].trim()).toEqual(
-      'Error None of the given arguments are valid files.'
+      '[Error] None of the given arguments are valid files.'
     );
   });
 
@@ -115,13 +115,13 @@ describe('cli tool - test error handling', function() {
     expect(capturedText.length).toEqual(4);
     expect(capturedText[0].trim()).toEqual('');
     expect(capturedText[1].trim()).toEqual(
-      'Warning Skipping file with unsupported file type: badExtension.jsob'
+      '[Warning] Skipping file with unsupported file type: badExtension.jsob'
     );
     expect(capturedText[2].trim()).toEqual(
       'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
     );
     expect(capturedText[3].trim()).toEqual(
-      'Error None of the given arguments are valid files.'
+      '[Error] None of the given arguments are valid files.'
     );
   });
 
@@ -148,7 +148,7 @@ describe('cli tool - test error handling', function() {
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(2);
     expect(capturedText[0].trim()).toEqual(
-      'Error Invalid input file: ./test/cli-validator/mockFiles/badJson.json. See below for details.'
+      '[Error] Invalid input file: ./test/cli-validator/mockFiles/badJson.json. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
       'SyntaxError: Unexpected token ; in JSON at position 13'
@@ -178,7 +178,7 @@ describe('cli tool - test error handling', function() {
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(2);
     expect(capturedText[0].trim()).toEqual(
-      'Error Invalid input file: ./test/cli-validator/mockFiles/duplicateKeys.json. See below for details.'
+      '[Error] Invalid input file: ./test/cli-validator/mockFiles/duplicateKeys.json. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
       'Syntax error: duplicated keys "version" near sion": "1.'

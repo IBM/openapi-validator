@@ -14,14 +14,14 @@ module.exports = async function(chalk) {
     );
     console.log(
       '\n' +
-        chalk.green('Success') +
+        chalk.green('[Success]') +
         ` '.validaterc' file created and set to defaults.\n`
     );
     return Promise.resolve(0);
   } catch (err) {
     console.log(
       '\n' +
-        chalk.red('\nError') +
+        chalk.red('\n[Error]') +
         ' Problem writing the .validaterc file. See below for details.\n' +
         chalk.magenta(err) +
         '\n'
