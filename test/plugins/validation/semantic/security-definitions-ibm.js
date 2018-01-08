@@ -24,7 +24,7 @@ describe("validation plugin - semantic - security-definitions-ibm", function(){
             "read:coolData": "read some cool data"
           }
         },
-        api_key: {
+        api_key: { // eslint-disable-line camelcase
           type: "apiKey",
           name: "api_key",
           in: "header"

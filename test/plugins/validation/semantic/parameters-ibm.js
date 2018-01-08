@@ -154,4 +154,41 @@ describe("validation plugin - semantic - parameters-ibm", () => {
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
+
+  it("should not validate within extensions", () => {
+
+    const config = {
+      "parameters" : {
+        "no_parameter_description": "error",
+        "snake_case_only": "warning",
+        "invalid_type_format_pair": "error"
+      }
+    }
+
+    const spec = {
+      "paths": {
+        "/pets": {
+          "get": {
+            "x-sdk-extension": {
+              "parameters": {
+                "example": [
+                  {
+                    "name": "notAGoodName",
+                    "description": "     ",
+                    "in": "query",
+                    "type": "number",
+                    "format": "int32"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(0)
+  })
 })

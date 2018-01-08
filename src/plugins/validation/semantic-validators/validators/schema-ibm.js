@@ -35,12 +35,14 @@ export function validate({ jsSpec }, config) {
 
   if(jsSpec.definitions) {
     each(jsSpec.definitions, (def, name) => {
+      if (name.slice(0,2) === "x-") return
       schemas.push({ schema: def, path: ["definitions", name] })
     })
   }
 
   if(jsSpec.responses) {
     each(jsSpec.responses, (response, name) => {
+      if (name.slice(0,2) === "x-") return
       if(response.schema && !response.schema.$ref) {
         schemas.push({ schema: response.schema, path: ["responses", name, "schema"] })
       }
@@ -49,8 +51,10 @@ export function validate({ jsSpec }, config) {
 
   if(jsSpec.paths) {
     each(jsSpec.paths, (path, pathName) => {
+      if (pathName.slice(0,2) === "x-") return
       each(path, (op, opName) => {
         // skip schemas within operations that are excluded
+        if (opName.slice(0,2) === "x-") return
         if (op["x-sdk-exclude"] === true) {
           return
         }
@@ -66,6 +70,7 @@ export function validate({ jsSpec }, config) {
         }
         if(op && op.responses) {
           each(op.responses, (response, responseName) => {
+            if (responseName.slice(0,2) === "x-") return
             if(response && response.schema && !response.schema.$ref) {
               schemas.push({
                 schema: response.schema,
@@ -108,7 +113,7 @@ function generateFormatErrors(schema, contextPath, config) {
   if(!schema.properties) { return result }
 
   forIn( schema.properties, (property, propName) => {
-    if (property.$ref) { return }
+    if (property.$ref || propName.slice(0,2) === "x-") return
     var path = contextPath.concat(["properties",propName,"type"])
     var valid = true
     switch (property.type) {
@@ -123,10 +128,10 @@ function generateFormatErrors(schema, contextPath, config) {
         valid = formatValid(property.items)
         break
       case "object":
-        valid = true   // TODO: validate nested schemas
+        valid = true // TODO: validate nested schemas
         break
       case null:
-        valid = true  // Not valid, but should be flagged because type is required
+        valid = true // Not valid, but should be flagged because type is required
         break
       default:
         valid = false
@@ -161,10 +166,10 @@ function formatValid(property) {
       valid = (!property.format) || includes(["byte","binary","date","date-time","password"], property.format.toLowerCase())
       break
     case "boolean":
-      valid = (property.format === undefined)   // No valid formats for boolean -- should be omitted
+      valid = (property.format === undefined) // No valid formats for boolean -- should be omitted
       break
     case "object":
-      valid = true   // TODO: validate nested schemas
+      valid = true // TODO: validate nested schemas
       break
     default:
       valid = false
@@ -185,7 +190,7 @@ function generateDescriptionWarnings(schema, contextPath, config) {
   forIn( schema.properties, (property, propName) => {
 
     // if property is defined by a ref, it does not need a description
-    if (property.$ref) { return }
+    if (property.$ref || propName.slice(0,2) === "x-") return
 
     var path = contextPath.concat(["properties", propName, "description"])
 
@@ -230,6 +235,7 @@ function checkPropNames(schema, contextPath, config) {
 
   // flag any property whose name is not "lower snake case"
   forIn( schema.properties, (property, propName) => {
+    if (propName.slice(0,2) === "x-") return
 
     let checkStatus = config.snake_case_only || "off"
     if (checkStatus.match("error|warning")) {

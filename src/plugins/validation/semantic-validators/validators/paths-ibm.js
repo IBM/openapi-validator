@@ -1,6 +1,8 @@
 // Assertation 1. If a path has a parameter, all operations must have a parameter of type
 // 'path' and name 'parameterName' ( parameterName matching what is contained in curly brackets -> {} )
 
+import defaults from "../../../../.defaultsForValidator"
+
 export function validate({ resolvedSpec }, config) {
 
   let result = {}
@@ -10,13 +12,10 @@ export function validate({ resolvedSpec }, config) {
   // maintain browser functionality
   // if no object is passed in, set to default
   if (typeof config === "undefined") {
-    config = {
-      missing_path_parameter: "error"
-    }
+    config = defaults
   }
-  else {
-    config = config.paths
-  }
+
+  config = config.paths
 
   let pathNames = Object.keys(resolvedSpec.paths)
 
@@ -48,11 +47,16 @@ export function validate({ resolvedSpec }, config) {
 
       operations.forEach(opName => {
 
-        if (opName === "$ref" || opName === "parameters") {
+        if (opName === "$ref" || opName === "parameters" || opName.slice(0,2) === "x-") {
           return
         }
 
         let operation = path[opName]
+
+        // ignore validating excluded operations
+        if (operation["x-sdk-exclude"] === true) {
+          return
+        }
 
         // get array of 'names' for parameters of type 'path' in the operation
         let givenParameters = []

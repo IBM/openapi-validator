@@ -97,4 +97,34 @@ describe("validation plugin - semantic - walker-ibm", () => {
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
+
+  it("should not return an error when bad description is in extension", () => {
+    
+    const config = {
+      "walker" : {
+        "no_empty_descriptions" : "error"
+      }
+    }
+
+    const spec = {
+      "x-vendor-paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                "name": "tags",
+                "in": "query",
+                "description": "   ",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(0)
+  })
 })
