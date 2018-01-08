@@ -453,7 +453,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
     expect(res.errors.length).toEqual(0)
   })
 
-  it("should complain about an empty summary", function(){
+  it("should not complain about an empty summary within a vendor extension", function(){
 
     const config = {
       "operations" : {
