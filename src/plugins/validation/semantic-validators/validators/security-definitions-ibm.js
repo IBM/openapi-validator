@@ -28,6 +28,7 @@ export function validate({ jsSpec }, config) {
   const securityDefinitions = jsSpec.securityDefinitions
 
   each(securityDefinitions, (scheme, name) => {
+    if (name.slice(0,2) === "x-") return
 
     usedSchemes[name] = {}
     usedSchemes[name].used = false
@@ -54,8 +55,10 @@ export function validate({ jsSpec }, config) {
 
   // 2) within operations objects
   const paths = jsSpec.paths
-  each(paths, operations => {
-    each(operations, operation => {
+  each(paths, (operations, pathName) => {
+    if (pathName.slice(0,2) === "x-") return
+    each(operations, (operation, opName) => {
+      if (opName.slice(0,2) === "x-") return
       if (operation.security) {
         flagUsedDefinitions(operation.security)
       }
@@ -63,7 +66,7 @@ export function validate({ jsSpec }, config) {
   })
 
 
-  function flagUsedDefinitions(security, ) {
+  function flagUsedDefinitions(security) {
 
     security.forEach(scheme => {
 

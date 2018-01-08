@@ -315,4 +315,41 @@ describe("validation plugin - semantic - schema-ibm", () => {
     expect(res.warnings.length).toEqual(0)
   })
 
+  it("should not return an error when JSON is in the description of a vendor extension", () => {
+
+    const config = {
+      "schemas" : {
+        "description_mentions_json": "warning"
+      }
+    }
+
+    const spec = {
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                "name": "good_name",
+                "in": "body",
+                "description": "Not a bad description",
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "x-vendor-anyObject": {
+                      "type": "object",
+                      "description": "it is not always a JSON object"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(0)
+  })
 })
