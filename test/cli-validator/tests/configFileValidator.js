@@ -92,7 +92,7 @@ describe('cli tool - test config file validator', function() {
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0]).toEqual(
-      '\nError Invalid configuration in .validaterc file. See below for details.\n\n'
+      '\n[Error] Invalid configuration in .validaterc file. See below for details.\n\n'
     );
     expect(capturedText[1].split('\n')[0]).toEqual(
       " - 'nonValidCategory' is not a valid category."
@@ -138,7 +138,7 @@ describe('cli tool - test config file validator', function() {
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0]).toEqual(
-      '\nError Invalid configuration in .validaterc file. See below for details.\n\n'
+      '\n[Error] Invalid configuration in .validaterc file. See below for details.\n\n'
     );
     expect(capturedText[1].split('\n')[0]).toEqual(
       " - 'nonValidRule' is not a valid rule for the operations category"
@@ -184,7 +184,7 @@ describe('cli tool - test config file validator', function() {
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0]).toEqual(
-      '\nError Invalid configuration in .validaterc file. See below for details.\n\n'
+      '\n[Error] Invalid configuration in .validaterc file. See below for details.\n\n'
     );
     expect(capturedText[1]).toEqual(
       " - 'nonValidStatus' is not a valid status for the no_empty_descriptions rule in the walker category.\n   For any rule, the only valid statuses are: error, warning, off\n\n"

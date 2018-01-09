@@ -74,7 +74,7 @@ const validateConfigObject = function(configObject, chalk) {
   } else {
     // if the object is not valid, exit and tell the user why
     console.log(
-      chalk.red('\nError ') +
+      chalk.red('\n[Error] ') +
         `Invalid configuration in ${chalk.underline(
           '.validaterc'
         )} file. See below for details.\n`
@@ -103,7 +103,7 @@ const getConfigObject = async function(defaultMode, chalk) {
   if (configFile === null) {
     console.log(
       '\n' +
-        chalk.yellow('Warning') +
+        chalk.yellow('[Warning]') +
         ` No ${chalk.underline(
           '.validaterc'
         )} file found. The validator will run in ` +
@@ -126,7 +126,7 @@ const getConfigObject = async function(defaultMode, chalk) {
       // this most likely means there is a problem in the json syntax itself
       console.log(
         '\n' +
-          chalk.red('Error') +
+          chalk.red('[Error]') +
           ` There is a problem with the .validaterc file. See below for details.\n`
       );
       console.log(chalk.magenta(err) + '\n');
@@ -160,8 +160,10 @@ const getFilesToIgnore = async function() {
     // convert each glob in ignore file to an absolute path.
     // globby takes args relative to the process cwd, but we
     // want these to stay relative to project root
+    // also, ignore any blank lines
     const globsToIgnore = fileAsString
       .split('\n')
+      .filter(line => line.trim().length !== 0)
       .map(glob => pathToFile + glob);
 
     filesToIgnore = await globby(globsToIgnore, {

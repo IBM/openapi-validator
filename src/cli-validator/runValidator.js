@@ -64,7 +64,22 @@ const processInput = async function(program) {
 
   // ignore files in .validateignore by comparing absolute paths
   const ignoredFiles = await config.ignore();
-  args = args.filter(file => !ignoredFiles.includes(path.resolve(file)));
+  const filteredArgs = args.filter(
+    file => !ignoredFiles.includes(path.resolve(file))
+  );
+
+  // determine which files were removed from args because they were 'ignored'
+  // then, print these for the user. this way, the user is alerted to why files
+  // aren't validated
+  const filteredFiles = args.filter(file => !filteredArgs.includes(file));
+  if (filteredFiles.length) console.log();
+  filteredFiles.forEach(filename => {
+    console.log(
+      chalk.magenta('[Ignored] ') + path.relative(process.cwd(), filename)
+    );
+  });
+
+  args = filteredArgs;
 
   // at this point, `args` is an array of file names passed in by the user.
   // nothing in `args` will be a glob type, as glob types are automatically
@@ -79,7 +94,7 @@ const processInput = async function(program) {
       if (!unsupportedExtensionsFound) console.log();
       unsupportedExtensionsFound = true;
       console.log(
-        chalk.yellow('Warning') +
+        chalk.yellow('[Warning]') +
           ` Skipping file with unsupported file type: ${arg}`
       );
     }
@@ -108,7 +123,7 @@ const processInput = async function(program) {
   if (nonExistentFiles.length) console.log();
   nonExistentFiles.forEach(file => {
     console.log(
-      chalk.yellow('Warning') + ` Skipping non-existent file: ${file}`
+      chalk.yellow('[Warning]') + ` Skipping non-existent file: ${file}`
     );
   });
 
@@ -116,7 +131,7 @@ const processInput = async function(program) {
   if (filesToValidate.length === 0) {
     console.log(
       '\n' +
-        chalk.red('Error') +
+        chalk.red('[Error]') +
         ' None of the given arguments are valid files.\n'
     );
     return Promise.reject(2);
@@ -169,7 +184,7 @@ const processInput = async function(program) {
     } catch (err) {
       console.log(
         '\n' +
-          chalk.red('Error') +
+          chalk.red('[Error]') +
           ' Invalid input file: ' +
           chalk.red(validFile) +
           '. See below for details.\n'

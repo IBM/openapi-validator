@@ -6,7 +6,7 @@ module.exports = function(requiredVersion) {
   if (!isSupportedVersion) {
     console.log(
       '\n' +
-        chalk.red('Error') +
+        chalk.red('[Error]') +
         ` Node version must be ${requiredVersion} or above.` +
         ` Your current version is ${process.version}\n`
     );
