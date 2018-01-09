@@ -6,10 +6,25 @@ This command line tool lets you validate Swagger files according to the [Swagger
 - NPM 5.x
 
 ### Installation
+
+#### Install with NPM (recommended)
+This package can be installed with NPM using a git url. Installing this way can be authorized using SSH or HTTPS (these are the two options used for cloning repositories also).
+
+##### SSH
+1. Make sure you have an SSH key set up. If you have used SSH to clone an IBM GHE repository, this should be set up already. ([Instructions](https://help.github.com/articles/connecting-to-github-with-ssh/))
+2. Run the following command `npm install -g git+ssh://git@github.ibm.com:dustinpopp/swagger-validator-ibm.git`
+
+##### HTTPS
+1. Make sure you a have a personal access token set up. If you have used HTTPS to clone an IBM GHE repository, this should be set up already. ([Instructions]())
+2. Run the following command `npm install -g git+https://github.ibm.com/dustinpopp/swagger-validator-ibm.git`
+
+The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass the `--save` or `--save-dev` flag to add the vaidator as a dependency to your project and run it from your NPM scripts.
+
+#### Build from source
 1. Clone or download this repository
 2. Navigate to the root directory of this project.
 3. Install the dependencies using `npm install`
-4. Build the command line tool, run `npm run build`.
+4. Build the command line tool, run `npm run build-and-link`.
 
 ### Usage
 `lint-swagger [options] [command] [<files>]`
