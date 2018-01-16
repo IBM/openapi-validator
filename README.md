@@ -67,15 +67,15 @@ Returns a `Promise` with the validation results.
 
 ###### swaggerObject
 Type: `Object`
-A valid JSON object representing a Swagger file.
+An object that represents a Swagger file.
 
 ###### defaultMode
 Type: `boolean`
 Default: `false`
-If set to true, the validator will any ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
+If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
 
 ##### Validation results
-The Promise returned from the validator resolves into a JSON object. The structure of the object is:
+The Promise returned from the validator resolves to an object. The structure of the object is:
 ```json
 {
   errors:
