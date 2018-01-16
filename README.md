@@ -75,8 +75,8 @@ Default: `false`
 If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
 
 ##### Validation results
-The Promise returned from the validator resolves to an object. The structure of the object is:
-```json
+The Promise returned from the validator resolves into a JSON object. The structure of the object is:
+```
 {
   errors:
   [
