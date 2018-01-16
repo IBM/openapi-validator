@@ -76,7 +76,7 @@ If set to true, the validator will any ignore the `.validaterc` file and will us
 
 ##### Validation results
 The Promise returned from the validator resolves into a JSON object. The structure of the object is:
-```json
+```
 {
   errors:
   [
