@@ -26,7 +26,7 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 3. Install the dependencies using `npm install`
 4. Build the command line tool, run `npm run build-and-link`.
 
-### Usage
+### Usage (Command line)
 `lint-swagger [options] [command] [<files>]`
 
 #### [options]
@@ -47,6 +47,54 @@ None of the above options pertain to this command.
 - The Swagger file(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
 - Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `validate-swagger files/*` will run the validator on all files in "files/")
 
+### Usage (Node module)
+_Assumes the module was installed with a `--save` or `--save-dev` flag._
+```javascript
+const validator = require('swagger-validator-ibm');
+validator(swaggerObject)
+  .then(validationResults => {
+    console.log(JSON.stringify(validationResults, null, 2));
+  }
+);
+// or, if inside `async` function
+const validationResults = await validator(swaggerObject);
+console.log(JSON.stringify(validationResults, null, 2));
+```
+
+#### API
+##### validator(swaggerObject, [defaultMode = false])
+Returns a `Promise` with the validation results.
+
+###### swaggerObject
+Type: `Object`
+A valid JSON object representing a Swagger file.
+
+###### defaultMode
+Type: `boolean`
+Default: `false`
+If set to true, the validator will any ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
+
+##### Validation results
+The Promise returned from the validator resolves into a JSON object. The structure of the object is:
+```json
+{
+  errors:
+  [
+    {
+      path: 'path.to.error.in.object'
+      message: 'Major problem in the Swagger.'
+    }
+  ],
+  warnings:
+  [
+    {
+      path: 'path.to.warning.in.object'
+      message: 'Minor problem in the Swagger.'
+    }
+  ]
+}
+```
+The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the Swagger.
 
 ### Configuration
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a file with the name `.validaterc` and continue reading this section.

@@ -4,6 +4,8 @@ const intercept = require('intercept-stdout');
 const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
 const commandLineValidator = require('../../../dist/src/cli-validator/runValidator');
+const inCodeValidator = require('../../../dist/src/lib');
+const swaggerInMemory = require('../mockFiles/errWarnInMemory');
 
 describe('cli tool - test expected output', function() {
   it('should not produce any errors or warnings from mockFiles/clean.yml', async function() {
@@ -156,5 +158,18 @@ describe('cli tool - test expected output', function() {
         'Validation Results for ./test/cli-validator/mockFiles/clean.yml:'
       )
     ).toEqual(true);
+  });
+
+  it('should return errors and warnings using the in-memory module', async function() {
+    const defaultMode = true;
+    const validationResults = await inCodeValidator(
+      swaggerInMemory,
+      defaultMode
+    );
+
+    // should produce an object with `errors` and `warnings` keys that should
+    // both be non-empty
+    expect(validationResults.errors.length).toBeGreaterThan(0);
+    expect(validationResults.warnings.length).toBeGreaterThan(0);
   });
 });
