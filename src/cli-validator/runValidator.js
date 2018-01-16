@@ -4,19 +4,14 @@ const fs = require('fs');
 const path = require('path');
 const readYaml = require('js-yaml');
 const last = require('lodash/last');
-const SwaggerParser = require('swagger-parser');
 const chalkPackage = require('chalk');
 const jsonValidator = require('json-dup-key-validator');
 const globby = require('globby');
-
 const ext = require('./utils/fileExtensionValidator');
 const config = require('./utils/processConfiguration');
+const buildSwaggerObject = require('./utils/buildSwaggerObject');
 const validator = require('./utils/validator');
 const print = require('./utils/printResults');
-
-// get the api schema to perform structural validation against
-const apiSchema = require(__dirname + '/../plugins/validation/apis/schema')
-  .default;
 
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
@@ -194,36 +189,8 @@ const processInput = async function(program) {
       continue;
     }
 
-    // initialize an object to be passed through all the validators
-    const swagger = {};
-
-    // the structural validation expects a `settings` object
-    //  describing which schemas to validate against
-    swagger.settings = {
-      schemas: [apiSchema],
-      testSchema: apiSchema
-    };
-
-    // ### all validations expect an object with three properties: ###
-    // ###          jsSpec, resolvedSpec, and specStr              ###
-
-    // formatting the JSON string with indentations is necessary for the
-    //   validations that use it with regular expressions (e.g. refs.js)
-    const indentationSpaces = 2;
-
-    swagger.specStr = JSON.stringify(input, null, indentationSpaces);
-
-    // deep copy input to a jsSpec by parsing the spec string.
-    // just setting it equal to 'input' and then calling 'dereference'
-    //   replaces 'input' with the dereferenced object, which is bad
-    swagger.jsSpec = JSON.parse(swagger.specStr);
-
-    // dereference() resolves all references. it esentially returns the resolvedSpec,
-    //   but without the $$ref tags (which are not used in the validations)
-    const parser = new SwaggerParser();
-    parser.dereference.circular = false;
-    swagger.resolvedSpec = await parser.dereference(input);
-    swagger.circular = parser.$refs.circular;
+    // validator requires the swagger object to follow a specific format
+    const swagger = await buildSwaggerObject(input);
 
     // run validator, print the results, and determine if validator passed
     const results = validator(swagger, configObject);
