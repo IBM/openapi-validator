@@ -157,4 +157,34 @@ describe('cli tool - test expected output', function() {
       )
     ).toEqual(true);
   });
+
+  it('should not produce any errors or warnings from mockFiles/cleanWithTabs.yml', async function() {
+    // set a variable to store text intercepted from stdout
+    const capturedText = [];
+
+    // this variable intercepts incoming text and pushes it into capturedText
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      // by default, text is intercepted AND printed. returning an
+      //   empty string prevents any printing
+      return '';
+    });
+
+    // set up mock user input
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/cleanWithTabs.yml'];
+    program.default_mode = true;
+
+    const exitCode = await commandLineValidator(program);
+
+    // this stops the interception of output text
+    unhookIntercept();
+
+    expect(exitCode).toEqual(0);
+    expect(capturedText.length).toEqual(2);
+    expect(capturedText[0].trim()).toEqual(
+      './test/cli-validator/mockFiles/cleanWithTabs.yml passed the validator'
+    );
+    expect(capturedText[1].trim()).toEqual('');
+  });
 });
