@@ -27,7 +27,9 @@ const defaults = {
   "parameters": {
     "no_parameter_description": "error",
     "snake_case_only": "warning",
-    "invalid_type_format_pair": "error"
+    "invalid_type_format_pair": "error",
+    "content_type_parameter": "error",
+    "accept_type_parameter": "error"
   },
   "paths": {
     "missing_path_parameter": "error"
