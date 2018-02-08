@@ -164,6 +164,11 @@ const processInput = async function(program) {
     try {
       originalFile = await readFile(validFile, 'utf8');
 
+      // replace all tabs characters (\t) in the original file with 2 spaces
+      // for whatever reason, the `getLineNumberForPath` module will crash if
+      // the swagger contains any tab characters
+      originalFile = originalFile.replace(/\t/g, '  ');
+
       const fileExtension = ext.getFileExtension(validFile);
       if (fileExtension === 'json') {
         input = JSON.parse(originalFile);
