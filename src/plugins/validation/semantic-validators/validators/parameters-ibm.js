@@ -4,6 +4,10 @@
 // Assertation 2:
 // If parameters define their own format, they must follow the formatting rules.
 
+// Assertation 3:
+// Header parameters must not define a content-type or an accept-type.
+// http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#do-not-explicitly-define-a-content-type-header-parameter
+
 import snakecase from "lodash/snakeCase"
 import includes from "lodash/includes"
 
@@ -60,6 +64,30 @@ export function validate({jsSpec}, config) {
         let message = "Parameter name must use snake case."
         let checkStatus = config.snake_case_only
         if (checkStatus !== "off") {
+          result[checkStatus].push({
+            path,
+            message
+          })
+        }
+      }
+
+      if (isParameter && isHeaderParameter) {
+        // check for content-type defined in a header parameter
+        let checkStatus = config.content_type_parameter
+        let definesContentType = obj.name.toLowerCase() === "content-type"
+        let message = "Parameters must not explicitly define `Content-Type`. Rely on the `consumes` field to specify content-type."
+        if (definesContentType && checkStatus !== "off") {
+          result[checkStatus].push({
+            path,
+            message
+          })
+        }
+
+        // check for accept-type defined in a header parameter
+        checkStatus = config.accept_type_parameter
+        definesContentType = obj.name.toLowerCase() === "accept"
+        message = "Parameters must not explicitly define `Accept`. Rely on the `produces` field to specify accept-type."
+        if (definesContentType && checkStatus !== "off") {
           result[checkStatus].push({
             path,
             message

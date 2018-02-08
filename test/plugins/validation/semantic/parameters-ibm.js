@@ -191,4 +191,56 @@ describe("validation plugin - semantic - parameters-ibm", () => {
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
+
+  it("should return an error when a parameter defines a content or accept type ", () => {
+    const config = {
+      "parameters" : {
+        "content_type_parameter": "error",
+        "accept_type_parameter": "error"
+      }
+    }
+
+    const spec = {
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                "name": "name",
+                "in": "query",
+                "type": "string",
+                "description": "good description"
+              },
+              {
+                "name": "Accept",
+                "in": "header",
+                "description": "bad parameter because it specifies an accept type",
+                "required": false,
+                "type": "string",
+                "enum": [
+                  "application/json",
+                  "application/octet-stream"
+                ]
+              },
+              {
+                "name": "content-Type",
+                "in": "header",
+                "required": false,
+                "type": "string",
+                "description": "another bad parameter"
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(0)
+    expect(res.errors.length).toEqual(2)
+    expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "1"])
+    expect(res.errors[0].message).toEqual("Parameters must not explicitly define `Accept`. Rely on the `produces` field to specify accept-type.")
+    expect(res.errors[1].path).toEqual(["paths", "/pets", "get", "parameters", "2"])
+    expect(res.errors[1].message).toEqual("Parameters must not explicitly define `Content-Type`. Rely on the `consumes` field to specify content-type.")
+  })
 })

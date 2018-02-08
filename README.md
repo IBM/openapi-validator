@@ -143,6 +143,8 @@ Each category contains a group of rules. The supported rules are described below
 | no_parameter_description    | Flag any parameter that does not contain a 'description' field.      |
 | snake_case_only             | Flag any parameter with a 'name' field that does not use snake case. |
 | invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat) |
+| content_type_parameter      | Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field. |
+| accept_type_parameter       | Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field. |
 
 ##### paths
 | Rule                        | Description                                                                                                  |
@@ -218,6 +220,8 @@ The default values for each rule are described below.
 | no_parameter_description    | error   |
 | snake_case_only             | warning |
 | invalid_type_format_pair    | error   |
+| content_type_parameter      | error   |
+| accept_type_parameter       | error   |
 
 ###### paths
 | Rule                        | Default |
