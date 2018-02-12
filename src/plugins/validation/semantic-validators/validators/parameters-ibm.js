@@ -56,7 +56,7 @@ export function validate({jsSpec}, config) {
       }
 
       let isParameter = obj.in // the `in` property is required by OpenAPI for parameters - this should be true
-      let isHeaderParameter = (obj.in == "header") // header params need not be snake_case
+      let isHeaderParameter = (obj.in.toLowerCase() === "header") // header params need not be snake_case
       let isSnakecase = obj.name == snakecase(obj.name)
 
       // if the parameter is defined by a ref, no need to check the ref path for snake_case
@@ -72,25 +72,25 @@ export function validate({jsSpec}, config) {
       }
 
       if (isParameter && isHeaderParameter) {
-        // check for content-type defined in a header parameter
-        let checkStatus = config.content_type_parameter
+        // check for content-type defined in a header parameter (CT = content-type)
+        let checkStatusCT = config.content_type_parameter
         let definesContentType = obj.name.toLowerCase() === "content-type"
-        let message = "Parameters must not explicitly define `Content-Type`. Rely on the `consumes` field to specify content-type."
-        if (definesContentType && checkStatus !== "off") {
-          result[checkStatus].push({
+        let messageCT = "Parameters must not explicitly define `Content-Type`. Rely on the `consumes` field to specify content-type."
+        if (definesContentType && checkStatusCT !== "off") {
+          result[checkStatusCT].push({
             path,
-            message
+            message: messageCT
           })
         }
 
-        // check for accept-type defined in a header parameter
-        checkStatus = config.accept_type_parameter
-        definesContentType = obj.name.toLowerCase() === "accept"
-        message = "Parameters must not explicitly define `Accept`. Rely on the `produces` field to specify accept-type."
-        if (definesContentType && checkStatus !== "off") {
-          result[checkStatus].push({
+        // check for accept-type defined in a header parameter (AT = accept-type)
+        let checkStatusAT = config.accept_type_parameter
+        let definesAcceptType = obj.name.toLowerCase() === "accept"
+        let messageAT = "Parameters must not explicitly define `Accept`. Rely on the `produces` field to specify accept-type."
+        if (definesAcceptType && checkStatusAT !== "off") {
+          result[checkStatusAT].push({
             path,
-            message
+            message: messageAT
           })
         }
       }
