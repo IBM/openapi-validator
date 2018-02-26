@@ -55,8 +55,8 @@ export function validate({jsSpec}, config) {
         }
       }
 
-      let isParameter = obj.in // the `in` property is required by OpenAPI for parameters - this should be true
-      let isHeaderParameter = (obj.in.toLowerCase() === "header") // header params need not be snake_case
+      let isParameter = obj.in // the `in` property is required by OpenAPI for parameters - this should be true (unless obj is a ref)
+      let isHeaderParameter = (obj.in && obj.in.toLowerCase() === "header") // header params need not be snake_case
       let isSnakecase = obj.name == snakecase(obj.name)
 
       // if the parameter is defined by a ref, no need to check the ref path for snake_case
