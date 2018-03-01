@@ -17,12 +17,30 @@
 // Arrays MUST NOT be returned as the top-level structure in a response body.
 // ref: https://pages.github.ibm.com/CloudEngineering/api_handbook/fundamentals/format.html#object-encapsulation
 
-import pick from "lodash/pick"
-import map from "lodash/map"
+// Assertation 7:
+// All required parameters of an operation are listed before any optional parameters.
+// http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#parameter-order
+
+import at from "lodash/at"
 import each from "lodash/each"
 import includes from "lodash/includes"
+import map from "lodash/map"
+import pick from "lodash/pick"
 
 import defaults from "../../../../.defaultsForValidator"
+
+function resolveRef(obj, jsSpec) {
+  if (!obj.ref) {
+    return obj;
+  }
+  if (!obj.ref.startsWith("#/")) {
+    // Only handle internal refs
+    return {};
+  }
+  let path = obj.ref.split("/").slice(1).join(".");
+  let resolved = at(jsSpec, path)[0]
+  return resolved;
+}
 
 export function validate({ jsSpec }, config) {
 
@@ -149,6 +167,30 @@ export function validate({ jsSpec }, config) {
             path: `paths.${pathKey}.${opKey}.summary`,
             message: "Operations must have a non-empty `summary` field."
           })
+        }
+      }
+
+      // All required parameters of an operation are listed before any optional parameters.
+      let checkStatus = config.parameter_order
+      if (checkStatus !== "off") {
+
+        if (op.parameters && op.parameters.length > 0) {
+          let firstOptional = -1;
+          for (var indx = 0; indx < op.parameters.length; indx++) {
+            let param = resolveRef(op.parameters[indx], jsSpec);
+            if (firstOptional < 0) {
+              if (!param.required) {
+                firstOptional = indx;
+              }
+            } else {
+              if (param.required) {
+                result[checkStatus].push({
+                  path: `paths.${pathKey}.${opKey}.parameters[${indx}]`,
+                  message: "Required parameters should appear before optional parameters."
+                })
+              }
+            }
+          }
         }
       }
     })
