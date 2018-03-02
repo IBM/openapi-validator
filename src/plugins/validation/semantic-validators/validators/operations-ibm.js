@@ -176,7 +176,7 @@ export function validate({ jsSpec }, config) {
 
         if (op.parameters && op.parameters.length > 0) {
           let firstOptional = -1;
-          for (var indx = 0; indx < op.parameters.length; indx++) {
+          for (let indx = 0; indx < op.parameters.length; indx++) {
             let param = resolveRef(op.parameters[indx], jsSpec);
             if (firstOptional < 0) {
               if (!param.required) {
