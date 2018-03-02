@@ -10,11 +10,11 @@
     "build": "babel src -d dist/src --quiet && babel src/.defaultsForValidator.js -o dist/src/.defaultsForValidator.js --quiet",
     "prepare": "npm run build",
     "build-and-link": "npm run build && npm i -g",
-    "test": "npm run lint-errors && npm run just-test-in-node && npm run test-cli-tool",
+    "test": "npm run lint && npm run just-test-in-node && npm run test-cli-tool",
     "just-test-in-node": "mocha --recursive --compilers js:babel-core/register test/plugins",
     "debug-test-in-node": "mocha --inspect --debug-brk --recursive --compilers js:babel-core/register test/plugins",
     "test-cli-tool": "mocha --compilers js:babel-core/register test/cli-validator/tests",
-    "lint-errors": "eslint --cache --quiet --ext '.js' src test"
+    "lint": "eslint --cache --quiet --ext '.js' src test"
   },
   "dependencies": {
     "babel-polyfill": "^6.26.0",
