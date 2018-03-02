@@ -415,7 +415,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
     expect(res.errors.length).toEqual(0)
   })
 
-  it("should complain about an anonymouse array response model", function(){
+  it("should complain about an anonymous array response model", function(){
 
     const config = {
       "operations" : {
@@ -486,5 +486,106 @@ describe("validation plugin - semantic - operations-ibm", function(){
     let res = validate({ jsSpec: spec }, config)
     expect(res.warnings.length).toEqual(0)
     expect(res.errors.length).toEqual(0)
+  })
+
+  it("should report required parameters before optional parameters", function(){
+
+    const config = {
+      "operations" : {
+        "parameter_order": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/stuff": {
+          get: {
+            summary: "list stuff",
+            operationId: "listStuff",
+            produces: ["application/json"],
+            parameters: [{
+              name: "foo",
+              in: "query",
+              type: "string"
+            },
+            {
+              name: "bar",
+              in: "query",
+              type: "string",
+              required: true
+            },
+            {
+              name: "baz",
+              in: "query",
+              type: "string",
+              required: true
+            }]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(2)
+    expect(res.warnings[0].path).toEqual("paths./stuff.get.parameters[1]")
+    expect(res.warnings[0].message).toEqual("Required parameters should appear before optional parameters.")
+    expect(res.warnings[1].path).toEqual("paths./stuff.get.parameters[2]")
+    expect(res.warnings[1].message).toEqual("Required parameters should appear before optional parameters.")
+  })
+
+  it("should report required ref parameters before optional ref parameters", function(){
+
+    const config = {
+      "operations" : {
+        "parameter_order": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/stuff": {
+          get: {
+            summary: "list stuff",
+            operationId: "listStuff",
+            produces: ["application/json"],
+            parameters: [{
+              ref: "#/parameters/fooParam"
+            },
+            {
+              ref: "#/parameters/barParam"
+            },
+            {
+              ref: "#/parameters/bazParam"
+            }]
+          }
+        }
+      },
+      parameters: {
+        fooParam: {
+          name: "foo",
+          in: "query",
+          type: "string"
+        },
+        barParam: {
+          name: "bar",
+          in: "query",
+          type: "string",
+          required: true
+        },
+        bazParam: {
+          name: "foo",
+          in: "query",
+          type: "string",
+          required: true
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(2)
+    expect(res.warnings[0].path).toEqual("paths./stuff.get.parameters[1]")
+    expect(res.warnings[0].message).toEqual("Required parameters should appear before optional parameters.")
+    expect(res.warnings[1].path).toEqual("paths./stuff.get.parameters[2]")
+    expect(res.warnings[1].message).toEqual("Required parameters should appear before optional parameters.")
   })
 })

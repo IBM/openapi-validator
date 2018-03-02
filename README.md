@@ -1,5 +1,5 @@
 # Swagger-Validator-IBM
-This command line tool lets you validate Swagger files according to the [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style). 
+This command line tool lets you validate Swagger files according to the [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
 
 ##### Prerequisites
 - Node 8.9.x
@@ -136,6 +136,7 @@ Each category contains a group of rules. The supported rules are described below
 | no_operation_id             | Flag any operations that do not have an 'operationId' field.         |
 | no_summary                  | Flag any operations that do not have a 'summary' field.              |
 | no_array_responses          | Flag any operations with a top-level array response.                 |
+| parameter_order             | Flag any operations with optional parameters before a required param |
 
 ##### parameters
 | Rule                        | Description                                                          |
@@ -213,6 +214,7 @@ The default values for each rule are described below.
 | no_operation_id             | warning |
 | no_summary                  | warning |
 | no_array_responses          | error   |
+| parameter_order             | warning |
 
 ###### parameters
 | Rule                        | Default |

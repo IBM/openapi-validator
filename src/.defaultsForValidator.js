@@ -1,13 +1,13 @@
 /*
     **********   DO NOT MODIFY THIS FILE   **********
-    
-    
+
+
     To configure the validator, edit the '.validaterc'
     file in the root folder of this project.
-    
-    This file contains the defaults rules for the 
+
+    This file contains the defaults rules for the
     validator. It is used to check for errors in
-    the .validaterc file and for running the 
+    the .validaterc file and for running the
     validator in default mode.
 
     NOTE: If you are contributing a validation to this code
@@ -22,7 +22,8 @@ const defaults = {
     "no_produces_for_get": "error",
     "no_operation_id": "warning",
     "no_summary": "warning",
-    "no_array_responses": "error"
+    "no_array_responses": "error",
+    "parameter_order": "warning"
   },
   "parameters": {
     "no_parameter_description": "error",
