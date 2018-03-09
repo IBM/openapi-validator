@@ -31,15 +31,15 @@ import defaults from "../../../../.defaultsForValidator"
 
 function resolveRef(obj, jsSpec) {
   if (!obj.ref) {
-    return obj;
+    return obj
   }
   if (!obj.ref.startsWith("#/")) {
     // Only handle internal refs
-    return {};
+    return {}
   }
-  let path = obj.ref.split("/").slice(1).join(".");
+  let path = obj.ref.split("/").slice(1).join(".")
   let resolved = at(jsSpec, path)[0]
-  return resolved;
+  return resolved
 }
 
 export function validate({ jsSpec }, config) {
@@ -175,12 +175,12 @@ export function validate({ jsSpec }, config) {
       if (checkStatus !== "off") {
 
         if (op.parameters && op.parameters.length > 0) {
-          let firstOptional = -1;
+          let firstOptional = -1
           for (let indx = 0; indx < op.parameters.length; indx++) {
-            let param = resolveRef(op.parameters[indx], jsSpec);
+            let param = resolveRef(op.parameters[indx], jsSpec)
             if (firstOptional < 0) {
               if (!param.required) {
-                firstOptional = indx;
+                firstOptional = indx
               }
             } else {
               if (param.required) {
