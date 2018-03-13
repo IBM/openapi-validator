@@ -164,7 +164,10 @@ const getFilesToIgnore = async function() {
       .filter(line => line.trim().length !== 0)
       .map(glob => pathToFile + glob);
 
-    filesToIgnore = await globby(globsToIgnore, { dot: true });
+    filesToIgnore = await globby(globsToIgnore, {
+      expandDirectories: true,
+      dot: true
+    });
   } catch (err) {
     filesToIgnore = [];
   }
