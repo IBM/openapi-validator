@@ -30,14 +30,14 @@ import pick from "lodash/pick"
 import defaults from "../../../../.defaultsForValidator"
 
 function resolveRef(obj, jsSpec) {
-  if (!obj.ref) {
+  if (!obj.$ref) {
     return obj
   }
-  if (!obj.ref.startsWith("#/")) {
+  if (!obj.$ref.startsWith("#/")) {
     // Only handle internal refs
     return {}
   }
-  let path = obj.ref.split("/").slice(1).join(".")
+  let path = obj.$ref.split("/").slice(1).join(".")
   let resolved = at(jsSpec, path)[0]
   return resolved
 }
