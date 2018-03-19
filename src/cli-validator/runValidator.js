@@ -134,7 +134,7 @@ const processInput = async function(program) {
   try {
     configObject = await config.get(defaultMode, chalk);
   } catch (err) {
-    return Promise.reject(2);
+    return Promise.reject(err);
   }
 
   // define an exit code to return. this will tell the parent program whether
