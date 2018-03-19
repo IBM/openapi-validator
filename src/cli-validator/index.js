@@ -44,8 +44,13 @@ cliValidator(program)
     return exitCode;
   })
   .catch(err => {
-    process.exitCode = err;
-    return err;
+    // if err is 2, it is because the message was caught
+    // and printed already
+    if (err !== 2) {
+      console.log(err);
+    }
+    process.exitCode = 2;
+    return 2;
   });
 
 //
@@ -58,4 +63,4 @@ cliValidator(program)
 //
 // err
 // 2: the program encountered an error that prevented
-//    the validator from running on any files
+//    the validator from running on all the files
