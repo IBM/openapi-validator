@@ -1,32 +1,55 @@
 # Swagger-Validator-IBM
 This command line tool lets you validate Swagger files according to the [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
 
-##### Prerequisites
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+  - [NPM](#install-with-npm-(recommended))
+  - [Source](#build-from-source)
+- [Usage](#usage)
+  - [Command line](#command-line)
+  - [Node module](#node-module)
+    - [API](#api)
+    - [Structure of validation results](#validation-results)
+- [Configuration](#configuration)
+  - [Setup](#setup)
+  - [Definitions](#definitions)
+    - [Categories](#categories)
+    - [Rules](#rules)
+    - [Statuses](#statuses)
+  - [Configuration file](#configuration-file)
+  - [Default mode](#default-mode)
+    - [Default values](#default-values)
+- [Troubleshooting](#troubleshooting)
+  - [Installing with NPM through a proxy](#installing-with-npm-through-a-proxy)
+- [License](#license)
+
+#### Prerequisites
 - Node 8.9.x
 - NPM 5.x
 
-### Installation
+## Installation
 
-#### Install with NPM (recommended)
+### Install with NPM (recommended)
 This package can be installed with NPM using a git url. Installing this way can be authorized using SSH or HTTPS (these are the two options used for cloning repositories also).
 
-##### SSH
+#### SSH
 1. Make sure you have an SSH key set up. If you have used SSH to clone an IBM GHE repository, this should be set up already. ([Instructions](https://help.github.com/articles/connecting-to-github-with-ssh/))
 2. Run the following command `npm install -g git+ssh://git@github.ibm.com:dustinpopp/swagger-validator-ibm.git`
 
-##### HTTPS
+#### HTTPS
 1. Make sure you a have a personal access token set up. If you have used HTTPS to clone an IBM GHE repository, this should be set up already. ([Instructions]())
 2. Run the following command `npm install -g git+https://github.ibm.com/dustinpopp/swagger-validator-ibm.git`
 
 The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass the `--save` or `--save-dev` flag to add the vaidator as a dependency to your project and run it from your NPM scripts.
 
-#### Build from source
+### Build from source
 1. Clone or download this repository
 2. Navigate to the root directory of this project.
 3. Install the dependencies using `npm install`
 4. Build the command line tool, run `npm run build-and-link`.
 
-### Usage (Command line)
+## Usage
+### Command line
 `lint-swagger [options] [command] [<files>]`
 
 #### [options]
@@ -39,15 +62,16 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 _These options only apply to running the validator on a file, not to any commands._
 
 #### [command]
+`$ lint-swagger init`
 - init : The `init` command initializes a .validaterc file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
 
-None of the above options pertain to this command.
+_None of the above options pertain to this command._
 
 #### \<files>
 - The Swagger file(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
 - Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `validate-swagger files/*` will run the validator on all files in "files/")
 
-### Usage (Node module)
+### Node module
 _Assumes the module was installed with a `--save` or `--save-dev` flag._
 ```javascript
 const validator = require('swagger-validator-ibm');
@@ -74,7 +98,7 @@ Type: `boolean`
 Default: `false`
 If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
 
-##### Validation results
+#### Validation results
 The Promise returned from the validator resolves into a JSON object. The structure of the object is:
 ```
 {
@@ -96,18 +120,20 @@ The Promise returned from the validator resolves into a JSON object. The structu
 ```
 The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the Swagger.
 
-### Configuration
+## Configuration
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a file with the name `.validaterc` and continue reading this section.
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
 Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
-#### Setup
+### Setup
 To set up the configuration capability, simply run the command `validate-swagger init`
 This will create a .validaterc file with all rules set to their [default value](#default-values). These rules can then be changed to configure the validator. Continue reading for more details.
 Note: If a .validaterc file already exists and has been customized, this command will reset all rules to their default values.
 Note: This command does not create a `.validateignore`. That file must be created manually.
 
 It is ideal to place these files in the root directory of your project. The code will recursively search up the filesystem for these files from wherever the validator is being run. Wherever in the file system the validator is being run, the nearest versions of these files will be used.
+
+### Definitions
 
 #### Categories
 
@@ -177,13 +203,11 @@ Each category contains a group of rules. The supported rules are described below
 | no_empty_descriptions       | Flag any 'description' field in the spec with an empty or whitespace string. |
 | has_circular_references     | Flag any circular references found in the Swagger spec.                      |
 
-
-#### Status
+#### Statuses
 
 Each rule can be assigned a status. The supported statuses are "error", "warning", and "off".
 
-
-#### Configuration file
+### Configuration file
 
 Configurations are defined in a file, titled __.validaterc__, that must be at the root directory of your project.
 
@@ -193,7 +217,7 @@ If a rule is not included in the file, that rule will be set to the default stat
 
 For an example of the structure, see the [defaults file](https://github.ibm.com/MIL/swagger-editor-ibm/blob/master/src/.defaultsForValidator.js). The JSON object in this file can be copied and pasted into the .validaterc file to get started configuring the validator.
 
-#### Default Mode
+### Default mode
 
 The validator has a set of predefined default statuses for each rule that are used in 'default mode'.
 
@@ -203,9 +227,9 @@ If a .validaterc file does not exist at the root directory of your project, the 
 
 The default values for each rule are described below.
 
-##### Default Values
+#### Default values
 
-###### operations
+##### operations
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_consumes_for_put_or_post | error   |
@@ -216,7 +240,7 @@ The default values for each rule are described below.
 | no_array_responses          | error   |
 | parameter_order             | warning |
 
-###### parameters
+##### parameters
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_parameter_description    | error   |
@@ -225,12 +249,12 @@ The default values for each rule are described below.
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |
 
-###### paths
+##### paths
 | Rule                        | Default |
 | --------------------------- | --------|
 | missing_path_parameter      | error   |
 
-###### schemas
+##### schemas
 | Rule                        | Default |
 | --------------------------- | --------|
 | invalid_type_format_pair    | error   |
@@ -238,22 +262,31 @@ The default values for each rule are described below.
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 
-###### security_definitions
+##### security_definitions
 | Rule                        | Default |
 | --------------------------- | --------|
 | unused_security_schemes     | warning |
 | unused_security_scopes      | warning |
 
-###### security
+##### security
 | Rule                             | Default |
 | -------------------------------- | ------- |
 | invalid_non_empty_security_array | error   |
 
-###### walker
+##### walker
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_empty_descriptions       | error   |
 | has_circular_references     | warning |
+
+## Troubleshooting
+This section will be periodically updated with frequently seen user issues.
+
+### Installing with NPM through a proxy
+If you are trying to install this package with NPM but get a `404` error from a dependency installation, it is likely that you are running into a proxy issue.  
+You are using a proxy if you have a registry defined in your `.npmrc` file, most likely located in your home directory.  
+To resolve this issue, try temporarily commenting out the registry definition(s) in your `.npmrc` file, as some public NPM packages may be unaccessible through a proxy.
+
 
 ## License
 
