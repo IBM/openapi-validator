@@ -1,9 +1,13 @@
 # Swagger-Validator-IBM
 This command line tool lets you validate Swagger files according to the [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
+#### Prerequisites
+- Node 8.9.x
+- NPM 5.x
 
+## Table of contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-  - [NPM](#install-with-npm-(recommended))
+  - [NPM](#install-with-npm-(recommended%29)
   - [Source](#build-from-source)
 - [Usage](#usage)
   - [Command line](#command-line)
@@ -22,10 +26,6 @@ This command line tool lets you validate Swagger files according to the [Swagger
 - [Troubleshooting](#troubleshooting)
   - [Installing with NPM through a proxy](#installing-with-npm-through-a-proxy)
 - [License](#license)
-
-#### Prerequisites
-- Node 8.9.x
-- NPM 5.x
 
 ## Installation
 
@@ -69,7 +69,7 @@ _None of the above options pertain to this command._
 
 #### \<files>
 - The Swagger file(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
-- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `validate-swagger files/*` will run the validator on all files in "files/")
+- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-swagger files/*` will run the validator on all files in "files/")
 
 ### Node module
 _Assumes the module was installed with a `--save` or `--save-dev` flag._
@@ -78,8 +78,7 @@ const validator = require('swagger-validator-ibm');
 validator(swaggerObject)
   .then(validationResults => {
     console.log(JSON.stringify(validationResults, null, 2));
-  }
-);
+  });
 // or, if inside `async` function
 const validationResults = await validator(swaggerObject);
 console.log(JSON.stringify(validationResults, null, 2));
@@ -90,12 +89,12 @@ console.log(JSON.stringify(validationResults, null, 2));
 Returns a `Promise` with the validation results.
 
 ###### swaggerObject
-Type: `Object`
+Type: `Object`  
 An object that represents a Swagger file.
 
 ###### defaultMode
-Type: `boolean`
-Default: `false`
+Type: `boolean`  
+Default: `false`  
 If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
 
 #### Validation results
@@ -121,17 +120,17 @@ The Promise returned from the validator resolves into a JSON object. The structu
 The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the Swagger.
 
 ## Configuration
-The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a file with the name `.validaterc` and continue reading this section.
+The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [file](#configuration-file) with the name `.validaterc` and continue reading this section.
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
 Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
-To set up the configuration capability, simply run the command `validate-swagger init`
-This will create a .validaterc file with all rules set to their [default value](#default-values). These rules can then be changed to configure the validator. Continue reading for more details.
-Note: If a .validaterc file already exists and has been customized, this command will reset all rules to their default values.
-Note: This command does not create a `.validateignore`. That file must be created manually.
+To set up the configuration capability, simply run the command `lint-swagger init`
+This will create a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
 
-It is ideal to place these files in the root directory of your project. The code will recursively search up the filesystem for these files from wherever the validator is being run. Wherever in the file system the validator is being run, the nearest versions of these files will be used.
+_Note: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
+
+It is recommended to place these files in the root directory of your project. The code will recursively search up the filesystem for these files from wherever the validator is being run. Wherever in the file system the validator is being run, the nearest versions of these files will be used.
 
 ### Definitions
 
@@ -209,21 +208,23 @@ Each rule can be assigned a status. The supported statuses are "error", "warning
 
 ### Configuration file
 
-Configurations are defined in a file, titled __.validaterc__, that must be at the root directory of your project.
+Configurations are defined in a file, titled __.validaterc__.
 
 The configuration file must be structured as a JSON object with categories as first-level keys, rules as second-level keys, and statuses as values for the 'rules' objects.
 
 If a rule is not included in the file, that rule will be set to the default status automatically. See the [Default Values](#default-values) for more info.
 
-For an example of the structure, see the [defaults file](https://github.ibm.com/MIL/swagger-editor-ibm/blob/master/src/.defaultsForValidator.js). The JSON object in this file can be copied and pasted into the .validaterc file to get started configuring the validator.
+For an example of the structure, see the [defaults file](https://github.ibm.com/MIL/swagger-editor-ibm/blob/master/src/.defaultsForValidator.js).
+
+The easiest way to create a `.validaterc` file is using the [initialization command](#setup).
 
 ### Default mode
 
 The validator has a set of predefined default statuses for each rule that are used in 'default mode'.
 
-Default mode can be turned on with the command line option '-d'. If this option is given, the .validaterc file will be ignored.
+Default mode can be turned on with the command line option `-d`. If this option is given, the `.validaterc` file will be ignored.
 
-If a .validaterc file does not exist at the root directory of your project, the validator will automatically run in default mode.
+If a `.validaterc` file does not exist at the root directory of your project, the validator will automatically run in default mode.
 
 The default values for each rule are described below.
 
@@ -283,8 +284,10 @@ The default values for each rule are described below.
 This section will be periodically updated with frequently seen user issues.
 
 ### Installing with NPM through a proxy
-If you are trying to install this package with NPM but get a `404` error from a dependency installation, it is likely that you are running into a proxy issue.  
-You are using a proxy if you have a registry defined in your `.npmrc` file, most likely located in your home directory.  
+If you are trying to install this package with NPM but get a `404` error from a dependency installation, it is likely that you are running into a proxy issue.
+
+You are using a proxy if you have a registry defined in your `.npmrc` file, most likely located in your home directory.
+
 To resolve this issue, try temporarily commenting out the registry definition(s) in your `.npmrc` file, as some public NPM packages may be unaccessible through a proxy.
 
 
