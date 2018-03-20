@@ -549,13 +549,13 @@ describe("validation plugin - semantic - operations-ibm", function(){
             operationId: "listStuff",
             produces: ["application/json"],
             parameters: [{
-              ref: "#/parameters/fooParam"
+              $ref: "#/parameters/fooParam"
             },
             {
-              ref: "#/parameters/barParam"
+              $ref: "#/parameters/barParam"
             },
             {
-              ref: "#/parameters/bazParam"
+              $ref: "#/parameters/bazParam"
             }]
           }
         }
@@ -587,5 +587,68 @@ describe("validation plugin - semantic - operations-ibm", function(){
     expect(res.warnings[0].message).toEqual("Required parameters should appear before optional parameters.")
     expect(res.warnings[1].path).toEqual("paths./stuff.get.parameters[2]")
     expect(res.warnings[1].message).toEqual("Required parameters should appear before optional parameters.")
+  })
+
+  it("should not complain if required ref parameters appear before a required parameter", function(){
+
+    const config = {
+      "operations" : {
+        "parameter_order": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/fake/{id}": {
+          get: {
+            summary: "get fake data by id",
+            operationId: "getFakeData",
+            produces: ["application/json"],
+            parameters: [{
+              $ref: "#/parameters/Authorization"
+            },
+            {
+              $ref: "#/parameters/ProjectId"
+            },
+            {
+              name: "id",
+              in: "path",
+              type: "string",
+              required: true,
+              description: "something"
+            }]
+          }
+        }
+      },
+      "parameters": {
+          "Authorization": {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Identity Access Management (IAM) bearer token.",
+            "required": true,
+            "type": "string",
+            "default": "Bearer <token>"
+          },
+          "ProjectId": {
+            "name": "project_id",
+            "in": "query",
+            "description": "The ID of the project to use.",
+            "required": true,
+            "type": "string"
+          },
+          "XOpenIDToken": {
+            "name": "X-OpenID-Connect-ID-Token",
+            "in": "header",
+            "description": "UAA token.",
+            "required": true,
+            "type": "string",
+            "default": "<token>"
+          }
+        }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(0)
+    expect(res.errors.length).toEqual(0)
   })
 })

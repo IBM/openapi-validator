@@ -1,4 +1,2 @@
 src/path-translator.js
-src/plugins
-test/plugins
 test/path-translator.js
