@@ -7,7 +7,7 @@ This command line tool lets you validate Swagger files according to the [Swagger
 ## Table of contents
 - [Prerequisites](#prerequisites)
 - [Installation](#installation)
-  - [NPM](#install-with-npm-(recommended%29)
+  - [NPM](#install-with-npm-recommended)
   - [Source](#build-from-source)
 - [Usage](#usage)
   - [Command line](#command-line)
@@ -204,7 +204,7 @@ Each category contains a group of rules. The supported rules are described below
 
 #### Statuses
 
-Each rule can be assigned a status. The supported statuses are "error", "warning", and "off".
+Each rule can be assigned a status. The supported statuses are `error`, `warning`, and `off`.
 
 ### Configuration file
 
