@@ -91,11 +91,11 @@ describe('cli tool - test config file validator', function() {
     unhookIntercept();
 
     expect(res.invalid).toEqual(true);
-    expect(capturedText[0]).toEqual(
-      '\n[Error] Invalid configuration in .validaterc file. See below for details.\n\n'
+    expect(capturedText[0].trim()).toEqual(
+      '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
-    expect(capturedText[1].split('\n')[0]).toEqual(
-      " - 'nonValidCategory' is not a valid category."
+    expect(capturedText[1].trim().split('\n')[0]).toEqual(
+      "- 'nonValidCategory' is not a valid category."
     );
   });
 
@@ -137,11 +137,11 @@ describe('cli tool - test config file validator', function() {
     unhookIntercept();
 
     expect(res.invalid).toEqual(true);
-    expect(capturedText[0]).toEqual(
-      '\n[Error] Invalid configuration in .validaterc file. See below for details.\n\n'
+    expect(capturedText[0].trim()).toEqual(
+      '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
-    expect(capturedText[1].split('\n')[0]).toEqual(
-      " - 'nonValidRule' is not a valid rule for the operations category"
+    expect(capturedText[1].trim().split('\n')[0]).toEqual(
+      "- 'nonValidRule' is not a valid rule for the operations category"
     );
   });
 
@@ -183,11 +183,11 @@ describe('cli tool - test config file validator', function() {
     unhookIntercept();
 
     expect(res.invalid).toEqual(true);
-    expect(capturedText[0]).toEqual(
-      '\n[Error] Invalid configuration in .validaterc file. See below for details.\n\n'
+    expect(capturedText[0].trim()).toEqual(
+      '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
-    expect(capturedText[1]).toEqual(
-      " - 'nonValidStatus' is not a valid status for the no_empty_descriptions rule in the walker category.\n   For any rule, the only valid statuses are: error, warning, off\n\n"
+    expect(capturedText[1].trim()).toEqual(
+      "- 'nonValidStatus' is not a valid status for the no_empty_descriptions rule in the walker category.\n   For any rule, the only valid statuses are: error, warning, off"
     );
   });
 

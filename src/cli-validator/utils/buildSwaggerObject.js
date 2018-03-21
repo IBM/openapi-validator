@@ -20,7 +20,6 @@ module.exports = async function(input) {
   // formatting the JSON string with indentations is necessary for the
   //   validations that use it with regular expressions (e.g. refs.js)
   const indentationSpaces = 2;
-
   swagger.specStr = JSON.stringify(input, null, indentationSpaces);
 
   // deep copy input to a jsSpec by parsing the spec string.
