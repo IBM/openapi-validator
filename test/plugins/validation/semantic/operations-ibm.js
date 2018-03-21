@@ -651,4 +651,67 @@ describe("validation plugin - semantic - operations-ibm", function(){
     expect(res.warnings.length).toEqual(0)
     expect(res.errors.length).toEqual(0)
   })
+
+  it("should be able to handle parameters with `.` characters in the name", function(){
+
+    const config = {
+      "operations" : {
+        "parameter_order": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/fake/{id}": {
+          get: {
+            summary: "get fake data by id",
+            operationId: "getFakeData",
+            produces: ["application/json"],
+            parameters: [{
+              $ref: "#/parameters/Authorization"
+            },
+            {
+              $ref: "#/parameters/Project.Id"
+            },
+            {
+              name: "id",
+              in: "path",
+              type: "string",
+              required: true,
+              description: "something"
+            }]
+          }
+        }
+      },
+      "parameters": {
+          "Authorization": {
+            "name": "Authorization",
+            "in": "header",
+            "description": "Identity Access Management (IAM) bearer token.",
+            "required": true,
+            "type": "string",
+            "default": "Bearer <token>"
+          },
+          "Project.Id": {
+            "name": "project_id",
+            "in": "query",
+            "description": "The ID of the project to use.",
+            "required": true,
+            "type": "string"
+          },
+          "XOpenIDToken": {
+            "name": "X-OpenID-Connect-ID-Token",
+            "in": "header",
+            "description": "UAA token.",
+            "required": true,
+            "type": "string",
+            "default": "<token>"
+          }
+        }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(0)
+    expect(res.errors.length).toEqual(0)
+  })
 })
