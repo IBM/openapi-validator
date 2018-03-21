@@ -6,7 +6,7 @@
   "repository": "https://github.ibm.com/dustinpopp/swagger-validator-ibm.git",
   "license": "Apache-2.0",
   "scripts": {
-    "prepush": "npm test",
+    "prepush": "npm run build && npm test",
     "build": "babel src -d dist/src --quiet && babel src/.defaultsForValidator.js -o dist/src/.defaultsForValidator.js --quiet",
     "prepare": "npm run build",
     "build-and-link": "npm run build && npm i -g",
