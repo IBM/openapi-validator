@@ -1,5 +1,6 @@
 const fs = require('fs');
 const util = require('util');
+const printError = require('./printError');
 
 const defaults = require('../../.defaultsForValidator');
 const fileToCreate = process.cwd() + '/.validaterc';
@@ -19,13 +20,9 @@ module.exports = async function(chalk) {
     );
     return Promise.resolve(0);
   } catch (err) {
-    console.log(
-      '\n' +
-        chalk.red('\n[Error]') +
-        ' Problem writing the .validaterc file. See below for details.\n' +
-        chalk.magenta(err) +
-        '\n'
-    );
+    const description =
+      'Problem writing the .validaterc file. See below for details.';
+    printError(chalk, description, err);
     return Promise.reject(2);
   }
 };

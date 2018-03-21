@@ -3,6 +3,7 @@ const util = require('util');
 const path = require('path');
 const globby = require('globby');
 const findUp = require('find-up');
+const printError = require('./printError');
 
 const defaultObject = require('../../.defaultsForValidator');
 
@@ -73,19 +74,21 @@ const validateConfigObject = function(configObject, chalk) {
     configObject.invalid = false;
   } else {
     // if the object is not valid, exit and tell the user why
-    console.log(
-      chalk.red('\n[Error] ') +
-        `Invalid configuration in ${chalk.underline(
-          '.validaterc'
-        )} file. See below for details.\n`
-    );
+    const description = `Invalid configuration in ${chalk.underline(
+      '.validaterc'
+    )} file. See below for details.`;
+    const message = [];
+
+    // concatenate all the error messages for the printError module
     configErrors.forEach(function(problem) {
-      console.log(
-        ` - ${chalk.red(problem.message)}\n   ${chalk.magenta(
+      message.push(
+        `\n - ${chalk.red(problem.message)}\n   ${chalk.magenta(
           problem.correction
-        )}\n`
+        )}`
       );
     });
+
+    printError(chalk, description, message.join('\n'));
     configObject.invalid = true;
   }
 
@@ -122,12 +125,9 @@ const getConfigObject = async function(defaultMode, chalk) {
       configObject = JSON.parse(fileAsString);
     } catch (err) {
       // this most likely means there is a problem in the json syntax itself
-      console.log(
-        '\n' +
-          chalk.red('[Error]') +
-          ` There is a problem with the .validaterc file. See below for details.\n`
-      );
-      console.log(chalk.magenta(err) + '\n');
+      const description =
+        'There is a problem with the .validaterc file. See below for details.';
+      printError(chalk, description, err);
       return Promise.reject(2);
     }
 

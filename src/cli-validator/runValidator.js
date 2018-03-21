@@ -12,6 +12,7 @@ const config = require('./utils/processConfiguration');
 const buildSwaggerObject = require('./utils/buildSwaggerObject');
 const validator = require('./utils/validator');
 const print = require('./utils/printResults');
+const printError = require('./utils/printError');
 
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
@@ -98,7 +99,7 @@ const processInput = async function(program) {
   if (unsupportedExtensionsFound) {
     console.log(
       chalk.magenta(
-        'Supported file types are JSON (.json) and YAML (.yml, .yaml)\n'
+        'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
       )
     );
   }
@@ -124,11 +125,7 @@ const processInput = async function(program) {
 
   // if no passed in files are valid, exit the program
   if (filesToValidate.length === 0) {
-    console.log(
-      '\n' +
-        chalk.red('[Error]') +
-        ' None of the given arguments are valid files.\n'
-    );
+    printError(chalk, 'None of the given arguments are valid files.');
     return Promise.reject(2);
   }
 
@@ -182,23 +179,36 @@ const processInput = async function(program) {
         throw duplicateKeysError;
       }
     } catch (err) {
-      console.log(
-        '\n' +
-          chalk.red('[Error]') +
-          ' Invalid input file: ' +
-          chalk.red(validFile) +
-          '. See below for details.\n'
-      );
-      console.log(chalk.magenta(err) + '\n');
+      const description =
+        'Invalid input file: ' +
+        chalk.red(validFile) +
+        '. See below for details.';
+
+      printError(chalk, description, err);
       exitCode = 1;
       continue;
     }
 
     // validator requires the swagger object to follow a specific format
-    const swagger = await buildSwaggerObject(input);
+    let swagger;
+    try {
+      swagger = await buildSwaggerObject(input);
+    } catch (err) {
+      printError(chalk, 'There is a problem with the Swagger.', err.message);
+      exitCode = 1;
+      continue;
+    }
 
     // run validator, print the results, and determine if validator passed
-    const results = validator(swagger, configObject);
+    let results;
+    try {
+      results = validator(swagger, configObject);
+    } catch (err) {
+      printError(chalk, 'There was a problem with a validator.', err.message);
+      exitCode = 1;
+      continue;
+    }
+
     if (results.error || results.warning) {
       print(results, chalk, printValidators, reportingStats, originalFile);
       // fail on errors, but not if there are only warnings

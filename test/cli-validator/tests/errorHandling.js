@@ -78,7 +78,7 @@ describe('cli tool - test error handling', function() {
     unhookIntercept();
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(4);
+    expect(capturedText.length).toEqual(5);
     expect(capturedText[0].trim()).toEqual('');
     expect(capturedText[1].trim()).toEqual(
       '[Warning] Skipping file with unsupported file type: json'
@@ -112,7 +112,7 @@ describe('cli tool - test error handling', function() {
     unhookIntercept();
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(4);
+    expect(capturedText.length).toEqual(5);
     expect(capturedText[0].trim()).toEqual('');
     expect(capturedText[1].trim()).toEqual(
       '[Warning] Skipping file with unsupported file type: badExtension.jsob'
@@ -146,7 +146,7 @@ describe('cli tool - test error handling', function() {
     unhookIntercept();
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(2);
+    expect(capturedText.length).toEqual(3);
     expect(capturedText[0].trim()).toEqual(
       '[Error] Invalid input file: ./test/cli-validator/mockFiles/badJson.json. See below for details.'
     );
@@ -176,12 +176,45 @@ describe('cli tool - test error handling', function() {
     unhookIntercept();
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(2);
+    expect(capturedText.length).toEqual(3);
     expect(capturedText[0].trim()).toEqual(
       '[Error] Invalid input file: ./test/cli-validator/mockFiles/duplicateKeys.json. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
       'Syntax error: duplicated keys "version" near sion": "1.'
+    );
+  });
+
+  it('should return an error when the swagger contains a reference to a missing object', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/missingObject.yml'];
+
+    let exitCode;
+    try {
+      exitCode = await commandLineValidator(program);
+    } catch (err) {
+      exitCode = err;
+    }
+
+    unhookIntercept();
+
+    expect(exitCode).toEqual(1);
+    expect(capturedText.length).toEqual(3);
+    expect(capturedText[0].trim()).toEqual(
+      '[Error] There is a problem with the Swagger.'
+    );
+    expect(capturedText[1].split('\n')[0].trim()).toEqual(
+      'Error resolving $ref pointer "#/definitions/NonExistentObject".'
+    );
+    expect(capturedText[1].split('\n')[1].trim()).toEqual(
+      'Token "NonExistentObject" does not exist.'
     );
   });
 });
