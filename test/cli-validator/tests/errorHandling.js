@@ -210,9 +210,6 @@ describe('cli tool - test error handling', function() {
     expect(capturedText[0].trim()).toEqual(
       '[Error] There is a problem with the Swagger.'
     );
-    expect(capturedText[1].split('\n')[0].trim()).toEqual(
-      'Error resolving $ref pointer "#/definitions/NonExistentObject".'
-    );
     expect(capturedText[1].split('\n')[1].trim()).toEqual(
       'Token "NonExistentObject" does not exist.'
     );

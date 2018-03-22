@@ -37,7 +37,12 @@ function resolveRef(obj, jsSpec) {
     // Only handle internal refs
     return {}
   }
-  let path = obj.$ref.split("/").slice(1).join(".")
+
+  // the map statement here escapes all path elements in case any key contains
+  // a character, such as `.`, that would influence the at() module's
+  // ability to find the correct object
+  let path = obj.$ref.split("/").slice(1).map(e => `["${e}"]`).join(".")
+
   let resolved = at(jsSpec, path)[0]
   return resolved
 }
