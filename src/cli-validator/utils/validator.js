@@ -1,15 +1,36 @@
 // import the validators
-const semanticValidators = require('require-all')(
-  __dirname + '/../../plugins/validation/semantic-validators/validators'
+const semanticValidators2 = require('require-all')(
+  __dirname +
+    '/../../plugins/validation/openApi2/semantic-validators/validators'
 );
 
-const structuralValidator = require(__dirname +
-  '/../../plugins/validation/structural-validation/validator');
+const structuralValidator2 = require(__dirname +
+  '/../../plugins/validation/openApi2/structural-validation/validator');
+
+const semanticValidators3 = require('require-all')(
+  __dirname +
+    '/../../plugins/validation/openApi3/semantic-validators/validators'
+);
+
+const structuralValidator3 = require(__dirname +
+  '/../../plugins/validation/openApi3/structural-validation/validator');
 
 const circularRefsValidator = require('./circular-references-ibm');
 
+const validators = {
+  '2': {
+    semanticValidators: semanticValidators2,
+    structuralValidator: structuralValidator2
+  },
+  '3': {
+    semanticValidators: semanticValidators3,
+    structuralValidator: structuralValidator3
+  }
+};
+
 // this function runs the validators on the swagger object
-module.exports = function validateSwagger(allSpecs, config) {
+module.exports = function validateSwagger(allSpecs, config, version) {
+  const { semanticValidators, structuralValidator } = validators[version];
   const validationResults = {
     errors: {},
     warnings: {},

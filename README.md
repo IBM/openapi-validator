@@ -1,5 +1,5 @@
 # Swagger-Validator-IBM
-This command line tool lets you validate Swagger files according to the [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
+This command line tool lets you validate Swagger files according to the OpenAPI specification, either [2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) or [3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
 #### Prerequisites
 - Node 8.9.x
 - NPM 5.x
@@ -53,6 +53,7 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 `lint-swagger [options] [command] [<files>]`
 
 #### [options]
+-  -o (openapi) : Specify the version of the OpenAPI spec to validate against. Valid arguments are 2 and 3. Defaults to 2.
 -  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarliy for developing validations.
 -  -n (no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -d (default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
@@ -85,7 +86,7 @@ console.log(JSON.stringify(validationResults, null, 2));
 ```
 
 #### API
-##### validator(swaggerObject, [defaultMode = false])
+##### validator(swaggerObject, [defaultMode = false], [openApiVersion = '2'])
 Returns a `Promise` with the validation results.
 
 ###### swaggerObject
@@ -96,6 +97,11 @@ An object that represents a Swagger file.
 Type: `boolean`  
 Default: `false`  
 If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
+
+###### openApiVersion
+Type: `string`  
+Default: `'2'`  
+Specifies the version of the OpenAPI spec to validate against. Valid options are '2' and '3'.
 
 #### Validation results
 The Promise returned from the validator resolves into a JSON object. The structure of the object is:

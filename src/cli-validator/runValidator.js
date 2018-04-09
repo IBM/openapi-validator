@@ -13,6 +13,7 @@ const buildSwaggerObject = require('./utils/buildSwaggerObject');
 const validator = require('./utils/validator');
 const print = require('./utils/printResults');
 const printError = require('./utils/printError');
+const getOpenApi = require('./utils/openApiVersion');
 
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
@@ -34,6 +35,8 @@ const processInput = async function(program) {
 
   const turnOffColoring = !!program.no_colors;
   const defaultMode = !!program.default_mode;
+
+  const openApiVersion = getOpenApi(program.openapi);
 
   // turn on coloring by default
   let colors = true;
@@ -172,7 +175,7 @@ const processInput = async function(program) {
         throw `The given input in ${validFile} is not a valid object.`;
       }
 
-      // jsonValidator looks through the originalFile string for duplicate JSON keys
+      // jsonValidator looks through the originalFile for duplicate JSON keys
       //   this is checked for by default in readYaml
       const duplicateKeysError = jsonValidator.validate(originalFile);
       if (fileExtension === 'json' && duplicateKeysError) {
@@ -192,7 +195,7 @@ const processInput = async function(program) {
     // validator requires the swagger object to follow a specific format
     let swagger;
     try {
-      swagger = await buildSwaggerObject(input);
+      swagger = await buildSwaggerObject(input, openApiVersion);
     } catch (err) {
       printError(chalk, 'There is a problem with the Swagger.', err.message);
       exitCode = 1;
@@ -202,7 +205,7 @@ const processInput = async function(program) {
     // run validator, print the results, and determine if validator passed
     let results;
     try {
-      results = validator(swagger, configObject);
+      results = validator(swagger, configObject, openApiVersion);
     } catch (err) {
       printError(chalk, 'There was a problem with a validator.', err.message);
       exitCode = 1;

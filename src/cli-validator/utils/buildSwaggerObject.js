@@ -1,12 +1,26 @@
 const SwaggerParser = require('swagger-parser');
 
 // get the api schema to perform structural validation against
-const apiSchema = require('../../plugins/validation/apis/schema').default;
+const apiSchema2 = require('../../plugins/validation/openApi2/apis/schema')
+  .default;
+
+const apiSchema3 = require('../../plugins/validation/openApi3/apis/schema')
+  .default;
+
+const schemas = {
+  '2': {
+    apiSchema: apiSchema2
+  },
+  '3': {
+    apiSchema: apiSchema3
+  }
+};
 
 // ### all validations expect an object with three properties: ###
 // ###          jsSpec, resolvedSpec, and specStr              ###
+module.exports = async function(input, version) {
+  const { apiSchema } = schemas[version];
 
-module.exports = async function(input) {
   // initialize an object to be passed through all the validators
   const swagger = {};
 
