@@ -39,7 +39,8 @@ const defaults = {
     "invalid_type_format_pair": "error",
     "snake_case_only": "warning",
     "no_property_description": "warning",
-    "description_mentions_json": "warning"
+    "description_mentions_json": "warning",
+    "array_of_arrays": "warning"
   },
   "security_definitions": {
     "unused_security_schemes": "warning",

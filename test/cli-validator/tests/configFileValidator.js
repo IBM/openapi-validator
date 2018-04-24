@@ -8,6 +8,8 @@ const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
 const chalk = require('chalk');
 
+const defaults = require('../../../dist/src/.defaultsForValidator');
+
 const configFileValidator = require('../../../dist/src/cli-validator/utils/processConfiguration')
   .validate;
 
@@ -192,31 +194,6 @@ describe('cli tool - test config file validator', function() {
   });
 
   it('should fill in default values for rules that are not included', function() {
-    const defaults = {
-      operations: {
-        no_consumes_for_put_or_post: 'error',
-        get_op_has_consumes: 'warning',
-        no_produces_for_get: 'error',
-        no_operation_id: 'warning',
-        no_summary: 'warning',
-        no_array_responses: 'error'
-      },
-      parameters: {
-        no_parameter_description: 'error',
-        snake_case_only: 'warning',
-        invalid_type_format_pair: 'error'
-      },
-      schemas: {
-        invalid_type_format_pair: 'error',
-        snake_case_only: 'warning',
-        no_property_description: 'warning',
-        description_mentions_json: 'warning'
-      },
-      walker: {
-        no_empty_descriptions: 'error'
-      }
-    };
-
     const config = {
       operations: {
         no_consumes_for_put_or_post: 'error',

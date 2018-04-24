@@ -352,4 +352,37 @@ describe("validation plugin - semantic - schema-ibm", () => {
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(0)
   })
+
+  it("should return a warning when a schema property is an array of arrays", () => {
+
+    const config = {
+      "schemas" : {
+        "array_of_arrays": "warning"
+      }
+    }
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: "object",
+          properties: {
+            level: {
+              type: "array",
+              description: "has some items",
+              items: {
+                type: "array",
+                description: "array nested in an array"
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(1)
+    expect(res.warnings[0].path).toEqual(["definitions", "Thing", "properties", "level", "items", "type"])
+    expect(res.warnings[0].message).toEqual("Array properties should avoid having items of type array.")
+  })
 })
