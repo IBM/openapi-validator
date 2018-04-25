@@ -184,7 +184,7 @@ Each category contains a group of rules. The supported rules are described below
 | snake_case_only             | Flag any property with a 'name' that is not lower snake case.                 |
 | no_property_description     | Flag any schema that contains a 'property' without a 'description' field.     |
 | description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  |
-| array_of_arrays             | Flag any schema with a 'property' type of 'array' with items of type 'array'. |
+| array_of_arrays             | Flag any schema with a 'property' of type 'array' with items of type 'array'. |
 
 ##### security_definitions
 | Rule                        | Description                                                                           |
