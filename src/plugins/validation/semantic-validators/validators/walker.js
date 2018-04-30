@@ -4,7 +4,7 @@
 // In specific areas of a spec, allowed $ref values are restricted.
 
 // Assertation 2:
-// Sibling keys with $refs are not allowed.
+// Sibling keys with $refs are not allowed. - TEMPORARILY REMOVED
 
 import match from "matcher"
 
@@ -87,12 +87,12 @@ export function validate({ jsSpec }) {
     if(keys.length) {
       ///// $ref siblings
       return keys.map(k => {
-        if(keys.indexOf("$ref") > -1 && k !== "$ref") {
+        /*if(keys.indexOf("$ref") > -1 && k !== "$ref") {
           warnings.push({
             path: path.concat([k]),
             message: "Values alongside a $ref will be ignored."
           })
-        }
+        }*/
         return walk(value[k], [...path, k])
       })
 
