@@ -14,10 +14,6 @@ program
   .description('Run the validator on a specified file')
   .arguments('[<file>]')
   .option(
-    '-o, --openapi <version>',
-    'specify the OpenAPI version to use (supports `2` and `3`)'
-  )
-  .option(
     '-v, --print_validator_modules',
     'print the validators that catch each error/warning'
   )
