@@ -17,6 +17,11 @@ const semanticValidators3 = require('require-all')(
 const structuralValidator3 = require(__dirname +
   '/../../plugins/validation/openApi3/structural-validation/validator');
 
+const sharedSemanticValidators = require('require-all')(
+  __dirname +
+    '/../../plugins/validation/openApi2and3/semantic-validators/validators'
+);
+
 const circularRefsValidator = require('./circular-references-ibm');
 
 const validators = {
@@ -32,12 +37,6 @@ const validators = {
 
 // this function runs the validators on the swagger object
 module.exports = function validateSwagger(allSpecs, config) {
-  // get openapi version from a separate module right here, by passing in all specs
-  // i suppose there is a chance we will need it in config module, in which case maybe
-  // we do want to be passing around this as a variable. an alternative is that we could
-  // make the config version agnostic. so it would read (or not) the openapi 2 and 3 config
-  // and just pass everything into all of the validators. this would involve a config schema
-  // probably top-level referenced by version number
   const version = getVersion(allSpecs.jsSpec);
   const { semanticValidators, structuralValidator } = validators[version];
   const validationResults = {
@@ -62,7 +61,11 @@ module.exports = function validateSwagger(allSpecs, config) {
   }
 
   // run semantic validators
-  Object.keys(semanticValidators).forEach(key => {
+  const allValidators = [
+    ...Object.keys(semanticValidators),
+    ...Object.keys(sharedSemanticValidators)
+  ];
+  allValidators.forEach(key => {
     const problem = semanticValidators[key].validate(allSpecs, config);
     if (problem.errors.length) {
       validationResults.errors[key] = [...problem.errors];
