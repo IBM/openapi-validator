@@ -1,11 +1,11 @@
-const SwaggerParser = require('swagger-parser');
 const getVersion = require('./getOpenApiVersion');
+const RefParser = require('json-schema-ref-parser');
 
 // get the api schema to perform structural validation against
-const apiSchema2 = require('../../plugins/validation/openApi2/apis/schema')
+const apiSchema2 = require('../../plugins/validation/openApi2/apis/swagger2-schema')
   .default;
 
-const apiSchema3 = require('../../plugins/validation/openApi3/apis/schema')
+const apiSchema3 = require('../../plugins/validation/openApi3/apis/oas3-schema')
   .default;
 
 const schemas = {
@@ -35,7 +35,7 @@ module.exports = async function(input) {
 
   // dereference() resolves all references. it esentially returns the resolvedSpec,
   //   but without the $$ref tags (which are not used in the validations)
-  const parser = new SwaggerParser();
+  const parser = new RefParser();
   parser.dereference.circular = false;
   swagger.resolvedSpec = await parser.dereference(input);
   swagger.circular = parser.$refs.circular;
