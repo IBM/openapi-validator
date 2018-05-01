@@ -4,6 +4,12 @@ import { validate } from "../../../../src/plugins/validation/semantic-validators
 describe("validation plugin - semantic - parameters-ibm", () => {
 
   it("should return an error when a parameter does not have a description", () => {
+    const config = {
+      "parameters" : {
+        "no_parameter_description": "error"
+      }
+    }
+
     const spec = {
       "paths": {
         "/pets": {
@@ -20,7 +26,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       }
     }
 
-    let res = validate({ jsSpec: spec })
+    let res = validate({ jsSpec: spec }, config)
     expect(res.warnings.length).toEqual(0)
     expect(res.errors.length).toEqual(1)
     expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
