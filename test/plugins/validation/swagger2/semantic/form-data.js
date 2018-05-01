@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/openApi2/semantic-validators/validators/form-data"
+import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/validators/form-data"
 
 describe("validation plugin - semantic - form data", function(){
 

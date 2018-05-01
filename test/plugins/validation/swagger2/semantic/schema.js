@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/openApi2/semantic-validators/validators/schema"
+import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/validators/schema"
 
 describe("validation plugin - semantic - schema", () => {
 

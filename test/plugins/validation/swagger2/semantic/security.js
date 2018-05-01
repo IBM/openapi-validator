@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/openApi2/semantic-validators/validators/security"
+import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/validators/security"
 
 describe("validation plugin - semantic - security", () => {
   it("should return an error when an operation references a non-existing security scope", () => {

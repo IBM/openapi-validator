@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/openApi2/semantic-validators/validators/security-definitions-ibm"
+import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/validators/security-definitions-ibm"
 
 describe("validation plugin - semantic - security-definitions-ibm", function(){
 
