@@ -27,8 +27,6 @@ import includes from "lodash/includes"
 import map from "lodash/map"
 import pick from "lodash/pick"
 
-import defaults from "../../../../.defaultsForValidator"
-
 function resolveRef(obj, jsSpec) {
   if (!obj.$ref) {
     return obj
@@ -52,12 +50,6 @@ export function validate({ jsSpec }, config) {
   let result = {}
   result.error = []
   result.warning = []
-
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
 
   config = config.operations
 
