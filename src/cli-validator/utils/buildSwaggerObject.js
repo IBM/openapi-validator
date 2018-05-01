@@ -2,11 +2,10 @@ const SwaggerParser = require('swagger-parser');
 const getVersion = require('./getOpenApiVersion');
 
 // get the api schema to perform structural validation against
-const apiSchema2 = require('../../plugins/validation/openApi2/apis/schema')
+const apiSchema2 = require('../../plugins/validation/swagger2/apis/schema')
   .default;
 
-const apiSchema3 = require('../../plugins/validation/openApi3/apis/schema')
-  .default;
+const apiSchema3 = require('../../plugins/validation/oas3/apis/schema').default;
 
 const schemas = {
   '2': {
