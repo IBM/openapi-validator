@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/validators/walker"
+import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/walker"
 
 describe("validation plugin - semantic - spec walker", () => {
   describe("Type key", () => {

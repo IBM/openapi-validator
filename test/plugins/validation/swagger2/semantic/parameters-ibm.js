@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/validators/parameters-ibm"
+import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/parameters-ibm"
 
 describe("validation plugin - semantic - parameters-ibm", () => {
 
