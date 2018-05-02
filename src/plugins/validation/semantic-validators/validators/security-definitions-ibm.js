@@ -3,7 +3,6 @@
 // Assertation 2: Each scope defined in an OAuth2 scheme should be used in the spec
 
 import each from "lodash/each"
-import defaults from "../../../../.defaultsForValidator"
 
 export function validate({ jsSpec }, config) {
 
@@ -11,14 +10,7 @@ export function validate({ jsSpec }, config) {
   result.error = []
   result.warning = []
 
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
-
   config = config.security_definitions
-
 
   const usedSchemes = {}
   const usedScopes = {}
