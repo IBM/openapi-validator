@@ -4,13 +4,16 @@
 // In specific areas of a spec, allowed $ref values are restricted.
 
 // Assertation 2:
-// Sibling keys with $refs are not allowed. - TEMPORARILY REMOVED
+// Sibling keys with $refs are not allowed - default set to `off`
+// http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#sibling-elements-for-refs
 
 import match from "matcher"
 
-export function validate({ jsSpec }) {
+export function validate({ jsSpec }, config) {
   let errors = []
   let warnings = []
+
+  config = config.walker
 
   function walk(value, path) {
     let curr = path[path.length - 1]
@@ -87,12 +90,24 @@ export function validate({ jsSpec }) {
     if(keys.length) {
       ///// $ref siblings
       return keys.map(k => {
-        /*if(keys.indexOf("$ref") > -1 && k !== "$ref") {
-          warnings.push({
-            path: path.concat([k]),
-            message: "Values alongside a $ref will be ignored."
-          })
-        }*/
+        if(keys.indexOf("$ref") > -1 && k !== "$ref") {
+          switch (config.$ref_siblings) {
+            case "error":
+              errors.push({
+                path: path.concat([k]),
+                message: "Values alongside a $ref will be ignored."
+              })
+              break
+            case "warning":
+              warnings.push({
+                path: path.concat([k]),
+                message: "Values alongside a $ref will be ignored."
+              })
+              break
+            default:
+              break
+          }
+        }
         return walk(value[k], [...path, k])
       })
 

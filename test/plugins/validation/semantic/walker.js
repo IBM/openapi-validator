@@ -4,6 +4,12 @@ import { validate } from "../../../../src/plugins/validation/semantic-validators
 describe("validation plugin - semantic - spec walker", () => {
   describe("Type key", () => {
     it("should return an error when \"type\" is an array", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         paths: {
           "/CoolPath/{id}": {
@@ -18,7 +24,7 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "schema", "type"])
       expect(res.errors[0].message).toEqual("\"type\" should be a string")
@@ -26,6 +32,12 @@ describe("validation plugin - semantic - spec walker", () => {
     })
 
     it("should not return an error when \"type\" is a property name", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         "definitions": {
           "ApiResponse": {
@@ -46,12 +58,18 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(0)
       expect(res.warnings.length).toEqual(0)
     })
 
     it("should not return an error when \"type\" is a model name", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         "definitions": {
           "type": {
@@ -69,7 +87,7 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(0)
       expect(res.warnings.length).toEqual(0)
     })
@@ -79,6 +97,12 @@ describe("validation plugin - semantic - spec walker", () => {
   describe("Minimums and maximums", () => {
 
     it("should return an error when minimum is more than maximum", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         definitions: {
           MyNumber: {
@@ -88,7 +112,7 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["definitions", "MyNumber", "minimum"])
       expect(res.errors[0].message).toEqual("Minimum cannot be more than maximum")
@@ -96,6 +120,12 @@ describe("validation plugin - semantic - spec walker", () => {
     })
 
     it("should not return an error when minimum is less than maximum", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         definitions: {
           MyNumber: {
@@ -105,12 +135,18 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(0)
       expect(res.warnings.length).toEqual(0)
     })
 
     it("should return an error when minProperties is more than maxProperties", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         definitions: {
           MyNumber: {
@@ -120,7 +156,7 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["definitions", "MyNumber", "minProperties"])
       expect(res.errors[0].message).toEqual("minProperties cannot be more than maxProperties")
@@ -128,6 +164,12 @@ describe("validation plugin - semantic - spec walker", () => {
     })
 
     it("should not return an error when minProperties is less than maxProperties", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         definitions: {
           MyNumber: {
@@ -137,12 +179,18 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(0)
       expect(res.warnings.length).toEqual(0)
     })
 
     it("should return an error when minLength is more than maxLength", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         definitions: {
           MyNumber: {
@@ -152,7 +200,7 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["definitions", "MyNumber", "minLength"])
       expect(res.errors[0].message).toEqual("minLength cannot be more than maxLength")
@@ -160,6 +208,12 @@ describe("validation plugin - semantic - spec walker", () => {
     })
 
     it("should not return an error when minLength is less than maxLength", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
       const spec = {
         definitions: {
           MyNumber: {
@@ -169,7 +223,7 @@ describe("validation plugin - semantic - spec walker", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec })
+      let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(0)
       expect(res.warnings.length).toEqual(0)
     })
@@ -180,6 +234,12 @@ describe("validation plugin - semantic - spec walker", () => {
 
     describe("Response $refs", () => {
       it("should return a problem for a parameters $ref in a response position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -192,13 +252,19 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "$ref"])
         expect(res.warnings.length).toEqual(0)
       })
 
       it("should return a problem for a definitions $ref in a response position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -209,13 +275,19 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
         expect(res.warnings.length).toEqual(0)
       })
 
       it("should not return a problem for a responses $ref in a response position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -228,7 +300,7 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(0)
         expect(res.warnings.length).toEqual(0)
       })
@@ -236,6 +308,12 @@ describe("validation plugin - semantic - spec walker", () => {
 
     describe("Schema $refs", () => {
       it("should return a problem for a parameters $ref in a schema position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -246,13 +324,19 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
         expect(res.warnings.length).toEqual(0)
       })
 
       it("should return a problem for a responses $ref in a schema position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -263,13 +347,19 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
         expect(res.warnings.length).toEqual(0)
       })
 
       it("should not return a problem for a definition $ref in a schema position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -280,12 +370,18 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(0)
         expect(res.warnings.length).toEqual(0)
       })
 
       it("should not return a problem for a schema property named 'properties'", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         // #492 regression
         const spec = {
           "definitions": {
@@ -307,7 +403,7 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(0)
         expect(res.warnings.length).toEqual(0)
       })
@@ -315,6 +411,12 @@ describe("validation plugin - semantic - spec walker", () => {
 
     describe("Parameter $refs", () => {
       it("should return a problem for a definition $ref in a parameter position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -325,13 +427,19 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "parameters", "0", "$ref"])
         expect(res.warnings.length).toEqual(0)
       })
 
       it("should return a problem for a responses $ref in a parameter position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -342,13 +450,19 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "parameters", "0", "$ref"])
         expect(res.warnings.length).toEqual(0)
       })
 
       it("should not return a problem for a parameter $ref in a parameter position", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -359,7 +473,7 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(0)
         expect(res.warnings.length).toEqual(0)
       })
@@ -368,6 +482,12 @@ describe("validation plugin - semantic - spec walker", () => {
     describe("Ref siblings", () => {
 
       it("should not return a warning when another property is a sibling of a $ref", () => {
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
         const spec = {
           paths: {
             "/CoolPath/{id}": {
@@ -379,11 +499,33 @@ describe("validation plugin - semantic - spec walker", () => {
           }
         }
 
-        let res = validate({ jsSpec: spec })
+        let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(0)
         expect(res.warnings.length).toEqual(0)
-        /*expect(res.warnings.length).toEqual(1)
-        expect(res.warnings[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "description"])*/
+      })
+
+      it("should return a warning for a $ref sibling if configured to", () => {
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "warning"
+          }
+        }
+
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              schema: {
+                $ref: "#/definition/abc",
+                description: "My very cool schema"
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec }, config)
+        expect(res.errors.length).toEqual(0)
+        expect(res.warnings.length).toEqual(1)
+        expect(res.warnings[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "description"])
       })
 
     })

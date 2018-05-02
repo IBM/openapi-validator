@@ -202,6 +202,7 @@ Each category contains a group of rules. The supported rules are described below
 | --------------------------- | ---------------------------------------------------------------------------- |
 | no_empty_descriptions       | Flag any 'description' field in the spec with an empty or whitespace string. |
 | has_circular_references     | Flag any circular references found in the Swagger spec.                      |
+| $ref_siblings               | Flag any properties that are siblings of a `$ref` property.                  |
 
 #### Statuses
 
@@ -281,6 +282,7 @@ The default values for each rule are described below.
 | --------------------------- | --------|
 | no_empty_descriptions       | error   |
 | has_circular_references     | warning |
+| $ref_siblings               | off     |
 
 ## Troubleshooting
 This section will be periodically updated with frequently seen user issues.
