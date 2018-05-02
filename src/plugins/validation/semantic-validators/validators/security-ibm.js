@@ -3,7 +3,6 @@
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject
 
 import each from "lodash/each"
-import defaults from "../../../../.defaultsForValidator"
 
 export function validate({ jsSpec }, config) {
 
@@ -11,14 +10,7 @@ export function validate({ jsSpec }, config) {
   result.error = []
   result.warning = []
 
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
-
   config = config.security
-
 
   // check all instances of 'security' objects
   // security objects can exist at either:
