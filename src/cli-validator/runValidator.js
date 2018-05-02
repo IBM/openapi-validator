@@ -172,7 +172,7 @@ const processInput = async function(program) {
         throw `The given input in ${validFile} is not a valid object.`;
       }
 
-      // jsonValidator looks through the originalFile string for duplicate JSON keys
+      // jsonValidator looks through the originalFile for duplicate JSON keys
       //   this is checked for by default in readYaml
       const duplicateKeysError = jsonValidator.validate(originalFile);
       if (fileExtension === 'json' && duplicateKeysError) {
