@@ -19,19 +19,11 @@ import forIn from "lodash/forIn"
 import includes from "lodash/includes"
 import snakecase from "lodash/snakeCase"
 
-import defaults from "../../../../.defaultsForValidator"
-
 export function validate({ jsSpec }, config) {
   let errors = []
   let warnings = []
 
   let schemas = []
-
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
 
   config = config.schemas
 
