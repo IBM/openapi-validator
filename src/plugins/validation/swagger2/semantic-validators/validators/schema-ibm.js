@@ -1,7 +1,6 @@
 // invalid_type_format_pair:
 // Schemas need to have properly matching type/format pairs
 
-
 // snake_case_only:
 // Names MUST be lower snake case.
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
@@ -12,24 +11,19 @@
 // description_mentions_json:
 // Schema property descriptions should not state that model will be a JSON object
 
+// array_of_arrays:
+// Schema properties that are arrays should avoid having items that are also arrays
+
 import each from "lodash/each"
 import forIn from "lodash/forIn"
 import includes from "lodash/includes"
 import snakecase from "lodash/snakeCase"
-
-import defaults from "../../../../../.defaultsForValidator"
 
 export function validate({ jsSpec }, config) {
   let errors = []
   let warnings = []
 
   let schemas = []
-
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
 
   config = config.schemas
 
@@ -125,7 +119,17 @@ function generateFormatErrors(schema, contextPath, config) {
         break
       case "array":
         path = contextPath.concat(["properties",propName,"items","type"])
-        valid = formatValid(property.items)
+        if (property.items) {
+          if (property.items.type === "array") {
+            let message = "Array properties should avoid having items of type array."
+            let checkStatus = config.array_of_arrays
+            if (checkStatus !== "off") {
+              result[checkStatus].push({ path, message })
+            }
+          } else {
+            valid = formatValid(property.items)
+          }
+        }
         break
       case "object":
         valid = true // TODO: validate nested schemas

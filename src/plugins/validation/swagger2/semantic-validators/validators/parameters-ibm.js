@@ -11,18 +11,10 @@
 import snakecase from "lodash/snakeCase"
 import includes from "lodash/includes"
 
-import defaults from "../../../../../.defaultsForValidator"
-
 export function validate({jsSpec}, config) {
   let result = {}
   result.error = []
   result.warning = []
-
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
 
   config = config.parameters
 

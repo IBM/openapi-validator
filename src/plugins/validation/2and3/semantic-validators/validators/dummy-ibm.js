@@ -1,18 +1,10 @@
 /* eslint-disable */
 
-import defaults from "../../../../../.defaultsForValidator"
-
 export function validate({ jsSpec }, config) {
 
   let result = {}
   result.error = []
   result.warning = []
-
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
 
   // use the appropriate validation category object
   // ex) `config = config.operations` for the operations validator

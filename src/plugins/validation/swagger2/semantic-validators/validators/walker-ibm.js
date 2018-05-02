@@ -3,8 +3,6 @@
 
 import includes from "lodash/includes"
 
-import defaults from "../../../../../.defaultsForValidator.js"
-
 // Walks an entire spec.
 export function validate({ jsSpec }, config) {
   
@@ -12,14 +10,7 @@ export function validate({ jsSpec }, config) {
   result.error = []
   result.warning = []
 
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
-
   config = config.walker
-
 
   function walk(value, path) {
 

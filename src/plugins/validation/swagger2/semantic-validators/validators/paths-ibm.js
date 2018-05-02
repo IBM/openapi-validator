@@ -1,19 +1,11 @@
 // Assertation 1. If a path has a parameter, all operations must have a parameter of type
 // 'path' and name 'parameterName' ( parameterName matching what is contained in curly brackets -> {} )
 
-import defaults from "../../../../../.defaultsForValidator"
-
 export function validate({ resolvedSpec }, config) {
 
   let result = {}
   result.error = []
   result.warning = []
-
-  // maintain browser functionality
-  // if no object is passed in, set to default
-  if (typeof config === "undefined") {
-    config = defaults
-  }
 
   config = config.paths
 
