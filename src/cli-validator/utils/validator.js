@@ -3,21 +3,19 @@ const getVersion = require('./getOpenApiVersion');
 // import the validators
 const semanticValidators2 = require('require-all')(
   __dirname +
-    '/../../plugins/validation/openApi2/semantic-validators/validators'
-);
-
-const sharedSemanticValidators = require('require-all')(
-  __dirname +
-    '/../../plugins/validation/openApi2and3/semantic-validators/validators'
+    '/../../plugins/validation/swagger2/semantic-validators/validators'
 );
 
 const semanticValidators3 = require('require-all')(
-  __dirname +
-    '/../../plugins/validation/openApi3/semantic-validators/validators'
+  __dirname + '/../../plugins/validation/oas3/semantic-validators/validators'
 );
 
 const structuralValidator = require(__dirname +
-  '/../../plugins/validation/openApi2and3/structural-validation/validator');
+  '/../../plugins/validation/2and3/structural-validation/validator');
+
+const sharedSemanticValidators = require('require-all')(
+  __dirname + '/../../plugins/validation/2and3/semantic-validators/validators'
+);
 
 const circularRefsValidator = require('./circular-references-ibm');
 
