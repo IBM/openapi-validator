@@ -118,24 +118,12 @@ export function validate({ jsSpec }, config) {
         if (checkStatus !== "off") {
           each(op.responses, (response, name) => {
             if (response.schema) {
-              if (!response.schema.$ref) {
-                if (response.schema.type == "array") {
-                  result[checkStatus].push({
-                    path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
-                    message: "Arrays MUST NOT be returned as the top-level structure in a response body."
-                  })
-                }
-              } else {
-                let def = response.schema.$ref.match(/#\/definitions\/(\w+)/)
-                if (def) {
-                  let foo = jsSpec.definitions[def[1]]
-                  if (foo && foo.type == "array") {
-                    result[checkStatus].push({
-                      path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
-                      message: "Arrays MUST NOT be returned as the top-level structure in a response body."
-                    })
-                  }
-                }
+              const responseSchema = resolveRef(response.schema, jsSpec)
+              if (responseSchema && responseSchema.type === "array") {
+                result[checkStatus].push({
+                  path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
+                  message: "Arrays MUST NOT be returned as the top-level structure in a response body."
+                })
               }
             }
           })
