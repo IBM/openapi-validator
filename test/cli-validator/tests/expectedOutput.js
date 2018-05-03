@@ -7,7 +7,7 @@ const commandLineValidator = require('../../../dist/src/cli-validator/runValidat
 const inCodeValidator = require('../../../dist/src/lib');
 const swaggerInMemory = require('../mockFiles/errWarnInMemory');
 
-describe('cli tool - test expected output', function() {
+describe('cli tool - test expected output - Swagger 2', function() {
   it('should not produce any errors or warnings from mockFiles/clean.yml', async function() {
     // set a variable to store text intercepted from stdout
     const capturedText = [];
@@ -201,5 +201,33 @@ describe('cli tool - test expected output', function() {
       './test/cli-validator/mockFiles/cleanWithTabs.yml passed the validator'
     );
     expect(capturedText[1].trim()).toEqual('');
+  });
+});
+
+describe('test expected output - OpenAPI 3', function() {
+  it('should not produce any errors or warnings from a clean file', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/oas3/clean.yml'];
+    program.default_mode = true;
+
+    const exitCode = await commandLineValidator(program);
+
+    unhookIntercept();
+
+    const allOutput = capturedText.join('');
+
+    expect(exitCode).toEqual(0);
+    expect(
+      allOutput.includes(
+        './test/cli-validator/mockFiles/oas3/clean.yml passed the validator'
+      )
+    ).toEqual(true);
   });
 });

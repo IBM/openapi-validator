@@ -6,7 +6,7 @@ const stripAnsiFrom = require('strip-ansi');
 const commandLineValidator = require('../../../dist/src/cli-validator/runValidator');
 const circularRefsValidator = require('../../../dist/src/cli-validator/utils/circular-references-ibm');
 
-describe('cli tool - test expected output', function() {
+describe('cli tool - test circular reference module', function() {
   it('should correctly validate a file with circular references', async function() {
     const capturedText = [];
 
