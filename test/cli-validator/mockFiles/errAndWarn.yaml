@@ -192,6 +192,8 @@ definitions:
         - "sold"
     xml:
       name: "Pet"
+  UnusedString:
+    type: "string"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"
