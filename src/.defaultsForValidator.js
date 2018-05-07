@@ -51,7 +51,8 @@ const defaults = {
   },
   "walker": {
     "no_empty_descriptions" : "error",
-    "has_circular_references": "warning"
+    "has_circular_references": "warning",
+    "$ref_siblings": "off"
   }
 };
 
