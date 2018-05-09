@@ -30,6 +30,7 @@ const validators = {
 // this function runs the validators on the swagger object
 module.exports = function validateSwagger(allSpecs, config) {
   const version = getVersion(allSpecs.jsSpec);
+  allSpecs.isOAS3 = version === '3';
   const { semanticValidators } = validators[version];
   const validationResults = {
     errors: {},
@@ -53,12 +54,13 @@ module.exports = function validateSwagger(allSpecs, config) {
   }
 
   // run semantic validators
-  const allValidators = [
-    ...Object.keys(semanticValidators),
-    ...Object.keys(sharedSemanticValidators)
-  ];
-  allValidators.forEach(key => {
-    const problem = semanticValidators[key].validate(allSpecs, config);
+  const allValidators = Object.assign(
+    semanticValidators,
+    sharedSemanticValidators
+  );
+
+  Object.keys(allValidators).forEach(key => {
+    const problem = allValidators[key].validate(allSpecs, config);
     if (problem.errors.length) {
       validationResults.errors[key] = [...problem.errors];
       validationResults.error = true;

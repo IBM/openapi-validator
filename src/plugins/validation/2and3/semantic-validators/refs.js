@@ -6,9 +6,16 @@ import filter from "lodash/filter"
 import startsWith from "lodash/startsWith"
 import each from "lodash/each"
 
-export function validate({ jsSpec , specStr }) {
+export function validate({ jsSpec , specStr, isOAS3 }) {
   let errors = []
   let warnings = []
+
+  if (isOAS3 && !jsSpec.components) {
+    // prevent trying to access components.schemas if components is undefined
+    return
+  }
+
+  const basePath = isOAS3 ? ["components", "schemas"] : ["definitions"]
 
   // Assertation 1
   // This is a "creative" way to approach the problem of collecting used $refs,
@@ -23,12 +30,13 @@ export function validate({ jsSpec , specStr }) {
   }
 
   // de-dupe the array, and filter out non-definition refs
-  let definitionsRefs = filter(uniq(refs), v => startsWith(v, "#/definitions"))
+  let definitionsRefs = filter(uniq(refs), v => startsWith(v, `#/${basePath.join("/")}`))
 
-  each(jsSpec.definitions, (def, defName) => {
-    if(definitionsRefs.indexOf(`#/definitions/${defName}`) === -1) {
+  const definitions = isOAS3 ? jsSpec.components.schemas : jsSpec.definitions
+  each(definitions, (def, defName) => {
+    if(definitionsRefs.indexOf(`#/${basePath.join("/")}/${defName}`) === -1) {
       warnings.push({
-        path: `definitions.${defName}`,
+        path: `${basePath.join(".")}.${defName}`,
         message: "Definition was declared but never used in document"
       })
     }
