@@ -4,11 +4,11 @@
 // Assertation 2:
 // The required properties for a Schema Object must be defined in the object or one of its ancestors.
 
-// Assertation 3:
-// The default property for Schema Objects, or schema-like objects (non-body parameters), must validate against the respective JSON Schema
+// Assertation 3 (for Swagger 2 specs):
+// Headers with 'array' type require an 'items' property
 
 
-export function validate({ resolvedSpec }) {
+export function validate({ jsSpec }) {
   let errors = []
   let warnings = []
 
@@ -17,7 +17,11 @@ export function validate({ resolvedSpec }) {
       return
     }
 
-    if(path[path.length - 1] === "schema" || path[path.length - 2] === "definitions") {
+    // `definitions` for Swagger 2, `schemas` for OAS 3
+    // `properties` applies to both
+    const modelLocations = ["definitions", "schemas", "properties"]
+
+    if(path[path.length - 1] === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
       // if parent is 'schema', or we're in a model definition
 
       // Assertation 1
@@ -43,6 +47,7 @@ export function validate({ resolvedSpec }) {
 
     }
 
+    // this only applies to Swagger 2
     if(path[path.length - 2] === "headers") {
       if(obj.type === "array" && typeof obj.items !== "object") {
         errors.push({
@@ -61,7 +66,7 @@ export function validate({ resolvedSpec }) {
 
   }
 
-  walk(resolvedSpec, [])
+  walk(jsSpec, [])
 
   return { errors, warnings }
 }
