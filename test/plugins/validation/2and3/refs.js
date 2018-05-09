@@ -77,14 +77,18 @@ describe("validation plugin - semantic - refs", function() {
       const jsSpec = {
         paths: {
           "/CoolPath/{id}": {
-            parameters: [{
-              name: "id",
-              in: "path",
-              description: "An id",
-              schema: {
-                $ref: "#/components/schemas/SchemaObject"
+            post: {
+              requestBody: {
+                description: "post an object",
+                content: {
+                  "application/json": {
+                    "schema": {
+                      $ref: "#/components/schemas/SchemaObject"
+                    }
+                  }
+                }
               }
-            }]
+            }
           }
         },
         components: {
