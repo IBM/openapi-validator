@@ -453,6 +453,49 @@ describe("validation plugin - semantic - operations-ibm", function(){
     expect(res.errors.length).toEqual(0)
   })
 
+  it("should complain about an anonymous array response model - from a $ref", function(){
+
+    const config = {
+      "operations" : {
+        "no_array_responses": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/stuff": {
+          get: {
+            summary: "list stuff",
+            operationId: "listStuff",
+            produces: ["application/json"],
+            responses: {
+              200: {
+                description: "successful operation",
+                schema: {
+                  $ref: "#/responses/Success"
+                }
+              }
+            }
+          }
+        }
+      },
+      responses: {
+        "Success": {
+          type: "array",
+          items: {
+            type: "string"
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.warnings.length).toEqual(1)
+    expect(res.warnings[0].path).toEqual("paths./stuff.get.responses.200.schema")
+    expect(res.warnings[0].message).toEqual("Arrays MUST NOT be returned as the top-level structure in a response body.")
+    expect(res.errors.length).toEqual(0)
+  })
+
   it("should not complain about an empty summary within a vendor extension", function(){
 
     const config = {
