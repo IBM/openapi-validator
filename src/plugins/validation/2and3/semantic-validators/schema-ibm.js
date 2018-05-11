@@ -14,7 +14,6 @@
 // array_of_arrays:
 // Schema properties that are arrays should avoid having items that are also arrays
 
-import each from "lodash/each"
 import forIn from "lodash/forIn"
 import includes from "lodash/includes"
 import snakecase from "lodash/snakeCase"
@@ -27,55 +26,30 @@ export function validate({ jsSpec }, config) {
 
   config = config.schemas
 
-  if(jsSpec.definitions) {
-    each(jsSpec.definitions, (def, name) => {
-      if (name.slice(0,2) === "x-") return
-      schemas.push({ schema: def, path: ["definitions", name] })
-    })
+  function walk(obj, path) {
+    if(typeof obj !== "object" || obj === null || obj["x-sdk-exclude"]) {
+      return
+    }
+
+    // don't walk down examples or extensions
+    const parent = path[path.length - 1]
+    if (parent === "example" || parent === "examples" || (parent && parent.slice(0,2) === "x-")) {
+      return
+    }
+
+    const modelLocations = ["definitions", "schemas", "properties"]
+    if (parent === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
+      schemas.push({schema: obj, path})
+    }
+
+    if(Object.keys(obj).length) {
+      return Object.keys(obj).map(k => walk(obj[k], [...path, k]))
+    } else {
+      return null
+    }
   }
 
-  if(jsSpec.responses) {
-    each(jsSpec.responses, (response, name) => {
-      if (name.slice(0,2) === "x-") return
-      if(response.schema && !response.schema.$ref) {
-        schemas.push({ schema: response.schema, path: ["responses", name, "schema"] })
-      }
-    })
-  }
-
-  if(jsSpec.paths) {
-    each(jsSpec.paths, (path, pathName) => {
-      if (pathName.slice(0,2) === "x-") return
-      each(path, (op, opName) => {
-        // skip schemas within operations that are excluded
-        if (opName.slice(0,2) === "x-") return
-        if (op["x-sdk-exclude"] === true) {
-          return
-        }
-        if(op && op.parameters) {
-          op.parameters.forEach((parameter, parameterIndex) => {
-            if(parameter.in === "body" && parameter.schema && ! parameter.schema.$ref) {
-              schemas.push({
-                schema: parameter.schema,
-                path: ["paths", pathName, opName, "parameters", parameterIndex.toString(), "schema"]
-              })
-            }
-          })
-        }
-        if(op && op.responses) {
-          each(op.responses, (response, responseName) => {
-            if (responseName.slice(0,2) === "x-") return
-            if(response && response.schema && !response.schema.$ref) {
-              schemas.push({
-                schema: response.schema,
-                path: ["paths", pathName, opName, "responses", responseName, "schema"]
-              })
-            }
-          })
-        }
-      })
-    })
-  }
+  walk(jsSpec, [])
 
   schemas.forEach(({ schema, path }) => {
     let res = generateFormatErrors(schema, path, config)

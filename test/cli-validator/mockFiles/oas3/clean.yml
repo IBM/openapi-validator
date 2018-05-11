@@ -80,6 +80,15 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 components:
+  parameters:
+    TestParam:
+      in: query
+      name: test
+      content:
+        text/plain:
+          schema:
+            type: integer
+            format: wrong
   schemas:
     Pet:
       required:
@@ -89,10 +98,13 @@ components:
         id:
           type: integer
           format: int64
+          description: "id property"
         name:
           type: string
+          description: "name property"
         tag:
           type: string
+          description: "tag property"
     Pets:
       type: array
       items:
@@ -105,5 +117,7 @@ components:
         code:
           type: integer
           format: int32
+          description: "code property"
         message:
           type: string
+          description: "message property"
