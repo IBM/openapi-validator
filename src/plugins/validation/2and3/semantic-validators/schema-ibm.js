@@ -32,13 +32,13 @@ export function validate({ jsSpec }, config) {
     }
 
     // don't walk down examples or extensions
-    const parent = path[path.length - 1]
-    if (parent === "example" || parent === "examples" || (parent && parent.slice(0,2) === "x-")) {
+    const current = path[path.length - 1]
+    if (current === "example" || current === "examples" || (current && current.slice(0,2) === "x-")) {
       return
     }
 
     const modelLocations = ["definitions", "schemas", "properties"]
-    if (parent === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
+    if (current === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
       schemas.push({schema: obj, path})
     }
 
