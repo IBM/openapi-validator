@@ -31,7 +31,7 @@ export function validate({ jsSpec, isOAS3 }, config) {
       return
     }
 
-    // parent keys that xallow non-string "type" properties. for example,
+    // parent keys that allow non-string "type" properties. for example,
     // having a definition called "type" is allowed
     const allowedParents = isOAS3
       ? [
