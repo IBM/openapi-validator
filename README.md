@@ -171,6 +171,7 @@ Each category contains a group of rules. The supported rules are described below
 | invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat) |
 | content_type_parameter      | Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field. |
 | accept_type_parameter       | Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field. |
+| authorization_parameter     | Flag any parameter that explicitly defines an `Authorization` type. That should be defined by the `securityDefinitions`/`security` fields. |
 
 ##### paths
 | Rule                        | Description                                                                                                  |
