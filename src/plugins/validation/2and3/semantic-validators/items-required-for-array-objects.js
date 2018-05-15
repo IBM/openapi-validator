@@ -17,11 +17,17 @@ export function validate({ jsSpec }) {
       return
     }
 
+    // don't walk down examples or extensions
+    const current = path[path.length - 1]
+    if (current === "example" || current === "examples" || (current && current.slice(0,2) === "x-")) {
+      return
+    }
+
     // `definitions` for Swagger 2, `schemas` for OAS 3
     // `properties` applies to both
     const modelLocations = ["definitions", "schemas", "properties"]
 
-    if(path[path.length - 1] === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
+    if(current === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
       // if parent is 'schema', or we're in a model definition
 
       // Assertation 1
