@@ -1,6 +1,6 @@
 /* eslint-env mocha */
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/paths"
+import { validate } from "../../../../src/plugins/validation/2and3/semantic-validators/paths"
 
 describe("validation plugin - semantic - paths", function(){
 
