@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/walker"
+import { validate } from "../../../../src/plugins/validation/2and3/semantic-validators/walker"
 
 describe("validation plugin - semantic - spec walker", () => {
   describe("Type key", () => {
@@ -92,6 +92,31 @@ describe("validation plugin - semantic - spec walker", () => {
       expect(res.warnings.length).toEqual(0)
     })
 
+  })
+
+  describe("Type key - OpenAPI 3", () => {
+    it("should not return an error when \"type\" is a security scheme name", () => {
+      const config = {
+        "walker" : {
+          "$ref_siblings" : "off"
+        }
+      }
+
+      const spec = {
+        "components": {
+          securitySchemes: {
+            type: {
+              type: "http",
+              scheme: "basic"
+            }
+          }
+        }
+      }
+
+      let res = validate({ jsSpec: spec, isOAS3: true }, config)
+      expect(res.errors.length).toEqual(0)
+      expect(res.warnings.length).toEqual(0)
+    })
   })
 
   describe("Minimums and maximums", () => {
@@ -255,6 +280,7 @@ describe("validation plugin - semantic - spec walker", () => {
         let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "responses", "200", "$ref"])
+        expect(res.errors[0].message).toEqual("responses $refs must follow this format: *#/responses*")
         expect(res.warnings.length).toEqual(0)
       })
 
@@ -278,6 +304,7 @@ describe("validation plugin - semantic - spec walker", () => {
         let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "schema", "$ref"])
+        expect(res.errors[0].message).toEqual("schema $refs must follow this format: *#/definitions*")
         expect(res.warnings.length).toEqual(0)
       })
 
@@ -364,7 +391,7 @@ describe("validation plugin - semantic - spec walker", () => {
           paths: {
             "/CoolPath/{id}": {
               schema: {
-                $ref: "#/definition/abc"
+                $ref: "#/definitions/abc"
               }
             }
           }
@@ -430,6 +457,7 @@ describe("validation plugin - semantic - spec walker", () => {
         let res = validate({ jsSpec: spec }, config)
         expect(res.errors.length).toEqual(1)
         expect(res.errors[0].path).toEqual(["paths", "/CoolPath/{id}", "parameters", "0", "$ref"])
+        expect(res.errors[0].message).toEqual("parameters $refs must follow this format: *#/parameters*")
         expect(res.warnings.length).toEqual(0)
       })
 
@@ -479,6 +507,90 @@ describe("validation plugin - semantic - spec walker", () => {
       })
     })
 
+    describe("Restricted $refs - OpenAPI 3", () => {
+      it("should return a problem for a schema not defined in schemas", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              post: {
+                requestBody: {
+                  description: "post an object",
+                  content: {
+                    "application/json": {
+                      schema: {
+                        $ref: "#/components/requestBodies/Object"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec, isOAS3: true }, config)
+        expect(res.errors.length).toEqual(1)
+        expect(res.errors[0].path).toEqual(
+          [
+            "paths",
+            "/CoolPath/{id}",
+            "post",
+            "requestBody",
+            "content",
+            "application/json",
+            "schema",
+            "$ref"
+          ]
+        )
+        expect(res.errors[0].message).toEqual(
+          "schema $refs must follow this format: *#/components/schemas*"
+        )
+        expect(res.warnings.length).toEqual(0)
+      })
+
+      it("should not return a problem for a header ref within a responses object", function(){
+        const config = {
+          "walker" : {
+            "$ref_siblings" : "off"
+          }
+        }
+
+        const spec = {
+          paths: {
+            "/CoolPath/{id}": {
+              get: {
+                responses: {
+                  description: "get a string",
+                  content: {
+                    "application/json": {
+                      schema: {
+                        type: "string"
+                      }
+                    }
+                  },
+                  headers: {
+                    "X-Fake-Header": {
+                      $ref: "#/components/headers/FakeHeader"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+
+        let res = validate({ jsSpec: spec, isOAS3: true }, config)
+        expect(res.errors.length).toEqual(0)
+        expect(res.warnings.length).toEqual(0)
+      })
+    })
+
     describe("Ref siblings", () => {
 
       it("should not return a warning when another property is a sibling of a $ref", () => {
@@ -492,7 +604,7 @@ describe("validation plugin - semantic - spec walker", () => {
           paths: {
             "/CoolPath/{id}": {
               schema: {
-                $ref: "#/definition/abc",
+                $ref: "#/definitions/abc",
                 description: "My very cool schema"
               }
             }
@@ -515,7 +627,7 @@ describe("validation plugin - semantic - spec walker", () => {
           paths: {
             "/CoolPath/{id}": {
               schema: {
-                $ref: "#/definition/abc",
+                $ref: "#/definitions/abc",
                 description: "My very cool schema"
               }
             }
