@@ -26,12 +26,17 @@ export function validate({ resolvedSpec }, config) {
         return param.slice(1, -1)
       })
 
-      let path = resolvedSpec.paths[pathName]
-      let operations = Object.keys(path)
+      const path = resolvedSpec.paths[pathName]
+      const allowedOperations = [
+        "get", "put", "post", "delete", "options", "head", "patch", "trace"
+      ]
+      const operations = Object.keys(path).filter(
+        pathItem => allowedOperations.includes(pathItem)
+      )
       
       // paths can have a global parameters object that applies to all operations
       let globalParameters = []
-      if (operations.includes("parameters")) {
+      if (path.parameters) {
         globalParameters = path.parameters
                            .filter(param => param.in.toLowerCase() === "path")
                            .map(param => param.name)
@@ -39,11 +44,7 @@ export function validate({ resolvedSpec }, config) {
 
       operations.forEach(opName => {
 
-        if (opName === "$ref" || opName === "parameters" || opName.slice(0,2) === "x-") {
-          return
-        }
-
-        let operation = path[opName]
+        const operation = path[opName]
 
         // ignore validating excluded operations
         if (operation["x-sdk-exclude"] === true) {
@@ -60,7 +61,7 @@ export function validate({ resolvedSpec }, config) {
 
 
         let accountsForAllParameters = true
-        let missingParameters = []
+        const missingParameters = []
 
         parameters.forEach(name => {
           if (!givenParameters.includes(name) && !globalParameters.includes(name)) {
@@ -75,11 +76,32 @@ export function validate({ resolvedSpec }, config) {
             let parameterTerm = missingParameters.length > 1 ? "parameters" : "a parameter"
             result[checkStatus].push({
               path: `paths.${pathName}.${opName}.parameters`,
-              message: `Operation must include ${parameterTerm} with {in: 'path'} and {name: '${missingParameters.join(", ")}'}`
+              message: `Operation must include ${parameterTerm} with {in: 'path'} and {name: '${missingParameters.join(", ")}'}. Can be at the path level or the operation level.`
             })
           }
         }
       })
+
+      if (!operations.length) {
+        let accountsForAllParameters = true
+        const missingParameters = []
+        parameters.forEach(name => {
+          if (!globalParameters.includes(name)) {
+            accountsForAllParameters = false
+            missingParameters.push(name)
+          }
+        })
+        if (!accountsForAllParameters) {
+          const checkStatus = config.missing_path_parameter
+          if (checkStatus != "off") {
+            const parameterTerm = missingParameters.length > 1 ? "parameters" : "parameter"
+            result[checkStatus].push({
+              path: `paths.${pathName}`,
+              message: `The following ${parameterTerm} must be defined at the path or the operation level: ${missingParameters.join(", ")}`
+            })
+          }
+        }
+      }
     }
   })
 
