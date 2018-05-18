@@ -291,5 +291,37 @@ describe("validation plugin - semantic - security", () => {
       expect(res.errors.length).toEqual(0)
       expect(res.warnings.length).toEqual(0)
     })
+
+    it("should not return an error when referencing a non-existing scope for type openIdConnet", () => {
+      const spec = {
+        components: {
+          securitySchemes: {
+            TestAuth: {
+              type: "openIdConnet",
+              description: "just a test",
+              openIdConnectUrl: "https://auth.com/openId"
+            }
+          }
+        },
+        paths: {
+          "/": {
+            get: {
+              description: "asdf",
+              security: [
+                {
+                  TestAuth: [
+                    "write:pets"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      let res = validate({ resolvedSpec: spec, isOAS3: true })
+      expect(res.errors.length).toEqual(0)
+      expect(res.warnings.length).toEqual(0)
+    })
   })
 })

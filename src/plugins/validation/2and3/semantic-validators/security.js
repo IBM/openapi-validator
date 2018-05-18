@@ -82,5 +82,9 @@ function checkOAS3Scopes(scope, definition) {
       }
     })
   }
+  // scopes for openIdConnet are not definied in the document
+  if (definition.type && definition.type === "openIdConnet") {
+    scopeIsDefined = true
+  }
   return scopeIsDefined
 }
