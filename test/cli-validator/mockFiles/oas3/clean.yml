@@ -53,7 +53,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /pets/{petId}:
+  /pets/{pet_id}:
     get:
       summary: Info for a specific pet
       operationId: showPetById
