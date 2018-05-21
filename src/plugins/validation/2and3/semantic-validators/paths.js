@@ -5,18 +5,15 @@
 // Path parameter declarations do not allow empty names (/path/{} is not valid)
 
 // Assertation 3:
-// Path parameters declared in the path string need matching parameter definitions (Either at the path-level or the operation)
-
-// Assertation 4:
 // Path strings must be (equivalently) different (Example: /pet/{petId} and /pet/{petId2} are equivalently the same and would generate an error)
 
-// Assertation 5:
+// Assertation 4:
 // Paths must have unique (name + in combination) parameters
 
-// Assertation 6:
+// Assertation 5:
 // Paths cannot have partial templates. (/path/abc{123} is illegal)
 
-// Assertation 7:
+// Assertation 6:
 // Paths cannot have literal query strings in them.
 
 import each from "lodash/each"
@@ -46,7 +43,7 @@ export function validate({ resolvedSpec }) {
     }
 
     pathName.split("/").map(substr => {
-      // Assertation 6
+      // Assertation 5
       if(templateRegex.test(substr) && substr.replace(templateRegex, "").length > 0) {
         errors.push({
           path: `paths.${pathName}`,
@@ -55,6 +52,7 @@ export function validate({ resolvedSpec }) {
       }
     })
 
+    // Assertation 6
     if(pathName.indexOf("?") > -1) {
       errors.push({
         path: `paths.${pathName}`,
@@ -84,7 +82,7 @@ export function validate({ resolvedSpec }) {
       }
     })
 
-    // Assertation 4
+    // Assertation 3
     let hasBeenSeen = tallyRealPath(pathName)
     if(hasBeenSeen) {
       errors.push({
@@ -93,7 +91,7 @@ export function validate({ resolvedSpec }) {
       })
     }
 
-    // Assertation 5
+    // Assertation 4
     each(parametersFromPath, (parameterDefinition, i) => {
       let nameAndInComboIndex = findIndex(parametersFromPath, { "name": parameterDefinition.name, "in": parameterDefinition.in })
       // comparing the current index against the first found index is good, because
@@ -130,18 +128,6 @@ export function validate({ resolvedSpec }) {
           errors.push({
             path: `paths.${pathName}`,
             message: "Empty path parameter declarations are not valid"
-          })
-        } else
-
-        // Assertation 3
-        if(findIndex(availableParameters, { name: parameter, in: "path" }) === -1 ) {
-          if(findIndex(errors, { path: `paths.${pathName}` }) > -1 ) {
-            // don't add an error if there's already one for the path (for assertation 6)
-            return
-          }
-          errors.push({
-            path: `paths.${pathName}`,
-            message: `Declared path parameter "${parameter}" needs to be defined as a path parameter at either the path or operation level`
           })
         }
       })
