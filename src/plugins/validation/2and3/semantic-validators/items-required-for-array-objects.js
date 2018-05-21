@@ -4,7 +4,8 @@
 // Assertation 2:
 // The required properties for a Schema Object must be defined in the object or one of its ancestors.
 
-// Assertation 3 (for Swagger 2 specs):
+// Assertation 3
+// (For Swagger 2 specs. In the OAS 3 spec, headers do not have types. Their schemas will be checked by Assertation 1):
 // Headers with 'array' type require an 'items' property
 
 
