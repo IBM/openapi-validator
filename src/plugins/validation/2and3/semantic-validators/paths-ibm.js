@@ -1,6 +1,8 @@
 // Assertation 1. If a path has a parameter, all operations must have a parameter of type
 // 'path' and name 'parameterName' ( parameterName matching what is contained in curly brackets -> {} )
 
+// Assertation 2. All path parameters must be defined at either the path or operation level.
+
 export function validate({ resolvedSpec }, config) {
 
   let result = {}
