@@ -164,13 +164,14 @@ Each category contains a group of rules. The supported rules are described below
 | parameter_order             | Flag any operations with optional parameters before a required param |
 
 ##### parameters
-| Rule                        | Description                                                          |
-| --------------------------- | -------------------------------------------------------------------- |
-| no_parameter_description    | Flag any parameter that does not contain a 'description' field.      |
-| snake_case_only             | Flag any parameter with a 'name' field that does not use snake case. |
-| invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat) |
-| content_type_parameter      | Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field. |
-| accept_type_parameter       | Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field. |
+| Rule                        | Description                                                              |
+| --------------------------- | ------------------------------------------------------------------------ |
+| no_parameter_description    | Flag any parameter that does not contain a 'description' field.          |
+| snake_case_only             | Flag any parameter with a 'name' field that does not use snake case.     |
+| invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.][2] |
+| content_type_parameter      | [Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field.][2] |
+| accept_type_parameter       | [Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field.][2] |
+| authorization_parameter     | [Flag any parameter that explicitly defines an `Authorization` type. That should be defined by the `securityDefinitions`/`security` fields.][2] |
 
 ##### paths
 | Rule                        | Description                                                                                                  |
@@ -180,7 +181,7 @@ Each category contains a group of rules. The supported rules are described below
 ##### schemas
 | Rule                        | Description                                                                   |
 | --------------------------- | ----------------------------------------------------------------------------- |
-| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat) |
+| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         |
 | snake_case_only             | Flag any property with a 'name' that is not lower snake case.                 |
 | no_property_description     | Flag any schema that contains a 'property' without a 'description' field.     |
 | description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  |
@@ -203,6 +204,9 @@ Each category contains a group of rules. The supported rules are described below
 | no_empty_descriptions       | Flag any 'description' field in the spec with an empty or whitespace string. |
 | has_circular_references     | Flag any circular references found in the Swagger spec.                      |
 | $ref_siblings               | Flag any properties that are siblings of a `$ref` property.                  |
+
+[1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
+[2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
 
 #### Statuses
 
@@ -251,6 +255,7 @@ The default values for each rule are described below.
 | invalid_type_format_pair    | error   |
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |
+| authorization_parameter     | warning |
 
 ##### paths
 | Rule                        | Default |
