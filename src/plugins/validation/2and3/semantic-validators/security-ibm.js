@@ -1,10 +1,17 @@
 // from openapi spec -
-// Assertation 1: For security scheme types other than OAuth2, the security array MUST be empty.
+// Assertation 1:
+// Swagger 2
+// For security scheme types other than OAuth2, the security array MUST be empty.
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject
+// OpenAPI 3
+// If the security scheme is of type "oauth2" or "openIdConnect", then the value is a list of scope 
+//   names required for the execution. For other security scheme types, the array MUST be empty.
+// https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securityRequirementObject
+
 
 import each from "lodash/each"
 
-export function validate({ jsSpec }, config) {
+export function validate({ jsSpec, isOAS3 }, config) {
 
   const result = {}
   result.error = []
@@ -52,16 +59,19 @@ export function validate({ jsSpec }, config) {
         })
       }
 
+      const securityDefinitions = isOAS3 ? jsSpec.components.securitySchemes : jsSpec.securityDefinitions
       const isNonEmptyArray = schemeObject[schemeName].length > 0
-      const schemeIsDefined = jsSpec.securityDefinitions[schemeName]
+      const schemeIsDefined = securityDefinitions[schemeName]
+      const schemesWithNonEmptyArrays = isOAS3 ? ["oauth2", "openIdConnect"] : ["oauth2"]
 
       if (isNonEmptyArray && schemeIsDefined) {
-        if (jsSpec.securityDefinitions[schemeName].type.toLowerCase() !== "oauth2") {
+        const schemeType = securityDefinitions[schemeName].type
+        if (!schemesWithNonEmptyArrays.includes(schemeType)) {
           const checkStatus = config.invalid_non_empty_security_array
           if (checkStatus !== "off") {
             result[checkStatus].push({
               path: `${path}.${schemeName}`,
-              message: "For security scheme types other than OAuth2, the value must be an empty array."
+              message: `For security scheme types other than ${schemesWithNonEmptyArrays.join(" or ")}, the value must be an empty array.`
             })
           }
         }

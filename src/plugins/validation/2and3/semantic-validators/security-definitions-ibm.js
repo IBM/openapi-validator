@@ -4,7 +4,7 @@
 
 import each from "lodash/each"
 
-export function validate({ jsSpec }, config) {
+export function validate({ jsSpec, isOAS3 }, config) {
 
   const result = {}
   result.error = []
@@ -16,8 +16,10 @@ export function validate({ jsSpec }, config) {
   const usedScopes = {}
 
   // collect the security requirements and all relevant scopes
-  
-  const securityDefinitions = jsSpec.securityDefinitions
+
+  const securityDefinitions = isOAS3 
+    ? jsSpec.components && jsSpec.components.securitySchemes
+    : jsSpec.securityDefinitions
 
   each(securityDefinitions, (scheme, name) => {
     if (name.slice(0,2) === "x-") return
@@ -28,11 +30,26 @@ export function validate({ jsSpec }, config) {
 
     // collect scopes in oauth2 schemes
     if (scheme.type.toLowerCase() === "oauth2") {
-      Object.keys(scheme.scopes).forEach(scope => {
-        usedScopes[scope] = {}
-        usedScopes[scope].used = false
-        usedScopes[scope].scheme = name
-      })
+      if (isOAS3) {
+        if (scheme.flows) {
+          each(scheme.flows, (flow, flowType) => {
+            if (flow.scopes) {
+              Object.keys(flow.scopes).forEach(scope => {
+                usedScopes[scope] = {}
+                usedScopes[scope].used = false
+                usedScopes[scope].scheme = name
+                usedScopes[scope].flow = flowType
+              })
+            }
+          })
+        }
+      } else {
+        Object.keys(scheme.scopes).forEach(scope => {
+          usedScopes[scope] = {}
+          usedScopes[scope].used = false
+          usedScopes[scope].scheme = name
+        })
+      }
     }
   })
 
@@ -57,7 +74,6 @@ export function validate({ jsSpec }, config) {
     })
   })
 
-
   function flagUsedDefinitions(security) {
 
     security.forEach(scheme => {
@@ -65,7 +81,7 @@ export function validate({ jsSpec }, config) {
       // each object in this array should only have one key - the name of the scheme
       const name = Object.keys(scheme)[0]
 
-      // make sure this scheme was in the securityDefinitions, then label as used
+      // make sure this scheme was in the security definitions, then label as used
       if (usedSchemes[name]) {
 
         usedSchemes[name].used = true
@@ -90,8 +106,11 @@ export function validate({ jsSpec }, config) {
     if (info.used === false) {
       const checkStatus = config.unused_security_schemes
       if (checkStatus !== "off") {
+        const location = isOAS3
+          ? "components.securitySchemes"
+          : "securityDefinitions"
         result[checkStatus].push({
-          path: `securityDefinitions.${name}`,
+          path: `${location}.${name}`,
           message: `The security scheme ${name} is defined but is never used.`
         })
       }
@@ -102,8 +121,11 @@ export function validate({ jsSpec }, config) {
     if (info.used === false) {
       const checkStatus = config.unused_security_scopes
       if (checkStatus !== "off") {
+        const path = isOAS3
+          ? `components.securitySchemes.${info.scheme}.flows.${info.flow}.scopes.${name}`
+          : `securityDefinitions.${info.scheme}.scopes.${name}`
         result[checkStatus].push({
-          path: `securityDefinitions.${info.scheme}.scopes.${name}`,
+          path,
           message: `The security scope ${name} is defined but is never used.`
         })
       }
