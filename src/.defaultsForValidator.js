@@ -31,7 +31,7 @@ const defaults = {
     "invalid_type_format_pair": "error",
     "content_type_parameter": "error",
     "accept_type_parameter": "error",
-    "authorization_parameter": "error"
+    "authorization_parameter": "warning"
   },
   "paths": {
     "missing_path_parameter": "error"

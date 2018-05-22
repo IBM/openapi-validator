@@ -255,6 +255,7 @@ The default values for each rule are described below.
 | invalid_type_format_pair    | error   |
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |
+| authorization_parameter     | warning |
 
 ##### paths
 | Rule                        | Default |

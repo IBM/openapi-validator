@@ -257,7 +257,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
         "parameters" : {
           "content_type_parameter": "error",
           "accept_type_parameter": "error",
-          "authorization_parameter": "error"
+          "authorization_parameter": "warning"
         }
       }
 
@@ -306,14 +306,16 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       }
 
       let res = validate({ jsSpec: spec, isOAS3: true }, config)
-      expect(res.warnings.length).toEqual(0)
-      expect(res.errors.length).toEqual(3)
+      expect(res.warnings.length).toEqual(1)
+      expect(res.errors.length).toEqual(2)
       expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "1"])
       expect(res.errors[0].message).toEqual("Parameters must not explicitly define `Accept`. Rely on the `content` field of a response object to specify accept-type.")
       expect(res.errors[1].path).toEqual(["paths", "/pets", "get", "parameters", "2"])
       expect(res.errors[1].message).toEqual("Parameters must not explicitly define `Content-Type`. Rely on the `content` field of a request body or response object to specify content-type.")
-      expect(res.errors[2].path).toEqual(["paths", "/pets", "get", "parameters", "3"])
-      expect(res.errors[2].message).toEqual("Parameters must not explicitly define `Authorization`. Rely on the `securitySchemas` and `security` fields to specify authorization methods.")
+      expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "3"])
+      expect(res.warnings[0].message).toEqual(
+        "Parameters must not explicitly define `Authorization`. Rely on the `securitySchemas` and `security` fields to specify authorization methods. This check will be converted to an `error` in an upcoming release."
+      )
     })
 
     it("should return an error when a parameter does not have a description", () => {
