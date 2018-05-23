@@ -1,6 +1,5 @@
 // Assertation 1: Operations cannot have both a 'body' parameter and a 'formData' parameter.
 // Assertation 2: Operations must have only one body parameter.
-// Assertation 3: Operations must have unique (name + in combination) parameters.
 
 import pick from "lodash/pick"
 import map from "lodash/map"
@@ -38,22 +37,6 @@ export function validate({ resolvedSpec }) {
             message: "Operations must have no more than one body parameter"
           })
         }
-
-        // Assertation 3
-        each(op.parameters, (param, paramIndex) => {
-          let nameAndInComboIndex = findIndex(op.parameters, { "name": param.name, "in": param.in })
-          // comparing the current index against the first found index is good, because
-          // it cuts down on error quantity when only two parameters are involved,
-          // i.e. if param1 and param2 conflict, this will only complain about param2.
-          // it also will favor complaining about parameters later in the spec, which
-          // makes more sense to the user.
-          if(paramIndex !== nameAndInComboIndex) {
-            errors.push({
-              path: `paths.${pathKey}.${opKey}.parameters[${paramIndex}]`,
-              message: "Operation parameters must have unique 'name' + 'in' properties"
-            })
-          }
-        })
       })
     })
 
