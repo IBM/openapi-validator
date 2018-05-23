@@ -19,7 +19,7 @@ const defaults = {
   "operations": {
     "no_consumes_for_put_or_post": "error",
     "get_op_has_consumes": "warning",
-    "no_produces_for_get": "error",
+    "no_produces": "error",
     "no_operation_id": "warning",
     "no_summary": "warning",
     "no_array_responses": "error",

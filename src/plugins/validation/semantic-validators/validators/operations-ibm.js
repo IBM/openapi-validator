@@ -5,7 +5,7 @@
 // GET operations should not specify a consumes field.
 
 // Assertation 3:
-// GET operations must have a non-empty `produces` field.
+// All operations (besides HEAD) must have a non-empty `produces` field.
 
 // Assertation 4:
 // Operations must have a non-empty `operationId`
@@ -83,6 +83,24 @@ export function validate({ jsSpec }, config) {
         }
       }
 
+      let isHeadOperation = opKey.toLowerCase() === "head"
+      if (!isHeadOperation) {
+        // operations should have a produces property
+        let hasLocalProduces = op.produces && op.produces.length > 0 && !!op.produces.join("").trim()
+        let hasGlobalProduces = !!jsSpec.produces
+
+        if (!hasLocalProduces && !hasGlobalProduces) {
+          let checkStatus = config.no_produces
+
+          if (checkStatus !== "off") {
+            result[checkStatus].push({
+              path: `paths.${pathKey}.${opKey}.produces`,
+              message: "Operations must have a non-empty `produces` field."
+            })
+          }
+        }
+      }
+
       let isGetOperation = opKey.toLowerCase() === "get"
       if (isGetOperation) {
 
@@ -94,21 +112,6 @@ export function validate({ jsSpec }, config) {
             result[checkStatus].push({
               path: `paths.${pathKey}.${opKey}.consumes`,
               message: "GET operations should not specify a consumes field."
-            })
-          }
-        }
-
-        // get operations should have a produces property
-        let hasLocalProduces = op.produces && op.produces.length > 0 && !!op.produces.join("").trim()
-        let hasGlobalProduces = !!jsSpec.produces
-
-        if (!hasLocalProduces && !hasGlobalProduces) {
-          let checkStatus = config.no_produces_for_get
-
-          if (checkStatus !== "off") {
-            result[checkStatus].push({
-              path: `paths.${pathKey}.${opKey}.produces`,
-              message: "GET operations must have a non-empty `produces` field."
             })
           }
         }

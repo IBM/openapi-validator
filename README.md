@@ -153,15 +153,15 @@ Rules are organized by categories. The supported categories are described below:
 Each category contains a group of rules. The supported rules are described below:
 
 ##### operations
-| Rule                        | Description                                                          |
-| --------------------------- | -------------------------------------------------------------------- |
-| no_consumes_for_put_or_post | Flag 'put' or 'post' operations that do not have a 'consumes' field. |
-| get_op_has_consumes         | Flag 'get' operations that contain a 'consumes' field.               |
-| no_produces_for_get         | Flag 'get' operations that do not have a 'produces' field.           |
-| no_operation_id             | Flag any operations that do not have an 'operationId' field.         |
-| no_summary                  | Flag any operations that do not have a 'summary' field.              |
-| no_array_responses          | Flag any operations with a top-level array response.                 |
-| parameter_order             | Flag any operations with optional parameters before a required param |
+| Rule                        | Description                                                               |
+| --------------------------- | ------------------------------------------------------------------------- |
+| no_consumes_for_put_or_post | Flag 'put' or 'post' operations that do not have a 'consumes' field.      |
+| get_op_has_consumes         | Flag 'get' operations that contain a 'consumes' field.                    |
+| no_produces                 | Flag any operations (besides 'head') that do not have a 'produces' field. |
+| no_operation_id             | Flag any operations that do not have an 'operationId' field.              |
+| no_summary                  | Flag any operations that do not have a 'summary' field.                   |
+| no_array_responses          | Flag any operations with a top-level array response.                      |
+| parameter_order             | Flag any operations with optional parameters before a required param      |
 
 ##### parameters
 | Rule                        | Description                                                          |
@@ -237,7 +237,7 @@ The default values for each rule are described below.
 | --------------------------- | --------|
 | no_consumes_for_put_or_post | error   |
 | get_op_has_consumes         | warning |
-| no_produces_for_get         | error   |
+| no_produces                 | error   |
 | no_operation_id             | warning |
 | no_summary                  | warning |
 | no_array_responses          | error   |

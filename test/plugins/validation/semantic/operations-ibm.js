@@ -17,6 +17,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
           put: {
             summary: "this is a summary",
             operationId: "operationId",
+            produces: ["text/plain"],
             parameters: [{
               name: "BadParameter",
               in: "body",
@@ -54,6 +55,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
         "/CoolPath": {
           post: {
             consumes: [" "],
+            produces: ["text/plain"],
             summary: "this is a summary",
             operationId: "operationId",
             parameters: [{
@@ -95,6 +97,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
           put: {
             summary: "this is a summary",
             operationId: "operationId",
+            produces: ["text/plain"],
             parameters: [{
               name: "NotABadParameter",
               in: "body",
@@ -161,7 +164,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     const config = {
       "operations" : {
-        "no_produces_for_get": "error"
+        "no_produces": "error"
       }
     }
 
@@ -191,7 +194,54 @@ describe("validation plugin - semantic - operations-ibm", function(){
     let res = validate({ jsSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
     expect(res.errors[0].path).toEqual("paths./CoolPath.get.produces")
-    expect(res.errors[0].message).toEqual("GET operations must have a non-empty `produces` field.")
+    expect(res.errors[0].message).toEqual("Operations must have a non-empty `produces` field.")
+    expect(res.warnings.length).toEqual(0)
+  })
+
+  it("should complain about a post operation not having produces", function(){
+
+    const config = {
+      "operations" : {
+        "no_produces": "error"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/CoolPath": {
+          post: {
+            summary: "this is a summary",
+            operationId: "operationId",
+            consumes: ["application/json"],
+            parameters: [{
+              name: "Parameter",
+              in: "body",
+              schema: {
+                required: ["Property"],
+                properties: [
+                  {
+                    name: "Property"
+                  }
+                ]
+              }
+            }],
+            responses: {
+              "200": {
+                description: "successful response producing text/plain",
+                schema: {
+                  type: "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(1)
+    expect(res.errors[0].path).toEqual("paths./CoolPath.post.produces")
+    expect(res.errors[0].message).toEqual("Operations must have a non-empty `produces` field.")
     expect(res.warnings.length).toEqual(0)
   })
 
@@ -199,7 +249,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
 
     const config = {
       "operations" : {
-        "no_produces_for_get": "error"
+        "no_produces": "error"
       }
     }
 
@@ -208,6 +258,43 @@ describe("validation plugin - semantic - operations-ibm", function(){
       paths: {
         "/CoolPath": {
           get: {
+            summary: "this is a summary",
+            operationId: "operationId",
+            parameters: [{
+              name: "Parameter",
+              in: "body",
+              schema: {
+                required: ["Property"],
+                properties: [
+                  {
+                    name: "Property"
+                  }
+                ]
+              }
+            }]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(0)
+  })
+
+  it("should not complain about a missing produces for a HEAD operation", function(){
+
+    const config = {
+      "operations" : {
+        "no_produces": "error"
+      }
+    }
+
+    const spec = {
+      produces: ["application/json"],
+      paths: {
+        "/CoolPath": {
+          head: {
             summary: "this is a summary",
             operationId: "operationId",
             parameters: [{
@@ -245,6 +332,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
           put: {
             consumes: ["consumes"],
             summary: "this is a summary",
+            produces: ["text/plain"],
             parameters: [{
               name: "BadParameter",
               in: "body",
@@ -281,6 +369,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
           put: {
             consumes: ["consumes"],
             summary: "this is a summary",
+            produces: ["text/plain"],
             operationId: " ",
             parameters: [{
               name: "BadParameter",
@@ -317,6 +406,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
         "/CoolPath": {
           put: {
             consumes: ["consumes"],
+            produces: ["text/plain"],
             operationId: "operationId",
             parameters: [{
               name: "BadParameter",
@@ -353,6 +443,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
         "/CoolPath": {
           put: {
             consumes: ["consumes"],
+            produces: ["text/plain"],
             summary: "  ",
             operationId: "operationId",
             parameters: [{
@@ -383,7 +474,7 @@ describe("validation plugin - semantic - operations-ibm", function(){
       "operations" : {
         "no_consumes_for_put_or_post": "error",
         "get_op_has_consumes": "warning",
-        "no_produces_for_get": "error",
+        "no_produces": "error",
         "no_operation_id": "warning",
         "no_summary": "warning"
       }
