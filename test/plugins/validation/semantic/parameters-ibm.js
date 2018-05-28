@@ -34,7 +34,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
   })
 
   it("should return an error when snake case is not used", () => {
-    
+
     const config = {
       "parameters" : {
         "snake_case_only": "warning"
@@ -66,7 +66,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
   })
 
   it("should not return a snake case error when \"in\" is set to \"header\" ", () => {
-    
+
     const config = {
       "parameters" : {
         "snake_case_only": "warning"
@@ -81,6 +81,36 @@ describe("validation plugin - semantic - parameters-ibm", () => {
               {
                 "name": "camelCase",
                 "in": "header",
+                "description": "description",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(0)
+  })
+
+  it("should not return a snake case error when parameter name is snake case containing '.'", () => {
+
+    const config = {
+      "parameters" : {
+        "snake_case_only": "warning"
+      }
+    }
+
+    const spec = {
+      "paths": {
+        "/pets": {
+          "get": {
+            "parameters": [
+              {
+                "name": "concepts.limits",
+                "in": "query",
                 "description": "description",
                 "type": "string"
               }
