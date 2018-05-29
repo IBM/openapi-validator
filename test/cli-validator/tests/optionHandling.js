@@ -134,24 +134,24 @@ describe('cli tool - test option handling', function() {
     expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('6');
 
     // errors
-    expect(capturedText[statsSection + 4].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 4].match(/\S+/g)[1]).toEqual('(25%)');
+    expect(capturedText[statsSection + 4].match(/\S+/g)[0]).toEqual('2');
+    expect(capturedText[statsSection + 4].match(/\S+/g)[1]).toEqual('(50%)');
 
-    expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(50%)');
+    expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(25%)');
 
     expect(capturedText[statsSection + 6].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 6].match(/\S+/g)[1]).toEqual('(25%)');
 
     // warnings
-    expect(capturedText[statsSection + 9].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 9].match(/\S+/g)[1]).toEqual('(33%)');
+    expect(capturedText[statsSection + 9].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 9].match(/\S+/g)[1]).toEqual('(17%)');
 
     expect(capturedText[statsSection + 10].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 10].match(/\S+/g)[1]).toEqual('(17%)');
 
-    expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(17%)');
+    expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('2');
+    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(33%)');
 
     expect(capturedText[statsSection + 12].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(17%)');

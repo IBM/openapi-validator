@@ -94,9 +94,13 @@ components:
         tag:
           type: string
     Pets:
-      type: array
-      items:
-        $ref: "#/components/schemas/Pet"
+      required:
+        - list
+      properties:
+        list:
+          type: array
+          items:
+            $ref: "#/components/schemas/Pet"
     Error:
       required:
         - code
