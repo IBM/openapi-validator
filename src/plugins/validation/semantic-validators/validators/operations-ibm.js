@@ -5,7 +5,7 @@
 // GET operations should not specify a consumes field.
 
 // Assertation 3:
-// All operations (besides HEAD) must have a non-empty `produces` field.
+// All operations (besides HEAD and those with only 204 success responses) must have a non-empty `produces` field.
 
 // Assertation 4:
 // Operations must have a non-empty `operationId`
@@ -67,7 +67,6 @@ export function validate({ jsSpec }, config) {
       }
 
       if(includes(["put","post"], opKey.toLowerCase())) {
-
         let hasLocalConsumes = op.consumes && op.consumes.length > 0 && !!op.consumes.join("").trim()
         let hasGlobalConsumes = !!jsSpec.consumes
 
@@ -89,7 +88,14 @@ export function validate({ jsSpec }, config) {
         let hasLocalProduces = op.produces && op.produces.length > 0 && !!op.produces.join("").trim()
         let hasGlobalProduces = !!jsSpec.produces
 
-        if (!hasLocalProduces && !hasGlobalProduces) {
+        // determine if only success response is a 204
+        const responses = op.responses || {}
+        const successResponses = Object.keys(responses).filter(
+          code => code.charAt(0) === "2"
+        )
+        const onlyHas204 = successResponses.length === 1 && successResponses[0] === "204"
+
+        if (!hasLocalProduces && !hasGlobalProduces && !onlyHas204) {
           let checkStatus = config.no_produces
 
           if (checkStatus !== "off") {

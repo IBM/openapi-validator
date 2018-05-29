@@ -231,6 +231,12 @@ describe("validation plugin - semantic - operations-ibm", function(){
                 schema: {
                   type: "string"
                 }
+              },
+              "204": {
+                description: "no content is a possibility here"
+              },
+              "500": {
+                description: "internal error"
               }
             }
           }
@@ -309,6 +315,55 @@ describe("validation plugin - semantic - operations-ibm", function(){
                 ]
               }
             }]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(0)
+  })
+
+  it("should not complain about a missing produces for an op where the only success response is a 204", function(){
+
+    const config = {
+      "operations" : {
+        "no_produces": "error"
+      }
+    }
+
+    const spec = {
+      produces: ["application/json"],
+      paths: {
+        "/CoolPath": {
+          post: {
+            summary: "this is a summary",
+            operationId: "operationId",
+            consumes: ["application/json"],
+            parameters: [{
+              name: "Parameter",
+              in: "body",
+              schema: {
+                required: ["Property"],
+                properties: [
+                  {
+                    name: "Property"
+                  }
+                ]
+              }
+            }],
+            responses: {
+              "204": {
+                description: "no content"
+              },
+              "400": {
+                description: "bad request"
+              },
+              "500": {
+                description: "internal error"
+              }
+            }
           }
         }
       }
