@@ -223,4 +223,45 @@ describe('cli tool - test config file validator', function() {
     expect(capturedText.length).toEqual(0);
     expect(defaultSchemas).toEqual(configSchemas);
   });
+
+  it('should print no errors with a config object that includes a deprecated rule', function() {
+    const config = {
+      operations: {
+        no_consumes_for_put_or_post: 'error',
+        get_op_has_consumes: 'warning',
+        no_produces_for_get: 'error',
+        no_operation_id: 'warning',
+        no_summary: 'warning',
+        no_array_responses: 'error'
+      },
+      parameters: {
+        no_parameter_description: 'error',
+        snake_case_only: 'warning',
+        invalid_type_format_pair: 'error'
+      },
+      schemas: {
+        invalid_type_format_pair: 'error',
+        snake_case_only: 'warning',
+        no_property_description: 'warning',
+        description_mentions_json: 'warning'
+      },
+      walker: {
+        no_empty_descriptions: 'error'
+      }
+    };
+
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const res = configFileValidator(config, chalk);
+
+    unhookIntercept();
+
+    expect(res.invalid).toEqual(false);
+    expect(capturedText.length).toEqual(0);
+  });
 });

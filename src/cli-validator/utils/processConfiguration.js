@@ -14,6 +14,9 @@ const validateConfigObject = function(configObject, chalk) {
   const configErrors = [];
   let validObject = true;
 
+  // temporary fix to account for deprecated rules
+  const deprecatedRules = ['no_produces_for_get'];
+
   // check that all categories are valid
   const allowedCategories = Object.keys(defaultObject);
   const userCategories = Object.keys(configObject);
@@ -31,7 +34,7 @@ const validateConfigObject = function(configObject, chalk) {
     const allowedRules = Object.keys(defaultObject[category]);
     const userRules = Object.keys(configObject[category]);
     userRules.forEach(function(rule) {
-      if (!allowedRules.includes(rule)) {
+      if (!allowedRules.includes(rule) && !deprecatedRules.includes(rule)) {
         validObject = false;
         configErrors.push({
           message: `'${rule}' is not a valid rule for the ${category} category`,
