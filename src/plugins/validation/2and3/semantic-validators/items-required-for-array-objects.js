@@ -4,7 +4,8 @@
 // Assertation 2:
 // The required properties for a Schema Object must be defined in the object or one of its ancestors.
 
-// Assertation 3 (for Swagger 2 specs):
+// Assertation 3
+// (For Swagger 2 specs. In the OAS 3 spec, headers do not have types. Their schemas will be checked by Assertation 1):
 // Headers with 'array' type require an 'items' property
 
 
@@ -17,11 +18,17 @@ export function validate({ jsSpec }) {
       return
     }
 
+    // don't walk down examples or extensions
+    const current = path[path.length - 1]
+    if (current === "example" || current === "examples" || (current && current.slice(0,2) === "x-")) {
+      return
+    }
+
     // `definitions` for Swagger 2, `schemas` for OAS 3
     // `properties` applies to both
     const modelLocations = ["definitions", "schemas", "properties"]
 
-    if(path[path.length - 1] === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
+    if(current === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
       // if parent is 'schema', or we're in a model definition
 
       // Assertation 1

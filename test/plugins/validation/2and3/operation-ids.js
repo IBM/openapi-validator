@@ -1,5 +1,5 @@
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/operation-ids"
+import { validate } from "../../../../src/plugins/validation/2and3/semantic-validators/operation-ids"
 
 describe("validation plugin - semantic - operation-ids", function () {
   

@@ -2,11 +2,13 @@
 // Items in `security` must match a `securityDefinition`.
 
 
-export function validate({ resolvedSpec }) {
+export function validate({ resolvedSpec, isOAS3 }) {
   let errors = []
   let warnings = []
 
-  let securityDefinitions = resolvedSpec.securityDefinitions
+  let securityDefinitions = isOAS3 
+    ? resolvedSpec.components && resolvedSpec.components.securitySchemes
+    : resolvedSpec.securityDefinitions
 
   function walk(obj, path) {
     if(typeof obj !== "object" || obj === null) {
@@ -32,7 +34,10 @@ export function validate({ resolvedSpec }) {
             // Check for unknown scopes
 
             scopes.forEach((scope, i) => {
-              if (!securityDefinition.scopes || !securityDefinition.scopes[scope]) {
+              const scopeIsDefined = isOAS3
+                ? checkOAS3Scopes(scope, securityDefinition)
+                : checkSwagger2Scopes(scope, securityDefinition)
+              if (!scopeIsDefined) {
                 errors.push({
                   message: `Security scope definition ${scope} could not be resolved`,
                   path: path.concat([i.toString()])
@@ -56,4 +61,30 @@ export function validate({ resolvedSpec }) {
   walk(resolvedSpec, [])
 
   return { errors, warnings }
+}
+
+// return true if scope is defined
+function checkSwagger2Scopes(scope, definition) {
+  return Boolean(definition.scopes && definition.scopes[scope])
+}
+
+// return true if scope is defined
+function checkOAS3Scopes(scope, definition) {
+  let scopeIsDefined = false
+  if (definition.flows) {
+    Object.keys(definition.flows).forEach(flowType => {
+      if (
+        definition.flows[flowType].scopes &&
+        definition.flows[flowType].scopes[scope]
+      ) {
+        scopeIsDefined = true
+        return
+      }
+    })
+  }
+  // scopes for openIdConnet are not definied in the document
+  if (definition.type && definition.type === "openIdConnet") {
+    scopeIsDefined = true
+  }
+  return scopeIsDefined
 }

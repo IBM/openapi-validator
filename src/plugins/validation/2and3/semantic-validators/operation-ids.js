@@ -9,7 +9,7 @@ export function validate({ jsSpec }) {
   let errors = []
   let warnings = []
 
-  let validOperationKeys = ["get", "head", "post", "put", "patch", "delete", "options"]
+  let validOperationKeys = ["get", "head", "post", "put", "patch", "delete", "options", "trace"]
 
   let operations = reduce(jsSpec.paths, (arr, path, pathKey) => {
     let pathOps = pickBy(path, (obj, k) => {

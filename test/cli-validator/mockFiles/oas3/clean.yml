@@ -53,14 +53,14 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /pets/{petId}:
+  /pets/{pet_id}:
     get:
       summary: Info for a specific pet
       operationId: showPetById
       tags:
         - pets
       parameters:
-        - name: petId
+        - name: pet_id
           in: path
           required: true
           description: The id of the pet to retrieve
@@ -80,15 +80,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/Error"
 components:
-  parameters:
-    TestParam:
-      in: query
-      name: test
-      content:
-        text/plain:
-          schema:
-            type: integer
-            format: wrong
   schemas:
     Pet:
       required:
@@ -106,9 +97,14 @@ components:
           type: string
           description: "tag property"
     Pets:
-      type: array
-      items:
-        $ref: "#/components/schemas/Pet"
+      required:
+        - list
+      properties:
+        list:
+          type: array
+          description: "object containing a list of pets"
+          items:
+            $ref: "#/components/schemas/Pet"
     Error:
       required:
         - code

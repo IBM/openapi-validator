@@ -20,13 +20,18 @@ export function validate({ jsSpec, isOAS3 }, config) {
   config = config.walker
 
   function walk(value, path) {
-    let curr = path[path.length - 1]
+    const current = path[path.length - 1]
 
     if(value === null) {
       return null
     }
 
-    // parent keys that xallow non-string "type" properties. for example,
+    // don't walk down examples or extensions
+    if (current === "example" || current === "examples" || (current && current.slice(0,2) === "x-")) {
+      return
+    }
+
+    // parent keys that allow non-string "type" properties. for example,
     // having a definition called "type" is allowed
     const allowedParents = isOAS3
       ? [
@@ -47,7 +52,7 @@ export function validate({ jsSpec, isOAS3 }, config) {
         ]
 
     ///// "type" should always have a string-type value, everywhere.
-    if(curr === "type" && allowedParents.indexOf(path[path.length - 2]) === -1) {
+    if(current === "type" && allowedParents.indexOf(path[path.length - 2]) === -1) {
       if(typeof value !== "string") {
         errors.push({
           path,
@@ -88,7 +93,7 @@ export function validate({ jsSpec, isOAS3 }, config) {
 
     ///// Restricted $refs
 
-    if(curr === "$ref") {
+    if(current === "$ref") {
       const blacklistPayload = getRefPatternBlacklist(path, isOAS3)
       let refBlacklist = blacklistPayload.blacklist || []
       let matches = match([value], refBlacklist)
