@@ -10,7 +10,7 @@ export function validate({ resolvedSpec }, config) {
   result.error = []
   result.warning = []
 
-  console.log(JSON.stringify(config, null, 2))
+  config = config.operations
 
   const allowedOps =
     ["get", "head", "post", "put", "patch", "delete", "options", "trace"]
@@ -25,10 +25,13 @@ export function validate({ resolvedSpec }, config) {
       if (op.requestBody) {
         const requestBodyContent = op.requestBody.content
         if (!requestBodyContent || !Object.keys(requestBodyContent).length) {
-          result.error.push({
-            path: `paths.${pathName}.${opName}.requestBody`,
-            message: "Request bodies MUST specify a `content` property"
-          })
+          const checkStatus = config.no_request_body_content
+          if (checkStatus !== "off") {
+            result.error.push({
+              path: `paths.${pathName}.${opName}.requestBody`,
+              message: "Request bodies MUST specify a `content` property"
+            })
+          }
         }
       }
     })

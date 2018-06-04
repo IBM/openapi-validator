@@ -1,7 +1,7 @@
 import expect from "expect"
 import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/operations-ibm"
 
-describe("validation plugin - semantic - operations-ibm", function(){
+describe("validation plugin - semantic - operations-ibm - swagger2", function(){
 
   it("should complain about a missing consumes with content", function(){
 
