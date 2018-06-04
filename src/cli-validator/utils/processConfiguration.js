@@ -86,17 +86,21 @@ const validateConfigObject = function(configObject, chalk) {
   if (validObject) {
     const requiredSpecs = allowedSpecs;
     requiredSpecs.forEach(spec => {
+      if (!userSpecs.includes(spec)) {
+        configObject[spec] = {};
+      }
       const requiredCategories = Object.keys(defaultObject[spec]);
       const userCategories = Object.keys(configObject[spec]);
       requiredCategories.forEach(category => {
         if (!userCategories.includes(category)) {
-          configObject[category] = {};
+          configObject[spec][category] = {};
         }
         const requiredRules = Object.keys(defaultObject[spec][category]);
         const userRules = Object.keys(configObject[spec][category]);
         requiredRules.forEach(rule => {
           if (!userRules.includes(rule)) {
-            configObject[category][rule] = defaultObject[spec][category][rule];
+            configObject[spec][category][rule] =
+              defaultObject[spec][category][rule];
           }
         });
       });
