@@ -84,6 +84,45 @@ describe('cli tool - test config file validator', function() {
     expect(capturedText.length).toEqual(0);
   });
 
+  it('should print an error for an unsupported spec', function() {
+    const config = {
+      openApi4: {
+        operations: {
+          no_operation_id: 'warning',
+          no_summary: 'warning',
+          no_array_responses: 'error'
+        },
+        nonValidCategory: {
+          no_parameter_description: 'error',
+          snake_case_only: 'warning',
+          invalid_type_format_pair: 'error'
+        },
+        walker: {
+          no_empty_descriptions: 'error'
+        }
+      }
+    };
+
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const res = configFileValidator(config, chalk);
+
+    unhookIntercept();
+
+    expect(res.invalid).toEqual(true);
+    expect(capturedText[0].trim()).toEqual(
+      '[Error] Invalid configuration in .validaterc file. See below for details.'
+    );
+    expect(capturedText[1].trim().split('\n')[0]).toEqual(
+      "- 'openApi4' is not a valid spec."
+    );
+  });
+
   it('should print an error for an unsupported category', function() {
     const config = {
       shared: {
