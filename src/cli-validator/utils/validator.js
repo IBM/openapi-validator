@@ -1,3 +1,4 @@
+const merge = require('deepmerge');
 const getVersion = require('./getOpenApiVersion');
 
 // import the validators
@@ -38,6 +39,11 @@ module.exports = function validateSwagger(allSpecs, config) {
     error: false,
     warning: false
   };
+
+  // use version specific and shared validations
+  // they need to be at the top level of the config object
+  const configSpecToUse = allSpecs.isOAS3 ? 'oas3' : 'swagger2';
+  config = merge(config.shared, config[configSpecToUse]);
 
   // run circular reference validator
   if (allSpecs.circular) {

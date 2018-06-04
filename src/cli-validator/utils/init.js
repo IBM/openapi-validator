@@ -2,7 +2,7 @@ const fs = require('fs');
 const util = require('util');
 const printError = require('./printError');
 
-const defaults = require('../../.defaultsForValidator');
+const { defaults } = require('../../.defaultsForValidator');
 const fileToCreate = process.cwd() + '/.validaterc';
 
 module.exports = async function(chalk) {

@@ -19,6 +19,7 @@
     "babel-polyfill": "^6.26.0",
     "chalk": "^2.3.2",
     "commander": "^2.15.1",
+    "deepmerge": "^2.1.1",
     "find-up": "^2.1.0",
     "globby": "^7.1.1",
     "js-yaml": "^3.11.0",
