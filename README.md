@@ -17,6 +17,7 @@ This command line tool lets you validate Swagger files according to the OpenAPI 
 - [Configuration](#configuration)
   - [Setup](#setup)
   - [Definitions](#definitions)
+    - [Specs](#specs)
     - [Categories](#categories)
     - [Rules](#rules)
     - [Statuses](#statuses)
@@ -128,15 +129,27 @@ Additionally, certain files files can be ignored by the validator. Any glob plac
 To set up the configuration capability, simply run the command `lint-swagger init`
 This will create a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
 
-_Note: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
+_WARNING: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
 
 It is recommended to place these files in the root directory of your project. The code will recursively search up the filesystem for these files from wherever the validator is being run. Wherever in the file system the validator is being run, the nearest versions of these files will be used.
 
 ### Definitions
 
+#### Specs
+
+The validator supports two API definition specifications - Swagger 2.0 and OpenAPI 3.0. There are some rules in the the validator that only apply to one of the specific specs and some rules that apply to both. The configuration structure is organizaed by these "specs".
+The supported specs are described below:
+
+| Spec     | Description                                                                                                                          |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| swagger2 | Rules pertaining only to the [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) specification.  |
+| oas3     | Rules pertaining only to the [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) specification |
+| shared   | Rules pertaining to both of the above specifications.                                                                                |
+
 #### Categories
 
-Rules are organized by categories. The supported categories are described below:
+Rules are further organized by categories. Not every category is supported in every spec - these are a superset of the available categories. For the actual structure, see the [default values](#default-values).
+The supported categories are described below:
 
 | Category   | Description                                                                                                                       |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -150,63 +163,66 @@ Rules are organized by categories. The supported categories are described below:
 
 #### Rules
 
-Each category contains a group of rules. The supported rules are described below:
+Each category contains a group of rules. The spec that each rule applies to is marked in the third column. For the actual configuration structure, see the [default values](#default-values).
+The supported rules are described below:
 
 ##### operations
-| Rule                        | Description                                                          |
-| --------------------------- | -------------------------------------------------------------------- |
-| no_consumes_for_put_or_post | Flag 'put' or 'post' operations that do not have a 'consumes' field. |
-| get_op_has_consumes         | Flag 'get' operations that contain a 'consumes' field.               |
-| no_produces_for_get         | Flag 'get' operations that do not have a 'produces' field.           |
-| no_operation_id             | Flag any operations that do not have an 'operationId' field.         |
-| no_summary                  | Flag any operations that do not have a 'summary' field.              |
-| no_array_responses          | Flag any operations with a top-level array response.                 |
-| parameter_order             | Flag any operations with optional parameters before a required param |
+| Rule                        | Description                                                                         | Spec     |
+| --------------------------- | ----------------------------------------------------------------------------------- | -------- |
+| no_consumes_for_put_or_post | Flag 'put' or 'post' operations that do not have a 'consumes' field.                | swagger2 |
+| get_op_has_consumes         | Flag 'get' operations that contain a 'consumes' field.                              | swagger2 |
+| no_produces_for_get         | Flag 'get' operations that do not have a 'produces' field.                          | swagger2 |
+| no_operation_id             | Flag any operations that do not have an 'operationId' field.                        | shared   |
+| no_summary                  | Flag any operations that do not have a 'summary' field.                             | shared   |
+| no_array_responses          | Flag any operations with a top-level array response.                                | shared   |
+| parameter_order             | Flag any operations with optional parameters before a required param.               | shared   |
+| no_request_body_content     | [Flag any operations with a 'requestBody' that does not have a 'content' field.][3] | oas3     |
 
 ##### parameters
-| Rule                        | Description                                                              |
-| --------------------------- | ------------------------------------------------------------------------ |
-| no_parameter_description    | Flag any parameter that does not contain a 'description' field.          |
-| snake_case_only             | Flag any parameter with a 'name' field that does not use snake case.     |
-| invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.][2] |
-| content_type_parameter      | [Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field.][2] |
-| accept_type_parameter       | [Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field.][2] |
-| authorization_parameter     | [Flag any parameter that explicitly defines an `Authorization` type. That should be defined by the `securityDefinitions`/`security` fields.][2] |
+| Rule                        | Description                                                              | Spec   |
+| --------------------------- | ------------------------------------------------------------------------ | ------ |
+| no_parameter_description    | Flag any parameter that does not contain a 'description' field.          | shared |
+| snake_case_only             | Flag any parameter with a 'name' field that does not use snake case.     | shared |
+| invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.][2] | shared |
+| content_type_parameter      | [Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field.][2] | shared |
+| accept_type_parameter       | [Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field.][2] | shared |
+| authorization_parameter     | [Flag any parameter that explicitly defines an `Authorization` type. That should be defined by the `securityDefinitions`/`security` fields.][2] | shared |
 
 ##### paths
-| Rule                        | Description                                                                                                  |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. |
+| Rule                        | Description                                                                                                  | Spec   |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
+| missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. | shared |
 
 ##### schemas
-| Rule                        | Description                                                                   |
-| --------------------------- | ----------------------------------------------------------------------------- |
-| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         |
-| snake_case_only             | Flag any property with a 'name' that is not lower snake case.                 |
-| no_property_description     | Flag any schema that contains a 'property' without a 'description' field.     |
-| description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  |
-| array_of_arrays             | Flag any schema with a 'property' of type 'array' with items of type 'array'. |
+| Rule                        | Description                                                                   | Spec     |
+| --------------------------- | ----------------------------------------------------------------------------- | -------- |
+| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | swagger2 |
+| snake_case_only             | Flag any property with a 'name' that is not lower snake case.                 | swagger2 |
+| no_property_description     | Flag any schema that contains a 'property' without a 'description' field.     | swagger2 |
+| description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  | swagger2 |
+| array_of_arrays             | Flag any schema with a 'property' of type 'array' with items of type 'array'. | swagger2 |
 
 ##### security_definitions
-| Rule                        | Description                                                                           |
-| --------------------------- | ------------------------------------------------------------------------------------- |
-| unused_security_schemes     | Flag any security scheme defined in securityDefinitions that is not used in the spec. |
-| unused_security_scopes      | Flag any security scope defined in securityDefinitions that is not used in the spec.  |
+| Rule                        | Description                                                                           | Spec   |
+| --------------------------- | ------------------------------------------------------------------------------------- | ------ |
+| unused_security_schemes     | Flag any security scheme defined in securityDefinitions that is not used in the spec. | shared |
+| unused_security_scopes      | Flag any security scope defined in securityDefinitions that is not used in the spec.  | shared |
 
 ##### security
-| Rule                             | Description                                                  |
-| -------------------------------- | ------------------------------------------------------------ |
-| invalid_non_empty_security_array | Flag any non-empty security array this is not of type OAuth2 |
+| Rule                             | Description                                                  | Spec   |
+| -------------------------------- | ------------------------------------------------------------ | ------ |
+| invalid_non_empty_security_array | Flag any non-empty security array this is not of type OAuth2 | shared |
 
 ##### walker
-| Rule                        | Description                                                                  |
-| --------------------------- | ---------------------------------------------------------------------------- |
-| no_empty_descriptions       | Flag any 'description' field in the spec with an empty or whitespace string. |
-| has_circular_references     | Flag any circular references found in the Swagger spec.                      |
-| $ref_siblings               | Flag any properties that are siblings of a `$ref` property.                  |
+| Rule                        | Description                                                                  | Spec   |
+| --------------------------- | ---------------------------------------------------------------------------- | ------ |
+| no_empty_descriptions       | Flag any 'description' field in the spec with an empty or whitespace string. | shared |
+| has_circular_references     | Flag any circular references found in the Swagger spec.                      | shared |
+| $ref_siblings               | Flag any properties that are siblings of a `$ref` property.                  | shared |
 
 [1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
 [2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
+[3]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#requestBodyObject
 
 #### Statuses
 
@@ -236,18 +252,45 @@ The default values for each rule are described below.
 
 #### Default values
 
-##### operations
+
+##### swagger2
+
+###### operations
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_consumes_for_put_or_post | error   |
 | get_op_has_consumes         | warning |
 | no_produces_for_get         | error   |
+
+###### schemas
+| Rule                        | Default |
+| --------------------------- | --------|
+| invalid_type_format_pair    | error   |
+| snake_case_only             | warning |
+| no_property_description     | warning |
+| description_mentions_json   | warning |
+| array_of_arrays             | warning |
+
+
+##### oas3
+
+###### operations
+| Rule                        | Default |
+| --------------------------- | --------|
+| no_request_body_content     | error   |
+
+
+##### shared
+
+###### operations
+| Rule                        | Default |
+| --------------------------- | --------|
 | no_operation_id             | warning |
 | no_summary                  | warning |
 | no_array_responses          | error   |
 | parameter_order             | warning |
 
-##### parameters
+###### parameters
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_parameter_description    | error   |
@@ -257,32 +300,23 @@ The default values for each rule are described below.
 | accept_type_parameter       | error   |
 | authorization_parameter     | warning |
 
-##### paths
+###### paths
 | Rule                        | Default |
 | --------------------------- | --------|
 | missing_path_parameter      | error   |
 
-##### schemas
-| Rule                        | Default |
-| --------------------------- | --------|
-| invalid_type_format_pair    | error   |
-| snake_case_only             | warning |
-| no_property_description     | warning |
-| description_mentions_json   | warning |
-| array_of_arrays             | warning |
-
-##### security_definitions
+###### security_definitions
 | Rule                        | Default |
 | --------------------------- | --------|
 | unused_security_schemes     | warning |
 | unused_security_scopes      | warning |
 
-##### security
+###### security
 | Rule                             | Default |
 | -------------------------------- | ------- |
 | invalid_non_empty_security_array | error   |
 
-##### walker
+###### walker
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_empty_descriptions       | error   |
