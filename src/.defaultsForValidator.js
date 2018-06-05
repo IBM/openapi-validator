@@ -13,6 +13,9 @@
     NOTE: If you are contributing a validation to this code
     base, you should add the default rule to this object.
     In that case, please modify this file.
+
+    Additionally, if a rule is being deprecated and/or replaced,
+    this file must be modified (see bottom of file).
 */
 
 const defaults = {
@@ -69,7 +72,6 @@ const defaults = {
   }
 };
 
-// TO BE REMOVED
 // Put deprecated rules here. If the rule was replaced by a new one,
 // add that as a string property. If not, make the property an empty string.
 // Example:
