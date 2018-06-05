@@ -51,8 +51,8 @@ const validateConfigObject = function(configObject, chalk) {
           const newRule = deprecatedRuleObject[rule];
           const message =
             newRule === ''
-              ? `The rule '${rule}' has been deprecated. It will not be validated for.`
-              : `The rule '${rule}' has been deprecated. It will not be validated for. Use '${newRule}' instead.`;
+              ? `The rule '${rule}' has been deprecated. It will not be checked.`
+              : `The rule '${rule}' has been deprecated. It will not be checked. Use '${newRule}' instead.`;
           console.log('\n' + chalk.yellow('[Warning] ') + message);
           delete configObject[spec][category][rule];
           return;

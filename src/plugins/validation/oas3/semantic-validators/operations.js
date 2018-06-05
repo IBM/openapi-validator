@@ -12,8 +12,9 @@ export function validate({ resolvedSpec }, config) {
 
   config = config.operations
 
-  const allowedOps =
-    ["get", "head", "post", "put", "patch", "delete", "options", "trace"]
+  // get, head, and delete are not in this list because they are not allowed
+  // to have request bodies
+  const allowedOps = ["post", "put", "patch", "options", "trace"]
 
   each(resolvedSpec.paths, (path, pathName) => {
     let operations = pick(path, allowedOps)
