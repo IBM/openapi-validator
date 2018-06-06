@@ -32,6 +32,7 @@ const defaults = {
       "invalid_type_format_pair": "error",
       "content_type_parameter": "error",
       "accept_type_parameter": "error",
+      "authorization_parameter": "warning",
       "no_default_for_optional_parameter": "warning",
       "default_doesnt_conform_to_type": "error"
     },
