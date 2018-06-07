@@ -20,12 +20,16 @@ export function validate({ jsSpec, isOAS3 }, config) {
   config = config.security
 
   // check all instances of 'security' objects
+  const securityObjects = []
+
   // security objects can exist at either:
 
   // 1) the top level of the spec (global definition)
   if (jsSpec.security) {
-    const path = "security"
-    checkForInvalidNonEmptyArrays(jsSpec.security, path)
+    securityObjects.push({
+      security: jsSpec.security,
+      path: "security"
+    })
   }
 
   // 2) within operations objects
@@ -35,13 +39,26 @@ export function validate({ jsSpec, isOAS3 }, config) {
     each(operations, (operation, opName) => {
       if (opName.slice(0,2) === "x-") return
       if (operation.security) {
-        const path = `paths.${pathName}.${opName}.security`
-        checkForInvalidNonEmptyArrays(operation.security, path)
+        securityObjects.push({
+          security: operation.security,
+          path: `paths.${pathName}.${opName}.security`
+        })
       }
     })
   })
 
-  function checkForInvalidNonEmptyArrays(security, path) {
+  const securityDefinitions = isOAS3 ? jsSpec.components.securitySchemes : jsSpec.securityDefinitions
+
+  // if there are no security definitions, don't bother running these checks
+  // the unmatched security requirements will throw errors in another part of
+  // the validator
+  if (securityObjects.length && securityDefinitions) {
+    securityObjects.forEach(obj => {
+      checkForInvalidNonEmptyArrays(obj)
+    })
+  }
+
+  function checkForInvalidNonEmptyArrays({ security, path }) {
 
     security.forEach(schemeObject => {
 
@@ -59,7 +76,6 @@ export function validate({ jsSpec, isOAS3 }, config) {
         })
       }
 
-      const securityDefinitions = isOAS3 ? jsSpec.components.securitySchemes : jsSpec.securityDefinitions
       const isNonEmptyArray = schemeObject[schemeName].length > 0
       const schemeIsDefined = securityDefinitions[schemeName]
       const schemesWithNonEmptyArrays = isOAS3 ? ["oauth2", "openIdConnect"] : ["oauth2"]
