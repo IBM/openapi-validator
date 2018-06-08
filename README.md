@@ -125,13 +125,13 @@ The Promise returned from the validator resolves into a JSON object. The structu
 The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the Swagger.
 
 ## Configuration
-The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [file](#configuration-file) and continue reading this section.
+The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
 Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
 To set up the configuration capability, simply run the command `lint-swagger init`.
-This will create a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
+This will create (or over-write) a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
 
 _WARNING: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
 
