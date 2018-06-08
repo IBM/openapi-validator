@@ -37,6 +37,24 @@ export function validate({ jsSpec }, config) {
       return
     }
 
+    /*
+      Collect all schemas for later analysis.  The logic should capture the following:
+      - Swagger2
+        - Everything in the top-level "definitions" object
+        - Properties within all models
+        - The schema for all body parameters, 
+            both in operations and the top-level "parameters" object
+        - The schema for all responses,
+            both in operations and the top-level "responses" object
+      - OpenAPI 3
+        - Everything in the "schemas" section of the top-level "components" object
+        - Properties within all models
+        - The schema for all parameters (that have a schema),
+            both in operations and the "parameters" section of the top-level "components" object
+        - The schema for all media type objects (any object within a "content" property)
+            This includes responses, request bodies, parameters (with content rather than schema),
+            both at the operation level and within the top-level "components" object
+    */
     const modelLocations = ["definitions", "schemas", "properties"]
     if (current === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
       schemas.push({schema: obj, path})
