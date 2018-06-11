@@ -89,16 +89,20 @@ components:
         id:
           type: integer
           format: int64
+          description: "id property"
         name:
           type: string
+          description: "name property"
         tag:
           type: string
+          description: "tag property"
     Pets:
       required:
         - list
       properties:
         list:
           type: array
+          description: "object containing a list of pets"
           items:
             $ref: "#/components/schemas/Pet"
     Error:
@@ -109,5 +113,7 @@ components:
         code:
           type: integer
           format: int32
+          description: "code property"
         message:
           type: string
+          description: "message property"
