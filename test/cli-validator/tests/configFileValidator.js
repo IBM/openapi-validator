@@ -42,6 +42,13 @@ describe('cli tool - test config file validator', function() {
         security: {
           invalid_non_empty_security_array: 'error'
         },
+        schemas: {
+          invalid_type_format_pair: 'error',
+          snake_case_only: 'warning',
+          no_property_description: 'warning',
+          description_mentions_json: 'warning',
+          array_of_arrays: 'warning'
+        },
         walker: {
           no_empty_descriptions: 'error',
           has_circular_references: 'warning',
@@ -53,13 +60,6 @@ describe('cli tool - test config file validator', function() {
           no_consumes_for_put_or_post: 'error',
           get_op_has_consumes: 'warning',
           no_produces_for_get: 'error'
-        },
-        schemas: {
-          invalid_type_format_pair: 'error',
-          snake_case_only: 'warning',
-          no_property_description: 'warning',
-          description_mentions_json: 'warning',
-          array_of_arrays: 'warning'
         }
       },
       oas3: {
@@ -208,13 +208,7 @@ describe('cli tool - test config file validator', function() {
         operations: {
           no_consumes_for_put_or_post: 'error',
           get_op_has_consumes: 'warning',
-          no_produces_for_get: 'error'
-        },
-        schemas: {
-          invalid_type_format_pair: 'error',
-          snake_case_only: 'nonValidStatus',
-          no_property_description: 'warning',
-          description_mentions_json: 'warning'
+          no_produces_for_get: 'nonValidStatus'
         }
       }
     };
@@ -235,7 +229,7 @@ describe('cli tool - test config file validator', function() {
       '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
-      "- 'nonValidStatus' is not a valid status for the snake_case_only rule in the schemas category.\n   For any rule, the only valid statuses are: error, warning, off"
+      "- 'nonValidStatus' is not a valid status for the no_produces_for_get rule in the operations category.\n   For any rule, the only valid statuses are: error, warning, off"
     );
   });
 
