@@ -200,11 +200,11 @@ The supported rules are described below:
 ##### schemas
 | Rule                        | Description                                                                   | Spec     |
 | --------------------------- | ----------------------------------------------------------------------------- | -------- |
-| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | swagger2 |
-| snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | swagger2 |
-| no_property_description     | Flag any schema that contains a 'property' without a `description` field.     | swagger2 |
-| description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  | swagger2 |
-| array_of_arrays             | Flag any schema with a 'property' of type `array` with items of type `array`. | swagger2 |
+| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | shared   |
+| snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | shared   |
+| no_property_description     | Flag any schema that contains a 'property' without a `description` field.     | shared   |
+| description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  | shared   |
+| array_of_arrays             | Flag any schema with a 'property' of type `array` with items of type `array`. | shared   |
 
 ##### security_definitions
 | Rule                        | Description                                                                           | Spec   |
@@ -265,15 +265,6 @@ The default values for each rule are described below.
 | get_op_has_consumes         | warning |
 | no_produces_for_get         | error   |
 
-###### schemas
-| Rule                        | Default |
-| --------------------------- | --------|
-| invalid_type_format_pair    | error   |
-| snake_case_only             | warning |
-| no_property_description     | warning |
-| description_mentions_json   | warning |
-| array_of_arrays             | warning |
-
 
 ##### oas3
 
@@ -318,6 +309,15 @@ The default values for each rule are described below.
 | Rule                             | Default |
 | -------------------------------- | ------- |
 | invalid_non_empty_security_array | error   |
+
+###### schemas
+| Rule                        | Default |
+| --------------------------- | --------|
+| invalid_type_format_pair    | error   |
+| snake_case_only             | warning |
+| no_property_description     | warning |
+| description_mentions_json   | warning |
+| array_of_arrays             | warning |
 
 ###### walker
 | Rule                        | Default |
