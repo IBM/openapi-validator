@@ -69,6 +69,12 @@ const defaults = {
   "oas3": {
     "operations": {
       "no_request_body_content": "error"
+    },
+    "parameters": {
+      "no_in_property": "error",
+      "invalid_in_property": "error",
+      "missing_schema_or_content": "error",
+      "has_schema_and_content": "error"
     }
   }
 };

@@ -191,6 +191,10 @@ The supported rules are described below:
 | content_type_parameter      | [Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field.][2] | shared |
 | accept_type_parameter       | [Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field.][2] | shared |
 | authorization_parameter     | [Flag any parameter that explicitly defines an `Authorization` type. That should be defined by the `securityDefinitions`/`security` fields.][2] | shared |
+| no_in_property              | Flag any parameter that does not define an `in` property.                         | oas3 |
+| invalid_in_property         | Flag any parameter that has an invalid `in` property.                             | oas3 |
+| missing_schema_or_content   | Flag any parameter that does not define its data type with `schema` or `content`. | oas3 |
+| has_schema_and_content      | Flag any parameter that defines data type with both `schema` and `content`.       | oas3 |
 
 ##### paths
 | Rule                        | Description                                                                                                  | Spec   |
@@ -272,6 +276,14 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_request_body_content     | error   |
+
+###### parameters
+| Rule                        | Default |
+| --------------------------- | --------|
+| no_in_property              | error   |
+| invalid_in_property         | error   |
+| missing_schema_or_content   | error   |
+| has_schema_and_content      | error   |
 
 
 ##### shared
