@@ -46,6 +46,13 @@ const defaults = {
     "security": {
       "invalid_non_empty_security_array": "error"
     },
+    "schemas": {
+      "invalid_type_format_pair": "error",
+      "snake_case_only": "warning",
+      "no_property_description": "warning",
+      "description_mentions_json": "warning",
+      "array_of_arrays": "warning"
+    },
     "walker": {
       "no_empty_descriptions": "error",
       "has_circular_references": "warning",
@@ -57,13 +64,6 @@ const defaults = {
       "no_consumes_for_put_or_post": "error",
       "get_op_has_consumes": "warning",
       "no_produces_for_get": "error"
-    },
-    "schemas": {
-      "invalid_type_format_pair": "error",
-      "snake_case_only": "warning",
-      "no_property_description": "warning",
-      "description_mentions_json": "warning",
-      "array_of_arrays": "warning"
     }
   },
   "oas3": {

@@ -1,7 +1,7 @@
 import expect from "expect"
-import { validate } from "../../../../../src/plugins/validation/swagger2/semantic-validators/schema-ibm"
+import { validate } from "../../../../src/plugins/validation/2and3/semantic-validators/schema-ibm"
 
-describe("validation plugin - semantic - schema-ibm", () => {
+describe("validation plugin - semantic - schema-ibm - Swagger 2", () => {
 
   it("should return an error when a property does not use a well defined property type", () => {
 
@@ -384,5 +384,105 @@ describe("validation plugin - semantic - schema-ibm", () => {
     expect(res.warnings.length).toEqual(1)
     expect(res.warnings[0].path).toEqual(["definitions", "Thing", "properties", "level", "items", "type"])
     expect(res.warnings[0].message).toEqual("Array properties should avoid having items of type array.")
+  })
+})
+
+describe("validation plugin - semantic - schema-ibm - OpenAPI 3", () => {
+
+  it("should return an error when a complex parameter schema does not use a well defined property type", () => {
+
+    const config = {
+      "schemas" : {
+        "invalid_type_format_pair": "error"
+      }
+    }
+
+    const spec = {
+      components: {
+        parameters: {
+          TestParam: {
+            in: "query",
+            name: "bad_param",
+            content: {
+              "application/json": {
+                schema: {
+                  type: "object",
+                  properties: {
+                    BadProp: {
+                      description: "property with bad format",
+                      type: "integer",
+                      format: "wrong"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    const res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(1)
+    expect(res.errors[0].path).toEqual(
+      ["components", "parameters", "TestParam", "content", "application/json", "schema", "properties", "BadProp", "type"]
+    )
+    expect(res.errors[0].message).toEqual("Properties must use well defined property types.")
+    expect(res.warnings.length).toEqual(0)
+  })
+
+  it("should not validate an example when it contains the resemblence of a problem", () => {
+
+    const config = {
+      "schemas" : {
+        "invalid_type_format_pair": "error"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/pets": {
+          get: {
+            responses: {
+              "200": {
+                content: {
+                  "application/json": {
+                    schema: {
+                      type: "object",
+                      properties: {
+                        "prop": {
+                          description: "boolean types should not have formats",
+                          type: "boolean",
+                          format: "boolean"
+                        }
+                      }
+                    },
+                    example: {
+                      schema: {
+                        type: "object",
+                        properties: {
+                          "prop": {
+                            type: "boolean",
+                            format: "boolean"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    const res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(1)
+    expect(res.errors[0].path).toEqual(
+      ["paths", "/pets", "get", "responses", "200", "content", "application/json", "schema", "properties", "prop", "type"]
+    )
+    expect(res.errors[0].message).toEqual("Properties must use well defined property types.")
+    expect(res.warnings.length).toEqual(0)
   })
 })
