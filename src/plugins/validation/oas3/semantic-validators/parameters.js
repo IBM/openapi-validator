@@ -26,15 +26,10 @@ export function validate({ jsSpec }, config) {
       return
     }
 
-    // skip parameters within operations that are excluded
-    if (obj["x-sdk-exclude"] === true) {
-      return
-    }
-
-    const contentsOfParameterObject = path[path.length - 2] === "parameters"
+    const isContentsOfParameterObject = path[path.length - 2] === "parameters"
 
     // obj is a parameter object
-    if (contentsOfParameterObject) {
+    if (isContentsOfParameterObject) {
       const allowedInValues = ["query", "header", "path", "cookie"]
       if (!obj.in) {
         // bad because in is required
