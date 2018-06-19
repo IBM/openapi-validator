@@ -12,7 +12,7 @@ export function validate({ jsSpec , specStr, isOAS3 }) {
 
   if (isOAS3 && !jsSpec.components) {
     // prevent trying to access components.schemas if components is undefined
-    return
+    return { errors, warnings }
   }
 
   const basePath = isOAS3 ? ["components", "schemas"] : ["definitions"]
