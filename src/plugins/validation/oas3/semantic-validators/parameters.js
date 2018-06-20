@@ -27,9 +27,10 @@ export function validate({ jsSpec }, config) {
     }
 
     const isContentsOfParameterObject = path[path.length - 2] === "parameters"
+    const isRef = !!obj.$ref
 
     // obj is a parameter object
-    if (isContentsOfParameterObject) {
+    if (isContentsOfParameterObject && !isRef) {
       const allowedInValues = ["query", "header", "path", "cookie"]
       if (!obj.in) {
         // bad because in is required
