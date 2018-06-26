@@ -47,7 +47,9 @@ export function validate({ jsSpec, isOAS3 }, config) {
     })
   })
 
-  const securityDefinitions = isOAS3 ? jsSpec.components.securitySchemes : jsSpec.securityDefinitions
+  const securityDefinitions = isOAS3
+    ? jsSpec.components && jsSpec.components.securitySchemes
+    : jsSpec.securityDefinitions
 
   // if there are no security definitions, don't bother running these checks
   // the unmatched security requirements will throw errors in another part of

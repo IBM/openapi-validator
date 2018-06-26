@@ -23,11 +23,6 @@ export function validate({ jsSpec }, config) {
       return
     }
 
-    // skip parameters within operations that are excluded
-    if (obj["x-sdk-exclude"] === true) {
-      return
-    }
-
     const contentsOfResponsesObject = path[path.length - 1] === "responses"
     const isRef = !!obj.$ref
 
