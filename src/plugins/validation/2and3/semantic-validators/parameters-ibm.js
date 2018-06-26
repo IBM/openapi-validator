@@ -11,7 +11,7 @@
 import snakecase from "lodash/snakeCase"
 import includes from "lodash/includes"
 
-export function validate({jsSpec, isOAS3 }, config) {
+export function validate({ jsSpec, isOAS3 }, config) {
   let result = {}
   result.error = []
   result.warning = []

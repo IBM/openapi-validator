@@ -201,6 +201,12 @@ The supported rules are described below:
 | --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
 | missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. | shared |
 
+##### [responses][4]
+| Rule                      | Description                                                  | Spec |
+| ------------------------- | ------------------------------------------------------------ | ---- |
+| no_response_codes         | Flag any response object that has no valid response codes.   | oas3 |
+| no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
+
 ##### schemas
 | Rule                        | Description                                                                   | Spec     |
 | --------------------------- | ----------------------------------------------------------------------------- | -------- |
@@ -231,6 +237,7 @@ The supported rules are described below:
 [1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
 [2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
 [3]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#requestBodyObject
+[4]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#responseObject
 
 #### Statuses
 
@@ -284,6 +291,12 @@ The default values for each rule are described below.
 | invalid_in_property         | error   |
 | missing_schema_or_content   | error   |
 | has_schema_and_content      | error   |
+
+##### responses
+| Rule                      | Default |
+| ------------------------- | ------- |
+| no_response_codes         | error   |
+| no_success_response_codes | warning |
 
 
 ##### shared
