@@ -47,12 +47,13 @@ const processInput = async function(program) {
   // if the 'init' command is given, run the module
   // and exit the program
   if (args[0] === 'init') {
-    try {
-      await init(chalk);
-      return Promise.resolve(0);
-    } catch (err) {
-      return Promise.reject(2);
-    }
+    return await init.printDefaults(chalk);
+  }
+
+  // if the 'migrate' command is given, run the module
+  // and exit the program
+  if (args[0] === 'migrate') {
+    return await init.migrate(chalk);
   }
 
   // otherwise, run the validator on the passed in files

@@ -26,6 +26,7 @@ This command line tool lets you validate Swagger files according to the OpenAPI 
     - [Default values](#default-values)
 - [Troubleshooting](#troubleshooting)
   - [Installing with NPM through a proxy](#installing-with-npm-through-a-proxy)
+- [Migration Guide](#migration-guide)
 - [License](#license)
 
 ## Installation
@@ -68,7 +69,11 @@ _These options only apply to running the validator on a file, not to any command
 `$ lint-swagger init`
 - init : The `init` command initializes a .validaterc file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
 
-_None of the above options pertain to this command._
+#### [command]
+`$ lint-swagger migrate`
+- migrate : The `migrate` command migrates a .validaterc file from the v1.x format to the v2.x format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-swagger init`.
+
+_None of the above options pertain to these commands._
 
 #### \<files>
 - The Swagger file(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
@@ -361,6 +366,9 @@ You are using a proxy if you have a registry defined in your `.npmrc` file, most
 
 To resolve this issue, try temporarily commenting out the registry definition(s) in your `.npmrc` file, as some public NPM packages may be unaccessible through a proxy.
 
+## Migration Guide
+The only breaking change between v1 and v2 of the validator is the format of the configuration file. To assist users with this migration, [a command has been added to the CLI](#command-line) that will convert a v1-formatted configuration file to a v2-formatted file with any custom-set rules intact.
+Run `lint-swagger migrate` to convert the old file to the new format without losing any custom-set rules.
 
 ## License
 
