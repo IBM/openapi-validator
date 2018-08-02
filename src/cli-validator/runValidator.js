@@ -47,12 +47,13 @@ const processInput = async function(program) {
   // if the 'init' command is given, run the module
   // and exit the program
   if (args[0] === 'init') {
-    try {
-      await init(chalk);
-      return Promise.resolve(0);
-    } catch (err) {
-      return Promise.reject(2);
-    }
+    return await init.printDefaults(chalk);
+  }
+
+  // if the 'migrate' command is given, run the module
+  // and exit the program
+  if (args[0] === 'migrate') {
+    return await init.migrate(chalk);
   }
 
   // otherwise, run the validator on the passed in files
@@ -172,7 +173,7 @@ const processInput = async function(program) {
         throw `The given input in ${validFile} is not a valid object.`;
       }
 
-      // jsonValidator looks through the originalFile string for duplicate JSON keys
+      // jsonValidator looks through the originalFile for duplicate JSON keys
       //   this is checked for by default in readYaml
       const duplicateKeysError = jsonValidator.validate(originalFile);
       if (fileExtension === 'json' && duplicateKeysError) {

@@ -1,5 +1,5 @@
 # Swagger-Validator-IBM
-This command line tool lets you validate Swagger files according to the [Swagger API specifications](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
+This command line tool lets you validate Swagger files according to the OpenAPI specification, either [2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) or [3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
 #### Prerequisites
 - Node 8.9.x
 - NPM 5.x
@@ -17,6 +17,7 @@ This command line tool lets you validate Swagger files according to the [Swagger
 - [Configuration](#configuration)
   - [Setup](#setup)
   - [Definitions](#definitions)
+    - [Specs](#specs)
     - [Categories](#categories)
     - [Rules](#rules)
     - [Statuses](#statuses)
@@ -25,6 +26,7 @@ This command line tool lets you validate Swagger files according to the [Swagger
     - [Default values](#default-values)
 - [Troubleshooting](#troubleshooting)
   - [Installing with NPM through a proxy](#installing-with-npm-through-a-proxy)
+- [Migration Guide](#migration-guide)
 - [License](#license)
 
 ## Installation
@@ -46,7 +48,9 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 1. Clone or download this repository
 2. Navigate to the root directory of this project.
 3. Install the dependencies using `npm install`
-4. Build the command line tool, run `npm run build-and-link`.
+4. Build the command line tool by running `npm run build-and-link`.
+
+_Once the package is linked, anytime you make a change or pull down updates, you just need to run `npm run build`._
 
 ## Usage
 ### Command line
@@ -65,7 +69,11 @@ _These options only apply to running the validator on a file, not to any command
 `$ lint-swagger init`
 - init : The `init` command initializes a .validaterc file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
 
-_None of the above options pertain to this command._
+#### [command]
+`$ lint-swagger migrate`
+- migrate : The `migrate` command migrates a .validaterc file from the v1.x format to the v2.x format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-swagger init`.
+
+_None of the above options pertain to these commands._
 
 #### \<files>
 - The Swagger file(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
@@ -75,10 +83,12 @@ _None of the above options pertain to this command._
 _Assumes the module was installed with a `--save` or `--save-dev` flag._
 ```javascript
 const validator = require('swagger-validator-ibm');
+
 validator(swaggerObject)
   .then(validationResults => {
     console.log(JSON.stringify(validationResults, null, 2));
   });
+
 // or, if inside `async` function
 const validationResults = await validator(swaggerObject);
 console.log(JSON.stringify(validationResults, null, 2));
@@ -120,23 +130,35 @@ The Promise returned from the validator resolves into a JSON object. The structu
 The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the Swagger.
 
 ## Configuration
-The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [file](#configuration-file) with the name `.validaterc` and continue reading this section.
+The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
 Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
 Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
-To set up the configuration capability, simply run the command `lint-swagger init`
-This will create a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
+To set up the configuration capability, simply run the command `lint-swagger init`.
+This will create (or over-write) a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
 
-_Note: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
+_WARNING: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
 
 It is recommended to place these files in the root directory of your project. The code will recursively search up the filesystem for these files from wherever the validator is being run. Wherever in the file system the validator is being run, the nearest versions of these files will be used.
 
 ### Definitions
 
+#### Specs
+
+The validator supports two API definition specifications - Swagger 2.0 and OpenAPI 3.0. The validator will automatically determine which spec a document is written in. There are some rules in the the validator that only apply to one of the specs and some rules that apply to both. The configuration structure is organized by these "specs".
+The supported specs are described below:
+
+| Spec     | Description                                                                                                                          |
+| -------- | ------------------------------------------------------------------------------------------------------------------------------------ |
+| swagger2 | Rules pertaining only to the [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) specification.  |
+| oas3     | Rules pertaining only to the [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) specification |
+| shared   | Rules pertaining to both of the above specifications.                                                                                |
+
 #### Categories
 
-Rules are organized by categories. The supported categories are described below:
+Rules are further organized by categories. Not every category is supported in every spec - these are a superset of the available categories. For the actual structure, see the [default values](#default-values).
+The supported categories are described below:
 
 | Category   | Description                                                                                                                       |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
@@ -146,63 +168,81 @@ Rules are organized by categories. The supported categories are described below:
 | schemas    | Rules pertaining to [Schema Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject)       |
 | security_definitions | Rules pertaining to [Security Definition Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject) |
 | security   | Rules pertaining to [Security Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject) |
-| walker     | Rules pertaining to the entire spec.                                                                                              |
+| walker     | Rules pertaining to the entire document.                                                                                                   |
 
 #### Rules
 
-Each category contains a group of rules. The supported rules are described below:
+Each category contains a group of rules. The spec that each rule applies to is marked in the third column. For the actual configuration structure, see the [default values](#default-values).
+The supported rules are described below:
 
 ##### operations
-| Rule                        | Description                                                          |
-| --------------------------- | -------------------------------------------------------------------- |
-| no_consumes_for_put_or_post | Flag 'put' or 'post' operations that do not have a 'consumes' field. |
-| get_op_has_consumes         | Flag 'get' operations that contain a 'consumes' field.               |
-| no_produces_for_get         | Flag 'get' operations that do not have a 'produces' field.           |
-| no_operation_id             | Flag any operations that do not have an 'operationId' field.         |
-| no_summary                  | Flag any operations that do not have a 'summary' field.              |
-| no_array_responses          | Flag any operations with a top-level array response.                 |
-| parameter_order             | Flag any operations with optional parameters before a required param |
+| Rule                        | Description                                                                         | Spec     |
+| --------------------------- | ----------------------------------------------------------------------------------- | -------- |
+| no_consumes_for_put_or_post | Flag `put` or `post` operations that do not have a `consumes` field.                | swagger2 |
+| get_op_has_consumes         | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
+| no_produces_for_get         | Flag `get` operations that do not have a `produces` field.                          | swagger2 |
+| no_operation_id             | Flag any operations that do not have an `operationId` field.                        | shared   |
+| no_summary                  | Flag any operations that do not have a `summary` field.                             | shared   |
+| no_array_responses          | Flag any operations with a top-level array response.                                | shared   |
+| parameter_order             | Flag any operations with optional parameters before a required param.               | shared   |
+| no_request_body_content     | [Flag any operations with a `requestBody` that does not have a `content` field.][3] | oas3     |
 
 ##### parameters
-| Rule                        | Description                                                          |
-| --------------------------- | -------------------------------------------------------------------- |
-| no_parameter_description    | Flag any parameter that does not contain a 'description' field.      |
-| snake_case_only             | Flag any parameter with a 'name' field that does not use snake case. |
-| invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat) |
-| content_type_parameter      | Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field. |
-| accept_type_parameter       | Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field. |
+| Rule                        | Description                                                              | Spec   |
+| --------------------------- | ------------------------------------------------------------------------ | ------ |
+| no_parameter_description    | Flag any parameter that does not contain a `description` field.          | shared |
+| snake_case_only             | Flag any parameter with a `name` field that does not use snake case.     | shared |
+| invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.][2] | shared |
+| content_type_parameter      | [Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field.][2] | shared |
+| accept_type_parameter       | [Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field.][2] | shared |
+| authorization_parameter     | [Flag any parameter that explicitly defines an `Authorization` type. That should be defined by the `securityDefinitions`/`security` fields.][2] | shared |
+| no_in_property              | Flag any parameter that does not define an `in` property.                         | oas3 |
+| invalid_in_property         | Flag any parameter that has an invalid `in` property.                             | oas3 |
+| missing_schema_or_content   | Flag any parameter that does not define its data type with `schema` or `content`. | oas3 |
+| has_schema_and_content      | Flag any parameter that defines data type with both `schema` and `content`.       | oas3 |
 
 ##### paths
-| Rule                        | Description                                                                                                  |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------ |
-| missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. |
+| Rule                        | Description                                                                                                  | Spec   |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
+| missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. | shared |
+
+##### [responses][4]
+| Rule                      | Description                                                  | Spec |
+| ------------------------- | ------------------------------------------------------------ | ---- |
+| no_response_codes         | Flag any response object that has no valid response codes.   | oas3 |
+| no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
 
 ##### schemas
-| Rule                        | Description                                                                   |
-| --------------------------- | ----------------------------------------------------------------------------- |
-| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat) |
-| snake_case_only             | Flag any property with a 'name' that is not lower snake case.                 |
-| no_property_description     | Flag any schema that contains a 'property' without a 'description' field.     |
-| description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  |
-| array_of_arrays             | Flag any schema with a 'property' of type 'array' with items of type 'array'. |
+| Rule                        | Description                                                                   | Spec     |
+| --------------------------- | ----------------------------------------------------------------------------- | -------- |
+| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | shared   |
+| snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | shared   |
+| no_property_description     | Flag any schema that contains a 'property' without a `description` field.     | shared   |
+| description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  | shared   |
+| array_of_arrays             | Flag any schema with a 'property' of type `array` with items of type `array`. | shared   |
 
 ##### security_definitions
-| Rule                        | Description                                                                           |
-| --------------------------- | ------------------------------------------------------------------------------------- |
-| unused_security_schemes     | Flag any security scheme defined in securityDefinitions that is not used in the spec. |
-| unused_security_scopes      | Flag any security scope defined in securityDefinitions that is not used in the spec.  |
+| Rule                        | Description                                                                           | Spec   |
+| --------------------------- | ------------------------------------------------------------------------------------- | ------ |
+| unused_security_schemes     | Flag any security scheme defined in securityDefinitions that is not used in the spec. | shared |
+| unused_security_scopes      | Flag any security scope defined in securityDefinitions that is not used in the spec.  | shared |
 
 ##### security
-| Rule                             | Description                                                  |
-| -------------------------------- | ------------------------------------------------------------ |
-| invalid_non_empty_security_array | Flag any non-empty security array this is not of type OAuth2 |
+| Rule                             | Description                                                  | Spec   |
+| -------------------------------- | ------------------------------------------------------------ | ------ |
+| invalid_non_empty_security_array | Flag any non-empty security array this is not of type OAuth2 | shared |
 
 ##### walker
-| Rule                        | Description                                                                  |
-| --------------------------- | ---------------------------------------------------------------------------- |
-| no_empty_descriptions       | Flag any 'description' field in the spec with an empty or whitespace string. |
-| has_circular_references     | Flag any circular references found in the Swagger spec.                      |
-| $ref_siblings               | Flag any properties that are siblings of a `$ref` property.                  |
+| Rule                        | Description                                                                  | Spec   |
+| --------------------------- | ---------------------------------------------------------------------------- | ------ |
+| no_empty_descriptions       | Flag any `description` field in the spec with an empty or whitespace string. | shared |
+| has_circular_references     | Flag any circular references found in the Swagger spec.                      | shared |
+| $ref_siblings               | Flag any properties that are siblings of a `$ref` property.                  | shared |
+
+[1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
+[2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
+[3]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#requestBodyObject
+[4]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#responseObject
 
 #### Statuses
 
@@ -212,7 +252,7 @@ Each rule can be assigned a status. The supported statuses are `error`, `warning
 
 Configurations are defined in a file, titled __.validaterc__.
 
-The configuration file must be structured as a JSON object with categories as first-level keys, rules as second-level keys, and statuses as values for the 'rules' objects.
+The configuration file must be structured as a JSON object with specs as first-level keys, categories as second-level keys, rules as third-level keys, and statuses as values for the 'rules' objects.
 
 If a rule is not included in the file, that rule will be set to the default status automatically. See the [Default Values](#default-values) for more info.
 
@@ -232,18 +272,49 @@ The default values for each rule are described below.
 
 #### Default values
 
-##### operations
+##### swagger2
+
+###### operations
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_consumes_for_put_or_post | error   |
 | get_op_has_consumes         | warning |
 | no_produces_for_get         | error   |
+
+
+##### oas3
+
+###### operations
+| Rule                        | Default |
+| --------------------------- | --------|
+| no_request_body_content     | error   |
+
+###### parameters
+| Rule                        | Default |
+| --------------------------- | --------|
+| no_in_property              | error   |
+| invalid_in_property         | error   |
+| missing_schema_or_content   | error   |
+| has_schema_and_content      | error   |
+
+##### responses
+| Rule                      | Default |
+| ------------------------- | ------- |
+| no_response_codes         | error   |
+| no_success_response_codes | warning |
+
+
+##### shared
+
+###### operations
+| Rule                        | Default |
+| --------------------------- | --------|
 | no_operation_id             | warning |
 | no_summary                  | warning |
 | no_array_responses          | error   |
 | parameter_order             | warning |
 
-##### parameters
+###### parameters
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_parameter_description    | error   |
@@ -251,13 +322,25 @@ The default values for each rule are described below.
 | invalid_type_format_pair    | error   |
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |
+| authorization_parameter     | warning |
 
-##### paths
+###### paths
 | Rule                        | Default |
 | --------------------------- | --------|
 | missing_path_parameter      | error   |
 
-##### schemas
+###### security_definitions
+| Rule                        | Default |
+| --------------------------- | --------|
+| unused_security_schemes     | warning |
+| unused_security_scopes      | warning |
+
+###### security
+| Rule                             | Default |
+| -------------------------------- | ------- |
+| invalid_non_empty_security_array | error   |
+
+###### schemas
 | Rule                        | Default |
 | --------------------------- | --------|
 | invalid_type_format_pair    | error   |
@@ -266,18 +349,7 @@ The default values for each rule are described below.
 | description_mentions_json   | warning |
 | array_of_arrays             | warning |
 
-##### security_definitions
-| Rule                        | Default |
-| --------------------------- | --------|
-| unused_security_schemes     | warning |
-| unused_security_scopes      | warning |
-
-##### security
-| Rule                             | Default |
-| -------------------------------- | ------- |
-| invalid_non_empty_security_array | error   |
-
-##### walker
+###### walker
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_empty_descriptions       | error   |
@@ -294,6 +366,9 @@ You are using a proxy if you have a registry defined in your `.npmrc` file, most
 
 To resolve this issue, try temporarily commenting out the registry definition(s) in your `.npmrc` file, as some public NPM packages may be unaccessible through a proxy.
 
+## Migration Guide
+The only breaking change between v1 and v2 of the validator is the format of the configuration file. To assist users with this migration, [a command has been added to the CLI](#command-line) that will convert a v1-formatted configuration file to a v2-formatted file with any custom-set rules intact.
+Run `lint-swagger migrate` to convert the old file to the new format without losing any custom-set rules.
 
 ## License
 
