@@ -194,7 +194,7 @@ const processInput = async function(program) {
     try {
       swagger = await buildSwaggerObject(input);
     } catch (err) {
-      printError(chalk, 'There is a problem with the Swagger.', err.message);
+      printError(chalk, 'There is a problem with the Swagger.', getError(err));
       exitCode = 1;
       continue;
     }
@@ -204,7 +204,7 @@ const processInput = async function(program) {
     try {
       results = validator(swagger, configObject);
     } catch (err) {
-      printError(chalk, 'There was a problem with a validator.', err.message);
+      printError(chalk, 'There was a problem with a validator.', getError(err));
       exitCode = 1;
       continue;
     }
@@ -221,6 +221,13 @@ const processInput = async function(program) {
 
   return exitCode;
 };
+
+// if the error has a message property (it should),
+// this is the cleanest way to present it. If not,
+// print the whole error
+function getError(err) {
+  return err.message || err;
+}
 
 // this exports the entire program so it can be used or tested
 module.exports = processInput;
