@@ -8,10 +8,10 @@
 // Header parameters must not define a content-type or an accept-type.
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#do-not-explicitly-define-a-content-type-header-parameter
 
-import snakecase from "lodash/snakeCase"
-import includes from "lodash/includes"
+const snakecase = require("lodash/snakeCase")
+const includes = require("lodash/includes")
 
-export function validate({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   let result = {}
   result.error = []
   result.warning = []

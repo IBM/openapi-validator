@@ -16,13 +16,13 @@
 // Assertation 6:
 // Paths cannot have literal query strings in them.
 
-import each from "lodash/each"
-import findIndex from "lodash/findIndex"
-import isObject from "lodash/isObject"
+const each = require("lodash/each")
+const findIndex = require("lodash/findIndex")
+const isObject = require("lodash/isObject")
 
 let templateRegex = /\{(.*?)\}/g
 
-export function validate({ resolvedSpec }) {
+module.exports.validate = function({ resolvedSpec }) {
   let errors = []
   let warnings = []
 

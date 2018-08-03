@@ -3,7 +3,7 @@
 
 // Assertation 2. All path parameters must be defined at either the path or operation level.
 
-export function validate({ resolvedSpec }, config) {
+module.exports.validate = function({ resolvedSpec }, config) {
 
   let result = {}
   result.error = []

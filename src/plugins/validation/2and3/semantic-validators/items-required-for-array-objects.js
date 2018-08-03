@@ -9,7 +9,7 @@
 // Headers with 'array' type require an 'items' property
 
 
-export function validate({ jsSpec }) {
+module.exports.validate = function ({ jsSpec }) {
   let errors = []
   let warnings = []
 

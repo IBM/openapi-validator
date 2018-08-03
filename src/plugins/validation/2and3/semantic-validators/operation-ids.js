@@ -5,7 +5,7 @@ import reduce from "lodash/reduce"
 import merge from "lodash/merge"
 import each from "lodash/each"
 
-export function validate({ jsSpec }) {
+module.exports.validate = function({ jsSpec }) {
   let errors = []
   let warnings = []
 
