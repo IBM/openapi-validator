@@ -1,9 +1,9 @@
 {
-  "name": "swagger-validator-ibm",
-  "description": "Swagger Validator",
+  "name": "openapi-validator",
+  "description": "Configurable and extensible validator/linter for OpenAPI documents",
   "version": "2.0.0",
   "main": "dist/src/lib/index.js",
-  "repository": "https://github.ibm.com/dustinpopp/swagger-validator-ibm.git",
+  "repository": "https://github.ibm.com/CloudEngineering/openapi-validator",
   "license": "Apache-2.0",
   "scripts": {
     "prepush": "npm test",
@@ -50,6 +50,6 @@
     "strip-ansi": "^4.0.0"
   },
   "bin": {
-    "lint-swagger": "./dist/src/cli-validator/index.js"
+    "lint-openapi": "./dist/src/cli-validator/index.js"
   }
 }
