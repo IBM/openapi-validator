@@ -227,10 +227,18 @@ function checkPropNames(schema, contextPath, config) {
   result.error = []
   result.warning = []
 
-  if (!schema.properties) { return result }
+  let properties
+  if (schema.properties) {
+    properties = schema.properties
+  } else if (schema.items && schema.items.properties) {
+    properties = schema.items.properties
+    contextPath = contextPath.concat(["items"])
+  }
+
+  if (!properties) { return result }
 
   // flag any property whose name is not "lower snake case"
-  forIn( schema.properties, (property, propName) => {
+  forIn(properties, (property, propName) => {
     if (propName.slice(0,2) === "x-") return
 
     let checkStatus = config.snake_case_only || "off"
