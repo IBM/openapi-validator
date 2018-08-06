@@ -135,6 +135,7 @@ describe('cli tool - test error handling', function() {
 
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/badJson.json'];
+    program.default_mode = true;
 
     let exitCode;
     try {
@@ -165,6 +166,7 @@ describe('cli tool - test error handling', function() {
 
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/duplicateKeys.json'];
+    program.default_mode = true;
 
     let exitCode;
     try {
@@ -195,6 +197,7 @@ describe('cli tool - test error handling', function() {
 
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/missingObject.yml'];
+    program.default_mode = true;
 
     let exitCode;
     try {
