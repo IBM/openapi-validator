@@ -523,4 +523,80 @@ describe("validation plugin - semantic - schema-ibm - OpenAPI 3", () => {
     expect(res.errors[0].message).toEqual("Properties must use well defined property types.")
     expect(res.warnings.length).toEqual(0)
   })
+
+  it("should return a warning when an enum value is not snake case", () => {
+
+    const config = {
+      "schemas" : {
+        "snake_case_only": "warning"
+      }
+    }
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: "object",
+          properties: {
+            color: {
+              type: "string",
+              description: "some color",
+              enum: [
+                "blue",
+                "light_blue",
+                "darkBlue"
+              ]
+            }
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(1)
+    expect(res.warnings[0].path).toEqual(["definitions", "Thing", "properties", "color", "enum", "2"])
+    expect(res.warnings[0].message).toEqual("Enum values must be lower snake case.")
+  })
+
+  it("should return a warning when an enum value is not snake case", () => {
+
+    const config = {
+      "schemas" : {
+        "snake_case_only": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/some/path/{id}": {
+          get: {
+            parameters: [
+              {
+                name: "enum_param",
+                in: "query",
+                description: "an enum param",
+                type: "array",
+                required: "true",
+                items: {
+                  type: "string",
+                  description: "the values",
+                  enum: [
+                    "all",
+                    "enumValues",
+                    "possible"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    }
+
+    let res = validate({ jsSpec: spec }, config)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(1)
+    expect(res.warnings[0].path).toEqual(["paths", "/some/path/{id}", "get", "parameters", "0", "items", "enum", "1"])
+    expect(res.warnings[0].message).toEqual("Enum values must be lower snake case.")
+  })
 })

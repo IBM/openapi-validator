@@ -2,7 +2,7 @@
 // Schemas need to have properly matching type/format pairs
 
 // snake_case_only:
-// Names MUST be lower snake case.
+// Property names and enum values MUST be lower snake case.
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
 
 // no_property_description:
@@ -56,7 +56,7 @@ export function validate({ jsSpec }, config) {
             both at the operation level and within the top-level "components" object
     */
     const modelLocations = ["definitions", "schemas", "properties"]
-    if (current === "schema" || modelLocations.indexOf(path[path.length - 2]) > -1) {
+    if (current === "schema" || current === "items" || modelLocations.indexOf(path[path.length - 2]) > -1) {
       schemas.push({schema: obj, path})
     }
 
@@ -81,6 +81,10 @@ export function validate({ jsSpec }, config) {
     let checkStatus = config.snake_case_only
     if (checkStatus !== "off") {
       res = checkPropNames(schema, path, config)
+      errors.push(...res.error)
+      warnings.push(...res.warning)
+
+      res = checkEnumValues(schema, path, config)
       errors.push(...res.error)
       warnings.push(...res.warning)
     }
@@ -223,27 +227,19 @@ function generateDescriptionWarnings(schema, contextPath, config) {
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
 function checkPropNames(schema, contextPath, config) {
 
-  let result = {}
+  const result = {}
   result.error = []
   result.warning = []
 
-  let properties
-  if (schema.properties) {
-    properties = schema.properties
-  } else if (schema.items && schema.items.properties) {
-    properties = schema.items.properties
-    contextPath = contextPath.concat(["items"])
-  }
-
-  if (!properties) { return result }
+  if (!schema.properties) { return result }
 
   // flag any property whose name is not "lower snake case"
-  forIn(properties, (property, propName) => {
+  forIn(schema.properties, (property, propName) => {
     if (propName.slice(0,2) === "x-") return
 
-    let checkStatus = config.snake_case_only || "off"
+    const checkStatus = config.snake_case_only || "off"
     if (checkStatus.match("error|warning")) {
-      let isSnakecase = propName == snakecase(propName)
+      const isSnakecase = propName == snakecase(propName)
       if (!isSnakecase) {
         result[checkStatus].push({
            path: contextPath.concat(["properties", propName]),
@@ -252,6 +248,32 @@ function checkPropNames(schema, contextPath, config) {
       }
     }
   })
+
+  return result
+}
+
+function checkEnumValues(schema, contextPath, config) {
+
+  const result = {}
+  result.error = []
+  result.warning = []
+
+  if (!schema.enum) { return result }
+
+  for (let i = 0; i < schema.enum.length; i++) {
+    const enumValue = schema.enum[i]
+
+    const checkStatus = config.snake_case_only || "off"
+    if (checkStatus.match("error|warning")) {
+      const isSnakecase = enumValue == snakecase(enumValue)
+      if (!isSnakecase) {
+        result[checkStatus].push({
+           path: contextPath.concat(["enum", i.toString()]),
+           message: "Enum values must be lower snake case."
+        })
+      }
+    }
+  }
 
   return result
 }
