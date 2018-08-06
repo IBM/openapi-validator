@@ -34,7 +34,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
     })
 
     it("should return an error when snake case is not used", () => {
-      
+
       const config = {
         "parameters" : {
           "snake_case_only": "warning"
@@ -66,7 +66,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
     })
 
     it("should not return a snake case error when \"in\" is set to \"header\" ", () => {
-      
+
       const config = {
         "parameters" : {
           "snake_case_only": "warning"
@@ -124,7 +124,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
-      expect(res.errors[0].message).toEqual("Incorrect Format of int32 with Type of number and Description of This is a good description.")
+      expect(res.errors[0].message).toEqual("Parameter type+format is not well-defined")
       expect(res.warnings.length).toEqual(0)
     })
 
@@ -269,7 +269,9 @@ describe("validation plugin - semantic - parameters-ibm", () => {
                 {
                   "name": "name",
                   "in": "query",
-                  "type": "string",
+                  "schema": {
+                    "type": "string"
+                  },
                   "description": "good description"
                 },
                 {
@@ -344,6 +346,41 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["components", "parameters", "BadParam"])
       expect(res.errors[0].message).toEqual("Parameter objects must have a `description` field.")
+    })
+
+    it("should return an error when parameter type+format is not well-defined", () => {
+
+      const config = {
+        "parameters" : {
+          "invalid_type_format_pair": "error"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "good_name",
+                  "in": "query",
+                  "description": "This is a good description.",
+                  "schema": {
+                    "type": "number",
+                    "format": "int32"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      let res = validate({ jsSpec: spec, isOAS3: true }, config)
+      expect(res.errors.length).toEqual(1)
+      expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
+      expect(res.errors[0].message).toEqual("Parameter type+format is not well-defined")
+      expect(res.warnings.length).toEqual(0)
     })
   })
 })
