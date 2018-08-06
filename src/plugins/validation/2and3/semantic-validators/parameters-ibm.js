@@ -10,6 +10,7 @@
 
 import snakecase from "lodash/snakeCase"
 import includes from "lodash/includes"
+import pick from "lodash/pick"
 
 export function validate({ jsSpec, isOAS3 }, config) {
   let result = {}
@@ -118,30 +119,11 @@ export function validate({ jsSpec, isOAS3 }, config) {
         }
       }
 
-      var valid = true
-      if (obj.format && !obj.$ref) {
-        switch (obj.type) {
-            case "integer":
-                valid = includes(["int32","int64"], obj.format.toLowerCase())
-              break
-            case "string":
-                valid = includes(["byte","date","date-time","password"], obj.format.toLowerCase())
-              break
-            case "number":
-                valid = includes(["float","double"], obj.format.toLowerCase())
-              break
-            case "boolean":
-                valid = false
-              break
-            default:
-              valid = true
-          }
-        }
-
-      if (!valid) {
-        let message = "Incorrect Format of " + obj.format + " with Type of " + obj.type + " and Description of " + obj.description
-        let checkStatus = config.invalid_type_format_pair
-        if (checkStatus !== "off") {
+      let checkStatus = config.invalid_type_format_pair
+      if (checkStatus !== "off") {
+        let valid = formatValid(obj)
+        if (!valid) {
+          let message = "Parameter type+format is not well-defined"
           result[checkStatus].push({
             path,
             message
@@ -163,4 +145,27 @@ export function validate({ jsSpec, isOAS3 }, config) {
 
   walk(jsSpec, [])
   return { errors: result.error , warnings: result.warning }
+}
+
+function formatValid(obj) {
+  // References will be checked when the parameters / definitions / components are scanned.
+  if (obj.$ref || (obj.schema && obj.schema.$ref) ) { return true }
+  let schema = obj.schema || pick(obj, ["type", "format", "items"])
+  if (!schema.type) { return false }
+  switch (schema.type) {
+    case "integer":
+      return (!schema.format) || includes(["int32","int64"], schema.format.toLowerCase())
+    case "number":
+      return (!schema.format) || includes(["float","double"], schema.format.toLowerCase())
+    case "string":
+      return (!schema.format) || includes(["byte","binary","date","date-time","password"], schema.format.toLowerCase())
+    case "boolean":
+      return (schema.format === undefined) // No valid formats for boolean -- should be omitted
+    case "array":
+      if (!schema.items) { return false }
+      return formatValid(schema.items)
+    case "object":
+      return true // TODO: validate nested schemas
+  }
+  return false
 }

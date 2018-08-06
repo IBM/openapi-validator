@@ -124,7 +124,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
-      expect(res.errors[0].message).toEqual("Incorrect Format of int32 with Type of number and Description of This is a good description.")
+      expect(res.errors[0].message).toEqual("Parameter type+format is not well-defined")
       expect(res.warnings.length).toEqual(0)
     })
 
@@ -269,7 +269,9 @@ describe("validation plugin - semantic - parameters-ibm", () => {
                 {
                   "name": "name",
                   "in": "query",
-                  "type": "string",
+                  "schema": {
+                    "type": "string"
+                  },
                   "description": "good description"
                 },
                 {
@@ -377,7 +379,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       let res = validate({ jsSpec: spec, isOAS3: true }, config)
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
-      expect(res.errors[0].message).toEqual("Incorrect Format of int32 with Type of number and Description of This is a good description.")
+      expect(res.errors[0].message).toEqual("Parameter type+format is not well-defined")
       expect(res.warnings.length).toEqual(0)
     })
   })
