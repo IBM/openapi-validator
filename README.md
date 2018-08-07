@@ -205,6 +205,7 @@ The supported rules are described below:
 | Rule                        | Description                                                                                                  | Spec   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
 | missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. | shared |
+| snake_case_only             | Flag any path segment that does not use snake case.                                                          | shared |
 
 ##### [responses][4]
 | Rule                      | Description                                                  | Spec |
@@ -328,6 +329,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | missing_path_parameter      | error   |
+| snake_case_only             | warning |
 
 ###### security_definitions
 | Rule                        | Default |

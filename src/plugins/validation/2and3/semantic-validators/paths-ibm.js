@@ -3,6 +3,8 @@
 
 // Assertation 2. All path parameters must be defined at either the path or operation level.
 
+// Assertation 3. All path segments are lower snake case
+
 export function validate({ resolvedSpec }, config) {
 
   let result = {}
@@ -105,6 +107,31 @@ export function validate({ resolvedSpec }, config) {
         }
       }
     }
+
+    // enforce path segments are lower snake case
+    const checkStatus = config.snake_case_only
+    if (checkStatus != "off") {
+      const segments = pathName.split("/")
+      segments.forEach(segment => {
+        // the first element will be "" since pathName starts with "/"
+        // also, ignore validating the path parameters
+        if (segment === "" || segment[0] === "{") {
+          return
+        }
+        // this regex enforces snakecase while allowing numbers to freely intermix with letters
+        // e.g. 'v1' will be a valid segment name
+        // the lodash/snakecase module will flag this (it requires 'v_1')
+        const snakecaseRegex = /^[a-z](([_a-z0-9]*[a-z0-9])+)?$/g
+        const isSnakecase = segment.match(snakecaseRegex)
+        if (!isSnakecase) {
+          result[checkStatus].push({
+            path: `paths.${pathName}`,
+            message: `Path segments must be lower snake case. Violating segment: ${segment}`
+          })
+        }
+      })
+    }
+
   })
 
   return { errors: result.error, warnings: result.warning }

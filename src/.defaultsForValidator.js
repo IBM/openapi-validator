@@ -37,7 +37,8 @@ const defaults = {
       "default_doesnt_conform_to_type": "error"
     },
     "paths": {
-      "missing_path_parameter": "error"
+      "missing_path_parameter": "error",
+      "snake_case_only": "warning"
     },
     "security_definitions": {
       "unused_security_schemes": "warning",

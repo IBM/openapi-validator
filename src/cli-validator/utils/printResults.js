@@ -102,7 +102,7 @@ module.exports = function print(
           // calculate percentage
           const number = stats[type][message];
           const total = stats[type].total;
-          const percentage = Math.round((number / total) * 100).toString();
+          const percentage = Math.round(number / total * 100).toString();
 
           // pad(<number>, <string>) right-aligns <string> to the <number>th column, padding with spaces.
           // use 4, two for the appended spaces of every line and two for the number
