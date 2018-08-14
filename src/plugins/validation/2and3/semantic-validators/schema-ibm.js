@@ -14,9 +14,10 @@
 // array_of_arrays:
 // Schema properties that are arrays should avoid having items that are also arrays
 
+const isSnakecase = require("../../../utils/checkSnakeCase")
+
 import forIn from "lodash/forIn"
 import includes from "lodash/includes"
-import snakecase from "lodash/snakeCase"
 
 export function validate({ jsSpec }, config) {
   let errors = []
@@ -239,8 +240,7 @@ function checkPropNames(schema, contextPath, config) {
 
     const checkStatus = config.snake_case_only || "off"
     if (checkStatus.match("error|warning")) {
-      const isSnakecase = propName == snakecase(propName)
-      if (!isSnakecase) {
+      if (!isSnakecase(propName)) {
         result[checkStatus].push({
            path: contextPath.concat(["properties", propName]),
            message: "Property names must be lower snake case."
@@ -265,8 +265,7 @@ function checkEnumValues(schema, contextPath, config) {
 
     const checkStatus = config.snake_case_only || "off"
     if (checkStatus.match("error|warning")) {
-      const isSnakecase = enumValue == snakecase(enumValue)
-      if (!isSnakecase) {
+      if (!isSnakecase(enumValue)) {
         result[checkStatus].push({
            path: contextPath.concat(["enum", i.toString()]),
            message: "Enum values must be lower snake case."
