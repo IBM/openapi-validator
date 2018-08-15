@@ -28,7 +28,9 @@ describe('cli tool - test circular reference module', function() {
     const allOutput = capturedText.join('');
 
     expect(
-      allOutput.includes('Swagger object must not contain circular references.')
+      allOutput.includes(
+        'Swagger object should not contain circular references.'
+      )
     ).toEqual(true);
 
     expect(
