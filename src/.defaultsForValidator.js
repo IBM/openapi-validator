@@ -65,6 +65,9 @@ const defaults = {
       "no_consumes_for_put_or_post": "error",
       "get_op_has_consumes": "warning",
       "no_produces_for_get": "error"
+    },
+    "parameters": {
+      "required_param_has_default": "warning"
     }
   },
   "oas3": {
