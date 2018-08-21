@@ -34,7 +34,8 @@ const defaults = {
       "accept_type_parameter": "error",
       "authorization_parameter": "warning",
       "no_default_for_optional_parameter": "warning",
-      "default_doesnt_conform_to_type": "error"
+      "default_doesnt_conform_to_type": "error",
+      "required_param_has_default": "warning"
     },
     "paths": {
       "missing_path_parameter": "error",
@@ -65,9 +66,6 @@ const defaults = {
       "no_consumes_for_put_or_post": "error",
       "get_op_has_consumes": "warning",
       "no_produces_for_get": "error"
-    },
-    "parameters": {
-      "required_param_has_default": "warning"
     }
   },
   "oas3": {
