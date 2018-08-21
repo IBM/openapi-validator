@@ -202,7 +202,8 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       const config = {
         "parameters" : {
           "content_type_parameter": "error",
-          "accept_type_parameter": "error"
+          "accept_type_parameter": "error",
+          "snake_case_only": "off"
         }
       }
 

@@ -5,6 +5,8 @@
 
 // Assertation 3. All path segments are lower snake case
 
+const isSnakecase = require("../../../utils/checkSnakeCase")
+
 export function validate({ resolvedSpec }, config) {
 
   let result = {}
@@ -118,12 +120,7 @@ export function validate({ resolvedSpec }, config) {
         if (segment === "" || segment[0] === "{") {
           return
         }
-        // this regex enforces snakecase while allowing numbers to freely intermix with letters
-        // e.g. 'v1' will be a valid segment name
-        // the lodash/snakecase module will flag this (it requires 'v_1')
-        const snakecaseRegex = /^[a-z](([_a-z0-9]*[a-z0-9])+)?$/g
-        const isSnakecase = segment.match(snakecaseRegex)
-        if (!isSnakecase) {
+        if (!isSnakecase(segment)) {
           result[checkStatus].push({
             path: `paths.${pathName}`,
             message: `Path segments must be lower snake case. Violating segment: ${segment}`

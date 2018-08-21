@@ -11,9 +11,9 @@
 // Assertation 4:
 // Required parameters should not specify default values.
 
-import snakecase from "lodash/snakeCase"
 import includes from "lodash/includes"
 import pick from "lodash/pick"
+const checkSnakecase = require("../../../utils/checkSnakeCase")
 
 export function validate({ jsSpec, isOAS3 }, config) {
   let result = {}
@@ -60,7 +60,7 @@ export function validate({ jsSpec, isOAS3 }, config) {
       let isParameter = obj.in // the `in` property is required by OpenAPI for parameters - this should be true (unless obj is a ref)
       let isHeaderParameter = (obj.in && obj.in.toLowerCase() === "header") // header params need not be snake_case
       // Relax snakecase check to allow names with "."
-      let isSnakecase = !(obj.name) || obj.name == obj.name.split(".").map(s => snakecase(s)).join(".")
+      let isSnakecase = !(obj.name) || obj.name.split(".").map(s => checkSnakecase(s)).every(v => v)
 
       // if the parameter is defined by a ref, no need to check the ref path for snake_case
       if (isParameter && !isHeaderParameter && !isRef && !isSnakecase) {
