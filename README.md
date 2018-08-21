@@ -283,6 +283,7 @@ The default values for each rule are described below.
 | get_op_has_consumes         | warning |
 | no_produces_for_get         | error   |
 
+
 ##### oas3
 
 ###### operations
