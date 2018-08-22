@@ -166,6 +166,8 @@ function formatValid(obj) {
       return formatValid(schema.items)
     case "object":
       return true // TODO: validate nested schemas
+    case "file":
+      return (obj.in === "formData")
   }
   return false
 }
