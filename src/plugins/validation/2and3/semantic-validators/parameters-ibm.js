@@ -124,7 +124,7 @@ export function validate({ jsSpec, isOAS3 }, config) {
 
       let checkStatus = config.invalid_type_format_pair
       if (checkStatus !== "off") {
-        let valid = formatValid(obj)
+        let valid = formatValid(obj, isOAS3)
         if (!valid) {
           let message = "Parameter type+format is not well-defined"
           result[checkStatus].push({
@@ -169,7 +169,7 @@ export function validate({ jsSpec, isOAS3 }, config) {
   return { errors: result.error , warnings: result.warning }
 }
 
-function formatValid(obj) {
+function formatValid(obj, isOAS3) {
   // References will be checked when the parameters / definitions / components are scanned.
   if (obj.$ref || (obj.schema && obj.schema.$ref) ) { return true }
   let schema = obj.schema || pick(obj, ["type", "format", "items"])
@@ -188,6 +188,8 @@ function formatValid(obj) {
       return formatValid(schema.items)
     case "object":
       return true // TODO: validate nested schemas
+    case "file":
+      return (!isOAS3 && obj.in === "formData")
   }
   return false
 }
