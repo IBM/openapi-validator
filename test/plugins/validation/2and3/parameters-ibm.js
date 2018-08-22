@@ -250,6 +250,101 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       expect(res.errors[1].path).toEqual(["paths", "/pets", "get", "parameters", "2"])
       expect(res.errors[1].message).toEqual("Parameters must not explicitly define `Content-Type`. Rely on the `consumes` field to specify content-type.")
     })
+
+    it("should flag a required parameter that specifies a default value", () => {
+      const config = {
+        parameters: {
+          "required_param_has_default": "warning"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "tags",
+                  "in": "query",
+                  "required": true,
+                  "description": "tags to filter by",
+                  "type": "string",
+                  "default": "reptile"
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      let res = validate({ jsSpec: spec }, config)
+      expect(res.warnings.length).toEqual(1)
+      expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
+      expect(res.warnings[0].message).toEqual("Required parameters should not specify default values.")
+      expect(res.errors.length).toEqual(0)
+    })
+
+    it("should not flag an optional parameter that specifies a default value", () => {
+      const config = {
+        parameters: {
+          "required_param_has_default": "warning"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "tags",
+                  "in": "query",
+                  "required": false,
+                  "description": "tags to filter by",
+                  "type": "string",
+                  "default": "reptile"
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      let res = validate({ jsSpec: spec }, config)
+      expect(res.warnings.length).toEqual(0)
+      expect(res.errors.length).toEqual(0)
+    })
+
+    it("should not return an error for formData parameters of type file", () => {
+
+      const config = {
+        "parameters" : {
+          "invalid_type_format_pair": "error"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "file",
+                  "in": "formData",
+                  "type": "file",
+                  "required": true,
+                  "description": "A file passed in formData"
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      const res = validate({ jsSpec: spec, isOAS3: false }, config)
+      expect(res.errors.length).toEqual(0)
+      expect(res.warnings.length).toEqual(0)
+    })
   })
 
   describe("OpenAPI 3", () => {
@@ -384,11 +479,10 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       expect(res.warnings.length).toEqual(0)
     })
 
-    it("should not return an error for formData parameters of type file", () => {
-
+    it("should flag a required parameter that specifies a default value", () => {
       const config = {
-        "parameters" : {
-          "invalid_type_format_pair": "error"
+        parameters: {
+          "required_param_has_default": "warning"
         }
       }
 
@@ -398,11 +492,14 @@ describe("validation plugin - semantic - parameters-ibm", () => {
             "get": {
               "parameters": [
                 {
-                  "name": "file",
-                  "in": "formData",
-                  "type": "file",
+                  "name": "tags",
+                  "in": "query",
                   "required": true,
-                  "description": "A file passed in formData"
+                  "description": "tags to filter by",
+                  "schema": {
+                    "type": "string",
+                    "default": "reptile"
+                  }
                 }
               ]
             }
@@ -410,9 +507,42 @@ describe("validation plugin - semantic - parameters-ibm", () => {
         }
       }
 
-      let res = validate({ jsSpec: spec, isOAS3: false }, config)
+      const res = validate({ jsSpec: spec, isOAS3: true }, config)
+      expect(res.warnings.length).toEqual(1)
+      expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
+      expect(res.warnings[0].message).toEqual("Required parameters should not specify default values.")
       expect(res.errors.length).toEqual(0)
+    })
+
+    it("should not flag an optional parameter that does not specify a default value", () => {
+      const config = {
+        parameters: {
+          "required_param_has_default": "warning"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "tags",
+                  "in": "query",
+                  "description": "tags to filter by",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      const res = validate({ jsSpec: spec, isOAS3: true }, config)
       expect(res.warnings.length).toEqual(0)
+      expect(res.errors.length).toEqual(0)
     })
   })
 })

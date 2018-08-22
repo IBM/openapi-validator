@@ -190,6 +190,7 @@ The supported rules are described below:
 ##### parameters
 | Rule                        | Description                                                              | Spec   |
 | --------------------------- | ------------------------------------------------------------------------ | ------ |
+| required_param_has_default  | Flag any required parameter that specifies a default value.              | shared |
 | no_parameter_description    | Flag any parameter that does not contain a `description` field.          | shared |
 | snake_case_only             | Flag any parameter with a `name` field that does not use snake case.     | shared |
 | invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.][2] | shared |
@@ -324,6 +325,7 @@ The default values for each rule are described below.
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |
 | authorization_parameter     | warning |
+| required_param_has_default  | warning |
 
 ###### paths
 | Rule                        | Default |
