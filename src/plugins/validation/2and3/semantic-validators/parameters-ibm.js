@@ -8,8 +8,9 @@
 // Header parameters must not define a content-type or an accept-type.
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#do-not-explicitly-define-a-content-type-header-parameter
 
-const snakecase = require("lodash/snakeCase")
+const pick = require("lodash/pick")
 const includes = require("lodash/includes")
+const checkSnakecase = require("../../../utils/checkSnakeCase")
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   let result = {}
@@ -56,7 +57,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       let isParameter = obj.in // the `in` property is required by OpenAPI for parameters - this should be true (unless obj is a ref)
       let isHeaderParameter = (obj.in && obj.in.toLowerCase() === "header") // header params need not be snake_case
       // Relax snakecase check to allow names with "."
-      let isSnakecase = !(obj.name) || obj.name == obj.name.split(".").map(s => snakecase(s)).join(".")
+      let isSnakecase = !(obj.name) || obj.name.split(".").map(s => checkSnakecase(s)).every(v => v)
 
       // if the parameter is defined by a ref, no need to check the ref path for snake_case
       if (isParameter && !isHeaderParameter && !isRef && !isSnakecase) {
@@ -118,29 +119,29 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         }
       }
 
-      var valid = true
-      if (obj.format && !obj.$ref) {
-        switch (obj.type) {
-            case "integer":
-                valid = includes(["int32","int64"], obj.format.toLowerCase())
-              break
-            case "string":
-                valid = includes(["byte","date","date-time","password"], obj.format.toLowerCase())
-              break
-            case "number":
-                valid = includes(["float","double"], obj.format.toLowerCase())
-              break
-            case "boolean":
-                valid = false
-              break
-            default:
-              valid = true
-          }
+      let checkStatus = config.invalid_type_format_pair
+      if (checkStatus !== "off") {
+        let valid = formatValid(obj, isOAS3)
+        if (!valid) {
+          let message = "Parameter type+format is not well-defined"
+          result[checkStatus].push({
+            path,
+            message
+          })
         }
+      }
 
-      if (!valid) {
-        let message = "Incorrect Format of " + obj.format + " with Type of " + obj.type + " and Description of " + obj.description
-        let checkStatus = config.invalid_type_format_pair
+      const isParameterRequired = obj.required
+      let isDefaultDefined
+      if (isOAS3) {
+        isDefaultDefined = obj.schema && obj.schema.default !== undefined
+      } else {
+        isDefaultDefined = obj.default !== undefined 
+      }
+      
+      if (isParameterRequired && isDefaultDefined) {
+        const message = "Required parameters should not specify default values."
+        const checkStatus = config.required_param_has_default
         if (checkStatus !== "off") {
           result[checkStatus].push({
             path,
@@ -163,4 +164,29 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   walk(jsSpec, [])
   return { errors: result.error , warnings: result.warning }
+}
+
+function formatValid(obj, isOAS3) {
+  // References will be checked when the parameters / definitions / components are scanned.
+  if (obj.$ref || (obj.schema && obj.schema.$ref) ) { return true }
+  let schema = obj.schema || pick(obj, ["type", "format", "items"])
+  if (!schema.type) { return false }
+  switch (schema.type) {
+    case "integer":
+      return (!schema.format) || includes(["int32","int64"], schema.format.toLowerCase())
+    case "number":
+      return (!schema.format) || includes(["float","double"], schema.format.toLowerCase())
+    case "string":
+      return (!schema.format) || includes(["byte","binary","date","date-time","password"], schema.format.toLowerCase())
+    case "boolean":
+      return (schema.format === undefined) // No valid formats for boolean -- should be omitted
+    case "array":
+      if (!schema.items) { return false }
+      return formatValid(schema.items)
+    case "object":
+      return true // TODO: validate nested schemas
+    case "file":
+      return (!isOAS3 && obj.in === "formData")
+  }
+  return false
 }

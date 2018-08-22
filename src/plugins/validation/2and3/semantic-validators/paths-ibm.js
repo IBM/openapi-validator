@@ -3,8 +3,11 @@
 
 // Assertation 2. All path parameters must be defined at either the path or operation level.
 
-module.exports.validate = function({ resolvedSpec }, config) {
+// Assertation 3. All path segments are lower snake case
 
+const isSnakecase = require("../../../utils/checkSnakeCase")
+
+module.exports.validate = function({ resolvedSpec }, config) {
   let result = {}
   result.error = []
   result.warning = []
@@ -105,6 +108,26 @@ module.exports.validate = function({ resolvedSpec }, config) {
         }
       }
     }
+
+    // enforce path segments are lower snake case
+    const checkStatus = config.snake_case_only
+    if (checkStatus != "off") {
+      const segments = pathName.split("/")
+      segments.forEach(segment => {
+        // the first element will be "" since pathName starts with "/"
+        // also, ignore validating the path parameters
+        if (segment === "" || segment[0] === "{") {
+          return
+        }
+        if (!isSnakecase(segment)) {
+          result[checkStatus].push({
+            path: `paths.${pathName}`,
+            message: `Path segments must be lower snake case. Violating segment: ${segment}`
+          })
+        }
+      })
+    }
+
   })
 
   return { errors: result.error, warnings: result.warning }

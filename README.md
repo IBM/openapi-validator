@@ -1,5 +1,5 @@
-# Swagger-Validator-IBM
-This command line tool lets you validate Swagger files according to the OpenAPI specification, either [2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) or [3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
+# OpenAPI Validator
+This command line tool lets you validate OpenAPI documents according to their specification, either [2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) or [3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
 #### Prerequisites
 - Node 8.9.x
 - NPM 5.x
@@ -36,11 +36,11 @@ This package can be installed with NPM using a git url. Installing this way can 
 
 #### SSH
 1. Make sure you have an SSH key set up. If you have used SSH to clone an IBM GHE repository, this should be set up already. ([Instructions](https://help.github.com/articles/connecting-to-github-with-ssh/))
-2. Run the following command `npm install -g git+ssh://git@github.ibm.com:dustinpopp/swagger-validator-ibm.git`
+2. Run the following command `npm install -g git+ssh://git@github.ibm.com:CloudEngineering/openapi-validator.git`
 
 #### HTTPS
 1. Make sure you a have a personal access token set up. If you have used HTTPS to clone an IBM GHE repository, this should be set up already. ([Instructions]())
-2. Run the following command `npm install -g git+https://github.ibm.com/dustinpopp/swagger-validator-ibm.git`
+2. Run the following command `npm install -g git+https://github.ibm.com/CloudEngineering/openapi-validator.git`
 
 The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass the `--save` or `--save-dev` flag to add the vaidator as a dependency to your project and run it from your NPM scripts.
 
@@ -54,7 +54,7 @@ _Once the package is linked, anytime you make a change or pull down updates, you
 
 ## Usage
 ### Command line
-`lint-swagger [options] [command] [<files>]`
+`lint-openapi [options] [command] [<files>]`
 
 #### [options]
 -  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarliy for developing validations.
@@ -66,41 +66,41 @@ _Once the package is linked, anytime you make a change or pull down updates, you
 _These options only apply to running the validator on a file, not to any commands._
 
 #### [command]
-`$ lint-swagger init`
+`$ lint-openapi init`
 - init : The `init` command initializes a .validaterc file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
 
 #### [command]
-`$ lint-swagger migrate`
-- migrate : The `migrate` command migrates a .validaterc file from the v1.x format to the v2.x format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-swagger init`.
+`$ lint-openapi migrate`
+- migrate : The `migrate` command migrates a .validaterc file from the v1.x format to the v2.x format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-openapi init`.
 
 _None of the above options pertain to these commands._
 
 #### \<files>
-- The Swagger file(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
-- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-swagger files/*` will run the validator on all files in "files/")
+- The OpenAPI document(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
+- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-openapi files/*` will run the validator on all files in "files/")
 
 ### Node module
 _Assumes the module was installed with a `--save` or `--save-dev` flag._
 ```javascript
-const validator = require('swagger-validator-ibm');
+const validator = require('openapi-validator');
 
-validator(swaggerObject)
+validator(openApiDoc)
   .then(validationResults => {
     console.log(JSON.stringify(validationResults, null, 2));
   });
 
 // or, if inside `async` function
-const validationResults = await validator(swaggerObject);
+const validationResults = await validator(openApiDoc);
 console.log(JSON.stringify(validationResults, null, 2));
 ```
 
 #### API
-##### validator(swaggerObject, [defaultMode = false])
+##### validator(openApiDoc, [defaultMode = false])
 Returns a `Promise` with the validation results.
 
-###### swaggerObject
+###### openApiDoc
 Type: `Object`  
-An object that represents a Swagger file.
+An object that represents an OpenAPI document.
 
 ###### defaultMode
 Type: `boolean`  
@@ -115,19 +115,19 @@ The Promise returned from the validator resolves into a JSON object. The structu
   [
     {
       path: 'path.to.error.in.object'
-      message: 'Major problem in the Swagger.'
+      message: 'Major problem in the OpenAPI document.'
     }
   ],
   warnings:
   [
     {
       path: 'path.to.warning.in.object'
-      message: 'Minor problem in the Swagger.'
+      message: 'Minor problem in the OpenAPI document.'
     }
   ]
 }
 ```
-The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the Swagger.
+The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the OpenAPI document.
 
 ## Configuration
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
@@ -135,7 +135,7 @@ Specfic validation "rules" can be turned off, or configured to trigger either er
 Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
-To set up the configuration capability, simply run the command `lint-swagger init`.
+To set up the configuration capability, simply run the command `lint-openapi init`.
 This will create (or over-write) a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
 
 _WARNING: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
@@ -190,6 +190,7 @@ The supported rules are described below:
 ##### parameters
 | Rule                        | Description                                                              | Spec   |
 | --------------------------- | ------------------------------------------------------------------------ | ------ |
+| required_param_has_default  | Flag any required parameter that specifies a default value.              | shared |
 | no_parameter_description    | Flag any parameter that does not contain a `description` field.          | shared |
 | snake_case_only             | Flag any parameter with a `name` field that does not use snake case.     | shared |
 | invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.][2] | shared |
@@ -205,6 +206,7 @@ The supported rules are described below:
 | Rule                        | Description                                                                                                  | Spec   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
 | missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. | shared |
+| snake_case_only             | Flag any path segment that does not use snake case.                                                          | shared |
 
 ##### [responses][4]
 | Rule                      | Description                                                  | Spec |
@@ -256,7 +258,7 @@ The configuration file must be structured as a JSON object with specs as first-l
 
 If a rule is not included in the file, that rule will be set to the default status automatically. See the [Default Values](#default-values) for more info.
 
-For an example of the structure, see the [defaults file](https://github.ibm.com/MIL/swagger-editor-ibm/blob/master/src/.defaultsForValidator.js).
+For an example of the structure, see the [defaults file](https://github.ibm.com/CloudEngineering/openapi-validator/blob/master/src/.defaultsForValidator.js).
 
 The easiest way to create a `.validaterc` file is using the [initialization command](#setup).
 
@@ -323,11 +325,13 @@ The default values for each rule are described below.
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |
 | authorization_parameter     | warning |
+| required_param_has_default  | warning |
 
 ###### paths
 | Rule                        | Default |
 | --------------------------- | --------|
 | missing_path_parameter      | error   |
+| snake_case_only             | warning |
 
 ###### security_definitions
 | Rule                        | Default |
@@ -367,8 +371,11 @@ You are using a proxy if you have a registry defined in your `.npmrc` file, most
 To resolve this issue, try temporarily commenting out the registry definition(s) in your `.npmrc` file, as some public NPM packages may be unaccessible through a proxy.
 
 ## Migration Guide
-The only breaking change between v1 and v2 of the validator is the format of the configuration file. To assist users with this migration, [a command has been added to the CLI](#command-line) that will convert a v1-formatted configuration file to a v2-formatted file with any custom-set rules intact.
-Run `lint-swagger migrate` to convert the old file to the new format without losing any custom-set rules.
+The following breaking changes were made in major version 2 of this validator:
+1. The command for running the CLI tool changed from `lint-swagger` to `lint-openapi`
+2. The node module import name changed from `swagger-validator-ibm` to `openapi-validator`
+3. The format of the configuration file has changed. To assist users with this migration, [a command has been added to the CLI](#command-line) that will convert a v1-formatted configuration file to a v2-formatted file with any custom-set rules intact.
+Run `lint-openapi migrate` to convert the old file to the new format without losing any custom-set rules.
 
 ## License
 

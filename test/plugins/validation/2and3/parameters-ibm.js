@@ -34,7 +34,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
     })
 
     it("should return an error when snake case is not used", () => {
-      
+
       const config = {
         "parameters" : {
           "snake_case_only": "warning"
@@ -66,7 +66,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
     })
 
     it("should not return a snake case error when \"in\" is set to \"header\" ", () => {
-      
+
       const config = {
         "parameters" : {
           "snake_case_only": "warning"
@@ -124,7 +124,7 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       let res = validate({ jsSpec: spec }, config)
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
-      expect(res.errors[0].message).toEqual("Incorrect Format of int32 with Type of number and Description of This is a good description.")
+      expect(res.errors[0].message).toEqual("Parameter type+format is not well-defined")
       expect(res.warnings.length).toEqual(0)
     })
 
@@ -202,7 +202,8 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       const config = {
         "parameters" : {
           "content_type_parameter": "error",
-          "accept_type_parameter": "error"
+          "accept_type_parameter": "error",
+          "snake_case_only": "off"
         }
       }
 
@@ -249,6 +250,101 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       expect(res.errors[1].path).toEqual(["paths", "/pets", "get", "parameters", "2"])
       expect(res.errors[1].message).toEqual("Parameters must not explicitly define `Content-Type`. Rely on the `consumes` field to specify content-type.")
     })
+
+    it("should flag a required parameter that specifies a default value", () => {
+      const config = {
+        parameters: {
+          "required_param_has_default": "warning"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "tags",
+                  "in": "query",
+                  "required": true,
+                  "description": "tags to filter by",
+                  "type": "string",
+                  "default": "reptile"
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      let res = validate({ jsSpec: spec }, config)
+      expect(res.warnings.length).toEqual(1)
+      expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
+      expect(res.warnings[0].message).toEqual("Required parameters should not specify default values.")
+      expect(res.errors.length).toEqual(0)
+    })
+
+    it("should not flag an optional parameter that specifies a default value", () => {
+      const config = {
+        parameters: {
+          "required_param_has_default": "warning"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "tags",
+                  "in": "query",
+                  "required": false,
+                  "description": "tags to filter by",
+                  "type": "string",
+                  "default": "reptile"
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      let res = validate({ jsSpec: spec }, config)
+      expect(res.warnings.length).toEqual(0)
+      expect(res.errors.length).toEqual(0)
+    })
+
+    it("should not return an error for formData parameters of type file", () => {
+
+      const config = {
+        "parameters" : {
+          "invalid_type_format_pair": "error"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "file",
+                  "in": "formData",
+                  "type": "file",
+                  "required": true,
+                  "description": "A file passed in formData"
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      const res = validate({ jsSpec: spec, isOAS3: false }, config)
+      expect(res.errors.length).toEqual(0)
+      expect(res.warnings.length).toEqual(0)
+    })
   })
 
   describe("OpenAPI 3", () => {
@@ -269,7 +365,9 @@ describe("validation plugin - semantic - parameters-ibm", () => {
                 {
                   "name": "name",
                   "in": "query",
-                  "type": "string",
+                  "schema": {
+                    "type": "string"
+                  },
                   "description": "good description"
                 },
                 {
@@ -344,6 +442,107 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       expect(res.errors.length).toEqual(1)
       expect(res.errors[0].path).toEqual(["components", "parameters", "BadParam"])
       expect(res.errors[0].message).toEqual("Parameter objects must have a `description` field.")
+    })
+
+    it("should return an error when parameter type+format is not well-defined", () => {
+
+      const config = {
+        "parameters" : {
+          "invalid_type_format_pair": "error"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "good_name",
+                  "in": "query",
+                  "description": "This is a good description.",
+                  "schema": {
+                    "type": "number",
+                    "format": "int32"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      let res = validate({ jsSpec: spec, isOAS3: true }, config)
+      expect(res.errors.length).toEqual(1)
+      expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
+      expect(res.errors[0].message).toEqual("Parameter type+format is not well-defined")
+      expect(res.warnings.length).toEqual(0)
+    })
+
+    it("should flag a required parameter that specifies a default value", () => {
+      const config = {
+        parameters: {
+          "required_param_has_default": "warning"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "tags",
+                  "in": "query",
+                  "required": true,
+                  "description": "tags to filter by",
+                  "schema": {
+                    "type": "string",
+                    "default": "reptile"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      const res = validate({ jsSpec: spec, isOAS3: true }, config)
+      expect(res.warnings.length).toEqual(1)
+      expect(res.warnings[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
+      expect(res.warnings[0].message).toEqual("Required parameters should not specify default values.")
+      expect(res.errors.length).toEqual(0)
+    })
+
+    it("should not flag an optional parameter that does not specify a default value", () => {
+      const config = {
+        parameters: {
+          "required_param_has_default": "warning"
+        }
+      }
+
+      const spec = {
+        "paths": {
+          "/pets": {
+            "get": {
+              "parameters": [
+                {
+                  "name": "tags",
+                  "in": "query",
+                  "description": "tags to filter by",
+                  "schema": {
+                    "type": "string"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      const res = validate({ jsSpec: spec, isOAS3: true }, config)
+      expect(res.warnings.length).toEqual(0)
+      expect(res.errors.length).toEqual(0)
     })
   })
 })

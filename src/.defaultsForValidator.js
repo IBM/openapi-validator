@@ -33,11 +33,11 @@ const defaults = {
       "content_type_parameter": "error",
       "accept_type_parameter": "error",
       "authorization_parameter": "warning",
-      "no_default_for_optional_parameter": "warning",
-      "default_doesnt_conform_to_type": "error"
+      "required_param_has_default": "warning"
     },
     "paths": {
-      "missing_path_parameter": "error"
+      "missing_path_parameter": "error",
+      "snake_case_only": "warning"
     },
     "security_definitions": {
       "unused_security_schemes": "warning",

@@ -14,7 +14,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
 
     const spec = {
       paths: {
-        "/CoolPath/{id}": {
+        "/cool_path/{id}": {
           get: {
             parameters:
             [
@@ -48,7 +48,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
     let res = validate({ resolvedSpec: spec }, config)
     expect(res.errors.length).toEqual(1)
     expect(res.warnings.length).toEqual(0)
-    expect(res.errors[0].path).toEqual("paths./CoolPath/{id}.post.parameters")
+    expect(res.errors[0].path).toEqual("paths./cool_path/{id}.post.parameters")
     expect(res.errors[0].message).toEqual("Operation must include a parameter with {in: 'path'} and {name: 'id'}. Can be at the path level or the operation level.")
   })
 
@@ -62,7 +62,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
 
     const spec = {
       paths: {
-        "/CoolPath/{id}": {
+        "/cool_path/{id}": {
           parameters:
           [
             {
@@ -119,7 +119,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
 
     const spec = {
       paths: {
-        "/CoolPath/{id}": {
+        "/cool_path/{id}": {
           get: {
             parameters:
             [
@@ -166,7 +166,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
 
     const spec = {
       paths: {
-        "/CoolPath/{id}": {
+        "/cool_path/{id}": {
           get: {
             parameters:
             [
@@ -211,14 +211,14 @@ describe("validation plugin - semantic - paths-ibm", function(){
 
     const spec = {
       paths: {
-        "/CoolPath/{id}": {}
+        "/cool_path/{id}": {}
       }
     }
 
     let res = validate({ resolvedSpec: spec }, config)
     expect(res.errors).toEqual([{
       message: "The following parameter must be defined at the path or the operation level: id",
-      path: "paths./CoolPath/{id}"
+      path: "paths./cool_path/{id}"
     }])
     expect(res.warnings).toEqual([])
   })
@@ -232,7 +232,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
 
     const spec = {
       paths: {
-        "/CoolPath/{id}/morePath/{other_param}": {
+        "/cool_path/{id}/more_path/{other_param}": {
           parameters: [
             {
               in: "path",
@@ -248,8 +248,38 @@ describe("validation plugin - semantic - paths-ibm", function(){
     let res = validate({ resolvedSpec: spec }, config)
     expect(res.errors).toEqual([{
       message: "The following parameter must be defined at the path or the operation level: id",
-      path: "paths./CoolPath/{id}/morePath/{other_param}"
+      path: "paths./cool_path/{id}/more_path/{other_param}"
     }])
     expect(res.warnings).toEqual([])
+  })
+
+  it("shoud flag a path segment that is not snake_case but should ignore path parameter", function() {
+    const config = {
+      "paths": {
+        "snake_case_only": "warning"
+      }
+    }
+
+    const spec = {
+      paths: {
+        "/v1/api/NotGoodSegment/{shouldntMatter}/resource": {
+          parameters: [
+            {
+              in: "path",
+              name: "shouldntMatter",
+              description: "bad parameter but should be caught by another validator, not here",
+              type: "string"
+            }
+          ]
+        }
+      }
+    }
+
+    const res = validate({ resolvedSpec: spec }, config)
+    console.log(res)
+    expect(res.errors.length).toEqual(0)
+    expect(res.warnings.length).toEqual(1)
+    expect(res.warnings[0].path).toEqual("paths./v1/api/NotGoodSegment/{shouldntMatter}/resource")
+    expect(res.warnings[0].message).toEqual("Path segments must be lower snake case. Violating segment: NotGoodSegment")
   })
 })
