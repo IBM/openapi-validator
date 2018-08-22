@@ -479,41 +479,6 @@ describe("validation plugin - semantic - parameters-ibm", () => {
       expect(res.warnings.length).toEqual(0)
     })
 
-    it("should not return an error for formData parameters of type file", () => {
-
-      const config = {
-        "parameters" : {
-          "invalid_type_format_pair": "error"
-        }
-      }
-
-      const spec = {
-        "paths": {
-          "/pets": {
-            "get": {
-              "parameters": [
-                {
-                  "name": "file",
-                  "in": "formData",
-                  "schema": {
-                    "type": "file"
-                  },
-                  "required": true,
-                  "description": "A file passed in formData"
-                }
-              ]
-            }
-          }
-        }
-      }
-
-      const res = validate({ jsSpec: spec, isOAS3: true }, config)
-      expect(res.errors.length).toEqual(1)
-      expect(res.errors[0].path).toEqual(["paths", "/pets", "get", "parameters", "0"])
-      expect(res.errors[0].message).toEqual("Parameter type+format is not well-defined")
-      expect(res.warnings.length).toEqual(0)
-    })
-
     it("should flag a required parameter that specifies a default value", () => {
       const config = {
         parameters: {
