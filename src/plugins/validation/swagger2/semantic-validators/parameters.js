@@ -1,7 +1,7 @@
 // Assertation 1:
 // The items property for a parameter is required when its type is set to array
 
-export function validate({ resolvedSpec }) {
+module.exports.validate = function({ resolvedSpec }) {
   let errors = []
   let warnings = []
 

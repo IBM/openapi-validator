@@ -1,6 +1,3 @@
-import isObject from "lodash/isObject"
-import getIn from "lodash/get"
-
 // Assertions are in the following order ( bailing as soon as we hit the firs assertion )
 //
 
@@ -18,9 +15,10 @@ import getIn from "lodash/get"
 // Assertation 3:
 // If a parameter with `in: formData` exists a consumes property ( inherited or inline ) my contain `application/x-www-form-urlencoded` or `multipart/form-data`
 
+const isObject = require("lodash/isObject")
+const getIn = require("lodash/get")
 
-
-export function validate({ resolvedSpec }) {
+module.exports.validate = function({ resolvedSpec }) {
   let errors = []
   let warnings = []
   if(!isObject(resolvedSpec)) {

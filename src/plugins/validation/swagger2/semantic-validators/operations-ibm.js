@@ -7,12 +7,12 @@
 // Assertation 3:
 // GET operations must have a non-empty `produces` field.
 
-import each from "lodash/each"
-import includes from "lodash/includes"
-import map from "lodash/map"
-import pick from "lodash/pick"
+const each = require("lodash/each")
+const includes = require("lodash/includes")
+const map = require("lodash/map")
+const pick = require("lodash/pick")
 
-export function validate({ jsSpec }, config) {
+module.exports.validate = function({ jsSpec }, config) {
 
   let result = {}
   result.error = []

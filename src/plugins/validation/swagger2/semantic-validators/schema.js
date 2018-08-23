@@ -1,6 +1,6 @@
-import each from "lodash/each"
+const each = require("lodash/each")
 
-export function validate({ resolvedSpec }) {
+module.exports.validate = function({ resolvedSpec }) {
   let errors = []
   let warnings = []
 

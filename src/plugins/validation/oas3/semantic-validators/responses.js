@@ -5,7 +5,7 @@
 // Assertation 2:
 // At least one response "SHOULD be the response for a successful operation call"
 
-export function validate({ jsSpec }, config) {
+module.exports.validate = function({ jsSpec }, config) {
   let result = {}
   result.error = []
   result.warning = []

@@ -1,10 +1,10 @@
 // Assertation 1. Request body objects must have a `content` property
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#requestBodyObject
 
-import pick from "lodash/pick"
-import each from "lodash/each"
+const pick = require("lodash/pick")
+const each = require("lodash/each")
 
-export function validate({ resolvedSpec }, config) {
+module.exports.validate = function({ resolvedSpec }, config) {
 
   const result = {}
   result.error = []

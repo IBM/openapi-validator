@@ -6,8 +6,7 @@
 // Assertation 5: "oauth2" security flow "accessCode" must have required string "tokenUrl", string "authorizationUrl" and object "scopes" parameters
 // Assertation 6: "oauth2" security flow "application" must have required string "tokenUrl", string "authorizationUrl" and object "scopes" parameters
 
-
-export function validate({ jsSpec }) {
+module.exports.validate = function({ jsSpec }) {
   const API_KEY = "apiKey"
   const OAUTH2 = "oauth2"
   const BASIC = "basic"

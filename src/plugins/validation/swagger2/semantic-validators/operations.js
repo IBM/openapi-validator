@@ -1,13 +1,13 @@
 // Assertation 1: Operations cannot have both a 'body' parameter and a 'formData' parameter.
 // Assertation 2: Operations must have only one body parameter.
 
-import pick from "lodash/pick"
-import map from "lodash/map"
-import each from "lodash/each"
-import findIndex from "lodash/findIndex"
-import findLastIndex from "lodash/findLastIndex"
+const pick = require("lodash/pick")
+const map = require("lodash/map")
+const each = require("lodash/each")
+const findIndex = require("lodash/findIndex")
+const findLastIndex = require("lodash/findLastIndex")
 
-export function validate({ resolvedSpec }) {
+module.exports.validate = function({ resolvedSpec }) {
   let errors = []
   let warnings = []
 
