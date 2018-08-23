@@ -29,7 +29,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
             ]
           },
           post: {
-            parameters: 
+            parameters:
             [
               {
                 name: "id",
@@ -88,7 +88,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
             ]
           },
           post: {
-            parameters: 
+            parameters:
             [
               {
                 name: "id",
@@ -135,7 +135,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
           },
           post: {
             "x-sdk-exclude": true,
-            parameters: 
+            parameters:
             [
               {
                 name: "id",
@@ -181,7 +181,7 @@ describe("validation plugin - semantic - paths-ibm", function(){
             ]
           },
           "x-vendor-post": {
-            parameters: 
+            parameters:
             [
               {
                 name: "id",
@@ -280,6 +280,6 @@ describe("validation plugin - semantic - paths-ibm", function(){
     expect(res.errors.length).toEqual(0)
     expect(res.warnings.length).toEqual(1)
     expect(res.warnings[0].path).toEqual("paths./v1/api/NotGoodSegment/{shouldntMatter}/resource")
-    expect(res.warnings[0].message).toEqual("Path segments must be lower snake case. Violating segment: NotGoodSegment")
+    expect(res.warnings[0].message).toEqual("Path segments must be lower snake case.")
   })
 })

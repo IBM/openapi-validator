@@ -39,7 +39,7 @@ export function validate({ resolvedSpec }, config) {
       const operations = Object.keys(path).filter(
         pathItem => allowedOperations.includes(pathItem)
       )
-      
+
       // paths can have a global parameters object that applies to all operations
       let globalParameters = []
       if (path.parameters) {
@@ -123,7 +123,7 @@ export function validate({ resolvedSpec }, config) {
         if (!isSnakecase(segment)) {
           result[checkStatus].push({
             path: `paths.${pathName}`,
-            message: `Path segments must be lower snake case. Violating segment: ${segment}`
+            message: `Path segments must be lower snake case.`
           })
         }
       })
