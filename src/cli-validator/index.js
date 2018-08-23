@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-require('babel-polyfill');
 
 // this module enforces that the user is running a supported version
 // of Node by exiting the process if the version is less than

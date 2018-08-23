@@ -1,6 +1,5 @@
-/* eslint-env mocha */
-import expect from "expect"
-import { validate } from "../../../../src/plugins/validation/2and3/semantic-validators/paths-ibm"
+const expect = require("expect")
+const { validate } = require("../../../../src/plugins/validation/2and3/semantic-validators/paths-ibm")
 
 describe("validation plugin - semantic - paths-ibm", function(){
 

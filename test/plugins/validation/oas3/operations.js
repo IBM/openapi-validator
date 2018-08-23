@@ -1,5 +1,5 @@
-import expect from "expect"
-import { validate } from "../../../../src/plugins/validation/oas3/semantic-validators/operations"
+const expect = require("expect")
+const { validate } = require("../../../../src/plugins/validation/oas3/semantic-validators/operations")
 
 describe("validation plugin - semantic - operations - oas3", function() {
   it("should complain about a request body not having a content field", function() {

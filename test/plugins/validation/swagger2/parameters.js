@@ -1,5 +1,5 @@
-import expect from "expect"
-import { validate } from "../../../../src/plugins/validation/swagger2/semantic-validators/parameters"
+const expect = require("expect")
+const { validate } = require("../../../../src/plugins/validation/swagger2/semantic-validators/parameters")
 
 describe("validation plugin - semantic - parameters", () => {
   it("should return an error when an array type parameter omits an `items` property", () => {

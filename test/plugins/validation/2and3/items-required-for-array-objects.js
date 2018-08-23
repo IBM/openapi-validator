@@ -1,5 +1,5 @@
-import expect from "expect"
-import { validate } from "../../../../src/plugins/validation/2and3/semantic-validators/items-required-for-array-objects"
+const expect = require("expect")
+const { validate } = require("../../../../src/plugins/validation/2and3/semantic-validators/items-required-for-array-objects")
 
 describe("validation plugin - semantic - items required for array objects - Swagger 2", () => {
   it("should return an error when an array header object omits an `items` property", () => {

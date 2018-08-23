@@ -1,5 +1,5 @@
-import expect from "expect"
-import { validate } from "../../../../src/plugins/validation/2and3/semantic-validators/parameters-ibm"
+const expect = require("expect")
+const { validate } = require("../../../../src/plugins/validation/2and3/semantic-validators/parameters-ibm")
 
 describe("validation plugin - semantic - parameters-ibm", () => {
   describe("Swagger 2", () => {

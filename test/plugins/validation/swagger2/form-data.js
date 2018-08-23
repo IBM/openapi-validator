@@ -1,6 +1,5 @@
-/* eslint-env mocha */
-import expect from "expect"
-import { validate } from "../../../../src/plugins/validation/swagger2/semantic-validators/form-data"
+const expect = require("expect")
+const { validate } = require("../../../../src/plugins/validation/swagger2/semantic-validators/form-data")
 
 describe("validation plugin - semantic - form data", function(){
 
