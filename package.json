@@ -7,7 +7,7 @@
   "license": "Apache-2.0",
   "scripts": {
     "prepush": "npm test",
-    "link": "npm i -g",
+    "link": "npm install -g",
     "unlink": "npm uninstall -g",
     "test": "npm run lint && npm run test-validators && npm run test-cli-tool",
     "test-validators": "mocha --recursive test/plugins",
