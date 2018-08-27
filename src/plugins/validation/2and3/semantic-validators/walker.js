@@ -11,182 +11,191 @@
 // Sibling keys with $refs are not allowed - default set to `off`
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#sibling-elements-for-refs
 
-const match = require("matcher")
+const match = require('matcher');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
-  let errors = []
-  let warnings = []
+  const errors = [];
+  const warnings = [];
 
-  config = config.walker
+  config = config.walker;
 
   function walk(value, path) {
-    const current = path[path.length - 1]
+    const current = path[path.length - 1];
 
-    if(value === null) {
-      return null
+    if (value === null) {
+      return null;
     }
 
     // don't walk down examples or extensions
-    if (current === "example" || current === "examples" || (current && current.slice(0,2) === "x-")) {
-      return
+    if (
+      current === 'example' ||
+      current === 'examples' ||
+      (current && current.slice(0, 2) === 'x-')
+    ) {
+      return;
     }
 
     // parent keys that allow non-string "type" properties. for example,
     // having a definition called "type" is allowed
     const allowedParents = isOAS3
       ? [
-          "schemas",
-          "properties",
-          "responses",
-          "parameters",
-          "requestBodies",
-          "headers",
-          "securitySchemes"
+          'schemas',
+          'properties',
+          'responses',
+          'parameters',
+          'requestBodies',
+          'headers',
+          'securitySchemes'
         ]
       : [
-          "definitions",
-          "properties",
-          "parameters",
-          "responses",
-          "securityDefinitions"
-        ]
+          'definitions',
+          'properties',
+          'parameters',
+          'responses',
+          'securityDefinitions'
+        ];
 
     ///// "type" should always have a string-type value, everywhere.
-    if(current === "type" && allowedParents.indexOf(path[path.length - 2]) === -1) {
-      if(typeof value !== "string") {
+    if (
+      current === 'type' &&
+      allowedParents.indexOf(path[path.length - 2]) === -1
+    ) {
+      if (typeof value !== 'string') {
         errors.push({
           path,
-          message: "\"type\" should be a string"
-        })
+          message: '"type" should be a string'
+        });
       }
-
     }
 
     ///// Minimums and Maximums
 
-    if(value.maximum && value.minimum) {
-      if(greater(value.minimum, value.maximum)) {
+    if (value.maximum && value.minimum) {
+      if (greater(value.minimum, value.maximum)) {
         errors.push({
-          path: path.concat(["minimum"]),
-          message: "Minimum cannot be more than maximum"
-        })
+          path: path.concat(['minimum']),
+          message: 'Minimum cannot be more than maximum'
+        });
       }
     }
 
-    if(value.maxProperties && value.minProperties) {
-      if(greater(value.minProperties, value.maxProperties)) {
+    if (value.maxProperties && value.minProperties) {
+      if (greater(value.minProperties, value.maxProperties)) {
         errors.push({
-          path: path.concat(["minProperties"]),
-          message: "minProperties cannot be more than maxProperties"
-        })
+          path: path.concat(['minProperties']),
+          message: 'minProperties cannot be more than maxProperties'
+        });
       }
     }
 
-    if(value.maxLength && value.minLength) {
-      if(greater(value.minLength, value.maxLength)) {
+    if (value.maxLength && value.minLength) {
+      if (greater(value.minLength, value.maxLength)) {
         errors.push({
-          path: path.concat(["minLength"]),
-          message: "minLength cannot be more than maxLength"
-        })
+          path: path.concat(['minLength']),
+          message: 'minLength cannot be more than maxLength'
+        });
       }
     }
 
     ///// Restricted $refs
 
-    if(current === "$ref") {
-      const blacklistPayload = getRefPatternBlacklist(path, isOAS3)
-      let refBlacklist = blacklistPayload.blacklist || []
-      let matches = match([value], refBlacklist)
+    if (current === '$ref') {
+      const blacklistPayload = getRefPatternBlacklist(path, isOAS3);
+      const refBlacklist = blacklistPayload.blacklist || [];
+      const matches = match([value], refBlacklist);
 
-      if(refBlacklist && refBlacklist.length && matches.length) {
+      if (refBlacklist && refBlacklist.length && matches.length) {
         // Assertation 2
         // use the slice(1) to remove the `!` negator fromt he string
         errors.push({
           path,
-          message: `${blacklistPayload.location} $refs must follow this format: ${refBlacklist[0].slice(1)}`
-        })
+          message: `${
+            blacklistPayload.location
+          } $refs must follow this format: ${refBlacklist[0].slice(1)}`
+        });
       }
     }
 
-    if(typeof value !== "object") {
-      return null
+    if (typeof value !== 'object') {
+      return null;
     }
 
-    let keys = Object.keys(value)
+    const keys = Object.keys(value);
 
-    if(keys.length) {
+    if (keys.length) {
       ///// $ref siblings
       return keys.map(k => {
-        if(keys.indexOf("$ref") > -1 && k !== "$ref") {
+        if (keys.indexOf('$ref') > -1 && k !== '$ref') {
           switch (config.$ref_siblings) {
-            case "error":
+            case 'error':
               errors.push({
                 path: path.concat([k]),
-                message: "Values alongside a $ref will be ignored."
-              })
-              break
-            case "warning":
+                message: 'Values alongside a $ref will be ignored.'
+              });
+              break;
+            case 'warning':
               warnings.push({
                 path: path.concat([k]),
-                message: "Values alongside a $ref will be ignored."
-              })
-              break
+                message: 'Values alongside a $ref will be ignored.'
+              });
+              break;
             default:
-              break
+              break;
           }
         }
-        return walk(value[k], [...path, k])
-      })
-
+        return walk(value[k], [...path, k]);
+      });
     } else {
-      return null
+      return null;
     }
-
   }
 
-  walk(jsSpec, [])
+  walk(jsSpec, []);
 
-  return { errors, warnings }
-}
+  return { errors, warnings };
+};
 
 // values are globs!
 const unacceptableRefPatternsS2 = {
-  responses: ["!*#/responses*"],
-  schema: ["!*#/definitions*"],
-  parameters: ["!*#/parameters*"]
-}
+  responses: ['!*#/responses*'],
+  schema: ['!*#/definitions*'],
+  parameters: ['!*#/parameters*']
+};
 
 const unacceptableRefPatternsOAS3 = {
-  responses: ["!*#/components/responses*"],
-  schema: ["!*#/components/schemas*"],
-  parameters: ["!*#/components/parameters*"],
-  requestBody: ["!*#/components/requestBodies*"],
-  security: ["!*#/components/securitySchemes*"],
-  callbacks: ["!*#/components/callbacks*"],
-  examples: ["!*#/components/examples*"],
-  headers: ["!*#/components/headers*"]
-}
+  responses: ['!*#/components/responses*'],
+  schema: ['!*#/components/schemas*'],
+  parameters: ['!*#/components/parameters*'],
+  requestBody: ['!*#/components/requestBodies*'],
+  security: ['!*#/components/securitySchemes*'],
+  callbacks: ['!*#/components/callbacks*'],
+  examples: ['!*#/components/examples*'],
+  headers: ['!*#/components/headers*']
+};
 
-let exceptionedParents = ["properties"]
+const exceptionedParents = ['properties'];
 
 function getRefPatternBlacklist(path, isOAS3) {
   const unacceptableRefPatterns = isOAS3
     ? unacceptableRefPatternsOAS3
-    : unacceptableRefPatternsS2
-  let location = ""
+    : unacceptableRefPatternsS2;
+  let location = '';
   const blacklist = path.reduce((prev, curr, i) => {
-    let parent = path[i - 1]
-    if(unacceptableRefPatterns[curr] && exceptionedParents.indexOf(parent) === -1) {
-      location = curr
-      return unacceptableRefPatterns[curr]
+    const parent = path[i - 1];
+    if (
+      unacceptableRefPatterns[curr] &&
+      exceptionedParents.indexOf(parent) === -1
+    ) {
+      location = curr;
+      return unacceptableRefPatterns[curr];
     } else {
-      return prev
+      return prev;
     }
-  }, null)
-  return { blacklist, location }
+  }, null);
+  return { blacklist, location };
 }
 
 function greater(a, b) {
   // is a greater than b?
-  return a > b
+  return a > b;
 }

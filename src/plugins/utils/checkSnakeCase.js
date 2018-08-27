@@ -5,5 +5,5 @@
   behavior. This is especially important in API paths e.g. '/api/v1/path'
 
 */
-const snakeCaseRegex = /^[a-z][a-z0-9]*(_[a-z0-9]+)*$/
-module.exports = string => snakeCaseRegex.test(string)
+const snakeCaseRegex = /^[a-z][a-z0-9]*(_[a-z0-9]+)*$/;
+module.exports = string => snakeCaseRegex.test(string);
