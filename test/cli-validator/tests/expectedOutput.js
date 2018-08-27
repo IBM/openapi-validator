@@ -1,10 +1,8 @@
-require('babel-polyfill');
-
 const intercept = require('intercept-stdout');
 const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
-const commandLineValidator = require('../../../dist/src/cli-validator/runValidator');
-const inCodeValidator = require('../../../dist/src/lib');
+const commandLineValidator = require('../../../src/cli-validator/runValidator');
+const inCodeValidator = require('../../../src/lib');
 const swaggerInMemory = require('../mockFiles/errWarnInMemory');
 
 describe('cli tool - test expected output - Swagger 2', function() {

@@ -1,7 +1,6 @@
-require("babel-polyfill")
-import expect from "expect"
-import resolver from "json-schema-ref-parser"
-import { validate } from "../../../../src/plugins/validation/2and3/semantic-validators/operations-shared"
+const expect = require("expect")
+const resolver = require("json-schema-ref-parser")
+const { validate } = require("../../../../src/plugins/validation/2and3/semantic-validators/operations-shared")
 
 describe("validation plugin - semantic - operations-shared", function() {
 

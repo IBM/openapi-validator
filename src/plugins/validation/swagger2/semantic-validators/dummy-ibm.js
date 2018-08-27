@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-export function validate({ jsSpec }, config) {
+module.exports.validate = function({ jsSpec }, config) {
 
   let result = {}
   result.error = []

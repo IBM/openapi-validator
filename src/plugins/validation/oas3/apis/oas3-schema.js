@@ -1,4 +1,4 @@
-export default {
+module.exports = {
   "id": "",
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",

@@ -15,11 +15,10 @@
 // Schema properties that are arrays should avoid having items that are also arrays
 
 const isSnakecase = require("../../../utils/checkSnakeCase")
+const forIn = require("lodash/forIn")
+const includes = require("lodash/includes")
 
-import forIn from "lodash/forIn"
-import includes from "lodash/includes"
-
-export function validate({ jsSpec }, config) {
+module.exports.validate = function({ jsSpec }, config) {
   let errors = []
   let warnings = []
 

@@ -1,5 +1,5 @@
-// import expect from "expect"
-// import { validate } from "plugins/validation/semantic-validators/operations"
+// const expect = require("expect")
+// const { validate } = require("plugins/validation/semantic-validators/operations")
 
 describe.skip("validation plugin - semantic - operations", () => {
 

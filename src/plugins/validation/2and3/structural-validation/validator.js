@@ -1,14 +1,14 @@
-import JSONSchema from "jsonschema"
-import { transformPathToArray } from "../../../../path-translator.js"
+const JSONSchema = require("jsonschema")
+const { transformPathToArray } = require("../../../../path-translator.js")
 
 
-import jsonSchema from "./jsonSchema"
-import { getLineNumberForPath } from "../../../ast/ast"
+const jsonSchema = require("./jsonSchema")
+const { getLineNumberForPath } = require("../../../ast/ast")
 
 var validator = new JSONSchema.Validator()
 validator.addSchema(jsonSchema)
 
-export function validate({ jsSpec, specStr, settings = {} }) {
+module.exports.validate = function({ jsSpec, specStr, settings = {} }) {
   settings.schemas.forEach(schema => validator.addSchema(schema))
   return validator.validate(jsSpec, settings.testSchema || {})
            .errors.map(err => {

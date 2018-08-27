@@ -1,5 +1,5 @@
 /* eslint-disable */
-export function validate({ jsSpec }) {
+module.exports.validate = function({ jsSpec }) {
   let errors = []
   let warnings = []
 

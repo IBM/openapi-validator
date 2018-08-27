@@ -1,5 +1,5 @@
-import expect from "expect"
-import { validate } from "../../../../src/plugins/validation/oas3/semantic-validators/responses"
+const expect = require("expect")
+const { validate } = require("../../../../src/plugins/validation/oas3/semantic-validators/responses")
 
 describe("validation plugin - semantic - responses - oas3", function() {
   it("should complain when response object only has a default", function() {

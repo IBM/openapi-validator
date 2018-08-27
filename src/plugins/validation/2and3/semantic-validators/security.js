@@ -2,7 +2,7 @@
 // Items in `security` must match a `securityDefinition`.
 
 
-export function validate({ resolvedSpec, isOAS3 }) {
+module.exports.validate = function({ resolvedSpec, isOAS3 }) {
   let errors = []
   let warnings = []
 

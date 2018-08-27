@@ -1,5 +1,3 @@
-require('babel-polyfill');
-
 // the rule names are all snake case and need to stay that way. don't lint them
 /* eslint-disable camelcase */
 
@@ -8,9 +6,9 @@ const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
 const chalk = require('chalk');
 
-const defaults = require('../../../dist/src/.defaultsForValidator');
+const defaults = require('../../../src/.defaultsForValidator');
 
-const configFileValidator = require('../../../dist/src/cli-validator/utils/processConfiguration')
+const configFileValidator = require('../../../src/cli-validator/utils/processConfiguration')
   .validate;
 
 describe('cli tool - test config file validator', function() {

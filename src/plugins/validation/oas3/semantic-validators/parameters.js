@@ -7,7 +7,7 @@
 
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameterObject
 
-export function validate({ jsSpec }, config) {
+module.exports.validate = function({ jsSpec }, config) {
 
   const result = {}
   result.error = []

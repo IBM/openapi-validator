@@ -1,10 +1,10 @@
 // Assertation 1:
 // The description, when present, should not be empty or contain empty space
 
-import includes from "lodash/includes"
+const includes = require("lodash/includes")
 
 // Walks an entire spec.
-export function validate({ jsSpec }, config) {
+module.exports.validate = function({ jsSpec }, config) {
   
   let result = {}
   result.error = []

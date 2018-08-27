@@ -1,4 +1,3 @@
-require('babel-polyfill');
 const chalk = require('chalk');
 const config = require('../cli-validator/utils/processConfiguration');
 const buildSwaggerObject = require('../cli-validator/utils/buildSwaggerObject');

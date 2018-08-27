@@ -1,14 +1,14 @@
-import YAML from "yaml-js"
-import isArray from "lodash/isArray"
-import lodashFind from "lodash/find"
-import memoize from "lodash/memoize"
+const YAML = require("yaml-js")
+const isArray = require("lodash/isArray")
+const lodashFind = require("lodash/find")
+const memoize = require("lodash/memoize")
 
 let cachedCompose = memoize(YAML.compose) // TODO: build a custom cache based on content
 
 var MAP_TAG = "tag:yaml.org,2002:map"
 var SEQ_TAG = "tag:yaml.org,2002:seq"
 
-export function getLineNumberForPath(yaml, path) {
+const getLineNumberForPath = function(yaml, path) {
 
   // Type check
   if (typeof yaml !== "string") {
@@ -85,7 +85,7 @@ export function getLineNumberForPath(yaml, path) {
 * component of path is an item of the array intead of beinf seperated with
 * slash(/) in a string
 */
-export function positionRangeForPath(yaml, path) {
+const positionRangeForPath = function(yaml, path) {
 
   // Type check
   if (typeof yaml !== "string") {
@@ -157,7 +157,7 @@ export function positionRangeForPath(yaml, path) {
 * position in the YAML or JSON string with `line` and `column` properties.
 * `line` and `column` number are zero indexed
 */
-export function pathForPosition(yaml, position) {
+const pathForPosition = function(yaml, position) {
 
   // Type check
   if (typeof yaml !== "string") {
@@ -270,10 +270,13 @@ export function pathForPosition(yaml, position) {
 
 // utility fns
 
+module.exports.pathForPosition = pathForPosition
+module.exports.positionRangeForPath = positionRangeForPath
+module.exports.getLineNumberForPath = getLineNumberForPath
 
-export let pathForPositionAsync = promisifySyncFn(pathForPosition)
-export let positionRangeForPathAsync = promisifySyncFn(positionRangeForPath)
-export let getLineNumberForPathAsync = promisifySyncFn(getLineNumberForPath)
+module.exports.pathForPositionAsync = promisifySyncFn(pathForPosition)
+module.exports.positionRangeForPathAsync = promisifySyncFn(positionRangeForPath)
+module.exports.getLineNumberForPathAsync = promisifySyncFn(getLineNumberForPath)
 
 function promisifySyncFn(fn) {
   return function(...args) {

@@ -11,9 +11,9 @@
 // Sibling keys with $refs are not allowed - default set to `off`
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#sibling-elements-for-refs
 
-import match from "matcher"
+const match = require("matcher")
 
-export function validate({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   let errors = []
   let warnings = []
 

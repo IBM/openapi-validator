@@ -7,8 +7,7 @@
 
 const isSnakecase = require("../../../utils/checkSnakeCase")
 
-export function validate({ resolvedSpec }, config) {
-
+module.exports.validate = function({ resolvedSpec }, config) {
   let result = {}
   result.error = []
   result.warning = []

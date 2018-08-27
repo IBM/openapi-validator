@@ -2,21 +2,19 @@
   "name": "openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
   "version": "2.0.0",
-  "main": "dist/src/lib/index.js",
+  "main": "src/lib/index.js",
   "repository": "https://github.ibm.com/CloudEngineering/openapi-validator",
   "license": "Apache-2.0",
   "scripts": {
     "prepush": "npm test",
-    "build": "babel src -d dist/src --quiet && babel src/.defaultsForValidator.js -o dist/src/.defaultsForValidator.js --quiet",
-    "prepare": "npm run build",
-    "build-and-link": "npm run build && npm i -g",
-    "test": "npm run lint && npm run build && npm run test-validators && npm run test-cli-tool",
-    "test-validators": "mocha --recursive --require babel-core/register test/plugins",
-    "test-cli-tool": "mocha --require babel-core/register test/cli-validator/tests",
+    "link": "npm install -g",
+    "unlink": "npm uninstall -g",
+    "test": "npm run lint && npm run test-validators && npm run test-cli-tool",
+    "test-validators": "mocha --recursive test/plugins",
+    "test-cli-tool": "mocha test/cli-validator/tests",
     "lint": "eslint --cache --quiet --ext '.js' src test"
   },
   "dependencies": {
-    "babel-polyfill": "^6.26.0",
     "chalk": "^2.4.1",
     "commander": "^2.15.1",
     "deepmerge": "^2.1.1",
@@ -34,10 +32,7 @@
     "yaml-js": "^0.2.3"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
-    "babel-preset-env": "^1.7.0",
     "eslint": "^4.19.1",
     "eslint-config-prettier": "^2.9.0",
     "eslint-plugin-prettier": "^2.6.0",
@@ -50,6 +45,6 @@
     "strip-ansi": "^4.0.0"
   },
   "bin": {
-    "lint-openapi": "./dist/src/cli-validator/index.js"
+    "lint-openapi": "src/cli-validator/index.js"
   }
 }

@@ -9,9 +9,9 @@
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securityRequirementObject
 
 
-import each from "lodash/each"
+const each = require("lodash/each")
 
-export function validate({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   const result = {}
   result.error = []

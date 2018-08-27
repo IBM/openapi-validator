@@ -1,12 +1,12 @@
 // Assertation 1:
 // Referenceable definitions should be used by being referenced in the appropriate way
 
-import uniq from "lodash/uniq"
-import filter from "lodash/filter"
-import startsWith from "lodash/startsWith"
-import each from "lodash/each"
+const uniq = require("lodash/uniq")
+const filter = require("lodash/filter")
+const startsWith = require("lodash/startsWith")
+const each = require("lodash/each")
 
-export function validate({ jsSpec , specStr, isOAS3 }) {
+module.exports.validate = function({ jsSpec , specStr, isOAS3 }) {
   let errors = []
   let warnings = []
 

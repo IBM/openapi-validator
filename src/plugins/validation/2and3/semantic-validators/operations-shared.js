@@ -14,12 +14,12 @@
 // All required parameters of an operation are listed before any optional parameters.
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#parameter-order
 
-import pick from "lodash/pick"
-import map from "lodash/map"
-import each from "lodash/each"
-import findIndex from "lodash/findIndex"
+const pick = require("lodash/pick")
+const map = require("lodash/map")
+const each = require("lodash/each")
+const findIndex = require("lodash/findIndex")
 
-export function validate({ resolvedSpec, isOAS3 }, config) {
+module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
   const result = {}
   result.error = []
   result.warning = []

@@ -1,11 +1,11 @@
 // Assertation 1: Operations must have a unique operationId.
 
-import pickBy from "lodash/pickBy"
-import reduce from "lodash/reduce"
-import merge from "lodash/merge"
-import each from "lodash/each"
+const pickBy = require("lodash/pickBy")
+const reduce = require("lodash/reduce")
+const merge = require("lodash/merge")
+const each = require("lodash/each")
 
-export function validate({ jsSpec }) {
+module.exports.validate = function({ jsSpec }) {
   let errors = []
   let warnings = []
 

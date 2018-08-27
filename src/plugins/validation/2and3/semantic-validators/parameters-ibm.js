@@ -8,14 +8,11 @@
 // Header parameters must not define a content-type or an accept-type.
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#do-not-explicitly-define-a-content-type-header-parameter
 
-// Assertation 4:
-// Required parameters should not specify default values.
-
-import includes from "lodash/includes"
-import pick from "lodash/pick"
+const pick = require("lodash/pick")
+const includes = require("lodash/includes")
 const checkSnakecase = require("../../../utils/checkSnakeCase")
 
-export function validate({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   let result = {}
   result.error = []
   result.warning = []

@@ -1,6 +1,6 @@
-import get from "lodash/get"
+const get = require("lodash/get")
 
-export function transformPathToArray(property, jsSpec) {
+module.exports.transformPathToArray = function(property, jsSpec) {
   if(property.slice(0,9) === "instance.") {
     var str = property.slice(9)
   } else { // eslint-disable-next-line no-redeclare
