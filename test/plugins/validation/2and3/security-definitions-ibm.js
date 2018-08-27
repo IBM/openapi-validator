@@ -1,31 +1,34 @@
-const expect = require("expect")
-const { validate } = require("../../../../src/plugins/validation/2and3/semantic-validators/security-definitions-ibm")
+const expect = require('expect');
+const {
+  validate
+} = require('../../../../src/plugins/validation/2and3/semantic-validators/security-definitions-ibm');
 
 const config = {
-  "security_definitions": {
-    "unused_security_schemes": "warning",
-    "unused_security_scopes": "warning"
+  security_definitions: {
+    unused_security_schemes: 'warning',
+    unused_security_scopes: 'warning'
   }
-}
+};
 
-describe("validation plugin - semantic - security-definitions-ibm", function() {
-  describe("Swagger 2", function() {
-    it("should warn about an unused security definition", function() {
+describe('validation plugin - semantic - security-definitions-ibm', function() {
+  describe('Swagger 2', function() {
+    it('should warn about an unused security definition', function() {
       const spec = {
         securityDefinitions: {
           basicAuth: {
-            type: "basic"
+            type: 'basic'
           },
           coolApiAuth: {
-            type: "oauth2",
+            type: 'oauth2',
             scopes: {
-              "read:coolData": "read some cool data"
+              'read:coolData': 'read some cool data'
             }
           },
-          api_key: { // eslint-disable-line camelcase
-            type: "apiKey",
-            name: "api_key",
-            in: "header"
+          api_key: {
+            // eslint-disable-line camelcase
+            type: 'apiKey',
+            name: 'api_key',
+            in: 'header'
           }
         },
         security: [
@@ -34,114 +37,112 @@ describe("validation plugin - semantic - security-definitions-ibm", function() {
           }
         ],
         paths: {
-          "CoolPath/secured": {
+          'CoolPath/secured': {
             get: {
-              operationId: "secureGet",
-              summary: "secure get operation",
+              operationId: 'secureGet',
+              summary: 'secure get operation',
               security: [
                 {
-                  coolApiAuth: [
-                    "read:coolData"
-                  ]
+                  coolApiAuth: ['read:coolData']
                 }
               ]
             }
           }
         }
-      }
+      };
 
-      let res = validate({ jsSpec: spec }, config)
-      expect(res.errors.length).toEqual(0)
-      expect(res.warnings.length).toEqual(1)
-      expect(res.warnings[0].message).toEqual("The security scheme api_key is defined but is never used.")
-      expect(res.warnings[0].path).toEqual("securityDefinitions.api_key")
-    })
+      const res = validate({ jsSpec: spec }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'The security scheme api_key is defined but is never used.'
+      );
+      expect(res.warnings[0].path).toEqual('securityDefinitions.api_key');
+    });
 
-
-    it("should warn about an unused security scope", function() {
+    it('should warn about an unused security scope', function() {
       const spec = {
         securityDefinitions: {
           coolApiAuth: {
-            type: "oauth2",
+            type: 'oauth2',
             scopes: {
-              "read:coolData": "read some cool data",
-              "write:otherCoolData": "write lots of cool data",
-              "read:unusedScope": "this scope will not be used"
+              'read:coolData': 'read some cool data',
+              'write:otherCoolData': 'write lots of cool data',
+              'read:unusedScope': 'this scope will not be used'
             }
           }
         },
         security: [
           {
-            coolApiAuth: [
-              "write:otherCoolData"
-            ]
+            coolApiAuth: ['write:otherCoolData']
           }
         ],
         paths: {
-          "CoolPath/secured": {
+          'CoolPath/secured': {
             get: {
-              operationId: "secureGet",
-              summary: "secure get operation",
+              operationId: 'secureGet',
+              summary: 'secure get operation',
               security: [
                 {
-                  coolApiAuth: [
-                    "read:coolData"
-                  ]
+                  coolApiAuth: ['read:coolData']
                 }
               ]
             }
           }
         }
-      }
+      };
 
-      let res = validate({ jsSpec: spec }, config)
-      expect(res.errors.length).toEqual(0)
-      expect(res.warnings.length).toEqual(1)
-      expect(res.warnings[0].message).toEqual("The security scope read:unusedScope is defined but is never used.")
-      expect(res.warnings[0].path).toEqual("securityDefinitions.coolApiAuth.scopes.read:unusedScope")
-    })
+      const res = validate({ jsSpec: spec }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'The security scope read:unusedScope is defined but is never used.'
+      );
+      expect(res.warnings[0].path).toEqual(
+        'securityDefinitions.coolApiAuth.scopes.read:unusedScope'
+      );
+    });
 
-
-    it("should not complain if there are no security definitions", function() {
+    it('should not complain if there are no security definitions', function() {
       const spec = {
         paths: {
-          "CoolPath/secured": {
+          'CoolPath/secured': {
             get: {
-              operationId: "secureGet",
-              summary: "secure get operation",
+              operationId: 'secureGet',
+              summary: 'secure get operation'
             }
           }
         }
-      }
+      };
 
-      let res = validate({ jsSpec: spec }, config)
-      expect(res.errors.length).toEqual(0)
-      expect(res.warnings.length).toEqual(0)
-    })
-  })
+      const res = validate({ jsSpec: spec }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
+    });
+  });
 
-  describe("OpenAPI 3", function() {
-    it("should warn about an unused security definition", function() {
+  describe('OpenAPI 3', function() {
+    it('should warn about an unused security definition', function() {
       const spec = {
         components: {
           securitySchemes: {
             UnusedAuth: {
-              type: "http",
-              scheme: "basic",
-              descriptions: "basic auth for OpenAPI 3, not used"
+              type: 'http',
+              scheme: 'basic',
+              descriptions: 'basic auth for OpenAPI 3, not used'
             },
             UsedAuth: {
-              type: "http",
-              scheme: "basic",
-              descriptions: "basic auth for OpenAPI 3, used"
+              type: 'http',
+              scheme: 'basic',
+              descriptions: 'basic auth for OpenAPI 3, used'
             }
           }
         },
         paths: {
-          "/": {
+          '/': {
             get: {
-              operationId: "list",
-              summary: "list everything",
+              operationId: 'list',
+              summary: 'list everything',
               security: [
                 {
                   UsedAuth: []
@@ -149,34 +150,38 @@ describe("validation plugin - semantic - security-definitions-ibm", function() {
               ],
               responses: {
                 default: {
-                  description: "default response"
+                  description: 'default response'
                 }
               }
             }
           }
         }
-      }
+      };
 
-      let res = validate({ jsSpec: spec, isOAS3: true }, config)
-      expect(res.errors.length).toEqual(0)
-      expect(res.warnings.length).toEqual(1)
-      expect(res.warnings[0].message).toEqual("The security scheme UnusedAuth is defined but is never used.")
-      expect(res.warnings[0].path).toEqual("components.securitySchemes.UnusedAuth")
-    })
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'The security scheme UnusedAuth is defined but is never used.'
+      );
+      expect(res.warnings[0].path).toEqual(
+        'components.securitySchemes.UnusedAuth'
+      );
+    });
 
-    it("should warn about an unused security scope", function() {
+    it('should warn about an unused security scope', function() {
       const spec = {
         components: {
           securitySchemes: {
             ScopedAuth: {
-              type: "oauth2",
-              descriptions: "oauth2 authentication",
+              type: 'oauth2',
+              descriptions: 'oauth2 authentication',
               flows: {
-                "implicit": {
-                  "authorizationUrl": "https://example.com/api/oauth/dialog",
-                  "scopes": {
-                    "write:pets": "modify pets in your account",
-                    "read:pets": "read your pets"
+                implicit: {
+                  authorizationUrl: 'https://example.com/api/oauth/dialog',
+                  scopes: {
+                    'write:pets': 'modify pets in your account',
+                    'read:pets': 'read your pets'
                   }
                 }
               }
@@ -184,45 +189,49 @@ describe("validation plugin - semantic - security-definitions-ibm", function() {
           }
         },
         paths: {
-          "/": {
+          '/': {
             get: {
-              operationId: "list",
-              summary: "list everything",
+              operationId: 'list',
+              summary: 'list everything',
               security: [
                 {
-                  ScopedAuth: ["read:pets"]
+                  ScopedAuth: ['read:pets']
                 }
               ],
               responses: {
                 default: {
-                  description: "default response"
+                  description: 'default response'
                 }
               }
             }
           }
         }
-      }
+      };
 
-      let res = validate({ jsSpec: spec, isOAS3: true }, config)
-      expect(res.errors.length).toEqual(0)
-      expect(res.warnings.length).toEqual(1)
-      expect(res.warnings[0].message).toEqual("The security scope write:pets is defined but is never used.")
-      expect(res.warnings[0].path).toEqual("components.securitySchemes.ScopedAuth.flows.implicit.scopes.write:pets")
-    })
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'The security scope write:pets is defined but is never used.'
+      );
+      expect(res.warnings[0].path).toEqual(
+        'components.securitySchemes.ScopedAuth.flows.implicit.scopes.write:pets'
+      );
+    });
 
-    it("should not complain if all definitions/scopes are used", function() {
+    it('should not complain if all definitions/scopes are used', function() {
       const spec = {
         components: {
           securitySchemes: {
             ScopedAuth: {
-              type: "oauth2",
-              descriptions: "oauth2 authentication",
+              type: 'oauth2',
+              descriptions: 'oauth2 authentication',
               flows: {
-                "implicit": {
-                  "authorizationUrl": "https://example.com/api/oauth/dialog",
-                  "scopes": {
-                    "write:pets": "modify pets in your account",
-                    "read:pets": "read your pets"
+                implicit: {
+                  authorizationUrl: 'https://example.com/api/oauth/dialog',
+                  scopes: {
+                    'write:pets': 'modify pets in your account',
+                    'read:pets': 'read your pets'
                   }
                 }
               }
@@ -230,28 +239,28 @@ describe("validation plugin - semantic - security-definitions-ibm", function() {
           }
         },
         paths: {
-          "/": {
+          '/': {
             get: {
-              operationId: "list",
-              summary: "list everything",
+              operationId: 'list',
+              summary: 'list everything',
               security: [
                 {
-                  ScopedAuth: ["read:pets", "write:pets"]
+                  ScopedAuth: ['read:pets', 'write:pets']
                 }
               ],
               responses: {
                 default: {
-                  description: "default response"
+                  description: 'default response'
                 }
               }
             }
           }
         }
-      }
+      };
 
-      let res = validate({ jsSpec: spec, isOAS3: true }, config)
-      expect(res.errors.length).toEqual(0)
-      expect(res.warnings.length).toEqual(0)
-    })
-  })
-})
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
+    });
+  });
+});

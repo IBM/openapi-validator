@@ -12,7 +12,8 @@
     "test": "npm run lint && npm run test-validators && npm run test-cli-tool",
     "test-validators": "mocha --recursive test/plugins",
     "test-cli-tool": "mocha test/cli-validator/tests",
-    "lint": "eslint --cache --quiet --ext '.js' src test"
+    "lint": "eslint --cache --quiet --ext '.js' src test",
+    "fix": "eslint --fix --ext '.js' src test"
   },
   "dependencies": {
     "chalk": "^2.4.1",

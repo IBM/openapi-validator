@@ -5,130 +5,141 @@
 
 // Assertation 3. All path segments are lower snake case
 
-const isSnakecase = require("../../../utils/checkSnakeCase")
+const isSnakecase = require('../../../utils/checkSnakeCase');
 
 module.exports.validate = function({ resolvedSpec }, config) {
-  let result = {}
-  result.error = []
-  result.warning = []
+  const result = {};
+  result.error = [];
+  result.warning = [];
 
-  config = config.paths
+  config = config.paths;
 
-  let pathNames = Object.keys(resolvedSpec.paths)
+  const pathNames = Object.keys(resolvedSpec.paths);
 
   pathNames.forEach(pathName => {
-
     // get all path parameters contained in curly brackets
-    let regex = /\{(.*?)\}/g
-    let parameters = pathName.match(regex)
+    const regex = /\{(.*?)\}/g;
+    let parameters = pathName.match(regex);
 
     // there are path parameters, check each operation to make sure they are defined
     if (parameters) {
-
       // parameter strings will still have curly braces around them
       //   from regex match - take them out
       parameters = parameters.map(param => {
-        return param.slice(1, -1)
-      })
+        return param.slice(1, -1);
+      });
 
-      const path = resolvedSpec.paths[pathName]
+      const path = resolvedSpec.paths[pathName];
       const allowedOperations = [
-        "get", "put", "post", "delete", "options", "head", "patch", "trace"
-      ]
-      const operations = Object.keys(path).filter(
-        pathItem => allowedOperations.includes(pathItem)
-      )
+        'get',
+        'put',
+        'post',
+        'delete',
+        'options',
+        'head',
+        'patch',
+        'trace'
+      ];
+      const operations = Object.keys(path).filter(pathItem =>
+        allowedOperations.includes(pathItem)
+      );
 
       // paths can have a global parameters object that applies to all operations
-      let globalParameters = []
+      let globalParameters = [];
       if (path.parameters) {
         globalParameters = path.parameters
-                           .filter(param => param.in.toLowerCase() === "path")
-                           .map(param => param.name)
+          .filter(param => param.in.toLowerCase() === 'path')
+          .map(param => param.name);
       }
 
       operations.forEach(opName => {
-
-        const operation = path[opName]
+        const operation = path[opName];
 
         // ignore validating excluded operations
-        if (operation["x-sdk-exclude"] === true) {
-          return
+        if (operation['x-sdk-exclude'] === true) {
+          return;
         }
 
         // get array of 'names' for parameters of type 'path' in the operation
-        let givenParameters = []
+        let givenParameters = [];
         if (operation.parameters) {
           givenParameters = operation.parameters
-                            .filter(param => param.in.toLowerCase() === "path")
-                            .map(param => param.name)
+            .filter(param => param.in.toLowerCase() === 'path')
+            .map(param => param.name);
         }
 
-
-        let accountsForAllParameters = true
-        const missingParameters = []
+        let accountsForAllParameters = true;
+        const missingParameters = [];
 
         parameters.forEach(name => {
-          if (!givenParameters.includes(name) && !globalParameters.includes(name)) {
-            accountsForAllParameters = false
-            missingParameters.push(name)
+          if (
+            !givenParameters.includes(name) &&
+            !globalParameters.includes(name)
+          ) {
+            accountsForAllParameters = false;
+            missingParameters.push(name);
           }
-        })
+        });
 
         if (!accountsForAllParameters) {
-          let checkStatus = config.missing_path_parameter
-          if (checkStatus != "off") {
-            let parameterTerm = missingParameters.length > 1 ? "parameters" : "a parameter"
+          const checkStatus = config.missing_path_parameter;
+          if (checkStatus != 'off') {
+            const parameterTerm =
+              missingParameters.length > 1 ? 'parameters' : 'a parameter';
             result[checkStatus].push({
               path: `paths.${pathName}.${opName}.parameters`,
-              message: `Operation must include ${parameterTerm} with {in: 'path'} and {name: '${missingParameters.join(", ")}'}. Can be at the path level or the operation level.`
-            })
+              message: `Operation must include ${parameterTerm} with {in: 'path'} and {name: '${missingParameters.join(
+                ', '
+              )}'}. Can be at the path level or the operation level.`
+            });
           }
         }
-      })
+      });
 
       if (!operations.length) {
-        let accountsForAllParameters = true
-        const missingParameters = []
+        let accountsForAllParameters = true;
+        const missingParameters = [];
         parameters.forEach(name => {
           if (!globalParameters.includes(name)) {
-            accountsForAllParameters = false
-            missingParameters.push(name)
+            accountsForAllParameters = false;
+            missingParameters.push(name);
           }
-        })
+        });
         if (!accountsForAllParameters) {
-          const checkStatus = config.missing_path_parameter
-          if (checkStatus != "off") {
-            const parameterTerm = missingParameters.length > 1 ? "parameters" : "parameter"
+          const checkStatus = config.missing_path_parameter;
+          if (checkStatus != 'off') {
+            const parameterTerm =
+              missingParameters.length > 1 ? 'parameters' : 'parameter';
             result[checkStatus].push({
               path: `paths.${pathName}`,
-              message: `The following ${parameterTerm} must be defined at the path or the operation level: ${missingParameters.join(", ")}`
-            })
+              message: `The following ${parameterTerm} must be defined at the path or the operation level: ${missingParameters.join(
+                ', '
+              )}`
+            });
           }
         }
       }
     }
 
     // enforce path segments are lower snake case
-    const checkStatus = config.snake_case_only
-    if (checkStatus != "off") {
-      const segments = pathName.split("/")
+    const checkStatus = config.snake_case_only;
+    if (checkStatus != 'off') {
+      const segments = pathName.split('/');
       segments.forEach(segment => {
         // the first element will be "" since pathName starts with "/"
         // also, ignore validating the path parameters
-        if (segment === "" || segment[0] === "{") {
-          return
+        if (segment === '' || segment[0] === '{') {
+          return;
         }
         if (!isSnakecase(segment)) {
           result[checkStatus].push({
             path: `paths.${pathName}`,
             message: `Path segments must be lower snake case.`
-          })
+          });
         }
-      })
+      });
     }
+  });
 
-  })
-
-  return { errors: result.error, warnings: result.warning }
-}
+  return { errors: result.error, warnings: result.warning };
+};

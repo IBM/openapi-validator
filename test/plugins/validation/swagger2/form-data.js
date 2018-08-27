@@ -1,235 +1,245 @@
-const expect = require("expect")
-const { validate } = require("../../../../src/plugins/validation/swagger2/semantic-validators/form-data")
+const expect = require('expect');
+const {
+  validate
+} = require('../../../../src/plugins/validation/swagger2/semantic-validators/form-data');
 
-describe("validation plugin - semantic - form data", function(){
-
-  describe("/parameters/...", function(){
-    describe("in: formdata + in: body", function () {
+describe('validation plugin - semantic - form data', function() {
+  describe('/parameters/...', function() {
+    describe('in: formdata + in: body', function() {
       // Already covered in validators/operations.js
-      it.skip("should complain about having both in the same parameter", function(){
+      it.skip('should complain about having both in the same parameter', function() {
         const spec = {
           parameters: {
-            CoolParam: [
-              { in: "query" },
-              { in: "body" },
-              { in: "formData" },
-            ]
+            CoolParam: [{ in: 'query' }, { in: 'body' }, { in: 'formData' }]
           }
-        }
+        };
 
-        let res = validate({ resolvedSpec: spec })
-        expect(res.errors).toEqual([ {
-          message: "Parameters cannot have both a \"in: body\" and \"in: formData\", as \"formData\" _will_ be the body",
-          path: "parameters.CoolParam.1",
-        }])
-      })
+        const res = validate({ resolvedSpec: spec });
+        expect(res.errors).toEqual([
+          {
+            message:
+              'Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body',
+            path: 'parameters.CoolParam.1'
+          }
+        ]);
+      });
+    });
 
-
-    })
-
-    describe("typo in formdata", function(){
-      it("should warn about formdata ( typo )", function(){
+    describe('typo in formdata', function() {
+      it('should warn about formdata ( typo )', function() {
         const spec = {
           parameters: {
-            CoolParam: [
-              { in: "formdata" },
-            ]
+            CoolParam: [{ in: 'formdata' }]
           }
-        }
+        };
 
-        let res = validate({ resolvedSpec: spec })
-        expect(res.errors).toEqual([ {
-          message: "Parameter \"in: formdata\" is invalid, did you mean \"in: formData\" ( camelCase )?",
-          path: "parameters.CoolParam.0",
-        }])
-      })
+        const res = validate({ resolvedSpec: spec });
+        expect(res.errors).toEqual([
+          {
+            message:
+              'Parameter "in: formdata" is invalid, did you mean "in: formData" ( camelCase )?',
+            path: 'parameters.CoolParam.0'
+          }
+        ]);
+      });
+    });
+  });
 
-    })
-  })
-
-  describe("/paths/...", function(){
-    describe("typo in formdata", function(){
-      it("should warn about formdata ( typo )", function(){
+  describe('/paths/...', function() {
+    describe('typo in formdata', function() {
+      it('should warn about formdata ( typo )', function() {
         const spec = {
           paths: {
-            "/some": {
+            '/some': {
               post: {
-                parameters: [
-                  { in: "formdata" },
-                ]
+                parameters: [{ in: 'formdata' }]
               }
             }
           }
-        }
+        };
 
-        let res = validate({ resolvedSpec: spec })
-        expect(res.errors).toEqual([ {
-          message: "Parameter \"in: formdata\" is invalid, did you mean \"in: formData\" ( camelCase )?",
-          path: "paths./some.post.parameters.0",
-        }])
-      })
-
-    })
+        const res = validate({ resolvedSpec: spec });
+        expect(res.errors).toEqual([
+          {
+            message:
+              'Parameter "in: formdata" is invalid, did you mean "in: formData" ( camelCase )?',
+            path: 'paths./some.post.parameters.0'
+          }
+        ]);
+      });
+    });
     // Already covered in validators/operations.js
-    describe.skip("in: formdata + in: body", function () {
-      it("should complain about having both in the same parameter", function(){
-
+    describe.skip('in: formdata + in: body', function() {
+      it('should complain about having both in the same parameter', function() {
         const spec = {
           paths: {
-            "/some": {
+            '/some': {
               post: {
                 parameters: [
-                  { in: "query" },
-                  { in: "body" },
-                  { in: "formData" },
+                  { in: 'query' },
+                  { in: 'body' },
+                  { in: 'formData' }
                 ]
               }
             }
           }
-        }
+        };
 
-        let res = validate({ resolvedSpec: spec })
-        expect(res.errors).toEqual([ {
-          message: "Parameters cannot have both a \"in: body\" and \"in: formData\", as \"formData\" _will_ be the body",
-          path: "paths./some.post.parameters.1",
-        }])
-
-      })
-    })
-
-    describe("missing consumes", function(){
-      it("should complain if 'type:file` and no 'in: formData", function(){
-        const spec = {
-          paths: {
-            "/some": {
-              post: {
-                consumes: ["multipart/form-data"],
-                parameters: [
-                  {
-                    type: "file",
-                  },
-                ]
-              }
-            }
+        const res = validate({ resolvedSpec: spec });
+        expect(res.errors).toEqual([
+          {
+            message:
+              'Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body',
+            path: 'paths./some.post.parameters.1'
           }
-        }
+        ]);
+      });
+    });
 
-        let res = validate({ resolvedSpec: spec })
-        expect(res.errors).toEqual([ {
-          message: "Parameters with \"type: file\" must have \"in: formData\"",
-          path: "paths./some.post.parameters.0",
-        }])
-      })
-
-      it("should complain if 'type:file` and no consumes - 'multipart/form-data'", function(){
+    describe('missing consumes', function() {
+      it("should complain if 'type:file` and no 'in: formData", function() {
         const spec = {
           paths: {
-            "/some": {
+            '/some': {
               post: {
+                consumes: ['multipart/form-data'],
                 parameters: [
                   {
-                    in: "formData",
-                    type: "file",
-                  },
+                    type: 'file'
+                  }
                 ]
               }
             }
           }
-        }
+        };
 
-        let res = validate({ resolvedSpec: spec })
-        expect(res.errors).toEqual([ {
-          message: "Operations with Parameters of \"type: file\" must include \"multipart/form-data\" in their \"consumes\" property",
-          path: "paths./some.post.parameters.0",
-        }])
-      })
+        const res = validate({ resolvedSpec: spec });
+        expect(res.errors).toEqual([
+          {
+            message: 'Parameters with "type: file" must have "in: formData"',
+            path: 'paths./some.post.parameters.0'
+          }
+        ]);
+      });
 
-      it("should complain if 'in:formData` and no consumes - 'multipart/form-data' or 'application/x-www-form-urlencoded'", function(){
+      it("should complain if 'type:file` and no consumes - 'multipart/form-data'", function() {
         const spec = {
           paths: {
-            "/some": {
+            '/some': {
               post: {
                 parameters: [
                   {
-                    in: "formData",
-                  },
+                    in: 'formData',
+                    type: 'file'
+                  }
                 ]
               }
             }
           }
-        }
+        };
 
-        let res = validate({ resolvedSpec: spec })
-        expect(res.errors).toEqual([ {
-          message: "Operations with Parameters of \"in: formData\" must include \"application/x-www-form-urlencoded\" or \"multipart/form-data\" in their \"consumes\" property",
-          path: "paths./some.post",
-        }])
-      })
+        const res = validate({ resolvedSpec: spec });
+        expect(res.errors).toEqual([
+          {
+            message:
+              'Operations with Parameters of "type: file" must include "multipart/form-data" in their "consumes" property',
+            path: 'paths./some.post.parameters.0'
+          }
+        ]);
+      });
 
-    })
-  })
+      it("should complain if 'in:formData` and no consumes - 'multipart/form-data' or 'application/x-www-form-urlencoded'", function() {
+        const spec = {
+          paths: {
+            '/some': {
+              post: {
+                parameters: [
+                  {
+                    in: 'formData'
+                  }
+                ]
+              }
+            }
+          }
+        };
 
-  describe("/pathitems/...", function(){
+        const res = validate({ resolvedSpec: spec });
+        expect(res.errors).toEqual([
+          {
+            message:
+              'Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property',
+            path: 'paths./some.post'
+          }
+        ]);
+      });
+    });
+  });
 
+  describe('/pathitems/...', function() {
     // Already covered in validators/operations.js
-    it.skip("should complain about having both in the same parameter", function(){
+    it.skip('should complain about having both in the same parameter', function() {
       const spec = {
         pathitems: {
           CoolPathItem: {
-            parameters: [
-              { in: "formData" },
-              { in: "body" },
-            ]
+            parameters: [{ in: 'formData' }, { in: 'body' }]
           }
         }
-      }
+      };
 
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([ {
-        message: "Parameters cannot have both a \"in: body\" and \"in: formData\", as \"formData\" _will_ be the body",
-        path: "pathitems.CoolPathItem.parameters.1",
-      }])
-    })
-    it("should complain if 'type:file` and no 'in: formData", function(){
+      const res = validate({ resolvedSpec: spec });
+      expect(res.errors).toEqual([
+        {
+          message:
+            'Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body',
+          path: 'pathitems.CoolPathItem.parameters.1'
+        }
+      ]);
+    });
+    it("should complain if 'type:file` and no 'in: formData", function() {
       const spec = {
         pathitems: {
-          "SomePathItem": {
-            consumes: ["multipart/form-data"],
+          SomePathItem: {
+            consumes: ['multipart/form-data'],
             parameters: [
               {
-                type: "file",
-              },
+                type: 'file'
+              }
             ]
           }
         }
-      }
+      };
 
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([ {
-        message: "Parameters with \"type: file\" must have \"in: formData\"",
-        path: "pathitems.SomePathItem.parameters.0",
-      }])
-    })
+      const res = validate({ resolvedSpec: spec });
+      expect(res.errors).toEqual([
+        {
+          message: 'Parameters with "type: file" must have "in: formData"',
+          path: 'pathitems.SomePathItem.parameters.0'
+        }
+      ]);
+    });
 
-    it("should complain if 'type:file` and no consumes - 'multipart/form-data'", function(){
+    it("should complain if 'type:file` and no consumes - 'multipart/form-data'", function() {
       const spec = {
         pathitems: {
           SomePathItem: {
             parameters: [
               {
-                in: "formData",
-                type: "file",
-              },
+                in: 'formData',
+                type: 'file'
+              }
             ]
           }
         }
-      }
+      };
 
-      let res = validate({ resolvedSpec: spec })
-      expect(res.errors).toEqual([ {
-        message: "Operations with Parameters of \"type: file\" must include \"multipart/form-data\" in their \"consumes\" property",
-        path: "pathitems.SomePathItem.parameters.0",
-      }])
-    })
-  })
-})
+      const res = validate({ resolvedSpec: spec });
+      expect(res.errors).toEqual([
+        {
+          message:
+            'Operations with Parameters of "type: file" must include "multipart/form-data" in their "consumes" property',
+          path: 'pathitems.SomePathItem.parameters.0'
+        }
+      ]);
+    });
+  });
+});
