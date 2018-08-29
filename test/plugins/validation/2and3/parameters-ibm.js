@@ -78,7 +78,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '0'
       ]);
       expect(res.warnings[0].message).toEqual(
-        'Parameter name must use snake case.'
+        'Parameter names must be lower snake case.'
       );
     });
 
@@ -146,7 +146,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '0'
       ]);
       expect(res.errors[0].message).toEqual(
-        'Parameter type+format is not well-defined'
+        'Parameter type+format is not well-defined.'
       );
       expect(res.warnings.length).toEqual(0);
     });
@@ -552,7 +552,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '0'
       ]);
       expect(res.errors[0].message).toEqual(
-        'Parameter type+format is not well-defined'
+        'Parameter type+format is not well-defined.'
       );
       expect(res.warnings.length).toEqual(0);
     });
