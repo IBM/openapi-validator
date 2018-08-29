@@ -36,7 +36,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Properties must use well defined property types.'
+      'Property type+format is not well-defined.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -77,7 +77,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Properties must use well defined property types.'
+      'Property type+format is not well-defined.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -148,7 +148,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Properties must use well defined property types.'
+      'Property type+format is not well-defined.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -538,7 +538,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Properties must use well defined property types.'
+      'Property type+format is not well-defined.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -604,7 +604,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Properties must use well defined property types.'
+      'Property type+format is not well-defined.'
     );
     expect(res.warnings.length).toEqual(0);
   });

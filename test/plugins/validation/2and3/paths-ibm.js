@@ -47,7 +47,7 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].path).toEqual('paths./cool_path/{id}.post.parameters');
     expect(res.errors[0].message).toEqual(
-      "Operation must include a parameter with {in: 'path'} and {name: 'id'}. Can be at the path level or the operation level."
+      'Operation must include a path parameter with name: id.'
     );
   });
 
