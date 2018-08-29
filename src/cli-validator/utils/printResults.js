@@ -46,7 +46,9 @@ module.exports = function print(
       }
 
       problems.forEach(problem => {
-        const message = problem.message;
+        // To allow messages with fillins to be grouped properly in the statistics,
+        // truncate the message at the first ':'
+        const message = problem.message.split(':')[0];
         let path = problem.path;
 
         // collect info for stats reporting, if applicable
