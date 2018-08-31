@@ -116,7 +116,8 @@ describe('validation plugin - semantic - form data', function() {
         const res = validate({ resolvedSpec: spec });
         expect(res.errors).toEqual([
           {
-            message: 'Parameters with `type` "file" must have `in` be "formData"',
+            message:
+              'Parameters with `type` "file" must have `in` be "formData"',
             path: 'paths./some.post.parameters.0'
           }
         ]);
