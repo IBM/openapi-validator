@@ -106,13 +106,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
         if (!accountsForAllParameters) {
           const checkStatus = config.missing_path_parameter;
           if (checkStatus != 'off') {
-            const parameterTerm =
-              missingParameters.length > 1 ? 'parameters' : 'parameter';
-            result[checkStatus].push({
-              path: `paths.${pathName}`,
-              message: `The following ${parameterTerm} must be defined at the path or the operation level: ${missingParameters.join(
-                ', '
-              )}`
+            missingParameters.forEach(name => {
+              result[checkStatus].push({
+                path: `paths.${pathName}`,
+                message: `Parameter must be defined at the path or the operation level: ${name}.`
+              });
             });
           }
         }

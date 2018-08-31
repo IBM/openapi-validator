@@ -18,7 +18,7 @@ describe('validation plugin - semantic - form data', function() {
         expect(res.errors).toEqual([
           {
             message:
-              'Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body',
+              'Parameters cannot have `in` values of both "body" and "formData", as "formData" _will_ be the body',
             path: 'parameters.CoolParam.1'
           }
         ]);
@@ -37,7 +37,7 @@ describe('validation plugin - semantic - form data', function() {
         expect(res.errors).toEqual([
           {
             message:
-              'Parameter "in: formdata" is invalid, did you mean "in: formData" ( camelCase )?',
+              'The form data value for `in` must be camelCase (formData)',
             path: 'parameters.CoolParam.0'
           }
         ]);
@@ -62,7 +62,7 @@ describe('validation plugin - semantic - form data', function() {
         expect(res.errors).toEqual([
           {
             message:
-              'Parameter "in: formdata" is invalid, did you mean "in: formData" ( camelCase )?',
+              'The form data value for `in` must be camelCase (formData)',
             path: 'paths./some.post.parameters.0'
           }
         ]);
@@ -89,7 +89,7 @@ describe('validation plugin - semantic - form data', function() {
         expect(res.errors).toEqual([
           {
             message:
-              'Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body',
+              'Parameters cannot have `in` values of both "body" and "formData", as "formData" _will_ be the body',
             path: 'paths./some.post.parameters.1'
           }
         ]);
@@ -116,7 +116,7 @@ describe('validation plugin - semantic - form data', function() {
         const res = validate({ resolvedSpec: spec });
         expect(res.errors).toEqual([
           {
-            message: 'Parameters with "type: file" must have "in: formData"',
+            message: 'Parameters with `type` "file" must have `in` be "formData"',
             path: 'paths./some.post.parameters.0'
           }
         ]);
@@ -142,7 +142,7 @@ describe('validation plugin - semantic - form data', function() {
         expect(res.errors).toEqual([
           {
             message:
-              'Operations with Parameters of "type: file" must include "multipart/form-data" in their "consumes" property',
+              'Operations with Parameters of `type` "file" must include "multipart/form-data" in their "consumes" property',
             path: 'paths./some.post.parameters.0'
           }
         ]);
@@ -167,7 +167,7 @@ describe('validation plugin - semantic - form data', function() {
         expect(res.errors).toEqual([
           {
             message:
-              'Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property',
+              'Operations with Parameters of `in` "formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property',
             path: 'paths./some.post'
           }
         ]);
@@ -190,7 +190,7 @@ describe('validation plugin - semantic - form data', function() {
       expect(res.errors).toEqual([
         {
           message:
-            'Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body',
+            'Parameters cannot have `in` values of both "body" and "formData", as "formData" _will_ be the body',
           path: 'pathitems.CoolPathItem.parameters.1'
         }
       ]);
@@ -212,7 +212,7 @@ describe('validation plugin - semantic - form data', function() {
       const res = validate({ resolvedSpec: spec });
       expect(res.errors).toEqual([
         {
-          message: 'Parameters with "type: file" must have "in: formData"',
+          message: 'Parameters with `type` "file" must have `in` be "formData"',
           path: 'pathitems.SomePathItem.parameters.0'
         }
       ]);
@@ -236,7 +236,7 @@ describe('validation plugin - semantic - form data', function() {
       expect(res.errors).toEqual([
         {
           message:
-            'Operations with Parameters of "type: file" must include "multipart/form-data" in their "consumes" property',
+            'Operations with Parameters of `type` "file" must include "multipart/form-data" in their "consumes" property',
           path: 'pathitems.SomePathItem.parameters.0'
         }
       ]);

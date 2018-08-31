@@ -37,7 +37,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }) {
                 : checkSwagger2Scopes(scope, securityDefinition);
               if (!scopeIsDefined) {
                 errors.push({
-                  message: `Security scope definition ${scope} could not be resolved`,
+                  message: `Definition could not be resolved for security scope: ${scope}`,
                   path: path.concat([i.toString()])
                 });
               }

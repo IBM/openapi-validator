@@ -130,9 +130,9 @@ module.exports.validate = function({ resolvedSpec }) {
         errors.push({
           path:
             parameterDefinition.$$path || `paths.${pathName}.parameters[${i}]`,
-          message: `Path parameter ${
+          message: `Path parameter was defined but never used: ${
             parameterDefinition.name
-          } was defined but never used`
+          }`
         });
       }
     });
@@ -155,9 +155,9 @@ module.exports.validate = function({ resolvedSpec }) {
         if (parameterDefinition.in === 'path') {
           errors.push({
             path: `paths.${pathName}.parameters[${i}]`,
-            message: `Path parameter ${
+            message: `Path parameter was defined but never used ${
               parameterDefinition.name
-            } was defined but never used`
+            }`
           });
         }
       });

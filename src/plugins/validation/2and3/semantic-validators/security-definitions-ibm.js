@@ -105,7 +105,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           : 'securityDefinitions';
         result[checkStatus].push({
           path: `${location}.${name}`,
-          message: `The security scheme ${name} is defined but is never used.`
+          message: `A security scheme is defined but never used: ${name}`
         });
       }
     }
@@ -122,7 +122,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           : `securityDefinitions.${info.scheme}.scopes.${name}`;
         result[checkStatus].push({
           path,
-          message: `The security scope ${name} is defined but is never used.`
+          message: `A security scope is defined but never used: ${name}`
         });
       }
     }

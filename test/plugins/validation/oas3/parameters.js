@@ -157,7 +157,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       'in'
     ]);
     expect(res.errors[0].message).toEqual(
-      "'body' is not a supported value for `in`. Allowed values: query, header, path, cookie"
+      "Unsupported value for `in`: 'body'. Allowed values are query, header, path, cookie"
     );
     expect(res.warnings.length).toEqual(0);
   });
