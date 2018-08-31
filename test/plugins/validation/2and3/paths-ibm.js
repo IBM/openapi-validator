@@ -38,16 +38,39 @@ describe('validation plugin - semantic - paths-ibm', function() {
               }
             ]
           }
+        },
+        '/bogus/{id}/foo/{foo}/bar': {
+          post: {
+            parameters: [
+              {
+                name: 'baz',
+                in: 'query',
+                type: 'string'
+              }
+            ]
+          }
         }
       }
     };
 
     const res = validate({ resolvedSpec: spec }, config);
-    expect(res.errors.length).toEqual(1);
+    expect(res.errors.length).toEqual(3);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].path).toEqual('paths./cool_path/{id}.post.parameters');
     expect(res.errors[0].message).toEqual(
       'Operation must include a path parameter with name: id.'
+    );
+    expect(res.errors[1].path).toEqual(
+      'paths./bogus/{id}/foo/{foo}/bar.post.parameters'
+    );
+    expect(res.errors[1].message).toEqual(
+      'Operation must include a path parameter with name: id.'
+    );
+    expect(res.errors[2].path).toEqual(
+      'paths./bogus/{id}/foo/{foo}/bar.post.parameters'
+    );
+    expect(res.errors[2].message).toEqual(
+      'Operation must include a path parameter with name: foo.'
     );
   });
 
