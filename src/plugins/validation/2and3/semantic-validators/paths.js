@@ -155,7 +155,7 @@ module.exports.validate = function({ resolvedSpec }) {
         if (parameterDefinition.in === 'path') {
           errors.push({
             path: `paths.${pathName}.parameters[${i}]`,
-            message: `Path parameter was defined but never used ${
+            message: `Path parameter was defined but never used: ${
               parameterDefinition.name
             }`
           });
