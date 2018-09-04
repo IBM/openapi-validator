@@ -50,11 +50,9 @@ module.exports.validate = function({ jsSpec }, config) {
         if (checkStatus !== 'off') {
           result[checkStatus].push({
             path: path.concat('in'),
-            message: `'${
+            message: `Unsupported value for \`in\`: '${
               obj.in
-            }' is not a supported value for \`in\`. Allowed values: ${allowedInValues.join(
-              ', '
-            )}`
+            }'. Allowed values are ${allowedInValues.join(', ')}`
           });
         }
       }

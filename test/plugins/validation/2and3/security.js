@@ -42,7 +42,7 @@ describe('validation plugin - semantic - security', () => {
         '0'
       ]);
       expect(res.errors[0].message).toEqual(
-        'Security scope definition write:pets could not be resolved'
+        'Definition could not be resolved for security scope: write:pets'
       );
       expect(res.warnings.length).toEqual(0);
     });
@@ -80,7 +80,7 @@ describe('validation plugin - semantic - security', () => {
         '0'
       ]);
       expect(res.errors[0].message).toEqual(
-        'Security scope definition write:pets could not be resolved'
+        'Definition could not be resolved for security scope: write:pets'
       );
       expect(res.warnings.length).toEqual(0);
     });
@@ -199,7 +199,7 @@ describe('validation plugin - semantic - security', () => {
         '0'
       ]);
       expect(res.errors[0].message).toEqual(
-        'Security scope definition write:pets could not be resolved'
+        'Definition could not be resolved for security scope: write:pets'
       );
       expect(res.warnings.length).toEqual(0);
     });
@@ -246,7 +246,7 @@ describe('validation plugin - semantic - security', () => {
       const res = validate({ resolvedSpec: spec, isOAS3: true });
       expect(res.errors.length).toEqual(1);
       expect(res.errors[0].message).toEqual(
-        'Security scope definition write:pets could not be resolved'
+        'Definition could not be resolved for security scope: write:pets'
       );
       expect(res.errors[0].path).toEqual([
         'paths',

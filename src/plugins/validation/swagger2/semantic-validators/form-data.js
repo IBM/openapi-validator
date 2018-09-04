@@ -94,8 +94,7 @@ module.exports.validate = function({ resolvedSpec }) {
           const pathStr = `${path.join('.')}.${i}`;
           return {
             path: pathStr,
-            message:
-              'Parameter "in: formdata" is invalid, did you mean "in: formData" ( camelCase )?'
+            message: 'The form data value for `in` must be camelCase (formData)'
           };
         })
       ));
@@ -118,7 +117,7 @@ module.exports.validate = function({ resolvedSpec }) {
       return errors.push({
         path: pathStr,
         message:
-          'Parameters cannot have both a "in: body" and "in: formData", as "formData" _will_ be the body'
+          'Parameters cannot have `in` values of both "body" and "formData", as "formData" _will_ be the body'
       });
     }
   }
@@ -142,7 +141,7 @@ module.exports.validate = function({ resolvedSpec }) {
     if (param['in'] !== 'formData') {
       errors.push({
         path: pathStr,
-        message: 'Parameters with "type: file" must have "in: formData"'
+        message: 'Parameters with `type` "file" must have `in` be "formData"'
       });
       hasErrors = true;
     }
@@ -152,7 +151,7 @@ module.exports.validate = function({ resolvedSpec }) {
       errors.push({
         path: pathStr,
         message:
-          'Operations with Parameters of "type: file" must include "multipart/form-data" in their "consumes" property'
+          'Operations with Parameters of `type` "file" must include "multipart/form-data" in their "consumes" property'
       });
       hasErrors = true;
     }
@@ -179,7 +178,7 @@ module.exports.validate = function({ resolvedSpec }) {
     return errors.push({
       path: pathStr,
       message:
-        'Operations with Parameters of "in: formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property'
+        'Operations with Parameters of `in` "formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property'
     });
   }
 

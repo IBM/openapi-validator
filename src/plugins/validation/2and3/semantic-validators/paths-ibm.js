@@ -84,13 +84,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
         if (!accountsForAllParameters) {
           const checkStatus = config.missing_path_parameter;
           if (checkStatus != 'off') {
-            const parameterTerm =
-              missingParameters.length > 1 ? 'parameters' : 'a parameter';
-            result[checkStatus].push({
-              path: `paths.${pathName}.${opName}.parameters`,
-              message: `Operation must include ${parameterTerm} with {in: 'path'} and {name: '${missingParameters.join(
-                ', '
-              )}'}. Can be at the path level or the operation level.`
+            missingParameters.forEach(name => {
+              result[checkStatus].push({
+                path: `paths.${pathName}.${opName}.parameters`,
+                message: `Operation must include a path parameter with name: ${name}.`
+              });
             });
           }
         }
@@ -108,13 +106,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
         if (!accountsForAllParameters) {
           const checkStatus = config.missing_path_parameter;
           if (checkStatus != 'off') {
-            const parameterTerm =
-              missingParameters.length > 1 ? 'parameters' : 'parameter';
-            result[checkStatus].push({
-              path: `paths.${pathName}`,
-              message: `The following ${parameterTerm} must be defined at the path or the operation level: ${missingParameters.join(
-                ', '
-              )}`
+            missingParameters.forEach(name => {
+              result[checkStatus].push({
+                path: `paths.${pathName}`,
+                message: `Parameter must be defined at the path or the operation level: ${name}.`
+              });
             });
           }
         }

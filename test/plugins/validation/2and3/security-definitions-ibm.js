@@ -55,7 +55,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
-        'The security scheme api_key is defined but is never used.'
+        'A security scheme is defined but never used: api_key'
       );
       expect(res.warnings[0].path).toEqual('securityDefinitions.api_key');
     });
@@ -96,7 +96,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
-        'The security scope read:unusedScope is defined but is never used.'
+        'A security scope is defined but never used: read:unusedScope'
       );
       expect(res.warnings[0].path).toEqual(
         'securityDefinitions.coolApiAuth.scopes.read:unusedScope'
@@ -162,7 +162,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
-        'The security scheme UnusedAuth is defined but is never used.'
+        'A security scheme is defined but never used: UnusedAuth'
       );
       expect(res.warnings[0].path).toEqual(
         'components.securitySchemes.UnusedAuth'
@@ -212,7 +212,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
-        'The security scope write:pets is defined but is never used.'
+        'A security scope is defined but never used: write:pets'
       );
       expect(res.warnings[0].path).toEqual(
         'components.securitySchemes.ScopedAuth.flows.implicit.scopes.write:pets'
