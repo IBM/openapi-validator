@@ -46,7 +46,7 @@ module.exports.validate = function({ jsSpec }, config) {
       - Swagger2
         - Everything in the top-level "definitions" object
         - Properties within all models
-        - The schema for all body parameters, 
+        - The schema for all body parameters,
             both in operations and the top-level "parameters" object
         - The schema for all responses,
             both in operations and the top-level "responses" object
@@ -149,7 +149,7 @@ function generateFormatErrors(schema, contextPath, config) {
     }
 
     if (!valid) {
-      const message = 'Properties must use well defined property types.';
+      const message = 'Property type+format is not well-defined.';
       const checkStatus = config.invalid_type_format_pair;
       if (checkStatus !== 'off') {
         result[checkStatus].push({

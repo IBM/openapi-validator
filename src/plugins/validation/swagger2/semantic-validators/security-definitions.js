@@ -29,7 +29,7 @@ module.exports.validate = function({ jsSpec }) {
 
     if (auths.indexOf(type) === -1) {
       errors.push({
-        message: `${path} must have required string 'type' param`,
+        message: `string 'type' param required for path: ${path}`,
         path,
         authId: key
       });

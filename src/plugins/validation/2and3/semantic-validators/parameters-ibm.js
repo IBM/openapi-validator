@@ -69,7 +69,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
       // if the parameter is defined by a ref, no need to check the ref path for snake_case
       if (isParameter && !isHeaderParameter && !isRef && !isSnakecase) {
-        const message = 'Parameter name must use snake case.';
+        const message = 'Parameter names must be lower snake case.';
         const checkStatus = config.snake_case_only;
         if (checkStatus !== 'off') {
           result[checkStatus].push({
@@ -134,7 +134,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       if (checkStatus !== 'off') {
         const valid = formatValid(obj, isOAS3);
         if (!valid) {
-          const message = 'Parameter type+format is not well-defined';
+          const message = 'Parameter type+format is not well-defined.';
           result[checkStatus].push({
             path,
             message
