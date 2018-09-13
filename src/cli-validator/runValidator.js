@@ -13,6 +13,7 @@ const buildSwaggerObject = require('./utils/buildSwaggerObject');
 const validator = require('./utils/validator');
 const print = require('./utils/printResults');
 const printError = require('./utils/printError');
+const preprocessFile = require('./utils/preprocessFile');
 
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
@@ -47,12 +48,13 @@ const processInput = async function(program) {
   // if the 'init' command is given, run the module
   // and exit the program
   if (args[0] === 'init') {
-    try {
-      await init(chalk);
-      return Promise.resolve(0);
-    } catch (err) {
-      return Promise.reject(2);
-    }
+    return await init.printDefaults(chalk);
+  }
+
+  // if the 'migrate' command is given, run the module
+  // and exit the program
+  if (args[0] === 'migrate') {
+    return await init.migrate(chalk);
   }
 
   // otherwise, run the validator on the passed in files
@@ -155,11 +157,7 @@ const processInput = async function(program) {
     }
     try {
       originalFile = await readFile(validFile, 'utf8');
-
-      // replace all tabs characters (\t) in the original file with 2 spaces
-      // for whatever reason, the `getLineNumberForPath` module will crash if
-      // the swagger contains any tab characters
-      originalFile = originalFile.replace(/\t/g, '  ');
+      originalFile = preprocessFile(originalFile);
 
       const fileExtension = ext.getFileExtension(validFile);
       if (fileExtension === 'json') {
@@ -172,7 +170,7 @@ const processInput = async function(program) {
         throw `The given input in ${validFile} is not a valid object.`;
       }
 
-      // jsonValidator looks through the originalFile string for duplicate JSON keys
+      // jsonValidator looks through the originalFile for duplicate JSON keys
       //   this is checked for by default in readYaml
       const duplicateKeysError = jsonValidator.validate(originalFile);
       if (fileExtension === 'json' && duplicateKeysError) {
@@ -194,7 +192,7 @@ const processInput = async function(program) {
     try {
       swagger = await buildSwaggerObject(input);
     } catch (err) {
-      printError(chalk, 'There is a problem with the Swagger.', err.message);
+      printError(chalk, 'There is a problem with the Swagger.', getError(err));
       exitCode = 1;
       continue;
     }
@@ -204,7 +202,7 @@ const processInput = async function(program) {
     try {
       results = validator(swagger, configObject);
     } catch (err) {
-      printError(chalk, 'There was a problem with a validator.', err.message);
+      printError(chalk, 'There was a problem with a validator.', getError(err));
       exitCode = 1;
       continue;
     }
@@ -221,6 +219,13 @@ const processInput = async function(program) {
 
   return exitCode;
 };
+
+// if the error has a message property (it should),
+// this is the cleanest way to present it. If not,
+// print the whole error
+function getError(err) {
+  return err.message || err;
+}
 
 // this exports the entire program so it can be used or tested
 module.exports = processInput;

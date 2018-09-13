@@ -1,12 +1,12 @@
 #!/usr/bin/env node
-require('babel-polyfill');
-const program = require('commander');
-const cliValidator = require('./runValidator');
 
 // this module enforces that the user is running a supported version
 // of Node by exiting the process if the version is less than
 // the passed in argument (currently 8.9.x)
 require('./utils/enforceVersion')('8.9.0');
+
+const program = require('commander');
+const cliValidator = require('./runValidator');
 
 // set up the command line options
 /* prettier-ignore */
@@ -34,6 +34,11 @@ program
 program
   .command('init')
   .description('Initialize/reset the .validaterc file');
+
+/* prettier-ignore */
+program
+  .command('migrate')
+  .description('Migrate a .validaterc file from v1 to v2 format.');
 
 program.parse(process.argv);
 

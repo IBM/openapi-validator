@@ -104,7 +104,7 @@ module.exports = {
         ]
       }
     },
-    '/pet/findByStatus': {
+    '/pet/find_by_status': {
       get: {
         tags: ['pet'],
         summary: 'Finds Pets by status',

@@ -5,73 +5,104 @@ const globby = require('globby');
 const findUp = require('find-up');
 const printError = require('./printError');
 
-const defaultObject = require('../../.defaultsForValidator');
+const defaultConfig = require('../../.defaultsForValidator');
 
 // global objects
 const readFile = util.promisify(fs.readFile);
+const defaultObject = defaultConfig.defaults;
+const deprecatedRuleObject = defaultConfig.deprecated;
 
 const validateConfigObject = function(configObject, chalk) {
   const configErrors = [];
   let validObject = true;
 
-  // temporary fix to account for deprecated rules
-  const deprecatedRules = ['no_produces_for_get'];
+  const deprecatedRules = Object.keys(deprecatedRuleObject);
 
-  // check that all categories are valid
-  const allowedCategories = Object.keys(defaultObject);
-  const userCategories = Object.keys(configObject);
-  userCategories.forEach(function(category) {
-    if (!allowedCategories.includes(category)) {
+  const allowedSpecs = Object.keys(defaultObject);
+  const userSpecs = Object.keys(configObject);
+  userSpecs.forEach(spec => {
+    if (!allowedSpecs.includes(spec)) {
       validObject = false;
       configErrors.push({
-        message: `'${category}' is not a valid category.`,
-        correction: `Valid categories are: ${allowedCategories.join(', ')}`
+        message: `'${spec}' is not a valid spec.`,
+        correction: `Valid specs are: ${allowedSpecs.join(', ')}`
       });
-      return; // skip rules for invalid category
+      return; // skip rules for categories for invalid spec
     }
 
-    // check that all rules are valid
-    const allowedRules = Object.keys(defaultObject[category]);
-    const userRules = Object.keys(configObject[category]);
-    userRules.forEach(function(rule) {
-      if (!allowedRules.includes(rule) && !deprecatedRules.includes(rule)) {
+    // check that all categories are valid
+    const allowedCategories = Object.keys(defaultObject[spec]);
+    const userCategories = Object.keys(configObject[spec]);
+    userCategories.forEach(category => {
+      if (!allowedCategories.includes(category)) {
         validObject = false;
         configErrors.push({
-          message: `'${rule}' is not a valid rule for the ${category} category`,
-          correction: `Valid rules are: ${allowedRules.join(', ')}`
+          message: `'${category}' is not a valid category.`,
+          correction: `Valid categories are: ${allowedCategories.join(', ')}`
         });
-        return; // skip statuses for invalid rule
+        return; // skip rules for invalid category
       }
 
-      // check that all statuses are valid (either 'error', 'warning', or 'off')
-      const allowedStatusValues = ['error', 'warning', 'off'];
-      const userStatus = configObject[category][rule];
-      if (!allowedStatusValues.includes(userStatus)) {
-        validObject = false;
-        configErrors.push({
-          message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
-          correction: `For any rule, the only valid statuses are: ${allowedStatusValues.join(
-            ', '
-          )}`
-        });
-      }
+      // check that all rules are valid
+      const allowedRules = Object.keys(defaultObject[spec][category]);
+      const userRules = Object.keys(configObject[spec][category]);
+      userRules.forEach(rule => {
+        if (deprecatedRules.includes(rule)) {
+          const newRule = deprecatedRuleObject[rule];
+          const message =
+            newRule === ''
+              ? `The rule '${rule}' has been deprecated. It will not be checked.`
+              : `The rule '${rule}' has been deprecated. It will not be checked. Use '${newRule}' instead.`;
+          console.log('\n' + chalk.yellow('[Warning] ') + message);
+          delete configObject[spec][category][rule];
+          return;
+        } else if (!allowedRules.includes(rule)) {
+          validObject = false;
+          configErrors.push({
+            message: `'${rule}' is not a valid rule for the ${category} category`,
+            correction: `Valid rules are: ${allowedRules.join(', ')}`
+          });
+          return; // skip statuses for invalid rule
+        }
+
+        // check that all statuses are valid (either 'error', 'warning', or 'off')
+        const allowedStatusValues = ['error', 'warning', 'off'];
+        const userStatus = configObject[spec][category][rule];
+        if (!allowedStatusValues.includes(userStatus)) {
+          validObject = false;
+          configErrors.push({
+            message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
+            correction: `For any rule, the only valid statuses are: ${allowedStatusValues.join(
+              ', '
+            )}`
+          });
+        }
+      });
     });
   });
 
   // if the object is valid, resolve any missing features
   //   and set all missing statuses to their default value
   if (validObject) {
-    const requiredCategories = allowedCategories;
-    requiredCategories.forEach(function(category) {
-      if (!userCategories.includes(category)) {
-        configObject[category] = {};
+    const requiredSpecs = allowedSpecs;
+    requiredSpecs.forEach(spec => {
+      if (!userSpecs.includes(spec)) {
+        configObject[spec] = {};
       }
-      const requiredRules = Object.keys(defaultObject[category]);
-      const userRules = Object.keys(configObject[category]);
-      requiredRules.forEach(function(rule) {
-        if (!userRules.includes(rule)) {
-          configObject[category][rule] = defaultObject[category][rule];
+      const requiredCategories = Object.keys(defaultObject[spec]);
+      const userCategories = Object.keys(configObject[spec]);
+      requiredCategories.forEach(category => {
+        if (!userCategories.includes(category)) {
+          configObject[spec][category] = {};
         }
+        const requiredRules = Object.keys(defaultObject[spec][category]);
+        const userRules = Object.keys(configObject[spec][category]);
+        requiredRules.forEach(rule => {
+          if (!userRules.includes(rule)) {
+            configObject[spec][category][rule] =
+              defaultObject[spec][category][rule];
+          }
+        });
       });
     });
     configObject.invalid = false;

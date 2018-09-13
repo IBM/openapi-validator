@@ -1,13 +1,11 @@
-require('babel-polyfill');
-
 const intercept = require('intercept-stdout');
 const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
-const commandLineValidator = require('../../../dist/src/cli-validator/runValidator');
-const inCodeValidator = require('../../../dist/src/lib');
+const commandLineValidator = require('../../../src/cli-validator/runValidator');
+const inCodeValidator = require('../../../src/lib');
 const swaggerInMemory = require('../mockFiles/errWarnInMemory');
 
-describe('cli tool - test expected output', function() {
+describe('cli tool - test expected output - Swagger 2', function() {
   it('should not produce any errors or warnings from mockFiles/clean.yml', async function() {
     // set a variable to store text intercepted from stdout
     const capturedText = [];
@@ -89,14 +87,16 @@ describe('cli tool - test expected output', function() {
 
     // .match(/\S+/g) returns an array of all non-whitespace strings
     //   example output would be [ 'Line', ':', '59' ]
-    expect(capturedText[4].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[8].match(/\S+/g)[2]).toEqual('31');
-    expect(capturedText[12].match(/\S+/g)[2]).toEqual('54');
+    expect(capturedText[4].match(/\S+/g)[2]).toEqual('31');
+    expect(capturedText[8].match(/\S+/g)[2]).toEqual('54');
+    expect(capturedText[12].match(/\S+/g)[2]).toEqual('59');
     expect(capturedText[16].match(/\S+/g)[2]).toEqual('108');
     expect(capturedText[21].match(/\S+/g)[2]).toEqual('36');
     expect(capturedText[25].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[29].match(/\S+/g)[2]).toEqual('134');
-    expect(capturedText[33].match(/\S+/g)[2]).toEqual('170');
+    expect(capturedText[29].match(/\S+/g)[2]).toEqual('195');
+    expect(capturedText[33].match(/\S+/g)[2]).toEqual('134');
+    expect(capturedText[37].match(/\S+/g)[2]).toEqual('170');
+    expect(capturedText[41].match(/\S+/g)[2]).toEqual('126');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
@@ -201,5 +201,33 @@ describe('cli tool - test expected output', function() {
       './test/cli-validator/mockFiles/cleanWithTabs.yml passed the validator'
     );
     expect(capturedText[1].trim()).toEqual('');
+  });
+});
+
+describe('test expected output - OpenAPI 3', function() {
+  it('should not produce any errors or warnings from a clean file', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/oas3/clean.yml'];
+    program.default_mode = true;
+
+    const exitCode = await commandLineValidator(program);
+
+    unhookIntercept();
+
+    const allOutput = capturedText.join('');
+
+    expect(exitCode).toEqual(0);
+    expect(
+      allOutput.includes(
+        './test/cli-validator/mockFiles/oas3/clean.yml passed the validator'
+      )
+    ).toEqual(true);
   });
 });

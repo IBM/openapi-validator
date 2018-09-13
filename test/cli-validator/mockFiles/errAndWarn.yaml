@@ -78,7 +78,7 @@ paths:
       - petstore_auth:
         - "write:pets"
         - "read:pets"
-  /pet/findByStatus:
+  /pet/find_by_status:
     get:
       tags:
       - "pet"
@@ -192,6 +192,8 @@ definitions:
         - "sold"
     xml:
       name: "Pet"
+  UnusedString:
+    type: "string"
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

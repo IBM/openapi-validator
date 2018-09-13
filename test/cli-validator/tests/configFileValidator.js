@@ -1,5 +1,3 @@
-require('babel-polyfill');
-
 // the rule names are all snake case and need to stay that way. don't lint them
 /* eslint-disable camelcase */
 
@@ -8,35 +6,62 @@ const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
 const chalk = require('chalk');
 
-const defaults = require('../../../dist/src/.defaultsForValidator');
+const defaults = require('../../../src/.defaultsForValidator');
 
-const configFileValidator = require('../../../dist/src/cli-validator/utils/processConfiguration')
+const configFileValidator = require('../../../src/cli-validator/utils/processConfiguration')
   .validate;
 
 describe('cli tool - test config file validator', function() {
   it('should print no errors with a clean config object', function() {
     const config = {
-      operations: {
-        no_consumes_for_put_or_post: 'error',
-        get_op_has_consumes: 'warning',
-        no_produces: 'error',
-        no_operation_id: 'warning',
-        no_summary: 'warning',
-        no_array_responses: 'error'
+      shared: {
+        operations: {
+          no_operation_id: 'warning',
+          no_summary: 'warning',
+          no_array_responses: 'error',
+          parameter_order: 'warning'
+        },
+        parameters: {
+          no_parameter_description: 'error',
+          snake_case_only: 'warning',
+          invalid_type_format_pair: 'error',
+          content_type_parameter: 'error',
+          accept_type_parameter: 'error'
+        },
+        paths: {
+          missing_path_parameter: 'error'
+        },
+        security_definitions: {
+          unused_security_schemes: 'warning',
+          unused_security_scopes: 'warning'
+        },
+        security: {
+          invalid_non_empty_security_array: 'error'
+        },
+        schemas: {
+          invalid_type_format_pair: 'error',
+          snake_case_only: 'warning',
+          no_property_description: 'warning',
+          description_mentions_json: 'warning',
+          array_of_arrays: 'warning'
+        },
+        walker: {
+          no_empty_descriptions: 'error',
+          has_circular_references: 'warning',
+          $ref_siblings: 'off'
+        }
       },
-      parameters: {
-        no_parameter_description: 'error',
-        snake_case_only: 'warning',
-        invalid_type_format_pair: 'error'
+      swagger2: {
+        operations: {
+          no_consumes_for_put_or_post: 'error',
+          get_op_has_consumes: 'warning',
+          no_produces: 'error'
+        }
       },
-      schemas: {
-        invalid_type_format_pair: 'error',
-        snake_case_only: 'warning',
-        no_property_description: 'warning',
-        description_mentions_json: 'warning'
-      },
-      walker: {
-        no_empty_descriptions: 'error'
+      oas3: {
+        operations: {
+          no_request_body_content: 'error'
+        }
       }
     };
 
@@ -55,29 +80,61 @@ describe('cli tool - test config file validator', function() {
     expect(capturedText.length).toEqual(0);
   });
 
+  it('should print an error for an unsupported spec', function() {
+    const config = {
+      openApi4: {
+        operations: {
+          no_operation_id: 'warning',
+          no_summary: 'warning',
+          no_array_responses: 'error'
+        },
+        nonValidCategory: {
+          no_parameter_description: 'error',
+          snake_case_only: 'warning',
+          invalid_type_format_pair: 'error'
+        },
+        walker: {
+          no_empty_descriptions: 'error'
+        }
+      }
+    };
+
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const res = configFileValidator(config, chalk);
+
+    unhookIntercept();
+
+    expect(res.invalid).toEqual(true);
+    expect(capturedText[0].trim()).toEqual(
+      '[Error] Invalid configuration in .validaterc file. See below for details.'
+    );
+    expect(capturedText[1].trim().split('\n')[0]).toEqual(
+      "- 'openApi4' is not a valid spec."
+    );
+  });
+
   it('should print an error for an unsupported category', function() {
     const config = {
-      operations: {
-        no_consumes_for_put_or_post: 'error',
-        get_op_has_consumes: 'warning',
-        no_produces: 'error',
-        no_operation_id: 'warning',
-        no_summary: 'warning',
-        no_array_responses: 'error'
-      },
-      nonValidCategory: {
-        no_parameter_description: 'error',
-        snake_case_only: 'warning',
-        invalid_type_format_pair: 'error'
-      },
-      schemas: {
-        invalid_type_format_pair: 'error',
-        snake_case_only: 'warning',
-        no_property_description: 'warning',
-        description_mentions_json: 'warning'
-      },
-      walker: {
-        no_empty_descriptions: 'error'
+      shared: {
+        operations: {
+          no_operation_id: 'warning',
+          no_summary: 'warning',
+          no_array_responses: 'error'
+        },
+        nonValidCategory: {
+          no_parameter_description: 'error',
+          snake_case_only: 'warning',
+          invalid_type_format_pair: 'error'
+        },
+        walker: {
+          no_empty_descriptions: 'error'
+        }
       }
     };
 
@@ -103,27 +160,21 @@ describe('cli tool - test config file validator', function() {
 
   it('should print an error for an unsupported rule name', function() {
     const config = {
-      operations: {
-        nonValidRule: 'error',
-        get_op_has_consumes: 'warning',
-        no_produces: 'error',
-        no_operation_id: 'warning',
-        no_summary: 'warning',
-        no_array_responses: 'error'
-      },
-      parameters: {
-        no_parameter_description: 'error',
-        snake_case_only: 'warning',
-        invalid_type_format_pair: 'error'
-      },
-      schemas: {
-        invalid_type_format_pair: 'error',
-        snake_case_only: 'warning',
-        no_property_description: 'warning',
-        description_mentions_json: 'warning'
-      },
-      walker: {
-        no_empty_descriptions: 'error'
+      shared: {
+        operations: {
+          nonValidRule: 'error',
+          no_operation_id: 'warning',
+          no_summary: 'warning',
+          no_array_responses: 'error'
+        },
+        parameters: {
+          no_parameter_description: 'error',
+          snake_case_only: 'warning',
+          invalid_type_format_pair: 'error'
+        },
+        walker: {
+          no_empty_descriptions: 'error'
+        }
       }
     };
 
@@ -149,27 +200,12 @@ describe('cli tool - test config file validator', function() {
 
   it('should print an error for an unsupported rule status', function() {
     const config = {
-      operations: {
-        no_consumes_for_put_or_post: 'error',
-        get_op_has_consumes: 'warning',
-        no_produces: 'error',
-        no_operation_id: 'warning',
-        no_summary: 'warning',
-        no_array_responses: 'error'
-      },
-      parameters: {
-        no_parameter_description: 'error',
-        snake_case_only: 'warning',
-        invalid_type_format_pair: 'error'
-      },
-      schemas: {
-        invalid_type_format_pair: 'error',
-        snake_case_only: 'warning',
-        no_property_description: 'warning',
-        description_mentions_json: 'warning'
-      },
-      walker: {
-        no_empty_descriptions: 'nonValidStatus'
+      swagger2: {
+        operations: {
+          no_consumes_for_put_or_post: 'error',
+          get_op_has_consumes: 'warning',
+          no_produces: 'nonValidStatus'
+        }
       }
     };
 
@@ -189,19 +225,18 @@ describe('cli tool - test config file validator', function() {
       '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
-      "- 'nonValidStatus' is not a valid status for the no_empty_descriptions rule in the walker category.\n   For any rule, the only valid statuses are: error, warning, off"
+      "- 'nonValidStatus' is not a valid status for the no_produces rule in the operations category.\n   For any rule, the only valid statuses are: error, warning, off"
     );
   });
 
   it('should fill in default values for rules that are not included', function() {
     const config = {
-      operations: {
-        no_consumes_for_put_or_post: 'error',
-        get_op_has_consumes: 'warning',
-        no_produces: 'error',
-        no_operation_id: 'warning',
-        no_summary: 'warning',
-        no_array_responses: 'error'
+      shared: {
+        operations: {
+          no_operation_id: 'warning',
+          no_summary: 'warning',
+          no_array_responses: 'error'
+        }
       }
     };
 
@@ -226,27 +261,12 @@ describe('cli tool - test config file validator', function() {
 
   it('should print no errors with a config object that includes a deprecated rule', function() {
     const config = {
-      operations: {
-        no_consumes_for_put_or_post: 'error',
-        get_op_has_consumes: 'warning',
-        no_produces_for_get: 'error',
-        no_operation_id: 'warning',
-        no_summary: 'warning',
-        no_array_responses: 'error'
-      },
-      parameters: {
-        no_parameter_description: 'error',
-        snake_case_only: 'warning',
-        invalid_type_format_pair: 'error'
-      },
-      schemas: {
-        invalid_type_format_pair: 'error',
-        snake_case_only: 'warning',
-        no_property_description: 'warning',
-        description_mentions_json: 'warning'
-      },
-      walker: {
-        no_empty_descriptions: 'error'
+      swagger2: {
+        operations: {
+          no_consumes_for_put_or_post: 'error',
+          get_op_has_consumes: 'warning',
+          no_produces_for_get: 'warning'
+        }
       }
     };
 
@@ -262,6 +282,9 @@ describe('cli tool - test config file validator', function() {
     unhookIntercept();
 
     expect(res.invalid).toEqual(false);
-    expect(capturedText.length).toEqual(0);
+    expect(capturedText.length).toEqual(1);
+    expect(capturedText[0].trim()).toEqual(
+      "[Warning] The rule 'no_produces_for_get' has been deprecated. It will not be checked. Use 'no_produces' instead."
+    );
   });
 });
