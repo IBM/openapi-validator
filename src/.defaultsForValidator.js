@@ -63,7 +63,7 @@ const defaults = {
     "operations": {
       "no_consumes_for_put_or_post": "error",
       "get_op_has_consumes": "warning",
-      "no_produces": "error"
+      "no_produces": "warning"
     }
   },
   "oas3": {
