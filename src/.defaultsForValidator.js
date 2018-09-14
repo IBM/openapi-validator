@@ -63,7 +63,7 @@ const defaults = {
     "operations": {
       "no_consumes_for_put_or_post": "error",
       "get_op_has_consumes": "warning",
-      "no_produces_for_get": "error"
+      "no_produces": "warning"
     }
   },
   "oas3": {
@@ -92,7 +92,9 @@ const defaults = {
   "unreplaced_rule": ""
 }
 */
-const deprecated = {};
+const deprecated = {
+  "no_produces_for_get": "no_produces"
+};
 
 
 module.exports.defaults = defaults;

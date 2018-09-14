@@ -17,6 +17,7 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
           put: {
             summary: 'this is a summary',
             operationId: 'operationId',
+            produces: ['application/json'],
             parameters: [
               {
                 name: 'BadParameter',
@@ -57,6 +58,7 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
         '/CoolPath': {
           post: {
             consumes: [' '],
+            produces: ['application/json'],
             summary: 'this is a summary',
             operationId: 'operationId',
             parameters: [
@@ -101,6 +103,7 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
           put: {
             summary: 'this is a summary',
             operationId: 'operationId',
+            produces: ['application/json'],
             parameters: [
               {
                 name: 'NotABadParameter',
@@ -171,7 +174,7 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
   it('should complain about a get operation not having produces', function() {
     const config = {
       operations: {
-        no_produces_for_get: 'error'
+        no_produces: 'error'
       }
     };
 
@@ -204,7 +207,63 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./CoolPath.get.produces');
     expect(res.errors[0].message).toEqual(
-      'GET operations must have a non-empty `produces` field.'
+      'Operations must have a non-empty `produces` field.'
+    );
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should complain about a post operation not having produces', function() {
+    const config = {
+      operations: {
+        no_produces: 'error'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/CoolPath': {
+          post: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            consumes: ['application/json'],
+            parameters: [
+              {
+                name: 'Parameter',
+                in: 'body',
+                schema: {
+                  required: ['Property'],
+                  properties: [
+                    {
+                      name: 'Property'
+                    }
+                  ]
+                }
+              }
+            ],
+            responses: {
+              '200': {
+                description: 'successful response producing text/plain',
+                schema: {
+                  type: 'string'
+                }
+              },
+              '204': {
+                description: 'no content is a possibility here'
+              },
+              '500': {
+                description: 'internal error'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual('paths./CoolPath.post.produces');
+    expect(res.errors[0].message).toEqual(
+      'Operations must have a non-empty `produces` field.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -212,7 +271,7 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
   it('should not complain about a missing produces when there is a global produces', function() {
     const config = {
       operations: {
-        no_produces_for_get: 'error'
+        no_produces: 'error'
       }
     };
 
@@ -237,6 +296,94 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                 }
               }
             ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should not complain about a missing produces for a HEAD operation', function() {
+    const config = {
+      operations: {
+        no_produces: 'error'
+      }
+    };
+
+    const spec = {
+      produces: ['application/json'],
+      paths: {
+        '/CoolPath': {
+          head: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            parameters: [
+              {
+                name: 'Parameter',
+                in: 'body',
+                schema: {
+                  required: ['Property'],
+                  properties: [
+                    {
+                      name: 'Property'
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should not complain about a missing produces for an op where the only success response is a 204', function() {
+    const config = {
+      operations: {
+        no_produces: 'error'
+      }
+    };
+
+    const spec = {
+      produces: ['application/json'],
+      paths: {
+        '/CoolPath': {
+          post: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            consumes: ['application/json'],
+            parameters: [
+              {
+                name: 'Parameter',
+                in: 'body',
+                schema: {
+                  required: ['Property'],
+                  properties: [
+                    {
+                      name: 'Property'
+                    }
+                  ]
+                }
+              }
+            ],
+            responses: {
+              '204': {
+                description: 'no content'
+              },
+              '400': {
+                description: 'bad request'
+              },
+              '500': {
+                description: 'internal error'
+              }
+            }
           }
         }
       }

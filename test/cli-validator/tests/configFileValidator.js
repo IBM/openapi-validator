@@ -55,7 +55,7 @@ describe('cli tool - test config file validator', function() {
         operations: {
           no_consumes_for_put_or_post: 'error',
           get_op_has_consumes: 'warning',
-          no_produces_for_get: 'error'
+          no_produces: 'error'
         }
       },
       oas3: {
@@ -204,7 +204,7 @@ describe('cli tool - test config file validator', function() {
         operations: {
           no_consumes_for_put_or_post: 'error',
           get_op_has_consumes: 'warning',
-          no_produces_for_get: 'nonValidStatus'
+          no_produces: 'nonValidStatus'
         }
       }
     };
@@ -225,7 +225,7 @@ describe('cli tool - test config file validator', function() {
       '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
-      "- 'nonValidStatus' is not a valid status for the no_produces_for_get rule in the operations category.\n   For any rule, the only valid statuses are: error, warning, off"
+      "- 'nonValidStatus' is not a valid status for the no_produces rule in the operations category.\n   For any rule, the only valid statuses are: error, warning, off"
     );
   });
 
@@ -257,5 +257,34 @@ describe('cli tool - test config file validator', function() {
     expect(res.invalid).toEqual(false);
     expect(capturedText.length).toEqual(0);
     expect(defaultSchemas).toEqual(configSchemas);
+  });
+
+  it('should print no errors with a config object that includes a deprecated rule', function() {
+    const config = {
+      swagger2: {
+        operations: {
+          no_consumes_for_put_or_post: 'error',
+          get_op_has_consumes: 'warning',
+          no_produces_for_get: 'warning'
+        }
+      }
+    };
+
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const res = configFileValidator(config, chalk);
+
+    unhookIntercept();
+
+    expect(res.invalid).toEqual(false);
+    expect(capturedText.length).toEqual(1);
+    expect(capturedText[0].trim()).toEqual(
+      "[Warning] The rule 'no_produces_for_get' has been deprecated. It will not be checked. Use 'no_produces' instead."
+    );
   });
 });

@@ -59,6 +59,35 @@ module.exports.validate = function({ jsSpec }, config) {
         }
       }
 
+      const isHeadOperation = opKey.toLowerCase() === 'head';
+      if (!isHeadOperation) {
+        // operations should have a produces property
+        const hasLocalProduces =
+          op.produces &&
+          op.produces.length > 0 &&
+          !!op.produces.join('').trim();
+        const hasGlobalProduces = !!jsSpec.produces;
+
+        // determine if only success response is a 204
+        const responses = op.responses || {};
+        const successResponses = Object.keys(responses).filter(
+          code => code.charAt(0) === '2'
+        );
+        const onlyHas204 =
+          successResponses.length === 1 && successResponses[0] === '204';
+
+        if (!hasLocalProduces && !hasGlobalProduces && !onlyHas204) {
+          const checkStatus = config.no_produces;
+
+          if (checkStatus !== 'off') {
+            result[checkStatus].push({
+              path: `paths.${pathKey}.${opKey}.produces`,
+              message: 'Operations must have a non-empty `produces` field.'
+            });
+          }
+        }
+      }
+
       const isGetOperation = opKey.toLowerCase() === 'get';
       if (isGetOperation) {
         // get operations should not have a consumes property
@@ -69,24 +98,6 @@ module.exports.validate = function({ jsSpec }, config) {
             result[checkStatus].push({
               path: `paths.${pathKey}.${opKey}.consumes`,
               message: 'GET operations should not specify a consumes field.'
-            });
-          }
-        }
-
-        // get operations should have a produces property
-        const hasLocalProduces =
-          op.produces &&
-          op.produces.length > 0 &&
-          !!op.produces.join('').trim();
-        const hasGlobalProduces = !!jsSpec.produces;
-
-        if (!hasLocalProduces && !hasGlobalProduces) {
-          const checkStatus = config.no_produces_for_get;
-
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path: `paths.${pathKey}.${opKey}.produces`,
-              message: 'GET operations must have a non-empty `produces` field.'
             });
           }
         }
