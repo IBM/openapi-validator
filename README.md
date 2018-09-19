@@ -131,7 +131,7 @@ The object will always have `errors` and `warnings` keys that map to arrays. If 
 
 ## Configuration
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
-Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator.
+Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator. Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
 Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
@@ -192,7 +192,7 @@ The supported rules are described below:
 | --------------------------- | ------------------------------------------------------------------------ | ------ |
 | required_param_has_default  | Flag any required parameter that specifies a default value.              | shared |
 | no_parameter_description    | Flag any parameter that does not contain a `description` field.          | shared |
-| snake_case_only             | Flag any parameter with a `name` field that does not use snake case.     | shared |
+| param_name_case_convention  | Flag any parameter with a `name` field that does not follow a given case convention. | shared |
 | invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.][2] | shared |
 | content_type_parameter      | [Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field.][2] | shared |
 | accept_type_parameter       | [Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field.][2] | shared |
@@ -249,6 +249,24 @@ The supported rules are described below:
 #### Statuses
 
 Each rule can be assigned a status. The supported statuses are `error`, `warning`, and `off`.
+Some rules can be configured further with configuration options. The format of this configuration is to provide an array, rather than just a string. e.g.
+`"param_name_case_convention": ["error", "lower_camel_case"]`
+If just a string is provided for these rule, the default configuration option will be used. If only one value is provided in the array, it **MUST** be a status. The default configuration option will be used in this case as well. The rules that support configuration options will have **two** values in the [defaults](#default-values) table.
+
+#### Configuration Options
+
+For rules that accept additional configuration, there will be a limited set of available options.
+
+##### Case Convention Options
+- Some rules check strings for adherance to a specific case convention. In some cases, the case convention checked is configurable.
+- Rules with configurable case conventions will end in `_case_convention`, such as `param_name_case_convention`.
+
+| Option           | Description                                              | Example          |
+| ---------------- | -------------------------------------------------------- | ---------------- |
+| lower_snake_case | Words must follow standard lower snake case conventions. | learning_opt_out |
+| upper_camel_case | Words must follow standard upper camel case conventions. | LearningOptOut   |
+| lower_camel_case | Words must follow standard lower camel case conventions. | learningOptOut   |
+| lower_dash_case  | Words must follow standard lower dash case conventions.  | learning-opt-out |
 
 ### Configuration file
 
@@ -320,7 +338,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_parameter_description    | error   |
-| snake_case_only             | warning |
+| param_name_case_convention  | warning, lower_snake_case |
 | invalid_type_format_pair    | error   |
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |

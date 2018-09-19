@@ -11,6 +11,7 @@ const defaultConfig = require('../../.defaultsForValidator');
 const readFile = util.promisify(fs.readFile);
 const defaultObject = defaultConfig.defaults;
 const deprecatedRuleObject = defaultConfig.deprecated;
+const configOptions = defaultConfig.options;
 
 const validateConfigObject = function(configObject, chalk) {
   const configErrors = [];
@@ -47,12 +48,20 @@ const validateConfigObject = function(configObject, chalk) {
       const allowedRules = Object.keys(defaultObject[spec][category]);
       const userRules = Object.keys(configObject[spec][category]);
       userRules.forEach(rule => {
-        if (deprecatedRules.includes(rule)) {
-          const newRule = deprecatedRuleObject[rule];
+        if (
+          deprecatedRules.includes(rule) ||
+          // account for rules with same name in different categories
+          deprecatedRules.includes(`${category}.${rule}`)
+        ) {
+          const oldRule = deprecatedRules.includes(rule)
+            ? rule
+            : `${category}.${rule}`;
+
+          const newRule = deprecatedRuleObject[oldRule];
           const message =
             newRule === ''
-              ? `The rule '${rule}' has been deprecated. It will not be checked.`
-              : `The rule '${rule}' has been deprecated. It will not be checked. Use '${newRule}' instead.`;
+              ? `The rule '${oldRule}' has been deprecated. It will not be checked.`
+              : `The rule '${oldRule}' has been deprecated. It will not be checked. Use '${newRule}' instead.`;
           console.log('\n' + chalk.yellow('[Warning] ') + message);
           delete configObject[spec][category][rule];
           return;
@@ -67,14 +76,44 @@ const validateConfigObject = function(configObject, chalk) {
 
         // check that all statuses are valid (either 'error', 'warning', or 'off')
         const allowedStatusValues = ['error', 'warning', 'off'];
-        const userStatus = configObject[spec][category][rule];
+        let userStatus = configObject[spec][category][rule];
+
+        // if the rule supports an array in configuration,
+        // it will be an array in the defaults object
+        const defaultStatus = defaultObject[spec][category][rule];
+        const ruleTakesArray = Array.isArray(defaultStatus);
+        const userGaveArray = Array.isArray(userStatus);
+
+        if (ruleTakesArray) {
+          const userStatusArray = userGaveArray ? userStatus : [userStatus];
+          userStatus = userStatusArray[0] || '';
+          const configOption = userStatusArray[1] || defaultStatus[1];
+          if (configOption !== defaultStatus[1]) {
+            const result = validateConfigOption(configOption, defaultStatus[1]);
+            if (!result.valid) {
+              configErrors.push({
+                message: `'${configOption}' is not a valid option for the ${rule} rule in the ${category} category.`,
+                correction: `Valid options are: ${result.options.join(', ')}`
+              });
+              validObject = false;
+            }
+          }
+          configObject[spec][category][rule] = [userStatus, configOption];
+        } else if (userGaveArray) {
+          // user should not have given an array
+          validObject = false;
+          // dont throw two errors
+          userStatus = 'off';
+          configErrors.push({
+            message: `Array-value configuration options are not supported for the ${rule} rule in the ${category} category.`,
+            correction: `Valid statuses are: ${allowedStatusValues.join(', ')}`
+          });
+        }
         if (!allowedStatusValues.includes(userStatus)) {
           validObject = false;
           configErrors.push({
             message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
-            correction: `For any rule, the only valid statuses are: ${allowedStatusValues.join(
-              ', '
-            )}`
+            correction: `Valid statuses are: ${allowedStatusValues.join(', ')}`
           });
         }
       });
@@ -209,6 +248,26 @@ const getFilesToIgnore = async function() {
   return filesToIgnore;
 };
 
+const validateConfigOption = function(userOption, defaultOption) {
+  const result = { valid: true };
+  // determine what type of option it is
+  let optionType;
+  Object.keys(configOptions).forEach(option => {
+    if (configOptions[option].includes(defaultOption)) {
+      optionType = option;
+    }
+  });
+  // verify the given option is valid
+  const validOptions = configOptions[optionType];
+  if (!validOptions.includes(userOption)) {
+    result.valid = false;
+    result.options = validOptions;
+  }
+
+  return result;
+};
+
 module.exports.get = getConfigObject;
 module.exports.validate = validateConfigObject;
 module.exports.ignore = getFilesToIgnore;
+module.exports.validateOption = validateConfigOption;

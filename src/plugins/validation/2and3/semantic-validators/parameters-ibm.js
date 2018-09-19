@@ -10,7 +10,7 @@
 
 const pick = require('lodash/pick');
 const includes = require('lodash/includes');
-const checkSnakecase = require('../../../utils/checkSnakeCase');
+const checkCase = require('../../../utils/caseConventionCheck');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   const result = {};
@@ -58,24 +58,27 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       }
 
       const isParameter = obj.in; // the `in` property is required by OpenAPI for parameters - this should be true (unless obj is a ref)
-      const isHeaderParameter = obj.in && obj.in.toLowerCase() === 'header'; // header params need not be snake_case
-      // Relax snakecase check to allow names with "."
-      const isSnakecase =
-        !obj.name ||
-        obj.name
-          .split('.')
-          .map(s => checkSnakecase(s))
-          .every(v => v);
+      const isHeaderParameter = obj.in && obj.in.toLowerCase() === 'header'; // header params need not be checked for case
 
-      // if the parameter is defined by a ref, no need to check the ref path for snake_case
-      if (isParameter && !isHeaderParameter && !isRef && !isSnakecase) {
-        const message = 'Parameter names must be lower snake case.';
-        const checkStatus = config.snake_case_only;
+      if (isParameter && !isHeaderParameter && !isRef) {
+        const checkStatus = config.param_name_case_convention[0];
         if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path,
-            message
-          });
+          const caseConvention = config.param_name_case_convention[1];
+          // Relax snakecase check to allow names with "."
+          const isCorrectCase =
+            !obj.name ||
+            obj.name
+              .split('.')
+              .map(s => checkCase(s, caseConvention))
+              .every(v => v);
+
+          if (!isCorrectCase) {
+            const message = `Parameter names must follow case convention: ${caseConvention}`;
+            result[checkStatus].push({
+              path,
+              message
+            });
+          }
         }
       }
 
