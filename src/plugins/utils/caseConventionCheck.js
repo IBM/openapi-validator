@@ -8,7 +8,7 @@
 const lowerSnakeCase = /^[a-z][a-z0-9]*(_[a-z0-9]+)*$/;
 const upperCamelCase = /^[A-Z](([a-z0-9]+[A-Z]?[a-z0-9]+)+)?$/;
 const lowerCamelCase = /^[a-z](([a-z0-9]*[A-Z]?[a-z0-9]+)+)?$/;
-const lowerDashCase = /^[a-z](([-a-z0-9]*[a-z0-9])+)?$/;
+const lowerDashCase = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
 
 module.exports = (string, convention) => {
   switch (convention) {
