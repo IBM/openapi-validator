@@ -295,7 +295,6 @@ describe('validation plugin - semantic - paths-ibm', function() {
     };
 
     const res = validate({ resolvedSpec: spec }, config);
-    console.log(res);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual(

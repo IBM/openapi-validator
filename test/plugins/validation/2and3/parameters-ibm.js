@@ -3,15 +3,11 @@ const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/parameters-ibm');
 
+const config = require('../../../../src/.defaultsForValidator').defaults.shared;
+
 describe('validation plugin - semantic - parameters-ibm', () => {
   describe('Swagger 2', () => {
     it('should return an error when a parameter does not have a description', () => {
-      const config = {
-        parameters: {
-          no_parameter_description: 'error'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -44,12 +40,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should return an error when snake case is not used', () => {
-      const config = {
-        parameters: {
-          snake_case_only: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -78,17 +68,11 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '0'
       ]);
       expect(res.warnings[0].message).toEqual(
-        'Parameter names must be lower snake case.'
+        'Parameter names must follow case convention: lower_snake_case'
       );
     });
 
     it('should not return a snake case error when "in" is set to "header" ', () => {
-      const config = {
-        parameters: {
-          snake_case_only: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -112,12 +96,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should return an error when type does not match format', () => {
-      const config = {
-        parameters: {
-          invalid_type_format_pair: 'error'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -152,14 +130,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should not complain about anything when x-sdk-exclude is true', () => {
-      const config = {
-        parameters: {
-          no_parameter_description: 'error',
-          snake_case_only: 'warning',
-          invalid_type_format_pair: 'error'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -184,14 +154,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should not validate within extensions', () => {
-      const config = {
-        parameters: {
-          no_parameter_description: 'error',
-          snake_case_only: 'warning',
-          invalid_type_format_pair: 'error'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -220,14 +182,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should return an error when a parameter defines a content or accept type ', () => {
-      const config = {
-        parameters: {
-          content_type_parameter: 'error',
-          accept_type_parameter: 'error',
-          snake_case_only: 'off'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -287,12 +241,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should flag a required parameter that specifies a default value', () => {
-      const config = {
-        parameters: {
-          required_param_has_default: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -328,12 +276,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should not flag an optional parameter that specifies a default value', () => {
-      const config = {
-        parameters: {
-          required_param_has_default: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -359,12 +301,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should not return an error for formData parameters of type file', () => {
-      const config = {
-        parameters: {
-          invalid_type_format_pair: 'error'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -391,14 +327,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
 
   describe('OpenAPI 3', () => {
     it('should return an error when a parameter defines content-type, accept, or authorization', () => {
-      const config = {
-        parameters: {
-          content_type_parameter: 'error',
-          accept_type_parameter: 'error',
-          authorization_parameter: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -482,12 +410,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should return an error when a parameter does not have a description', () => {
-      const config = {
-        parameters: {
-          no_parameter_description: 'error'
-        }
-      };
-
       const spec = {
         components: {
           parameters: {
@@ -516,12 +438,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should return an error when parameter type+format is not well-defined', () => {
-      const config = {
-        parameters: {
-          invalid_type_format_pair: 'error'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -558,12 +474,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should flag a required parameter that specifies a default value', () => {
-      const config = {
-        parameters: {
-          required_param_has_default: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
@@ -601,12 +511,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     });
 
     it('should not flag an optional parameter that does not specify a default value', () => {
-      const config = {
-        parameters: {
-          required_param_has_default: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/pets': {
