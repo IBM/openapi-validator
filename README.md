@@ -176,16 +176,17 @@ Each category contains a group of rules. The spec that each rule applies to is m
 The supported rules are described below:
 
 ##### operations
-| Rule                        | Description                                                                         | Spec     |
-| --------------------------- | ----------------------------------------------------------------------------------- | -------- |
-| no_consumes_for_put_or_post | Flag `put` or `post` operations that do not have a `consumes` field.                | swagger2 |
-| get_op_has_consumes         | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
-| no_produces                 | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
-| no_operation_id             | Flag any operations that do not have an `operationId` field.                        | shared   |
-| no_summary                  | Flag any operations that do not have a `summary` field.                             | shared   |
-| no_array_responses          | Flag any operations with a top-level array response.                                | shared   |
-| parameter_order             | Flag any operations with optional parameters before a required param.               | shared   |
-| no_request_body_content     | [Flag any operations with a `requestBody` that does not have a `content` field.][3] | oas3     |
+| Rule                         | Description                                                                         | Spec     |
+| ---------------------------- | ----------------------------------------------------------------------------------- | -------- |
+| no_consumes_for_put_or_post  | Flag `put` or `post` operations that do not have a `consumes` field.                | swagger2 |
+| get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
+| no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
+| no_operation_id              | Flag any operations that do not have an `operationId` field.                        | shared   |
+| operation_id_case_convention | Flag any `operationId` that does not follow a given case convention.                | shared   |
+| no_summary                   | Flag any operations that do not have a `summary` field.                             | shared   |
+| no_array_responses           | Flag any operations with a top-level array response.                                | shared   |
+| parameter_order              | Flag any operations with optional parameters before a required param.               | shared   |
+| no_request_body_content      | [Flag any operations with a `requestBody` that does not have a `content` field.][3] | oas3     |
 
 ##### parameters
 | Rule                        | Description                                                              | Spec   |
@@ -327,12 +328,13 @@ The default values for each rule are described below.
 ##### shared
 
 ###### operations
-| Rule                        | Default |
-| --------------------------- | --------|
-| no_operation_id             | warning |
-| no_summary                  | warning |
-| no_array_responses          | error   |
-| parameter_order             | warning |
+| Rule                         | Default |
+| ---------------------------- | ------- |
+| no_operation_id              | warning |
+| operation_id_case_convention | warning, lower_camel_case |
+| no_summary                   | warning |
+| no_array_responses           | error   |
+| parameter_order              | warning |
 
 ###### parameters
 | Rule                        | Default |

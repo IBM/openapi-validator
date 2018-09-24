@@ -1,16 +1,16 @@
-// Assertation 1: Operations must have unique (name + in combination) parameters.
+// Assertations
 
-// Assertation 4:
+// Operations must have unique (name + in combination) parameters.
+
 // Operations must have a non-empty `operationId`
 
-// Assertation 5:
+// `operationId` should adhere to a given case convention
+
 // Operations must have a non-empty `summary` field.
 
-// Assertation 6:
 // Arrays MUST NOT be returned as the top-level structure in a response body.
 // ref: https://pages.github.ibm.com/CloudEngineering/api_handbook/fundamentals/format.html#object-encapsulation
 
-// Assertation 7:
 // All required parameters of an operation are listed before any optional parameters.
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#parameter-order
 
@@ -18,6 +18,7 @@ const pick = require('lodash/pick');
 const map = require('lodash/map');
 const each = require('lodash/each');
 const findIndex = require('lodash/findIndex');
+const checkCase = require('../../../utils/caseConventionCheck');
 
 module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
   const result = {};
@@ -45,7 +46,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
         return;
       }
 
-      // Assertation 1
+      // check for unique name/in properties in params
       each(op.parameters, (param, paramIndex) => {
         const nameAndInComboIndex = findIndex(op.parameters, {
           name: param.name,
@@ -104,6 +105,17 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
           result[checkStatus].push({
             path: `paths.${pathKey}.${opKey}.operationId`,
             message: 'Operations must have a non-empty `operationId`.'
+          });
+        }
+      } else {
+        // check operationId for case convention
+        const checkStatus = config.operation_id_case_convention[0];
+        const caseConvention = config.operation_id_case_convention[1];
+        const isCorrectCase = checkCase(op.operationId, caseConvention);
+        if (!isCorrectCase && checkStatus != 'off') {
+          result[checkStatus].push({
+            path: `paths.${pathKey}.${opKey}.operationId`,
+            message: `operationIds must follow case convention: ${caseConvention}`
           });
         }
       }

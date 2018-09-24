@@ -22,6 +22,7 @@ const defaults = {
   'shared': {
     'operations': {
       'no_operation_id': 'warning',
+      'operation_id_case_convention': ['warning', 'lower_camel_case'],
       'no_summary': 'warning',
       'no_array_responses': 'error',
       'parameter_order': 'warning'
