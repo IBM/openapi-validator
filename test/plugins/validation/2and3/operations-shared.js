@@ -4,12 +4,11 @@ const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/operations-shared');
 
+const config = require('../../../../src/.defaultsForValidator').defaults.shared;
+
 describe('validation plugin - semantic - operations-shared', function() {
   describe('Swagger 2', function() {
     it('should complain about a non-unique (name + in combination) parameters', function() {
-      const config = {
-        operations: {}
-      };
       const spec = {
         paths: {
           '/': {
@@ -45,11 +44,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should complain about a missing operationId', function() {
-      const config = {
-        operations: {
-          no_operation_id: 'warning'
-        }
-      };
       const spec = {
         paths: {
           '/CoolPath': {
@@ -85,12 +79,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should complain about an empty operationId', function() {
-      const config = {
-        operations: {
-          no_operation_id: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/CoolPath': {
@@ -127,12 +115,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should complain about a missing summary', function() {
-      const config = {
-        operations: {
-          no_summary: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/CoolPath': {
@@ -168,12 +150,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should complain about an empty summary', function() {
-      const config = {
-        operations: {
-          no_summary: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/CoolPath': {
@@ -210,16 +186,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should not complain about anything when x-sdk-exclude is true', function() {
-      const config = {
-        operations: {
-          no_consumes_for_put_or_post: 'error',
-          get_op_has_consumes: 'warning',
-          no_produces_for_get: 'error',
-          no_operation_id: 'warning',
-          no_summary: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/CoolPath': {
@@ -251,12 +217,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should complain about an anonymous array response model', function() {
-      const config = {
-        operations: {
-          no_array_responses: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/stuff': {
@@ -281,23 +241,17 @@ describe('validation plugin - semantic - operations-shared', function() {
       };
 
       const res = validate({ resolvedSpec: spec }, config);
-      expect(res.warnings.length).toEqual(1);
-      expect(res.warnings[0].path).toEqual(
+      expect(res.errors.length).toEqual(1);
+      expect(res.errors[0].path).toEqual(
         'paths./stuff.get.responses.200.schema'
       );
-      expect(res.warnings[0].message).toEqual(
+      expect(res.errors[0].message).toEqual(
         'Arrays MUST NOT be returned as the top-level structure in a response body.'
       );
-      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
     });
 
     it('should complain about an anonymous array response model - from a $ref', async function() {
-      const config = {
-        operations: {
-          no_array_responses: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/stuff': {
@@ -329,23 +283,17 @@ describe('validation plugin - semantic - operations-shared', function() {
       const resolvedSpec = await resolver.dereference(spec);
 
       const res = validate({ resolvedSpec }, config);
-      expect(res.warnings.length).toEqual(1);
-      expect(res.warnings[0].path).toEqual(
+      expect(res.errors.length).toEqual(1);
+      expect(res.errors[0].path).toEqual(
         'paths./stuff.get.responses.200.schema'
       );
-      expect(res.warnings[0].message).toEqual(
+      expect(res.errors[0].message).toEqual(
         'Arrays MUST NOT be returned as the top-level structure in a response body.'
       );
-      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
     });
 
     it('should not complain about an empty summary within a vendor extension', function() {
-      const config = {
-        operations: {
-          no_summary: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/CoolPath': {
@@ -378,12 +326,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should report required parameters before optional parameters', function() {
-      const config = {
-        operations: {
-          parameter_order: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/stuff': {
@@ -428,12 +370,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should report required ref parameters before optional ref parameters', async function() {
-      const config = {
-        operations: {
-          parameter_order: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/stuff': {
@@ -491,12 +427,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should not complain if required ref parameters appear before a required parameter', async function() {
-      const config = {
-        operations: {
-          parameter_order: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/fake/{id}': {
@@ -557,12 +487,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should be able to handle parameters with `.` characters in the name', async function() {
-      const config = {
-        operations: {
-          parameter_order: 'warning'
-        }
-      };
-
       const spec = {
         paths: {
           '/fake/{id}': {
@@ -621,13 +545,78 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(0);
       expect(res.errors.length).toEqual(0);
     });
+
+    it('should complain about an operationId with the wrong case', function() {
+      const spec = {
+        paths: {
+          '/CoolPath': {
+            put: {
+              consumes: ['consumes'],
+              summary: 'this is a summary',
+              operationId: 'cool_path_put',
+              parameters: [
+                {
+                  name: 'BadParameter',
+                  in: 'body',
+                  schema: {
+                    required: ['Property'],
+                    properties: [
+                      {
+                        name: 'Property'
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec }, config);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].path).toEqual('paths./CoolPath.put.operationId');
+      expect(res.warnings[0].message).toEqual(
+        'operationIds must follow case convention: lower_camel_case'
+      );
+      expect(res.errors.length).toEqual(0);
+    });
+
+    it('should not complain about a valid operationId', function() {
+      const spec = {
+        paths: {
+          '/CoolPath': {
+            put: {
+              consumes: ['consumes'],
+              summary: 'this is a summary',
+              operationId: 'coolPathPut',
+              parameters: [
+                {
+                  name: 'BadParameter',
+                  in: 'body',
+                  schema: {
+                    required: ['Property'],
+                    properties: [
+                      {
+                        name: 'Property'
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec }, config);
+      expect(res.warnings.length).toEqual(0);
+      expect(res.errors.length).toEqual(0);
+    });
   });
 
   describe('OpenAPI 3', function() {
     it('should complain about a non-unique (name + in combination) parameters', async function() {
-      const config = {
-        operations: {}
-      };
       const spec = {
         components: {
           parameters: {
@@ -686,12 +675,6 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
 
     it('should complain about a top-level array response', function() {
-      const config = {
-        operations: {
-          no_array_responses: 'error'
-        }
-      };
-
       const spec = {
         paths: {
           '/': {
