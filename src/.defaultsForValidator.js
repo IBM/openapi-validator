@@ -40,6 +40,9 @@ const defaults = {
       'missing_path_parameter': 'error',
       'snake_case_only': 'warning'
     },
+    'responses': {
+      'inline_response_schema': 'warning'
+    },
     'security_definitions': {
       'unused_security_schemes': 'warning',
       'unused_security_scopes': 'warning'

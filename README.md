@@ -212,6 +212,7 @@ The supported rules are described below:
 ##### [responses][4]
 | Rule                      | Description                                                  | Spec |
 | ------------------------- | ------------------------------------------------------------ | ---- |
+| inline_response_schema    | Flag any response object with a schema that doesn't reference a named model. | shared |
 | no_response_codes         | Flag any response object that has no valid response codes.   | oas3 |
 | no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
 
@@ -352,6 +353,11 @@ The default values for each rule are described below.
 | --------------------------- | --------|
 | missing_path_parameter      | error   |
 | snake_case_only             | warning |
+
+##### responses
+| Rule                      | Default |
+| ------------------------- | ------- |
+| inline_response_schema    | warning |
 
 ###### security_definitions
 | Rule                        | Default |
