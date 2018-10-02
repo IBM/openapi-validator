@@ -129,7 +129,7 @@ describe('cli tool - test option handling', function() {
 
     // totals
     expect(capturedText[statsSection + 1].match(/\S+/g)[5]).toEqual('4');
-    expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('6');
+    expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('7');
 
     // errors
     expect(capturedText[statsSection + 4].match(/\S+/g)[0]).toEqual('2');
@@ -143,19 +143,22 @@ describe('cli tool - test option handling', function() {
 
     // warnings
     expect(capturedText[statsSection + 9].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 9].match(/\S+/g)[1]).toEqual('(33%)');
+    expect(capturedText[statsSection + 9].match(/\S+/g)[1]).toEqual('(29%)');
 
     expect(capturedText[statsSection + 10].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 10].match(/\S+/g)[1]).toEqual('(17%)');
+    expect(capturedText[statsSection + 10].match(/\S+/g)[1]).toEqual('(14%)');
 
     expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(17%)');
+    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(14%)');
 
     expect(capturedText[statsSection + 12].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(17%)');
+    expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(14%)');
 
     expect(capturedText[statsSection + 13].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 13].match(/\S+/g)[1]).toEqual('(17%)');
+    expect(capturedText[statsSection + 13].match(/\S+/g)[1]).toEqual('(14%)');
+
+    expect(capturedText[statsSection + 14].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 14].match(/\S+/g)[1]).toEqual('(14%)');
   });
 
   it('should not print statistics report by default', async function() {

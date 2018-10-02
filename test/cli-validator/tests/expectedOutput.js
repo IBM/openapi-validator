@@ -94,9 +94,10 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[21].match(/\S+/g)[2]).toEqual('36');
     expect(capturedText[25].match(/\S+/g)[2]).toEqual('59');
     expect(capturedText[29].match(/\S+/g)[2]).toEqual('195');
-    expect(capturedText[33].match(/\S+/g)[2]).toEqual('134');
-    expect(capturedText[37].match(/\S+/g)[2]).toEqual('170');
-    expect(capturedText[41].match(/\S+/g)[2]).toEqual('126');
+    expect(capturedText[33].match(/\S+/g)[2]).toEqual('108');
+    expect(capturedText[37].match(/\S+/g)[2]).toEqual('134');
+    expect(capturedText[41].match(/\S+/g)[2]).toEqual('170');
+    expect(capturedText[45].match(/\S+/g)[2]).toEqual('126');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
