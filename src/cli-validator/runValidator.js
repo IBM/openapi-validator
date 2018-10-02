@@ -161,6 +161,19 @@ const processInput = async function(program) {
 
       const fileExtension = ext.getFileExtension(validFile);
       if (fileExtension === 'json') {
+        // find and fix trailing commas
+        const match = originalFile.match(/,\s*[}\]]/m);
+        if (match) {
+          const chars = originalFile.substring(0, match.index);
+          const lineNum = (chars.match(/\n/g) || []).length + 1;
+          console.log(
+            chalk.red(
+              '\n[Error]' +
+                ` Trailing comma on line ${lineNum} of file: ${validFile}`
+            )
+          );
+          originalFile = originalFile.replace(/,(\s*[}\]])/gm, '$1');
+        }
         input = JSON.parse(originalFile);
       } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
         input = readYaml.safeLoad(originalFile);
