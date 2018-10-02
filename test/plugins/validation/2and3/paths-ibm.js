@@ -231,7 +231,7 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.errors).toEqual([
       {
         message:
-          'Parameter must be defined at the path or the operation level: id.',
+          'Path parameter must be defined at the path or the operation level: id.',
         path: 'paths./cool_path/{id}'
       }
     ]);
@@ -264,7 +264,7 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.errors).toEqual([
       {
         message:
-          'Parameter must be defined at the path or the operation level: id.',
+          'Path parameter must be defined at the path or the operation level: id.',
         path: 'paths./cool_path/{id}/more_path/{other_param}'
       }
     ]);
