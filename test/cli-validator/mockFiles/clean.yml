@@ -112,13 +112,7 @@ paths:
         200:
           description: "successful operation"
           schema:
-            type: "object"
-            properties:
-              pets:
-                type: "array"
-                description: "list of pets"
-                items:
-                  $ref: "#/definitions/Pet"
+            $ref: "#/definitions/InlineResponse200"
         400:
           description: "Invalid status value"
       security:
@@ -134,6 +128,14 @@ securityDefinitions:
       write:pets: "modify pets in your account"
       read:pets: "read your pets"
 definitions:
+  InlineResponse200:
+    type: "object"
+    properties:
+      pets:
+        type: "array"
+        description: "list of pets"
+        items:
+          $ref: "#/definitions/Pet"
   Category:
     type: "object"
     properties:

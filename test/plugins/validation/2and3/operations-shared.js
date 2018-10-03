@@ -665,7 +665,7 @@ describe('validation plugin - semantic - operations-shared', function() {
 
       const resolvedSpec = await resolver.dereference(spec);
 
-      const res = validate({ resolvedSpec }, config);
+      const res = validate({ resolvedSpec, isOAS3: true }, config);
       expect(res.errors.length).toEqual(1);
       expect(res.errors[0].path).toEqual('paths./.get.parameters[1]');
       expect(res.errors[0].message).toEqual(
