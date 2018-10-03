@@ -109,7 +109,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
             missingParameters.forEach(name => {
               result[checkStatus].push({
                 path: `paths.${pathName}`,
-                message: `Parameter must be defined at the path or the operation level: ${name}.`
+                message: `Path parameter must be defined at the path or the operation level: ${name}.`
               });
             });
           }
