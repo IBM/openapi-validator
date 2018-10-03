@@ -166,12 +166,9 @@ const processInput = async function(program) {
         if (match) {
           const chars = originalFile.substring(0, match.index);
           const lineNum = (chars.match(/\n/g) || []).length + 1;
-          console.log(
-            chalk.red(
-              '\n[Error]' +
-                ` Trailing comma on line ${lineNum} of file: ${validFile}`
-            )
-          );
+          const msg = `Trailing comma on line ${lineNum} of file ${validFile}.`;
+          printError(chalk, chalk.red(msg));
+          exitCode = 1;
           originalFile = originalFile.replace(/,(\s*[}\]])/gm, '$1');
         }
         input = JSON.parse(originalFile);
