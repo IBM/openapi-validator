@@ -373,45 +373,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should not complain about anything when x-sdk-exclude is true', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error',
-        no_property_description: 'warning',
-        description_mentions_json: 'warning'
-      }
-    };
-
-    const spec = {
-      paths: {
-        '/pets': {
-          get: {
-            'x-sdk-exclude': true,
-            parameters: [
-              {
-                name: 'good_name',
-                in: 'body',
-                description: 'Not a bad description',
-                schema: {
-                  type: 'integer',
-                  properties: {
-                    badProperty: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
-    };
-
-    const res = validate({ jsSpec: spec }, config);
-    expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(0);
-  });
-
   it('should not return an error when JSON is in the description of a vendor extension', () => {
     const config = {
       schemas: {

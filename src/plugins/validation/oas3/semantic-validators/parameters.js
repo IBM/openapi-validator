@@ -7,6 +7,8 @@
 
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameterObject
 
+const walk = require('../../../utils/walk');
+
 module.exports.validate = function({ jsSpec }, config) {
   const result = {};
   result.error = [];
@@ -14,21 +16,7 @@ module.exports.validate = function({ jsSpec }, config) {
 
   config = config.parameters;
 
-  function walk(obj, path) {
-    if (typeof obj !== 'object' || obj === null) {
-      return;
-    }
-
-    // don't walk down examples or extensions
-    const current = path[path.length - 1];
-    if (
-      current === 'example' ||
-      current === 'examples' ||
-      (current && current.slice(0, 2) === 'x-')
-    ) {
-      return;
-    }
-
+  walk(jsSpec, [], function(obj, path) {
     const isContentsOfParameterObject = path[path.length - 2] === 'parameters';
     const isRef = !!obj.$ref;
 
@@ -79,20 +67,7 @@ module.exports.validate = function({ jsSpec }, config) {
         }
       }
     }
-
-    if (Object.keys(obj).length) {
-      return Object.keys(obj).map(k => {
-        // ignore validating all extensions - users need to use custom schemas
-        if (k.slice(0, 2) !== 'x-') {
-          return walk(obj[k], [...path, k]);
-        }
-      });
-    } else {
-      return null;
-    }
-  }
-
-  walk(jsSpec, []);
+  });
 
   return { errors: result.error, warnings: result.warning };
 };

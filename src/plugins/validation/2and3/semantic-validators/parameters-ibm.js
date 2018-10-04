@@ -11,6 +11,7 @@
 const pick = require('lodash/pick');
 const includes = require('lodash/includes');
 const checkCase = require('../../../utils/caseConventionCheck');
+const walk = require('../../../utils/walk');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   const result = {};
@@ -19,21 +20,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   config = config.parameters;
 
-  function walk(obj, path) {
-    if (typeof obj !== 'object' || obj === null) {
-      return;
-    }
-
-    // don't walk down examples or extensions
-    const current = path[path.length - 1];
-    if (
-      current === 'example' ||
-      current === 'examples' ||
-      (current && current.slice(0, 2) === 'x-')
-    ) {
-      return;
-    }
-
+  walk(jsSpec, [], function(obj, path) {
     // skip parameters within operations that are excluded
     if (obj['x-sdk-exclude'] === true) {
       return;
@@ -165,19 +152,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         }
       }
     }
-    if (Object.keys(obj).length) {
-      return Object.keys(obj).map(k => {
-        // ignore validating all extensions - users need to use custom schemas
-        if (k.slice(0, 2) !== 'x-') {
-          return walk(obj[k], [...path, k]);
-        }
-      });
-    } else {
-      return null;
-    }
-  }
+  });
 
-  walk(jsSpec, []);
   return { errors: result.error, warnings: result.warning };
 };
 

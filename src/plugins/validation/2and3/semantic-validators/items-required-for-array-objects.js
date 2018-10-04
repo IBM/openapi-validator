@@ -8,28 +8,17 @@
 // (For Swagger 2 specs. In the OAS 3 spec, headers do not have types. Their schemas will be checked by Assertation 1):
 // Headers with 'array' type require an 'items' property
 
+const walk = require('../../../utils/walk');
+
 module.exports.validate = function({ jsSpec }) {
   const errors = [];
   const warnings = [];
 
-  function walk(obj, path) {
-    if (typeof obj !== 'object' || obj === null) {
-      return;
-    }
-
-    // don't walk down examples or extensions
-    const current = path[path.length - 1];
-    if (
-      current === 'example' ||
-      current === 'examples' ||
-      (current && current.slice(0, 2) === 'x-')
-    ) {
-      return;
-    }
-
+  walk(jsSpec, [], function(obj, path) {
     // `definitions` for Swagger 2, `schemas` for OAS 3
     // `properties` applies to both
     const modelLocations = ['definitions', 'schemas', 'properties'];
+    const current = path[path.length - 1];
 
     if (
       current === 'schema' ||
@@ -70,15 +59,7 @@ module.exports.validate = function({ jsSpec }) {
         });
       }
     }
-
-    if (Object.keys(obj).length) {
-      return Object.keys(obj).map(k => walk(obj[k], [...path, k]));
-    } else {
-      return null;
-    }
-  }
-
-  walk(jsSpec, []);
+  });
 
   return { errors, warnings };
 };
