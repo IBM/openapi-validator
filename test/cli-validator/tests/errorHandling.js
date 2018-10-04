@@ -218,4 +218,36 @@ describe('cli tool - test error handling', function() {
       'Token "NonExistentObject" does not exist.'
     );
   });
+
+  it('should return an error when the swagger contains a trailing comma', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/trailingComma.json'];
+    program.default_mode = true;
+
+    let exitCode;
+    try {
+      exitCode = await commandLineValidator(program);
+    } catch (err) {
+      exitCode = err;
+    }
+
+    unhookIntercept();
+
+    expect(exitCode).toEqual(1);
+    expect(capturedText.length).toEqual(12);
+    expect(capturedText[0].trim()).toEqual(
+      '[Error] Trailing comma on line 36 of file ./test/cli-validator/mockFiles/trailingComma.json.'
+    );
+    expect(capturedText[4]).toContain(
+      'Parameter objects must have a `description` field.'
+    );
+    expect(capturedText[5]).toContain('paths./v1/thing.post.parameters.0');
+  });
 });
