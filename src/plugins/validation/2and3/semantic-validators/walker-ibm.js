@@ -12,15 +12,16 @@ module.exports.validate = function({ jsSpec }, config) {
   config = config.walker;
 
   walk(jsSpec, [], function(obj, path) {
-    const description = obj.description;
-    if (description === undefined) return;
-    if (description.length === 0 || !description.trim()) {
-      const checkStatus = config.no_empty_descriptions;
-      if (checkStatus !== 'off') {
-        result[checkStatus].push({
-          path: [...path, 'description'],
-          message: 'Items with a description must have content in it.'
-        });
+    if (obj.description !== undefined) {
+      const description = obj.description.toString();
+      if (description.length === 0 || !description.trim()) {
+        const checkStatus = config.no_empty_descriptions;
+        if (checkStatus !== 'off') {
+          result[checkStatus].push({
+            path: [...path, 'description'],
+            message: 'Items with a description must have content in it.'
+          });
+        }
       }
     }
   });
