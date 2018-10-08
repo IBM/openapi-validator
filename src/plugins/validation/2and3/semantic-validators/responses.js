@@ -1,4 +1,5 @@
 const each = require('lodash/each');
+const walk = require('../../../utils/walk');
 
 const INLINE_SCHEMA_MESSAGE =
   'Response schemas should be defined with a named ref.';
@@ -10,21 +11,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   config = config.responses;
 
-  function walk(obj, path) {
-    if (typeof obj !== 'object' || obj === null) {
-      return;
-    }
-
-    // don't walk down examples or extensions
-    const current = path[path.length - 1];
-    if (
-      current === 'example' ||
-      current === 'examples' ||
-      (current && current.slice(0, 2) === 'x-')
-    ) {
-      return;
-    }
-
+  walk(jsSpec, [], function(obj, path) {
     const contentsOfResponsesObject = path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
 
@@ -66,16 +53,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         }
       });
     }
+  });
 
-    if (Object.keys(obj).length) {
-      return Object.keys(obj).map(k => {
-        return walk(obj[k], [...path, k]);
-      });
-    } else {
-      return null;
-    }
-  }
-
-  walk(jsSpec, []);
   return { errors: result.error, warnings: result.warning };
 };

@@ -14,32 +14,21 @@
 // array_of_arrays:
 // Schema properties that are arrays should avoid having items that are also arrays
 
-const isSnakecase = require('../../../utils/checkSnakeCase');
 const forIn = require('lodash/forIn');
 const includes = require('lodash/includes');
+const isSnakecase = require('../../../utils/checkSnakeCase');
+const walk = require('../../../utils/walk');
 
 module.exports.validate = function({ jsSpec }, config) {
   const errors = [];
   const warnings = [];
 
-  const schemas = [];
-
   config = config.schemas;
 
-  function walk(obj, path) {
-    if (typeof obj !== 'object' || obj === null || obj['x-sdk-exclude']) {
-      return;
-    }
+  const schemas = [];
 
-    // don't walk down examples or extensions
+  walk(jsSpec, [], function(obj, path) {
     const current = path[path.length - 1];
-    if (
-      current === 'example' ||
-      current === 'examples' ||
-      (current && current.slice(0, 2) === 'x-')
-    ) {
-      return;
-    }
 
     /*
       Collect all schemas for later analysis.  The logic should capture the following:
@@ -67,15 +56,7 @@ module.exports.validate = function({ jsSpec }, config) {
     ) {
       schemas.push({ schema: obj, path });
     }
-
-    if (Object.keys(obj).length) {
-      return Object.keys(obj).map(k => walk(obj[k], [...path, k]));
-    } else {
-      return null;
-    }
-  }
-
-  walk(jsSpec, []);
+  });
 
   schemas.forEach(({ schema, path }) => {
     let res = generateFormatErrors(schema, path, config);

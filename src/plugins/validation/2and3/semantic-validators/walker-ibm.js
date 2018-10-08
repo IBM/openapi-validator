@@ -1,7 +1,7 @@
 // Assertation 1:
 // The description, when present, should not be empty or contain empty space
 
-const includes = require('lodash/includes');
+const walk = require('../../../utils/walk');
 
 // Walks an entire spec.
 module.exports.validate = function({ jsSpec }, config) {
@@ -11,45 +11,20 @@ module.exports.validate = function({ jsSpec }, config) {
 
   config = config.walker;
 
-  function walk(value, path) {
-    if (value === null) {
-      return null;
-    }
-
-    if (typeof value !== 'object') {
-      return null;
-    }
-
-    const keys = Object.keys(value);
-
-    if (keys.length) {
-      // skip walking down operations that are excluded
-      if (value['x-sdk-exclude'] === true) {
-        return null;
-      }
-      return keys.map(k => {
-        // skip walking down any vendor extensions
-        if (k.slice(0, 2) === 'x-') return null;
-        if (k === 'description' && !includes(path, 'examples')) {
-          const descriptionValue = value['description'].toString();
-          if (descriptionValue.length === 0 || !descriptionValue.trim()) {
-            const checkStatus = config.no_empty_descriptions;
-            if (checkStatus !== 'off') {
-              result[checkStatus].push({
-                path: path.concat([k]),
-                message: 'Items with a description must have content in it.'
-              });
-            }
-          }
+  walk(jsSpec, [], function(obj, path) {
+    if (obj.description !== undefined) {
+      const description = obj.description.toString();
+      if (description.length === 0 || !description.trim()) {
+        const checkStatus = config.no_empty_descriptions;
+        if (checkStatus !== 'off') {
+          result[checkStatus].push({
+            path: [...path, 'description'],
+            message: 'Items with a description must have content in it.'
+          });
         }
-        return walk(value[k], [...path, k]);
-      });
-    } else {
-      return null;
+      }
     }
-  }
-
-  walk(jsSpec, []);
+  });
 
   return { errors: result.error, warnings: result.warning };
 };

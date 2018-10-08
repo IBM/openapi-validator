@@ -5,6 +5,8 @@
 // Assertation 2:
 // At least one response "SHOULD be the response for a successful operation call"
 
+const walk = require('../../../utils/walk');
+
 module.exports.validate = function({ jsSpec }, config) {
   const result = {};
   result.error = [];
@@ -12,21 +14,7 @@ module.exports.validate = function({ jsSpec }, config) {
 
   config = config.responses;
 
-  function walk(obj, path) {
-    if (typeof obj !== 'object' || obj === null) {
-      return;
-    }
-
-    // don't walk down examples or extensions
-    const current = path[path.length - 1];
-    if (
-      current === 'example' ||
-      current === 'examples' ||
-      (current && current.slice(0, 2) === 'x-')
-    ) {
-      return;
-    }
-
+  walk(jsSpec, [], function(obj, path) {
     const contentsOfResponsesObject = path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
 
@@ -61,20 +49,8 @@ module.exports.validate = function({ jsSpec }, config) {
         }
       }
     }
+  });
 
-    if (Object.keys(obj).length) {
-      return Object.keys(obj).map(k => {
-        // ignore validating all extensions - users need to use custom schemas
-        if (k.slice(0, 2) !== 'x-') {
-          return walk(obj[k], [...path, k]);
-        }
-      });
-    } else {
-      return null;
-    }
-  }
-
-  walk(jsSpec, []);
   return { errors: result.error, warnings: result.warning };
 };
 

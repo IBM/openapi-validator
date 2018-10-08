@@ -12,6 +12,7 @@
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#sibling-elements-for-refs
 
 const match = require('matcher');
+const walk = require('../../../utils/walk');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   const errors = [];
@@ -19,22 +20,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   config = config.walker;
 
-  function walk(value, path) {
-    const current = path[path.length - 1];
-
-    if (value === null) {
-      return null;
-    }
-
-    // don't walk down examples or extensions
-    if (
-      current === 'example' ||
-      current === 'examples' ||
-      (current && current.slice(0, 2) === 'x-')
-    ) {
-      return;
-    }
-
+  walk(jsSpec, [], function(obj, path) {
     // parent keys that allow non-string "type" properties. for example,
     // having a definition called "type" is allowed
     const allowedParents = isOAS3
@@ -56,13 +42,10 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         ];
 
     ///// "type" should always have a string-type value, everywhere.
-    if (
-      current === 'type' &&
-      allowedParents.indexOf(path[path.length - 2]) === -1
-    ) {
-      if (typeof value !== 'string') {
+    if (obj.type && allowedParents.indexOf(path[path.length - 1]) === -1) {
+      if (typeof obj.type !== 'string') {
         errors.push({
-          path,
+          path: [...path, 'type'],
           message: '"type" should be a string'
         });
       }
@@ -70,8 +53,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
     ///// Minimums and Maximums
 
-    if (value.maximum && value.minimum) {
-      if (greater(value.minimum, value.maximum)) {
+    if (obj.maximum && obj.minimum) {
+      if (greater(obj.minimum, obj.maximum)) {
         errors.push({
           path: path.concat(['minimum']),
           message: 'Minimum cannot be more than maximum'
@@ -79,8 +62,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       }
     }
 
-    if (value.maxProperties && value.minProperties) {
-      if (greater(value.minProperties, value.maxProperties)) {
+    if (obj.maxProperties && obj.minProperties) {
+      if (greater(obj.minProperties, obj.maxProperties)) {
         errors.push({
           path: path.concat(['minProperties']),
           message: 'minProperties cannot be more than maxProperties'
@@ -88,8 +71,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       }
     }
 
-    if (value.maxLength && value.minLength) {
-      if (greater(value.minLength, value.maxLength)) {
+    if (obj.maxLength && obj.minLength) {
+      if (greater(obj.minLength, obj.maxLength)) {
         errors.push({
           path: path.concat(['minLength']),
           message: 'minLength cannot be more than maxLength'
@@ -98,17 +81,16 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     }
 
     ///// Restricted $refs
-
-    if (current === '$ref') {
+    if (obj.$ref) {
       const blacklistPayload = getRefPatternBlacklist(path, isOAS3);
       const refBlacklist = blacklistPayload.blacklist || [];
-      const matches = match([value], refBlacklist);
+      const matches = match([obj.$ref], refBlacklist);
 
       if (refBlacklist && refBlacklist.length && matches.length) {
         // Assertation 2
-        // use the slice(1) to remove the `!` negator fromt he string
+        // use the slice(1) to remove the `!` negator from the string
         errors.push({
-          path,
+          path: [...path, '$ref'],
           message: `${
             blacklistPayload.location
           } $refs must follow this format: ${refBlacklist[0].slice(1)}`
@@ -116,41 +98,28 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       }
     }
 
-    if (typeof value !== 'object') {
-      return null;
-    }
-
-    const keys = Object.keys(value);
-
-    if (keys.length) {
-      ///// $ref siblings
-      return keys.map(k => {
-        if (keys.indexOf('$ref') > -1 && k !== '$ref') {
-          switch (config.$ref_siblings) {
-            case 'error':
-              errors.push({
-                path: path.concat([k]),
-                message: 'Values alongside a $ref will be ignored.'
-              });
-              break;
-            case 'warning':
-              warnings.push({
-                path: path.concat([k]),
-                message: 'Values alongside a $ref will be ignored.'
-              });
-              break;
-            default:
-              break;
-          }
+    const keys = Object.keys(obj);
+    keys.forEach(k => {
+      if (keys.indexOf('$ref') > -1 && k !== '$ref') {
+        switch (config.$ref_siblings) {
+          case 'error':
+            errors.push({
+              path: path.concat([k]),
+              message: 'Values alongside a $ref will be ignored.'
+            });
+            break;
+          case 'warning':
+            warnings.push({
+              path: path.concat([k]),
+              message: 'Values alongside a $ref will be ignored.'
+            });
+            break;
+          default:
+            break;
         }
-        return walk(value[k], [...path, k]);
-      });
-    } else {
-      return null;
-    }
-  }
-
-  walk(jsSpec, []);
+      }
+    });
+  });
 
   return { errors, warnings };
 };
