@@ -32,15 +32,8 @@ This command line tool lets you validate OpenAPI documents according to their sp
 ## Installation
 
 ### Install with NPM (recommended)
-This package can be installed with NPM using a git url. Installing this way can be authorized using SSH or HTTPS (these are the two options used for cloning repositories also).
 
-#### SSH
-1. Make sure you have an SSH key set up. If you have used SSH to clone an IBM GHE repository, this should be set up already. ([Instructions](https://help.github.com/articles/connecting-to-github-with-ssh/))
-2. Run the following command `npm install -g git+ssh://git@github.ibm.com:CloudEngineering/openapi-validator.git`
-
-#### HTTPS
-1. Make sure you a have a personal access token set up. If you have used HTTPS to clone an IBM GHE repository, this should be set up already. ([Instructions]())
-2. Run the following command `npm install -g git+https://github.ibm.com/CloudEngineering/openapi-validator.git`
+`npm install -g ibm-openapi-validator`
 
 The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass the `--save` or `--save-dev` flag to add the vaidator as a dependency to your project and run it from your NPM scripts.
 
@@ -49,8 +42,6 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 2. Navigate to the root directory of this project.
 3. Install the dependencies using `npm install`
 4. Build the command line tool by running `npm run build-and-link`.
-
-_Once the package is linked, anytime you make a change or pull down updates, you just need to run `npm run build`._
 
 ## Usage
 ### Command line
@@ -71,7 +62,7 @@ _These options only apply to running the validator on a file, not to any command
 
 #### [command]
 `$ lint-openapi migrate`
-- migrate : The `migrate` command migrates a .validaterc file from the v1.x format to the v2.x format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-openapi init`.
+- migrate : The `migrate` command migrates a .validaterc file from the legacy format to the current format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-openapi init`.
 
 _None of the above options pertain to these commands._
 
@@ -385,23 +376,6 @@ The default values for each rule are described below.
 | no_empty_descriptions       | error   |
 | has_circular_references     | warning |
 | $ref_siblings               | off     |
-
-## Troubleshooting
-This section will be periodically updated with frequently seen user issues.
-
-### Installing with NPM through a proxy
-If you are trying to install this package with NPM but get a `404` error from a dependency installation, it is likely that you are running into a proxy issue.
-
-You are using a proxy if you have a registry defined in your `.npmrc` file, most likely located in your home directory.
-
-To resolve this issue, try temporarily commenting out the registry definition(s) in your `.npmrc` file, as some public NPM packages may be unaccessible through a proxy.
-
-## Migration Guide
-The following breaking changes were made in major version 2 of this validator:
-1. The command for running the CLI tool changed from `lint-swagger` to `lint-openapi`
-2. The node module import name changed from `swagger-validator-ibm` to `openapi-validator`
-3. The format of the configuration file has changed. To assist users with this migration, [a command has been added to the CLI](#command-line) that will convert a v1-formatted configuration file to a v2-formatted file with any custom-set rules intact.
-Run `lint-openapi migrate` to convert the old file to the new format without losing any custom-set rules.
 
 ## License
 
