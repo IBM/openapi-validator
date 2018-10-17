@@ -73,7 +73,7 @@ _None of the above options pertain to these commands._
 ### Node module
 _Assumes the module was installed with a `--save` or `--save-dev` flag._
 ```javascript
-const validator = require('openapi-validator');
+const validator = require('ibm-openapi-validator');
 
 validator(openApiDoc)
   .then(validationResults => {
