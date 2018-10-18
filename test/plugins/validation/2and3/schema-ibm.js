@@ -153,6 +153,131 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
+  it('should not complain when using composite keyword "allOf"', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = {
+      definitions: {
+        WordStyle: {
+          description: 'Good to have a description',
+          properties: {
+            level: {
+              description: 'Good to have a description',
+              allOf: [
+                {
+                  type: 'integer',
+                  format: 'int32',
+                  description: 'Good to have a description'
+                },
+                {
+                  type: 'string',
+                  description: 'Good to have a description'
+                }
+              ]
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should return an error when a composite "anyOf" schema does not use a well defined property type', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = {
+      definitions: {
+        WordStyle: {
+          description: 'Good to have a description',
+          anyOf: [
+            {
+              type: 'number',
+              format: 'integer',
+              description: 'Good to have a description'
+            },
+            {
+              type: 'string',
+              description: 'Good to have a description'
+            }
+          ]
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual([
+      'definitions',
+      'WordStyle',
+      'properties',
+      '0',
+      'type'
+    ]);
+    expect(res.errors[0].message).toEqual(
+      'Property type+format is not well-defined.'
+    );
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should return an error when a composite "oneOf" nested schema does not use a well defined property type', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = {
+      definitions: {
+        WordStyle: {
+          description: 'Good to have a description',
+          properties: {
+            level: {
+              description: 'Good to have a description',
+              oneOf: [
+                {
+                  type: 'number',
+                  format: 'integer',
+                  description: 'Good to have a description'
+                },
+                {
+                  type: 'string',
+                  description: 'Good to have a description'
+                }
+              ]
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual([
+      'definitions',
+      'WordStyle',
+      'properties',
+      'level',
+      'properties',
+      '0',
+      'type'
+    ]);
+    expect(res.errors[0].message).toEqual(
+      'Property type+format is not well-defined.'
+    );
+    expect(res.warnings.length).toEqual(0);
+  });
+
   it('should return a warning when a property name is not snake case', () => {
     const config = {
       schemas: {

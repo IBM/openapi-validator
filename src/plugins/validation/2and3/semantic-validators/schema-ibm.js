@@ -19,6 +19,8 @@ const includes = require('lodash/includes');
 const isSnakecase = require('../../../utils/checkSnakeCase');
 const walk = require('../../../utils/walk');
 
+const compositeKeywords = ['allOf', 'anyOf', 'oneOf'];
+
 module.exports.validate = function({ jsSpec }, config) {
   const errors = [];
   const warnings = [];
@@ -89,14 +91,21 @@ function generateFormatErrors(schema, contextPath, config) {
   result.error = [];
   result.warning = [];
 
-  if (!schema.properties) {
-    return result;
-  }
-
-  forIn(schema.properties, (property, propName) => {
+  const f = (property, propName) => {
     if (property.$ref || propName.slice(0, 2) === 'x-') return;
     let path = contextPath.concat(['properties', propName, 'type']);
     let valid = true;
+
+    compositeKeywords.forEach(compositeKeyword => {
+      if (property[compositeKeyword]) {
+        valid = false;
+      }
+    });
+
+    if (!valid) {
+      return;
+    }
+
     switch (property.type) {
       case 'integer':
       case 'number':
@@ -139,7 +148,17 @@ function generateFormatErrors(schema, contextPath, config) {
         });
       }
     }
-  });
+  };
+
+  if (schema.properties) {
+    forIn(schema.properties, f);
+  } else {
+    compositeKeywords.forEach(compositeKeyword => {
+      if (schema[compositeKeyword]) {
+        forIn(schema[compositeKeyword], f);
+      }
+    });
+  }
 
   return result;
 }
