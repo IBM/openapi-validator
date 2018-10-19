@@ -35,7 +35,7 @@ This command line tool lets you validate OpenAPI documents according to their sp
 
 `npm install -g ibm-openapi-validator`
 
-The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass the `--save` or `--save-dev` flag to add the vaidator as a dependency to your project and run it from your NPM scripts.
+The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass the `--save` or `--save-dev` flag to add the validator as a dependency to your project and run it from your NPM scripts.
 
 ### Build from source
 1. Clone or download this repository
@@ -48,7 +48,7 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 `lint-openapi [options] [command] [<files>]`
 
 #### [options]
--  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarliy for developing validations.
+-  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarily for developing validations.
 -  -n (no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -d (default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
 -  -s (report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
@@ -58,17 +58,17 @@ _These options only apply to running the validator on a file, not to any command
 
 #### [command]
 `$ lint-openapi init`
-- init : The `init` command initializes a .validaterc file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
+- init : The `init` command initializes a `.validaterc` file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
 
 #### [command]
 `$ lint-openapi migrate`
-- migrate : The `migrate` command migrates a .validaterc file from the legacy format to the current format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-openapi init`.
+- migrate : The `migrate` command migrates a `.validaterc` file from the legacy format to the current format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-openapi init`.
 
 _None of the above options pertain to these commands._
 
 #### \<files>
 - The OpenAPI document(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
-- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-openapi files/*` will run the validator on all files in "files/")
+- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-openapi files/*` will run the validator on all files in `files/`)
 
 ### Node module
 _Assumes the module was installed with a `--save` or `--save-dev` flag._
@@ -137,7 +137,7 @@ It is recommended to place these files in the root directory of your project. Th
 
 #### Specs
 
-The validator supports two API definition specifications - Swagger 2.0 and OpenAPI 3.0. The validator will automatically determine which spec a document is written in. There are some rules in the the validator that only apply to one of the specs and some rules that apply to both. The configuration structure is organized by these "specs".
+The validator supports two API definition specifications - Swagger 2.0 and OpenAPI 3.0. The validator will automatically determine which spec a document is written in. There are some rules in the validator that only apply to one of the specs and some rules that apply to both. The configuration structure is organized by these "specs".
 The supported specs are described below:
 
 | Spec     | Description                                                                                                                          |
