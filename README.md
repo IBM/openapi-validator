@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.com/IBM/openapi-validator.svg?branch=master)](https://travis-ci.com/IBM/openapi-validator)
+
 # OpenAPI Validator
 This command line tool lets you validate OpenAPI documents according to their specification, either [2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) or [3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
 #### Prerequisites
