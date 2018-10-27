@@ -22,12 +22,16 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               description: 'Good to have a description'
             }
           }
+        },
+        TranslatedDocument: {
+          type: 'file',
+          format: 'binary'
         }
       }
     };
 
     const res = validate({ jsSpec: spec }, config);
-    expect(res.errors.length).toEqual(1);
+    expect(res.errors.length).toEqual(2);
     expect(res.errors[0].path).toEqual([
       'definitions',
       'WordStyle',
@@ -38,6 +42,11 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.errors[0].message).toEqual(
       'Property type+format is not well-defined.'
     );
+    expect(res.errors[1].path).toEqual([
+      'definitions',
+      'TranslatedDocument',
+      'type'
+    ]);
     expect(res.warnings.length).toEqual(0);
   });
 
