@@ -46,5 +46,8 @@
   },
   "bin": {
     "lint-openapi": "src/cli-validator/index.js"
+  },
+  "engines": {
+    "node": ">=8.9.0"
   }
 }
