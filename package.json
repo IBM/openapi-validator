@@ -1,7 +1,7 @@
 {
   "name": "ibm-openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "src/lib/index.js",
   "repository": "https://github.com/IBM/openapi-validator",
   "license": "Apache-2.0",
@@ -46,5 +46,8 @@
   },
   "bin": {
     "lint-openapi": "src/cli-validator/index.js"
+  },
+  "engines": {
+    "node": ">=8.9.0"
   }
 }
