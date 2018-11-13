@@ -213,6 +213,8 @@ const processInput = async function(program) {
       results = validator(swagger, configObject);
     } catch (err) {
       printError(chalk, 'There was a problem with a validator.', getError(err));
+      // Uncomment the line below to see the stack trace when the validator fails
+      // console.log(err.stack);
       exitCode = 1;
       continue;
     }

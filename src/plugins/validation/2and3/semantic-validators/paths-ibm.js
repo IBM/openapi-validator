@@ -64,7 +64,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         let givenParameters = [];
         if (operation.parameters) {
           givenParameters = operation.parameters
-            .filter(param => param.in.toLowerCase() === 'path')
+            .filter(param => param.in && param.in.toLowerCase() === 'path')
             .map(param => param.name);
         }
 
