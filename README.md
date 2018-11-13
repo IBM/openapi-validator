@@ -379,6 +379,10 @@ The default values for each rule are described below.
 | has_circular_references     | warning |
 | $ref_siblings               | off     |
 
+
+## Turning off `update-notifier`
+This package uses [`update-notifier`](https://github.com/yeoman/update-notifier) to alert users when new versions of the tool are available. To turn this feature _off_, follow [these instructions](https://github.com/yeoman/update-notifier/tree/8df01b35fbb8093e91d79fdf9900c344c2236f08#user-settings) from the package authors. It is recommended to keep this feature _on_ to help stay up to date with the latest changes.
+
 ## License
 
 Copyright 2017 SmartBear Software
