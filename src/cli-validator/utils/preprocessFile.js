@@ -8,14 +8,9 @@ module.exports = function(originalFile) {
   const twoSpaces = '  ';
   processedFile = originalFile.replace(tabExpression, twoSpaces);
 
-  const escapedSolidus = /\\\//g;
-
-  // replace all instances of a double escaped solidus (`\\/`) with a single escaped solidus `\/`
-  const doubleEscapedSolidus = /\\\\\//g;
-  processedFile = processedFile.replace(doubleEscapedSolidus, escapedSolidus);
-
-  // replace all instances of an escaped solidus (`\/`) with a solidus (`/`)
+  // sanitize all instances of a solidus preceded by 1 or more escape characters
   // the `yaml-js` package crashes if there is an escaped solidus
+  const escapedSolidus = /\\+\//g;
   const solidus = '/';
   processedFile = processedFile.replace(escapedSolidus, solidus);
 
