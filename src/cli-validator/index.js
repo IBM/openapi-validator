@@ -4,6 +4,7 @@
 // of Node by exiting the process if the version is less than
 // the passed in argument (currently 8.9.x)
 require('./utils/enforceVersion')('8.9.0');
+require('./utils/updateNotifier');
 
 const program = require('commander');
 const cliValidator = require('./runValidator');
