@@ -70,7 +70,7 @@ describe('cli tool - test option handling', function() {
     });
   });
 
-  it('should print validator source file when -v option is given', async function() {
+  it('should print validator source file when -p option is given', async function() {
     const capturedText = [];
 
     const unhookIntercept = intercept(function(txt) {

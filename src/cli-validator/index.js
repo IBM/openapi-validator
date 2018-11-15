@@ -8,15 +8,17 @@ require('./utils/updateNotifier');
 
 const program = require('commander');
 const cliValidator = require('./runValidator');
+const version = require('../../package.json').version;
 
 // set up the command line options
 /* prettier-ignore */
 program
+  .version(version, '-v, --version')
   .description('Run the validator on a specified file')
   .arguments('[<file>]')
   .option(
-    '-v, --print_validator_modules',
-    'print the validators that catch each error/warning'
+    '-p, --print_validator_modules',
+    'print the validators that catch each error/warning (helpful for development)'
   )
   .option(
     '-n, --no_colors',
