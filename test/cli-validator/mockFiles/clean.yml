@@ -187,6 +187,7 @@ definitions:
       tags:
         type: "array"
         description: "string"
+        pattern: "^http(s)?:\\/\\/([^\\/?#]*)([^?#]*)(\\?([^#]*))?(#(.*))?$"
         xml:
           name: "tag"
           wrapped: true
