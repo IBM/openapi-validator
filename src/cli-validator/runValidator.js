@@ -37,11 +37,7 @@ const processInput = async function(program) {
   const defaultMode = !!program.default_mode;
 
   // turn on coloring by default
-  let colors = true;
-
-  if (turnOffColoring) {
-    colors = false;
-  }
+  const colors = turnOffColoring ? false : true;
 
   const chalk = new chalkPackage.constructor({ enabled: colors });
 

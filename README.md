@@ -37,7 +37,7 @@ This command line tool lets you validate OpenAPI documents according to their sp
 
 `npm install -g ibm-openapi-validator`
 
-The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass the `--save` or `--save-dev` flag to add the validator as a dependency to your project and run it from your NPM scripts.
+The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass no flag or the `--save-dev` flag to add the validator as a dependency to your project and run it from your NPM scripts.
 
 ### Build from source
 1. Clone or download this repository
@@ -50,11 +50,12 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 `lint-openapi [options] [command] [<files>]`
 
 #### [options]
--  -v (print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This is primarily for developing validations.
--  -n (no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
--  -d (default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
--  -s (report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
--  -h (help) : This option prints the usage menu.
+-  -s (--report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
+-  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
+-  -p (--print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This can be helpful for developing validations.
+-  -n (--no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
+-  -v (--version) : Print the current semantic version of the validator
+-  -h (--help) : This option prints the usage menu.
 
 _These options only apply to running the validator on a file, not to any commands._
 
@@ -73,7 +74,6 @@ _None of the above options pertain to these commands._
 - Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-openapi files/*` will run the validator on all files in `files/`)
 
 ### Node module
-_Assumes the module was installed with a `--save` or `--save-dev` flag._
 ```javascript
 const validator = require('ibm-openapi-validator');
 
