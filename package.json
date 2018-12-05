@@ -6,7 +6,6 @@
   "repository": "https://github.com/IBM/openapi-validator",
   "license": "Apache-2.0",
   "scripts": {
-    "prepush": "npm test",
     "link": "npm install -g",
     "unlink": "npm uninstall -g",
     "test": "npm run lint && npm run test-validators && npm run test-cli-tool",
@@ -35,11 +34,11 @@
   },
   "devDependencies": {
     "babel-eslint": "^9.0.0",
+    "cz-conventional-changelog": "^2.1.0",
     "eslint": "^5.4.0",
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-prettier": "^2.6.2",
     "expect": "^23.5.0",
-    "husky": "^0.14.3",
     "intercept-stdout": "^0.1.2",
     "mocha": "^5.2.0",
     "prettier": "^1.14.2",
@@ -51,5 +50,10 @@
   },
   "engines": {
     "node": ">=8.9.0"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
