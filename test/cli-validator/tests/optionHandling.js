@@ -7,7 +7,7 @@ const commandLineValidator = require('../../../src/cli-validator/runValidator');
 // see the comments for the first test in expectedOutput.js
 
 describe('cli tool - test option handling', function() {
-  it('should color output by default', async function() {
+  it('should color output by default @skip-ci', async function() {
     const capturedText = [];
 
     const unhookIntercept = intercept(function(txt) {

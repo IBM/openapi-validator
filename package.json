@@ -8,9 +8,10 @@
   "scripts": {
     "link": "npm install -g",
     "unlink": "npm uninstall -g",
-    "test": "npm run lint && npm run test-validators && npm run test-cli-tool",
+    "test": "mocha --recursive test/",
     "test-validators": "mocha --recursive test/plugins",
     "test-cli-tool": "mocha test/cli-validator/tests",
+    "test-travis": "npm run lint && mocha --recursive --grep @skip-ci --invert test/",
     "lint": "eslint --cache --quiet --ext '.js' src test",
     "fix": "eslint --fix --ext '.js' src test"
   },
