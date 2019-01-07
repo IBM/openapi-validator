@@ -37,6 +37,11 @@ describe('case convention regex tests', function() {
       const string = 'badCaseString';
       expect(checkCase(string, convention)).toEqual(false);
     });
+
+    it('does not hang on long identifiers', function() {
+      const string = 'downloadGeneratedApplicationUsingGET';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
   });
 
   describe('lower camel case tests', function() {
@@ -53,6 +58,11 @@ describe('case convention regex tests', function() {
 
     it('BadCaseString is NOT lower camel case', function() {
       const string = 'BadCaseString';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+
+    it('does not hang on long identifiers', function() {
+      const string = 'downloadGeneratedApplicationUsingGET';
       expect(checkCase(string, convention)).toEqual(false);
     });
   });
