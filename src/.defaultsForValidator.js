@@ -53,6 +53,7 @@ const defaults = {
     'schemas': {
       'invalid_type_format_pair': 'error',
       'snake_case_only': 'warning',
+      'no_schema_description': 'warning',
       'no_property_description': 'warning',
       'description_mentions_json': 'warning',
       'array_of_arrays': 'warning'

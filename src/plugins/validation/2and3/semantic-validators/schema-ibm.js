@@ -5,6 +5,9 @@
 // Property names and enum values MUST be lower snake case.
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
 
+// no_schema_description:
+// Schema objects should have a description
+
 // no_property_description:
 // Properties within schema objects should have descriptions
 
@@ -80,7 +83,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     errors.push(...res.error);
     warnings.push(...res.warning);
 
-    res = generateDescriptionWarnings(schema, path, config);
+    res = generateDescriptionWarnings(schema, path, config, isOAS3);
     errors.push(...res.error);
     warnings.push(...res.warning);
 
@@ -173,10 +176,33 @@ function formatValid(property) {
 }
 
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#models
-function generateDescriptionWarnings(schema, contextPath, config) {
+function generateDescriptionWarnings(schema, contextPath, config, isOAS3) {
   const result = {};
   result.error = [];
   result.warning = [];
+
+  // determine if this is a top-level schema
+  const isTopLevelSchema = isOAS3
+    ? contextPath.length === 3 &&
+      contextPath[0] === 'components' &&
+      contextPath[1] === 'schemas'
+    : contextPath.length === 2 && contextPath[0] === 'definitions';
+
+  // Check description in schema only for "top level" schema
+  if (isTopLevelSchema) {
+    const checkStatus = config.no_schema_description;
+    if (result[checkStatus]) {
+      const hasDescription =
+        schema.description && schema.description.toString().trim().length;
+      if (!hasDescription) {
+        const message = 'Schema must have a non-empty description.';
+        result[checkStatus].push({
+          path: contextPath,
+          message: message
+        });
+      }
+    }
+  }
 
   if (!schema.properties) {
     return result;

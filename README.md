@@ -217,6 +217,7 @@ The supported rules are described below:
 | --------------------------- | ----------------------------------------------------------------------------- | -------- |
 | invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | shared   |
 | snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | shared   |
+| no_schema_description       | Flag any schema without a `description` field.                                | shared   |
 | no_property_description     | Flag any schema that contains a 'property' without a `description` field.     | shared   |
 | description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  | shared   |
 | array_of_arrays             | Flag any schema with a 'property' of type `array` with items of type `array`. | shared   |
@@ -371,6 +372,7 @@ The default values for each rule are described below.
 | --------------------------- | --------|
 | invalid_type_format_pair    | error   |
 | snake_case_only             | warning |
+| no_schema_description       | warning |
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 | array_of_arrays             | warning |

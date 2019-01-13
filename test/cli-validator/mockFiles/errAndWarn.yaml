@@ -141,6 +141,7 @@ definitions:
       name: "Category"
   Tag:
     type: "object"
+    description: "string"
     properties:
       id:
         type: "integer"
@@ -153,6 +154,7 @@ definitions:
       name: "Tag"
   Pet:
     type: "object"
+    description: "string"
     required:
     - "name"
     - "photoUrls"
@@ -193,6 +195,7 @@ definitions:
     xml:
       name: "Pet"
   UnusedString:
+    description: "string"
     type: "string"
 externalDocs:
   description: "Find out more about Swagger"
