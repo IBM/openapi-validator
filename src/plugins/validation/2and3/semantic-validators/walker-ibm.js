@@ -12,7 +12,7 @@ module.exports.validate = function({ jsSpec }, config) {
   config = config.walker;
 
   walk(jsSpec, [], function(obj, path) {
-    if (obj.description !== undefined) {
+    if (obj.description !== undefined && obj.description !== null) {
       const description = obj.description.toString();
       if (description.length === 0 || !description.trim()) {
         const checkStatus = config.no_empty_descriptions;

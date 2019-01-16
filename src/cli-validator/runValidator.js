@@ -199,6 +199,8 @@ const processInput = async function(program) {
       swagger = await buildSwaggerObject(input);
     } catch (err) {
       printError(chalk, 'There is a problem with the Swagger.', getError(err));
+      // Uncomment the line below to see the stack trace when the validator fails
+      // console.log(err.stack);
       exitCode = 1;
       continue;
     }
