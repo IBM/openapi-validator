@@ -266,18 +266,18 @@ describe('validation plugin - semantic - spec walker', () => {
         };
 
         const res = validate({ jsSpec: spec }, config);
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].path).toEqual([
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
           'paths',
           '/CoolPath/{id}',
           'responses',
           '200',
           '$ref'
         ]);
-        expect(res.errors[0].message).toEqual(
+        expect(res.warnings[0].message).toEqual(
           'responses $refs must follow this format: *#/responses*'
         );
-        expect(res.warnings.length).toEqual(0);
       });
 
       it('should return a problem for a definitions $ref in a response position', function() {
@@ -292,17 +292,17 @@ describe('validation plugin - semantic - spec walker', () => {
         };
 
         const res = validate({ jsSpec: spec }, config);
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].path).toEqual([
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
           'paths',
           '/CoolPath/{id}',
           'schema',
           '$ref'
         ]);
-        expect(res.errors[0].message).toEqual(
+        expect(res.warnings[0].message).toEqual(
           'schema $refs must follow this format: *#/definitions*'
         );
-        expect(res.warnings.length).toEqual(0);
       });
 
       it('should not return a problem for a responses $ref in a response position', function() {
@@ -337,14 +337,14 @@ describe('validation plugin - semantic - spec walker', () => {
         };
 
         const res = validate({ jsSpec: spec }, config);
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].path).toEqual([
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
           'paths',
           '/CoolPath/{id}',
           'schema',
           '$ref'
         ]);
-        expect(res.warnings.length).toEqual(0);
       });
 
       it('should return a problem for a responses $ref in a schema position', function() {
@@ -359,14 +359,14 @@ describe('validation plugin - semantic - spec walker', () => {
         };
 
         const res = validate({ jsSpec: spec }, config);
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].path).toEqual([
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
           'paths',
           '/CoolPath/{id}',
           'schema',
           '$ref'
         ]);
-        expect(res.warnings.length).toEqual(0);
       });
 
       it('should not return a problem for a definition $ref in a schema position', function() {
@@ -428,18 +428,18 @@ describe('validation plugin - semantic - spec walker', () => {
         };
 
         const res = validate({ jsSpec: spec }, config);
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].path).toEqual([
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
           'paths',
           '/CoolPath/{id}',
           'parameters',
           '0',
           '$ref'
         ]);
-        expect(res.errors[0].message).toEqual(
+        expect(res.warnings[0].message).toEqual(
           'parameters $refs must follow this format: *#/parameters*'
         );
-        expect(res.warnings.length).toEqual(0);
       });
 
       it('should return a problem for a responses $ref in a parameter position', function() {
@@ -456,15 +456,15 @@ describe('validation plugin - semantic - spec walker', () => {
         };
 
         const res = validate({ jsSpec: spec }, config);
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].path).toEqual([
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
           'paths',
           '/CoolPath/{id}',
           'parameters',
           '0',
           '$ref'
         ]);
-        expect(res.warnings.length).toEqual(0);
       });
 
       it('should not return a problem for a parameter $ref in a parameter position', function() {
@@ -508,8 +508,9 @@ describe('validation plugin - semantic - spec walker', () => {
         };
 
         const res = validate({ jsSpec: spec, isOAS3: true }, config);
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].path).toEqual([
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
           'paths',
           '/CoolPath/{id}',
           'post',
@@ -519,10 +520,9 @@ describe('validation plugin - semantic - spec walker', () => {
           'schema',
           '$ref'
         ]);
-        expect(res.errors[0].message).toEqual(
+        expect(res.warnings[0].message).toEqual(
           'schema $refs must follow this format: *#/components/schemas*'
         );
-        expect(res.warnings.length).toEqual(0);
       });
 
       it('should not return a problem for a header ref within a responses object', function() {
