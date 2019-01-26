@@ -60,7 +60,7 @@ module.exports = function validateSwagger(allSpecs, config) {
   }
 
   // run semantic validators
-  const allValidators = Object.assign(
+  const allValidators = Object.assign({},
     semanticValidators,
     sharedSemanticValidators
   );
