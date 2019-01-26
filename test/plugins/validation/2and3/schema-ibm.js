@@ -579,7 +579,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    var spec = yaml.safeLoad(fs.readFileSync('test/cli-validator/mockFiles/oas3/testoneof.yaml'));
+    const spec = yaml.safeLoad(
+      fs.readFileSync('test/cli-validator/mockFiles/oas3/testoneof.yaml')
+    );
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
     expect(res.errors.length).toEqual(2);

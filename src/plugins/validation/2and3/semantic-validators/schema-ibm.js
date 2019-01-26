@@ -56,11 +56,17 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     ) {
       const pushLeafSchemas = (obj, path) => {
         if (obj.allOf && Array.isArray(obj.allOf)) {
-          obj.allOf.forEach((e, i) => pushLeafSchemas(e, [...path, 'allOf', i]));
+          obj.allOf.forEach((e, i) =>
+            pushLeafSchemas(e, [...path, 'allOf', i])
+          );
         } else if (isOAS3 && obj.oneOf && Array.isArray(obj.oneOf)) {
-          obj.oneOf.forEach((e, i) => pushLeafSchemas(e, [...path, 'oneOf', i]));
+          obj.oneOf.forEach((e, i) =>
+            pushLeafSchemas(e, [...path, 'oneOf', i])
+          );
         } else if (isOAS3 && obj.anyOf && Array.isArray(obj.anyOf)) {
-          obj.anyOf.forEach((e, i) => pushLeafSchemas(e, [...path, 'anyOf', i]));
+          obj.anyOf.forEach((e, i) =>
+            pushLeafSchemas(e, [...path, 'anyOf', i])
+          );
         } else {
           schemas.push({ schema: obj, path });
         }
@@ -109,7 +115,8 @@ function generateFormatErrors(schema, contextPath, config) {
   if (checkStatus !== 'off' && schema.type === 'array' && schema.items) {
     if (schema.items.type === 'array') {
       const path = contextPath.concat(['items', 'type']);
-      const message = 'Array properties should avoid having items of type array.';
+      const message =
+        'Array properties should avoid having items of type array.';
       result[checkStatus].push({ path, message });
     }
   }
