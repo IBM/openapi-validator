@@ -80,8 +80,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       }
     }
 
-    ///// Restricted $refs
-    if (obj.$ref) {
+    ///// Restricted $refs -- only check internal refs
+    if (obj.$ref && obj.$ref.startsWith('#')) {
       const blacklistPayload = getRefPatternBlacklist(path, isOAS3);
       const refBlacklist = blacklistPayload.blacklist || [];
       const matches = match([obj.$ref], refBlacklist);
@@ -89,7 +89,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       if (refBlacklist && refBlacklist.length && matches.length) {
         // Assertation 2
         // use the slice(1) to remove the `!` negator from the string
-        errors.push({
+        warnings.push({
           path: [...path, '$ref'],
           message: `${
             blacklistPayload.location
