@@ -19,7 +19,7 @@ const includes = require('lodash/includes');
 const isSnakecase = require('../../../utils/checkSnakeCase');
 const walk = require('../../../utils/walk');
 
-module.exports.validate = function({ jsSpec }, config) {
+module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   const errors = [];
   const warnings = [];
 
@@ -54,7 +54,24 @@ module.exports.validate = function({ jsSpec }, config) {
       current === 'items' ||
       modelLocations.indexOf(path[path.length - 2]) > -1
     ) {
-      schemas.push({ schema: obj, path });
+      const pushLeafSchemas = (obj, path) => {
+        if (obj.allOf && Array.isArray(obj.allOf)) {
+          obj.allOf.forEach((e, i) =>
+            pushLeafSchemas(e, [...path, 'allOf', i])
+          );
+        } else if (isOAS3 && obj.oneOf && Array.isArray(obj.oneOf)) {
+          obj.oneOf.forEach((e, i) =>
+            pushLeafSchemas(e, [...path, 'oneOf', i])
+          );
+        } else if (isOAS3 && obj.anyOf && Array.isArray(obj.anyOf)) {
+          obj.anyOf.forEach((e, i) =>
+            pushLeafSchemas(e, [...path, 'anyOf', i])
+          );
+        } else {
+          schemas.push({ schema: obj, path });
+        }
+      };
+      pushLeafSchemas(obj, path);
     }
   });
 
@@ -89,63 +106,37 @@ function generateFormatErrors(schema, contextPath, config) {
   result.error = [];
   result.warning = [];
 
-  if (!schema.properties) {
+  if (schema.$ref) {
     return result;
   }
 
-  forIn(schema.properties, (property, propName) => {
-    if (property.$ref || propName.slice(0, 2) === 'x-') return;
-    let path = contextPath.concat(['properties', propName, 'type']);
-    let valid = true;
-    switch (property.type) {
-      case 'integer':
-      case 'number':
-      case 'string':
-      case 'boolean':
-        valid = formatValid(property);
-        break;
-      case 'array':
-        path = contextPath.concat(['properties', propName, 'items', 'type']);
-        if (property.items) {
-          if (property.items.type === 'array') {
-            const message =
-              'Array properties should avoid having items of type array.';
-            const checkStatus = config.array_of_arrays;
-            if (checkStatus !== 'off') {
-              result[checkStatus].push({ path, message });
-            }
-          } else {
-            valid = formatValid(property.items);
-          }
-        }
-        break;
-      case 'object':
-        valid = true; // TODO: validate nested schemas
-        break;
-      case null:
-        valid = true; // Not valid, but should be flagged because type is required
-        break;
-      default:
-        valid = false;
+  // Special case: check for arrays of arrays
+  let checkStatus = config.array_of_arrays;
+  if (checkStatus !== 'off' && schema.type === 'array' && schema.items) {
+    if (schema.items.type === 'array') {
+      const path = contextPath.concat(['items', 'type']);
+      const message =
+        'Array properties should avoid having items of type array.';
+      result[checkStatus].push({ path, message });
     }
+  }
 
-    if (!valid) {
-      const message = 'Property type+format is not well-defined.';
-      const checkStatus = config.invalid_type_format_pair;
-      if (checkStatus !== 'off') {
-        result[checkStatus].push({
-          path,
-          message
-        });
-      }
-    }
-  });
+  checkStatus = config.invalid_type_format_pair;
+  if (checkStatus !== 'off' && !formatValid(schema)) {
+    const path = contextPath.concat(['type']);
+    const message = 'Property type+format is not well-defined.';
+    result[checkStatus].push({ path, message });
+  }
 
   return result;
 }
 
 function formatValid(property) {
   if (property.$ref) {
+    return true;
+  }
+  // if type is not present, skip validation of format
+  if (!property.type) {
     return true;
   }
   let valid = true;
@@ -172,7 +163,8 @@ function formatValid(property) {
       valid = property.format === undefined; // No valid formats for boolean -- should be omitted
       break;
     case 'object':
-      valid = true; // TODO: validate nested schemas
+    case 'array':
+      valid = true;
       break;
     default:
       valid = false;
@@ -194,6 +186,9 @@ function generateDescriptionWarnings(schema, contextPath, config) {
   forIn(schema.properties, (property, propName) => {
     // if property is defined by a ref, it does not need a description
     if (property.$ref || propName.slice(0, 2) === 'x-') return;
+
+    // if property has a allOf, anyOf, or oneOf schema, it does not needs a description
+    if (property.allOf || property.anyOf || property.oneOf) return;
 
     const path = contextPath.concat(['properties', propName, 'description']);
 

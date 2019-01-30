@@ -1,4 +1,6 @@
 const expect = require('expect');
+const yaml = require('js-yaml');
+const fs = require('fs');
 const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/schema-ibm');
@@ -565,6 +567,28 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
+      'Property type+format is not well-defined.'
+    );
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should process allOf, oneOf, anyOf schemas correctly', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = yaml.safeLoad(
+      fs.readFileSync('test/cli-validator/mockFiles/oas3/testoneof.yaml')
+    );
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(2);
+    expect(res.errors[0].message).toEqual(
+      'Property type+format is not well-defined.'
+    );
+    expect(res.errors[1].message).toEqual(
       'Property type+format is not well-defined.'
     );
     expect(res.warnings.length).toEqual(0);
