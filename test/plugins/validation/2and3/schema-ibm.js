@@ -17,6 +17,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       definitions: {
         WordStyle: {
           type: 'object',
+          description: 'word style',
           properties: {
             level: {
               type: 'number',
@@ -54,6 +55,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       definitions: {
         Thing: {
           type: 'object',
+          description: 'thing',
           properties: {
             level: {
               type: 'array',
@@ -95,6 +97,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       definitions: {
         Thing: {
           type: 'object',
+          description: 'thing',
           properties: {
             level: {
               type: 'array',
@@ -106,7 +109,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
           }
         },
         levelItem: {
-          type: 'string'
+          type: 'string',
+          description: 'level item'
         }
       }
     };
@@ -166,6 +170,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       definitions: {
         Thing: {
           type: 'object',
+          description: 'thing',
           properties: {
             thingString: {
               type: 'string',
@@ -201,6 +206,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       definitions: {
         Thing: {
           type: 'object',
+          description: 'thing',
           properties: {
             thing: {
               type: 'array',
@@ -234,6 +240,86 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     ]);
     expect(res.warnings[0].message).toEqual(
       'Property names must be lower snake case.'
+    );
+  });
+
+  it('should return an error when a schema has no description', () => {
+    const config = {
+      schemas: {
+        no_schema_description: 'warning'
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Pet: {
+          required: ['id', 'name'],
+          properties: {
+            id: {
+              type: 'integer',
+              format: 'int64',
+              description: 'string'
+            },
+            name: {
+              type: 'string',
+              description: 'string'
+            },
+            tag: {
+              type: 'string',
+              description: 'string'
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(['definitions', 'Pet']);
+    expect(res.warnings[0].message).toEqual(
+      'Schema must have a non-empty description.'
+    );
+  });
+
+  it('should return an error when an OASv3 schema has no description', () => {
+    const config = {
+      schemas: {
+        no_schema_description: 'warning'
+      }
+    };
+
+    const spec = {
+      components: {
+        schemas: {
+          Pet: {
+            required: ['id', 'name'],
+            properties: {
+              id: {
+                type: 'integer',
+                format: 'int64',
+                description: 'string'
+              },
+              name: {
+                type: 'string',
+                description: 'string'
+              },
+              tag: {
+                type: 'string',
+                description: 'string'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(['components', 'schemas', 'Pet']);
+    expect(res.warnings[0].message).toEqual(
+      'Schema must have a non-empty description.'
     );
   });
 
@@ -423,6 +509,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       definitions: {
         Thing: {
           type: 'object',
+          description: 'thing',
           properties: {
             level: {
               type: 'array',
@@ -605,6 +692,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       definitions: {
         Thing: {
           type: 'object',
+          description: 'thing',
           properties: {
             color: {
               type: 'string',

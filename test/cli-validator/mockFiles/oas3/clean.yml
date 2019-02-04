@@ -30,7 +30,7 @@ paths:
               schema:
                 type: string
           content:
-            application/json:    
+            application/json:
               schema:
                 $ref: "#/components/schemas/Pets"
         default:
@@ -82,6 +82,8 @@ paths:
 components:
   schemas:
     Pet:
+      description:
+        A pet
       required:
         - id
         - name
@@ -97,6 +99,8 @@ components:
           type: string
           description: "tag property"
     Pets:
+      description:
+        A list of pets
       required:
         - list
       properties:
@@ -106,6 +110,8 @@ components:
           items:
             $ref: "#/components/schemas/Pet"
     Error:
+      description:
+        An error in processing a service request
       required:
         - code
         - message

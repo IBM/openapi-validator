@@ -130,6 +130,7 @@ securityDefinitions:
 definitions:
 	InlineResponse200:
 	  type: "object"
+		description: "string"
 	  properties:
 	    pets:
 	      type: "array"
@@ -138,6 +139,7 @@ definitions:
 	        $ref: "#/definitions/Pet"
 	Category:
 		type: "object"
+		description: "string"
 		properties:
 			id:
 				type: "integer"
@@ -150,6 +152,7 @@ definitions:
 			name: "Category"
 	Tag:
 		type: "object"
+		description: "string"
 		properties:
 			id:
 				type: "integer"
@@ -162,6 +165,7 @@ definitions:
 			name: "Tag"
 	Pet:
 		type: "object"
+		description: "string"
 		required:
 		- "name"
 		- "photo_urls"
