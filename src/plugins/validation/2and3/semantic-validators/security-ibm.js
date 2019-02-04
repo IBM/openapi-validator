@@ -7,6 +7,8 @@
 // If the security scheme is of type "oauth2" or "openIdConnect", then the value is a list of scope
 //   names required for the execution. For other security scheme types, the array MUST be empty.
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#securityRequirementObject
+// Assertation 2
+// Items in `security` must match a `securityDefinition`.
 
 const each = require('lodash/each');
 
@@ -49,16 +51,13 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     ? jsSpec.components && jsSpec.components.securitySchemes
     : jsSpec.securityDefinitions;
 
-  // if there are no security definitions, don't bother running these checks
-  // the unmatched security requirements will throw errors in another part of
-  // the validator
-  if (securityObjects.length && securityDefinitions) {
+  if (securityObjects.length) {
     securityObjects.forEach(obj => {
-      checkForInvalidNonEmptyArrays(obj);
+      validateSecurityObject(obj);
     });
   }
 
-  function checkForInvalidNonEmptyArrays({ security, path }) {
+  function validateSecurityObject({ security, path }) {
     security.forEach(schemeObject => {
       // each object in this array should only have one key - the name of the scheme
       const schemeNames = Object.keys(schemeObject);
@@ -75,15 +74,27 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         });
       }
 
-      const isNonEmptyArray = schemeObject[schemeName].length > 0;
-      const schemeIsDefined = securityDefinitions[schemeName];
-      const schemesWithNonEmptyArrays = isOAS3
-        ? ['oauth2', 'openIdConnect']
-        : ['oauth2'];
+      const schemeIsDefined =
+        securityDefinitions && securityDefinitions[schemeName];
 
-      if (isNonEmptyArray && schemeIsDefined) {
+      // ensure the security scheme is defined
+      if (!schemeIsDefined) {
+        result.error.push({
+          path: `${path}.${schemeName}`,
+          message: 'security requirements must match a security definition'
+        });
+      } else {
         const schemeType = securityDefinitions[schemeName].type;
-        if (!schemesWithNonEmptyArrays.includes(schemeType)) {
+        const isNonEmptyArray = schemeObject[schemeName].length > 0;
+        const schemesWithNonEmptyArrays = isOAS3
+          ? ['oauth2', 'openIdConnect']
+          : ['oauth2'];
+
+        const isSchemeWithNonEmptyArray = schemesWithNonEmptyArrays.includes(
+          schemeType
+        );
+
+        if (isNonEmptyArray && !isSchemeWithNonEmptyArray) {
           const checkStatus = config.invalid_non_empty_security_array;
           if (checkStatus !== 'off') {
             result[checkStatus].push({
@@ -94,9 +105,55 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             });
           }
         }
+
+        if (isSchemeWithNonEmptyArray) {
+          // check for resolution of specific scopes
+          const scopes = schemeObject[schemeName];
+          if (Array.isArray(scopes)) {
+            // Check for unknown scopes
+            const securityDefinition = securityDefinitions[schemeName];
+            scopes.forEach((scope, i) => {
+              const scopeIsDefined = isOAS3
+                ? checkOAS3Scopes(scope, securityDefinition)
+                : checkSwagger2Scopes(scope, securityDefinition);
+              if (!scopeIsDefined) {
+                result.error.push({
+                  message: `Definition could not be resolved for security scope: ${scope}`,
+                  path: `${path}.${schemeName}.${i}`
+                });
+              }
+            });
+          }
+        }
       }
     });
   }
 
   return { errors: result.error, warnings: result.warning };
 };
+
+// return true if scope is defined
+function checkSwagger2Scopes(scope, definition) {
+  return Boolean(definition.scopes && definition.scopes[scope]);
+}
+
+// return true if scope is defined
+function checkOAS3Scopes(scope, definition) {
+  let scopeIsDefined = false;
+  if (definition.flows) {
+    Object.keys(definition.flows).forEach(flowType => {
+      if (
+        definition.flows[flowType].scopes &&
+        definition.flows[flowType].scopes[scope]
+      ) {
+        scopeIsDefined = true;
+        return;
+      }
+    });
+  }
+  // scopes for openIdConnet are not definied in the document
+  if (definition.type && definition.type === 'openIdConnect') {
+    scopeIsDefined = true;
+  }
+  return scopeIsDefined;
+}
