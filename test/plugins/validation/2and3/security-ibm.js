@@ -186,6 +186,37 @@ describe('validation plugin - semantic - security-ibm', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(0);
     });
+
+    it('should not validate an object property with the name "security"', function() {
+      const spec = {
+        paths: {
+          'CoolPath/secured': {
+            get: {
+              operationId: 'secureGet',
+              summary: 'secure get operation',
+              responses: {
+                default: {
+                  description: 'test response',
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      security: {
+                        type: 'string',
+                        description: 'just an innocent string'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ jsSpec: spec }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
+    });
   });
 
   describe('OpenAPI 3', function() {
