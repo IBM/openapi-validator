@@ -1,3 +1,10 @@
+## [0.2.2](https://github.com/IBM/openapi-validator/compare/v0.2.1...v0.2.2) (2019-02-05)
+
+
+### Bug Fixes
+
+* run security validations on security objects only ([59f26b0](https://github.com/IBM/openapi-validator/commit/59f26b0))
+
 # 0.2.0
 - The options `-v` or `--version` now prints the semantic version of the validator
 - The `--print_validator_modules` short-hand option is renamed to `-p`
