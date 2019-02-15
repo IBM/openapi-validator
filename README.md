@@ -183,6 +183,7 @@ The supported rules are described below:
 | no_array_responses           | Flag any operations with a top-level array response.                                | shared   |
 | parameter_order              | Flag any operations with optional parameters before a required param.               | shared   |
 | no_request_body_content      | [Flag any operations with a `requestBody` that does not have a `content` field.][3] | oas3     |
+| no_request_body_name         | Flag any operations with a non-form `requestBody` that does not have a name set with `x-codegen-request-body-name`. | oas3 |
 
 ##### parameters
 | Rule                        | Description                                                              | Spec   |
@@ -307,6 +308,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_request_body_content     | error   |
+| no_request_body_name        | error   |
 
 ###### parameters
 | Rule                        | Default |
