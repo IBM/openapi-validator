@@ -125,7 +125,7 @@ function generateFormatErrors(schema, contextPath, config, isOAS3) {
   }
 
   checkStatus = config.invalid_type_format_pair;
-  if (checkStatus !== 'off' && !formatValid(schema, isOAS3)) {
+  if (checkStatus !== 'off' && !formatValid(schema, contextPath, isOAS3)) {
     const path = contextPath.concat(['type']);
     const message = 'Property type+format is not well-defined.';
     result[checkStatus].push({ path, message });
@@ -134,7 +134,7 @@ function generateFormatErrors(schema, contextPath, config, isOAS3) {
   return result;
 }
 
-function formatValid(property, isOAS3) {
+function formatValid(property, path, isOAS3) {
   if (property.$ref) {
     return true;
   }
@@ -172,7 +172,8 @@ function formatValid(property, isOAS3) {
     case 'file':
       // schemas of type file are allowed in swagger2 for responses and parameters
       // of type 'formData' - the violating parameters are caught by parameters-ibm
-      valid = !isOAS3;
+      // note: type file is only allowed for root schemas (not properties, etc.)
+      valid = !isOAS3 && isRootSchema(path);
       break;
     default:
       valid = false;
@@ -307,4 +308,18 @@ function checkEnumValues(schema, contextPath, config) {
   }
 
   return result;
+}
+
+// NOTE: this function is Swagger 2 specific and would need to be adapted to be used with OAS
+function isRootSchema(path) {
+  const current = path[path.length - 1];
+  const parent = path[path.length - 2];
+
+  // `schema` can only exist in parameter or response objects
+  // root schemas can also appear under a variable key in the `definitions` section
+  // if it is the top level `definitions` section (rather than some property named "definitions"),
+  // the path length will be 2
+  return (
+    current === 'schema' || (parent === 'definitions' && path.length === 2)
+  );
 }

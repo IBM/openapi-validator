@@ -188,6 +188,27 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
+  it('should non return an error for a definition with root type of file', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = {
+      definitions: {
+        SomeSchema: {
+          type: 'file',
+          description: 'file schema, used for parameter or response'
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
   it('should return an error for a response schema with non-root type file', () => {
     const config = {
       schemas: {
