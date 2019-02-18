@@ -225,12 +225,11 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 description: 'legal response',
                 schema: {
                   properties: {
-                    'this_is_bad': {
+                    this_is_bad: {
                       type: 'file',
-                      description: "non-root type of file is bad"
+                      description: 'non-root type of file is bad'
                     }
                   }
-
                 }
               }
             }
