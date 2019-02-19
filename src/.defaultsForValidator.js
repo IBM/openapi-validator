@@ -61,7 +61,8 @@ const defaults = {
     'walker': {
       'no_empty_descriptions': 'error',
       'has_circular_references': 'warning',
-      '$ref_siblings': 'off'
+      '$ref_siblings': 'off',
+      'duplicate_sibling_description': 'warning'
     }
   },
   'swagger2': {
