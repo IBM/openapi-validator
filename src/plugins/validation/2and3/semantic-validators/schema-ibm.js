@@ -79,7 +79,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   });
 
   schemas.forEach(({ schema, path }) => {
-    let res = generateFormatErrors(schema, path, config);
+    let res = generateFormatErrors(schema, path, config, isOAS3);
     errors.push(...res.error);
     warnings.push(...res.warning);
 
@@ -104,7 +104,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
 // Flag as an error any property that does not have a recognized "type" and "format" according to the
 // [Swagger 2.0 spec](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types)
-function generateFormatErrors(schema, contextPath, config) {
+function generateFormatErrors(schema, contextPath, config, isOAS3) {
   const result = {};
   result.error = [];
   result.warning = [];
@@ -125,7 +125,7 @@ function generateFormatErrors(schema, contextPath, config) {
   }
 
   checkStatus = config.invalid_type_format_pair;
-  if (checkStatus !== 'off' && !formatValid(schema)) {
+  if (checkStatus !== 'off' && !formatValid(schema, contextPath, isOAS3)) {
     const path = contextPath.concat(['type']);
     const message = 'Property type+format is not well-defined.';
     result[checkStatus].push({ path, message });
@@ -134,7 +134,7 @@ function generateFormatErrors(schema, contextPath, config) {
   return result;
 }
 
-function formatValid(property) {
+function formatValid(property, path, isOAS3) {
   if (property.$ref) {
     return true;
   }
@@ -168,6 +168,12 @@ function formatValid(property) {
     case 'object':
     case 'array':
       valid = true;
+      break;
+    case 'file':
+      // schemas of type file are allowed in swagger2 for responses and parameters
+      // of type 'formData' - the violating parameters are caught by parameters-ibm
+      // note: type file is only allowed for root schemas (not properties, etc.)
+      valid = !isOAS3 && isRootSchema(path);
       break;
     default:
       valid = false;
@@ -302,4 +308,18 @@ function checkEnumValues(schema, contextPath, config) {
   }
 
   return result;
+}
+
+// NOTE: this function is Swagger 2 specific and would need to be adapted to be used with OAS
+function isRootSchema(path) {
+  const current = path[path.length - 1];
+  const parent = path[path.length - 2];
+
+  // `schema` can only exist in parameter or response objects
+  // root schemas can also appear under a variable key in the `definitions` section
+  // if it is the top level `definitions` section (rather than some property named "definitions"),
+  // the path length will be 2
+  return (
+    current === 'schema' || (parent === 'definitions' && path.length === 2)
+  );
 }

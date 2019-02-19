@@ -159,6 +159,105 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
+  it('should non return an error for a response schema of type file', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            responses: {
+              '200': {
+                description: 'legal response',
+                schema: {
+                  type: 'file'
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should non return an error for a definition with root type of file', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = {
+      definitions: {
+        SomeSchema: {
+          type: 'file',
+          description: 'file schema, used for parameter or response'
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should return an error for a response schema with non-root type file', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            responses: {
+              '200': {
+                description: 'legal response',
+                schema: {
+                  properties: {
+                    this_is_bad: {
+                      type: 'file',
+                      description: 'non-root type of file is bad'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual([
+      'paths',
+      '/pets',
+      'get',
+      'responses',
+      '200',
+      'schema',
+      'properties',
+      'this_is_bad',
+      'type'
+    ]);
+    expect(res.errors[0].message).toEqual(
+      'Property type+format is not well-defined.'
+    );
+
+    expect(res.warnings.length).toEqual(0);
+  });
+
   it('should return a warning when a property name is not snake case', () => {
     const config = {
       schemas: {
@@ -574,7 +673,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'components',
@@ -585,6 +684,52 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'schema',
       'properties',
       'BadProp',
+      'type'
+    ]);
+    expect(res.errors[0].message).toEqual(
+      'Property type+format is not well-defined.'
+    );
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should return an error for a response schema of type file', () => {
+    const config = {
+      schemas: {
+        invalid_type_format_pair: 'error'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            responses: {
+              '200': {
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'file'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual([
+      'paths',
+      '/pets',
+      'get',
+      'responses',
+      '200',
+      'content',
+      'application/json',
+      'schema',
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
@@ -638,7 +783,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -704,7 +849,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -750,7 +895,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
