@@ -5,7 +5,7 @@ const reduce = require('lodash/reduce');
 const merge = require('lodash/merge');
 const each = require('lodash/each');
 
-module.exports.validate = function({ jsSpec }) {
+module.exports.validate = function({ resolvedSpec }) {
   const errors = [];
   const warnings = [];
 
@@ -21,7 +21,7 @@ module.exports.validate = function({ jsSpec }) {
   ];
 
   const operations = reduce(
-    jsSpec.paths,
+    resolvedSpec.paths,
     (arr, path, pathKey) => {
       const pathOps = pickBy(path, (obj, k) => {
         return validOperationKeys.indexOf(k) > -1;
