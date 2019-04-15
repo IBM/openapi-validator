@@ -46,7 +46,7 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 1. Clone or download this repository
 2. Navigate to the root directory of this project.
 3. Install the dependencies using `npm install`
-4. Build the command line tool by running `npm run build-and-link`.
+4. Build the command line tool by running `npm run link`.
 
 ## Usage
 ### Command line
