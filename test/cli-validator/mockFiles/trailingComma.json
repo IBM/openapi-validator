@@ -16,7 +16,7 @@
     "/v1/thing": {
       "post": {
         "summary": "Create a thing.",
-        "operationId": "createThing",
+        "operationId": "create_thing",
         "consumes": [
           "multipart/form-data"
         ],
