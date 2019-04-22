@@ -13,7 +13,7 @@ describe('validation plugin - semantic - operations-shared', function() {
         paths: {
           '/': {
             get: {
-              operationId: 'getEverything',
+              operationId: 'get_everything',
               summary: 'this is a summary',
               parameters: [
                 {
@@ -120,7 +120,7 @@ describe('validation plugin - semantic - operations-shared', function() {
           '/CoolPath': {
             put: {
               consumes: ['consumes'],
-              operationId: 'operationId',
+              operationId: 'operation_id',
               parameters: [
                 {
                   name: 'BadParameter',
@@ -156,7 +156,7 @@ describe('validation plugin - semantic - operations-shared', function() {
             put: {
               consumes: ['consumes'],
               summary: '  ',
-              operationId: 'operationId',
+              operationId: 'operation_id',
               parameters: [
                 {
                   name: 'BadParameter',
@@ -222,7 +222,7 @@ describe('validation plugin - semantic - operations-shared', function() {
           '/stuff': {
             get: {
               summary: 'list stuff',
-              operationId: 'listStuff',
+              operationId: 'list_stuff',
               produces: ['application/json'],
               responses: {
                 200: {
@@ -257,7 +257,7 @@ describe('validation plugin - semantic - operations-shared', function() {
           '/stuff': {
             get: {
               summary: 'list stuff',
-              operationId: 'listStuff',
+              operationId: 'list_stuff',
               produces: ['application/json'],
               responses: {
                 200: {
@@ -300,7 +300,7 @@ describe('validation plugin - semantic - operations-shared', function() {
             'x-vendor-put-op': {
               consumes: ['consumes'],
               summary: '  ',
-              operationId: 'operationId',
+              operationId: 'operation_id',
               parameters: [
                 {
                   name: 'BadParameter',
@@ -331,7 +331,7 @@ describe('validation plugin - semantic - operations-shared', function() {
           '/stuff': {
             get: {
               summary: 'list stuff',
-              operationId: 'listStuff',
+              operationId: 'list_stuff',
               produces: ['application/json'],
               parameters: [
                 {
@@ -375,7 +375,7 @@ describe('validation plugin - semantic - operations-shared', function() {
           '/stuff': {
             get: {
               summary: 'list stuff',
-              operationId: 'listStuff',
+              operationId: 'list_stuff',
               produces: ['application/json'],
               parameters: [
                 {
@@ -432,7 +432,7 @@ describe('validation plugin - semantic - operations-shared', function() {
           '/fake/{id}': {
             get: {
               summary: 'get fake data by id',
-              operationId: 'getFakeData',
+              operationId: 'get_fake_data',
               produces: ['application/json'],
               parameters: [
                 {
@@ -492,7 +492,7 @@ describe('validation plugin - semantic - operations-shared', function() {
           '/fake/{id}': {
             get: {
               summary: 'get fake data by id',
-              operationId: 'getFakeData',
+              operationId: 'get_fake_data',
               produces: ['application/json'],
               parameters: [
                 {
@@ -553,7 +553,7 @@ describe('validation plugin - semantic - operations-shared', function() {
             put: {
               consumes: ['consumes'],
               summary: 'this is a summary',
-              operationId: 'cool_path_put',
+              operationId: 'coolPathPut',
               parameters: [
                 {
                   name: 'BadParameter',
@@ -577,7 +577,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].path).toEqual('paths./CoolPath.put.operationId');
       expect(res.warnings[0].message).toEqual(
-        'operationIds must follow case convention: lower_camel_case'
+        'operationIds must follow case convention: lower_snake_case'
       );
       expect(res.errors.length).toEqual(0);
     });
@@ -589,7 +589,7 @@ describe('validation plugin - semantic - operations-shared', function() {
             put: {
               consumes: ['consumes'],
               summary: 'this is a summary',
-              operationId: 'coolPathPut',
+              operationId: 'cool_path_put',
               parameters: [
                 {
                   name: 'BadParameter',
@@ -633,7 +633,7 @@ describe('validation plugin - semantic - operations-shared', function() {
         paths: {
           '/': {
             get: {
-              operationId: 'getEverything',
+              operationId: 'get_everything',
               summary: 'this is a summary',
               responses: {
                 default: {
@@ -679,7 +679,7 @@ describe('validation plugin - semantic - operations-shared', function() {
         paths: {
           '/': {
             get: {
-              operationId: 'getEverything',
+              operationId: 'get_everything',
               summary: 'get everything as a string or an array',
               responses: {
                 '200': {

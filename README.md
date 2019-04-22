@@ -329,7 +329,7 @@ The default values for each rule are described below.
 | Rule                         | Default |
 | ---------------------------- | ------- |
 | no_operation_id              | warning |
-| operation_id_case_convention | warning, lower_camel_case |
+| operation_id_case_convention | warning, lower_snake_case |
 | no_summary                   | warning |
 | no_array_responses           | error   |
 | parameter_order              | warning |
