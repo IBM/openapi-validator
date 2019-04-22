@@ -12,7 +12,8 @@ module.exports.validate = function({ jsSpec }, config) {
   config = config.walker;
 
   walk(jsSpec, [], function(obj, path) {
-    if (obj.description !== undefined) {
+    // check for empty descriptions
+    if (obj.description !== undefined && obj.description !== null) {
       const description = obj.description.toString();
       if (description.length === 0 || !description.trim()) {
         const checkStatus = config.no_empty_descriptions;
@@ -24,6 +25,16 @@ module.exports.validate = function({ jsSpec }, config) {
         }
       }
     }
+
+    // check for and flag null values - they are not allowed by the spec and are likely mistakes
+    Object.keys(obj).forEach(key => {
+      if (obj[key] === null) {
+        result.error.push({
+          path: [...path, key],
+          message: 'Null values are not allowed for any property.'
+        });
+      }
+    });
   });
 
   return { errors: result.error, warnings: result.warning };

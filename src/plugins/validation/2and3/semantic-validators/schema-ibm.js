@@ -217,7 +217,7 @@ function generateDescriptionWarnings(schema, contextPath, config, isOAS3) {
   // verify that every property of the model has a description
   forIn(schema.properties, (property, propName) => {
     // if property is defined by a ref, it does not need a description
-    if (property.$ref || propName.slice(0, 2) === 'x-') return;
+    if (!property || property.$ref || propName.slice(0, 2) === 'x-') return;
 
     // if property has a allOf, anyOf, or oneOf schema, it does not needs a description
     if (property.allOf || property.anyOf || property.oneOf) return;
