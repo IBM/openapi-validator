@@ -6,8 +6,9 @@
 
 const pick = require('lodash/pick');
 const each = require('lodash/each');
+const at = require('lodash/at');
 
-module.exports.validate = function({ resolvedSpec }, config) {
+module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
   const result = {};
   result.error = [];
   result.warning = [];
@@ -42,9 +43,32 @@ module.exports.validate = function({ resolvedSpec }, config) {
         } else {
           // request body has content
           const firstMimeType = requestBodyMimeTypes[0]; // code generation uses the first mime type
+          const oneContentType = requestBodyMimeTypes.length === 1;
+          const isJson = firstMimeType === 'application/json';
+
+          const hasArraySchema =
+            requestBodyContent[firstMimeType].schema &&
+            requestBodyContent[firstMimeType].schema.type === 'array';
+
           const hasRequestBodyName =
             op[REQUEST_BODY_NAME] && op[REQUEST_BODY_NAME].trim().length;
-          if (isBodyParameter(firstMimeType) && !hasRequestBodyName) {
+
+          // non-array json responses with only one content type will have
+          // the body exploded in sdk generation, no need for name
+          const explodingBody = oneContentType && isJson && !hasArraySchema;
+
+          // referenced request bodies have names
+          const referencedRequestBody = Boolean(
+            at(jsSpec, `paths.${pathName}.${opName}.requestBody`)[0].$ref
+          );
+
+          // form params do not need names
+          if (
+            !isFormParameter(firstMimeType) &&
+            !explodingBody &&
+            !referencedRequestBody &&
+            !hasRequestBodyName
+          ) {
             const checkStatus = config.no_request_body_name;
             if (checkStatus != 'off') {
               const message =
@@ -63,11 +87,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
   return { errors: result.error, warnings: result.warning };
 };
 
-function isBodyParameter(mimeType) {
+function isFormParameter(mimeType) {
   const formDataMimeTypes = [
     'multipart/form-data',
     'application/x-www-form-urlencoded',
     'application/octet-stream'
   ];
-  return !formDataMimeTypes.includes(mimeType);
+  return formDataMimeTypes.includes(mimeType);
 }

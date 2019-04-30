@@ -308,7 +308,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_request_body_content     | error   |
-| no_request_body_name        | error   |
+| no_request_body_name        | warning |
 
 ###### parameters
 | Rule                        | Default |
