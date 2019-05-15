@@ -276,7 +276,7 @@ The configuration file must be structured as a JSON object with specs as first-l
 
 If a rule is not included in the file, that rule will be set to the default status automatically. See the [Default Values](#default-values) for more info.
 
-For an example of the structure, see the [defaults file](https://github.ibm.com/CloudEngineering/openapi-validator/blob/master/src/.defaultsForValidator.js).
+For an example of the structure, see the [defaults file](https://github.com/IBM/openapi-validator/blob/master/src/.defaultsForValidator.js).
 
 The easiest way to create a `.validaterc` file is using the [initialization command](#setup).
 
