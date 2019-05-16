@@ -235,11 +235,12 @@ The supported rules are described below:
 | invalid_non_empty_security_array | Flag any non-empty security array this is not of type OAuth2 | shared |
 
 ##### walker
-| Rule                        | Description                                                                  | Spec   |
-| --------------------------- | ---------------------------------------------------------------------------- | ------ |
-| no_empty_descriptions       | Flag any `description` field in the spec with an empty or whitespace string. | shared |
-| has_circular_references     | Flag any circular references found in the Swagger spec.                      | shared |
-| $ref_siblings               | Flag any properties that are siblings of a `$ref` property.                  | shared |
+| Rule                          | Description                                                                  | Spec   |
+| ----------------------------- | ---------------------------------------------------------------------------- | ------ |
+| no_empty_descriptions         | Flag any `description` field in the spec with an empty or whitespace string. | shared |
+| has_circular_references       | Flag any circular references found in the Swagger spec.                      | shared |
+| $ref_siblings                 | Flag any properties that are siblings of a `$ref` property.                  | shared |
+| duplicate_sibling_description | Flag descriptions sibling to `$ref` if identical to referenced description.  | shared |
 
 [1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
 [2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
@@ -296,7 +297,7 @@ The default values for each rule are described below.
 
 ###### operations
 | Rule                        | Default |
-| --------------------------- | --------|
+| --------------------------- | ------- |
 | no_consumes_for_put_or_post | error   |
 | get_op_has_consumes         | warning |
 | no_produces                 | error   |
@@ -306,13 +307,13 @@ The default values for each rule are described below.
 
 ###### operations
 | Rule                        | Default |
-| --------------------------- | --------|
+| --------------------------- | ------- |
 | no_request_body_content     | error   |
 | no_request_body_name        | warning |
 
 ###### parameters
 | Rule                        | Default |
-| --------------------------- | --------|
+| --------------------------- | ------- |
 | no_in_property              | error   |
 | invalid_in_property         | error   |
 | missing_schema_or_content   | error   |
@@ -349,7 +350,7 @@ The default values for each rule are described below.
 
 ###### paths
 | Rule                        | Default |
-| --------------------------- | --------|
+| --------------------------- | ------- |
 | missing_path_parameter      | error   |
 | snake_case_only             | warning |
 
@@ -360,7 +361,7 @@ The default values for each rule are described below.
 
 ###### security_definitions
 | Rule                        | Default |
-| --------------------------- | --------|
+| --------------------------- | ------- |
 | unused_security_schemes     | warning |
 | unused_security_scopes      | warning |
 
@@ -371,7 +372,7 @@ The default values for each rule are described below.
 
 ###### schemas
 | Rule                        | Default |
-| --------------------------- | --------|
+| --------------------------- | ------- |
 | invalid_type_format_pair    | error   |
 | snake_case_only             | warning |
 | no_schema_description       | warning |
@@ -380,11 +381,12 @@ The default values for each rule are described below.
 | array_of_arrays             | warning |
 
 ###### walker
-| Rule                        | Default |
-| --------------------------- | --------|
-| no_empty_descriptions       | error   |
-| has_circular_references     | warning |
-| $ref_siblings               | off     |
+| Rule                          | Default |
+| ----------------------------- | ------- |
+| no_empty_descriptions         | error   |
+| has_circular_references       | warning |
+| $ref_siblings                 | off     |
+| duplicate_sibling_description | warning |
 
 
 ## Turning off `update-notifier`
