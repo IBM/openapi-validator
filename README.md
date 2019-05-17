@@ -247,6 +247,13 @@ The supported rules are described below:
 [3]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#requestBodyObject
 [4]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#responseObject
 
+##### info
+| Rule                         | Description                                                                         | Spec     |
+| ---------------------------- | ----------------------------------------------------------------------------------- | -------- |
+| no_input                     | Flag any defintion that does not contain an info field.                             | shared   |
+| mistyped_title_or_version    | Flag the title or version properties if they are the incorrect type.                | shared   |
+| empty_title_or_version       | Flag the title or version proprtite if they are empty                               | shared   |
+
 #### Statuses
 
 Each rule can be assigned a status. The supported statuses are `error`, `warning`, and `off`.
@@ -327,6 +334,13 @@ The default values for each rule are described below.
 
 
 ##### shared
+
+###### info
+| Rule                         | Default |
+| ---------------------------- | ------- |
+| no_info                      | error   |
+| mistyped_title_or_version    | error   |
+| empty_title_or_version       | error   |
 
 ###### operations
 | Rule                         | Default |
