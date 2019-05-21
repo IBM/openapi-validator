@@ -6,7 +6,9 @@
 module.exports.validate = function({ jsSpec }) {
   const errors = [];
   const warnings = [];
-  if (!jsSpec.info) {
+  const no_input = !jsSpec.info;
+  let mistyped_title_or_version = false;
+  if (no_input) {
     errors.push({
       path: ['info'],
       message: 'Missing info object for api defintion'
@@ -18,6 +20,9 @@ module.exports.validate = function({ jsSpec }) {
     (typeof jsSpec.info.title != 'string' ||
       typeof jsSpec.info.version != 'string')
   ) {
+    mistyped_title_or_version = true;
+  }
+  if (mistyped_title_or_version) {
     errors.push({
       path: ['info', 'title'],
       message:

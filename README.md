@@ -331,6 +331,12 @@ The default values for each rule are described below.
 ###### operations
 | Rule                         | Default |
 | ---------------------------- | ------- |
+| no_input                     | error   |
+| mistyped_title_or_version    | error   |
+
+###### operations
+| Rule                         | Default |
+| ---------------------------- | ------- |
 | no_operation_id              | warning |
 | operation_id_case_convention | warning, lower_snake_case |
 | no_summary                   | warning |

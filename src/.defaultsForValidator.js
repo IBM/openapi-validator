@@ -22,8 +22,7 @@ const defaults = {
   'shared': {
     'info':{
       'no_info': 'error',
-      'mistyped_title_or_version': 'error',
-      'empty_title_or_version': 'error'
+      'mistyped_title_or_version': 'error'
     },
     'operations': {
       'no_operation_id': 'warning',
