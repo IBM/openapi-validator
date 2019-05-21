@@ -171,6 +171,12 @@ The supported categories are described below:
 Each category contains a group of rules. The spec that each rule applies to is marked in the third column. For the actual configuration structure, see the [default values](#default-values).
 The supported rules are described below:
 
+##### rules
+| Rule                         | Description                                                                         | Spec     |
+| ---------------------------- | ----------------------------------------------------------------------------------- | -------- |
+| no_info  | Flag missing info field in api defintion.                              | shared   |
+| mistyped_version_or_title         | Flag version or title that are not strings.                                                                            | shared   |
+
 ##### operations
 | Rule                         | Description                                                                         | Spec     |
 | ---------------------------- | ----------------------------------------------------------------------------------- | -------- |
@@ -328,10 +334,11 @@ The default values for each rule are described below.
 
 ##### shared
 
+
 ###### operations
 | Rule                         | Default |
 | ---------------------------- | ------- |
-| no_input                     | error   |
+| no_info                      | error   |
 | mistyped_title_or_version    | error   |
 
 ###### operations
