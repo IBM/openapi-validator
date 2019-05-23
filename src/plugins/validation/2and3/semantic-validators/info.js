@@ -6,16 +6,13 @@
 module.exports.validate = function({ jsSpec }) {
   const errors = [];
   const warnings = [];
+
   const info = jsSpec.info;
-  if (!info) {
+  const hasInfo = info && typeof info === 'object';
+  if (!hasInfo) {
     errors.push({
       path: ['info'],
-      message: 'Missing info object for api defintion'
-    });
-  } else if (typeof info != 'object') {
-    errors.push({
-      path: ['info'],
-      message: 'Info is an obect and must have properties'
+      message: 'API definition must have an `info` object'
     });
   } else {
     const title = jsSpec.info.title;
@@ -24,15 +21,16 @@ module.exports.validate = function({ jsSpec }) {
     const version = jsSpec.info.version;
     const hasVersion =
       typeof version === 'string' && version.toString().trim().length > 0;
+
     if (!hasTitle) {
       errors.push({
         path: ['info', 'title'],
-        message: ' Info object is missng the title field'
+        message: '`info` object must have a string-type `title` field'
       });
     } else if (!hasVersion) {
       errors.push({
         path: ['info', 'version'],
-        message: ' Info object is missng the version field'
+        message: '`info` object must have a string-type `version` field'
       });
     }
   }
