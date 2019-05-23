@@ -6,28 +6,35 @@
 module.exports.validate = function({ jsSpec }) {
   const errors = [];
   const warnings = [];
-  const no_input = !jsSpec.info;
-  let mistyped_title_or_version = false;
-  if (no_input) {
+  const info = jsSpec.info;
+  if (!info) {
     errors.push({
       path: ['info'],
       message: 'Missing info object for api defintion'
     });
-  }
-  //Assertion 2
-  if (
-    jsSpec.info &&
-    (typeof jsSpec.info.title != 'string' ||
-      typeof jsSpec.info.version != 'string')
-  ) {
-    mistyped_title_or_version = true;
-  }
-  if (mistyped_title_or_version) {
+  } else if (typeof info != 'object') {
     errors.push({
-      path: ['info', 'title'],
-      message:
-        'Info object missing proper definitions for title or version properties'
+      path: ['info'],
+      message: 'Info is an obect and must have properties'
     });
+  } else {
+    const title = jsSpec.info.title;
+    const hasTitle =
+      typeof title === 'string' && title.toString().trim().length > 0;
+    const version = jsSpec.info.version;
+    const hasVersion =
+      typeof version === 'string' && version.toString().trim().length > 0;
+    if (!hasTitle) {
+      errors.push({
+        path: ['info', 'title'],
+        message: ' Info object is missng the title field'
+      });
+    } else if (!hasVersion) {
+      errors.push({
+        path: ['info', 'version'],
+        message: ' Info object is missng the version field'
+      });
+    }
   }
-  return { errors: errors, warnings: warnings };
+  return { errors, warnings };
 };
