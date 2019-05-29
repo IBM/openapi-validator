@@ -6,14 +6,19 @@
 
 */
 const lowerSnakeCase = /^[a-z][a-z0-9]*(_[a-z0-9]+)*$/;
+const upperSnakeCase = /^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$/;
 const upperCamelCase = /^[A-Z][a-z0-9]+([A-Z][a-z0-9]+)*$/;
 const lowerCamelCase = /^[a-z][a-z0-9]*([A-Z][a-z0-9]+)*$/;
 const lowerDashCase = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/;
+const upperDashCase = /^[A-Z][A-Z0-9]*(-[A-Z0-9]+)*$/;
 
 module.exports = (string, convention) => {
   switch (convention) {
     case 'lower_snake_case':
       return lowerSnakeCase.test(string);
+
+    case 'upper_snake_case':
+      return upperSnakeCase.test(string);
 
     case 'upper_camel_case':
       return upperCamelCase.test(string);
@@ -23,6 +28,9 @@ module.exports = (string, convention) => {
 
     case 'lower_dash_case':
       return lowerDashCase.test(string);
+
+    case 'upper_dash_case':
+      return upperDashCase.test(string);
 
     default:
       // this should never happen, the convention is validated in the config processor

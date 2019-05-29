@@ -21,6 +21,34 @@ describe('case convention regex tests', function() {
     });
   });
 
+  describe('upper snake case tests', function() {
+    const convention = 'upper_snake_case';
+
+    it('SHA1 is upper snake case', function() {
+      const string = 'SHA1';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+    it('sha1 is NOT upper snake case', function() {
+      const string = 'sha1';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+
+    it('good_case_string is NOT upper_snake_case', function() {
+      const string = 'good_case_string';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+
+    it('GOOD_CASE_STRING is upper_snake_case', function() {
+      const string = 'GOOD_CASE_STRING';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+
+    it('badCaseString is NOT upper_snake_case', function() {
+      const string = 'badCaseString';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+  });
+
   describe('upper camel case tests', function() {
     const convention = 'upper_camel_case';
     it('Sha1 is upper camel case', function() {
@@ -81,6 +109,36 @@ describe('case convention regex tests', function() {
 
     it('Bad-Case-String is NOT lower dash case', function() {
       const string = 'Bad-Case-String';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+  });
+  describe('upper dash case tests', function() {
+    const convention = 'upper_dash_case';
+    it('sha1 is NOT upper_dash_case', function() {
+      const string = 'sha1';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+
+    it('SHA1 is upper_dash_case', function() {
+      const string = 'SHA1';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+
+    it('bad-case-string is NOT upper_dash_case', function() {
+      const string = 'bad-case-string';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+    it('GOOD-CASE-STRING is upper_dash_case', function() {
+      const string = 'GOOD-CASE-STRING';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+
+    it('Bad-Case-String is NOT upper_dash_case', function() {
+      const string = 'Bad-Case-String';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+    it('badCaseString is NOT upper_dash_case', function() {
+      const string = 'badCaseString';
       expect(checkCase(string, convention)).toEqual(false);
     });
   });
