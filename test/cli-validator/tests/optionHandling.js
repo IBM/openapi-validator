@@ -183,4 +183,43 @@ describe('cli tool - test option handling', function() {
       expect(line.includes('statistics')).toEqual(false);
     });
   });
+
+  it('should print json output when -j option is given', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.json = true;
+    program.default_mode = true;
+
+    await commandLineValidator(program);
+    unhookIntercept();
+
+    // capturedText should be JSON object. convert to json and check fields
+    const outputObject = JSON.parse(capturedText);
+
+    //console.print(JSON.stringify(outputObject)); //FIXME
+
+    expect(outputObject.warning).toEqual(true);
+    expect(outputObject.error).toEqual(true);
+
+    // {"line": 59, "message": "operationIds must be unique", "path": "paths./pet.put.operationId"
+    expect(outputObject['errors']['operation-ids'][0]['line']).toEqual(59);
+    expect(outputObject['errors']['operation-ids'][0]['message']).toEqual(
+      'operationIds must be unique'
+    );
+
+    // {"operations-shared": [{"line": 36, "message": "Operations must have a non-empty `operationId`.", "path": "paths./pet.post.operationId"},
+    expect(outputObject['warnings']['operations-shared'][0]['line']).toEqual(
+      36
+    );
+    expect(outputObject['warnings']['operations-shared'][0]['message']).toEqual(
+      'Operations must have a non-empty `operationId`.'
+    );
+  });
 });

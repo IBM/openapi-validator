@@ -12,6 +12,7 @@ const config = require('./utils/processConfiguration');
 const buildSwaggerObject = require('./utils/buildSwaggerObject');
 const validator = require('./utils/validator');
 const print = require('./utils/printResults');
+const printJson = require('./utils/printJsonResults');
 const printError = require('./utils/printError');
 const preprocessFile = require('./utils/preprocessFile');
 
@@ -35,6 +36,7 @@ const processInput = async function(program) {
 
   const turnOffColoring = !!program.no_colors;
   const defaultMode = !!program.default_mode;
+  const jsonOutput = !!program.json;
 
   // turn on coloring by default
   const colors = turnOffColoring ? false : true;
@@ -217,13 +219,17 @@ const processInput = async function(program) {
       continue;
     }
 
-    if (results.error || results.warning) {
-      print(results, chalk, printValidators, reportingStats, originalFile);
-      // fail on errors, but not if there are only warnings
-      if (results.error) exitCode = 1;
+    if (jsonOutput) {
+      printJson(results, originalFile);
     } else {
-      console.log(chalk.green(`\n${validFile} passed the validator`));
-      if (validFile === last(filesToValidate)) console.log();
+      if (results.error || results.warning) {
+        print(results, chalk, printValidators, reportingStats, originalFile);
+        // fail on errors, but not if there are only warnings
+        if (results.error) exitCode = 1;
+      } else {
+        console.log(chalk.green(`\n${validFile} passed the validator`));
+        if (validFile === last(filesToValidate)) console.log();
+      }
     }
   }
 
