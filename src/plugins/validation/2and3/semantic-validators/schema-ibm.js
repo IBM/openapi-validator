@@ -97,32 +97,33 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       res = checkEnumValues(schema, path, config);
       errors.push(...res.error);
       warnings.push(...res.warning);
-    }
-
-    // optional support for property_case_convention and enum_case_convention
-    // in config.  Should be mutually exclusive with usage of config.snake_case_only
-    if (config.property_case_convention) {
-      const checkCaseStatus = config.property_case_convention[0];
-      if (checkCaseStatus !== 'off') {
-        res = checkPropNamesCaseConvention(
-          schema,
-          path,
-          config.property_case_convention
-        );
-        errors.push(...res.error);
-        warnings.push(...res.warning);
+    } else {
+      // optional support for property_case_convention and enum_case_convention
+      // in config.  In the else block because support should be mutually exclusive
+      // with config.snake_case_only since it is overlapping functionality
+      if (config.property_case_convention) {
+        const checkCaseStatus = config.property_case_convention[0];
+        if (checkCaseStatus !== 'off') {
+          res = checkPropNamesCaseConvention(
+            schema,
+            path,
+            config.property_case_convention
+          );
+          errors.push(...res.error);
+          warnings.push(...res.warning);
+        }
       }
-    }
-    if (config.enum_case_convention) {
-      const checkCaseStatus = config.enum_case_convention[0];
-      if (checkCaseStatus !== 'off') {
-        res = checkEnumCaseConvention(
-          schema,
-          path,
-          config.enum_case_convention
-        );
-        errors.push(...res.error);
-        warnings.push(...res.warning);
+      if (config.enum_case_convention) {
+        const checkCaseStatus = config.enum_case_convention[0];
+        if (checkCaseStatus !== 'off') {
+          res = checkEnumCaseConvention(
+            schema,
+            path,
+            config.enum_case_convention
+          );
+          errors.push(...res.error);
+          warnings.push(...res.warning);
+        }
       }
     }
   });

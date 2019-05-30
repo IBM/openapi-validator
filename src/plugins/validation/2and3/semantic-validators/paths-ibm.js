@@ -135,28 +135,30 @@ module.exports.validate = function({ resolvedSpec }, config) {
           });
         }
       });
-    }
-
-    // enforce path segments follow path_case_convention if provided
-    if (config.paths_case_convention) {
-      const checkStatusPath = config.paths_case_convention[0];
-      if (checkStatusPath !== 'off') {
-        const caseConvention = config.paths_case_convention[1];
-        const segments = pathName.split('/');
-        segments.forEach(segment => {
-          // the first element will be "" since pathName starts with "/"
-          // also, ignore validating the path parameters
-          if (segment === '' || segment[0] === '{') {
-            return;
-          }
-          const isCorrectCase = checkCase(segment, caseConvention);
-          if (!isCorrectCase) {
-            result[checkStatusPath].push({
-              path: `paths.${pathName}`,
-              message: `Path segments must follow case convention: ${caseConvention}`
-            });
-          }
-        });
+    } else {
+      // in the else block because usage of paths_case_convention is mutually
+      // exclusive with usage of config.snake_case_only since it is overlapping
+      // functionality
+      if (config.paths_case_convention) {
+        const checkStatusPath = config.paths_case_convention[0];
+        if (checkStatusPath !== 'off') {
+          const caseConvention = config.paths_case_convention[1];
+          const segments = pathName.split('/');
+          segments.forEach(segment => {
+            // the first element will be "" since pathName starts with "/"
+            // also, ignore validating the path parameters
+            if (segment === '' || segment[0] === '{') {
+              return;
+            }
+            const isCorrectCase = checkCase(segment, caseConvention);
+            if (!isCorrectCase) {
+              result[checkStatusPath].push({
+                path: `paths.${pathName}`,
+                message: `Path segments must follow case convention: ${caseConvention}`
+              });
+            }
+          });
+        }
       }
     }
   });
