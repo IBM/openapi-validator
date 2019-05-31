@@ -4,7 +4,7 @@
 
 const each = require('lodash/each');
 
-module.exports.validate = function({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function({ resolvedSpec, jsSpec, isOAS3 }, config) {
   const result = {};
   result.error = [];
   result.warning = [];
@@ -17,8 +17,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   // collect the security requirements and all relevant scopes
 
   const securityDefinitions = isOAS3
-    ? jsSpec.components && jsSpec.components.securitySchemes
-    : jsSpec.securityDefinitions;
+    ? resolvedSpec.components && resolvedSpec.components.securitySchemes
+    : resolvedSpec.securityDefinitions;
 
   each(securityDefinitions, (scheme, name) => {
     if (name.slice(0, 2) === 'x-') return;
@@ -56,12 +56,12 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   // security objects can exist at either:
 
   // 1) the top level of the spec (global definition)
-  if (jsSpec.security) {
-    flagUsedDefinitions(jsSpec.security);
+  if (resolvedSpec.security) {
+    flagUsedDefinitions(resolvedSpec.security);
   }
 
   // 2) within operations objects
-  const paths = jsSpec.paths;
+  const paths = resolvedSpec.paths;
   each(paths, (operations, pathName) => {
     if (pathName.slice(0, 2) === 'x-') return;
     each(operations, (operation, opName) => {

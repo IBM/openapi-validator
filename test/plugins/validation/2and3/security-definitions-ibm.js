@@ -1,4 +1,5 @@
 const expect = require('expect');
+const resolver = require('json-schema-ref-parser');
 const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/security-definitions-ibm');
@@ -51,7 +52,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec }, config);
+      const res = validate({ resolvedSpec: spec }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
@@ -92,7 +93,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec }, config);
+      const res = validate({ resolvedSpec: spec }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
@@ -115,13 +116,43 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec }, config);
+      const res = validate({ resolvedSpec: spec }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(0);
     });
   });
 
   describe('OpenAPI 3', function() {
+    it('should catch errors in referenced security definitions', async function() {
+      const spec = {
+        openapi: '3.0.0',
+        info: {
+          version: '3.0.0',
+          title: 'example title'
+        },
+        paths: {},
+        components: {
+          securitySchemes: {
+            SecuritySchemaN1: {
+              description: 'example description',
+              type: 'apiKey',
+              in: 'cookie',
+              name: 'userAuthCookie'
+            }
+          }
+        },
+        securityScheme: {
+          basicAuth: {
+            $ref: '#/components/securitySchemes/SecuritySchemaN1'
+          }
+        }
+      };
+      const resolvedSpec = await resolver.dereference(spec);
+
+      const res = validate({ resolvedSpec }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
+    });
     it('should warn about an unused security definition', function() {
       const spec = {
         components: {
@@ -158,7 +189,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
@@ -208,7 +239,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
@@ -258,7 +289,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(0);
     });
