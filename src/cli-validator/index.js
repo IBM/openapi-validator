@@ -25,6 +25,10 @@ program
     'turn off output coloring'
   )
   .option(
+    '-j, --json',
+    'output as json'
+  )
+  .option(
     '-d, --default_mode',
     'ignore config file and run in default mode'
   )
