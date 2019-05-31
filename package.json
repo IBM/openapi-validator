@@ -1,7 +1,7 @@
 {
   "name": "ibm-openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "main": "src/lib/index.js",
   "repository": "https://github.com/IBM/openapi-validator",
   "license": "Apache-2.0",
