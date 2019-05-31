@@ -4,7 +4,7 @@
 
 const each = require('lodash/each');
 
-module.exports.validate = function({ resolvedSpec, jsSpec, isOAS3 }, config) {
+module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
   const result = {};
   result.error = [];
   result.warning = [];
