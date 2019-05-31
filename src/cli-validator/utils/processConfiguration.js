@@ -168,11 +168,19 @@ const validateConfigObject = function(configObject, chalk) {
   return configObject;
 };
 
-const getConfigObject = async function(defaultMode, chalk) {
+const getConfigObject = async function(defaultMode, chalk, configFileOverride) {
   let configObject;
-  // search up the file system for the first instance
-  // of the config file
-  const configFile = await findUp('.validaterc');
+
+  let configFile;
+
+  if (configFileOverride) {
+    // user explicitly provided a config file, use it instead of .validaterc
+    configFile = configFileOverride;
+  } else {
+    // search up the file system for the first instance
+    // of the config file
+    configFile = await findUp('.validaterc');
+  }
 
   // if the user does not have a config file, run in default mode and warn them
   // (findUp returns null if it does not find a file)

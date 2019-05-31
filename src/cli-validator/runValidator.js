@@ -38,6 +38,8 @@ const processInput = async function(program) {
   const defaultMode = !!program.default_mode;
   const jsonOutput = !!program.json;
 
+  const configFileOverride = program.config;
+
   // turn on coloring by default
   const colors = turnOffColoring ? false : true;
 
@@ -132,7 +134,7 @@ const processInput = async function(program) {
   // process the config file for the validations
   let configObject;
   try {
-    configObject = await config.get(defaultMode, chalk);
+    configObject = await config.get(defaultMode, chalk, configFileOverride);
   } catch (err) {
     return Promise.reject(err);
   }
