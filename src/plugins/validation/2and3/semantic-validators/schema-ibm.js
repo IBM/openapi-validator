@@ -20,6 +20,7 @@
 const forIn = require('lodash/forIn');
 const includes = require('lodash/includes');
 const isSnakecase = require('../../../utils/checkSnakeCase');
+const checkCase = require('../../../utils/caseConventionCheck');
 const walk = require('../../../utils/walk');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
@@ -96,6 +97,34 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       res = checkEnumValues(schema, path, config);
       errors.push(...res.error);
       warnings.push(...res.warning);
+    } else {
+      // optional support for property_case_convention and enum_case_convention
+      // in config.  In the else block because support should be mutually exclusive
+      // with config.snake_case_only since it is overlapping functionality
+      if (config.property_case_convention) {
+        const checkCaseStatus = config.property_case_convention[0];
+        if (checkCaseStatus !== 'off') {
+          res = checkPropNamesCaseConvention(
+            schema,
+            path,
+            config.property_case_convention
+          );
+          errors.push(...res.error);
+          warnings.push(...res.warning);
+        }
+      }
+      if (config.enum_case_convention) {
+        const checkCaseStatus = config.enum_case_convention[0];
+        if (checkCaseStatus !== 'off') {
+          res = checkEnumCaseConvention(
+            schema,
+            path,
+            config.enum_case_convention
+          );
+          errors.push(...res.error);
+          warnings.push(...res.warning);
+        }
+      }
     }
   });
 
@@ -284,6 +313,45 @@ function checkPropNames(schema, contextPath, config) {
   return result;
 }
 
+/**
+ * Check that property names follow the specified case convention
+ * @param schema
+ * @param contextPath
+ * @param caseConvention an array, [0]='off' | 'warning' | 'error'. [1]='lower_snake_case' etc.
+ */
+function checkPropNamesCaseConvention(schema, contextPath, caseConvention) {
+  const result = {};
+  result.error = [];
+  result.warning = [];
+
+  if (!schema.properties) {
+    return result;
+  }
+  if (!caseConvention) {
+    return result;
+  }
+
+  // flag any property whose name does not follow the case convention
+  forIn(schema.properties, (property, propName) => {
+    if (propName.slice(0, 2) === 'x-') return;
+
+    const checkStatus = caseConvention[0] || 'off';
+    if (checkStatus.match('error|warning')) {
+      const caseConventionValue = caseConvention[1];
+
+      const isCorrectCase = checkCase(propName, caseConventionValue);
+      if (!isCorrectCase) {
+        result[checkStatus].push({
+          path: contextPath.concat(['properties', propName]),
+          message: `Property names must follow case convention: ${caseConventionValue}`
+        });
+      }
+    }
+  });
+
+  return result;
+}
+
 function checkEnumValues(schema, contextPath, config) {
   const result = {};
   result.error = [];
@@ -302,6 +370,43 @@ function checkEnumValues(schema, contextPath, config) {
         result[checkStatus].push({
           path: contextPath.concat(['enum', i.toString()]),
           message: 'Enum values must be lower snake case.'
+        });
+      }
+    }
+  }
+
+  return result;
+}
+
+/**
+ * Check that enum values follow the specified case convention
+ * @param schema
+ * @param contextPath
+ * @param caseConvention an array, [0]='off' | 'warning' | 'error'. [1]='lower_snake_case' etc.
+ */
+function checkEnumCaseConvention(schema, contextPath, caseConvention) {
+  const result = {};
+  result.error = [];
+  result.warning = [];
+
+  if (!schema.enum) {
+    return result;
+  }
+  if (!caseConvention) {
+    return result;
+  }
+
+  for (let i = 0; i < schema.enum.length; i++) {
+    const enumValue = schema.enum[i];
+
+    const checkStatus = caseConvention[0] || 'off';
+    if (checkStatus.match('error|warning')) {
+      const caseConventionValue = caseConvention[1];
+      const isCorrectCase = checkCase(enumValue, caseConventionValue);
+      if (!isCorrectCase) {
+        result[checkStatus].push({
+          path: contextPath.concat(['enum', i.toString()]),
+          message: `Enum values must follow case convention: ${caseConventionValue}`
         });
       }
     }

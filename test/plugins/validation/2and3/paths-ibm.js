@@ -271,7 +271,7 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.warnings).toEqual([]);
   });
 
-  it('shoud flag a path segment that is not snake_case but should ignore path parameter', function() {
+  it('should flag a path segment that is not snake_case but should ignore path parameter', function() {
     const config = {
       paths: {
         snake_case_only: 'warning'
@@ -303,5 +303,69 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.warnings[0].message).toEqual(
       'Path segments must be lower snake case.'
     );
+  });
+
+  it('should flag a path segment that does not follow paths_case_convention but should ignore path parameter', function() {
+    const config = {
+      paths: {
+        snake_case_only: 'off',
+        paths_case_convention: ['warning', 'lower_camel_case']
+      }
+    };
+
+    const badSpec = {
+      paths: {
+        '/v1/api/NotGoodSegment/{shouldntMatter}/resource': {
+          parameters: [
+            {
+              in: 'path',
+              name: 'shouldntMatter',
+              description:
+                'bad parameter but should be caught by another validator, not here',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: badSpec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(
+      'paths./v1/api/NotGoodSegment/{shouldntMatter}/resource'
+    );
+    expect(res.warnings[0].message).toEqual(
+      'Path segments must follow case convention: lower_camel_case'
+    );
+  });
+
+  it('should not flag a path segment that follows paths_case_convention and should ignore path parameter', function() {
+    const config = {
+      paths: {
+        snake_case_only: 'off',
+        paths_case_convention: ['warning', 'lower_dash_case']
+      }
+    };
+
+    const goodSpec = {
+      paths: {
+        '/v1/api/good-segment/{shouldntMatter}/the-resource': {
+          parameters: [
+            {
+              in: 'path',
+              name: 'shouldntMatter',
+              description:
+                'bad parameter but should be caught by another validator, not here',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: goodSpec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
   });
 });

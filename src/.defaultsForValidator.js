@@ -38,7 +38,8 @@ const defaults = {
     },
     'paths': {
       'missing_path_parameter': 'error',
-      'snake_case_only': 'warning'
+      'snake_case_only': 'warning',
+      'paths_case_convention': ['off', 'lower_snake_case']
     },
     'responses': {
       'inline_response_schema': 'warning'
@@ -56,7 +57,9 @@ const defaults = {
       'no_schema_description': 'warning',
       'no_property_description': 'warning',
       'description_mentions_json': 'warning',
-      'array_of_arrays': 'warning'
+      'array_of_arrays': 'warning',
+      'property_case_convention': [ 'off', 'lower_snake_case'],
+      'enum_case_convention': [ 'off', 'lower_snake_case']
     },
     'walker': {
       'no_empty_descriptions': 'error',
@@ -107,9 +110,11 @@ const deprecated = {
 const configOptions = {
   'case_conventions': [
     'lower_snake_case',
+    'upper_snake_case',
     'upper_camel_case',
     'lower_camel_case',
     'lower_dash_case',
+    'upper_dash_case',
     'operation_id_case'
   ]
 };

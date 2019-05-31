@@ -368,6 +368,130 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     );
   });
 
+  // tests for explicit property case convention
+  it('should return a warning when a property name does not follow property_case_convention[1]=lower_snake_case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        property_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: 'object',
+          description: 'thing',
+          properties: {
+            thingString: {
+              type: 'string',
+              description: 'thing string'
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'definitions',
+      'Thing',
+      'properties',
+      'thingString'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Property names must follow case convention: lower_snake_case'
+    );
+  });
+
+  it('should return a warning when a property name does not follow property_case_convention[1]=lower_snake_case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        property_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: 'object',
+          description: 'thing',
+          properties: {
+            thing: {
+              type: 'array',
+              description: 'thing array',
+              items: {
+                type: 'object',
+                properties: {
+                  thingString: {
+                    type: 'string',
+                    description: 'thing string'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'definitions',
+      'Thing',
+      'properties',
+      'thing',
+      'items',
+      'properties',
+      'thingString'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Property names must follow case convention: lower_snake_case'
+    );
+  });
+
+  it('should return no warnings when a property does follow property_case_convention[1]=lower_snake_case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        property_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: 'object',
+          description: 'thing',
+          properties: {
+            thing: {
+              type: 'array',
+              description: 'thing array',
+              items: {
+                type: 'object',
+                properties: {
+                  thing_string: {
+                    type: 'string',
+                    description: 'thing string'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
   it('should return an error when a schema has no description', () => {
     const config = {
       schemas: {
@@ -936,6 +1060,272 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must be lower snake case.'
+    );
+  });
+
+  it('should return a warning when an enum value is not snake case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'warning'
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: 'object',
+          description: 'thing',
+          properties: {
+            color: {
+              type: 'string',
+              description: 'some color',
+              enum: ['blue', 'light_blue', 'darkBlue']
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'definitions',
+      'Thing',
+      'properties',
+      'color',
+      'enum',
+      '2'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Enum values must be lower snake case.'
+    );
+  });
+
+  it('should return a warning when an enum value is not snake case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'warning'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/some/path/{id}': {
+          get: {
+            parameters: [
+              {
+                name: 'enum_param',
+                in: 'query',
+                description: 'an enum param',
+                type: 'array',
+                required: 'true',
+                items: {
+                  type: 'string',
+                  description: 'the values',
+                  enum: ['all', 'enumValues', 'possible']
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/some/path/{id}',
+      'get',
+      'parameters',
+      '0',
+      'items',
+      'enum',
+      '1'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Enum values must be lower snake case.'
+    );
+  });
+
+  // Tests for explicit enum_case_convention
+  it('should return a warning when an enum value does not follow enum_case_convention[1]=lower_snake_case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        enum_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: 'object',
+          description: 'thing',
+          properties: {
+            color: {
+              type: 'string',
+              description: 'some color',
+              enum: ['blue', 'light_blue', 'darkBlue']
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'definitions',
+      'Thing',
+      'properties',
+      'color',
+      'enum',
+      '2'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Enum values must follow case convention: lower_snake_case'
+    );
+  });
+
+  it('should return a warning when an enum value does not follow enum_case_convention[1]=lower_snake_case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        enum_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/some/path/{id}': {
+          get: {
+            parameters: [
+              {
+                name: 'enum_param',
+                in: 'query',
+                description: 'an enum param',
+                type: 'array',
+                required: 'true',
+                items: {
+                  type: 'string',
+                  description: 'the values',
+                  enum: ['all', 'enumValues', 'possible']
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/some/path/{id}',
+      'get',
+      'parameters',
+      '0',
+      'items',
+      'enum',
+      '1'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Enum values must follow case convention: lower_snake_case'
+    );
+  });
+
+  it('should return a warning when an enum value does not follow enum_case_convention[1]=lower_snake_case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        enum_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: 'object',
+          description: 'thing',
+          properties: {
+            color: {
+              type: 'string',
+              description: 'some color',
+              enum: ['blue', 'light_blue', 'darkBlue']
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'definitions',
+      'Thing',
+      'properties',
+      'color',
+      'enum',
+      '2'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Enum values must follow case convention: lower_snake_case'
+    );
+  });
+
+  it('should return a warning when an enum value does not follow enum_case_convention[1]=lower_snake_case', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        enum_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/some/path/{id}': {
+          get: {
+            parameters: [
+              {
+                name: 'enum_param',
+                in: 'query',
+                description: 'an enum param',
+                type: 'array',
+                required: 'true',
+                items: {
+                  type: 'string',
+                  description: 'the values',
+                  enum: ['all', 'enumValues', 'possible']
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/some/path/{id}',
+      'get',
+      'parameters',
+      '0',
+      'items',
+      'enum',
+      '1'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Enum values must follow case convention: lower_snake_case'
     );
   });
 });

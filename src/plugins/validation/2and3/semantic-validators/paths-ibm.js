@@ -6,6 +6,7 @@
 // Assertation 3. All path segments are lower snake case
 
 const isSnakecase = require('../../../utils/checkSnakeCase');
+const checkCase = require('../../../utils/caseConventionCheck');
 
 module.exports.validate = function({ resolvedSpec }, config) {
   const result = {};
@@ -134,6 +135,31 @@ module.exports.validate = function({ resolvedSpec }, config) {
           });
         }
       });
+    } else {
+      // in the else block because usage of paths_case_convention is mutually
+      // exclusive with usage of config.snake_case_only since it is overlapping
+      // functionality
+      if (config.paths_case_convention) {
+        const checkStatusPath = config.paths_case_convention[0];
+        if (checkStatusPath !== 'off') {
+          const caseConvention = config.paths_case_convention[1];
+          const segments = pathName.split('/');
+          segments.forEach(segment => {
+            // the first element will be "" since pathName starts with "/"
+            // also, ignore validating the path parameters
+            if (segment === '' || segment[0] === '{') {
+              return;
+            }
+            const isCorrectCase = checkCase(segment, caseConvention);
+            if (!isCorrectCase) {
+              result[checkStatusPath].push({
+                path: `paths.${pathName}`,
+                message: `Path segments must follow case convention: ${caseConvention}`
+              });
+            }
+          });
+        }
+      }
     }
   });
 

@@ -95,12 +95,12 @@ console.log(JSON.stringify(validationResults, null, 2));
 Returns a `Promise` with the validation results.
 
 ###### openApiDoc
-Type: `Object`  
+Type: `Object`
 An object that represents an OpenAPI document.
 
 ###### defaultMode
-Type: `boolean`  
-Default: `false`  
+Type: `boolean`
+Default: `false`
 If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
 
 #### Validation results
@@ -205,6 +205,7 @@ The supported rules are described below:
 | --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
 | missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. | shared |
 | snake_case_only             | Flag any path segment that does not use snake case.                                                          | shared |
+| paths_case_convention       | Flag any path segment that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
 
 ##### [responses][4]
 | Rule                      | Description                                                  | Spec |
@@ -222,6 +223,8 @@ The supported rules are described below:
 | no_property_description     | Flag any schema that contains a 'property' without a `description` field.     | shared   |
 | description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  | shared   |
 | array_of_arrays             | Flag any schema with a 'property' of type `array` with items of type `array`. | shared   |
+| property_case_convention    | Flag any property with a `name` that does not follow a given case convention. snake_case_only must be 'off' to use. | shared |
+| enum_case_convention        | Flag any enum with a `value` that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
 
 ##### security_definitions
 | Rule                        | Description                                                                           | Spec   |
@@ -265,9 +268,11 @@ For rules that accept additional configuration, there will be a limited set of a
 | Option           | Description                                              | Example          |
 | ---------------- | -------------------------------------------------------- | ---------------- |
 | lower_snake_case | Words must follow standard lower snake case conventions. | learning_opt_out |
+| upper_snake_case | Words must follow standard upper snake case conventions. | LEARNING_OPT_OUT |
 | upper_camel_case | Words must follow standard upper camel case conventions. | LearningOptOut   |
 | lower_camel_case | Words must follow standard lower camel case conventions. | learningOptOut   |
 | lower_dash_case  | Words must follow standard lower dash case conventions.  | learning-opt-out |
+| upper_dash_case  | Words must follow standard upper dash case conventions.  | LEARNING-OPT-OUT |
 
 ### Configuration file
 
@@ -353,6 +358,7 @@ The default values for each rule are described below.
 | --------------------------- | ------- |
 | missing_path_parameter      | error   |
 | snake_case_only             | warning |
+| paths_case_convention       | off, lower_snake_case |
 
 ##### responses
 | Rule                      | Default |
@@ -379,6 +385,8 @@ The default values for each rule are described below.
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 | array_of_arrays             | warning |
+| property_case_convention    | off, lower_snake_case |
+| enum_case_convention        | off, lower_snake_case |
 
 ###### walker
 | Rule                          | Default |
