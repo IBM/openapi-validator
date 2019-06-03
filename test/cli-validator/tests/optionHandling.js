@@ -234,7 +234,7 @@ describe('cli tool - test option handling', function() {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/justWarn.yml'];
     program.config =
-      './test/cli-validator/mockFiles/justWarnConfigOverrideFull.json';
+      './test/cli-validator/mockFiles/justWarnConfigOverride.json';
 
     const exitCode = await commandLineValidator(program);
     unhookIntercept();
