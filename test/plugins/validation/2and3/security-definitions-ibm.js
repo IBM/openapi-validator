@@ -13,7 +13,7 @@ const config = {
 
 describe('validation plugin - semantic - security-definitions-ibm', function() {
   describe('Swagger 2', function() {
-    it('should warn about an unused security definition', function() {
+    it('should follow references to security schemes', function() {
       const spec = {
         securityDefinitions: {
           basicAuth: {
