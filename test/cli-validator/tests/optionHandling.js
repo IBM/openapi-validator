@@ -259,7 +259,7 @@ warnings
     const exitCode = await commandLineValidator(program);
     unhookIntercept();
 
-    expect(exitCode).toEqual(0); // FIXME this should be 1 because there should be an error
+    expect(exitCode).toEqual(1);
 
     // simple state machine to count the number of warnings and errors.
     let errorCount = 0;
