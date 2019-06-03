@@ -11,8 +11,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   config = config.security_definitions;
 
-  const usedSchemes = {};
-  const usedScopes = {};
+  const definedSchemes = {};
+  const definedScopes = {};
 
   // collect the security requirements and all relevant scopes
 
@@ -23,9 +23,9 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   each(securityDefinitions, (scheme, name) => {
     if (name.slice(0, 2) === 'x-') return;
 
-    usedSchemes[name] = {};
-    usedSchemes[name].used = false;
-    usedSchemes[name].type = scheme.type;
+    definedSchemes[name] = {};
+    definedSchemes[name].used = false;
+    definedSchemes[name].type = scheme.type;
 
     // collect scopes in oauth2 schemes
     if (scheme.type.toLowerCase() === 'oauth2') {
@@ -34,19 +34,19 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           each(scheme.flows, (flow, flowType) => {
             if (flow.scopes) {
               Object.keys(flow.scopes).forEach(scope => {
-                usedScopes[scope] = {};
-                usedScopes[scope].used = false;
-                usedScopes[scope].scheme = name;
-                usedScopes[scope].flow = flowType;
+                definedScopes[scope] = {};
+                definedScopes[scope].used = false;
+                definedScopes[scope].scheme = name;
+                definedScopes[scope].flow = flowType;
               });
             }
           });
         }
       } else {
         Object.keys(scheme.scopes).forEach(scope => {
-          usedScopes[scope] = {};
-          usedScopes[scope].used = false;
-          usedScopes[scope].scheme = name;
+          definedScopes[scope] = {};
+          definedScopes[scope].used = false;
+          definedScopes[scope].scheme = name;
         });
       }
     }
@@ -78,16 +78,16 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       const name = Object.keys(scheme)[0];
 
       // make sure this scheme was in the security definitions, then label as used
-      if (usedSchemes[name]) {
-        usedSchemes[name].used = true;
+      if (definedSchemes[name]) {
+        definedSchemes[name].used = true;
 
-        const type = usedSchemes[name].type;
+        const type = definedSchemes[name].type;
         const scopesArray = scheme[name];
 
         if (type.toLowerCase() === 'oauth2') {
           scopesArray.forEach(scope => {
-            if (usedScopes[scope]) {
-              usedScopes[scope].used = true;
+            if (definedScopes[scope]) {
+              definedScopes[scope].used = true;
             }
           });
         }
@@ -96,7 +96,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   }
 
   // check what has been used and what has not been
-  each(usedSchemes, (info, name) => {
+  each(definedSchemes, (info, name) => {
     if (info.used === false) {
       const checkStatus = config.unused_security_schemes;
       if (checkStatus !== 'off') {
@@ -111,7 +111,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     }
   });
 
-  each(usedScopes, (info, name) => {
+  each(definedScopes, (info, name) => {
     if (info.used === false) {
       const checkStatus = config.unused_security_scopes;
       if (checkStatus !== 'off') {
