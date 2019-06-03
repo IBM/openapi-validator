@@ -6,3 +6,4 @@ dist
 .validaterc
 .validateignore
 .idea/
+bin/
