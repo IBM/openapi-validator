@@ -254,7 +254,6 @@ warnings
 
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/justWarn.yml'];
-    program.default_mode = true;
     program.config ='./test/cli-validator/mockFiles/justWarnConfigOverrideFull.json';
 
     const exitCode = await commandLineValidator(program);
@@ -287,5 +286,3 @@ warnings
     expect(errorCount).toEqual(3);    // without the config this value is 0
   });
 });
-
-
