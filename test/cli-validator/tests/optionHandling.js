@@ -222,28 +222,7 @@ describe('cli tool - test option handling', function() {
       'Operations must have a non-empty `operationId`.'
     );
   });
-  /*
-  $ lint-openapi -c ./justWarnConfigOverride.json justWarn.yml
 
-errors
-
-  Message :   Schema must have a non-empty description.
-  Path    :   definitions.Category
-  Line    :   137
-
-  Message :   Schema must have a non-empty description.
-  Path    :   definitions.Tag
-  Line    :   149
-
-  Message :   Schema must have a non-empty description.
-  Path    :   definitions.Pet
-  Line    :   161
-
-warnings
-
-  Message :   Response schemas should be defined with a named ref.
-  Path    :   paths./pet/
-   */
   it('should change output for overridden options when config file is manually specified', async function() {
     const capturedText = [];
 
@@ -254,7 +233,8 @@ warnings
 
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/justWarn.yml'];
-    program.config ='./test/cli-validator/mockFiles/justWarnConfigOverrideFull.json';
+    program.config =
+      './test/cli-validator/mockFiles/justWarnConfigOverrideFull.json';
 
     const exitCode = await commandLineValidator(program);
     unhookIntercept();
@@ -282,7 +262,7 @@ warnings
         }
       }
     });
-    expect(warningCount).toEqual(1);  // without the config this value is 5
-    expect(errorCount).toEqual(3);    // without the config this value is 0
+    expect(warningCount).toEqual(1); // without the config this value is 5
+    expect(errorCount).toEqual(3); // without the config this value is 0
   });
 });
