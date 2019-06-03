@@ -14,7 +14,7 @@
     "test-travis": "npm run lint && mocha --recursive --grep @skip-ci --invert test/",
     "lint": "eslint --cache --quiet --ext '.js' src test",
     "fix": "eslint --fix --ext '.js' src test",
-    "pkg": "pkg --out-path=./bin ./package.json; cd bin; rename 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
+    "pkg": "./node_modules/.bin/pkg --out-path=./bin ./package.json; cd bin; rename -f 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
   },
   "dependencies": {
     "chalk": "^2.4.1",
