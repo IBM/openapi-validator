@@ -50,6 +50,11 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 3. Install the dependencies using `npm install`
 4. Build the command line tool by running `npm run link`.
 
+### Platform specific binaries
+It is possible to build platform specific binaries for Linux, MacOS, and Windows that do not depend on having node.js installed.
+
+To build these, run `npm run pkg` in the root.  The binaries (lint-openapi-linux, lint-openapi-macos, lint-openapi-windows.exe respectively) are built in the 'bin' directory in the root.
+
 ## Usage
 ### Command line
 `lint-openapi [options] [command] [<files>]`

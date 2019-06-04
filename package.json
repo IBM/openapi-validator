@@ -13,7 +13,8 @@
     "test-cli-tool": "mocha test/cli-validator/tests",
     "test-travis": "npm run lint && mocha --recursive --grep @skip-ci --invert test/",
     "lint": "eslint --cache --quiet --ext '.js' src test",
-    "fix": "eslint --fix --ext '.js' src test"
+    "fix": "eslint --fix --ext '.js' src test",
+    "pkg": "./node_modules/.bin/pkg --out-path=./bin ./package.json; cd bin; rename -f 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
   },
   "dependencies": {
     "chalk": "^2.4.1",
@@ -44,6 +45,7 @@
     "expect": "^23.5.0",
     "intercept-stdout": "^0.1.2",
     "mocha": "^5.2.0",
+    "pkg": "^4.4.0",
     "prettier": "^1.14.2",
     "semantic-release": "^15.12.2",
     "strip-ansi": "^4.0.0"
@@ -58,5 +60,8 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "pkg": {
+    "scripts": "src/**/*.js"
   }
 }
