@@ -171,8 +171,17 @@ const validateConfigObject = function(configObject, chalk) {
 const getConfigObject = async function(defaultMode, chalk, configFileOverride) {
   let configObject;
 
-  // if user explicitly provided a config file, use it instead of .validaterc
-  const configFileName = configFileOverride || '.validaterc';
+  const findUpOpts = {};
+  let configFileName;
+
+  // You cannot pass a full path into findUp as a file name, you must split the
+  // path or else findUp redudantly prepends the path to the result.
+  if (configFileOverride) {
+    configFileName = path.basename(configFileOverride);
+    findUpOpts.cwd = path.dirname(configFileOverride);
+  } else {
+    configFileName = '.validaterc';
+  }
 
   // search up the file system for the first instance
   // of '.validaterc' or,
