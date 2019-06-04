@@ -179,4 +179,53 @@ describe('validation plugin - semantic - walker-ibm', () => {
       'Description sibling to $ref matches that of the referenced schema. This is redundant and should be removed.'
     );
   });
+
+  it('should not crash in duplicate description test if path contains a period', async () => {
+    const spec = {
+      paths: {
+        '/other.stuff': {
+          get: {
+            summary: 'list stuff',
+            operationId: 'listStuff',
+            produces: ['application/json'],
+            responses: {
+              200: {
+                description: 'successful operation',
+                schema: {
+                  $ref: '#/responses/Success',
+                  description: 'simple success response'
+                }
+              }
+            }
+          }
+        }
+      },
+      responses: {
+        Success: {
+          type: 'string',
+          description: 'simple success response'
+        }
+      }
+    };
+
+    // clone spec, otherwise 'dereference' will change the spec by reference
+    const specCopy = JSON.parse(JSON.stringify(spec));
+    const resolvedSpec = await resolver.dereference(specCopy);
+
+    const res = validate({ jsSpec: spec, resolvedSpec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/other.stuff',
+      'get',
+      'responses',
+      '200',
+      'schema',
+      'description'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Description sibling to $ref matches that of the referenced schema. This is redundant and should be removed.'
+    );
+  });
 });

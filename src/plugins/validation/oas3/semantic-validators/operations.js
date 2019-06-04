@@ -59,7 +59,8 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
 
           // referenced request bodies have names
           const referencedRequestBody = Boolean(
-            at(jsSpec, `paths.${pathName}.${opName}.requestBody`)[0].$ref
+            at(jsSpec, `paths['${pathName}']['${opName}']['requestBody']`)[0]
+              .$ref
           );
 
           // form params do not need names
