@@ -1,3 +1,10 @@
+## [0.10.1](https://github.com/IBM/openapi-validator/compare/v0.10.0...v0.10.1) (2019-06-04)
+
+
+### Bug Fixes
+
+* alllow absolute filepaths to be passed to --config ([ab2e7ff](https://github.com/IBM/openapi-validator/commit/ab2e7ff))
+
 # [0.10.0](https://github.com/IBM/openapi-validator/compare/v0.9.1...v0.10.0) (2019-06-04)
 
 
