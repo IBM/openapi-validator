@@ -1,4 +1,5 @@
 const expect = require('expect');
+const resolver = require('json-schema-ref-parser');
 const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/security-definitions-ibm');
@@ -51,7 +52,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec }, config);
+      const res = validate({ resolvedSpec: spec }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
@@ -92,7 +93,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec }, config);
+      const res = validate({ resolvedSpec: spec }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
@@ -115,13 +116,40 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec }, config);
+      const res = validate({ resolvedSpec: spec }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(0);
     });
   });
 
   describe('OpenAPI 3', function() {
+    it('should follow references to security schemes', async function() {
+      const spec = {
+        components: {
+          schemas: {
+            SecuritySchemeModel: {
+              type: 'http',
+              scheme: 'basic',
+              descriptions: 'example text for def with unused security def'
+            }
+          },
+          securitySchemes: {
+            scheme1: {
+              $ref: '#/components/schemas/SecuritySchemeModel'
+            }
+          }
+        }
+      };
+
+      const resolvedSpec = await resolver.dereference(spec);
+
+      const res = validate({ resolvedSpec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'A security scheme is defined but never used: scheme1'
+      );
+    });
     it('should warn about an unused security definition', function() {
       const spec = {
         components: {
@@ -158,7 +186,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
@@ -208,7 +236,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
       expect(res.warnings[0].message).toEqual(
@@ -258,7 +286,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         }
       };
 
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(0);
     });
