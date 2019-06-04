@@ -222,4 +222,47 @@ describe('cli tool - test option handling', function() {
       'Operations must have a non-empty `operationId`.'
     );
   });
+
+  it('should change output for overridden options when config file is manually specified', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/justWarn.yml'];
+    program.config =
+      './test/cli-validator/mockFiles/justWarnConfigOverride.json';
+
+    const exitCode = await commandLineValidator(program);
+    unhookIntercept();
+
+    expect(exitCode).toEqual(1);
+
+    // simple state machine to count the number of warnings and errors.
+    let errorCount = 0;
+    let warningCount = 0;
+    let inErrorBlock = false;
+    let inWarningBlock = false;
+
+    capturedText.forEach(function(line) {
+      if (line.includes('errors')) {
+        inErrorBlock = true;
+        inWarningBlock = false;
+      } else if (line.includes('warnings')) {
+        inErrorBlock = false;
+        inWarningBlock = true;
+      } else if (line.includes('Message')) {
+        if (inErrorBlock) {
+          errorCount++;
+        } else if (inWarningBlock) {
+          warningCount++;
+        }
+      }
+    });
+    expect(warningCount).toEqual(1); // without the config this value is 5
+    expect(errorCount).toEqual(3); // without the config this value is 0
+  });
 });

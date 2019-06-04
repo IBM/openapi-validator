@@ -35,6 +35,9 @@ program
   .option(
     '-s, --report_statistics',
     'report the frequency of each occurring error/warning'
+  )
+  .option(
+    '-c, --config <file>', 'path to config file, used instead of .validaterc if provided'
   );
 
 /* prettier-ignore */

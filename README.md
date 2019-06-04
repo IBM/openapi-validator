@@ -61,6 +61,7 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 -  -n (--no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -v (--version) : Print the current semantic version of the validator
 -  -h (--help) : This option prints the usage menu.
+-  -c (--config) <path/to/your/config> : Path to a validator configuration file.  If provided, this is used instead of .validaterc.
 
 _These options only apply to running the validator on a file, not to any commands._
 
