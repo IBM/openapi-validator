@@ -305,6 +305,40 @@ describe('validation plugin - semantic - paths-ibm', function() {
     );
   });
 
+  it('should flag a path segment with a period in the name', function() {
+    const config = {
+      paths: {
+        snake_case_only: 'off',
+        paths_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/v1/api/not.good_.segment/{id}/resource': {
+          parameters: [
+            {
+              in: 'path',
+              name: 'id',
+              description: 'id param',
+              type: 'string'
+            }
+          ]
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(
+      'paths./v1/api/not.good_.segment/{id}/resource'
+    );
+    expect(res.warnings[0].message).toEqual(
+      'Path segments must follow case convention: lower_snake_case'
+    );
+  });
+
   it('should flag a path segment that does not follow paths_case_convention but should ignore path parameter', function() {
     const config = {
       paths: {
