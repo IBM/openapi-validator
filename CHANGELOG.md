@@ -1,3 +1,10 @@
+## [0.10.2](https://github.com/IBM/openapi-validator/compare/v0.10.1...v0.10.2) (2019-06-05)
+
+
+### Bug Fixes
+
+* don't crash validator when path has a period in it ([01aa679](https://github.com/IBM/openapi-validator/commit/01aa679))
+
 ## [0.10.1](https://github.com/IBM/openapi-validator/compare/v0.10.0...v0.10.1) (2019-06-04)
 
 
