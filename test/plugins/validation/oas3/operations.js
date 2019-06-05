@@ -189,4 +189,38 @@ describe('validation plugin - semantic - operations - oas3', function() {
     expect(res.warnings.length).toEqual(0);
     expect(res.errors.length).toEqual(0);
   });
+
+  it('should not crash in request body name check when path name contains a period', function() {
+    const spec = {
+      paths: {
+        '/other.pets': {
+          post: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      type: 'string'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual('paths./other.pets.post');
+    expect(res.warnings[0].message).toEqual(
+      'Operations with non-form request bodies should set a name with the x-codegen-request-body-name annotation.'
+    );
+    expect(res.errors.length).toEqual(0);
+  });
 });
