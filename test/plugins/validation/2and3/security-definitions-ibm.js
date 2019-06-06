@@ -13,7 +13,7 @@ const config = {
 
 describe('validation plugin - semantic - security-definitions-ibm', function() {
   describe('Swagger 2', function() {
-    it('should warn about an unused security definition', function() {
+    it('should follow references to security schemes', function() {
       const spec = {
         securityDefinitions: {
           basicAuth: {
@@ -123,7 +123,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
   });
 
   describe('OpenAPI 3', function() {
-    it('should follow references to security schemes', async function() {
+    it('should warn about an unused security definition', async function() {
       const spec = {
         components: {
           schemas: {

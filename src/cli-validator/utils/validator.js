@@ -77,7 +77,6 @@ module.exports = function validateSwagger(allSpecs, config) {
       validationResults.warning = true;
     }
   });
-
   // run structural validator
   // all structural problems are errors
   const structuralResults = structuralValidator.validate(allSpecs);
