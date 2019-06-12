@@ -183,7 +183,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "'scopes' is required property type object. The available scopes for the OAuth2 security scheme."
+      "oauth2 authorization implicit flow must have required 'scopes' property."
     );
   });
 });
@@ -210,7 +210,7 @@ describe('if `type` is `http`, then scheme property must be defined', function()
   });
 });
 
-describe('if `type` is `openIdConnect` then `penIdConnectUrl` must be defined and valid', function() {
+describe('if `type` is `openIdConnect` then `openIdConnectUrl` must be defined and valid', function() {
   it('should have `openIdConnectUrl` propery if the type is defined as `openIdConnect`', function() {
     const spec = {
       components: {
