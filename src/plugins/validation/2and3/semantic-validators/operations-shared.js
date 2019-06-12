@@ -119,6 +119,25 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
           });
         }
       }
+      const hasOperationTags = op.tags && op.tags.length > 0;
+      const hasGlobalTags = resolvedSpec.tags && resolvedSpec.tags.length > 0;
+      const resolvedTags = [];
+      if (hasOperationTags && hasGlobalTags) {
+        for (let i = 0; i < resolvedSpec.tags.length; i++) {
+          resolvedTags.push(resolvedSpec.tags[i].name);
+        }
+        for (let i = 0, len = op.tags.length; i < len; i++) {
+          if (!resolvedTags.includes(op.tags[i])) {
+            const checkStatus = config.unused_tag;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path: `paths.${pathKey}.${opKey}.tags`,
+                message: 'tag is not defined in operations'
+              });
+            }
+          }
+        }
+      }
 
       const hasSummary =
         op.summary && op.summary.length > 0 && !!op.summary.toString().trim();
