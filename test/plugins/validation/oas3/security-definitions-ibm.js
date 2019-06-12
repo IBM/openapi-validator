@@ -29,7 +29,7 @@ describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', f
           SecuritySchemeModel: {
             type: 'wrong type',
             scheme: 'basic',
-            descriptions: 'example text'
+            description: 'example text'
           }
         }
       }

@@ -13,34 +13,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-// Assertation 1: `type`` is a necessary property and has four possible values: `apiKey`, `HTTP`, `oauth2`, `openIdConnect`
+// Assertation 1: `type` is a necessary property and has four possible values: `apiKey`, `HTTP`, `oauth2`, `openIdConnect`
 // Assertation 2: name property is required for `apiKey` type
-// Assertation 3: `in` property is required for `apiKey` type, valid values are: `query`, `header`` or `cookie`
+// Assertation 3: `in` property is required for `apiKey` type, valid values are: `query`, `header` or `cookie`
 // Assertation 4: `scheme` property` is required for `http` type
-// Assertation 5: `flows` object is required for `oauth2`` type
+// Assertation 5: `flows` object is required for `oauth2` type
 // Assertation 6: `opedIdConnectUrl` property is required for `openIdConnect` and must be a valid url
 
 const validator = require('validator');
+
 module.exports.validate = function({ resolvedSpec }) {
-  console.log(JSON.stringify(resolvedSpec, null, 2));
   const API_KEY = 'apiKey';
   const OAUTH2 = 'oauth2';
   const HTTP = 'http';
   const OPENID_CONNECT = 'openIdConnect';
-  const auths = [API_KEY, HTTP, OAUTH2, OPENID_CONNECT];
+  const authTypes = [API_KEY, HTTP, OAUTH2, OPENID_CONNECT];
   const PASSWORD = 'password';
   const CLIENT_CREDENTIALS = 'client_Credentials';
   const AUTHORIZATION_CODE = 'authorizationCode';
   const errors = [];
   const warnings = [];
-  const securitySchemes = resolvedSpec.components.securitySchemes;
+  const securitySchemes =
+    resolvedSpec.components && resolvedSpec.components.securitySchemes;
 
   for (const key in securitySchemes) {
+    const path = `securitySchemes.${key}`;
     const security = securitySchemes[key];
     const type = security.type;
-    const path = `securitySchemes.${key}`;
-    const flows = security.flows;
-    const tokenUrl = security.tokenUrl;
 
     if (!type) {
       errors.push({
@@ -48,7 +47,7 @@ module.exports.validate = function({ resolvedSpec }) {
         path,
         authId: key
       });
-    } else if (auths.indexOf(type) === -1) {
+    } else if (authTypes.indexOf(type) === -1) {
       errors.push({
         message:
           '`type` must have one of the following types: `apiKey`, `oauth2`, `http`, `openIdConnect`',
@@ -89,6 +88,19 @@ module.exports.validate = function({ resolvedSpec }) {
             path,
             authId: key
           });
+        } else if (
+          flows === AUTHORIZATION_CODE ||
+          flows === PASSWORD ||
+          flows === CLIENT_CREDENTIALS
+        ) {
+          if (!tokenUrl) {
+            errors.push({
+              message:
+                "oauth2 authorization authorizationCode flow must have required 'tokenUrl' string parameter if type is `authorizationCode`, `password`, `clientCredentials`.",
+              path,
+              authId: key
+            });
+          }
         } else if (
           !flows.implicit &&
           !flows.authorizationCode &&
@@ -161,7 +173,7 @@ module.exports.validate = function({ resolvedSpec }) {
         const openIdConnectURL = security.openIdConnectUrl;
         if (
           !openIdConnectURL ||
-          typeof openIdConnectURL != 'string' ||
+          typeof openIdConnectURL !== 'string' ||
           !validator.isurl(openIdConnectURL)
         ) {
           errors.push({
@@ -171,20 +183,6 @@ module.exports.validate = function({ resolvedSpec }) {
             authId: key
           });
         }
-      }
-    }
-    if (
-      flows === AUTHORIZATION_CODE ||
-      flows === PASSWORD ||
-      flows === CLIENT_CREDENTIALS
-    ) {
-      if (!tokenUrl) {
-        errors.push({
-          message:
-            "oauth2 authorization authorizationCode flow must have required 'tokenUrl' string parameter if type is `authorizationCode`, `password`, `clientCredentials`.",
-          path,
-          authId: key
-        });
       }
     }
   }
