@@ -731,7 +731,7 @@ describe('validation plugin - semantic - operations-shared', function() {
             get: {
               operationId: 'get_everything',
               tags: ['not a tag'],
-              summary: 'get everything as a string or an array',
+              summary: 'get everything as a string',
               responses: {
                 '200': {
                   content: {
