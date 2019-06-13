@@ -66,7 +66,7 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
       "apiKey authorization must have required 'in' property, valid values are 'query' or 'header' or 'cookie'."
     );
   });
-  it('if type is `apiKey`, then the `name` property should be defined and should be the name of the header or query parameter', function() {
+  it('if type is `apiKey`, then the `name` property should be defined and should be the name of the header or query property', function() {
     const spec = {
       components: {
         securitySchemes: {
@@ -84,13 +84,13 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "apiKey authorization must have required 'name' string property. The name of the header or query parameter to be used."
+      "apiKey authorization must have required 'name' string property. The name of the header or query property to be used."
     );
   });
 });
 
 describe('if the type is `oauth2` then it should have flows and flows should follow the spec requirements', function() {
-  it('should have flows parameter if type is oauth2', function() {
+  it('should have flows property if type is oauth2', function() {
     const spec = {
       components: {
         securitySchemes: {
@@ -109,7 +109,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     expect(res.errors.length).toEqual(2);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "oauth2 authorization must have required 'flows' parameter" //////recieved
+      "oauth2 authorization must have required 'flows' property" //////recieved
     );
   });
   it('should have `authorizationUrl` if flows is `implicit`', function() {
@@ -133,7 +133,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit`." // expeceted
+      "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `implicit`" // expeceted
     );
   });
   it('should have `authorizationUrl` and `tokenUrl` if type is `oauth2` and flow is `authorizationCode` or `password`', function() {
@@ -157,7 +157,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit` or `authorizationCode`."
+      "flow must have required 'tokenUrl' property if type is `authorizationCode`, `password`, `clientCredentials`"
     );
   });
   it('should have `scopes` defined as an object if type is `oauth2`', function() {

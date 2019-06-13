@@ -66,7 +66,7 @@ module.exports.validate = function({ resolvedSpec }) {
         if (!security.name) {
           errors.push({
             message:
-              "apiKey authorization must have required 'name' string property. The name of the header or query parameter to be used.",
+              "apiKey authorization must have required 'name' string property. The name of the header or query property to be used.",
             path
           });
         }
@@ -74,26 +74,22 @@ module.exports.validate = function({ resolvedSpec }) {
       // oauth2 validation
       else if (type === OAUTH2) {
         const flows = security.flows;
-        const tokenUrl = security.tokenUrl;
 
         if (!flows) {
           errors.push({
-            message:
-              "oauth2 authorization must have required 'flows' parameter",
+            message: "oauth2 authorization must have required 'flows' property",
             path
           });
         } else if (
-          flows === AUTHORIZATION_CODE ||
-          flows === PASSWORD ||
-          flows === CLIENT_CREDENTIALS
+          (flows.authorizationCode && !flows.authorizationCode.tokenUrl) ||
+          (flows.password && !flows.password.tokenUrl) ||
+          (flows.clientCredentials && !flows.clientCredentials.tokenUrl)
         ) {
-          if (!tokenUrl) {
-            errors.push({
-              message:
-                "oauth2 authorization authorizationCode flow must have required 'tokenUrl' string parameter if type is `authorizationCode`, `password`, `clientCredentials`.",
-              path
-            });
-          }
+          errors.push({
+            message:
+              "flow must have required 'tokenUrl' property if type is `authorizationCode`, `password`, `clientCredentials`",
+            path
+          });
         } else if (
           !flows.implicit &&
           !flows.authorizationCode &&
@@ -102,7 +98,7 @@ module.exports.validate = function({ resolvedSpec }) {
         ) {
           errors.push({
             message:
-              "oauth2 authorization `flows` must have one of the following paramaters: 'implicit', 'password', 'clientCredentials' or 'authorizationCode'",
+              "oauth2 authorization `flows` must have one of the following properties: 'implicit', 'password', 'clientCredentials' or 'authorizationCode'",
             path
           });
         } else if (flows.implicit) {
@@ -110,7 +106,7 @@ module.exports.validate = function({ resolvedSpec }) {
           if (!authorizationUrl) {
             errors.push({
               message:
-                "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit`.",
+                "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `implicit`",
               path
             });
           } else if (!flows.implicit.scopes) {
@@ -125,24 +121,24 @@ module.exports.validate = function({ resolvedSpec }) {
           if (!authorizationUrl) {
             errors.push({
               message:
-                "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit` or `authorizationCode`.",
+                "oauth2 authorization implicit flow must have required 'authorizationUrl' property if type is `implicit` or `authorizationCode`.",
               path
             });
           }
         } else if (flows.password) {
-          const tokenURL = flows.tokenURL;
+          const tokenURL = flows.password.tokenURL;
           if (!tokenURL) {
             errors.push({
               message:
-                "oauth2 authorization password flow must have required 'tokenUrl' string parameter.",
+                "oauth2 authorization password flow must have required 'tokenUrl' property.",
               path
             });
           }
         } else if (flows.clientCredentials) {
-          if (!tokenUrl) {
+          if (!flows.clientCredentials.tokenUrl) {
             errors.push({
               message:
-                "oauth2 authorization clientCredentials flow must have required 'tokenUrl' string parameter.",
+                "oauth2 authorization clientCredentials flow must have required 'tokenUrl' property.",
               path
             });
           }
