@@ -715,5 +715,48 @@ describe('validation plugin - semantic - operations-shared', function() {
       );
       expect(res.warnings.length).toEqual(0);
     });
+
+    it('should complain about an unused tag', function() {
+      const spec = {
+        tags: [
+          {
+            name: 'some tag'
+          },
+          {
+            name: 'some other tag'
+          }
+        ],
+        paths: {
+          '/': {
+            get: {
+              operationId: 'get_everything',
+              tags: ['not a tag'],
+              summary: 'get everything as a string',
+              responses: {
+                '200': {
+                  content: {
+                    'text/plain': {
+                      schema: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+      console.log(res);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(1);
+
+      expect(res.warnings[0].path).toEqual('paths./.get.tags');
+      expect(res.warnings[0].message).toEqual(
+        'tag is not defined at the global level: not a tag'
+      );
+    });
   });
 });

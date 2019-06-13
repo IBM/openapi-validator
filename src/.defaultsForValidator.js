@@ -25,7 +25,8 @@ const defaults = {
       'operation_id_case_convention': ['warning', 'lower_snake_case'],
       'no_summary': 'warning',
       'no_array_responses': 'error',
-      'parameter_order': 'warning'
+      'parameter_order': 'warning',
+      'unused_tag': 'warning'
     },
     'parameters': {
       'no_parameter_description': 'error',
