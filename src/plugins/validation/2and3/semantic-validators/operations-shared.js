@@ -132,7 +132,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
             if (checkStatus !== 'off') {
               result[checkStatus].push({
                 path: `paths.${pathKey}.${opKey}.tags`,
-                message: 'tag is not defined in operations'
+                message: 'tag is not defined at the global level: ' + op.tags[i]
               });
             }
           }

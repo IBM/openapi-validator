@@ -739,14 +739,6 @@ describe('validation plugin - semantic - operations-shared', function() {
                       schema: {
                         type: 'string'
                       }
-                    },
-                    'application/json': {
-                      schema: {
-                        type: '',
-                        items: {
-                          type: 'string'
-                        }
-                      }
                     }
                   }
                 }
@@ -763,7 +755,7 @@ describe('validation plugin - semantic - operations-shared', function() {
 
       expect(res.warnings[0].path).toEqual('paths./.get.tags');
       expect(res.warnings[0].message).toEqual(
-        'tag is not defined in operations'
+        'tag is not defined at the global level: not a tag'
       );
     });
   });
