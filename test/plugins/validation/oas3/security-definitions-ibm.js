@@ -19,7 +19,7 @@ describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', f
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "'type' must be defined as a string and is required for path: securitySchemes.SecuritySchemeModel"
+      'security scheme is missing required field `type`'
     );
   });
   it('type can only be `apiKey`, `http`, `oauth2`, `openIdConnect`', function() {
@@ -109,7 +109,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     expect(res.errors.length).toEqual(2);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "oauth2 authorization must have required 'flows'. Valid values are 'implicit', 'password', 'clientCredentials' or 'authorizationCode'" //////recieved
+      "oauth2 authorization must have required 'flows' parameter" //////recieved
     );
   });
   it('should have `authorizationUrl` if flows is `implicit`', function() {
@@ -133,7 +133,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit` or `authorizationCode`." // expeceted
+      "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit`." // expeceted
     );
   });
   it('should have `authorizationUrl` and `tokenUrl` if type is `oauth2` and flow is `authorizationCode` or `password`', function() {
@@ -205,7 +205,7 @@ describe('if `type` is `http`, then scheme property must be defined', function()
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      'scheme must be defined for type `http` and must be a string'
+      'scheme must be defined for type `http`'
     );
   });
 });

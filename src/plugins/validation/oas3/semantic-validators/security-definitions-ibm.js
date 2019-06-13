@@ -43,16 +43,14 @@ module.exports.validate = function({ resolvedSpec }) {
 
     if (!type) {
       errors.push({
-        message: `'type' must be defined as a string and is required for path: ${path}`,
-        path,
-        authId: key
+        message: 'security scheme is missing required field `type`',
+        path
       });
     } else if (authTypes.indexOf(type) === -1) {
       errors.push({
         message:
           '`type` must have one of the following types: `apiKey`, `oauth2`, `http`, `openIdConnect`',
-        path,
-        authId: key
+        path
       });
     } else {
       //apiKey validation
@@ -62,19 +60,16 @@ module.exports.validate = function({ resolvedSpec }) {
           errors.push({
             message:
               "apiKey authorization must have required 'in' property, valid values are 'query' or 'header' or 'cookie'.",
-            path,
-            authId: key
+            path
           });
         }
-      }
-
-      if (type === API_KEY && !security.name) {
-        errors.push({
-          message:
-            "apiKey authorization must have required 'name' string property. The name of the header or query parameter to be used.",
-          path,
-          authId: key
-        });
+        if (!security.name) {
+          errors.push({
+            message:
+              "apiKey authorization must have required 'name' string property. The name of the header or query parameter to be used.",
+            path
+          });
+        }
       }
       // oauth2 validation
       else if (type === OAUTH2) {
@@ -84,9 +79,8 @@ module.exports.validate = function({ resolvedSpec }) {
         if (!flows) {
           errors.push({
             message:
-              "oauth2 authorization must have required 'flows'. Valid values are 'implicit', 'password', 'clientCredentials' or 'authorizationCode'",
-            path,
-            authId: key
+              "oauth2 authorization must have required 'flows' parameter",
+            path
           });
         } else if (
           flows === AUTHORIZATION_CODE ||
@@ -97,8 +91,7 @@ module.exports.validate = function({ resolvedSpec }) {
             errors.push({
               message:
                 "oauth2 authorization authorizationCode flow must have required 'tokenUrl' string parameter if type is `authorizationCode`, `password`, `clientCredentials`.",
-              path,
-              authId: key
+              path
             });
           }
         } else if (
@@ -109,25 +102,22 @@ module.exports.validate = function({ resolvedSpec }) {
         ) {
           errors.push({
             message:
-              "oauth2 authorization must have required 'flows'. Valid values are 'implicit', 'password', 'clientCredentials' or 'authorizationCode'",
-            path,
-            authId: key
+              "oauth2 authorization `flows` must have one of the following paramaters: 'implicit', 'password', 'clientCredentials' or 'authorizationCode'",
+            path
           });
         } else if (flows.implicit) {
           const authorizationUrl = flows.implicit.authorizationUrl;
           if (!authorizationUrl) {
             errors.push({
               message:
-                "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit` or `authorizationCode`.",
-              path,
-              authId: key
+                "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit`.",
+              path
             });
           } else if (!flows.implicit.scopes) {
             errors.push({
               message:
                 "oauth2 authorization implicit flow must have required 'scopes' property.",
-              path,
-              authId: key
+              path
             });
           }
         } else if (flows.authorizationCode) {
@@ -136,26 +126,24 @@ module.exports.validate = function({ resolvedSpec }) {
             errors.push({
               message:
                 "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter if type is `implicit` or `authorizationCode`.",
-              authId: key
+              path
             });
           }
-        } else if (flows && flows.password) {
+        } else if (flows.password) {
           const tokenURL = flows.tokenURL;
           if (!tokenURL) {
             errors.push({
               message:
                 "oauth2 authorization password flow must have required 'tokenUrl' string parameter.",
-              path,
-              authId: key
+              path
             });
           }
-        } else if (flows === CLIENT_CREDENTIALS) {
+        } else if (flows.clientCredentials) {
           if (!tokenUrl) {
             errors.push({
               message:
                 "oauth2 authorization clientCredentials flow must have required 'tokenUrl' string parameter.",
-              path,
-              authId: key
+              path
             });
           }
         }
@@ -163,10 +151,8 @@ module.exports.validate = function({ resolvedSpec }) {
         //scheme is required
         if (!security.scheme) {
           errors.push({
-            message:
-              'scheme must be defined for type `http` and must be a string',
-            path,
-            authId: key
+            message: 'scheme must be defined for type `http`',
+            path
           });
         }
       } else if (type == OPENID_CONNECT) {
@@ -179,8 +165,7 @@ module.exports.validate = function({ resolvedSpec }) {
           errors.push({
             message:
               'openIdConnectUrl must be defined for openIdConnect property and must be a valid URL',
-            path,
-            authId: key
+            path
           });
         }
       }
