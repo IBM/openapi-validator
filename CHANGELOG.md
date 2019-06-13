@@ -1,3 +1,10 @@
+## [0.10.3](https://github.com/IBM/openapi-validator/compare/v0.10.2...v0.10.3) (2019-06-13)
+
+
+### Bug Fixes
+
+* raises warning for tag that hasnt been defined in global tags list ([b0ac126](https://github.com/IBM/openapi-validator/commit/b0ac126))
+
 ## [0.10.2](https://github.com/IBM/openapi-validator/compare/v0.10.1...v0.10.2) (2019-06-05)
 
 
