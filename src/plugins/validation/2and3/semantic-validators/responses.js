@@ -19,7 +19,10 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
-            const hasInlineSchema = mediaType.schema && !mediaType.schema.$ref;
+            const hasInlineSchema =
+              mediaType.schema &&
+              mediaTypeKey.startsWith('application/json') &&
+              !mediaType.schema.$ref;
             if (hasInlineSchema) {
               const checkStatus = config.inline_response_schema;
               if (checkStatus !== 'off') {

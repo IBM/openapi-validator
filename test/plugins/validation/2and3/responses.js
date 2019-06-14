@@ -268,6 +268,43 @@ describe('validation plugin - semantic - responses', function() {
         );
         expect(res.errors.length).toEqual(0);
       });
+
+      it('should not complain about schemas that dont require $ref', function() {
+        const config = {
+          responses: {
+            no_response_codes: 'error',
+            no_success_response_codes: 'warning'
+          }
+        };
+
+        const spec = {
+          paths: {
+            '/pets': {
+              get: {
+                summary: 'this is a summary',
+                operationId: 'operationId',
+                responses: {
+                  '400': {
+                    description: 'bad request',
+                    content: {
+                      'plain/text': {
+                        schema: {
+                          type: 'string',
+                          format: 'binary'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec }, config);
+        expect(res.warnings.length).toEqual(0);
+        expect(res.errors.length).toEqual(0);
+      });
     });
   });
 });
