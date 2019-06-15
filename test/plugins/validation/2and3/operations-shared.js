@@ -749,7 +749,6 @@ describe('validation plugin - semantic - operations-shared', function() {
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
-      console.log(res);
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(1);
 
