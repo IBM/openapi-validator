@@ -226,10 +226,35 @@ describe('test expected output - OpenAPI 3', function() {
     const allOutput = capturedText.join('');
 
     expect(exitCode).toEqual(0);
-    expect(
-      allOutput.includes(
-        './test/cli-validator/mockFiles/oas3/clean.yml passed the validator'
-      )
-    ).toEqual(true);
+    expect(allOutput).toContain(
+      './test/cli-validator/mockFiles/oas3/clean.yml passed the validator'
+    );
+  });
+
+  it('should catch problems in a multi-file spec from an outside directory', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/multi-file-spec/main.yaml'];
+    program.default_mode = true;
+
+    const exitCode = await commandLineValidator(program);
+
+    unhookIntercept();
+
+    const allOutput = capturedText.join('');
+
+    expect(exitCode).toEqual(1);
+    expect(allOutput).toContain('errors');
+    expect(allOutput).toContain('API definition must have an `info` object');
+    expect(allOutput).toContain('warnings');
+    expect(allOutput).toContain(
+      'Operations must have a non-empty `operationId`.'
+    );
   });
 });

@@ -197,17 +197,32 @@ const processInput = async function(program) {
       continue;
     }
 
+    // change working directory to location of root api definition
+    // this will allow the parser in `buildSwaggerObject` to resolve external refs correctly
+    const originalWorkingDirectory = process.cwd();
+    process.chdir(path.dirname(validFile));
+
     // validator requires the swagger object to follow a specific format
     let swagger;
     try {
       swagger = await buildSwaggerObject(input);
     } catch (err) {
+      // messing with the working directory can have unintended drawbacks
+      // using the try/catch to ensure that the directory is changed back
+      // to the original, even if the ref parser fails
+      // the tests fail without this line
+      process.chdir(originalWorkingDirectory);
+
       printError(chalk, 'There is a problem with the Swagger.', getError(err));
       // Uncomment the line below to see the stack trace when the validator fails
       // console.log(err.stack);
       exitCode = 1;
       continue;
     }
+
+    // return the working directory to its original location so that
+    // the rest of the program runs as expected
+    process.chdir(originalWorkingDirectory);
 
     // run validator, print the results, and determine if validator passed
     let results;
