@@ -20,7 +20,7 @@
 // Assertation 5: `flows` object is required for `oauth2` type
 // Assertation 6: `opedIdConnectUrl` property is required for `openIdConnect` and must be a valid url
 
-const validator = require('validator');
+const stringValidator = require('Validator');
 
 module.exports.validate = function({ resolvedSpec }) {
   const API_KEY = 'apiKey';
@@ -49,134 +49,130 @@ module.exports.validate = function({ resolvedSpec }) {
           '`type` must have one of the following types: `apiKey`, `oauth2`, `http`, `openIdConnect`',
         path: path + '.type'
       });
-    } else {
+    } else if (type === API_KEY) {
       //apiKey validation
-      if (type === API_KEY) {
-        const authIn = security.in;
-        if (!authIn || !['query', 'header', 'cookie'].includes(authIn)) {
-          errors.push({
-            message:
-              "apiKey authorization must have required 'in' property, valid values are 'query' or 'header' or 'cookie'.",
-            path: path + '.in'
-          });
-        }
-        if (!security.name) {
-          errors.push({
-            message:
-              "apiKey authorization must have required 'name' string property. The name of the header or query property to be used.",
-            path
-          });
-        }
+      const authIn = security.in;
+      if (!authIn || !['query', 'header', 'cookie'].includes(authIn)) {
+        errors.push({
+          message:
+            "apiKey authorization must have required 'in' property, valid values are 'query' or 'header' or 'cookie'.",
+          path: path + '.in'
+        });
       }
-      // oauth2 validation
-      else if (type === OAUTH2) {
-        const flows = security.flows;
+      if (!security.name) {
+        errors.push({
+          message:
+            "apiKey authorization must have required 'name' string property. The name of the header or query property to be used.",
+          path
+        });
+      }
+    }
+    // oauth2 validation
+    else if (type === OAUTH2) {
+      const flows = security.flows;
 
-        if (!flows) {
-          errors.push({
-            message: "oauth2 authorization must have required 'flows' property",
-            path
-          });
-        } else if (
-          flows.authorizationCode &&
-          !flows.authorizationCode.tokenUrl
-        ) {
-          errors.push({
-            message:
-              "flow must have required 'tokenUrl' property if type is `authorizationCode`",
-            path
-          });
-        } else if (flows.password && !flows.password.tokenUrl) {
-          errors.push({
-            message:
-              "flow must have required 'tokenUrl' property if type is `password`",
-            path
-          });
-        } else if (
-          flows.clientCredentials &&
-          !flows.clientCredentials.tokenUrl
-        ) {
-          errors.push({
-            message:
-              "flow must have required 'tokenUrl' property if type is  `clientCredentials`",
-            path: path + '.flows'
-          });
-        } else if (
-          !flows.implicit &&
-          !flows.authorizationCode &&
-          !flows.password &&
-          !flows.clientCredentials
-        ) {
-          errors.push({
-            message:
-              "oauth2 authorization `flows` must have one of the following properties: 'implicit', 'password', 'clientCredentials' or 'authorizationCode'",
-            path: path + '.flows.implicit'
-          });
-        } else if (flows.implicit) {
-          const authorizationUrl = flows.implicit.authorizationUrl;
+      if (!flows) {
+        errors.push({
+          message: "oauth2 authorization must have required 'flows' property",
+          path
+        });
+      } else if (flows.authorizationCode && !flows.authorizationCode.tokenUrl) {
+        errors.push({
+          message:
+            "flow must have required 'tokenUrl' property if type is `authorizationCode`",
+          path
+        });
+      } else if (flows.password && !flows.password.tokenUrl) {
+        errors.push({
+          message:
+            "flow must have required 'tokenUrl' property if type is `password`",
+          path
+        });
+      } else if (flows.clientCredentials && !flows.clientCredentials.tokenUrl) {
+        errors.push({
+          message:
+            "flow must have required 'tokenUrl' property if type is  `clientCredentials`",
+          path: path + '.flows'
+        });
+      } else if (
+        !flows.implicit &&
+        !flows.authorizationCode &&
+        !flows.password &&
+        !flows.clientCredentials
+      ) {
+        errors.push({
+          message:
+            "oauth2 authorization `flows` must have one of the following properties: 'implicit', 'password', 'clientCredentials' or 'authorizationCode'",
+          path: path + '.flows.implicit'
+        });
+      } else if (flows.implicit) {
+        const authorizationUrl = flows.implicit.authorizationUrl;
+        if (!flows.implicit.scopes || !authorizationUrl) {
           if (!authorizationUrl) {
             errors.push({
               message:
                 "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `implicit`",
               path: path + '.flows.implicit'
             });
-          } else if (!flows.implicit.scopes) {
+          }
+          if (!flows.implicit.scopes) {
             errors.push({
               message:
                 "oauth2 authorization implicit flow must have required 'scopes' property.",
-              path
-            });
-          }
-        } else if (flows.authorizationCode) {
-          const authorizationUrl = flows.authorizationCode.authorizationUrl;
-          if (!authorizationUrl) {
-            errors.push({
-              message:
-                "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `implicit` or `authorizationCode`.",
-              path: path + 'flows.authorizationCode'
-            });
-          }
-        } else if (flows.password) {
-          const tokenURL = flows.password.tokenURL;
-          if (!tokenURL) {
-            errors.push({
-              message:
-                "oauth2 authorization password flow must have required 'tokenUrl' property.",
-              path: path + '.flows.password'
-            });
-          }
-        } else if (flows.clientCredentials) {
-          if (!flows.clientCredentials.tokenUrl) {
-            errors.push({
-              message:
-                "oauth2 authorization clientCredentials flow must have required 'tokenUrl' property.",
-              path: path + '.flows.clientCredentials'
+              path: path + '.flows.implicit'
             });
           }
         }
-      } else if (type === HTTP) {
-        //scheme is required
-        if (!security.scheme) {
-          errors.push({
-            message: 'scheme must be defined for type `http`',
-            path
-          });
-        }
-      } else if (type == OPENID_CONNECT) {
-        const openIdConnectURL = security.openIdConnectUrl;
-        if (
-          !openIdConnectURL ||
-          typeof openIdConnectURL !== 'string' ||
-          !validator.isurl(openIdConnectURL)
-        ) {
+      } else if (flows.authorizationCode) {
+        const authorizationUrl = flows.authorizationCode.authorizationUrl;
+        if (!authorizationUrl) {
           errors.push({
             message:
-              'openIdConnectUrl must be defined for openIdConnect property and must be a valid URL',
-            path
+              "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `authorizationCode`.",
+            path: path + 'flows.authorizationCode'
+          });
+        }
+      } else if (flows.password) {
+        const tokenURL = flows.password.tokenURL;
+        if (!tokenURL) {
+          errors.push({
+            message:
+              "oauth2 authorization password flow must have required 'tokenUrl' property.",
+            path: path + '.flows.password'
+          });
+        }
+      } else if (flows.clientCredentials) {
+        if (!flows.clientCredentials.tokenUrl) {
+          errors.push({
+            message:
+              "oauth2 authorization clientCredentials flow must have required 'tokenUrl' property.",
+            path: path + '.flows.clientCredentials'
           });
         }
       }
+    } else if (type === HTTP) {
+      //scheme is required
+      if (!security.scheme) {
+        errors.push({
+          message: 'scheme must be defined for type `http`',
+          path
+        });
+      }
+    } else if (type == OPENID_CONNECT) {
+      const openIdConnectURL = security.openIdConnectUrl;
+      if (
+        !openIdConnectURL ||
+        typeof openIdConnectURL !== 'string' ||
+        !stringValidator.isurl(openIdConnectURL)
+      ) {
+        errors.push({
+          message:
+            'openIdConnectUrl must be defined for openIdConnect property and must be a valid URL',
+          path
+        });
+      }
     }
   }
+
   return { errors, warnings };
 };

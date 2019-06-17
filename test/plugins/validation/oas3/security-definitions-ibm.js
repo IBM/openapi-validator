@@ -18,6 +18,7 @@ describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', f
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel');
     expect(res.errors[0].message).toEqual(
       'security scheme is missing required field `type`'
     );
@@ -38,6 +39,7 @@ describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', f
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel.type');
     expect(res.errors[0].message).toEqual(
       '`type` must have one of the following types: `apiKey`, `oauth2`, `http`, `openIdConnect`'
     );
@@ -62,6 +64,7 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel.in');
     expect(res.errors[0].message).toEqual(
       "apiKey authorization must have required 'in' property, valid values are 'query' or 'header' or 'cookie'."
     );
@@ -83,6 +86,7 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel');
     expect(res.errors[0].message).toEqual(
       "apiKey authorization must have required 'name' string property. The name of the header or query property to be used."
     );
@@ -108,6 +112,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(2);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel');
     expect(res.errors[0].message).toEqual(
       "oauth2 authorization must have required 'flows' property" //////recieved
     );
@@ -132,6 +137,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel.flows.implicit');
     expect(res.errors[0].message).toEqual(
       "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `implicit`" // expeceted
     );
@@ -156,6 +162,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel');
     expect(res.errors[0].message).toEqual(
       "flow must have required 'tokenUrl' property if type is `authorizationCode`"
     );
@@ -182,6 +189,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel.flows.implicit');
     expect(res.errors[0].message).toEqual(
       "oauth2 authorization implicit flow must have required 'scopes' property."
     );
@@ -204,6 +212,7 @@ describe('if `type` is `http`, then scheme property must be defined', function()
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel');
     expect(res.errors[0].message).toEqual(
       'scheme must be defined for type `http`'
     );
@@ -228,6 +237,7 @@ describe('if `type` is `openIdConnect` then `openIdConnectUrl` must be defined a
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
+    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel');
     expect(res.errors[0].message).toEqual(
       'openIdConnectUrl must be defined for openIdConnect property and must be a valid URL'
     );
