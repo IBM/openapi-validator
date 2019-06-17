@@ -157,7 +157,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors[0].message).toEqual(
-      "flow must have required 'tokenUrl' property if type is `authorizationCode`, `password`, `clientCredentials`"
+      "flow must have required 'tokenUrl' property if type is `authorizationCode`"
     );
   });
   it('should have `scopes` defined as an object if type is `oauth2`', function() {
