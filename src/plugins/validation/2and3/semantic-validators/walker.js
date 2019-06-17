@@ -139,7 +139,8 @@ const unacceptableRefPatternsOAS3 = {
   security: ['!*#/components/securitySchemes*'],
   callbacks: ['!*#/components/callbacks*'],
   examples: ['!*#/components/examples*'],
-  headers: ['!*#/components/headers*']
+  headers: ['!*#/components/headers*'],
+  links: ['!*#/components/links*']
 };
 
 const exceptionedParents = ['properties'];
