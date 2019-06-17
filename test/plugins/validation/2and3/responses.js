@@ -1,4 +1,3 @@
-
 const expect = require('expect');
 const {
   validate
