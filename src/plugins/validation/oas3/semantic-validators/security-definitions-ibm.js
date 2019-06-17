@@ -20,7 +20,7 @@
 // Assertation 5: `flows` object is required for `oauth2` type
 // Assertation 6: `opedIdConnectUrl` property is required for `openIdConnect` and must be a valid url
 
-const stringValidator = require('Validator');
+const stringValidator = require('validator');
 
 module.exports.validate = function({ resolvedSpec }) {
   const API_KEY = 'apiKey';
