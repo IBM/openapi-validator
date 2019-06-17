@@ -1,3 +1,4 @@
+
 const expect = require('expect');
 const {
   validate
@@ -269,7 +270,7 @@ describe('validation plugin - semantic - responses', function() {
         expect(res.errors.length).toEqual(0);
       });
 
-      it('should not complain about schemas that dont require $ref', function() {
+      it('should not complain about non-json response that defines an inline schema', function() {
         const config = {
           responses: {
             no_response_codes: 'error',
