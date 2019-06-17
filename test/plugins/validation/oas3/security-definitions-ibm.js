@@ -39,7 +39,9 @@ describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', f
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
-    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel.type');
+    expect(res.errors[0].path).toEqual(
+      'securitySchemes.SecuritySchemeModel.type'
+    );
     expect(res.errors[0].message).toEqual(
       '`type` must have one of the following types: `apiKey`, `oauth2`, `http`, `openIdConnect`'
     );
@@ -64,7 +66,9 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
-    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel.in');
+    expect(res.errors[0].path).toEqual(
+      'securitySchemes.SecuritySchemeModel.in'
+    );
     expect(res.errors[0].message).toEqual(
       "apiKey authorization must have required 'in' property, valid values are 'query' or 'header' or 'cookie'."
     );
@@ -137,7 +141,9 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
-    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel.flows.implicit');
+    expect(res.errors[0].path).toEqual(
+      'securitySchemes.SecuritySchemeModel.flows.implicit'
+    );
     expect(res.errors[0].message).toEqual(
       "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `implicit`" // expeceted
     );
@@ -189,7 +195,9 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
-    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel.flows.implicit');
+    expect(res.errors[0].path).toEqual(
+      'securitySchemes.SecuritySchemeModel.flows.implicit'
+    );
     expect(res.errors[0].message).toEqual(
       "oauth2 authorization implicit flow must have required 'scopes' property."
     );
