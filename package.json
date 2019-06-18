@@ -11,7 +11,7 @@
     "test": "nyc mocha --recursive test/",
     "test-validators": "mocha --recursive test/plugins",
     "test-cli-tool": "mocha test/cli-validator/tests",
-    "test-travis": "npm run lint && mocha --recursive --grep @skip-ci --invert test/",
+    "test-travis": "npm run lint && nyc mocha --recursive --grep @skip-ci --invert test/",
     "lint": "eslint --cache --quiet --ext '.js' src test",
     "fix": "eslint --fix --ext '.js' src test",
     "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
