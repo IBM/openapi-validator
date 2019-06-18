@@ -1,3 +1,10 @@
+## [0.10.5](https://github.com/IBM/openapi-validator/compare/v0.10.4...v0.10.5) (2019-06-18)
+
+
+### Bug Fixes
+
+* use correct working dir when resolving multi-file definitions ([43a22b8](https://github.com/IBM/openapi-validator/commit/43a22b8))
+
 ## [0.10.4](https://github.com/IBM/openapi-validator/compare/v0.10.3...v0.10.4) (2019-06-18)
 
 
