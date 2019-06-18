@@ -1,3 +1,10 @@
+## [0.10.4](https://github.com/IBM/openapi-validator/compare/v0.10.3...v0.10.4) (2019-06-18)
+
+
+### Bug Fixes
+
+* skips warning for non-ref response schemas when not content is not json ([624d41a](https://github.com/IBM/openapi-validator/commit/624d41a))
+
 ## [0.10.3](https://github.com/IBM/openapi-validator/compare/v0.10.2...v0.10.3) (2019-06-13)
 
 
