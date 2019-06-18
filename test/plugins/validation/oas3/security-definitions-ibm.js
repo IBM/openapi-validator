@@ -148,7 +148,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
       "oauth2 implicit flow must have required 'authorizationUrl' property"
     );
   });
-  it('should have `authorizationUrl` and `tokenUrl` if type is `oauth2` and flow is `authorizationCode` or `password`', function() {
+  it('should have `authorizationUrl` and `tokenUrl` if type is `oauth2` and flow is `authorizationCode`', function() {
     const spec = {
       components: {
         securitySchemes: {
