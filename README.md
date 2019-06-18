@@ -271,7 +271,7 @@ If just a string is provided for these rule, the default configuration option wi
 For rules that accept additional configuration, there will be a limited set of available options.
 
 ##### Case Convention Options
-- Some rules check strings for adherance to a specific case convention. In some cases, the case convention checked is configurable.
+- Some rules check strings for adherence to a specific case convention. In some cases, the case convention checked is configurable.
 - Rules with configurable case conventions will end in `_case_convention`, such as `param_name_case_convention`.
 
 | Option           | Description                                              | Example          |
