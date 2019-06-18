@@ -197,6 +197,11 @@ const processInput = async function(program) {
       continue;
     }
 
+    // change working directory to location of root api definition
+    // this will allow the parser in `buildSwaggerObject` to resolve external refs correctly
+    const originalWorkingDirectory = process.cwd();
+    process.chdir(path.dirname(validFile));
+
     // validator requires the swagger object to follow a specific format
     let swagger;
     try {
@@ -207,6 +212,11 @@ const processInput = async function(program) {
       // console.log(err.stack);
       exitCode = 1;
       continue;
+    } finally {
+      // return the working directory to its original location so that
+      // the rest of the program runs as expected. using finally block
+      // because this must happen regardless of result in buildSwaggerObject
+      process.chdir(originalWorkingDirectory);
     }
 
     // run validator, print the results, and determine if validator passed
