@@ -80,19 +80,19 @@ module.exports.validate = function({ resolvedSpec }) {
         errors.push({
           message:
             "flow must have required 'tokenUrl' property if type is `authorizationCode`",
-          path
+          path: path + '.flows.authorizationCode'
         });
       } else if (flows.password && !flows.password.tokenUrl) {
         errors.push({
           message:
             "flow must have required 'tokenUrl' property if type is `password`",
-          path
+          path: path + '.flows.password'
         });
       } else if (flows.clientCredentials && !flows.clientCredentials.tokenUrl) {
         errors.push({
           message:
             "flow must have required 'tokenUrl' property if type is  `clientCredentials`",
-          path: path + '.flows'
+          path: path + '.flows.clientCredentials'
         });
       } else if (
         !flows.implicit &&
@@ -103,7 +103,7 @@ module.exports.validate = function({ resolvedSpec }) {
         errors.push({
           message:
             "oauth2 authorization `flows` must have one of the following properties: 'implicit', 'password', 'clientCredentials' or 'authorizationCode'",
-          path: path + '.flows.implicit'
+          path: path + '.flows'
         });
       } else if (flows.implicit) {
         const authorizationUrl = flows.implicit.authorizationUrl;
@@ -111,7 +111,7 @@ module.exports.validate = function({ resolvedSpec }) {
           if (!authorizationUrl) {
             errors.push({
               message:
-                "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `implicit`",
+                "oauth2 implicit flow must have required 'authorizationUrl' property",
               path: path + '.flows.implicit'
             });
           }
@@ -128,7 +128,7 @@ module.exports.validate = function({ resolvedSpec }) {
         if (!authorizationUrl) {
           errors.push({
             message:
-              "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `authorizationCode`.",
+              "oauth2 authorizationCode flow must have required 'authorizationUrl' property.",
             path: path + 'flows.authorizationCode'
           });
         }

@@ -145,7 +145,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
       'securitySchemes.SecuritySchemeModel.flows.implicit'
     );
     expect(res.errors[0].message).toEqual(
-      "oauth2 authorizationCode flow must have required 'authorizationUrl' property if type is `implicit`" // expeceted
+      "oauth2 implicit flow must have required 'authorizationUrl' property"
     );
   });
   it('should have `authorizationUrl` and `tokenUrl` if type is `oauth2` and flow is `authorizationCode` or `password`', function() {
@@ -168,7 +168,9 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
     const res = validate({ resolvedSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
-    expect(res.errors[0].path).toEqual('securitySchemes.SecuritySchemeModel');
+    expect(res.errors[0].path).toEqual(
+      'securitySchemes.SecuritySchemeModel.flows.authorizationCode'
+    );
     expect(res.errors[0].message).toEqual(
       "flow must have required 'tokenUrl' property if type is `authorizationCode`"
     );
