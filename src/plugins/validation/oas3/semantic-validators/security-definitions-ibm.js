@@ -107,21 +107,19 @@ module.exports.validate = function({ resolvedSpec }) {
         });
       } else if (flows.implicit) {
         const authorizationUrl = flows.implicit.authorizationUrl;
-        if (!flows.implicit.scopes || !authorizationUrl) {
-          if (!authorizationUrl) {
-            errors.push({
-              message:
-                "oauth2 implicit flow must have required 'authorizationUrl' property",
-              path: path + '.flows.implicit'
-            });
-          }
-          if (!flows.implicit.scopes) {
-            errors.push({
-              message:
-                "oauth2 authorization implicit flow must have required 'scopes' property.",
-              path: path + '.flows.implicit'
-            });
-          }
+        if (!authorizationUrl) {
+          errors.push({
+            message:
+              "oauth2 implicit flow must have required 'authorizationUrl' property",
+            path: path + '.flows.implicit'
+          });
+        }
+        if (!flows.implicit.scopes) {
+          errors.push({
+            message:
+              "oauth2 authorization implicit flow must have required 'scopes' property.",
+            path: path + '.flows.implicit'
+          });
         }
       } else if (flows.authorizationCode) {
         const authorizationUrl = flows.authorizationCode.authorizationUrl;
