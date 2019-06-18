@@ -32,6 +32,7 @@
     "require-all": "^3.0.0",
     "semver": "^5.5.1",
     "update-notifier": "^2.5.0",
+    "validator": "^11.0.0",
     "yaml-js": "^0.2.3"
   },
   "devDependencies": {
