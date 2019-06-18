@@ -7,3 +7,5 @@ dist
 .validateignore
 .idea/
 bin/
+.nyc_output/
+coverage/
