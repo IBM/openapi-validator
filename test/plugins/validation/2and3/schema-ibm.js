@@ -1011,7 +1011,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '2'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Enum values must be lower snake case.'
+      'Enum values must be lower snake case strings.'
     );
   });
 
@@ -1059,7 +1059,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '1'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Enum values must be lower snake case.'
+      'Enum values must be lower snake case strings.'
     );
   });
 
@@ -1098,7 +1098,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '2'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Enum values must be lower snake case.'
+      'Enum values must be lower snake case strings.'
     );
   });
 
@@ -1146,7 +1146,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '1'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Enum values must be lower snake case.'
+      'Enum values must be lower snake case strings.'
     );
   });
 
@@ -1327,5 +1327,41 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     expect(res.warnings[0].message).toEqual(
       'Enum values must follow case convention: lower_snake_case'
     );
+  });
+
+  it('should skip validation if enum values are non string', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        enum_case_convention: ['warning', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/some/path/{id}': {
+          get: {
+            parameters: [
+              {
+                name: 'enum_param',
+                in: 'query',
+                description: 'an enum param',
+                type: 'array',
+                required: 'true',
+                items: {
+                  type: 'string',
+                  description: 'the values',
+                  enum: [1, 2, 3]
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
   });
 });
