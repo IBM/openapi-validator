@@ -1,3 +1,10 @@
+# [0.11.0](https://github.com/IBM/openapi-validator/compare/v0.10.5...v0.11.0) (2019-06-18)
+
+
+### Features
+
+* add security definition validations for OAS3 ([0a44980](https://github.com/IBM/openapi-validator/commit/0a44980))
+
 ## [0.10.5](https://github.com/IBM/openapi-validator/compare/v0.10.4...v0.10.5) (2019-06-18)
 
 
