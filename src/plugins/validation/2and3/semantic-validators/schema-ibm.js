@@ -363,14 +363,15 @@ function checkEnumValues(schema, contextPath, config) {
 
   for (let i = 0; i < schema.enum.length; i++) {
     const enumValue = schema.enum[i];
-
-    const checkStatus = config.snake_case_only || 'off';
-    if (checkStatus.match('error|warning')) {
-      if (!isSnakecase(enumValue)) {
-        result[checkStatus].push({
-          path: contextPath.concat(['enum', i.toString()]),
-          message: 'Enum values must be lower snake case.'
-        });
+    if (typeof enumValue === 'string') {
+      const checkStatus = config.snake_case_only || 'off';
+      if (checkStatus.match('error|warning')) {
+        if (!isSnakecase(enumValue)) {
+          result[checkStatus].push({
+            path: contextPath.concat(['enum', i.toString()]),
+            message: 'Enum values must be lower snake case strings.'
+          });
+        }
       }
     }
   }
@@ -398,16 +399,17 @@ function checkEnumCaseConvention(schema, contextPath, caseConvention) {
 
   for (let i = 0; i < schema.enum.length; i++) {
     const enumValue = schema.enum[i];
-
-    const checkStatus = caseConvention[0] || 'off';
-    if (checkStatus.match('error|warning')) {
-      const caseConventionValue = caseConvention[1];
-      const isCorrectCase = checkCase(enumValue, caseConventionValue);
-      if (!isCorrectCase) {
-        result[checkStatus].push({
-          path: contextPath.concat(['enum', i.toString()]),
-          message: `Enum values must follow case convention: ${caseConventionValue}`
-        });
+    if (typeof enumValue === 'string') {
+      const checkStatus = caseConvention[0] || 'off';
+      if (checkStatus.match('error|warning')) {
+        const caseConventionValue = caseConvention[1];
+        const isCorrectCase = checkCase(enumValue, caseConventionValue);
+        if (!isCorrectCase) {
+          result[checkStatus].push({
+            path: contextPath.concat(['enum', i.toString()]),
+            message: `Enum values must follow case convention: ${caseConventionValue}`
+          });
+        }
       }
     }
   }
@@ -428,3 +430,4 @@ function isRootSchema(path) {
     current === 'schema' || (parent === 'definitions' && path.length === 2)
   );
 }
+
