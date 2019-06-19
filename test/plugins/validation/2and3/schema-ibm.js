@@ -1328,4 +1328,32 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'Enum values must follow case convention: lower_snake_case'
     );
   });
+
+  it('should skip validation for non string values', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'warning'
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: 'object',
+          description: 'thing',
+          properties: {
+            integer: {
+              type: 'integer',
+              description: 'an integer',
+              enum: [1, 2, 3]
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
 });
