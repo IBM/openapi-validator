@@ -1,3 +1,10 @@
+## [0.11.1](https://github.com/IBM/openapi-validator/compare/v0.11.0...v0.11.1) (2019-06-19)
+
+
+### Bug Fixes
+
+* skips validation for non-string enum values ([#67](https://github.com/IBM/openapi-validator/issues/67)) ([fe4211f](https://github.com/IBM/openapi-validator/commit/fe4211f))
+
 # [0.11.0](https://github.com/IBM/openapi-validator/compare/v0.10.5...v0.11.0) (2019-06-18)
 
 
