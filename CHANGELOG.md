@@ -1,3 +1,10 @@
+## [0.11.2](https://github.com/IBM/openapi-validator/compare/v0.11.1...v0.11.2) (2019-06-19)
+
+
+### Bug Fixes
+
+* response links are not validated as responses ([#63](https://github.com/IBM/openapi-validator/issues/63)) ([061b09b](https://github.com/IBM/openapi-validator/commit/061b09b))
+
 ## [0.11.1](https://github.com/IBM/openapi-validator/compare/v0.11.0...v0.11.1) (2019-06-19)
 
 
