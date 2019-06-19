@@ -430,4 +430,3 @@ function isRootSchema(path) {
     current === 'schema' || (parent === 'definitions' && path.length === 2)
   );
 }
-
