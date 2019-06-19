@@ -600,7 +600,7 @@ describe('validation plugin - semantic - spec walker', () => {
           'description'
         ]);
       });
-      it('should return a problem for a parameters $ref in a response position', function() {
+      it('should return a problem for a links $ref that does not have the correct format', function() {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
