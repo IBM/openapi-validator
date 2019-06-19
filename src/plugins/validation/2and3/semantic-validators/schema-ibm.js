@@ -369,7 +369,7 @@ function checkEnumValues(schema, contextPath, config) {
         if (!isSnakecase(enumValue)) {
           result[checkStatus].push({
             path: contextPath.concat(['enum', i.toString()]),
-            message: 'Enum values must be lower snake case strings.'
+            message: 'Enum values must be lower snake case.'
           });
         }
       }

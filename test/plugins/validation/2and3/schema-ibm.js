@@ -1011,7 +1011,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '2'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Enum values must be lower snake case strings.'
+      'Enum values must be lower snake case.'
     );
   });
 
@@ -1059,7 +1059,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '1'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Enum values must be lower snake case strings.'
+      'Enum values must be lower snake case.'
     );
   });
 
@@ -1098,7 +1098,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '2'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Enum values must be lower snake case strings.'
+      'Enum values must be lower snake case.'
     );
   });
 
@@ -1146,7 +1146,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '1'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Enum values must be lower snake case strings.'
+      'Enum values must be lower snake case.'
     );
   });
 
@@ -1342,9 +1342,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
           type: 'object',
           description: 'thing',
           properties: {
-            color: {
+            integers: {
               type: 'string',
-              description: 'some color',
+              description: 'list of integers',
               enum: [1, 2, 3]
             }
           }
