@@ -600,6 +600,55 @@ describe('validation plugin - semantic - spec walker', () => {
           'description'
         ]);
       });
+      it('should return a problem for a links $ref that does not have the correct format', function() {
+        const spec = {
+          paths: {
+            '/CoolPath/{id}': {
+              responses: {
+                '200': {
+                  desciption: 'hi',
+                  content: {
+                    'application/json': {
+                      schema: {
+                        type: 'string'
+                      }
+                    }
+                  },
+                  headers: {
+                    Location: {
+                      description: 'hi',
+                      schema: {
+                        type: 'string'
+                      }
+                    }
+                  },
+                  links: {
+                    link1: {
+                      $ref: '#/parameters/abc'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec }, config);
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/CoolPath/{id}',
+          'responses',
+          '200',
+          'links',
+          'link1',
+          '$ref'
+        ]);
+        expect(res.warnings[0].message).toEqual(
+          'links $refs must follow this format: *#/links*'
+        );
+      });
     });
   });
 });
