@@ -127,6 +127,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 // values are globs!
 const unacceptableRefPatternsS2 = {
   responses: ['!*#/responses*'],
+  links: ['!*#/links*'],
   schema: ['!*#/definitions*'],
   parameters: ['!*#/parameters*']
 };
