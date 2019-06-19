@@ -1343,7 +1343,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
           description: 'thing',
           properties: {
             integers: {
-              type: 'string',
+              type: 'integer',
               description: 'list of integers',
               enum: [1, 2, 3]
             }
