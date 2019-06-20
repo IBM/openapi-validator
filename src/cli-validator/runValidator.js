@@ -37,6 +37,7 @@ const processInput = async function(program) {
   const turnOffColoring = !!program.no_colors;
   const defaultMode = !!program.default_mode;
   const jsonOutput = !!program.json;
+  const onlyErrors = !!program.only_errors;
 
   const configFileOverride = program.config;
 
@@ -230,11 +231,20 @@ const processInput = async function(program) {
       exitCode = 1;
       continue;
     }
-
     if (jsonOutput) {
       printJson(results, originalFile);
     } else {
-      if (results.error || results.warning) {
+      if ((results.error || results.warning) && onlyErrors) {
+        print(
+          results,
+          chalk,
+          printValidators,
+          reportingStats,
+          originalFile,
+          onlyErrors
+        );
+        if (results.error) exitCode = 1;
+      } else if (results.error || results.warning) {
         print(results, chalk, printValidators, reportingStats, originalFile);
         // fail on errors, but not if there are only warnings
         if (results.error) exitCode = 1;

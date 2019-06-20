@@ -61,6 +61,7 @@ To build these, run `npm run pkg` in the root.  The binaries (lint-openapi-linux
 
 #### [options]
 -  -s (--report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
+-  -e (--only_errors) : This option will only print the errors instead of the errors and warnings.
 -  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
 -  -p (--print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This can be helpful for developing validations.
 -  -n (--no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
