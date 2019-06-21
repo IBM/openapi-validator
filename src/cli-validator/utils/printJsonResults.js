@@ -32,7 +32,6 @@ module.exports = function printJson(results, originalFile, errorsOnly) {
       });
     });
   });
-  // render the results to json in the console with 2 char spacing
   if (errorsOnly) {
     delete results.warnings;
   }
