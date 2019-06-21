@@ -12,9 +12,9 @@ module.exports = function print(
   printValidators,
   reportingStats,
   originalFile,
-  onlyErrors
+  errorsOnly
 ) {
-  const types = onlyErrors ? ['errors'] : ['errors', 'warnings'];
+  const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
   const colors = {
     errors: 'bgRed',
     warnings: 'bgYellow'
@@ -42,9 +42,6 @@ module.exports = function print(
     color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
 
     each(results[type], (problems, validator) => {
-      if (onlyErrors) {
-        type = 'errors';
-      }
       if (printValidators) {
         console.log(`Validator: ${validator}`);
       }

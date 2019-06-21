@@ -37,7 +37,7 @@ const processInput = async function(program) {
   const turnOffColoring = !!program.no_colors;
   const defaultMode = !!program.default_mode;
   const jsonOutput = !!program.json;
-  const onlyErrors = !!program.only_errors;
+  const errorsOnly = !!program.only_errors;
 
   const configFileOverride = program.config;
 
@@ -231,22 +231,21 @@ const processInput = async function(program) {
       exitCode = 1;
       continue;
     }
+    if (errorsOnly) {
+      results.warning = false;
+    }
     if (jsonOutput) {
-      printJson(results, originalFile);
+      printJson(results, originalFile, errorsOnly);
     } else {
-      if ((results.error || results.warning) && onlyErrors) {
+      if (results.error || results.warning) {
         print(
           results,
           chalk,
           printValidators,
           reportingStats,
           originalFile,
-          onlyErrors
+          errorsOnly
         );
-        if (results.error) exitCode = 1;
-      } else if (results.error || results.warning) {
-        print(results, chalk, printValidators, reportingStats, originalFile);
-        // fail on errors, but not if there are only warnings
         if (results.error) exitCode = 1;
       } else {
         console.log(chalk.green(`\n${validFile} passed the validator`));
