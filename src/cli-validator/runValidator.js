@@ -37,7 +37,7 @@ const processInput = async function(program) {
   const turnOffColoring = !!program.no_colors;
   const defaultMode = !!program.default_mode;
   const jsonOutput = !!program.json;
-  const errorsOnly = !!program.only_errors;
+  const errorsOnly = !!program.errors_only;
 
   const configFileOverride = program.config;
 
@@ -231,6 +231,8 @@ const processInput = async function(program) {
       exitCode = 1;
       continue;
     }
+    //the warning property tells the user if warnings are included as part of the output
+    //if errorsOnly is true, only errors will be returned, so need to force this to false
     if (errorsOnly) {
       results.warning = false;
     }
@@ -246,6 +248,7 @@ const processInput = async function(program) {
           originalFile,
           errorsOnly
         );
+        // fail on errors, but not if there are only warnings
         if (results.error) exitCode = 1;
       } else {
         console.log(chalk.green(`\n${validFile} passed the validator`));

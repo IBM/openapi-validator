@@ -107,7 +107,7 @@ describe('cli tool - test option handling', function() {
 
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
-    program.only_errors = true;
+    program.errors_only = true;
     program.default_mode = true;
 
     await commandLineValidator(program);
@@ -116,12 +116,13 @@ describe('cli tool - test option handling', function() {
     let errorsOnly = false;
 
     capturedText.forEach(function(line) {
-      if (line.includes('error')) {
+      if (line.includes('error') && !line.includes('warning')) {
         errorsOnly = true;
       }
     });
 
     expect(errorsOnly).toEqual(true);
+    //expect(program.results.warnings).toEqual(false);
   });
 
   it('should print correct statistics report when -s option is given', async function() {
@@ -240,6 +241,7 @@ describe('cli tool - test option handling', function() {
     expect(outputObject['errors']['operation-ids'][0]['message']).toEqual(
       'operationIds must be unique'
     );
+
     // {"operations-shared": [{"line": 36, "message": "Operations must have a non-empty `operationId`.", "path": "paths./pet.post.operationId"},
     expect(outputObject['warnings']['operations-shared'][0]['line']).toEqual(
       36
@@ -260,7 +262,7 @@ describe('cli tool - test option handling', function() {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
     program.json = true;
-    program.only_errors = true;
+    program.errors_only = true;
     program.default_mode = true;
 
     await commandLineValidator(program);
@@ -268,26 +270,10 @@ describe('cli tool - test option handling', function() {
 
     // capturedText should be JSON object. convert to json and check fields
     const outputObject = JSON.parse(capturedText);
-    //console.log(outputObject);
-    //console.print(JSON.stringify(outputObject)); //FIXME
 
     expect(outputObject.warning).toEqual(false);
     expect(outputObject.error).toEqual(true);
     expect(outputObject.warnings).toEqual(undefined);
-
-    // // {"line": 59, "message": "operationIds must be unique", "path": "paths./pet.put.operationId"
-    // expect(outputObject['errors']['operation-ids'][0]['line']).toEqual(59);
-    // expect(outputObject['errors']['operation-ids'][0]['message']).toEqual(
-    //   'operationIds must be unique'
-    // );
-
-    // {"operations-shared": [{"line": 36, "message": "Operations must have a non-empty `operationId`.", "path": "paths./pet.post.operationId"},
-    // expect(outputObject['warnings']['operations-shared'][0]['line']).toEqual(
-    //   36
-    // );
-    // expect(outputObject['warnings']['operations-shared'][0]['message']).toEqual(
-    //   'Operations must have a non-empty `operationId`.'
-    // );
   });
 
   it('should change output for overridden options when config file is manually specified', async function() {

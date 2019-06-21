@@ -36,7 +36,7 @@ module.exports = function printJson(results, originalFile, errorsOnly) {
   if (errorsOnly) {
     delete results.warnings;
   }
-
+  // render the results to json in the console with 2 char spacing
   const jsonstr = JSON.stringify(results, null, 2);
   console.log(jsonstr);
 };

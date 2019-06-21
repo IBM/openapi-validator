@@ -41,7 +41,7 @@ program
   )
   .option(
     '-e, --errors_only',
-    'only report errors instead of errors and warnings'
+    'Only print the errors, ignore the warnings.'
   );
 
 /* prettier-ignore */

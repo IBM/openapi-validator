@@ -17,6 +17,7 @@
     Additionally, if a rule is being deprecated and/or replaced,
     this file must be modified (see bottom of file).
 */
+
 const defaults = {
   'shared': {
     'operations': {
