@@ -122,7 +122,6 @@ describe('cli tool - test option handling', function() {
     });
 
     expect(errorsOnly).toEqual(true);
-    //expect(program.results.warnings).toEqual(false);
   });
 
   it('should print correct statistics report when -s option is given', async function() {
