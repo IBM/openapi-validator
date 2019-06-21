@@ -1,11 +1,15 @@
 language: node_js
 node_js:
-- '8'
+- 8
+- 10
+- 12
 script:
 - npm run test-travis
+after_success:
+- npm run report-coverage
 deploy:
 - provider: script
   skip_cleanup: true
   script: npx semantic-release
   on:
-    branch: master
+    node: 12
