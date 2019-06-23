@@ -210,7 +210,6 @@ describe('cli tool - test option handling', function() {
       expect(line.includes('statistics')).toEqual(false);
     });
   });
-
   it('should print json output when -j option is given', async function() {
     const capturedText = [];
 
@@ -250,6 +249,7 @@ describe('cli tool - test option handling', function() {
     );
   });
 
+  //this test should only pass if the output is json errors
   it('should print only errors as json output when -j -e option is given', async function() {
     const capturedText = [];
 
@@ -260,19 +260,66 @@ describe('cli tool - test option handling', function() {
 
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    // we set json and errors_only to true since we are passing in -j and -e
     program.json = true;
-    program.errors_only = true;
+    program.errors_only = false;
     program.default_mode = true;
-
     await commandLineValidator(program);
     unhookIntercept();
 
     // capturedText should be JSON object. convert to json and check fields
     const outputObject = JSON.parse(capturedText);
+    console.log(outputObject);
+    const ErrorNames = Object.getOwnPropertyNames(outputObject.errors);
+    const ErrorValues = Object.values(outputObject.errors);
 
+    // now we check to see if only errors printed correctly
     expect(outputObject.warning).toEqual(false);
     expect(outputObject.error).toEqual(true);
     expect(outputObject.warnings).toEqual(undefined);
+    //expect(typeof outputObject.errors).toEqual('object');
+    expect(ErrorNames.length).toEqual(3);
+    expect(ErrorNames).toEqual([
+      'operations-ibm',
+      'operation-ids',
+      'operations-shared'
+    ]);
+    expect(ErrorValues[0][0].message).toEqual(
+      'PUT and POST operations must have a non-empty `consumes` field.'
+    );
+
+    capturedText.forEach(function(line) {
+      expect(line.includes('warnings')).toEqual(false);
+    });
+    capturedText.forEach(function(line) {
+      expect(line.includes('error')).toEqual(true);
+    });
+    // const outputObject = JSON.parse(capturedText).errors;
+
+    // console.log(outputObject);
+    // expect(outputObject.warning).toEqual(undefined);
+    // expect(outputObject.error).toEqual(undefined);
+    // expect(outputObject.warnings).toEqual(undefined);
+    // expect(typeof outputObject).toEqual('object');
+    // //const Errors = Object.getOwnPropertyNames(outputObject.errors);
+    // //const ErrorValues = Object.values(outputObject.errors);
+    // expect(Object.keys(outputObject).length).toEqual(3);
+    // expect(Object.keys(outputObject)).toEqual([
+    //   'operations-ibm',
+    //   'operation-ids',
+    //   'operations-shared'
+    // ]);
+    // //console.log(Object.values(outputObject[0]));
+    // expect(Object.values(outputObject)[0][1].message).toEqual(
+    //   'PUT and POST operations must have a non-empty `consumes` field.'
+    // );
+
+    // capturedText.forEach(function(line) {
+    //   expect(line.includes('warnings')).toEqual(false);
+    // });
+    // capturedText.forEach(function(line) {
+    //   expect(line.includes('error')).toEqual(true);
+    // });
   });
 
   it('should change output for overridden options when config file is manually specified', async function() {
