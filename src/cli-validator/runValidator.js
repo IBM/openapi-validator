@@ -231,11 +231,13 @@ const processInput = async function(program) {
       exitCode = 1;
       continue;
     }
+
     // the warning property tells the user if warnings are included as part of the output
     // if errorsOnly is true, only errors will be returned, so need to force this to false
     if (errorsOnly) {
       results.warning = false;
     }
+
     if (jsonOutput) {
       printJson(results, originalFile, errorsOnly);
     } else {

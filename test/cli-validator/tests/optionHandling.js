@@ -204,6 +204,7 @@ describe('cli tool - test option handling', function() {
       expect(line.includes('statistics')).toEqual(false);
     });
   });
+
   it('should print json output when -j option is given', async function() {
     const capturedText = [];
 
@@ -265,13 +266,6 @@ describe('cli tool - test option handling', function() {
     expect(outputObject.warning).toEqual(false);
     expect(outputObject.error).toEqual(true);
     expect(outputObject.warnings).toEqual(undefined);
-
-    capturedText.forEach(function(line) {
-      expect(line.includes('warnings')).toEqual(false);
-    });
-    capturedText.forEach(function(line) {
-      expect(line.includes('errors')).toEqual(true);
-    });
   });
 
   it('should change output for overridden options when config file is manually specified', async function() {
