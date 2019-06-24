@@ -24,7 +24,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                 const hasInlineSchema =
                   mediaType.schema &&
                   mediaType.schema.oneOf &&
-                  !mediaType.schema.oneOf.$ref;
+                  !mediaType.schema.oneOf[i].$ref;
                 if (hasInlineSchema) {
                   const checkStatus = config.inline_response_schema;
                   if (checkStatus !== 'off') {
@@ -46,7 +46,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                 const hasInlineSchema =
                   mediaType.schema &&
                   mediaType.schema.oneOf &&
-                  !mediaType.schema.oneOf.$ref;
+                  !mediaType.schema.oneOf[i].$ref;
                 if (hasInlineSchema) {
                   const checkStatus = config.inline_response_schema;
                   if (checkStatus !== 'off') {
@@ -64,11 +64,11 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                 }
               }
             } else if (mediaType.schema.anyOf) {
-              for (let i = 0; i < mediaType.schema.anyOf.length; i++) {
+              for (let i = 0; i < mediaType.schema.anyOf.length[i]; i++) {
                 const hasInlineSchema =
                   mediaType.schema &&
                   mediaType.schema.oneOf &&
-                  !mediaType.schema.oneOf.$ref;
+                  !mediaType.schema.oneOf[i].$ref;
                 if (hasInlineSchema) {
                   const checkStatus = config.inline_response_schema;
                   if (checkStatus !== 'off') {

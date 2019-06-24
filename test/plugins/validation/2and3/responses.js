@@ -328,10 +328,11 @@ describe('validation plugin - semantic - responses', function() {
                         schema: {
                           oneOf: [
                             {
-                              $ref: '#/components/schemas/Status'
+                              type: 'string',
+                              format: 'binary'
                             },
                             {
-                              $ref: '#/components/schemas/Error'
+                              $ref: 'bkk.'
                             }
                           ]
                         }
