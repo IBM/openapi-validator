@@ -19,12 +19,52 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
-            if (
-              mediaType.schema.oneOf ||
-              mediaType.schema.anyOf ||
-              mediaType.schema.allOf
-            ) {
-              for (let i = 0; i < mediaType.schema.oneOf; i++) {
+            if (mediaType.schema.oneOf) {
+              for (let i = 0; i < mediaType.schema.oneOf.length; i++) {
+                const hasInlineSchema =
+                  mediaType.schema &&
+                  mediaType.schema.oneOf &&
+                  !mediaType.schema.oneOf.$ref;
+                if (hasInlineSchema) {
+                  const checkStatus = config.inline_response_schema;
+                  if (checkStatus !== 'off') {
+                    result[checkStatus].push({
+                      path: [
+                        ...path,
+                        responseKey,
+                        'content',
+                        mediaTypeKey,
+                        'schema'
+                      ],
+                      message: INLINE_SCHEMA_MESSAGE
+                    });
+                  }
+                }
+              }
+            } else if (mediaType.schema.allOf) {
+              for (let i = 0; i < mediaType.schema.allOf.length; i++) {
+                const hasInlineSchema =
+                  mediaType.schema &&
+                  mediaType.schema.oneOf &&
+                  !mediaType.schema.oneOf.$ref;
+                if (hasInlineSchema) {
+                  const checkStatus = config.inline_response_schema;
+                  if (checkStatus !== 'off') {
+                    result[checkStatus].push({
+                      path: [
+                        ...path,
+                        responseKey,
+                        'content',
+                        mediaTypeKey,
+                        'schema'
+                      ],
+                      message: INLINE_SCHEMA_MESSAGE
+                    });
+                  }
+                }
+              }
+            } else if (mediaType.schema.anyOf) {
+              for (let i = 0; i < mediaType.schema.anyOf.length; i++) {
                 const hasInlineSchema =
                   mediaType.schema &&
                   mediaType.schema.oneOf &&
