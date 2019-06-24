@@ -1,3 +1,10 @@
+# [0.12.0](https://github.com/IBM/openapi-validator/compare/v0.11.2...v0.12.0) (2019-06-24)
+
+
+### Features
+
+* new cli option, `--errors_only`, for printing only the errors ([#68](https://github.com/IBM/openapi-validator/issues/68)) ([a338bf0](https://github.com/IBM/openapi-validator/commit/a338bf0))
+
 ## [0.11.2](https://github.com/IBM/openapi-validator/compare/v0.11.1...v0.11.2) (2019-06-19)
 
 
