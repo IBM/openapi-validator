@@ -11,9 +11,10 @@ module.exports = function print(
   chalk,
   printValidators,
   reportingStats,
-  originalFile
+  originalFile,
+  errorsOnly
 ) {
-  const types = ['errors', 'warnings'];
+  const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
   const colors = {
     errors: 'bgRed',
     warnings: 'bgYellow'

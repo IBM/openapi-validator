@@ -37,6 +37,7 @@ const processInput = async function(program) {
   const turnOffColoring = !!program.no_colors;
   const defaultMode = !!program.default_mode;
   const jsonOutput = !!program.json;
+  const errorsOnly = !!program.errors_only;
 
   const configFileOverride = program.config;
 
@@ -231,11 +232,24 @@ const processInput = async function(program) {
       continue;
     }
 
+    // the warning property tells the user if warnings are included as part of the output
+    // if errorsOnly is true, only errors will be returned, so need to force this to false
+    if (errorsOnly) {
+      results.warning = false;
+    }
+
     if (jsonOutput) {
-      printJson(results, originalFile);
+      printJson(results, originalFile, errorsOnly);
     } else {
       if (results.error || results.warning) {
-        print(results, chalk, printValidators, reportingStats, originalFile);
+        print(
+          results,
+          chalk,
+          printValidators,
+          reportingStats,
+          originalFile,
+          errorsOnly
+        );
         // fail on errors, but not if there are only warnings
         if (results.error) exitCode = 1;
       } else {

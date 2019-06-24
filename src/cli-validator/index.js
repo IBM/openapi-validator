@@ -38,6 +38,10 @@ program
   )
   .option(
     '-c, --config <file>', 'path to config file, used instead of .validaterc if provided'
+  )
+  .option(
+    '-e, --errors_only',
+    'only print the errors, ignore the warnings'
   );
 
 /* prettier-ignore */

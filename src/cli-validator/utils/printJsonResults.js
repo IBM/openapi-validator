@@ -5,8 +5,8 @@ const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast')
   .getLineNumberForPath;
 
 // function to print the results as json to the console.
-module.exports = function printJson(results, originalFile) {
-  const types = ['errors', 'warnings'];
+module.exports = function printJson(results, originalFile, errorsOnly) {
+  const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
   types.forEach(type => {
     each(results[type], problems => {
       problems.forEach(problem => {
@@ -32,6 +32,9 @@ module.exports = function printJson(results, originalFile) {
       });
     });
   });
+  if (errorsOnly) {
+    delete results.warnings;
+  }
   // render the results to json in the console with 2 char spacing
   const jsonstr = JSON.stringify(results, null, 2);
   console.log(jsonstr);

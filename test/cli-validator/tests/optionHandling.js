@@ -97,6 +97,27 @@ describe('cli tool - test option handling', function() {
     expect(validatorsPrinted).toEqual(true);
   });
 
+  it('should print only errors when the -e command is given', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.errors_only = true;
+    program.default_mode = true;
+
+    await commandLineValidator(program);
+    unhookIntercept();
+
+    capturedText.forEach(function(line) {
+      expect(line.includes('warnings')).toEqual(false);
+    });
+  });
+
   it('should print correct statistics report when -s option is given', async function() {
     const capturedText = [];
 
@@ -221,6 +242,30 @@ describe('cli tool - test option handling', function() {
     expect(outputObject['warnings']['operations-shared'][0]['message']).toEqual(
       'Operations must have a non-empty `operationId`.'
     );
+  });
+
+  it('should print only errors as json output when -j -e option is given', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(stripAnsiFrom(txt));
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.json = true;
+    program.errors_only = true;
+    program.default_mode = true;
+    await commandLineValidator(program);
+    unhookIntercept();
+
+    // capturedText should be JSON object. convert to json and check fields
+    const outputObject = JSON.parse(capturedText);
+
+    expect(outputObject.warning).toEqual(false);
+    expect(outputObject.error).toEqual(true);
+    expect(outputObject.warnings).toEqual(undefined);
   });
 
   it('should change output for overridden options when config file is manually specified', async function() {
