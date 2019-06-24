@@ -113,14 +113,6 @@ describe('cli tool - test option handling', function() {
     await commandLineValidator(program);
     unhookIntercept();
 
-    let errorsOnly = false;
-
-    capturedText.forEach(function(line) {
-      if (line.includes('error') && !line.includes('warning')) {
-        errorsOnly = true;
-      }
-    });
-    expect(errorsOnly).toEqual(true);
     capturedText.forEach(function(line) {
       expect(line.includes('warnings')).toEqual(false);
     });
@@ -269,21 +261,10 @@ describe('cli tool - test option handling', function() {
 
     // capturedText should be JSON object. convert to json and check fields
     const outputObject = JSON.parse(capturedText);
-    const ErrorNames = Object.getOwnPropertyNames(outputObject.errors);
-    const ErrorValues = Object.values(outputObject.errors);
 
     expect(outputObject.warning).toEqual(false);
     expect(outputObject.error).toEqual(true);
     expect(outputObject.warnings).toEqual(undefined);
-    expect(ErrorNames.length).toEqual(3);
-    expect(ErrorNames).toEqual([
-      'operations-ibm',
-      'operation-ids',
-      'operations-shared'
-    ]);
-    expect(ErrorValues[0][0].message).toEqual(
-      'PUT and POST operations must have a non-empty `consumes` field.'
-    );
 
     capturedText.forEach(function(line) {
       expect(line.includes('warnings')).toEqual(false);

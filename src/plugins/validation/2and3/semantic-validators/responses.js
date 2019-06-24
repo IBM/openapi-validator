@@ -19,33 +19,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
-            if (
-              mediaType.schema.oneOf ||
-              mediaType.schema.anyOf ||
-              mediaType.schema.allOf
-            ) {
-              for (let i = 0; i < mediaType.schema.oneOf; i++) {
-                const hasInlineSchema =
-                  mediaType.schema &&
-                  mediaType.schema.oneOf &&
-                  !mediaType.schema.oneOf.$ref;
-                if (hasInlineSchema) {
-                  const checkStatus = config.inline_response_schema;
-                  if (checkStatus !== 'off') {
-                    result[checkStatus].push({
-                      path: [
-                        ...path,
-                        responseKey,
-                        'content',
-                        mediaTypeKey,
-                        'schema'
-                      ],
-                      message: INLINE_SCHEMA_MESSAGE
-                    });
-                  }
-                }
-              }
-            }
             const hasInlineSchema = mediaType.schema && !mediaType.schema.$ref;
             if (
               hasInlineSchema &&
