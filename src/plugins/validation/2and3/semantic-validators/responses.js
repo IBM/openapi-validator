@@ -10,21 +10,19 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   result.warning = [];
 
   config = config.responses;
-
   walk(jsSpec, [], function(obj, path) {
     const contentsOfResponsesObject = path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
-
     if (contentsOfResponsesObject && !isRef) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
-            if (mediaType.schema.oneOf) {
+            if (mediaType && mediaType.schema && mediaType.schema.oneOf) {
               for (let i = 0; i < mediaType.schema.oneOf.length; i++) {
                 const hasInlineSchema =
                   mediaType.schema &&
                   mediaType.schema.oneOf &&
-                  !mediaType.schema.oneOf[i].$ref;
+                  !Object.keys(mediaType.schema.oneOf[i]).includes('$ref');
                 if (hasInlineSchema) {
                   const checkStatus = config.inline_response_schema;
                   if (checkStatus !== 'off') {
@@ -34,19 +32,24 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                         responseKey,
                         'content',
                         mediaTypeKey,
-                        'schema'
+                        'schema',
+                        'oneOf'
                       ],
                       message: INLINE_SCHEMA_MESSAGE
                     });
                   }
                 }
               }
-            } else if (mediaType.schema.allOf) {
+            } else if (
+              mediaType &&
+              mediaType.schema &&
+              mediaType.schema.allOf
+            ) {
               for (let i = 0; i < mediaType.schema.allOf.length; i++) {
                 const hasInlineSchema =
                   mediaType.schema &&
-                  mediaType.schema.oneOf &&
-                  !mediaType.schema.oneOf[i].$ref;
+                  mediaType.schema.allOf &&
+                  !Object.keys(mediaType.schema.allOf[i]).includes('$ref');
                 if (hasInlineSchema) {
                   const checkStatus = config.inline_response_schema;
                   if (checkStatus !== 'off') {
@@ -56,19 +59,24 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                         responseKey,
                         'content',
                         mediaTypeKey,
-                        'schema'
+                        'schema',
+                        'allOf'
                       ],
                       message: INLINE_SCHEMA_MESSAGE
                     });
                   }
                 }
               }
-            } else if (mediaType.schema.anyOf) {
-              for (let i = 0; i < mediaType.schema.anyOf.length[i]; i++) {
+            } else if (
+              mediaType &&
+              mediaType.schema &&
+              mediaType.schema.anyOf
+            ) {
+              for (let i = 0; i < mediaType.schema.anyOf.length; i++) {
                 const hasInlineSchema =
                   mediaType.schema &&
-                  mediaType.schema.oneOf &&
-                  !mediaType.schema.oneOf[i].$ref;
+                  mediaType.schema.anyOf &&
+                  !Object.keys(mediaType.schema.anyOf[i]).includes('$ref');
                 if (hasInlineSchema) {
                   const checkStatus = config.inline_response_schema;
                   if (checkStatus !== 'off') {
@@ -78,17 +86,17 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                         responseKey,
                         'content',
                         mediaTypeKey,
-                        'schema'
+                        'schema',
+                        'anyOf'
                       ],
                       message: INLINE_SCHEMA_MESSAGE
                     });
                   }
                 }
               }
-            }
-            const hasInlineSchema = mediaType.schema && !mediaType.schema.$ref;
-            if (
-              hasInlineSchema &&
+            } else if (
+              mediaType.schema &&
+              !mediaType.schema.$ref &&
               mediaTypeKey.startsWith('application/json')
             ) {
               const checkStatus = config.inline_response_schema;
