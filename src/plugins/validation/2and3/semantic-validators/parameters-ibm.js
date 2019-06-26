@@ -25,11 +25,24 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     if (obj['x-sdk-exclude'] === true) {
       return;
     }
-
     const contentsOfParameterObject = path[path.length - 2] === 'parameters';
+    const pathsForParameters = [
+      'get',
+      'put',
+      'post',
+      'delete',
+      'options',
+      'head',
+      'patch',
+      'trace',
+      'components'
+    ];
 
-    // obj is a parameter object
-    if (contentsOfParameterObject) {
+    if (
+      contentsOfParameterObject &&
+      pathsForParameters.includes(path[path.length - 3])
+    ) {
+      // obj is a parameter object
       const isRef = !!obj.$ref;
       const hasDescription = !!obj.description;
 

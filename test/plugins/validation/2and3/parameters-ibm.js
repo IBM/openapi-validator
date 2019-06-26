@@ -302,6 +302,35 @@ describe('validation plugin - semantic - parameters-ibm', () => {
   });
 
   describe('OpenAPI 3', () => {
+    it('should not complain about a property names parameters but is not a parameter object', () => {
+      const spec = {
+        components: {
+          responses: {
+            parameters: {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      parameters: {
+                        type: 'string',
+                        description: 'this is a description',
+                        additionalProperties: {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(0);
+      expect(res.errors.length).toEqual(0);
+    });
+
     it('should return an error when a parameter defines content-type, accept, or authorization', () => {
       const spec = {
         paths: {
