@@ -10,90 +10,52 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   result.warning = [];
 
   config = config.responses;
+
   walk(jsSpec, [], function(obj, path) {
     const contentsOfResponsesObject = path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
+
     if (contentsOfResponsesObject && !isRef) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
-            if (mediaType && mediaType.schema && mediaType.schema.oneOf) {
-              for (let i = 0; i < mediaType.schema.oneOf.length; i++) {
-                const hasInlineSchema =
-                  mediaType.schema &&
-                  mediaType.schema.oneOf &&
-                  !Object.keys(mediaType.schema.oneOf[i]).includes('$ref');
-                if (hasInlineSchema) {
-                  const checkStatus = config.inline_response_schema;
-                  if (checkStatus !== 'off') {
-                    result[checkStatus].push({
-                      path: [
-                        ...path,
-                        responseKey,
-                        'content',
-                        mediaTypeKey,
-                        'schema',
-                        'oneOf'
-                      ],
-                      message: INLINE_SCHEMA_MESSAGE
-                    });
-                  }
-                }
-              }
-            } else if (
-              mediaType &&
-              mediaType.schema &&
-              mediaType.schema.allOf
-            ) {
-              for (let i = 0; i < mediaType.schema.allOf.length; i++) {
-                const hasInlineSchema =
-                  mediaType.schema &&
-                  mediaType.schema.allOf &&
-                  !Object.keys(mediaType.schema.allOf[i]).includes('$ref');
-                if (hasInlineSchema) {
-                  const checkStatus = config.inline_response_schema;
-                  if (checkStatus !== 'off') {
-                    result[checkStatus].push({
-                      path: [
-                        ...path,
-                        responseKey,
-                        'content',
-                        mediaTypeKey,
-                        'schema',
-                        'allOf'
-                      ],
-                      message: INLINE_SCHEMA_MESSAGE
-                    });
-                  }
-                }
-              }
-            } else if (
-              mediaType &&
-              mediaType.schema &&
+            const combinedSchemaTypes = ['allOf', 'oneOf', 'anyOf'];
+            if (
+              mediaType.schema.allOf ||
+              mediaType.schema.oneOf ||
               mediaType.schema.anyOf
             ) {
-              for (let i = 0; i < mediaType.schema.anyOf.length; i++) {
-                const hasInlineSchema =
-                  mediaType.schema &&
-                  mediaType.schema.anyOf &&
-                  !Object.keys(mediaType.schema.anyOf[i]).includes('$ref');
-                if (hasInlineSchema) {
-                  const checkStatus = config.inline_response_schema;
-                  if (checkStatus !== 'off') {
-                    result[checkStatus].push({
-                      path: [
-                        ...path,
-                        responseKey,
-                        'content',
-                        mediaTypeKey,
-                        'schema',
-                        'anyOf'
-                      ],
-                      message: INLINE_SCHEMA_MESSAGE
-                    });
+              combinedSchemaTypes.forEach(schemaType => {
+                if (mediaType.schema[schemaType]) {
+                  for (
+                    let i = 0;
+                    i < mediaType.schema[schemaType].length;
+                    i++
+                  ) {
+                    const hasInlineSchema =
+                      mediaType.schema &&
+                      mediaType.schema[schemaType] &&
+                      !mediaType.schema[schemaType][i].$ref;
+                    if (hasInlineSchema) {
+                      const checkStatus = config.inline_response_schema;
+                      if (checkStatus !== 'off') {
+                        result[checkStatus].push({
+                          path: [
+                            ...path,
+                            responseKey,
+                            'content',
+                            mediaTypeKey,
+                            'schema',
+                            schemaType,
+                            i
+                          ],
+                          message: INLINE_SCHEMA_MESSAGE
+                        });
+                      }
+                    }
                   }
                 }
-              }
+              });
             } else if (
               mediaType.schema &&
               !mediaType.schema.$ref &&
