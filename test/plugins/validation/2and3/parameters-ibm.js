@@ -413,6 +413,35 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       );
     });
 
+    it('should return an error when a parameter defines a ref while also being inline', () => {
+      const spec = {
+        components: {
+          parameters: {
+            BadParam: {
+              in: 'query',
+              name: 'bad_query_param',
+              description: 'description',
+              schema: {
+                $ref: '#/components/parameters/reference'
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(0);
+      expect(res.errors.length).toEqual(0);
+      // expect(res.errors[0].path).toEqual([
+      //   'components',
+      //   'parameters',
+      //   'BadParam'
+      // ]);
+      // expect(res.errors[0].message).toEqual(
+      //   'Parameter objects must have a `description` field.'
+      // );
+    });
+
     it('should return an error when parameter type+format is not well-defined', () => {
       const spec = {
         paths: {

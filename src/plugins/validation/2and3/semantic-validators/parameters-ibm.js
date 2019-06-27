@@ -33,6 +33,34 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       const isRef = !!obj.$ref;
       const hasDescription = !!obj.description;
 
+      obj.forEach(prop => {
+        if (isRef) {
+          if (!Object.values(prop.$ref).startsWith('#/components/schema')) {
+            const message = 'Parameter objects must have a `description` field.';
+            const checkStatus = config.no_parameter_description;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path,
+                message
+              });
+            }
+          }
+        }
+      });
+
+      if (isRef) {
+        if (!Object.values(obj.schema.$ref).startsWith('#/components/schema')) {
+          const message = 'Parameter objects must have a `description` field.';
+          const checkStatus = config.no_parameter_description;
+          if (checkStatus !== 'off') {
+            result[checkStatus].push({
+              path,
+              message
+            });
+          }
+        }
+      }
+
       if (!hasDescription && !isRef) {
         const message = 'Parameter objects must have a `description` field.';
         const checkStatus = config.no_parameter_description;
