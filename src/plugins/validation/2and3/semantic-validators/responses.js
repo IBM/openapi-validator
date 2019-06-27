@@ -20,59 +20,59 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
             const combinedSchemaTypes = ['allOf', 'oneOf', 'anyOf'];
-            if (
+            const hasOfProperty =
               mediaType.schema.allOf ||
-              mediaType.schema.oneOf ||
-              mediaType.schema.anyOf
+              mediaType.schema.anyOf ||
+              mediaType.schema.oneOf;
+
+            if (
+              mediaType.schema &&
+              mediaTypeKey.startsWith('application/json')
             ) {
-              combinedSchemaTypes.forEach(schemaType => {
-                if (mediaType.schema[schemaType]) {
-                  for (
-                    let i = 0;
-                    i < mediaType.schema[schemaType].length;
-                    i++
-                  ) {
-                    const hasInlineSchema =
-                      mediaType.schema &&
-                      mediaType.schema[schemaType] &&
-                      !mediaType.schema[schemaType][i].$ref;
-                    if (hasInlineSchema) {
-                      const checkStatus = config.inline_response_schema;
-                      if (checkStatus !== 'off') {
-                        result[checkStatus].push({
-                          path: [
-                            ...path,
-                            responseKey,
-                            'content',
-                            mediaTypeKey,
-                            'schema',
-                            schemaType,
-                            i
-                          ],
-                          message: INLINE_SCHEMA_MESSAGE
-                        });
+              if (hasOfProperty) {
+                combinedSchemaTypes.forEach(schemaType => {
+                  if (mediaType.schema[schemaType]) {
+                    for (
+                      let i = 0;
+                      i < mediaType.schema[schemaType].length;
+                      i++
+                    ) {
+                      const hasInlineSchema = !mediaType.schema[schemaType][i]
+                        .$ref;
+                      if (hasInlineSchema) {
+                        const checkStatus = config.inline_response_schema;
+                        if (checkStatus !== 'off') {
+                          result[checkStatus].push({
+                            path: [
+                              ...path,
+                              responseKey,
+                              'content',
+                              mediaTypeKey,
+                              'schema',
+                              schemaType,
+                              i
+                            ],
+                            message: INLINE_SCHEMA_MESSAGE
+                          });
+                        }
                       }
                     }
                   }
-                }
-              });
-            } else if (
-              mediaType.schema &&
-              !mediaType.schema.$ref &&
-              mediaTypeKey.startsWith('application/json')
-            ) {
-              const checkStatus = config.inline_response_schema;
-              if (checkStatus !== 'off') {
-                result[checkStatus].push({
-                  path: [
-                    ...path,
-                    responseKey,
-                    'content',
-                    mediaTypeKey,
-                    'schema'
-                  ],
-                  message: INLINE_SCHEMA_MESSAGE
                 });
+              } else if (!mediaType.schema.$ref) {
+                const checkStatus = config.inline_response_schema;
+                if (checkStatus !== 'off') {
+                  result[checkStatus].push({
+                    path: [
+                      ...path,
+                      responseKey,
+                      'content',
+                      mediaTypeKey,
+                      'schema'
+                    ],
+                    message: INLINE_SCHEMA_MESSAGE
+                  });
+                }
               }
             }
           });
