@@ -37,7 +37,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         const schemaSize = Object.size(obj.schema);
         const paramLength = Object.size(obj);
         if (schemaSize == 1 && paramLength !== 1) {
-          console.log('hi');
           const checkStatus = config.ref_and_inline_parameter;
           const message =
             'if schema is defined by ref then it should only contain the ref';
@@ -48,6 +47,9 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             });
           }
         }
+
+        const pathing = obj.schema.$ref.split();
+        
       }
 
       if (!hasDescription && !isRef) {
