@@ -19,61 +19,23 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
-            const combinedSchemaTypes = ['allOf', 'oneOf', 'anyOf'];
-
+            const hasInlineSchema = mediaType.schema && !mediaType.schema.$ref;
             if (
-              mediaType.schema &&
+              hasInlineSchema &&
               mediaTypeKey.startsWith('application/json')
             ) {
-              const hasCombinedSchema =
-                mediaType.schema.allOf ||
-                mediaType.schema.anyOf ||
-                mediaType.schema.oneOf;
-
-              if (hasCombinedSchema) {
-                combinedSchemaTypes.forEach(schemaType => {
-                  if (mediaType.schema[schemaType]) {
-                    for (
-                      let i = 0;
-                      i < mediaType.schema[schemaType].length;
-                      i++
-                    ) {
-                      const hasInlineSchema = !mediaType.schema[schemaType][i]
-                        .$ref;
-                      if (hasInlineSchema) {
-                        const checkStatus = config.inline_response_schema;
-                        if (checkStatus !== 'off') {
-                          result[checkStatus].push({
-                            path: [
-                              ...path,
-                              responseKey,
-                              'content',
-                              mediaTypeKey,
-                              'schema',
-                              schemaType,
-                              i
-                            ],
-                            message: INLINE_SCHEMA_MESSAGE
-                          });
-                        }
-                      }
-                    }
-                  }
+              const checkStatus = config.inline_response_schema;
+              if (checkStatus !== 'off') {
+                result[checkStatus].push({
+                  path: [
+                    ...path,
+                    responseKey,
+                    'content',
+                    mediaTypeKey,
+                    'schema'
+                  ],
+                  message: INLINE_SCHEMA_MESSAGE
                 });
-              } else if (!mediaType.schema.$ref) {
-                const checkStatus = config.inline_response_schema;
-                if (checkStatus !== 'off') {
-                  result[checkStatus].push({
-                    path: [
-                      ...path,
-                      responseKey,
-                      'content',
-                      mediaTypeKey,
-                      'schema'
-                    ],
-                    message: INLINE_SCHEMA_MESSAGE
-                  });
-                }
               }
             }
           });
