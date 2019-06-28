@@ -19,7 +19,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   result.warning = [];
 
   config = config.parameters;
-
   walk(jsSpec, [], function(obj, path) {
     // skip parameters within operations that are excluded
     if (obj['x-sdk-exclude'] === true) {
@@ -33,25 +32,15 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       const isRef = !!obj.$ref;
       const hasDescription = !!obj.description;
 
-      obj.forEach(prop => {
-        if (isRef) {
-          if (!Object.values(prop.$ref).startsWith('#/components/schema')) {
-            const message = 'Parameter objects must have a `description` field.';
-            const checkStatus = config.no_parameter_description;
-            if (checkStatus !== 'off') {
-              result[checkStatus].push({
-                path,
-                message
-              });
-            }
-          }
-        }
-      });
-
-      if (isRef) {
-        if (!Object.values(obj.schema.$ref).startsWith('#/components/schema')) {
-          const message = 'Parameter objects must have a `description` field.';
-          const checkStatus = config.no_parameter_description;
+      if (obj.schema && obj.schema.$ref) {
+        console.log(obj.schema.$ref);
+        const schemaSize = Object.size(obj.schema);
+        const paramLength = Object.size(obj);
+        if (schemaSize == 1 && paramLength !== 1) {
+          console.log('hi');
+          const checkStatus = config.ref_and_inline_parameter;
+          const message =
+            'if schema is defined by ref then it should only contain the ref';
           if (checkStatus !== 'off') {
             result[checkStatus].push({
               path,
@@ -227,3 +216,11 @@ function formatValid(obj, isOAS3) {
   }
   return false;
 }
+
+Object.size = function(obj) {
+  var size = 0, key;
+  for (key in obj) {
+    if (obj.hasOwnProperty(key)) size++;
+  }
+  return size;
+};

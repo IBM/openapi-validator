@@ -431,15 +431,15 @@ describe('validation plugin - semantic - parameters-ibm', () => {
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
       expect(res.warnings.length).toEqual(0);
-      expect(res.errors.length).toEqual(0);
-      // expect(res.errors[0].path).toEqual([
-      //   'components',
-      //   'parameters',
-      //   'BadParam'
-      // ]);
-      // expect(res.errors[0].message).toEqual(
-      //   'Parameter objects must have a `description` field.'
-      // );
+      expect(res.errors.length).toEqual(1);
+      expect(res.errors[0].path).toEqual([
+        'components',
+        'parameters',
+        'BadParam'
+      ]);
+      expect(res.errors[0].message).toEqual(
+        'if schema is defined by ref then it should only contain the ref'
+      );
     });
 
     it('should return an error when parameter type+format is not well-defined', () => {
