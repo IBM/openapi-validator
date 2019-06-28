@@ -20,16 +20,17 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
             const combinedSchemaTypes = ['allOf', 'oneOf', 'anyOf'];
-            const hasOfProperty =
-              mediaType.schema.allOf ||
-              mediaType.schema.anyOf ||
-              mediaType.schema.oneOf;
 
             if (
               mediaType.schema &&
               mediaTypeKey.startsWith('application/json')
             ) {
-              if (hasOfProperty) {
+              const hasCombinedSchema =
+                mediaType.schema.allOf ||
+                mediaType.schema.anyOf ||
+                mediaType.schema.oneOf;
+
+              if (hasCombinedSchema) {
                 combinedSchemaTypes.forEach(schemaType => {
                   if (mediaType.schema[schemaType]) {
                     for (
