@@ -1,3 +1,10 @@
+## [0.12.1](https://github.com/IBM/openapi-validator/compare/v0.12.0...v0.12.1) (2019-06-28)
+
+
+### Bug Fixes
+
+* flag any operations with array responses ([#73](https://github.com/IBM/openapi-validator/issues/73)) ([7b1a9d3](https://github.com/IBM/openapi-validator/commit/7b1a9d3))
+
 # [0.12.0](https://github.com/IBM/openapi-validator/compare/v0.11.2...v0.12.0) (2019-06-24)
 
 
