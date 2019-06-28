@@ -67,32 +67,29 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
       });
 
       // Arrays MUST NOT be returned as the top-level structure in a response body.
-      const isGetOperation = opKey.toLowerCase() === 'get';
-      if (isGetOperation) {
-        const checkStatus = config.no_array_responses;
-        if (checkStatus !== 'off') {
-          each(op.responses, (response, name) => {
-            if (isOAS3) {
-              each(response.content, (content, contentType) => {
-                if (content.schema && content.schema.type === 'array') {
-                  result[checkStatus].push({
-                    path: `paths.${pathKey}.${opKey}.responses.${name}.content.${contentType}.schema`,
-                    message:
-                      'Arrays MUST NOT be returned as the top-level structure in a response body.'
-                  });
-                }
-              });
-            } else {
-              if (response.schema && response.schema.type === 'array') {
-                result[checkStatus].push({
-                  path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
+      const checkStatusArrRes = config.no_array_responses;
+      if (checkStatusArrRes !== 'off') {
+        each(op.responses, (response, name) => {
+          if (isOAS3) {
+            each(response.content, (content, contentType) => {
+              if (content.schema && content.schema.type === 'array') {
+                result[checkStatusArrRes].push({
+                  path: `paths.${pathKey}.${opKey}.responses.${name}.content.${contentType}.schema`,
                   message:
                     'Arrays MUST NOT be returned as the top-level structure in a response body.'
                 });
               }
+            });
+          } else {
+            if (response.schema && response.schema.type === 'array') {
+              result[checkStatusArrRes].push({
+                path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
+                message:
+                  'Arrays MUST NOT be returned as the top-level structure in a response body.'
+              });
             }
-          });
-        }
+          }
+        });
       }
 
       const hasOperationId =
@@ -153,8 +150,8 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
 
       // this should be good with resolved spec, but double check
       // All required parameters of an operation are listed before any optional parameters.
-      const checkStatus = config.parameter_order;
-      if (checkStatus !== 'off') {
+      const checkStatusParamOrder = config.parameter_order;
+      if (checkStatusParamOrder !== 'off') {
         if (op.parameters && op.parameters.length > 0) {
           let firstOptional = -1;
           for (let indx = 0; indx < op.parameters.length; indx++) {
@@ -165,7 +162,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
               }
             } else {
               if (param.required) {
-                result[checkStatus].push({
+                result[checkStatusParamOrder].push({
                   path: `paths.${pathKey}.${opKey}.parameters[${indx}]`,
                   message:
                     'Required parameters should appear before optional parameters.'
