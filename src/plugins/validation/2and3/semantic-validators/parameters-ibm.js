@@ -47,8 +47,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             });
           }
         }
-
-        const pathing = obj.schema.$ref.split();
         
       }
 
@@ -220,7 +218,8 @@ function formatValid(obj, isOAS3) {
 }
 
 Object.size = function(obj) {
-  var size = 0, key;
+  let size = 0;
+  let key = 0;
   for (key in obj) {
     if (obj.hasOwnProperty(key)) size++;
   }
