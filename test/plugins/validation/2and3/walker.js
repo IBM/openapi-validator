@@ -633,7 +633,7 @@ describe('validation plugin - semantic - spec walker', () => {
           }
         };
 
-        const res = validate({ jsSpec: spec }, config);
+        const res = validate({ jsSpec: spec, isOAS3: true }, config);
         expect(res.errors.length).toEqual(0);
         expect(res.warnings.length).toEqual(1);
         expect(res.warnings[0].path).toEqual([
@@ -646,7 +646,7 @@ describe('validation plugin - semantic - spec walker', () => {
           '$ref'
         ]);
         expect(res.warnings[0].message).toEqual(
-          'links $refs must follow this format: *#/links*'
+          'links $refs must follow this format: *#/components/links*'
         );
       });
     });
