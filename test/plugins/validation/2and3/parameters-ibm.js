@@ -333,7 +333,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should not return an error for parameters that live in the top level', () => {
+    it('should return an error for bad parameters that live in the top level', () => {
       const spec = {
         parameters: [
           {
@@ -605,31 +605,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 type: 'string'
               }
             }
-          ],
-          '/pets': {
-            parameters: [
-              {
-                name: 'tags',
-                in: 'query',
-                description: 'tags to filter by',
-                schema: {
-                  type: 'string'
-                }
-              }
-            ],
-            get: {
-              parameters: [
-                {
-                  name: 'tags',
-                  in: 'query',
-                  description: 'tags to filter by',
-                  schema: {
-                    type: 'string'
-                  }
-                }
-              ]
-            }
-          }
+          ]
         }
       };
 

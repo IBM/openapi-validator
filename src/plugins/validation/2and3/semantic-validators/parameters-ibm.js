@@ -21,28 +21,14 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   config = config.parameters;
 
   walk(jsSpec, [], function(obj, path) {
-    console.log(path);
     // skip parameters within operations that are excluded
     if (obj['x-sdk-exclude'] === true) {
       return;
     }
     const contentsOfParameterObject = params(path, isOAS3);
-    const pathsForParameters = [
-      'get',
-      'put',
-      'post',
-      'delete',
-      'options',
-      'head',
-      'patch',
-      'trace',
-      'components'
-    ];
 
-    if (
-      contentsOfParameterObject &&
-      pathsForParameters.includes(path[path.length - 3])
-    ) {
+    if (contentsOfParameterObject) {
+      console.log(obj);
       // obj is a parameter object
       const isRef = !!obj.$ref;
       const hasDescription = !!obj.description;
@@ -172,13 +158,28 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 };
 
 function params(path, isOAS3) {
+  const pathsForParameters = [
+    'get',
+    'put',
+    'post',
+    'delete',
+    'options',
+    'head',
+    'patch',
+    'trace',
+    'components'
+  ];
   if (isOAS3) {
     const contentsOfParameterObject =
-      path[path.length - 2] === 'parameters' || path['paths'].parameters;
+      (path[path.length - 2] === 'parameters' &&
+        pathsForParameters.includes(path[path.length - 3])) ||
+      (path[0] === 'paths' && path[1] === 'parameters');
     return contentsOfParameterObject;
   } else if (!isOAS3) {
     const contentsOfParameterObject =
-      path[path.length - 2] === 'parameters' ||
+      (path[path.length - 2] === 'parameters' &&
+        pathsForParameters.includes(path[path.length - 3])) ||
+      (path[0] === 'paths' && path[1] === 'parameters') ||
       (path[0] === 'parameters' && path.length == 2);
     return contentsOfParameterObject;
   }
