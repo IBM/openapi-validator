@@ -21,73 +21,31 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   config = config.parameters;
 
   walk(jsSpec, [], function(obj, path) {
+    console.log(path);
     // skip parameters within operations that are excluded
     if (obj['x-sdk-exclude'] === true) {
       return;
     }
+    const contentsOfParameterObject = params(path, isOAS3);
+    const pathsForParameters = [
+      'get',
+      'put',
+      'post',
+      'delete',
+      'options',
+      'head',
+      'patch',
+      'trace',
+      'components'
+    ];
 
-    if (obj.schema && obj.schema.$ref && isOAS3) {
-        //console.log(obj.schema.$ref);
-        if (!obj.schema.$ref.startsWith('#/components/schemas')) {
-          const checkStatus = config.ref_and_inline_parameter;
-          const message =
-            'if schema is defined by ref then it should only contain the ref';
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path,
-              message
-            });
-          }
-        }
-        const schemaSize = Object.size(obj.schema);
-        const paramLength = Object.size(obj);
-        if (schemaSize == 1 && paramLength !== 1) {
-          const checkStatus = config.ref_and_inline_parameter;
-          const message =
-            'if schema is defined by ref then it should only contain the ref';
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path,
-              message
-            });
-          }
-        }
-      }
-
-    const contentsOfParameterObject = path[path.length - 2] === 'parameters';
-
-    // obj is a parameter object
-    if (contentsOfParameterObject) {
+    if (
+      contentsOfParameterObject &&
+      pathsForParameters.includes(path[path.length - 3])
+    ) {
+      // obj is a parameter object
       const isRef = !!obj.$ref;
       const hasDescription = !!obj.description;
-
-      // if (obj.schema && obj.schema.$ref) {
-      //   //console.log(obj.schema.$ref);
-      //   if (!obj.schema.$ref.startsWith('#/components/schemas')) {
-      //     const checkStatus = config.ref_and_inline_parameter;
-      //     const message =
-      //       'if schema is defined by ref then it should only contain the ref';
-      //     if (checkStatus !== 'off') {
-      //       result[checkStatus].push({
-      //         path,
-      //         message
-      //       });
-      //     }
-      //   }
-      // //   const schemaSize = Object.size(obj.schema);
-      // //   const paramLength = Object.size(obj);
-      // //   if (schemaSize == 1 && paramLength !== 1) {
-      // //     const checkStatus = config.ref_and_inline_parameter;
-      // //     const message =
-      // //       'if schema is defined by ref then it should only contain the ref';
-      // //     if (checkStatus !== 'off') {
-      // //       result[checkStatus].push({
-      // //         path,
-      // //         message
-      // //       });
-      // //     }
-      // //   }
-      // }
 
       if (!hasDescription && !isRef) {
         const message = 'Parameter objects must have a `description` field.';
@@ -213,6 +171,19 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   return { errors: result.error, warnings: result.warning };
 };
 
+function params(path, isOAS3) {
+  if (isOAS3) {
+    const contentsOfParameterObject =
+      path[path.length - 2] === 'parameters' || path['paths'].parameters;
+    return contentsOfParameterObject;
+  } else if (!isOAS3) {
+    const contentsOfParameterObject =
+      path[path.length - 2] === 'parameters' ||
+      (path[0] === 'parameters' && path.length == 2);
+    return contentsOfParameterObject;
+  }
+}
+
 function formatValid(obj, isOAS3) {
   // References will be checked when the parameters / definitions / components are scanned.
   if (obj.$ref || (obj.schema && obj.schema.$ref)) {
@@ -255,12 +226,3 @@ function formatValid(obj, isOAS3) {
   }
   return false;
 }
-
-Object.size = function(obj) {
-  let size = 0;
-  let key = 0;
-  for (key in obj) {
-    if (obj.hasOwnProperty(key)) size++;
-  }
-  return size;
-};
