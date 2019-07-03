@@ -296,7 +296,7 @@ describe('cli tool - test config file validator', function() {
     expect(res.invalid).toEqual(false);
     expect(capturedText.length).toEqual(0);
     expect(Array.isArray(status)).toEqual(true);
-    expect(status[0]).not.toEqual(defaultStatus[0]);
+    expect(status[0]).toEqual(defaultStatus[0]);
     expect(status[1]).toEqual(defaultStatus[1]);
   });
 
