@@ -586,11 +586,15 @@ describe('validation plugin - semantic - spec walker', () => {
           }
         };
 
-        const updatedConfig = Object.assign(config, {
-          walker: { $ref_siblings: 'warning' }
-        });
+        // temporarily configure $ref_siblings to be a warning
+        const originalValue = config.walker.$ref_siblings;
+        config.walker.$ref_siblings = 'warning';
 
-        const res = validate({ jsSpec: spec }, updatedConfig);
+        const res = validate({ jsSpec: spec }, config);
+
+        // revert changes to config to avoid affecting other tests
+        config.walker.$ref_siblings = originalValue;
+
         expect(res.errors.length).toEqual(0);
         expect(res.warnings.length).toEqual(1);
         expect(res.warnings[0].path).toEqual([
@@ -600,6 +604,7 @@ describe('validation plugin - semantic - spec walker', () => {
           'description'
         ]);
       });
+
       it('should return a problem for a links $ref that does not have the correct format', function() {
         const spec = {
           paths: {

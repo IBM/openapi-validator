@@ -255,6 +255,7 @@ The supported rules are described below:
 | has_circular_references       | Flag any circular references found in the Swagger spec.                      | shared |
 | $ref_siblings                 | Flag any properties that are siblings of a `$ref` property.                  | shared |
 | duplicate_sibling_description | Flag descriptions sibling to `$ref` if identical to referenced description.  | shared |
+| incorrect_ref_pattern        | Flag internal `$ref` values that do not point to the section they should (e.g. referencing `parameters` from a `schema` field). | shared |
 
 [1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
 [2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
@@ -407,6 +408,7 @@ The default values for each rule are described below.
 | has_circular_references       | warning |
 | $ref_siblings                 | off     |
 | duplicate_sibling_description | warning |
+| incorrect_ref_pattern        | warning |
 
 
 ## Turning off `update-notifier`

@@ -66,7 +66,8 @@ const defaults = {
       'no_empty_descriptions': 'error',
       'has_circular_references': 'warning',
       '$ref_siblings': 'off',
-      'duplicate_sibling_description': 'warning'
+      'duplicate_sibling_description': 'warning',
+      'incorrect_ref_pattern': 'warning'
     }
   },
   'swagger2': {
