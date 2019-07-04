@@ -67,7 +67,7 @@ const defaults = {
       'has_circular_references': 'warning',
       '$ref_siblings': 'off',
       'duplicate_sibling_description': 'warning',
-      'incorrect_$ref_pattern': 'warning'
+      'incorrect_ref_pattern': 'warning'
     }
   },
   'swagger2': {

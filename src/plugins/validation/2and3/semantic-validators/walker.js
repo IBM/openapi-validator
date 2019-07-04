@@ -90,7 +90,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       if (refBlacklist && refBlacklist.length && matches.length) {
         // Assertation 2
         // use the slice(1) to remove the `!` negator from the string
-        const checkStatus = config.incorrect_$ref_pattern;
+        const checkStatus = config.incorrect_ref_pattern;
         if (checkStatus !== 'off') {
           result[checkStatus].push({
             path: [...path, '$ref'],
