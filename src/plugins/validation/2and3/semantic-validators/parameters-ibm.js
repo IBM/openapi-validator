@@ -19,16 +19,13 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   result.warning = [];
 
   config = config.parameters;
-
   walk(jsSpec, [], function(obj, path) {
     // skip parameters within operations that are excluded
     if (obj['x-sdk-exclude'] === true) {
       return;
     }
     const contentsOfParameterObject = params(path, isOAS3);
-
     if (contentsOfParameterObject) {
-      console.log(obj);
       // obj is a parameter object
       const isRef = !!obj.$ref;
       const hasDescription = !!obj.description;
@@ -169,19 +166,21 @@ function params(path, isOAS3) {
     'trace',
     'components'
   ];
-  if (isOAS3) {
-    const contentsOfParameterObject =
-      (path[path.length - 2] === 'parameters' &&
-        pathsForParameters.includes(path[path.length - 3])) ||
-      (path[0] === 'paths' && path[1] === 'parameters');
-    return contentsOfParameterObject;
-  } else if (!isOAS3) {
-    const contentsOfParameterObject =
-      (path[path.length - 2] === 'parameters' &&
-        pathsForParameters.includes(path[path.length - 3])) ||
-      (path[0] === 'paths' && path[1] === 'parameters') ||
-      (path[0] === 'parameters' && path.length == 2);
-    return contentsOfParameterObject;
+  const sharedChecks =
+    pathsForParameters.includes(path[path.length - 3]) ||
+    (path[path.length - 4] === 'paths' &&
+      path[2] === 'parameters' &&
+      path.length === 4);
+  if (path[path.length - 2] === 'parameters') {
+    if (isOAS3) {
+      const contentsOfParameterObject = sharedChecks;
+      return contentsOfParameterObject;
+    } else if (!isOAS3) {
+      //swagger 2 allows parameters to be in the top level, this checks for that
+      const contentsOfParameterObject =
+        sharedChecks || (path[0] === 'parameters' && path.length == 2);
+      return contentsOfParameterObject;
+    }
   }
 }
 

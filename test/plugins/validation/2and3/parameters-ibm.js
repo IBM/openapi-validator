@@ -596,36 +596,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
     it('should not complain for parameters in a path item ', () => {
       const spec = {
         paths: {
-          parameters: [
-            {
-              name: 'tags',
-              in: 'query',
-              description: 'tags to filter by',
-              schema: {
-                type: 'string'
-              }
-            }
-          ]
-        }
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(0);
-      expect(res.errors.length).toEqual(0);
-    });
-
-    it('should complain about parameters not defined properly in a path item ', () => {
-      const spec = {
-        paths: {
-          parameters: [
-            {
-              name: 'tags',
-              in: 'query',
-              schema: {
-                type: 'string'
-              }
-            }
-          ],
           '/pets': {
             parameters: [
               {
@@ -633,22 +603,34 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 in: 'query',
                 description: 'tags to filter by',
                 schema: {
-                  type: 'string'
+                  type: 'string',
+                  format: 'binary'
                 }
               }
-            ],
-            get: {
-              parameters: [
-                {
-                  name: 'tags',
-                  in: 'query',
-                  description: 'tags to filter by',
-                  schema: {
-                    type: 'string'
-                  }
+            ]
+          }
+        }
+      };
+
+      const res = validate({ jsSpec: spec }, config);
+      expect(res.warnings.length).toEqual(0);
+      expect(res.errors.length).toEqual(0);
+    });
+
+    it('should complain about parameters not defined properly in a path item ', () => {
+      const spec = {
+        paths: {
+          '/pets': {
+            parameters: [
+              {
+                name: 'tags',
+                in: 'query',
+                schema: {
+                  type: 'string',
+                  format: 'binary'
                 }
-              ]
-            }
+              }
+            ]
           }
         }
       };
