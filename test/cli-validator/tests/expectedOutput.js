@@ -87,14 +87,15 @@ describe('cli tool - test expected output - Swagger 2', function() {
 
     // .match(/\S+/g) returns an array of all non-whitespace strings
     //   example output would be [ 'Line', ':', '59' ]
-    //errors
+
+    // errors
     expect(capturedText[4].match(/\S+/g)[2]).toEqual('31');
     expect(capturedText[8].match(/\S+/g)[2]).toEqual('54');
     expect(capturedText[12].match(/\S+/g)[2]).toEqual('59');
     expect(capturedText[16].match(/\S+/g)[2]).toEqual('108');
     expect(capturedText[20].match(/\S+/g)[2]).toEqual('172');
 
-    //warnings
+    // warnings
     expect(capturedText[25].match(/\S+/g)[2]).toEqual('36');
     expect(capturedText[29].match(/\S+/g)[2]).toEqual('59');
     expect(capturedText[33].match(/\S+/g)[2]).toEqual('197');
