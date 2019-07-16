@@ -42,6 +42,23 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
       'trace'
     ]);
     each(pathOps, (op, opKey) => {
+      //console.log(op.requestBody.content[0]);
+      if (op.requestBody){
+        const size = Object.size(op.requestBody);
+        //console.log(size);
+        op.requestBody.content.forEach(contentObj => {
+          let counter = 0;
+          if (contentObj.schema){
+            counter += 1;
+          }
+          //console.log(counter);
+        });
+        // for (let i = 0; i < size; i++) {
+        //   if (op.requestBody.content[i].schema){
+        //     console.log('hi');
+        //   }
+        // }
+      }
       if (!op || op['x-sdk-exclude'] === true) {
         return;
       }
@@ -174,6 +191,15 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
       }
     });
   });
+
+  Object.size = function(obj) {
+    var size = 0;
+    var key = 0;
+    for (key in obj) {
+      if (obj.hasOwnProperty(key)) size++;
+    }
+    return size;
+  };
 
   return { errors: result.error, warnings: result.warning };
 };
