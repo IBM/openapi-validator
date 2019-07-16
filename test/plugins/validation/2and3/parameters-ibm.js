@@ -300,39 +300,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should not return an error for parameters that live in the top level', () => {
-      const spec = {
-        parameters: [
-          {
-            name: 'someparam',
-            in: 'header',
-            type: 'string',
-            required: true,
-            description: 'some top level param'
-          }
-        ],
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  name: 'file',
-                  in: 'formData',
-                  type: 'file',
-                  required: true,
-                  description: 'A file passed in formData'
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: false }, config);
-      expect(res.errors.length).toEqual(0);
-      expect(res.warnings.length).toEqual(0);
-    });
-
     it('should return an error for bad parameters that live in the top level', () => {
       const spec = {
         parameters: [
@@ -589,30 +556,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(0);
-      expect(res.errors.length).toEqual(0);
-    });
-
-    it('should not complain for parameters in a path item ', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            parameters: [
-              {
-                name: 'tags',
-                in: 'query',
-                description: 'tags to filter by',
-                schema: {
-                  type: 'string',
-                  format: 'binary'
-                }
-              }
-            ]
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec }, config);
       expect(res.warnings.length).toEqual(0);
       expect(res.errors.length).toEqual(0);
     });

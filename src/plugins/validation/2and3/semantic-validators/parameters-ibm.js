@@ -19,12 +19,15 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   result.warning = [];
 
   config = config.parameters;
+
   walk(jsSpec, [], function(obj, path) {
     // skip parameters within operations that are excluded
     if (obj['x-sdk-exclude'] === true) {
       return;
     }
-    const contentsOfParameterObject = params(path, isOAS3);
+
+    const contentsOfParameterObject = isParameter(path, isOAS3);
+
     if (contentsOfParameterObject) {
       // obj is a parameter object
       const isRef = !!obj.$ref;
@@ -154,7 +157,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   return { errors: result.error, warnings: result.warning };
 };
 
-function params(path, isOAS3) {
+function isParameter(path, isOAS3) {
   const pathsForParameters = [
     'get',
     'put',
@@ -171,15 +174,15 @@ function params(path, isOAS3) {
     (path[path.length - 4] === 'paths' &&
       path[2] === 'parameters' &&
       path.length === 4);
+
+  const isTopLevelParameter =
+    !isOAS3 && path[0] === 'parameters' && path.length === 2;
   if (path[path.length - 2] === 'parameters') {
     if (isOAS3) {
-      const contentsOfParameterObject = sharedChecks;
-      return contentsOfParameterObject;
+      return sharedChecks;
     } else if (!isOAS3) {
       //swagger 2 allows parameters to be in the top level, this checks for that
-      const contentsOfParameterObject =
-        sharedChecks || (path[0] === 'parameters' && path.length == 2);
-      return contentsOfParameterObject;
+      return sharedChecks || isTopLevelParameter;
     }
   }
 }
