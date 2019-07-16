@@ -169,7 +169,8 @@ function isParameter(path, isOAS3) {
     'trace',
     'components'
   ];
-  const sharedChecks =
+
+  const pathCheck =
     pathsForParameters.includes(path[path.length - 3]) ||
     (path[path.length - 4] === 'paths' &&
       path[2] === 'parameters' &&
@@ -177,12 +178,15 @@ function isParameter(path, isOAS3) {
 
   const isTopLevelParameter =
     !isOAS3 && path[0] === 'parameters' && path.length === 2;
-  if (path[path.length - 2] === 'parameters') {
+
+  const parameterObj = path[path.length - 2] === 'parameters';
+
+  if (parameterObj) {
     if (isOAS3) {
-      return sharedChecks;
+      return pathCheck;
     } else if (!isOAS3) {
       //swagger 2 allows parameters to be in the top level, this checks for that
-      return sharedChecks || isTopLevelParameter;
+      return pathCheck || isTopLevelParameter;
     }
   }
 }

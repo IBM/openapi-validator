@@ -1,14 +1,19 @@
 /*
     **********   DO NOT MODIFY THIS FILE   **********
+
+
     To configure the validator, edit the '.validaterc'
     file in the root folder of this project.
+
     This file contains the defaults rules for the
     validator. It is used to check for errors in
     the .validaterc file and for running the
     validator in default mode.
+
     NOTE: If you are contributing a validation to this code
     base, you should add the default rule to this object.
     In that case, please modify this file.
+
     Additionally, if a rule is being deprecated and/or replaced,
     this file must be modified (see bottom of file).
 */
@@ -30,7 +35,8 @@ const defaults = {
       'content_type_parameter': 'error',
       'accept_type_parameter': 'error',
       'authorization_parameter': 'warning',
-      'required_param_has_default': 'warning'
+      'required_param_has_default': 'warning',
+      'ref_and_inline_parameter': 'error'
     },
     'paths': {
       'missing_path_parameter': 'error',
@@ -60,9 +66,8 @@ const defaults = {
     'walker': {
       'no_empty_descriptions': 'error',
       'has_circular_references': 'warning',
-      '$ref_siblings': 'off',
-      'duplicate_sibling_description': 'warning',
-      'incorrect_ref_pattern': 'warning'
+      '$ref_siblings': 'off'
+      'duplicate_sibling_description': 'warning'
     }
   },
   'swagger2': {
