@@ -42,22 +42,24 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
       'trace'
     ]);
     each(pathOps, (op, opKey) => {
-      //console.log(op.requestBody.content[0]);
-      if (op.requestBody){
-        const size = Object.size(op.requestBody);
-        //console.log(size);
-        op.requestBody.content.forEach(contentObj => {
-          let counter = 0;
-          if (contentObj.schema){
+      if (op.requestBody) {
+        let counter = 0;
+
+        for (const prop in op.requestBody.content) {
+          if (op.requestBody.content[prop].schema) {
             counter += 1;
           }
-          //console.log(counter);
-        });
-        // for (let i = 0; i < size; i++) {
-        //   if (op.requestBody.content[i].schema){
-        //     console.log('hi');
-        //   }
-        // }
+        }
+
+        if (counter > 1) {
+          const checkStatus = config.multi_schema_content;
+          if (checkStatus !== 'off') {
+            result[checkStatus].push({
+              path: `paths.${pathKey}.${opKey}.requestbody.content`,
+              message: 'requestBody.content object contains multiple schemas'
+            });
+          }
+        }
       }
       if (!op || op['x-sdk-exclude'] === true) {
         return;

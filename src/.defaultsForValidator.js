@@ -26,7 +26,8 @@ const defaults = {
       'no_summary': 'warning',
       'no_array_responses': 'error',
       'parameter_order': 'warning',
-      'unused_tag': 'warning'
+      'unused_tag': 'warning',
+      'multi_schema_content': 'warning'
     },
     'parameters': {
       'no_parameter_description': 'error',

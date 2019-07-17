@@ -767,5 +767,41 @@ describe('validation plugin - semantic - operations-shared', function() {
         'tag is not defined at the global level: not a tag'
       );
     });
+
+    it('should complain about a top-level array response', function() {
+      const spec = {
+        paths: {
+          '/': {
+            put: {
+              operationId: 'get_everything',
+              summary: 'get everything as a string or an array',
+              requestBody: {
+                description: 'simple body',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'string'
+                    }
+                  },
+                  'application/octet-stream': {
+                    schema: {
+                      type: 'string'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'requestBody.content object contains multiple schemas'
+      );
+      expect(res.warnings[0].path).toEqual('paths./.put.requestbody.content');
+    });
   });
 });
