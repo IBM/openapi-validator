@@ -1,3 +1,10 @@
+## [0.12.5](https://github.com/IBM/openapi-validator/compare/v0.12.4...v0.12.5) (2019-07-17)
+
+
+### Bug Fixes
+
+* add more specific checks for parameter objects ([#83](https://github.com/IBM/openapi-validator/issues/83)) ([9282e17](https://github.com/IBM/openapi-validator/commit/9282e17))
+
 ## [0.12.4](https://github.com/IBM/openapi-validator/compare/v0.12.3...v0.12.4) (2019-07-04)
 
 
