@@ -194,14 +194,5 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
     });
   });
 
-  Object.size = function(obj) {
-    var size = 0;
-    var key = 0;
-    for (key in obj) {
-      if (obj.hasOwnProperty(key)) size++;
-    }
-    return size;
-  };
-
   return { errors: result.error, warnings: result.warning };
 };
