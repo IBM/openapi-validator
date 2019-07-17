@@ -299,9 +299,58 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(0);
     });
+
+    it('should return an error for bad parameters that live in the top level', () => {
+      const spec = {
+        parameters: [
+          {
+            name: 'someparam',
+            in: 'header',
+            type: 'string',
+            required: true
+          }
+        ]
+      };
+
+      const res = validate({ jsSpec: spec, isOAS3: false }, config);
+      expect(res.errors.length).toEqual(1);
+      expect(res.errors[0].message).toEqual(
+        'Parameter objects must have a `description` field.'
+      );
+      expect(res.warnings.length).toEqual(0);
+    });
   });
 
   describe('OpenAPI 3', () => {
+    it('should not complain about a property named parameters that is not a parameter object', () => {
+      const spec = {
+        components: {
+          responses: {
+            parameters: {
+              description: 'successful operation',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'object',
+                    properties: {
+                      parameters: {
+                        type: 'string',
+                        description: 'this is a description',
+                        additionalProperties: {}
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(0);
+      expect(res.errors.length).toEqual(0);
+    });
+
     it('should return an error when a parameter defines content-type, accept, or authorization', () => {
       const spec = {
         paths: {
@@ -509,6 +558,32 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
       expect(res.warnings.length).toEqual(0);
       expect(res.errors.length).toEqual(0);
+    });
+
+    it('should complain about parameters not defined properly in a path item ', () => {
+      const spec = {
+        paths: {
+          '/pets': {
+            parameters: [
+              {
+                name: 'tags',
+                in: 'query',
+                schema: {
+                  type: 'string',
+                  format: 'binary'
+                }
+              }
+            ]
+          }
+        }
+      };
+
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(0);
+      expect(res.errors.length).toEqual(1);
+      expect(res.errors[0].message).toEqual(
+        'Parameter objects must have a `description` field.'
+      );
     });
   });
 });
