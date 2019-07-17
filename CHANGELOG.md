@@ -1,3 +1,14 @@
+# [0.13.0](https://github.com/IBM/openapi-validator/compare/v0.12.5...v0.13.0) (2019-07-17)
+
+
+### Features
+
+* change default for all case convention validations to error (#86) ([#86](https://github.com/IBM/openapi-validator/issues/86)) ([873d6035cc72a04e58bbe6142cbce22ebb3f041a](https://github.com/IBM/openapi-validator/commit/873d6035cc72a04e58bbe6142cbce22ebb3f041a))
+
+  * This applies to the following rules: `param_name_case_convention`, `paths_case_convention`, `property_case_convention`, `enum_case_convention`
+
+  * The rule `snake_case_only` (in categories `paths` and `schemas`) is now set to `off` by default. They will be deprecated in a future release.
+
 ## [0.12.5](https://github.com/IBM/openapi-validator/compare/v0.12.4...v0.12.5) (2019-07-17)
 
 
