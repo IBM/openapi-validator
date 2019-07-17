@@ -58,16 +58,16 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       };
 
       const res = validate({ jsSpec: spec }, config);
-      expect(res.errors.length).toEqual(0);
-      expect(res.warnings.length).toEqual(1);
-      expect(res.warnings[0].path).toEqual([
+      expect(res.errors.length).toEqual(1);
+      expect(res.warnings.length).toEqual(0);
+      expect(res.errors[0].path).toEqual([
         'paths',
         '/pets',
         'get',
         'parameters',
         '0'
       ]);
-      expect(res.warnings[0].message).toEqual(
+      expect(res.errors[0].message).toEqual(
         'Parameter names must follow case convention: lower_snake_case'
       );
     });

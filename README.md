@@ -359,7 +359,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_parameter_description    | error   |
-| param_name_case_convention  | warning, lower_snake_case |
+| param_name_case_convention  | error, lower_snake_case |
 | invalid_type_format_pair    | error   |
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |
@@ -370,8 +370,8 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | ------- |
 | missing_path_parameter      | error   |
-| snake_case_only             | warning |
-| paths_case_convention       | off, lower_snake_case |
+| snake_case_only             | off     |
+| paths_case_convention       | error, lower_snake_case |
 
 ##### responses
 | Rule                      | Default |
@@ -393,13 +393,13 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | ------- |
 | invalid_type_format_pair    | error   |
-| snake_case_only             | warning |
+| snake_case_only             | off     |
 | no_schema_description       | warning |
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 | array_of_arrays             | warning |
-| property_case_convention    | off, lower_snake_case |
-| enum_case_convention        | off, lower_snake_case |
+| property_case_convention    | error, lower_snake_case |
+| enum_case_convention        | error, lower_snake_case |
 
 ###### walker
 | Rule                          | Default |
