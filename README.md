@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/IBM/openapi-validator.svg?branch=master)](https://travis-ci.com/IBM/openapi-validator)
+![Build Status](https://travis-ci.com/IBM/openapi-validator.svg?branch=master)](https://travis-ci.com/IBM/openapi-validator)
 [![npm-version](https://img.shields.io/npm/v/ibm-openapi-validator.svg)](https://www.npmjs.com/package/ibm-openapi-validator)
 [![codecov](https://codecov.io/gh/ibm/openapi-validator/branch/master/graph/badge.svg)](https://codecov.io/gh/ibm/openapi-validator)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
@@ -255,7 +255,6 @@ The supported rules are described below:
 | has_circular_references       | Flag any circular references found in the Swagger spec.                      | shared |
 | $ref_siblings                 | Flag any properties that are siblings of a `$ref` property.                  | shared |
 | duplicate_sibling_description | Flag descriptions sibling to `$ref` if identical to referenced description.  | shared |
-| incorrect_ref_pattern        | Flag internal `$ref` values that do not point to the section they should (e.g. referencing `parameters` from a `schema` field). | shared |
 
 [1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
 [2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
@@ -359,7 +358,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | no_parameter_description    | error   |
-| param_name_case_convention  | warning, lower_snake_case |
+| param_name_case_convention  | error, lower_snake_case |
 | invalid_type_format_pair    | error   |
 | content_type_parameter      | error   |
 | accept_type_parameter       | error   |
@@ -370,8 +369,8 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | ------- |
 | missing_path_parameter      | error   |
-| snake_case_only             | warning |
-| paths_case_convention       | off, lower_snake_case |
+| snake_case_only             | off     |
+| paths_case_convention       | error, lower_snake_case |
 
 ##### responses
 | Rule                      | Default |
@@ -393,13 +392,13 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | ------- |
 | invalid_type_format_pair    | error   |
-| snake_case_only             | warning |
+| snake_case_only             | off     |
 | no_schema_description       | warning |
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 | array_of_arrays             | warning |
-| property_case_convention    | off, lower_snake_case |
-| enum_case_convention        | off, lower_snake_case |
+| property_case_convention    | error, lower_snake_case |
+| enum_case_convention        | error, lower_snake_case |
 
 ###### walker
 | Rule                          | Default |
@@ -408,7 +407,6 @@ The default values for each rule are described below.
 | has_circular_references       | warning |
 | $ref_siblings                 | off     |
 | duplicate_sibling_description | warning |
-| incorrect_ref_pattern        | warning |
 
 
 ## Turning off `update-notifier`
