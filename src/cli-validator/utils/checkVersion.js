@@ -24,7 +24,7 @@ module.exports = function(requiredVersion) {
       '\n' +
         chalk.yellow('[Warning]') +
         ` Support for Node v8 is deprecated. Support will be officially dropped when it reaches end of life` +
-        `  (31 December 2019) or when v1.0 of this package is released, whichever happens first.\n`
+        ` (31 December 2019) or when v1.0 of this package is released, whichever happens first.\n`
     );
   }
 };
