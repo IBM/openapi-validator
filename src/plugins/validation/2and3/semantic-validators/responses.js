@@ -12,15 +12,44 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   config = config.responses;
 
   walk(jsSpec, [], function(obj, path) {
+    const listX = ['limit','offset','start', 'token', 'aliases'];
+
+    for(topLevelProp in obj){
+      console.log(topLevelProp);
+      if (Array.isArray(topLevelProp && (obj.pagination || obj.limit || obj.start || obj.offset))){
+        if(!obj.next){
+          const message = 'a paginated success response must contain the next property';
+          const checkStatus = config.no_next_for_responses;
+          if (checkStatus !== 'off') {
+            result[checkStatus].push({
+              path,
+              message
+            });
+          }
+        }
+
+        for(url in obj){
+          if(url.contains('limit') && !obj.limit){
+            const message = 'if a limit exists as a parameter query it must be defined as a property';
+            const checkStatus = config.limit_in_query;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path,
+                message
+            });
+          }
+          }
+        }
+      }
+    }
     const contentsOfResponsesObject = path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
-
+    console.log(obj);
     if (contentsOfResponsesObject && !isRef) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {
             const combinedSchemaTypes = ['allOf', 'oneOf', 'anyOf'];
-
             if (
               mediaType.schema &&
               mediaTypeKey.startsWith('application/json')

@@ -568,6 +568,54 @@ describe('validation plugin - semantic - responses', function() {
         expect(res.warnings.length).toEqual(0);
         expect(res.errors.length).toEqual(0);
       });
+
+      it('should not complain about non-json response that defines an inline schema', function() {
+        const config = {
+          responses: {
+            no_response_codes: 'error',
+            no_success_response_codes: 'warning'
+          }
+        };
+
+        const spec = {
+          paths: {
+            '/pets': {
+              get: {
+                summary: 'this is a summary',
+                operationId: 'operationId',
+                responses: {
+                  '200': [
+                    {
+                    description: 'success',
+                    offset: 100,
+                    limit: 50,
+                    total_count: 232,
+                    first:{
+                      href: "http://api.bluemix.net/v2/accounts?limit=50"
+                    },
+                    last: {
+                      href: "http://api.bluemix.net/v2/accounts?offset=200&limit=50"
+                    },
+                    previous: {
+                      href: "http://api.bluemix.net/v2/accounts?offset=50&limit=50"
+                    },
+                    next:{
+                      href: "http://api.bluemix.net/v2/accounts?offset=150&limit=50"
+                    }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec }, config);
+        expect(res.warnings.length).toEqual(0);
+        expect(res.errors.length).toEqual(0);
+      });
+
+      
     });
   });
 });
