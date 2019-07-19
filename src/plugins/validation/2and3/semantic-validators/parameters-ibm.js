@@ -27,9 +27,16 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     } 
     
     const contentsOfParameterObject = isParameter(path, isOAS3);
-    if(obj && obj.paths && obj.paths['/pets'] && obj.paths['/pets'].get && Array.isArray(obj.paths['/pets'].get.parameters)) {
+    //var head = "'"+path[1]+"'";
+    //console.log(path);
+    //console.log(obj.paths[head]);
+    
+    //console.log(obj.paths[1]);
+    for(head in obj.paths){
+      //console.log(obj.paths[head]);
+    if(obj.paths && obj.paths[head] && obj.paths[head].get && Array.isArray(obj.paths[head].get.responses)) {
       //console.log(obj.paths['/pets'].get.parameters[0].limit);
-      if(obj.paths['/pets'].get.parameters[0].limit && typeof obj.paths['/pets'].get.parameters[0].limit !== 'integer') {
+      if(obj.paths[head].get.parameters[0].limit && typeof obj.paths['/pets'].get.parameters[0].limit !== 'integer') {
         const message = 'limit parameter must be of type integer and must have a default value';
         const checkStatus = config.invalid_limit_type;
         if(checkStatus !== 'off') {
@@ -40,7 +47,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       }
       }
       
-      if(obj.paths['/pets'].get.parameters[0].start && typeof obj.paths['/pets'].get.parameters[0].start !== 'string' ) {
+      if(obj.paths[head].get.parameters[0].start && typeof obj.paths[head].get.parameters[0].start !== 'string' ) {
         const message = 'start parameter must be of type string';
         const checkStatus = config.invalid_limit_type;
         if(checkStatus !== 'off') {
@@ -50,7 +57,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         });
       }
       }
-      if(obj.paths['/pets'].get.parameters[0].start && obj.paths['/pets'].get.parameters[0].required == true ) {
+      if(obj.paths[head].get.parameters[0].start && obj.paths[head].get.parameters[0].required == true ) {
         const message = 'start parameter must be optional';
         const checkStatus = config.invalid_limit_type;
         if(checkStatus !== 'off') {
@@ -60,7 +67,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         });
       }
       }
-      if(obj.paths['/pets'].get.parameters[0].cursor && typeof obj.paths['/pets'].get.parameters[0].cursor !== 'string' ) {
+      if(obj.paths[head].get.parameters[0].cursor && typeof obj.paths[head].get.parameters[0].cursor !== 'string' ) {
         const message = 'cursor parameter must be of type string';
         const checkStatus = config.invalid_limit_type;
         if(checkStatus !== 'off') {
@@ -70,7 +77,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         });
       }
       }
-      if(obj.paths['/pets'].get.parameters[0].cursor && obj.paths['/pets'].get.parameters[0].required == true ) {
+      if(obj.paths[head].get.parameters[0].cursor && obj.paths[head].get.parameters[0].required == true ) {
         const message = 'cursor parameter must be optional';
         const checkStatus = config.invalid_limit_type;
         if(checkStatus !== 'off') {
@@ -93,6 +100,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       // }
       // }
     }
+  }
     if (contentsOfParameterObject) {
       // obj is a parameter object
       const isRef = !!obj.$ref;
