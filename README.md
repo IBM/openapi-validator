@@ -7,7 +7,8 @@
 
 
 # OpenAPI Validator
-This command line tool lets you validate OpenAPI documents according to their specification, either [2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) or [3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as [custom IBM-defined best practices](http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style).
+This command line tool lets you validate OpenAPI documents according to their specification, either [2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) or [3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md),
+as well as IBM-defined best practices.
 
 #### Notice
 Support for Node v8 is deprecated. Support will be officially dropped when it reaches end of life (31 December 2019) or when v1.0 of this package is released, whichever happens first.
@@ -156,12 +157,12 @@ It is recommended to place these files in the root directory of your project. Th
 
 #### Specs
 
-The validator supports two API definition specifications - Swagger 2.0 and OpenAPI 3.0. The validator will automatically determine which spec a document is written in. There are some rules in the validator that only apply to one of the specs and some rules that apply to both. The configuration structure is organized by these "specs".
+The validator supports two API definition specifications - OpenAPI 2.0, aka Swagger 2.0, and OpenAPI 3.0. The validator will automatically determine which spec a document is written in. There are some rules in the validator that only apply to one of the specs and some rules that apply to both. The configuration structure is organized by these "specs".
 The supported specs are described below:
 
 | Spec     | Description                                                                                                                          |
 | -------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| swagger2 | Rules pertaining only to the [Swagger 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) specification.  |
+| swagger2 | Rules pertaining only to the [OpenAPI 2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) specification.  |
 | oas3     | Rules pertaining only to the [OpenAPI 3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md) specification |
 | shared   | Rules pertaining to both of the above specifications.                                                                                |
 
@@ -256,7 +257,7 @@ The supported rules are described below:
 | Rule                          | Description                                                                  | Spec   |
 | ----------------------------- | ---------------------------------------------------------------------------- | ------ |
 | no_empty_descriptions         | Flag any `description` field in the spec with an empty or whitespace string. | shared |
-| has_circular_references       | Flag any circular references found in the Swagger spec.                      | shared |
+| has_circular_references       | Flag any circular references found in the API document.                      | shared |
 | $ref_siblings                 | Flag any properties that are siblings of a `$ref` property.                  | shared |
 | duplicate_sibling_description | Flag descriptions sibling to `$ref` if identical to referenced description.  | shared |
 | incorrect_ref_pattern        | Flag internal `$ref` values that do not point to the section they should (e.g. referencing `parameters` from a `schema` field). | shared |
