@@ -1,3 +1,10 @@
+## [0.13.1](https://github.com/IBM/openapi-validator/compare/v0.13.0...v0.13.1) (2019-07-22)
+
+
+### Bug Fixes
+
+* Skip case_convention checks on deprecated parameters and properties ([#88](https://github.com/IBM/openapi-validator/issues/88)) ([6b195aa](https://github.com/IBM/openapi-validator/commit/6b195aa))
+
 # [0.13.0](https://github.com/IBM/openapi-validator/compare/v0.12.5...v0.13.0) (2019-07-17)
 
 
