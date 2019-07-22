@@ -95,6 +95,30 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.warnings.length).toEqual(0);
     });
 
+    it('should not return a case_convention error when parameter is deprecated', () => {
+      const spec = {
+        paths: {
+          '/pets': {
+            get: {
+              parameters: [
+                {
+                  name: 'camelCase',
+                  in: 'query',
+                  description: 'description',
+                  type: 'string',
+                  deprecated: true
+                }
+              ]
+            }
+          }
+        }
+      };
+
+      const res = validate({ jsSpec: spec }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
+    });
+
     it('should return an error when type does not match format', () => {
       const spec = {
         paths: {

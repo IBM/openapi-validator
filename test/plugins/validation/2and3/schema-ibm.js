@@ -492,6 +492,35 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
+  it('should not return a case_convention error when property is deprecated', () => {
+    const config = {
+      schemas: {
+        snake_case_only: 'off',
+        property_case_convention: ['error', 'lower_snake_case']
+      }
+    };
+
+    const spec = {
+      definitions: {
+        Thing: {
+          type: 'object',
+          description: 'thing',
+          properties: {
+            thingName: {
+              type: 'string',
+              description: 'thing name',
+              deprecated: true
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
   it('should return an error when a schema has no description', () => {
     const config = {
       schemas: {

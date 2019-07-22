@@ -46,8 +46,9 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
       const isParameter = obj.in; // the `in` property is required by OpenAPI for parameters - this should be true (unless obj is a ref)
       const isHeaderParameter = obj.in && obj.in.toLowerCase() === 'header'; // header params need not be checked for case
+      const isDeprecated = obj.deprecated === true;
 
-      if (isParameter && !isHeaderParameter && !isRef) {
+      if (isParameter && !isHeaderParameter && !isRef && !isDeprecated) {
         const checkStatus = config.param_name_case_convention[0];
         if (checkStatus !== 'off') {
           const caseConvention = config.param_name_case_convention[1];

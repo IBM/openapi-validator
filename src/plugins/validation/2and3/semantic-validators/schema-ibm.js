@@ -299,6 +299,9 @@ function checkPropNames(schema, contextPath, config) {
   forIn(schema.properties, (property, propName) => {
     if (propName.slice(0, 2) === 'x-') return;
 
+    // Skip snake_case_only checks for deprecated properties
+    if (property.deprecated === true) return;
+
     const checkStatus = config.snake_case_only || 'off';
     if (checkStatus.match('error|warning')) {
       if (!isSnakecase(propName)) {
@@ -334,6 +337,9 @@ function checkPropNamesCaseConvention(schema, contextPath, caseConvention) {
   // flag any property whose name does not follow the case convention
   forIn(schema.properties, (property, propName) => {
     if (propName.slice(0, 2) === 'x-') return;
+
+    // Skip case_convention checks for deprecated properties
+    if (property.deprecated === true) return;
 
     const checkStatus = caseConvention[0] || 'off';
     if (checkStatus.match('error|warning')) {
