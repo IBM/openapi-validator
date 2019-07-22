@@ -584,26 +584,25 @@ describe('validation plugin - semantic - responses', function() {
                 summary: 'this is a summary',
                 operationId: 'operationId',
                 responses: {
-                  '200': [
-                    {
-                    description: 'success',
-                    offset: 100,
-                    limit: 50,
-                    total_count: 232,
-                    first:{
-                      href: "http://api.bluemix.net/v2/accounts?limit=50"
-                    },
-                    last: {
-                      href: "http://api.bluemix.net/v2/accounts?offset=200&limit=50"
-                    },
-                    previous: {
-                      href: "http://api.bluemix.net/v2/accounts?offset=50&limit=50"
-                    },
-                    next:{
-                      href: "http://api.bluemix.net/v2/accounts?offset=150&limit=50"
-                    }
-                    }
-                  ]
+                  '200':{
+                      limit: 50,
+                      offset: 100,
+                      total_count: 232,
+                      first:{
+                        href: "http://api.bluemix.net/v2/accounts?limit=50"
+                      },
+                      last:{
+                        href: "http://api.bluemix.net/v2/accounts?offset=200&limit=50"
+                      },
+                      previous:{
+                        href: "http://api.bluemix.net/v2/accounts?offset=50&limit=50"
+                      },
+                      next:{
+                        href: "http://api.bluemix.net/v2/accounts?offset=150&limit=50"
+                      },
+                      accounts:[],
+                    required: ['hi']
+                  }
                 }
               }
             }

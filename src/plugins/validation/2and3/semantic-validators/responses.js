@@ -12,14 +12,16 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   config = config.responses;
 
   walk(jsSpec, [], function(obj, path) {
+    console.log(obj);
     const listX = ['limit','offset','start', 'token', 'aliases'];
-
+    // if(obj.required){
+    //   console.log(obj.required.includes('hi'));
+    // }
     for(topLevelProp in obj){
-      console.log(topLevelProp);
       if (Array.isArray(topLevelProp && (obj.pagination || obj.limit || obj.start || obj.offset))){
-        if(!obj.next){
+        if(!obj.next || !obj.required.includes('next') || !obj.pagination.next_url){
           const message = 'a paginated success response must contain the next property';
-          const checkStatus = config.no_next_for_responses;
+          const checkStatus = config.pagination;
           if (checkStatus !== 'off') {
             result[checkStatus].push({
               path,
@@ -28,10 +30,27 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           }
         }
 
+        if(obj.pagination){
+          for(url in obj.pagination){
+            if((url.contains('limit') && (!obj.limit || typeof obj.limit !== 'integer' || !obj.required.contains('limit'))) ||
+             (url.contains('offset') && (!obj.offset || typeof obj.offset !== 'integer' || !obj.pagination.required.contains('offset'))))
+             {
+              const message = 'if limit or offset parameters exist as a parameter query, then they must be defined as properties';
+              const checkStatus = config.pagination;
+              if (checkStatus !== 'off') {
+                result[checkStatus].push({
+                  path,
+                  message
+              });
+            }
+            }
+
+        }
+      } else{
         for(url in obj){
-          if(url.contains('limit') && !obj.limit){
+          if(url.contains('limit') && (!obj.limit || typeof obj.limit !== 'integer' )){
             const message = 'if a limit exists as a parameter query it must be defined as a property';
-            const checkStatus = config.limit_in_query;
+            const checkStatus = config.pagination;
             if (checkStatus !== 'off') {
               result[checkStatus].push({
                 path,
@@ -40,11 +59,61 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           }
           }
         }
+        
+
+          if(url.contains('offset') && (!obj.offset || typeof obj.offset !== 'integer' )){
+            const message = 'if a offset exists as a parameter query it must be defined as a property';
+            const checkStatus = config.pagination;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path,
+                message
+            });
+          }
+          }
+
+          if(
+            (
+            url.contains('start') ||
+            url.contains('cursor') ||
+            url.contains('token')) &&
+            (
+              !obj.start ||
+              !obj.cursor ||
+              !obj.token
+            ) ||
+              (
+                typeof obj.start !== 'string' ||
+                typeof obj.cursor !== 'string'||
+                typeof obj.token !== 'string'
+            )) {
+            const message = 'if a start, cursor, or token exist as a parameter query then they should also be defined as string types';
+            const checkStatus = config.pagination;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path,
+                message
+            });
+          }
+          }
+        }
+
+        if((obj.total_count && typeof obj.total_count !== 'integer') ||
+           (obj.pagination.total && obj.pagination.total !== 'integer'))
+           {
+          const message = 'total_count must be of type integer';
+          const checkStatus = config.pagination;
+          if (checkStatus !== 'off') {
+            result[checkStatus].push({
+              path,
+              message
+            });
+          }
+        }
       }
     }
     const contentsOfResponsesObject = path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
-    console.log(obj);
     if (contentsOfResponsesObject && !isRef) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
