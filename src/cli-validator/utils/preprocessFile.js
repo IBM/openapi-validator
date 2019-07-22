@@ -14,5 +14,8 @@ module.exports = function(originalFile) {
   const solidus = '/';
   processedFile = processedFile.replace(escapedSolidus, solidus);
 
+  // Another problematic character is #9d - replace with space
+  processedFile = processedFile.replace(/\x9d/g, ' ');
+
   return processedFile;
 };
