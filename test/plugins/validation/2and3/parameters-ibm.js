@@ -585,28 +585,25 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         'Parameter objects must have a `description` field.'
       );
     });
-    
-    it('should return an error for invalid limit types', () => {
+
+    it('should return an error for invalid start definitions', () => {
       const spec = {
         paths: {
           '/pets': {
             get: {
               parameters: [
                 {
-                  limit: 'hi',
+                  start: 12,
                   schema: {
                     type: 'string'
                   },
-                  description: 'good description'
-                },
-                {
-                  
-                  schema: {
-                    type: 'string'
-                  },
-                  description: 'good description'
+                  description: 'good description',
+                  required: ['url', 'start']
                 }
-              ]
+              ],
+              responses: {
+                required: []
+              }
             }
           }
         }
@@ -614,60 +611,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
       expect(res.warnings.length).toEqual(1);
-      expect(res.warnings[0].message).toEqual('limit parameter must be of type integer and must have a default value');
-    });
-    
-    it('should return an error for invalid start definitions', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  start: 12,
-                  required: true,
-                  schema: {
-                    type: 'string'
-                  },
-                  description: 'good description'
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(2);
-      //expect(res.warnings[0].message).toEqual('limit parameter must be of type integer and must have a default value');
+      expect(res.warnings[0].message).toEqual(
+        'start parameter must be of type string and must be optional'
+      );
     });
 
-    it('should return an error for invalid start definitions', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  start: 12,
-                  required: true,
-                  schema: {
-                    type: 'string'
-                  },
-                  description: 'good description'
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(2);
-      //expect(res.warnings[0].message).toEqual('limit parameter must be of type integer and must have a default value');
-    });
-
-    it('should return an error for invalid start definitions', () => {
+    it('should complain for invalid cursor definitions', () => {
       const spec = {
         paths: {
           '/pets': {
@@ -675,45 +624,90 @@ describe('validation plugin - semantic - parameters-ibm', () => {
               parameters: [
                 {
                   cursor: 12,
-                  required: true,
                   schema: {
                     type: 'string'
                   },
-                  description: 'good description'
+                  description: 'good description',
+                  required: ['url', 'cursor']
                 }
-              ]
+              ],
+              responses: {
+                required: []
+              }
             }
           }
         }
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(2);
-      //expect(res.warnings[0].message).toEqual('limit parameter must be of type integer and must have a default value');
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'cursor parameter must be of type string and must be optional'
+      );
     });
 
-    // it('should return an error for invalid start definitions', () => {
-    //   const spec = {
-    //     paths: {
-    //       '/pets': {
-    //         get: {
-    //           parameters: [
-    //             {
-    //               required: true,
-    //               schema: {
-    //                 type: 'string'
-    //               },
-    //               description: 'good description'
-    //             }
-    //           ]
-    //         }
-    //       }
-    //     }
-    //   };
+    it('should complain for invalid use of limit definitions', () => {
+      const spec = {
+        paths: {
+          '/pets': {
+            get: {
+              parameters: [
+                {
+                  start: 'hi',
+                  limit: 'should be an int',
+                  schema: {
+                    type: 'string'
+                  },
+                  description: 'good description',
+                  required: ['url', 'limit']
+                }
+              ],
+              responses: {
+                required: []
+              }
+            }
+          }
+        }
+      };
 
-    //   const res = validate({ jsSpec: spec, isOAS3: true }, config);
-    //   expect(res.warnings.length).toEqual(1);
-    //   //expect(res.warnings[0].message).toEqual('limit parameter must be of type integer and must have a default value');
-    // });
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'limit parameter is optional and must be of type integer and must have a default value'
+      );
+      expect(res.warnings[0].path).toEqual([]);
+    });
+
+    it('should complain for invalid use of limit definitions', () => {
+      const spec = {
+        paths: {
+          '/pets': {
+            get: {
+              parameters: [
+                {
+                  start: 0,
+                  limit: 50,
+                  offset: '20',
+                  schema: {
+                    type: 'string'
+                  },
+                  description: 'good description',
+                  required: ['url']
+                }
+              ],
+              responses: {
+                required: []
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.warnings[0].message).toEqual(
+        'if start or cursor parameters are not present then the offset parameter should be defined as an integer and should be optional'
+      );
+    });
   });
 });

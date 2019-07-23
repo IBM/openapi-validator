@@ -24,83 +24,97 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     // skip parameters within operations that are excluded
     if (obj['x-sdk-exclude'] === true) {
       return;
-    } 
-    
-    const contentsOfParameterObject = isParameter(path, isOAS3);
-    //var head = "'"+path[1]+"'";
-    //console.log(path);
-    //console.log(obj.paths[head]);
-    
-    //console.log(obj.paths[1]);
-    for(head in obj.paths){
-      //console.log(obj.paths[head]);
-    if(obj.paths && obj.paths[head] && obj.paths[head].get && Array.isArray(obj.paths[head].get.responses)) {
-      //console.log(obj.paths['/pets'].get.parameters[0].limit);
-      if(obj.paths[head].get.parameters[0].limit && typeof obj.paths['/pets'].get.parameters[0].limit !== 'integer') {
-        const message = 'limit parameter must be of type integer and must have a default value';
-        const checkStatus = config.invalid_limit_type;
-        if(checkStatus !== 'off') {
-        result[checkStatus].push({
-          path,
-          message
-        });
-      }
-      }
-      
-      if(obj.paths[head].get.parameters[0].start && typeof obj.paths[head].get.parameters[0].start !== 'string' ) {
-        const message = 'start parameter must be of type string';
-        const checkStatus = config.invalid_limit_type;
-        if(checkStatus !== 'off') {
-        result[checkStatus].push({
-          path,
-          message
-        });
-      }
-      }
-      if(obj.paths[head].get.parameters[0].start && obj.paths[head].get.parameters[0].required == true ) {
-        const message = 'start parameter must be optional';
-        const checkStatus = config.invalid_limit_type;
-        if(checkStatus !== 'off') {
-        result[checkStatus].push({
-          path,
-          message
-        });
-      }
-      }
-      if(obj.paths[head].get.parameters[0].cursor && typeof obj.paths[head].get.parameters[0].cursor !== 'string' ) {
-        const message = 'cursor parameter must be of type string';
-        const checkStatus = config.invalid_limit_type;
-        if(checkStatus !== 'off') {
-        result[checkStatus].push({
-          path,
-          message
-        });
-      }
-      }
-      if(obj.paths[head].get.parameters[0].cursor && obj.paths[head].get.parameters[0].required == true ) {
-        const message = 'cursor parameter must be optional';
-        const checkStatus = config.invalid_limit_type;
-        if(checkStatus !== 'off') {
-        result[checkStatus].push({
-          path,
-          message
-        });
-      }
-      }
-      //ask about this
-      // if((!obj.paths['/pets'].get.parameters[0].start && !obj.paths['/pets'].get.parameters[0].cursor) && (typeof obj.paths['/pets'].get.parameters[0].offset !== 'integer' || obj.paths['/pets'].get.parameters[0].required == true)){
-      //   console.log('hi');
-      //   const message = 'if start or cursor parameters are not present then the offset parameter should be defined as an integer and should be optional';
-      //   const checkStatus = config.invalid_limit_type;
-      //   if(checkStatus !== 'off') {
-      //   result[checkStatus].push({
-      //     path,
-      //     message
-      //   });
-      // }
-      // }
     }
-  }
+    //console.log(jsSpec.parameters);
+    const contentsOfParameterObject = isParameter(path, isOAS3);
+    for (const head in obj.paths) {
+      var topLevelIsArray = false;
+      if (obj.paths[head].get) {
+        for (const topLevelParam in jsSpec.paths[head].get.responses) {
+          if (Array.isArray(jsSpec.paths[head].get.responses[topLevelParam])) {
+            var topLevelIsArray = true;
+            break;
+          }
+          return topLevelIsArray;
+        }
+        //console.log(topLevelIsArray);
+        //console.log(obj.paths[head].get.parameters[0]);
+        //still need to add minimum and maximum values for limit
+        if (
+          obj.paths &&
+          obj.paths[head] &&
+          obj.paths[head].get &&
+          topLevelIsArray
+        ) {
+          console.log(obj.paths[head].get.parameters[0]);
+          if (
+            obj.paths[head].get.parameters[0].limit &&
+            (typeof obj.paths['/pets'].get.parameters[0].limit !== 'number' ||
+              obj.paths[head].get.parameters[0].required.includes('limit'))
+          ) {
+            const message =
+              'limit parameter is optional and must be of type integer and must have a default value';
+            const checkStatus = config.invalid_limit_type;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path,
+                message
+              });
+            }
+          }
+          if (
+            obj.paths[head].get.parameters[0].start &&
+            (typeof obj.paths[head].get.parameters[0].start !== 'string' ||
+              obj.paths[head].get.parameters[0].required == true)
+          ) {
+            const message =
+              'start parameter must be of type string and must be optional';
+            const checkStatus = config.invalid_limit_type;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path,
+                message
+              });
+            }
+          }
+          if (
+            obj.paths[head].get.parameters[0].cursor &&
+            (typeof obj.paths[head].get.parameters[0].cursor !== 'string' ||
+              obj.paths[head].get.parameters[0].required == true)
+          ) {
+            const message =
+              'cursor parameter must be of type string and must be optional';
+            const checkStatus = config.invalid_limit_type;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path,
+                message
+              });
+            }
+          }
+          if (
+            (!obj.paths['/pets'].get.parameters[0].start ||
+              !obj.paths['/pets'].get.parameters[0].cursor) &&
+            obj.paths['/pets'].get.parameters[0].offset &&
+            (typeof obj.paths['/pets'].get.parameters[0].offset !== 'number' ||
+              obj.paths['/pets'].get.parameters[0].required.includes(
+                'offset'
+              ) == true)
+          ) {
+            const message =
+              'if start or cursor parameters are not present then the offset parameter should be defined as an integer and should be optional';
+            const checkStatus = config.invalid_limit_type;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path,
+                message
+              });
+            }
+          }
+        }
+      }
+    }
+
     if (contentsOfParameterObject) {
       // obj is a parameter object
       const isRef = !!obj.$ref;
@@ -223,7 +237,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             message
           });
         }
-        
       }
     }
   });
