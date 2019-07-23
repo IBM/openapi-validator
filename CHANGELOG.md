@@ -1,3 +1,10 @@
+## [0.13.2](https://github.com/IBM/openapi-validator/compare/v0.13.1...v0.13.2) (2019-07-23)
+
+
+### Bug Fixes
+
+* filter out [#9](https://github.com/IBM/openapi-validator/issues/9)d chars from input ([#89](https://github.com/IBM/openapi-validator/issues/89)) ([0b154d4](https://github.com/IBM/openapi-validator/commit/0b154d4))
+
 ## [0.13.1](https://github.com/IBM/openapi-validator/compare/v0.13.0...v0.13.1) (2019-07-22)
 
 
