@@ -1,6 +1,8 @@
 const each = require('lodash/each');
 const walk = require('../../../utils/walk');
 
+const isUrl = require('is-url');
+
 const INLINE_SCHEMA_MESSAGE =
   'Response schemas should be defined with a named ref.';
 
@@ -10,17 +12,28 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   result.warning = [];
 
   config = config.responses;
-
   walk(jsSpec, [], function(obj, path) {
-    console.log(obj);
     const listX = ['limit','offset','start', 'token', 'aliases'];
     // if(obj.required){
-    //   console.log(obj.required.includes('hi'));
     // }
-    for(topLevelProp in obj){
-      if (Array.isArray(topLevelProp && (obj.pagination || obj.limit || obj.start || obj.offset))){
-        if(!obj.next || !obj.required.includes('next') || !obj.pagination.next_url){
-          const message = 'a paginated success response must contain the next property';
+    var isThereAnArray = false;
+    for (const topLevelProp in obj) {
+      if (Array.isArray(obj[topLevelProp])) {
+        var isThereAnArray = true;
+        return isThereAnArray;
+        break;
+      }
+      return isThereAnArray;
+    }
+    console.log(isThereAnArray);
+      if(obj.pagination || obj.limit || obj.start || obj.offset)
+       {
+        if (
+          !obj.next &&
+          !obj.required.includes('next') 
+        ) {
+          const message =
+            'a paginated success response must contain the next property';
           const checkStatus = config.pagination;
           if (checkStatus !== 'off') {
             result[checkStatus].push({
@@ -30,79 +43,81 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           }
         }
 
-        if(obj.pagination){
-          for(url in obj.pagination){
-            if((url.contains('limit') && (!obj.limit || typeof obj.limit !== 'integer' || !obj.required.contains('limit'))) ||
-             (url.contains('offset') && (!obj.offset || typeof obj.offset !== 'integer' || !obj.pagination.required.contains('offset'))))
-             {
+        if (obj.pagination) {
+          for (const url in obj.pagination) {
+            if (
+              (url.includes('limit') &&
+                (!obj.limit ||
+                  typeof obj.limit !== 'number' ||
+                  !obj.required.includes('limit'))) ||
+              (url.includes('offset') &&
+                (!obj.offset ||
+                  typeof obj.offset !== 'number' ||
+                  !obj.pagination.required.includes('offset')))
+            ) {
               const message = 'if limit or offset parameters exist as a parameter query, then they must be defined as properties';
+              //const checkStatus = config.pagination;
+              if (checkStatus !== 'off') {
+                result[checkStatus].push({
+                  path,
+                  message
+                });
+              }
+            }
+          }
+        } else {
+          for (const url in obj) {
+            if (
+              (typeof url == 'string' &&
+              url.includes('limit')) && 
+              (!obj.limit || typeof obj.limit !== 'number')
+            ) {
+              const message = 'if a limit exists as a parameter query it must be defined as a property';
+              if (checkStatus !== 'off') {
+                result[checkStatus].push({
+                  path,
+                  message
+                });
+              }
+            }
+
+            if (
+              url.includes('offset') &&
+              (!obj.offset || typeof obj.offset !== 'number')
+            ) {
+              const message = 'if a offset exists as a parameter query it must be defined as a property';
+              //const checkStatus = config.pagination;
+              if (checkStatus !== 'off') {
+                result[checkStatus].push({
+                  path,
+                  message
+                });
+              }
+            }
+
+            if (
+              isUrl(url) &&
+              /start/.test(obj[url])  &&
+              (!obj.start || typeof obj.start !== 'string')
+            ) {
+              const message = 'if a start, cursor, or token exist as a parameter query then they should also be defined as string types';
               const checkStatus = config.pagination;
               if (checkStatus !== 'off') {
                 result[checkStatus].push({
                   path,
                   message
-              });
+                });
+              }
             }
-            }
-
-        }
-      } else{
-        for(url in obj){
-          if(url.contains('limit') && (!obj.limit || typeof obj.limit !== 'integer' )){
-            const message = 'if a limit exists as a parameter query it must be defined as a property';
-            const checkStatus = config.pagination;
-            if (checkStatus !== 'off') {
-              result[checkStatus].push({
-                path,
-                message
-            });
-          }
           }
         }
-        
-
-          if(url.contains('offset') && (!obj.offset || typeof obj.offset !== 'integer' )){
-            const message = 'if a offset exists as a parameter query it must be defined as a property';
-            const checkStatus = config.pagination;
-            if (checkStatus !== 'off') {
-              result[checkStatus].push({
-                path,
-                message
-            });
-          }
-          }
-
-          if(
-            (
-            url.contains('start') ||
-            url.contains('cursor') ||
-            url.contains('token')) &&
-            (
-              !obj.start ||
-              !obj.cursor ||
-              !obj.token
-            ) ||
-              (
-                typeof obj.start !== 'string' ||
-                typeof obj.cursor !== 'string'||
-                typeof obj.token !== 'string'
-            )) {
-            const message = 'if a start, cursor, or token exist as a parameter query then they should also be defined as string types';
-            const checkStatus = config.pagination;
-            if (checkStatus !== 'off') {
-              result[checkStatus].push({
-                path,
-                message
-            });
-          }
-          }
-        }
-
-        if((obj.total_count && typeof obj.total_count !== 'integer') ||
-           (obj.pagination.total && obj.pagination.total !== 'integer'))
-           {
+        if (
+          (obj.total_count && typeof obj.total_count !== 'number') ||
+          (obj.pagination ||
+            (obj.pagination && obj.pagination.total && obj.pagination.total !== 'number'))
+        ) {
           const message = 'total_count must be of type integer';
-          const checkStatus = config.pagination;
+          //const checkStatus = config.pagination;
           if (checkStatus !== 'off') {
             result[checkStatus].push({
               path,
@@ -111,7 +126,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           }
         }
       }
-    }
+    
     const contentsOfResponsesObject = path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
     if (contentsOfResponsesObject && !isRef) {
@@ -193,6 +208,5 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       });
     }
   });
-
   return { errors: result.error, warnings: result.warning };
 };

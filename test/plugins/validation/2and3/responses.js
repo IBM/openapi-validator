@@ -569,13 +569,7 @@ describe('validation plugin - semantic - responses', function() {
         expect(res.errors.length).toEqual(0);
       });
 
-      it('should not complain about non-json response that defines an inline schema', function() {
-        const config = {
-          responses: {
-            no_response_codes: 'error',
-            no_success_response_codes: 'warning'
-          }
-        };
+      it('should complain when a paginated response does not have the next property', function() {
 
         const spec = {
           paths: {
@@ -584,23 +578,15 @@ describe('validation plugin - semantic - responses', function() {
                 summary: 'this is a summary',
                 operationId: 'operationId',
                 responses: {
-                  '200':{
-                      limit: 50,
-                      offset: 100,
-                      total_count: 232,
-                      first:{
-                        href: "http://api.bluemix.net/v2/accounts?limit=50"
-                      },
-                      last:{
-                        href: "http://api.bluemix.net/v2/accounts?offset=200&limit=50"
-                      },
-                      previous:{
-                        href: "http://api.bluemix.net/v2/accounts?offset=50&limit=50"
-                      },
-                      next:{
-                        href: "http://api.bluemix.net/v2/accounts?offset=150&limit=50"
-                      },
-                      accounts:[],
+                  '200': {
+                    limit: 50,
+                    total_count: 232,
+                    first: 'http://api.bluemix.net/v2/accounts?limit=50',
+                    last:
+                      'http://api.bluemix.net/v2/accounts?offset=200&limit=50',
+                    previous:
+                      'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
+                    accounts: [],
                     required: ['hi']
                   }
                 }
@@ -610,11 +596,11 @@ describe('validation plugin - semantic - responses', function() {
         };
 
         const res = validate({ jsSpec: spec }, config);
-        expect(res.warnings.length).toEqual(0);
+        expect(res.warnings.length).toEqual(2);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].message).toEqual('a paginated success response must contain the next property');
+        expect(res.warnings[1].message).toEqual('a paginated success response must contain the next property');
       });
-
-      
     });
   });
 });
