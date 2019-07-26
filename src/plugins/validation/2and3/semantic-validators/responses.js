@@ -19,7 +19,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     if (contentsOfResponsesObject && !isRef) {
       each(obj, (response, responseKey) => {
         each(response.content, (mediaType, mediaTypeKey) => {
-          var arrayOnTop = false;
+          let arrayOnTop = false;
           for (const param in response.content[mediaTypeKey].schema) {
             if (Array.isArray(response.content[mediaTypeKey].schema[param])) {
               arrayOnTop = true;
@@ -134,7 +134,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                   !response.content[mediaTypeKey].schema.pagination.next.cursor ||
                   !response.content[mediaTypeKey].schema.pagination.next_cursor)
               ) {
-                const message = 'if a start, cursor, or token exist as a parameter query then `next.token` or `next_token` or `next.cursor` or `next_cursor` must be defined';
+                const message =
+                  'if a start, cursor, or token exist as a parameter query then `next.token` or `next_token` or `next.cursor` or `next_cursor` must be defined';
                 paginatioWarning(message);
               }
               if (
