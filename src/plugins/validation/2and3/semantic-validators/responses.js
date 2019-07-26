@@ -95,13 +95,15 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                 'a paginated success response must contain the next property';
               paginatioWarning(message);
             }
-            for (const url in response.content[mediaTypeKey].schema.pagination) {
+            for (const url in response.content[mediaTypeKey].schema
+              .pagination) {
               if (
                 (/limit/.test(
                   response.content[mediaTypeKey].schema.pagination[url]
                 ) &&
                   (!response.content[mediaTypeKey].schema.pagination.limit ||
-                    typeof response.content[mediaTypeKey].schema.pagination.limit !== 'number' ||
+                    typeof response.content[mediaTypeKey].schema.pagination
+                      .limit !== 'number' ||
                     !response.content[
                       mediaTypeKey
                     ].schema.pagination.required.includes('limit'))) ||
@@ -109,12 +111,14 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                   response.content[mediaTypeKey].schema.pagination[url]
                 ) &&
                   (!response.content[mediaTypeKey].schema.pagination.offset ||
-                    typeof response.content[mediaTypeKey].schema.pagination.offset !== 'number' ||
+                    typeof response.content[mediaTypeKey].schema.pagination
+                      .offset !== 'number' ||
                     !response.content[
                       mediaTypeKey
                     ].schema.pagination.required.includes('offset')))
               ) {
-                const message = 'if limit or offset parameters exist as a parameter query, then they must be defined as properties';
+                const message =
+                  'if limit or offset parameters exist as a parameter query, then they must be defined as properties';
                 paginatioWarning(message);
                 break;
               }
@@ -130,8 +134,10 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                     response.content[mediaTypeKey].schema.pagination[url]
                   )) &&
                 (!response.content[mediaTypeKey].schema.pagination.next ||
-                  !response.content[mediaTypeKey].schema.pagination.next_token ||
-                  !response.content[mediaTypeKey].schema.pagination.next.cursor ||
+                  !response.content[mediaTypeKey].schema.pagination
+                    .next_token ||
+                  !response.content[mediaTypeKey].schema.pagination.next
+                    .cursor ||
                   !response.content[mediaTypeKey].schema.pagination.next_cursor)
               ) {
                 const message =
@@ -140,7 +146,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
               }
               if (
                 response.content[mediaTypeKey].schema.pagination.total_count &&
-                typeof response.content[mediaTypeKey].schema.pagination.total_count !== 'number'
+                typeof response.content[mediaTypeKey].schema.pagination
+                  .total_count !== 'number'
               ) {
                 const message = 'total_count must be of type integer';
                 paginatioWarning(message);
