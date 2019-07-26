@@ -602,7 +602,24 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 }
               ],
               responses: {
-                required: []
+                '200': {
+                  content: {
+                    'plain/text': {
+                      schema: {
+                        limit: 50,
+                        offset: 20,
+                        total_count: 232,
+                        first: 'http://api.bluemix.net/v2/accounts?limit=50',
+                        last:
+                          'http://api.bluemix.net/v2/accounts?offset=200&limit=50',
+                        previous:
+                          'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
+                        accounts: [],
+                        required: ['hi']
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -632,7 +649,24 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 }
               ],
               responses: {
-                required: []
+                '200': {
+                  content: {
+                    'plain/text': {
+                      schema: {
+                        limit: 50,
+                        offset: 20,
+                        total_count: 232,
+                        first: 'http://api.bluemix.net/v2/accounts?limit=50',
+                        last:
+                          'http://api.bluemix.net/v2/accounts?offset=200&limit=50',
+                        previous:
+                          'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
+                        accounts: [],
+                        required: ['hi']
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -663,7 +697,24 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 }
               ],
               responses: {
-                required: []
+                '200': {
+                  content: {
+                    'plain/text': {
+                      schema: {
+                        limit: 50,
+                        offset: 20,
+                        total_count: 232,
+                        first: 'http://api.bluemix.net/v2/accounts?limit=50',
+                        last:
+                          'http://api.bluemix.net/v2/accounts?offset=200&limit=50',
+                        previous:
+                          'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
+                        accounts: [],
+                        required: ['hi']
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -696,7 +747,24 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 }
               ],
               responses: {
-                required: []
+                '200': {
+                  content: {
+                    'plain/text': {
+                      schema: {
+                        limit: 50,
+                        offset: 20,
+                        total_count: 232,
+                        first: 'http://api.bluemix.net/v2/accounts?limit=50',
+                        last:
+                          'http://api.bluemix.net/v2/accounts?offset=200&limit=50',
+                        previous:
+                          'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
+                        accounts: [],
+                        required: ['hi']
+                      }
+                    }
+                  }
+                }
               }
             }
           }

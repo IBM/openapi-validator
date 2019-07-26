@@ -25,28 +25,32 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     if (obj['x-sdk-exclude'] === true) {
       return;
     }
-    //console.log(jsSpec.parameters);
     const contentsOfParameterObject = isParameter(path, isOAS3);
     for (const head in obj.paths) {
-      var topLevelIsArray = false;
+      let topLevelIsArray = false;
+      //loop through responses and see if there is an array in the top level
       if (obj.paths[head].get) {
-        for (const topLevelParam in jsSpec.paths[head].get.responses) {
-          if (Array.isArray(jsSpec.paths[head].get.responses[topLevelParam])) {
-            var topLevelIsArray = true;
-            break;
+        for (const prop in obj.paths[head].get.responses) {
+          if (obj.paths[head].get.responses[prop]) {
+            for (const mediaTypeKey in obj.paths[head].get.responses[prop]
+              .content) {
+              for (const param in obj.paths[head].get.responses[prop].content[
+                mediaTypeKey
+              ].schema) {
+                if (
+                  Array.isArray(
+                    obj.paths[head].get.responses[prop].content[mediaTypeKey]
+                      .schema[param]
+                  )
+                ) {
+                  topLevelIsArray = true;
+                  break;
+                }
+              }
+            }
           }
-          return topLevelIsArray;
         }
-        //console.log(topLevelIsArray);
-        //console.log(obj.paths[head].get.parameters[0]);
-        //still need to add minimum and maximum values for limit
-        if (
-          obj.paths &&
-          obj.paths[head] &&
-          obj.paths[head].get &&
-          topLevelIsArray
-        ) {
-          console.log(obj.paths[head].get.parameters[0]);
+        if (obj.paths[head].get && topLevelIsArray) {
           if (
             obj.paths[head].get.parameters[0].limit &&
             (typeof obj.paths['/pets'].get.parameters[0].limit !== 'number' ||
