@@ -615,7 +615,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                         previous:
                           'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                         accounts: [],
-                        required: ['hi']
+                        required: []
                       }
                     }
                   }
@@ -662,7 +662,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                         previous:
                           'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                         accounts: [],
-                        required: ['hi']
+                        required: []
                       }
                     }
                   }
@@ -687,7 +687,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
             get: {
               parameters: [
                 {
-                  start: 'hi',
+                  start: '12',
                   limit: 'should be an int',
                   schema: {
                     type: 'string'
@@ -710,7 +710,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                         previous:
                           'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                         accounts: [],
-                        required: ['hi']
+                        required: []
                       }
                     }
                   }
@@ -760,7 +760,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                         previous:
                           'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                         accounts: [],
-                        required: ['hi']
+                        required: []
                       }
                     }
                   }
