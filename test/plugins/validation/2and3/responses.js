@@ -590,7 +590,7 @@ describe('validation plugin - semantic - responses', function() {
                           previous:
                             'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                           accounts: [],
-                          required: ['hi']
+                          required: []
                         }
                       }
                     }
@@ -631,7 +631,7 @@ describe('validation plugin - semantic - responses', function() {
                           previous:
                             'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                           accounts: [],
-                          required: ['hi']
+                          required: []
                         }
                       }
                     }
@@ -674,7 +674,7 @@ describe('validation plugin - semantic - responses', function() {
                           previous:
                             'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                           accounts: [],
-                          required: ['hi']
+                          required: []
                         }
                       }
                     }
@@ -717,7 +717,7 @@ describe('validation plugin - semantic - responses', function() {
                           previous:
                             'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                           accounts: [],
-                          required: ['hi']
+                          required: []
                         }
                       }
                     }
@@ -758,7 +758,7 @@ describe('validation plugin - semantic - responses', function() {
                             previous:
                               'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                             accounts: [],
-                            required: ['hi']
+                            required: []
                           }
                         }
                       }
@@ -801,7 +801,7 @@ describe('validation plugin - semantic - responses', function() {
                             previous:
                               'http://api.bluemix.net/v2/accounts?offset=50&limit=50',
                             accounts: [],
-                            required: ['hi']
+                            required: []
                           }
                         }
                       }
