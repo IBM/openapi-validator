@@ -88,7 +88,7 @@ describe('validation plugin - semantic - pagination-parameters-ibm', () => {
                     type: 'string'
                   },
                   description: 'good description',
-                  required: true 
+                  required: true
                 },
                 {
                   name: 'limit',
