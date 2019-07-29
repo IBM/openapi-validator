@@ -215,6 +215,14 @@ The supported rules are described below:
 | missing_schema_or_content   | Flag any parameter that does not define its data type with `schema` or `content`. | oas3 |
 | has_schema_and_content      | Flag any parameter that defines data type with both `schema` and `content`.       | oas3 |
 
+#### pagination parameters
+| Rule                        | Description                                                              | Spec   |
+| --------------------------- | ------------------------------------------------------------------------ | ------ |
+| pagination_style            | Flag any parameter that does not follow the rules for pagination                  | shared |
+
+[1]: https://pages.github.ibm.com/CloudEngineering/api_handbook/collections/pagination.html
+
+
 ##### paths
 | Rule                        | Description                                                                                                  | Spec   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
@@ -276,6 +284,7 @@ If just a string is provided for these rule, the default configuration option wi
 #### Configuration Options
 
 For rules that accept additional configuration, there will be a limited set of available options.
+
 
 ##### Case Convention Options
 - Some rules check strings for adherence to a specific case convention. In some cases, the case convention checked is configurable.
@@ -369,6 +378,11 @@ The default values for each rule are described below.
 | accept_type_parameter       | error   |
 | authorization_parameter     | warning |
 | required_param_has_default  | warning |
+
+###### pagination parameters
+| Rule                        | Default |
+| --------------------------- | --------|
+| pagination_style            | warning |
 
 ###### paths
 | Rule                        | Default |
