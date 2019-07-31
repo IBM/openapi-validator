@@ -3,7 +3,7 @@ module.exports.validate = function({ jsSpec }, config) {
   result.error = [];
   result.warning = [];
 
-  config = config.responses;
+  config = config.pagination;
   const queryParameters = [];
   for (const head in jsSpec.paths) {
     if (/{/.test(head)) {
@@ -115,7 +115,7 @@ module.exports.validate = function({ jsSpec }, config) {
     }
   }
   function paginationWarning(message) {
-    const checkStatus = config.pagination;
+    const checkStatus = config.pagination_style;
     result[checkStatus].push({
       message
     });

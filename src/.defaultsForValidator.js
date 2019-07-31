@@ -28,6 +28,9 @@ const defaults = {
       'parameter_order': 'warning',
       'unused_tag': 'warning'
     },
+    'pagination': {
+      'pagination_style': 'warning'
+    },
     'parameters': {
       'no_parameter_description': 'error',
       'param_name_case_convention': ['error', 'lower_snake_case'],
