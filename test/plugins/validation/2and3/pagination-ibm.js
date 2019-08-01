@@ -67,9 +67,17 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(3);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'parameters',
+          0,
+          'name'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'limit must be of type integer and must be optional with default and maximum values'
         );
@@ -174,9 +182,21 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(1);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'responses',
+          '200',
+          'content',
+          'application/json',
+          'schema',
+          'properties',
+          'name'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'if start or token or cursor are  defined then responses must have a `next_token` or `next_cursor` property'
         );
@@ -273,9 +293,17 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(2);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'parameters',
+          0,
+          'name'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'limit must be of type integer and must be optional with default and maximum values'
         );
@@ -372,9 +400,21 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(2);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'responses',
+          '200',
+          'content',
+          'application/json',
+          'schema',
+          'properties',
+          'name'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'if a offset exists as a parameter query it must be defined as a property'
         );
@@ -455,9 +495,15 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(1);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'parameters'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'if start is not defined then offset must be defined and must be of type integer and optional'
         );
@@ -529,9 +575,22 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(1);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'reponses',
+          '200',
+          'content',
+          'application/json',
+          'pagination',
+          'schema',
+          'properties',
+          'name'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'a paginated success response must contain the next property'
         );
@@ -601,9 +660,22 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(1);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'reponses',
+          '200',
+          'content',
+          'application/json',
+          'pagination',
+          'schema',
+          'properties',
+          'name'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'if a limit exists as a parameter query it must be defined as a property'
         );
@@ -686,9 +758,22 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(1);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'reponses',
+          '200',
+          'content',
+          'application/json',
+          'pagination',
+          'schema',
+          'properties',
+          'name'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'if a offset exists as a parameter query it must be defined as a property'
         );
@@ -771,9 +856,22 @@ describe('validation plugin - semantic - responses', function() {
           }
         };
 
-        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
         expect(res.warnings.length).toEqual(1);
         expect(res.errors.length).toEqual(0);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/pets',
+          'get',
+          'reponses',
+          '200',
+          'content',
+          'application/json',
+          'pagination',
+          'schema',
+          'properties',
+          'name'
+        ]);
         expect(res.warnings[0].message).toEqual(
           'if start or token or cursor are  defined then responses must have a `next_token` or `next_cursor` property'
         );

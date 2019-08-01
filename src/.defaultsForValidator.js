@@ -46,8 +46,7 @@ const defaults = {
       'paths_case_convention': ['error', 'lower_snake_case']
     },
     'responses': {
-      'inline_response_schema': 'warning',
-      'pagination': 'warning'
+      'inline_response_schema': 'warning'
     },
     'security_definitions': {
       'unused_security_schemes': 'warning',

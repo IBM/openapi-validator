@@ -366,10 +366,10 @@ The default values for each rule are described below.
 | no_array_responses           | error   |
 | parameter_order              | warning |
 
-###### parameters
+###### pagination
 | Rule                        | Default |
 | --------------------------- | --------|
-| pagination_style            | --------|
+| pagination_style            | warning |
 
 ###### parameters
 | Rule                        | Default |
