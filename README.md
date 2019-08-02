@@ -142,7 +142,7 @@ The object will always have `errors` and `warnings` keys that map to arrays. If 
 
 ## Configuration
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
-Specfic validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator. Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
+Specific validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator. Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
 Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
