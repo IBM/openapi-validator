@@ -18,8 +18,16 @@ paths:
           in: query
           description: How many items to return at one time (max 100)
           required: false
+          default: 0
+          maximum: 100
           schema:
             type: integer
+        - name: start
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: 'integer'
             format: int32
       responses:
         '200':
@@ -103,12 +111,24 @@ components:
         A list of pets
       required:
         - list
+        - next_url
+        - limit
       properties:
         list:
           type: array
           description: "object containing a list of pets"
           items:
             $ref: "#/components/schemas/Pet"
+        next_url:
+          type: string
+          description: this is the url to next page
+        limit:
+          type: integer
+          description: a threshold for results
+        next_token:
+          type: string
+          description: next token
+ 
     Error:
       description:
         An error in processing a service request

@@ -51,8 +51,10 @@ module.exports.validate = function({ resolvedSpec }, config) {
                         'limit' &&
                       (resolvedSpec.paths[head].get.parameters[i].schema
                         .type !== 'integer' ||
-                        !resolvedSpec.paths[head].get.parameters[i].default ||
-                        !resolvedSpec.paths[head].get.parameters[i].maximum)
+                        resolvedSpec.paths[head].get.parameters[i].schema
+                          .required === true ||
+                        (!resolvedSpec.paths[head].get.parameters[i].default &&
+                          !resolvedSpec.paths[head].get.parameters[i].maximum))
                     ) {
                       const path = [
                         'paths',
