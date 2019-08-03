@@ -4,11 +4,15 @@ module.exports.validate = function({ resolvedSpec }, config) {
   result.warning = [];
   config = config.pagination;
   const checkStatus = config.pagination_style;
+
+  //when pagnation is turned off, skip all of the pagination checks
   if (checkStatus != 'off') {
+    //for our case, pagination should only be considered for paths without a path parameter and should apply for get responses for the mean time
     for (const head in resolvedSpec.paths) {
       if (/}$/.test(head)) {
         continue;
       }
+      //loop through the response and check if there is an array on the top level in properties as that is a requirement for pagination
       if (resolvedSpec.paths[head].get) {
         for (const resp in resolvedSpec.paths[head].get.responses) {
           const content = resolvedSpec.paths[head].get.responses[resp].content;
@@ -26,10 +30,12 @@ module.exports.validate = function({ resolvedSpec }, config) {
                   break;
                 }
               }
+              // this an array that contains all of the query parameters
               const queryParameters = resolvedSpec.paths[
                 head
               ].get.parameters.map(parameter => parameter.name);
 
+              // a paginated spec should have one of the following as query parameters
               if (
                 arrayOnTop &&
                 !jsonContent.schema.pagination &&
@@ -40,6 +46,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
                   queryParameters.includes('offset'))
               ) {
                 const obj = jsonContent.schema;
+                // loop through parameters and make sure that the pagination related parameters follow the correct defintions
                 if (resolvedSpec.paths[head].get.parameters.length > 0) {
                   for (
                     let i = 0;
@@ -137,7 +144,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       }
     }
   }
-
+  // this is the message generating function
   function paginationWarning(message, path) {
     result[checkStatus].push({
       path,
@@ -145,6 +152,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     });
   }
 
+  // this function checks the `offset` property in responses
   function queryOffsetChecker(obj, path, queryParameters) {
     if (
       queryParameters.includes('offset') &&
@@ -158,6 +166,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     }
   }
 
+  // this function checks the `limit` property in responses
   function queryLimitChecker(obj, path, queryParameters) {
     if (
       queryParameters.includes('limit') &&
@@ -170,7 +179,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       paginationWarning(message, path);
     }
   }
-
+  // this function checks the `next_token` and `next_cursor` properties in responses
   function nextTokenChecker(obj, path, queryParameters) {
     if (
       (queryParameters.includes('start') ||
@@ -184,6 +193,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     }
   }
 
+  // this function checks the `total_count` property in responses
   function totalCountChecker(obj, path) {
     if (
       obj.properties.total_count &&
@@ -194,6 +204,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     }
   }
 
+  // this function makes sure that there is a `next_url` property
   function nextChecker(obj, path) {
     if (!obj.properties.next_url) {
       const message =
