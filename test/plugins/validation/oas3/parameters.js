@@ -273,7 +273,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   it('should not complain about a schema property named `parameters`', function() {
     const spec = {
       components: {
-        'schemas': {
+        schemas: {
           SomeModel: {
             properties: {
               parameters: {
