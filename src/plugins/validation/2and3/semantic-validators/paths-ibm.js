@@ -5,8 +5,7 @@
 
 // Assertation 3. All path segments are lower snake case
 
-const isSnakecase = require('../../../utils/checkSnakeCase');
-const checkCase = require('../../../utils/caseConventionCheck');
+const { checkCase } = require('../../../utils');
 
 module.exports.validate = function({ resolvedSpec }, config) {
   const result = {};
@@ -128,7 +127,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         if (segment === '' || segment[0] === '{') {
           return;
         }
-        if (!isSnakecase(segment)) {
+        if (!checkCase(segment, 'lower_snake_case')) {
           result[checkStatus].push({
             path: `paths.${pathName}`,
             message: `Path segments must be lower snake case.`

@@ -5,7 +5,7 @@
 // Description siblings to $refs should not exist if identical to referenced description
 
 const at = require('lodash/at');
-const walk = require('../../../utils/walk');
+const { walk } = require('../../../utils');
 
 // Walks an entire spec.
 module.exports.validate = function({ jsSpec, resolvedSpec }, config) {

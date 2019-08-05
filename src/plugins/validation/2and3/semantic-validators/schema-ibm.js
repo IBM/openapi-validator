@@ -19,9 +19,7 @@
 
 const forIn = require('lodash/forIn');
 const includes = require('lodash/includes');
-const isSnakecase = require('../../../utils/checkSnakeCase');
-const checkCase = require('../../../utils/caseConventionCheck');
-const walk = require('../../../utils/walk');
+const { checkCase, walk } = require('../../../utils');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   const errors = [];
@@ -304,7 +302,7 @@ function checkPropNames(schema, contextPath, config) {
 
     const checkStatus = config.snake_case_only || 'off';
     if (checkStatus.match('error|warning')) {
-      if (!isSnakecase(propName)) {
+      if (!checkCase(propName, 'lower_snake_case')) {
         result[checkStatus].push({
           path: contextPath.concat(['properties', propName]),
           message: 'Property names must be lower snake case.'
@@ -372,7 +370,7 @@ function checkEnumValues(schema, contextPath, config) {
     if (typeof enumValue === 'string') {
       const checkStatus = config.snake_case_only || 'off';
       if (checkStatus.match('error|warning')) {
-        if (!isSnakecase(enumValue)) {
+        if (!checkCase(enumValue, 'lower_snake_case')) {
           result[checkStatus].push({
             path: contextPath.concat(['enum', i.toString()]),
             message: 'Enum values must be lower snake case.'

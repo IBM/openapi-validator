@@ -1,5 +1,5 @@
 const each = require('lodash/each');
-const walk = require('../../../utils/walk');
+const { walk } = require('../../../utils');
 
 const INLINE_SCHEMA_MESSAGE =
   'Response schemas should be defined with a named ref.';

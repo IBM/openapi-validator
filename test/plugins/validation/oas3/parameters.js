@@ -2,18 +2,10 @@ const expect = require('expect');
 const {
   validate
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/parameters');
+const config = require('../../../../src/.defaultsForValidator').defaults.oas3;
 
 describe('validation plugin - semantic - parameters - oas3', function() {
   it('should not complain when parameter is valid', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error',
-        invalid_in_property: 'error',
-        missing_schema_or_content: 'error',
-        has_schema_and_content: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -53,12 +45,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should complain when `in` is missing', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -107,12 +93,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should complain when `in` is an invalid value', function() {
-    const config = {
-      parameters: {
-        invalid_in_property: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -163,12 +143,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should complain when the parameter has an undescribed data type', function() {
-    const config = {
-      parameters: {
-        missing_schema_or_content: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -215,12 +189,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should complain when a parameter describes data type with both `schema` and `content`', function() {
-    const config = {
-      parameters: {
-        has_schema_and_content: 'error'
-      }
-    };
-
     const spec = {
       components: {
         parameters: {
@@ -257,15 +225,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should not complain when parameter is a ref', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error',
-        invalid_in_property: 'error',
-        missing_schema_or_content: 'error',
-        has_schema_and_content: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -301,6 +260,30 @@ describe('validation plugin - semantic - parameters - oas3', function() {
               type: 'string'
             },
             description: 'a parameter'
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should not complain about a schema property named `parameters`', function() {
+    const spec = {
+      components: {
+        'schemas': {
+          SomeModel: {
+            properties: {
+              parameters: {
+                type: 'object',
+                description: 'A map of key/value pairs',
+                additionalProperties: {
+                  description: 'A parameter. But not an OpenAPI parameter ;)'
+                }
+              }
+            }
           }
         }
       }

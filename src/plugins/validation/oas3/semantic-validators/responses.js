@@ -5,7 +5,7 @@
 // Assertation 2:
 // At least one response "SHOULD be the response for a successful operation call"
 
-const walk = require('../../../utils/walk');
+const { walk } = require('../../../utils');
 
 module.exports.validate = function({ jsSpec }, config) {
   const result = {};

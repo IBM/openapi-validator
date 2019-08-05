@@ -18,7 +18,7 @@ const pick = require('lodash/pick');
 const map = require('lodash/map');
 const each = require('lodash/each');
 const findIndex = require('lodash/findIndex');
-const checkCase = require('../../../utils/caseConventionCheck');
+const { checkCase } = require('../../../utils');
 
 module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
   const result = {};
