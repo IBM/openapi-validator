@@ -252,7 +252,6 @@ describe('test expected output - OpenAPI 3', function() {
     unhookIntercept();
 
     const allOutput = capturedText.join('');
-
     expect(exitCode).toEqual(1);
     expect(allOutput).toContain('errors');
     expect(allOutput).toContain('API definition must have an `info` object');

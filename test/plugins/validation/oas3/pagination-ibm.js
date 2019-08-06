@@ -1,7 +1,7 @@
 const expect = require('expect');
 const {
   validate
-} = require('../../../../src/plugins/validation/2and3/semantic-validators/pagination-ibm');
+} = require('../../../../src/plugins/validation/oas3/semantic-validators/pagination-ibm');
 
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
@@ -36,6 +36,21 @@ describe('validation plugin - semantic - responses', function() {
                   }
                 ],
                 responses: {
+                  '201': {
+                    content: {
+                      'application/json': {
+                        description: 'successful operation',
+                        schema: {
+                          type: 'object',
+                          properties: {
+                            stuff: {
+                              type: 'string'
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
                   '200': {
                     content: {
                       'application/json': {
@@ -68,24 +83,20 @@ describe('validation plugin - semantic - responses', function() {
         };
 
         const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
-        expect(res.warnings.length).toEqual(3);
+        expect(res.warnings.length).toEqual(2);
         expect(res.errors.length).toEqual(0);
         expect(res.warnings[0].path).toEqual([
           'paths',
           '/pets',
           'get',
           'parameters',
-          0,
-          'name'
+          0
         ]);
         expect(res.warnings[0].message).toEqual(
-          'limit must be of type integer and must be optional with default and maximum values'
+          'The limit parameter must be of type integer and must be optional with default and maximum values.'
         );
         expect(res.warnings[1].message).toEqual(
-          'if start is not defined then offset must be defined and must be of type integer and optional'
-        );
-        expect(res.warnings[2].message).toEqual(
-          'if a limit exists as a parameter query it must be defined as a property'
+          'If a limit exists as a parameter query it must be defined as a property.'
         );
       });
 
@@ -102,8 +113,6 @@ describe('validation plugin - semantic - responses', function() {
                     in: 'query',
                     description: '',
                     required: false,
-                    maximum: 100,
-                    default: 50,
                     schema: {
                       type: 'integer'
                     }
@@ -132,7 +141,7 @@ describe('validation plugin - semantic - responses', function() {
                     description: '',
                     required: false,
                     schema: {
-                      type: 'integer'
+                      type: 'string'
                     }
                   }
                 ],
@@ -157,7 +166,9 @@ describe('validation plugin - semantic - responses', function() {
                             },
                             limit: {
                               description: '',
-                              type: 'integer'
+                              type: 'integer',
+                              default: 20,
+                              maximum: 50
                             },
                             next_url: {
                               description: '',
@@ -183,7 +194,7 @@ describe('validation plugin - semantic - responses', function() {
         };
 
         const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
-        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings.length).toEqual(2);
         expect(res.errors.length).toEqual(0);
         expect(res.warnings[0].path).toEqual([
           'paths',
@@ -194,11 +205,13 @@ describe('validation plugin - semantic - responses', function() {
           'content',
           'application/json',
           'schema',
-          'properties',
-          'name'
+          'properties'
         ]);
         expect(res.warnings[0].message).toEqual(
-          'if start or token or cursor are  defined then responses must have a `next_token` or `next_cursor` property'
+          'The start or cursor properties must be integers and optional.'
+        );
+        expect(res.warnings[1].message).toEqual(
+          'If start or token or cursor are  defined then responses must have a `next_token` or `next_cursor` property.'
         );
       });
 
@@ -234,7 +247,7 @@ describe('validation plugin - semantic - responses', function() {
                     description: '',
                     required: false,
                     schema: {
-                      type: 'integer'
+                      type: 'string'
                     }
                   },
                   {
@@ -281,6 +294,12 @@ describe('validation plugin - semantic - responses', function() {
                             next_token: {
                               description: '',
                               type: 'string'
+                            },
+                            limit: {
+                              description: '',
+                              type: 'string',
+                              default: 20,
+                              maximum: 50
                             }
                           }
                         }
@@ -300,15 +319,18 @@ describe('validation plugin - semantic - responses', function() {
           'paths',
           '/pets',
           'get',
-          'parameters',
-          0,
-          'name'
+          'responses',
+          '200',
+          'content',
+          'application/json',
+          'schema',
+          'properties'
         ]);
         expect(res.warnings[0].message).toEqual(
-          'limit must be of type integer and must be optional with default and maximum values'
+          'The start or cursor properties must be integers and optional.'
         );
         expect(res.warnings[1].message).toEqual(
-          'if a limit exists as a parameter query it must be defined as a property'
+          'If a limit exists as a parameter query it must be defined as a property.'
         );
       });
 
@@ -346,7 +368,7 @@ describe('validation plugin - semantic - responses', function() {
                     description: '',
                     required: false,
                     schema: {
-                      type: 'integer'
+                      type: 'string'
                     }
                   },
                   {
@@ -401,25 +423,26 @@ describe('validation plugin - semantic - responses', function() {
         };
 
         const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
-        expect(res.warnings.length).toEqual(2);
+        expect(res.warnings.length).toEqual(4);
         expect(res.errors.length).toEqual(0);
         expect(res.warnings[0].path).toEqual([
           'paths',
           '/pets',
           'get',
-          'responses',
-          '200',
-          'content',
-          'application/json',
-          'schema',
-          'properties',
-          'name'
+          'parameters',
+          0
         ]);
         expect(res.warnings[0].message).toEqual(
-          'if a offset exists as a parameter query it must be defined as a property'
+          'The limit parameter must be of type integer and must be optional with default and maximum values.'
         );
         expect(res.warnings[1].message).toEqual(
-          'if start or token or cursor are  defined then responses must have a `next_token` or `next_cursor` property'
+          'The start or cursor properties must be integers and optional.'
+        );
+        expect(res.warnings[2].message).toEqual(
+          'If a offset exists as a parameter query it must be defined as a property.'
+        );
+        expect(res.warnings[3].message).toEqual(
+          'If start or token or cursor are  defined then responses must have a `next_token` or `next_cursor` property.'
         );
       });
 
@@ -435,8 +458,6 @@ describe('validation plugin - semantic - responses', function() {
                     name: 'limit',
                     in: 'query',
                     description: '',
-                    maximum: 100,
-                    default: 20,
                     required: false,
                     schema: {
                       type: 'integer'
@@ -502,10 +523,11 @@ describe('validation plugin - semantic - responses', function() {
           'paths',
           '/pets',
           'get',
-          'parameters'
+          'parameters',
+          0
         ]);
         expect(res.warnings[0].message).toEqual(
-          'if start is not defined then offset must be defined and must be of type integer and optional'
+          'The limit parameter must be of type integer and must be optional with default and maximum values.'
         );
       });
     });
@@ -545,24 +567,26 @@ describe('validation plugin - semantic - responses', function() {
                     content: {
                       'application/json': {
                         schema: {
-                          pagination: {
-                            description: '',
-                            type: 'object',
-                            required: ['resources', 'rows_count', 'limit'],
-                            properties: {
-                              limit: {
-                                description: '',
-                                type: 'integer'
-                              },
-                              resources: {
-                                description: '',
-                                type: 'array'
-                              },
-                              rows_count: {
-                                description: '',
-                                type: 'number'
-                              },
-                              next_token: {}
+                          properties: {
+                            pagination: {
+                              description: '',
+                              type: 'object',
+                              required: ['resources', 'rows_count', 'limit'],
+                              properties: {
+                                limit: {
+                                  description: '',
+                                  type: 'integer'
+                                },
+                                resources: {
+                                  description: '',
+                                  type: 'array'
+                                },
+                                rows_count: {
+                                  description: '',
+                                  type: 'number'
+                                },
+                                next_token: {}
+                              }
                             }
                           }
                         }
@@ -588,11 +612,10 @@ describe('validation plugin - semantic - responses', function() {
           'application/json',
           'pagination',
           'schema',
-          'properties',
-          'name'
+          'properties'
         ]);
         expect(res.warnings[0].message).toEqual(
-          'a paginated success response must contain the next property'
+          'A paginated success response must contain the next property.'
         );
       });
 
@@ -630,24 +653,26 @@ describe('validation plugin - semantic - responses', function() {
                     content: {
                       'application/json': {
                         schema: {
-                          pagination: {
-                            description: '',
-                            type: 'object',
-                            required: ['resources', 'rows_count', 'limit'],
-                            properties: {
-                              resources: {
-                                description: '',
-                                type: 'array'
-                              },
-                              rows_count: {
-                                description: '',
-                                type: 'number'
-                              },
-                              next_url: {
-                                description: '',
-                                type: 'string'
-                              },
-                              next_token: {}
+                          properties: {
+                            pagination: {
+                              description: '',
+                              type: 'object',
+                              required: ['resources', 'rows_count', 'limit'],
+                              properties: {
+                                resources: {
+                                  description: '',
+                                  type: 'array'
+                                },
+                                rows_count: {
+                                  description: '',
+                                  type: 'number'
+                                },
+                                next_url: {
+                                  description: '',
+                                  type: 'string'
+                                },
+                                next_token: {}
+                              }
                             }
                           }
                         }
@@ -673,11 +698,10 @@ describe('validation plugin - semantic - responses', function() {
           'application/json',
           'pagination',
           'schema',
-          'properties',
-          'name'
+          'properties'
         ]);
         expect(res.warnings[0].message).toEqual(
-          'if a limit exists as a parameter query it must be defined as a property'
+          'If a limit exists as a parameter query it must be defined as a property.'
         );
       });
 
@@ -724,28 +748,30 @@ describe('validation plugin - semantic - responses', function() {
                     content: {
                       'application/json': {
                         schema: {
-                          pagination: {
-                            description: '',
-                            type: 'object',
-                            required: ['resources', 'rows_count', 'limit'],
-                            properties: {
-                              limit: {
-                                description: '',
-                                type: 'integer'
-                              },
-                              resources: {
-                                description: '',
-                                type: 'array'
-                              },
-                              rows_count: {
-                                description: '',
-                                type: 'number'
-                              },
-                              next_url: {
-                                description: '',
-                                type: 'string'
-                              },
-                              next_token: {}
+                          properties: {
+                            pagination: {
+                              description: '',
+                              type: 'object',
+                              required: ['resources', 'rows_count', 'limit'],
+                              properties: {
+                                limit: {
+                                  description: '',
+                                  type: 'integer'
+                                },
+                                resources: {
+                                  description: '',
+                                  type: 'array'
+                                },
+                                rows_count: {
+                                  description: '',
+                                  type: 'number'
+                                },
+                                next_url: {
+                                  description: '',
+                                  type: 'string'
+                                },
+                                next_token: {}
+                              }
                             }
                           }
                         }
@@ -771,11 +797,10 @@ describe('validation plugin - semantic - responses', function() {
           'application/json',
           'pagination',
           'schema',
-          'properties',
-          'name'
+          'properties'
         ]);
         expect(res.warnings[0].message).toEqual(
-          'if a offset exists as a parameter query it must be defined as a property'
+          'If a offset exists as a parameter query it must be defined as a property.'
         );
       });
 
@@ -822,27 +847,29 @@ describe('validation plugin - semantic - responses', function() {
                     content: {
                       'application/json': {
                         schema: {
-                          pagination: {
-                            description: 'A list of resource aliases.',
-                            type: 'object',
-                            required: ['resources', 'rows_count', 'limit'],
-                            properties: {
-                              limit: {
-                                description: '',
-                                type: 'integer'
-                              },
-                              resources: {
-                                description: '',
-                                type: 'array'
-                              },
-                              rows_count: {
-                                description: '',
-                                type: 'number'
-                              },
-                              next_url: {
-                                description:
-                                  'The URL for requesting the next page of results.',
-                                type: 'string'
+                          properties: {
+                            pagination: {
+                              description: 'A list of resource aliases.',
+                              type: 'object',
+                              required: ['resources', 'rows_count', 'limit'],
+                              properties: {
+                                limit: {
+                                  description: '',
+                                  type: 'integer'
+                                },
+                                resources: {
+                                  description: '',
+                                  type: 'array'
+                                },
+                                rows_count: {
+                                  description: '',
+                                  type: 'number'
+                                },
+                                next_url: {
+                                  description:
+                                    'The URL for requesting the next page of results.',
+                                  type: 'string'
+                                }
                               }
                             }
                           }
@@ -869,11 +896,10 @@ describe('validation plugin - semantic - responses', function() {
           'application/json',
           'pagination',
           'schema',
-          'properties',
-          'name'
+          'properties'
         ]);
         expect(res.warnings[0].message).toEqual(
-          'if start or token or cursor are  defined then responses must have a `next_token` or `next_cursor` property'
+          'If start or token or cursor are  defined then responses must have a `next_token` or `next_cursor` property.'
         );
       });
     });

@@ -18,8 +18,6 @@ paths:
           in: query
           description: How many items to return at one time (max 100)
           required: false
-          default: 0
-          maximum: 100
           schema:
             type: integer
         - name: start
@@ -125,6 +123,8 @@ components:
         limit:
           type: integer
           description: a threshold for results
+          default: 20
+          maximum: 50
         next_token:
           type: string
           description: next token
