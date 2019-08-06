@@ -75,6 +75,21 @@ describe('validation plugin - semantic - responses', function() {
                         }
                       }
                     }
+                  },
+                  '204': {
+                    content: {
+                      'application/json': {
+                        description: 'successful operation',
+                        schema: {
+                          type: 'object',
+                          properties: {
+                            stuff: {
+                              type: 'string'
+                            }
+                          }
+                        }
+                      }
+                    }
                   }
                 }
               }

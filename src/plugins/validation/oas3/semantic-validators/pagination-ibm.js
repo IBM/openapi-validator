@@ -40,18 +40,18 @@ module.exports.validate = function({ resolvedSpec }, config) {
             if (content && content['application/json']) {
               const jsonContent = content['application/json'];
               let arrayOnTop = false;
-              let trueObj;
+              let responseObj;
               if (
                 (jsonContent.schema && jsonContent.schema.properties) ||
                 (jsonContent.schema.properties.pagination &&
                   jsonContent.schema.propeerties.pagination.properties)
               ) {
+                // stop at the first response with an array on top and then validate that
                 if (!jsonContent.schema.properties.pagination) {
                   for (const prop in jsonContent.schema.properties) {
                     if (jsonContent.schema.properties[prop].type === 'array') {
                       arrayOnTop = true;
-                      trueObj = jsonContent;
-                      //console.log(trueObj);
+                      responseObj = jsonContent;
                       break;
                     }
                   }
@@ -60,9 +60,10 @@ module.exports.validate = function({ resolvedSpec }, config) {
                   resolvedSpec.paths[pathHead].get.responses[resp].content;
                 const parameterPath =
                   resolvedSpec.paths[pathHead].get.parameters;
+                // first validate parameters
                 parameterChecker(parameterPath, content, isListX, arrayOnTop);
                 if (arrayOnTop && !jsonContent.schema.pagination && isListX) {
-                  const responseSchema = trueObj.schema;
+                  const responseSchema = responseObj.schema;
                   const path = [
                     'paths',
                     pathHead,
@@ -74,6 +75,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
                     'schema',
                     'properties'
                   ];
+                  //next if the response does not have a `pagination` object, validate normally
                   checkResponseProperties(
                     responseSchema,
                     path,
@@ -81,6 +83,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
                     isListX,
                     arrayOnTop
                   );
+                  // if response does have a pagination object, then reset the path and pass it in the response checking function
                 } else if (jsonContent.schema.properties.pagination) {
                   const paginatedResponse =
                     jsonContent.schema.properties.pagination;
