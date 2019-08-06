@@ -7,7 +7,7 @@
 
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameterObject
 
-const walk = require('../../../utils/walk');
+const { isParameterObject, walk } = require('../../../utils');
 
 module.exports.validate = function({ jsSpec }, config) {
   const result = {};
@@ -17,7 +17,7 @@ module.exports.validate = function({ jsSpec }, config) {
   config = config.parameters;
 
   walk(jsSpec, [], function(obj, path) {
-    const isContentsOfParameterObject = path[path.length - 2] === 'parameters';
+    const isContentsOfParameterObject = isParameterObject(path, true); // 2nd arg is isOAS3
     const isRef = !!obj.$ref;
 
     // obj is a parameter object

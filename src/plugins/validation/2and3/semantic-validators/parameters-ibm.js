@@ -10,8 +10,7 @@
 
 const pick = require('lodash/pick');
 const includes = require('lodash/includes');
-const checkCase = require('../../../utils/caseConventionCheck');
-const walk = require('../../../utils/walk');
+const { checkCase, isParameterObject, walk } = require('../../../utils');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   const result = {};
@@ -26,7 +25,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       return;
     }
 
-    const contentsOfParameterObject = isParameter(path, isOAS3);
+    const contentsOfParameterObject = isParameterObject(path, isOAS3);
 
     if (contentsOfParameterObject) {
       // obj is a parameter object
@@ -157,36 +156,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   return { errors: result.error, warnings: result.warning };
 };
-
-function isParameter(path, isOAS3) {
-  const pathsForParameters = [
-    'get',
-    'put',
-    'post',
-    'delete',
-    'options',
-    'head',
-    'patch',
-    'trace',
-    'components'
-  ];
-
-  const inParametersSection = path[path.length - 2] === 'parameters';
-
-  // the above check is a necessary but not sufficient check for a parameter object
-  // use the following checks to verify the object is where a parameter is supposed to be.
-  // without these, a schema property named "parameters" would get validated as a parameter
-  const isParameterByPath = pathsForParameters.includes(path[path.length - 3]);
-  const isPathItemParameter =
-    path[path.length - 4] === 'paths' && path.length === 4;
-  const isTopLevelParameter =
-    !isOAS3 && path[0] === 'parameters' && path.length === 2;
-
-  return (
-    inParametersSection &&
-    (isParameterByPath || isPathItemParameter || isTopLevelParameter)
-  );
-}
 
 function formatValid(obj, isOAS3) {
   // References will be checked when the parameters / definitions / components are scanned.

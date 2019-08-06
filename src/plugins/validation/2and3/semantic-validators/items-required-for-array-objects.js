@@ -8,7 +8,7 @@
 // (For Swagger 2 specs. In the OAS 3 spec, headers do not have types. Their schemas will be checked by Assertation 1):
 // Headers with 'array' type require an 'items' property
 
-const walk = require('../../../utils/walk');
+const { walk } = require('../../../utils');
 
 module.exports.validate = function({ jsSpec }) {
   const errors = [];

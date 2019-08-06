@@ -12,7 +12,7 @@
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#sibling-elements-for-refs
 
 const match = require('matcher');
-const walk = require('../../../utils/walk');
+const { walk } = require('../../../utils');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   const result = {};
