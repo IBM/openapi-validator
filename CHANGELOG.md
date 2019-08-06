@@ -1,3 +1,10 @@
+## [0.13.3](https://github.com/IBM/openapi-validator/compare/v0.13.2...v0.13.3) (2019-08-06)
+
+
+### Bug Fixes
+
+* use parameter-determining method in all parameters validations ([#97](https://github.com/IBM/openapi-validator/issues/97)) ([ee1168f](https://github.com/IBM/openapi-validator/commit/ee1168f))
+
 ## [0.13.2](https://github.com/IBM/openapi-validator/compare/v0.13.1...v0.13.2) (2019-07-23)
 
 
