@@ -179,8 +179,8 @@ The supported categories are described below:
 | schemas    | Rules pertaining to [Schema Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject)       |
 | security_definitions | Rules pertaining to [Security Definition Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject) |
 | security   | Rules pertaining to [Security Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject) |
-| walker     | Rules pertaining to the entire document.                                                                                                   |
-
+| walker     | Rules pertaining to the entire document.                                                                                              |
+| pagination | Rules pertaining to [Pagination Objects](https://pages.github.ibm.com/CloudEngineering/api_handbook/collections/pagination.html)   |
 #### Rules
 
 Each category contains a group of rules. The spec that each rule applies to is marked in the third column. For the actual configuration structure, see the [default values](#default-values).
@@ -199,7 +199,13 @@ The supported rules are described below:
 | no_array_responses           | Flag any operations with a top-level array response.                                | shared   |
 | parameter_order              | Flag any operations with optional parameters before a required param.               | shared   |
 | no_request_body_content      | [Flag any operations with a `requestBody` that does not have a `content` field.][3] | oas3     |
-| no_request_body_name         | Flag any operations with a non-form `requestBody` that does not have a name set with `x-codegen-request-body-name`. | oas3 |
+| no_request_body_name         | Flag any operations with a non-form `requestBody` that does not have a name set with `x-codegen-request-body-name`. | oas3|
+
+##### pagination
+| Rule                        | Description                                                              | Spec   |
+| --------------------------- | ------------------------------------------------------------------------ | ------ |
+| pagination_style            | Flag any parameter or response object that doesnt follow pagination requirements. | oas3 |
+
 
 ##### parameters
 | Rule                        | Description                                                              | Spec   |
@@ -361,6 +367,11 @@ The default values for each rule are described below.
 | no_summary                   | warning |
 | no_array_responses           | error   |
 | parameter_order              | warning |
+
+###### pagination
+| Rule                        | Default |
+| --------------------------- | --------|
+| pagination_style            | warning |
 
 ###### parameters
 | Rule                        | Default |
