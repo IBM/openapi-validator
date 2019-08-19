@@ -72,7 +72,11 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
         each(op.responses, (response, name) => {
           if (isOAS3) {
             each(response.content, (content, contentType) => {
-              if (content.schema && content.schema.type === 'array') {
+              const isArray =
+                content.schema &&
+                (content.schema.type === 'array' || content.schema.items);
+
+              if (isArray) {
                 result[checkStatusArrRes].push({
                   path: `paths.${pathKey}.${opKey}.responses.${name}.content.${contentType}.schema`,
                   message:
@@ -81,7 +85,11 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
               }
             });
           } else {
-            if (response.schema && response.schema.type === 'array') {
+            const isArray =
+              response.schema &&
+              (response.schema.type === 'array' || response.schema.items);
+
+            if (isArray) {
               result[checkStatusArrRes].push({
                 path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
                 message:
