@@ -1,3 +1,10 @@
+## [0.13.4](https://github.com/IBM/openapi-validator/compare/v0.13.3...v0.13.4) (2019-08-27)
+
+
+### Bug Fixes
+
+* treat response schemas with an `items` field as arrays, even if there is no `type` ([#99](https://github.com/IBM/openapi-validator/issues/99)) ([3383114](https://github.com/IBM/openapi-validator/commit/3383114))
+
 ## [0.13.3](https://github.com/IBM/openapi-validator/compare/v0.13.2...v0.13.3) (2019-08-06)
 
 
