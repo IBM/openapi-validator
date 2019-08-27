@@ -852,5 +852,36 @@ describe('validation plugin - semantic - operations-shared', function() {
         'tag is not defined at the global level: not a tag'
       );
     });
+
+    it('should complain about a $ref in an operation', function() {
+      const jsSpec = {
+        paths: {
+          '/resource': {
+            post: {
+              $ref: 'external.yaml#/some-post'
+            }
+          }
+        }
+      };
+
+      const resolvedSpec = {
+        paths: {
+          '/resource': {
+            post: {
+              description: 'illegally referenced operation',
+              operationId: 'create_resource',
+              summary: 'simple operation'
+            }
+          }
+        }
+      };
+
+      const res = validate({ jsSpec, resolvedSpec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(1);
+      expect(res.warnings.length).toEqual(0);
+
+      expect(res.errors[0].path).toEqual('paths./resource.post.$ref');
+      expect(res.errors[0].message).toEqual('$ref found in illegal location');
+    });
   });
 });

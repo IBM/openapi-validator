@@ -223,4 +223,44 @@ describe('validation plugin - semantic - operations - oas3', function() {
     );
     expect(res.errors.length).toEqual(0);
   });
+
+  it('should not crash when request body is behind a ref', function() {
+    const jsSpec = {
+      paths: {
+        '/resource': {
+          $ref: 'external.yaml#/some-path'
+        }
+      }
+    };
+
+    const resolvedSpec = {
+      paths: {
+        '/resource': {
+          post: {
+            operationId: 'create_resource',
+            summary: 'simple operation',
+            requestBody: {
+              description: 'body',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'string'
+                  }
+                }
+              }
+            },
+            responses: {
+              '200': {
+                description: 'success'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec, resolvedSpec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
 });

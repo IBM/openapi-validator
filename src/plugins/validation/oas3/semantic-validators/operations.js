@@ -6,7 +6,7 @@
 
 const pick = require('lodash/pick');
 const each = require('lodash/each');
-const at = require('lodash/at');
+const { hasRefProperty } = require('../../../utils');
 
 module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
   const result = {};
@@ -58,16 +58,18 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
           const explodingBody = oneContentType && isJson && !hasArraySchema;
 
           // referenced request bodies have names
-          const referencedRequestBody = Boolean(
-            at(jsSpec, `paths['${pathName}']['${opName}']['requestBody']`)[0]
-              .$ref
-          );
+          const hasReferencedRequestBody = hasRefProperty(jsSpec, [
+            'paths',
+            pathName,
+            opName,
+            'requestBody'
+          ]);
 
           // form params do not need names
           if (
             !isFormParameter(firstMimeType) &&
             !explodingBody &&
-            !referencedRequestBody &&
+            !hasReferencedRequestBody &&
             !hasRequestBodyName
           ) {
             const checkStatus = config.no_request_body_name;
