@@ -73,14 +73,18 @@ module.exports.validate = function({ resolvedSpec }) {
       return param;
     });
 
-    each(path, (thing, thingName) => {
-      if (thing && thing.parameters) {
+    each(path, (operation, operationName) => {
+      if (
+        operation &&
+        operation.parameters &&
+        Array.isArray(operation.parameters)
+      ) {
         availableParameters.push(
-          ...thing.parameters.map((param, i) => {
+          ...operation.parameters.map((param, i) => {
             if (!isObject(param)) {
               return;
             }
-            param.$$path = `paths.${pathName}.${thingName}.parameters[${i}]`;
+            param.$$path = `paths.${pathName}.${operationName}.parameters[${i}]`;
             return param;
           })
         );
