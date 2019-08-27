@@ -293,6 +293,40 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
+    it('should complain about an anonymous array response model with no type but an `items` field', function() {
+      const spec = {
+        paths: {
+          '/stuff': {
+            get: {
+              summary: 'list stuff',
+              operationId: 'list_stuff',
+              produces: ['application/json'],
+              responses: {
+                200: {
+                  description: 'successful operation',
+                  schema: {
+                    items: {
+                      type: 'string'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec }, config);
+      expect(res.errors.length).toEqual(1);
+      expect(res.errors[0].path).toEqual(
+        'paths./stuff.get.responses.200.schema'
+      );
+      expect(res.errors[0].message).toEqual(
+        'Arrays MUST NOT be returned as the top-level structure in a response body.'
+      );
+      expect(res.warnings.length).toEqual(0);
+    });
+
     it('should not complain about an empty summary within a vendor extension', function() {
       const spec = {
         paths: {
@@ -702,6 +736,57 @@ describe('validation plugin - semantic - operations-shared', function() {
                     'application/json': {
                       schema: {
                         type: 'array',
+                        items: {
+                          type: 'string'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(1);
+      expect(res.errors[0].path).toEqual(
+        'paths./.put.responses.200.content.application/json.schema'
+      );
+      expect(res.errors[0].message).toEqual(
+        'Arrays MUST NOT be returned as the top-level structure in a response body.'
+      );
+      expect(res.warnings.length).toEqual(0);
+    });
+
+    it('should complain about a top-level array response without a type but with an `items` field', function() {
+      const spec = {
+        paths: {
+          '/': {
+            put: {
+              operationId: 'get_everything',
+              summary: 'get everything as a string or an array',
+              requestBody: {
+                description: 'simple body',
+                content: {
+                  'application/json': {
+                    schema: {
+                      type: 'string'
+                    }
+                  }
+                }
+              },
+              responses: {
+                '200': {
+                  content: {
+                    'text/plain': {
+                      schema: {
+                        type: 'string'
+                      }
+                    },
+                    'application/json': {
+                      schema: {
                         items: {
                           type: 'string'
                         }
