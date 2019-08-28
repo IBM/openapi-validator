@@ -1,3 +1,10 @@
+## [0.13.5](https://github.com/IBM/openapi-validator/compare/v0.13.4...v0.13.5) (2019-08-28)
+
+
+### Bug Fixes
+
+* do not crash when operation has illegal $ref, print error instead ([#103](https://github.com/IBM/openapi-validator/issues/103)) ([3d34205](https://github.com/IBM/openapi-validator/commit/3d34205))
+
 ## [0.13.4](https://github.com/IBM/openapi-validator/compare/v0.13.3...v0.13.4) (2019-08-27)
 
 
