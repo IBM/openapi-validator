@@ -18,9 +18,9 @@ const pick = require('lodash/pick');
 const map = require('lodash/map');
 const each = require('lodash/each');
 const findIndex = require('lodash/findIndex');
-const { checkCase } = require('../../../utils');
+const { checkCase, hasRefProperty } = require('../../../utils');
 
-module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
+module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
   const result = {};
   result.error = [];
   result.warning = [];
@@ -41,9 +41,19 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
       'options',
       'trace'
     ]);
+
     each(pathOps, (op, opKey) => {
       if (!op || op['x-sdk-exclude'] === true) {
         return;
+      }
+
+      // check for operations that have a $ref property
+      // these are illegal in the spec
+      if (hasRefProperty(jsSpec, ['paths', pathKey, opKey])) {
+        result.error.push({
+          path: `paths.${pathKey}.${opKey}.$ref`,
+          message: '$ref found in illegal location'
+        });
       }
 
       // check for unique name/in properties in params

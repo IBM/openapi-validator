@@ -3,8 +3,8 @@
   directly follow letter characters, without an underscore in between. The
   snakecase module in lodash (which was previously used) did not allow this
   behavior. This is especially important in API paths e.g. '/api/v1/path'
-
 */
+
 const lowerSnakeCase = /^[a-z][a-z0-9]*(_[a-z0-9]+)*$/;
 const upperSnakeCase = /^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$/;
 const upperCamelCase = /^[A-Z][a-z0-9]+([A-Z][a-z0-9]+)*$/;
