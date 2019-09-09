@@ -1,3 +1,10 @@
+## [0.13.6](https://github.com/IBM/openapi-validator/compare/v0.13.5...v0.13.6) (2019-09-09)
+
+
+### Bug Fixes
+
+* prevent crash when `parameters` is illegally not an array ([#104](https://github.com/IBM/openapi-validator/issues/104)) ([5d8a429](https://github.com/IBM/openapi-validator/commit/5d8a429))
+
 ## [0.13.5](https://github.com/IBM/openapi-validator/compare/v0.13.4...v0.13.5) (2019-08-28)
 
 
