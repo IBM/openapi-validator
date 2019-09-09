@@ -95,6 +95,29 @@ describe('case convention regex tests', function() {
     });
   });
 
+  describe('k8s camel case tests', function() {
+    const convention = 'k8s_camel_case';
+    it('apiVersion is k8s camel case', function() {
+      const string = 'apiVersion';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+
+    it('hostPID is k8s camel case', function() {
+      const string = 'hostPID';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+
+    it('ApiVersion is NOT k8s camel case', function() {
+      const string = 'ApiVersion';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+
+    it('isGIFOrJPEG is k8s camel case', function() {
+      const string = 'isGIFOrJPEG';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+  });
+
   describe('lower dash case tests', function() {
     const convention = 'lower_dash_case';
     it('sha1 is lower dash case', function() {

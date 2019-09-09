@@ -115,6 +115,7 @@ const configOptions = {
     'upper_snake_case',
     'upper_camel_case',
     'lower_camel_case',
+    'k8s_camel_case',
     'lower_dash_case',
     'upper_dash_case',
     'operation_id_case'

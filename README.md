@@ -282,14 +282,15 @@ For rules that accept additional configuration, there will be a limited set of a
 - Some rules check strings for adherence to a specific case convention. In some cases, the case convention checked is configurable.
 - Rules with configurable case conventions will end in `_case_convention`, such as `param_name_case_convention`.
 
-| Option           | Description                                              | Example          |
-| ---------------- | -------------------------------------------------------- | ---------------- |
-| lower_snake_case | Words must follow standard lower snake case conventions. | learning_opt_out |
-| upper_snake_case | Words must follow standard upper snake case conventions. | LEARNING_OPT_OUT |
-| upper_camel_case | Words must follow standard upper camel case conventions. | LearningOptOut   |
-| lower_camel_case | Words must follow standard lower camel case conventions. | learningOptOut   |
-| lower_dash_case  | Words must follow standard lower dash case conventions.  | learning-opt-out |
-| upper_dash_case  | Words must follow standard upper dash case conventions.  | LEARNING-OPT-OUT |
+| Option           | Description                                              | Example           |
+| ---------------- | -------------------------------------------------------- | ----------------- |
+| lower_snake_case | Words must follow standard lower snake case conventions. | learning_opt_out  |
+| upper_snake_case | Words must follow standard upper snake case conventions. | LEARNING_OPT_OUT  |
+| upper_camel_case | Words must follow standard upper camel case conventions. | LearningOptOut    |
+| lower_camel_case | Words must follow standard lower camel case conventions. | learningOptOut    |
+| k8s_camel_case   | Words must follow Kubernetes API camel case conventions. | learningOptOutAPI |
+| lower_dash_case  | Words must follow standard lower dash case conventions.  | learning-opt-out  |
+| upper_dash_case  | Words must follow standard upper dash case conventions.  | LEARNING-OPT-OUT  |
 
 ### Configuration file
 
