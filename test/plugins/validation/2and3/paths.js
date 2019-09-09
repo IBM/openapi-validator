@@ -352,4 +352,40 @@ describe('validation plugin - semantic - paths', function() {
       expect(res.warnings).toEqual([]);
     });
   });
+
+  it('should not crash when `parameters` is not an array', function() {
+    const spec = {
+      paths: {
+        '/resource': {
+          get: {
+            operationId: 'listResources',
+            description: 'operation with bad parameters...',
+            summary: '...but it should not crash the code',
+            parameters: {
+              allOf: [
+                {
+                  name: 'one',
+                  type: 'string'
+                },
+                {
+                  name: 'two',
+                  type: 'string'
+                }
+              ]
+            },
+            responses: {
+              '200': {
+                description: 'response'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec });
+    // errors/warnings would be caught it parameters-ibm.js
+    expect(res.errors.length).toBe(0);
+    expect(res.warnings.length).toBe(0);
+  });
 });
