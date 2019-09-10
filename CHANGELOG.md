@@ -1,3 +1,10 @@
+# [0.14.0](https://github.com/IBM/openapi-validator/compare/v0.13.6...v0.14.0) (2019-09-10)
+
+
+### Features
+
+* adds k8s_camel_case validator for k8s API conventions ([#106](https://github.com/IBM/openapi-validator/issues/106)) ([bb82222](https://github.com/IBM/openapi-validator/commit/bb82222))
+
 ## [0.13.6](https://github.com/IBM/openapi-validator/compare/v0.13.5...v0.13.6) (2019-09-09)
 
 
