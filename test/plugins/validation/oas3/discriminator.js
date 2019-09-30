@@ -1,9 +1,9 @@
 const expect = require('expect');
 const {
   validate
-} = require('../../../../src/plugins/validation/2and3/semantic-validators/discriminator');
+} = require('../../../../src/plugins/validation/oas3/semantic-validators/discriminator');
 
-describe('validation plugin - semantic - discriminator', () => {
+describe('validation plugin - semantic - oas3 discriminator', () => {
   it('should not return errors when schema is defined correctly', () => {
     const spec = {
       components: {
