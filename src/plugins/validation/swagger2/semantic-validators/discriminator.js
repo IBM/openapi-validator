@@ -4,16 +4,24 @@
 // Assertation 2:
 // properties inside a schema object must include property defined by discriminator
 
+// Assertation 3:
+// required inside a schema must be an array
+
+// Assertation 3:
+// the schema must also list discriminator value as part of required
+
 const each = require('lodash/each');
 const has = require('lodash/has');
+const get = require('lodash/get');
+const includes = require('lodash/includes');
 
 module.exports.validate = function({ jsSpec }) {
   const errors = [];
   const warnings = [];
 
-  const schemas = jsSpec.components.schemas;
+  const schemas = get(jsSpec, ['definitions'], []);
 
-  const basePath = ['components', 'schemas'];
+  const basePath = ['definitions'];
 
   each(schemas, (schema, schemaName) => {
     if (has(schema, 'discriminator')) {
@@ -37,6 +45,35 @@ module.exports.validate = function({ jsSpec }) {
             'The discriminator defined must also be defined as a property in this schema'
         });
         return;
+      }
+
+      // required must exist
+      const { required } = schema;
+
+      if (!required) {
+        errors.push({
+          path: basePath.concat([schemaName]).join('.'),
+          message:
+            'Required array not found. The discriminator defined must also be part of required properties'
+        });
+        return;
+      }
+
+      // required must be an array
+      if (!(required instanceof Array)) {
+        errors.push({
+          path: basePath.concat([schemaName, 'required']).join('.'),
+          message: 'Required must be an array'
+        });
+        return;
+      }
+
+      // discriminator must be in required
+      if (!includes(required, discriminator)) {
+        errors.push({
+          path: basePath.concat([schemaName, 'required']).join('.'),
+          message: 'Discriminator is not listed as part of required'
+        });
       }
     }
   });

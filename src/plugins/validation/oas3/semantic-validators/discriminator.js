@@ -12,12 +12,13 @@
 
 const each = require('lodash/each');
 const has = require('lodash/has');
+const get = require('lodash/get');
 
 module.exports.validate = function({ jsSpec }) {
   const errors = [];
   const warnings = [];
 
-  const schemas = jsSpec.components.schemas;
+  const schemas = get(jsSpec, ['components', 'schemas'], []);
 
   const basePath = ['components', 'schemas'];
 
