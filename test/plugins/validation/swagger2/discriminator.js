@@ -29,7 +29,7 @@ describe('validation plugin - semantic - swagger 2 discriminator', () => {
         schemas: {
           Pet: {
             discriminator: {}
-        },
+          },
           Food: {
             discriminator: 123
           }
@@ -71,13 +71,10 @@ describe('validation plugin - semantic - swagger 2 discriminator', () => {
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual(
-      ['components', 'schemas', 'Pet', 'discriminator'].join(
-        '.'
-      )
+      ['components', 'schemas', 'Pet', 'discriminator'].join('.')
     );
     expect(res.errors[0].message).toEqual(
       'The discriminator defined must also be defined as a property in this schema'
     );
-
   });
 });
