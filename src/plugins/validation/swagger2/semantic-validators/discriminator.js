@@ -7,7 +7,7 @@
 // Assertation 3:
 // required inside a schema must be an array
 
-// Assertation 3:
+// Assertation 4:
 // the schema must also list discriminator value as part of required
 
 const each = require('lodash/each');

@@ -3,7 +3,7 @@ const {
   validate
 } = require('../../../../src/plugins/validation/swagger2/semantic-validators/discriminator');
 
-describe('validation plugin - semantic - swagger 2 discriminator', () => {
+describe('validation plugin - semantic - swagger2 discriminator', () => {
   it('should not return errors when schema is defined correctly', () => {
     const spec = {
       definitions: {

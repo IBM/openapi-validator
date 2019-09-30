@@ -4,10 +4,10 @@
 // Assertion 2:
 // discriminator object must have a field name propertyName
 
-// Assertation 2:
+// Assertation 3:
 // propertyName is of type string
 
-// Assertation 3:
+// Assertation 4:
 // properties inside a schema object must include propertName from discriminator object
 
 const each = require('lodash/each');
