@@ -1,3 +1,10 @@
+# [0.15.0](https://github.com/IBM/openapi-validator/compare/v0.14.0...v0.15.0) (2019-10-01)
+
+
+### Features
+
+* validate discriminator properties conform to specifications ([#107](https://github.com/IBM/openapi-validator/issues/107)) ([0ecd539](https://github.com/IBM/openapi-validator/commit/0ecd539))
+
 # [0.14.0](https://github.com/IBM/openapi-validator/compare/v0.13.6...v0.14.0) (2019-09-10)
 
 
