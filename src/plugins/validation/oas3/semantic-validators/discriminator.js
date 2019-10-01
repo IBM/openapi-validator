@@ -8,7 +8,7 @@
 // propertyName is of type string
 
 // Assertation 4:
-// properties inside a schema object must include propertName from discriminator object
+// properties inside a schema object must include propertyName from discriminator object
 
 const each = require('lodash/each');
 const has = require('lodash/has');
@@ -52,7 +52,7 @@ module.exports.validate = function({ jsSpec }) {
             .concat([schemaName, 'discriminator', 'propertyName'])
             .join('.'),
           message:
-            '`propertName` inside discriminator object must be of type string'
+            '`propertyName` inside discriminator object must be of type string'
         });
         return;
       }

@@ -111,7 +111,7 @@ describe('validation plugin - semantic - oas3 discriminator', () => {
       )
     );
     expect(res.errors[0].message).toEqual(
-      '`propertName` inside discriminator object must be of type string'
+      '`propertyName` inside discriminator object must be of type string'
     );
 
     expect(res.errors[1].path).toEqual(
@@ -120,7 +120,7 @@ describe('validation plugin - semantic - oas3 discriminator', () => {
       )
     );
     expect(res.errors[1].message).toEqual(
-      '`propertName` inside discriminator object must be of type string'
+      '`propertyName` inside discriminator object must be of type string'
     );
   });
 
