@@ -74,24 +74,25 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
 
   function flagUsedDefinitions(security) {
     security.forEach(scheme => {
-      // each object in this array should only have one key - the name of the scheme
-      const name = Object.keys(scheme)[0];
+      const schemeNames = Object.keys(scheme);
 
-      // make sure this scheme was in the security definitions, then label as used
-      if (definedSchemes[name]) {
-        definedSchemes[name].used = true;
+      schemeNames.forEach(schemeName => {
+        // make sure this scheme was in the security definitions, then label as used
+        if (definedSchemes[schemeName]) {
+          definedSchemes[schemeName].used = true;
 
-        const type = definedSchemes[name].type;
-        const scopesArray = scheme[name];
+          const type = definedSchemes[schemeName].type;
+          const scopesArray = scheme[schemeName];
 
-        if (type.toLowerCase() === 'oauth2') {
-          scopesArray.forEach(scope => {
-            if (definedScopes[scope]) {
-              definedScopes[scope].used = true;
-            }
-          });
+          if (type.toLowerCase() === 'oauth2') {
+            scopesArray.forEach(scope => {
+              if (definedScopes[scope]) {
+                definedScopes[scope].used = true;
+              }
+            });
+          }
         }
-      }
+      });
     });
   }
 
