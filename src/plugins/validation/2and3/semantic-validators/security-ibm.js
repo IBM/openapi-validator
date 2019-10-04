@@ -59,73 +59,62 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   function validateSecurityObject({ security, path }) {
     security.forEach(schemeObject => {
-      // each object in this array should only have one key - the name of the scheme
       const schemeNames = Object.keys(schemeObject);
-      const schemeName = schemeNames[0];
 
-      // if there is more than one key, they will be ignored. the structural validator should
-      // catch these but in case the spec changes in later versions of swagger,
-      // a non-configurable warning should be printed to alert the user
-      if (schemeNames.length > 1) {
-        result.warning.push({
-          path,
-          message:
-            'The validator expects only 1 key-value pair for each object in a security array.'
-        });
-      }
+      schemeNames.forEach(schemeName => {
+        const schemeIsDefined =
+          securityDefinitions && securityDefinitions[schemeName];
 
-      const schemeIsDefined =
-        securityDefinitions && securityDefinitions[schemeName];
+        // ensure the security scheme is defined
+        if (!schemeIsDefined) {
+          result.error.push({
+            path: `${path}.${schemeName}`,
+            message: 'security requirements must match a security definition'
+          });
+        } else {
+          const schemeType = securityDefinitions[schemeName].type;
+          const isNonEmptyArray = schemeObject[schemeName].length > 0;
+          const schemesWithNonEmptyArrays = isOAS3
+            ? ['oauth2', 'openIdConnect']
+            : ['oauth2'];
 
-      // ensure the security scheme is defined
-      if (!schemeIsDefined) {
-        result.error.push({
-          path: `${path}.${schemeName}`,
-          message: 'security requirements must match a security definition'
-        });
-      } else {
-        const schemeType = securityDefinitions[schemeName].type;
-        const isNonEmptyArray = schemeObject[schemeName].length > 0;
-        const schemesWithNonEmptyArrays = isOAS3
-          ? ['oauth2', 'openIdConnect']
-          : ['oauth2'];
+          const isSchemeWithNonEmptyArray = schemesWithNonEmptyArrays.includes(
+            schemeType
+          );
 
-        const isSchemeWithNonEmptyArray = schemesWithNonEmptyArrays.includes(
-          schemeType
-        );
+          if (isNonEmptyArray && !isSchemeWithNonEmptyArray) {
+            const checkStatus = config.invalid_non_empty_security_array;
+            if (checkStatus !== 'off') {
+              result[checkStatus].push({
+                path: `${path}.${schemeName}`,
+                message: `For security scheme types other than ${schemesWithNonEmptyArrays.join(
+                  ' or '
+                )}, the value must be an empty array.`
+              });
+            }
+          }
 
-        if (isNonEmptyArray && !isSchemeWithNonEmptyArray) {
-          const checkStatus = config.invalid_non_empty_security_array;
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path: `${path}.${schemeName}`,
-              message: `For security scheme types other than ${schemesWithNonEmptyArrays.join(
-                ' or '
-              )}, the value must be an empty array.`
-            });
+          if (isSchemeWithNonEmptyArray) {
+            // check for resolution of specific scopes
+            const scopes = schemeObject[schemeName];
+            if (Array.isArray(scopes)) {
+              // Check for unknown scopes
+              const securityDefinition = securityDefinitions[schemeName];
+              scopes.forEach((scope, i) => {
+                const scopeIsDefined = isOAS3
+                  ? checkOAS3Scopes(scope, securityDefinition)
+                  : checkSwagger2Scopes(scope, securityDefinition);
+                if (!scopeIsDefined) {
+                  result.error.push({
+                    message: `Definition could not be resolved for security scope: ${scope}`,
+                    path: `${path}.${schemeName}.${i}`
+                  });
+                }
+              });
+            }
           }
         }
-
-        if (isSchemeWithNonEmptyArray) {
-          // check for resolution of specific scopes
-          const scopes = schemeObject[schemeName];
-          if (Array.isArray(scopes)) {
-            // Check for unknown scopes
-            const securityDefinition = securityDefinitions[schemeName];
-            scopes.forEach((scope, i) => {
-              const scopeIsDefined = isOAS3
-                ? checkOAS3Scopes(scope, securityDefinition)
-                : checkSwagger2Scopes(scope, securityDefinition);
-              if (!scopeIsDefined) {
-                result.error.push({
-                  message: `Definition could not be resolved for security scope: ${scope}`,
-                  path: `${path}.${schemeName}.${i}`
-                });
-              }
-            });
-          }
-        }
-      }
+      });
     });
   }
 

@@ -26,7 +26,6 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
             }
           },
           api_key: {
-            // eslint-disable-line camelcase
             type: 'apiKey',
             name: 'api_key',
             in: 'header'
@@ -274,6 +273,48 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
               security: [
                 {
                   ScopedAuth: ['read:pets', 'write:pets']
+                }
+              ],
+              responses: {
+                default: {
+                  description: 'default response'
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
+    });
+
+    it('should not complain if all definitions are used with multiple auth schemes', function() {
+      const spec = {
+        components: {
+          securitySchemes: {
+            api_key: {
+              type: 'apiKey',
+              name: 'api_key',
+              in: 'header'
+            },
+            api_secret: {
+              type: 'apiKey',
+              name: 'api_secret',
+              in: 'header'
+            }
+          }
+        },
+        paths: {
+          '/': {
+            get: {
+              operationId: 'list',
+              summary: 'list everything',
+              security: [
+                {
+                  api_key: [],
+                  api_secret: []
                 }
               ],
               responses: {
