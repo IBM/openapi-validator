@@ -1,3 +1,10 @@
+## [0.15.1](https://github.com/IBM/openapi-validator/compare/v0.15.0...v0.15.1) (2019-10-04)
+
+
+### Bug Fixes
+
+* allow multiple schemes in a security requirement object ([#109](https://github.com/IBM/openapi-validator/issues/109)) ([f02ef2b](https://github.com/IBM/openapi-validator/commit/f02ef2b)), closes [#108](https://github.com/IBM/openapi-validator/issues/108)
+
 # [0.15.0](https://github.com/IBM/openapi-validator/compare/v0.14.0...v0.15.0) (2019-10-01)
 
 
