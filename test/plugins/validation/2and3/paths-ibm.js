@@ -402,4 +402,102 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
+
+  it('should flag a common path parameter defined at the operation level', function() {
+    const config = {
+      paths: {
+        duplicate_path_parameter: 'warning'
+      }
+    };
+
+    const badSpec = {
+      paths: {
+        '/v1/api/resources/{id}': {
+          get: {
+            operationId: 'get_resource',
+            parameters: [
+              {
+                name: 'id',
+                in: 'path',
+                required: true,
+                type: 'string',
+                description: 'id of the resource'
+              }
+            ]
+          },
+          post: {
+            operationId: 'update_resource',
+            parameters: [
+              {
+                name: 'id',
+                in: 'path',
+                required: true,
+                type: 'string',
+                description: 'id of the resource'
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: badSpec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(2);
+    expect(res.warnings[0].path).toEqual(
+      'paths./v1/api/resources/{id}.get.parameters.0'
+    );
+    expect(res.warnings[0].message).toEqual(
+      'Common path parameters should be defined on path object'
+    );
+    expect(res.warnings[1].path).toEqual(
+      'paths./v1/api/resources/{id}.post.parameters.0'
+    );
+    expect(res.warnings[1].message).toEqual(
+      'Common path parameters should be defined on path object'
+    );
+  });
+
+  it('should not flag a common path parameter defined at the operation level if descriptions are different', function() {
+    const config = {
+      paths: {
+        duplicate_path_parameter: 'warning'
+      }
+    };
+
+    const goodSpec = {
+      paths: {
+        '/v1/api/resources/{id}': {
+          get: {
+            operationId: 'get_resource',
+            parameters: [
+              {
+                name: 'id',
+                in: 'path',
+                required: true,
+                type: 'string',
+                description: 'id of the resource to retrieve'
+              }
+            ]
+          },
+          post: {
+            operationId: 'update_resource',
+            parameters: [
+              {
+                name: 'id',
+                in: 'path',
+                required: true,
+                type: 'string',
+                description: 'id of the resource to update'
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: goodSpec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
 });
