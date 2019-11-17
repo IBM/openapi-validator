@@ -39,6 +39,7 @@ const defaults = {
     },
     'paths': {
       'missing_path_parameter': 'error',
+      'duplicate_path_parameter': 'warning',
       'snake_case_only': 'off',
       'paths_case_convention': ['error', 'lower_snake_case']
     },
