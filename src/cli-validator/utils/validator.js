@@ -76,11 +76,17 @@ module.exports = function validateSwagger(allSpecs, config) {
   Object.keys(sharedSemanticValidators).forEach(key => {
     const problem = sharedSemanticValidators[key].validate(allSpecs, config);
     if (problem.errors.length) {
-      validationResults.errors[key] = [...problem.errors];
+      validationResults.errors[key] = [].concat(
+        validationResults.errors[key] || [],
+        problem.errors
+      );
       validationResults.error = true;
     }
     if (problem.warnings.length) {
-      validationResults.warnings[key] = [...problem.warnings];
+      validationResults.warnings[key] = [].concat(
+        validationResults.warnings[key] || [],
+        problem.warnings
+      );
       validationResults.warning = true;
     }
   });
