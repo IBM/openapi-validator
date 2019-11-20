@@ -5,7 +5,25 @@
 
 // Assertation 3. All path segments are lower snake case
 
+// Assertation 4:
+// Identical path parameters should be defined at path level rather than in the operations
+
+const flatten = require('lodash/flatten');
+const isEqual = require('lodash/isEqual');
+const uniqWith = require('lodash/uniqWith');
+
 const { checkCase } = require('../../../utils');
+
+const allowedOperations = [
+  'get',
+  'put',
+  'post',
+  'delete',
+  'options',
+  'head',
+  'patch',
+  'trace'
+];
 
 module.exports.validate = function({ resolvedSpec }, config) {
   const result = {};
@@ -30,16 +48,6 @@ module.exports.validate = function({ resolvedSpec }, config) {
       });
 
       const path = resolvedSpec.paths[pathName];
-      const allowedOperations = [
-        'get',
-        'put',
-        'post',
-        'delete',
-        'options',
-        'head',
-        'patch',
-        'trace'
-      ];
       const operations = Object.keys(path).filter(pathItem =>
         allowedOperations.includes(pathItem)
       );
@@ -114,6 +122,41 @@ module.exports.validate = function({ resolvedSpec }, config) {
             });
           }
         }
+      }
+    }
+
+    // Assertation 4
+    // Check that parameters are not defined redundantly in the operations
+    if (parameters) {
+      const pathObj = resolvedSpec.paths[pathName];
+      const operationKeys = Object.keys(pathObj).filter(
+        op => allowedOperations.indexOf(op) > -1
+      );
+      if (operationKeys.length > 1) {
+        parameters.forEach(parameter => {
+          const operationPathParams = uniqWith(
+            flatten(operationKeys.map(op => pathObj[op].parameters)).filter(
+              p => p.name === parameter
+            ),
+            isEqual
+          );
+          if (operationPathParams.length === 1) {
+            // All definitions of this path param are the same in the operations
+            const checkStatus = config.duplicate_path_parameter || 'off';
+            if (checkStatus.match('error|warning')) {
+              operationKeys.forEach(op => {
+                const index = pathObj[op].parameters.findIndex(
+                  p => p.name === parameter
+                );
+                result[checkStatus].push({
+                  path: `paths.${pathName}.${op}.parameters.${index}`,
+                  message:
+                    'Common path parameters should be defined on path object'
+                });
+              });
+            }
+          }
+        });
       }
     }
 
