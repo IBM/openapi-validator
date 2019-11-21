@@ -5,6 +5,10 @@
 // Assertation 2:
 // At least one response "SHOULD be the response for a successful operation call"
 
+// Assertation 3:
+// A 204 response MUST not define a response body
+// https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.5
+
 const { walk } = require('../../../utils');
 
 module.exports.validate = function({ jsSpec }, config) {
@@ -15,10 +19,17 @@ module.exports.validate = function({ jsSpec }, config) {
   config = config.responses;
 
   walk(jsSpec, [], function(obj, path) {
-    const contentsOfResponsesObject = path[path.length - 1] === 'responses';
+    const contentsOfResponsesObject =
+      path[0] === 'paths' && path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
 
     if (contentsOfResponsesObject && !isRef) {
+      if (obj['204'] && obj['204'].content) {
+        result.error.push({
+          path: path.concat(['204', 'content']),
+          message: `A 204 response MUST NOT include a message-body.`
+        });
+      }
       const responseCodes = Object.keys(obj).filter(code =>
         isResponseCode(code)
       );

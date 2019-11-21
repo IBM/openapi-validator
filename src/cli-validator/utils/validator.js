@@ -60,20 +60,33 @@ module.exports = function validateSwagger(allSpecs, config) {
   }
 
   // run semantic validators
-  const allValidators = Object.assign(
-    {},
-    semanticValidators,
-    sharedSemanticValidators
-  );
 
-  Object.keys(allValidators).forEach(key => {
-    const problem = allValidators[key].validate(allSpecs, config);
+  Object.keys(semanticValidators).forEach(key => {
+    const problem = semanticValidators[key].validate(allSpecs, config);
     if (problem.errors.length) {
       validationResults.errors[key] = [...problem.errors];
       validationResults.error = true;
     }
     if (problem.warnings.length) {
       validationResults.warnings[key] = [...problem.warnings];
+      validationResults.warning = true;
+    }
+  });
+
+  Object.keys(sharedSemanticValidators).forEach(key => {
+    const problem = sharedSemanticValidators[key].validate(allSpecs, config);
+    if (problem.errors.length) {
+      validationResults.errors[key] = [].concat(
+        validationResults.errors[key] || [],
+        problem.errors
+      );
+      validationResults.error = true;
+    }
+    if (problem.warnings.length) {
+      validationResults.warnings[key] = [].concat(
+        validationResults.warnings[key] || [],
+        problem.warnings
+      );
       validationResults.warning = true;
     }
   });

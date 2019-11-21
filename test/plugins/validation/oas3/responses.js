@@ -145,4 +145,55 @@ describe('validation plugin - semantic - responses - oas3', function() {
     );
     expect(res.errors.length).toEqual(0);
   });
+
+  it('should complain about 204 response that defines a response body', function() {
+    const config = {
+      responses: {
+        no_response_codes: 'error',
+        no_success_response_codes: 'warning'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/pets': {
+          delete: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            responses: {
+              '204': {
+                description: 'bad request',
+                content: {
+                  schema: {
+                    type: 'string'
+                  }
+                }
+              },
+              '400': {
+                description: 'bad request'
+              },
+              default: {
+                description: 'any other response'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(0);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual([
+      'paths',
+      '/pets',
+      'delete',
+      'responses',
+      '204',
+      'content'
+    ]);
+    expect(res.errors[0].message).toEqual(
+      'A 204 response MUST NOT include a message-body.'
+    );
+  });
 });
