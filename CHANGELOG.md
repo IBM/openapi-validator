@@ -1,3 +1,15 @@
+## [0.15.2](https://github.com/IBM/openapi-validator/compare/v0.15.1...v0.15.2) (2019-11-25)
+
+
+### Bug Fixes
+
+* Fix duplicate parameter checking when all parameters are defined at the path level ([#116](https://github.com/IBM/openapi-validator/issues/116)) ([f40bd6f](https://github.com/IBM/openapi-validator/commit/f40bd6f))
+
+
+### Reverts
+
+* Back out duplicated tests for duplicate path parameter rule ([#115](https://github.com/IBM/openapi-validator/issues/115)) ([4d58a82](https://github.com/IBM/openapi-validator/commit/4d58a82))
+
 ## [0.15.1](https://github.com/IBM/openapi-validator/compare/v0.15.0...v0.15.1) (2019-10-04)
 
 
