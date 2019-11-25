@@ -135,9 +135,9 @@ module.exports.validate = function({ resolvedSpec }, config) {
       if (operationKeys.length > 1) {
         parameters.forEach(parameter => {
           const operationPathParams = uniqWith(
-            flatten(operationKeys.map(op => pathObj[op].parameters)).filter(
-              p => p.name === parameter
-            ),
+            flatten(
+              operationKeys.map(op => pathObj[op].parameters).filter(Boolean)
+            ).filter(p => p.name === parameter),
             isEqual
           );
           if (operationPathParams.length === 1) {

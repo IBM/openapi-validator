@@ -500,4 +500,38 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
+
+  it('should not flag a common path parameter defined at the path level', function() {
+    const config = {
+      paths: {
+        duplicate_path_parameter: 'warning'
+      }
+    };
+
+    const goodSpec = {
+      paths: {
+        '/v1/api/resources/{id}': {
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              required: true,
+              type: 'string',
+              description: 'id of the resource to retrieve'
+            }
+          ],
+          get: {
+            operationId: 'get_resource'
+          },
+          post: {
+            operationId: 'update_resource'
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: goodSpec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
 });
