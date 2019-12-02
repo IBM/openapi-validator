@@ -20,12 +20,15 @@ paths:
           required: false
           schema:
             type: integer
-        - name: start
+            format: int32
+            default: 10
+            maximum: 100
+        - name: offset
           in: query
-          description: How many items to return at one time (max 100)
+          description: Offset of first element to return in results.
           required: false
           schema:
-            type: 'integer'
+            type: integer
             format: int32
       responses:
         '200':
@@ -111,6 +114,7 @@ components:
         - list
         - next_url
         - limit
+        - offset
       properties:
         list:
           type: array
@@ -122,13 +126,16 @@ components:
           description: this is the url to next page
         limit:
           type: integer
-          description: a threshold for results
-          default: 20
-          maximum: 50
+          format: int32
+          description: limit
+        offset:
+          type: integer
+          format: int32
+          description: offset
         next_token:
           type: string
           description: next token
- 
+
     Error:
       description:
         An error in processing a service request
