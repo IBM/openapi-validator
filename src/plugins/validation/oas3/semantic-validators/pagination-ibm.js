@@ -28,15 +28,22 @@ module.exports.validate = function({ resolvedSpec }, config) {
 
   // Loop through all paths looking for "list" operations.
   for (const path in resolvedSpec.paths) {
+    // For now, just consider the get operation.
+    const operation = resolvedSpec.paths[path].get;
+
     // Skip any path that ends in a path parameter or does not have a "get" operation
-    if (/}$/.test(path) || !resolvedSpec.paths[path].get) {
+    if (/}$/.test(path) || !operation) {
       continue;
     }
 
-    const resp = getJsonResponse(resolvedSpec.paths[path].get);
-    const jsonResponse = resp
-      ? resolvedSpec.paths[path].get.responses[resp].content['application/json']
-      : undefined;
+    // Find first success response code
+    const resp = Object.keys(operation.responses || {}).find(code =>
+      code.startsWith('2')
+    );
+    // Now get the json content of that response
+    const content = resp && operation.responses[resp].content;
+    const jsonResponse = content && content['application/json'];
+
     // Can't check response schema for array property, so skip this path
     if (
       !jsonResponse ||
@@ -56,7 +63,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     }
 
     // Check for "limit" query param -- if none, skip this path
-    const params = resolvedSpec.paths[path].get.parameters;
+    const params = operation.parameters;
     if (
       !params ||
       !params.some(param => param.name === 'limit' && param.in === 'query')
@@ -130,20 +137,22 @@ module.exports.validate = function({ resolvedSpec }, config) {
 
     // - The response body must contain a `limit` property that is type integer and required
 
+    const propertiesPath = [
+      'paths',
+      path,
+      'get',
+      'responses',
+      resp,
+      'content',
+      'application/json',
+      'schema',
+      'properties'
+    ];
+
     const limitProp = jsonResponse.schema.properties.limit;
     if (!limitProp) {
       result[checkStatus].push({
-        path: [
-          'paths',
-          path,
-          'get',
-          'responses',
-          resp,
-          'content',
-          'application/json',
-          'schema',
-          'properties'
-        ],
+        path: propertiesPath,
         message: `The response body of a paginated list operation must contain a "limit" property.`
       });
     } else if (
@@ -152,18 +161,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       jsonResponse.schema.required.indexOf('limit') === -1
     ) {
       result[checkStatus].push({
-        path: [
-          'paths',
-          path,
-          'get',
-          'responses',
-          resp,
-          'content',
-          'application/json',
-          'schema',
-          'properties',
-          'limit'
-        ],
+        path: [...propertiesPath, 'limit'],
         message: `The "limit" property in the response body of a paginated list operation must be of type integer and required.`
       });
     }
@@ -174,17 +172,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       const offsetProp = jsonResponse.schema.properties.offset;
       if (!offsetProp) {
         result[checkStatus].push({
-          path: [
-            'paths',
-            path,
-            'get',
-            'responses',
-            resp,
-            'content',
-            'application/json',
-            'schema',
-            'properties'
-          ],
+          path: propertiesPath,
           message: `The response body of a paginated list operation must contain a "offset" property.`
         });
       } else if (
@@ -193,18 +181,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         jsonResponse.schema.required.indexOf('offset') === -1
       ) {
         result[checkStatus].push({
-          path: [
-            'paths',
-            path,
-            'get',
-            'responses',
-            resp,
-            'content',
-            'application/json',
-            'schema',
-            'properties',
-            'offset'
-          ],
+          path: [...propertiesPath, 'offset'],
           message: `The "offset" property in the response body of a paginated list operation must be of type integer and required.`
         });
       }
@@ -213,17 +190,3 @@ module.exports.validate = function({ resolvedSpec }, config) {
 
   return { errors: result.error, warnings: result.warning };
 };
-
-function getJsonResponse(operation) {
-  if (operation.responses) {
-    for (const resp in operation.responses) {
-      if (resp.startsWith('2')) {
-        const content = operation.responses[resp].content;
-        if (content && content['application/json']) {
-          return resp;
-        }
-      }
-    }
-  }
-  return undefined;
-}

@@ -180,7 +180,7 @@ The supported categories are described below:
 | security_definitions | Rules pertaining to [Security Definition Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject) |
 | security   | Rules pertaining to [Security Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject) |
 | walker     | Rules pertaining to the entire document.                                                                                              |
-| pagination | Rules pertaining to [Pagination Objects](https://pages.github.ibm.com/CloudEngineering/api_handbook/collections/pagination.html)   |
+| pagination | Rules pertaining to pagination   |
 #### Rules
 
 Each category contains a group of rules. The spec that each rule applies to is marked in the third column. For the actual configuration structure, see the [default values](#default-values).
@@ -204,7 +204,7 @@ The supported rules are described below:
 ##### pagination
 | Rule                        | Description                                                              | Spec   |
 | --------------------------- | ------------------------------------------------------------------------ | ------ |
-| pagination_style            | Flag any parameter or response object that doesnt follow pagination requirements. | oas3 |
+| pagination_style            | Flag any parameter or response schema that does not follow pagination requirements. | oas3 |
 
 
 ##### parameters
