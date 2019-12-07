@@ -151,7 +151,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when limit parameter is not an integer', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -204,7 +204,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'parameters',
         0
@@ -217,7 +217,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when limit parameter is not optional', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -270,7 +270,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'parameters',
         0
@@ -283,7 +283,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when limit parameter does not specify a default value', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -334,7 +334,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'parameters',
         0
@@ -347,7 +347,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when limit parameter does not specify a maximum value', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -398,7 +398,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'parameters',
         0
@@ -413,7 +413,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when the offset parameter is not an integer', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -477,7 +477,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'parameters',
         1
@@ -490,7 +490,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when the offset parameter is not optional', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -555,7 +555,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'parameters',
         1
@@ -570,7 +570,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when the start parameter is not a string or optional', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -630,7 +630,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'parameters',
         1
@@ -643,7 +643,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when the cursor parameter is not a string or optional', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -704,7 +704,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'parameters',
         1
@@ -719,7 +719,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when limit property is not defined in response body', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -768,7 +768,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'responses',
         '200',
@@ -778,14 +778,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         'properties'
       ]);
       expect(res.warnings[0].message).toEqual(
-        'The response body of a paginated list operation must contain a "limit" property.'
+        'A paginated list operation must include a "limit" property in the response body schema.'
       );
     });
 
     it('should complain when limit property in response body is not an integer', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -838,7 +838,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'responses',
         '200',
@@ -856,7 +856,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when limit property in response body is not required', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -909,7 +909,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'responses',
         '200',
@@ -929,7 +929,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when offset property is not defined in response body', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -990,7 +990,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'responses',
         '200',
@@ -1000,14 +1000,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         'properties'
       ]);
       expect(res.warnings[0].message).toEqual(
-        'The response body of a paginated list operation must contain a "offset" property.'
+        'A paginated list operation with an "offset" parameter must include an "offset" property in the response body schema.'
       );
     });
 
     it('should complain when offset property in response body is not an integer', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -1072,7 +1072,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'responses',
         '200',
@@ -1090,7 +1090,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     it('should complain when offset property in response body is not required', function() {
       const spec = {
         paths: {
-          '/pets': {
+          '/resources': {
             get: {
               summary: 'this is a summary',
               operationId: 'operationId',
@@ -1155,7 +1155,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings[0].path).toEqual([
         'paths',
-        '/pets',
+        '/resources',
         'get',
         'responses',
         '200',
@@ -1167,6 +1167,90 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       ]);
       expect(res.warnings[0].message).toEqual(
         'The "offset" property in the response body of a paginated list operation must be of type integer and required.'
+      );
+    });
+  });
+
+  describe('collection property in response body', function() {
+    it('should complain when response body does not include an array property whose name matches the final segment of the path', function() {
+      const spec = {
+        paths: {
+          '/resources': {
+            get: {
+              summary: 'this is a summary',
+              operationId: 'operationId',
+              parameters: [
+                {
+                  name: 'limit',
+                  in: 'query',
+                  description: 'limit',
+                  required: false,
+                  schema: {
+                    type: 'integer',
+                    default: 10,
+                    maximum: 50
+                  }
+                },
+                {
+                  name: 'offset',
+                  in: 'query',
+                  description: 'offset',
+                  schema: {
+                    type: 'integer'
+                  }
+                }
+              ],
+              responses: {
+                '200': {
+                  content: {
+                    'application/json': {
+                      schema: {
+                        description: '',
+                        type: 'object',
+                        required: ['items', 'limit', 'offset'],
+                        properties: {
+                          items: {
+                            description: '',
+                            type: 'array',
+                            items: {
+                              type: 'object'
+                            }
+                          },
+                          limit: {
+                            description: 'limit',
+                            type: 'integer'
+                          },
+                          offset: {
+                            description: 'offset',
+                            type: 'integer'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings[0].path).toEqual([
+        'paths',
+        '/resources',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'properties'
+      ]);
+      expect(res.warnings[0].message).toEqual(
+        'A paginated list operation must include an array property whose name matches the final segment of the path.'
       );
     });
   });

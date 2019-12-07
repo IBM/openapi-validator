@@ -111,12 +111,12 @@ components:
       description:
         A list of pets
       required:
-        - list
+        - pets
         - next_url
         - limit
         - offset
       properties:
-        list:
+        pets:
           type: array
           description: "object containing a list of pets"
           items:

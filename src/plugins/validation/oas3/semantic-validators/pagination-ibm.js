@@ -14,6 +14,7 @@
 // - If the operation has a `start`, `cursor`, or `page_token` query parameter, it must be type string and optional
 // - The response body must contain a `limit` property that is type integer and required
 // - If the operation has an `offset` query parameter, the response body must contain an `offset` property this is type integer and required
+// - The response body must contain an array property with the same plural resource name appearing in the collection’s URL.
 
 module.exports.validate = function({ resolvedSpec }, config) {
   const result = {};
@@ -153,7 +154,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     if (!limitProp) {
       result[checkStatus].push({
         path: propertiesPath,
-        message: `The response body of a paginated list operation must contain a "limit" property.`
+        message: `A paginated list operation must include a "limit" property in the response body schema.`
       });
     } else if (
       limitProp.type !== 'integer' ||
@@ -173,7 +174,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       if (!offsetProp) {
         result[checkStatus].push({
           path: propertiesPath,
-          message: `The response body of a paginated list operation must contain a "offset" property.`
+          message: `A paginated list operation with an "offset" parameter must include an "offset" property in the response body schema.`
         });
       } else if (
         offsetProp.type !== 'integer' ||
@@ -185,6 +186,17 @@ module.exports.validate = function({ resolvedSpec }, config) {
           message: `The "offset" property in the response body of a paginated list operation must be of type integer and required.`
         });
       }
+    }
+
+    // - The response body must contain an array property with the same plural resource name appearing in the collection’s URL.
+
+    const pluralResourceName = path.split('/').pop();
+    const resourcesProp = jsonResponse.schema.properties[pluralResourceName];
+    if (!resourcesProp || resourcesProp.type !== 'array') {
+      result[checkStatus].push({
+        path: propertiesPath,
+        message: `A paginated list operation must include an array property whose name matches the final segment of the path.`
+      });
     }
   }
 
