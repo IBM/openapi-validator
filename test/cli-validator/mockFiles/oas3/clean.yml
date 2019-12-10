@@ -21,6 +21,15 @@ paths:
           schema:
             type: integer
             format: int32
+            default: 10
+            maximum: 100
+        - name: offset
+          in: query
+          description: Offset of first element to return in results.
+          required: false
+          schema:
+            type: integer
+            format: int32
       responses:
         '200':
           description: An paged array of pets
@@ -102,13 +111,31 @@ components:
       description:
         A list of pets
       required:
-        - list
+        - pets
+        - next_url
+        - limit
+        - offset
       properties:
-        list:
+        pets:
           type: array
           description: "object containing a list of pets"
           items:
             $ref: "#/components/schemas/Pet"
+        next_url:
+          type: string
+          description: this is the url to next page
+        limit:
+          type: integer
+          format: int32
+          description: limit
+        offset:
+          type: integer
+          format: int32
+          description: offset
+        next_token:
+          type: string
+          description: next token
+
     Error:
       description:
         An error in processing a service request
