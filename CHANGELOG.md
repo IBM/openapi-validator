@@ -1,3 +1,10 @@
+# [0.16.0](https://github.com/IBM/openapi-validator/compare/v0.15.2...v0.16.0) (2019-12-10)
+
+
+### Features
+
+* Add rule to check pagination list operations conform to API Handbook ([#118](https://github.com/IBM/openapi-validator/issues/118)) ([875ea4c](https://github.com/IBM/openapi-validator/commit/875ea4c))
+
 ## [0.15.2](https://github.com/IBM/openapi-validator/compare/v0.15.1...v0.15.2) (2019-11-25)
 
 
