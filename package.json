@@ -27,7 +27,7 @@
     "json-dup-key-validator": "^1.0.2",
     "json-schema-ref-parser": "^5.1.3",
     "jsonschema": "^1.2.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "matcher": "^1.1.1",
     "pad": "^2.2.1",
     "require-all": "^3.0.0",
