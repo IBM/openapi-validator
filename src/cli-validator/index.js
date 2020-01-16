@@ -13,6 +13,7 @@ const version = require('../../package.json').version;
 // set up the command line options
 /* prettier-ignore */
 program
+  .name('lint-openapi')
   .version(version, '-v, --version')
   .description('Run the validator on a specified file')
   .arguments('[<file>]')
