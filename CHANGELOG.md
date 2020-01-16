@@ -1,3 +1,10 @@
+## [0.16.1](https://github.com/IBM/openapi-validator/compare/v0.16.0...v0.16.1) (2020-01-16)
+
+
+### Bug Fixes
+
+* add command name for improved usage output ([#122](https://github.com/IBM/openapi-validator/issues/122)) ([53382eb](https://github.com/IBM/openapi-validator/commit/53382eb))
+
 # [0.16.0](https://github.com/IBM/openapi-validator/compare/v0.15.2...v0.16.0) (2019-12-10)
 
 
