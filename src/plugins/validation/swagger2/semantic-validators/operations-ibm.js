@@ -1,5 +1,5 @@
 // Assertation 1:
-// PUT and POST operations must have a non-empty `consumes` field
+// PUT and POST operations with body parameter must have a non-empty `consumes` field
 
 // Assertation 2:
 // GET operations should not specify a consumes field.
@@ -46,14 +46,38 @@ module.exports.validate = function({ jsSpec }, config) {
           !!op.consumes.join('').trim();
         const hasGlobalConsumes = !!jsSpec.consumes;
 
-        if (!hasLocalConsumes && !hasGlobalConsumes) {
+        // Check for body parameter in path
+        let hasBodyParamInPath = false;
+        if (path.parameters) {
+          path.parameters.forEach(parameter => {
+            if (parameter.in === 'body') {
+              hasBodyParamInPath = true;
+            }
+          });
+        }
+
+        // Check for body parameter in operation
+        let hasBodyParamInOps = false;
+        if (op.parameters) {
+          op.parameters.forEach(parameter => {
+            if (parameter.in === 'body') {
+              hasBodyParamInOps = true;
+            }
+          });
+        }
+
+        if (
+          !hasLocalConsumes &&
+          !hasGlobalConsumes &&
+          (hasBodyParamInOps || hasBodyParamInPath)
+        ) {
           const checkStatus = config.no_consumes_for_put_or_post;
 
           if (checkStatus !== 'off') {
             result[checkStatus].push({
               path: `paths.${pathKey}.${opKey}.consumes`,
               message:
-                'PUT and POST operations must have a non-empty `consumes` field.'
+                'PUT and POST operations with a body parameter must have a non-empty `consumes` field.'
             });
           }
         }

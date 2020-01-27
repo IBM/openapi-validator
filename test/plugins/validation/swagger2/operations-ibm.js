@@ -4,7 +4,7 @@ const {
 } = require('../../../../src/plugins/validation/swagger2/semantic-validators/operations-ibm');
 
 describe('validation plugin - semantic - operations-ibm - swagger2', function() {
-  it('should complain about a missing consumes with content', function() {
+  it('should complain about PUT operation with body parameter and a missing consumes', function() {
     const config = {
       operations: {
         no_consumes_for_put_or_post: 'error'
@@ -41,12 +41,12 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./CoolPath.put.consumes');
     expect(res.errors[0].message).toEqual(
-      'PUT and POST operations must have a non-empty `consumes` field.'
+      'PUT and POST operations with a body parameter must have a non-empty `consumes` field.'
     );
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain about an empty consumes', function() {
+  it('should complain about POST operation with body parameter and a missing consumes', function() {
     const config = {
       operations: {
         no_consumes_for_put_or_post: 'error'
@@ -84,8 +84,118 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./CoolPath.post.consumes');
     expect(res.errors[0].message).toEqual(
-      'PUT and POST operations must have a non-empty `consumes` field.'
+      'PUT and POST operations with a body parameter must have a non-empty `consumes` field.'
     );
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should complain about PUT opeartion with body parameter in path and a missing consumes', function() {
+    const config = {
+      operations: {
+        no_consumes_for_put_or_post: 'error'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/CoolPath': {
+          parameters: [
+            {
+              name: 'BadParameter',
+              in: 'body',
+              schema: {
+                required: ['Property'],
+                properties: [
+                  {
+                    name: 'Property'
+                  }
+                ]
+              }
+            }
+          ],
+          put: {
+            consumes: [' '],
+            produces: ['application/json'],
+            summary: 'this is a summary',
+            operationId: 'operationId'
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual('paths./CoolPath.put.consumes');
+    expect(res.errors[0].message).toEqual(
+      'PUT and POST operations with a body parameter must have a non-empty `consumes` field.'
+    );
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should complain about POST opeartion with body parameter in path and a missing consumes', function() {
+    const config = {
+      operations: {
+        no_consumes_for_put_or_post: 'error'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/CoolPath': {
+          parameters: [
+            {
+              name: 'BadParameter',
+              in: 'body',
+              schema: {
+                required: ['Property'],
+                properties: [
+                  {
+                    name: 'Property'
+                  }
+                ]
+              }
+            }
+          ],
+          post: {
+            consumes: [' '],
+            produces: ['application/json'],
+            summary: 'this is a summary',
+            operationId: 'operationId'
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual('paths./CoolPath.post.consumes');
+    expect(res.errors[0].message).toEqual(
+      'PUT and POST operations with a body parameter must have a non-empty `consumes` field.'
+    );
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should not complain about missing consumes when there is no body parameter', function() {
+    const config = {
+      operations: {
+        no_consumes_for_put_or_post: 'error'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/CoolPath': {
+          put: {
+            produces: ['application/json'],
+            summary: 'this is a summary',
+            operationId: 'operationId'
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
 
