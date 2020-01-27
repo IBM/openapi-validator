@@ -77,7 +77,7 @@ module.exports.validate = function({ jsSpec }, config) {
             result[checkStatus].push({
               path: `paths.${pathKey}.${opKey}.consumes`,
               message:
-                'PUT and POST operations with body parameter must have a non-empty `consumes` field.'
+                'PUT and POST operations with a body parameter must have a non-empty `consumes` field.'
             });
           }
         }
