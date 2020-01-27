@@ -47,22 +47,26 @@ module.exports.validate = function({ jsSpec }, config) {
         const hasGlobalConsumes = !!jsSpec.consumes;
 
         // Check for body parameter in path
-        let hasBodyParamInPath = false
-        path.parameters.forEach((parameter) => {
+        let hasBodyParamInPath = false;
+        path.parameters.forEach(parameter => {
           if (parameter.in === 'body') {
-            hasBodyParamInPath = true
+            hasBodyParamInPath = true;
           }
-        })
+        });
 
         // Check for body parameter in operation
-        let hasBodyParamInOps = false
-        op.parameters.forEach((parameter) => {
+        let hasBodyParamInOps = false;
+        op.parameters.forEach(parameter => {
           if (parameter.in === 'body') {
-            hasBodyParamInOps = true
+            hasBodyParamInOps = true;
           }
-        })
+        });
 
-        if (!hasLocalConsumes && !hasGlobalConsumes && (hasBodyParamInOps || hasBodyParamInPath)) {
+        if (
+          !hasLocalConsumes &&
+          !hasGlobalConsumes &&
+          (hasBodyParamInOps || hasBodyParamInPath)
+        ) {
           const checkStatus = config.no_consumes_for_put_or_post;
 
           if (checkStatus !== 'off') {
