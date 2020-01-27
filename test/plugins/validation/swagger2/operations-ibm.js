@@ -41,7 +41,7 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./CoolPath.put.consumes');
     expect(res.errors[0].message).toEqual(
-      'PUT and POST operations must have a non-empty `consumes` field.'
+      'PUT and POST operations with body parameter must have a non-empty `consumes` field.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -84,7 +84,7 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./CoolPath.post.consumes');
     expect(res.errors[0].message).toEqual(
-      'PUT and POST operations must have a non-empty `consumes` field.'
+      'PUT and POST operations with body parameter must have a non-empty `consumes` field.'
     );
     expect(res.warnings.length).toEqual(0);
   });

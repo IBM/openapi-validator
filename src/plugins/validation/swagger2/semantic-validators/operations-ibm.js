@@ -48,19 +48,23 @@ module.exports.validate = function({ jsSpec }, config) {
 
         // Check for body parameter in path
         let hasBodyParamInPath = false;
-        path.parameters.forEach(parameter => {
-          if (parameter.in === 'body') {
-            hasBodyParamInPath = true;
-          }
-        });
+        if (path.parameters) {
+          path.parameters.forEach(parameter => {
+            if (parameter.in === 'body') {
+              hasBodyParamInPath = true;
+            }
+          });
+        }
 
         // Check for body parameter in operation
         let hasBodyParamInOps = false;
-        op.parameters.forEach(parameter => {
-          if (parameter.in === 'body') {
-            hasBodyParamInOps = true;
-          }
-        });
+        if (op.parameters) {
+          op.parameters.forEach(parameter => {
+            if (parameter.in === 'body') {
+              hasBodyParamInOps = true;
+            }
+          });
+        }
 
         if (
           !hasLocalConsumes &&
