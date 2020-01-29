@@ -65,7 +65,7 @@ paths:
   /pets/{pet_id}:
     get:
       summary: Info for a specific pet
-      operationId: show_pet_by_id
+      operationId: get_pet_by_id
       tags:
         - pets
       parameters:

@@ -81,7 +81,7 @@ module.exports.validate = function({ resolvedSpec }) {
         // operationId for DELETE starts with "delete"
         checkPassed = false
       }
-      if (opKey in ['put', 'post', 'patch'] && !operationId.match(/^update[a-zA-Z0-9_]+/m)) {
+      if (['put', 'post', 'patch'].includes(opKey) && !operationId.match(/^update[a-zA-Z0-9_]+/m)) {
         // operationId for POST/PUT/PATCH starts with "update"
         checkPassed = false
       }
