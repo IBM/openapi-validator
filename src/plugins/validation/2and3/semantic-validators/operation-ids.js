@@ -59,35 +59,42 @@ module.exports.validate = function({ resolvedSpec }) {
     // - paths with no path param has a GET and POST path
     // - paths with path param has a GET, a DELETE, and a POST or PUT or PATCH.
 
-    let checkPassed = true
+    let checkPassed = true;
 
     if (!pathParam) {
-      // No path param
+      // operationId for GET should starts with "list"
       if (opKey === 'get' && !operationId.match(/^list[a-zA-Z0-9_]+/m)) {
-        // operationId for GET starts with "list"
-        checkPassed = false
+        checkPassed = false;
       }
-      if (opKey === 'post' && !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)) {
-        // operationId for POST starts with "create" or "add"
-        checkPassed = false
+
+      // operationId for POST should starts with "create" or "add"
+      if (
+        opKey === 'post' &&
+        !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)
+      ) {
+        checkPassed = false;
       }
     } else {
-      // There is path param
+      // operationId for GET should starts with "get"
       if (opKey === 'get' && !operationId.match(/^get[a-zA-Z0-9_]+/m)) {
-        // operationId for GET starts with "get"
-        checkPassed = false
+        checkPassed = false;
       }
+
+      // operationId for DELETE should starts with "delete"
       if (opKey === 'delete' && !operationId.match(/^delete[a-zA-Z0-9_]+/m)) {
-        // operationId for DELETE starts with "delete"
-        checkPassed = false
+        checkPassed = false;
       }
-      if (['put', 'post', 'patch'].includes(opKey) && !operationId.match(/^update[a-zA-Z0-9_]+/m)) {
-        // operationId for POST/PUT/PATCH starts with "update"
-        checkPassed = false
+
+      // operationId for POST/PUT/PATCH should starts with "update"
+      if (
+        ['put', 'post', 'patch'].includes(opKey) &&
+        !operationId.match(/^update[a-zA-Z0-9_]+/m)
+      ) {
+        checkPassed = false;
       }
     }
-    return checkPassed
-  }
+    return checkPassed;
+  };
 
   operations.forEach(op => {
     // wrap in an if, since operationIds are not required
@@ -103,7 +110,11 @@ module.exports.validate = function({ resolvedSpec }) {
         // Assertation 2: OperationId must conform to naming conventions
         const regex = RegExp(/{[a-zA-Z0-9_-]+\}/m);
 
-        const checkPassed = operationIdPassedConventionCheck(op['opKey'], op.operationId, regex.test(op['pathKey']))
+        const checkPassed = operationIdPassedConventionCheck(
+          op['opKey'],
+          op.operationId,
+          regex.test(op['pathKey'])
+        );
 
         if (checkPassed === false) {
           warnings.push({

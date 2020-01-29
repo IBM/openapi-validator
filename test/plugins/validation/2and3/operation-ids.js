@@ -103,18 +103,18 @@ describe('validation plugin - semantic - operation-ids', function() {
       paths: {
         '/books': {
           get: {
-            operationId: "getBooks"
+            operationId: 'getBooks'
           },
           post: {
-            operationId: "changeBooks"
+            operationId: 'changeBooks'
           }
         },
         '/coffee': {
           get: {
-            operationId: "get books"
+            operationId: 'get books'
           },
           post: {
-            operationId: "change_books"
+            operationId: 'change_books'
           }
         },
         '/books/{id}': {
@@ -125,23 +125,23 @@ describe('validation plugin - semantic - operation-ids', function() {
             }
           ],
           get: {
-            operationId: "listBooks"
+            operationId: 'listBooks'
           },
           delete: {
-            operationId: "removeBooks"
+            operationId: 'removeBooks'
           },
           post: {
-            operationId: "changeBooks1"
+            operationId: 'changeBooks1'
           },
           put: {
-            operationId: "changeBooks2"
+            operationId: 'changeBooks2'
           },
           patch: {
-            operationId: "changeBooks3"
+            operationId: 'changeBooks3'
           }
         }
       }
-    }
+    };
 
     const resolvedSpec = await resolver.dereference(spec);
     const res = validate({ resolvedSpec });
@@ -149,7 +149,9 @@ describe('validation plugin - semantic - operation-ids', function() {
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(9);
     expect(res.warnings[0].path).toEqual('paths./books.get.operationId');
-    expect(res.warnings[0].message).toEqual('operationIds should follow consistent naming convention');
+    expect(res.warnings[0].message).toEqual(
+      'operationIds should follow consistent naming convention'
+    );
   });
 
   it('should not complain about operationId naming convention', async function() {
@@ -157,18 +159,18 @@ describe('validation plugin - semantic - operation-ids', function() {
       paths: {
         '/books': {
           get: {
-            operationId: "listBooks"
+            operationId: 'listBooks'
           },
           post: {
-            operationId: "addBooks"
+            operationId: 'addBooks'
           }
         },
         '/coffee': {
           get: {
-            operationId: "list_coffee"
+            operationId: 'list_coffee'
           },
           post: {
-            operationId: "add_coffee"
+            operationId: 'add_coffee'
           }
         },
         '/books/{id}': {
@@ -179,19 +181,19 @@ describe('validation plugin - semantic - operation-ids', function() {
             }
           ],
           get: {
-            operationId: "getBook"
+            operationId: 'getBook'
           },
           delete: {
-            operationId: "deleteBook"
+            operationId: 'deleteBook'
           },
           post: {
-            operationId: "updateBook1"
+            operationId: 'updateBook1'
           },
           put: {
-            operationId: "updateBook2"
+            operationId: 'updateBook2'
           },
           patch: {
-            operationId: "updateBook3"
+            operationId: 'updateBook3'
           }
         },
         '/coffee/{id}': {
@@ -202,23 +204,23 @@ describe('validation plugin - semantic - operation-ids', function() {
             }
           ],
           get: {
-            operationId: "get_coffee"
+            operationId: 'get_coffee'
           },
           delete: {
-            operationId: "delete_book"
+            operationId: 'delete_book'
           },
           post: {
-            operationId: "update_book_1"
+            operationId: 'update_book_1'
           },
           put: {
-            operationId: "update_book_2"
+            operationId: 'update_book_2'
           },
           patch: {
-            operationId: "update_book_3"
+            operationId: 'update_book_3'
           }
         }
       }
-    }
+    };
 
     const resolvedSpec = await resolver.dereference(spec);
     const res = validate({ resolvedSpec });
