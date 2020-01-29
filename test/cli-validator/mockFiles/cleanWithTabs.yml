@@ -90,7 +90,7 @@ paths:
 			- "pet"
 			summary: "Finds Pets by status"
 			description: "Multiple status values can be provided with comma separated strings"
-			operationId: "find_pets_by_status"
+			operationId: "list_pets_by_status"
 			produces:
 			- "application/xml"
 			- "application/json"
