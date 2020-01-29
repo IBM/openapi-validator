@@ -54,7 +54,11 @@ module.exports.validate = function({ resolvedSpec }) {
     return !!prev;
   };
 
-  const operationIdPassedConventionCheck = (opKey, operationId, hasPathParam) => {
+  const operationIdPassedConventionCheck = (
+    opKey,
+    operationId,
+    hasPathParam
+  ) => {
     // Only consider paths for which
     // - paths with no path param has a GET and POST path
     // - paths with path param has a GET, a DELETE, and a POST or PUT or PATCH.
