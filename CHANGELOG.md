@@ -1,3 +1,10 @@
+# [0.17.0](https://github.com/IBM/openapi-validator/compare/v0.16.2...v0.17.0) (2020-01-29)
+
+
+### Features
+
+* operationId should conform to naming convention ([#124](https://github.com/IBM/openapi-validator/issues/124)) ([79ca9b8](https://github.com/IBM/openapi-validator/commit/79ca9b8))
+
 ## [0.16.2](https://github.com/IBM/openapi-validator/compare/v0.16.1...v0.16.2) (2020-01-27)
 
 
