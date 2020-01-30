@@ -39,6 +39,8 @@ const processInput = async function(program) {
   const jsonOutput = !!program.json;
   const errorsOnly = !!program.errors_only;
 
+  const fixProblems = !!program.fix;
+
   const configFileOverride = program.config;
 
   // turn on coloring by default
@@ -248,7 +250,8 @@ const processInput = async function(program) {
           printValidators,
           reportingStats,
           originalFile,
-          errorsOnly
+          errorsOnly,
+          fixProblems
         );
         // fail on errors, but not if there are only warnings
         if (results.error) exitCode = 1;

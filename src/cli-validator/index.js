@@ -43,6 +43,10 @@ program
   .option(
     '-e, --errors_only',
     'only print the errors, ignore the warnings'
+  )
+  .option(
+    '-f, --fix',
+    'automatically fix errors and write api doc to a new file {filename}_fixed.json'
   );
 
 /* prettier-ignore */
