@@ -9,6 +9,9 @@
 // A 204 response MUST not define a response body
 // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.5
 
+// Assertation 4:
+// A non-204 success response MUST define a response body
+
 const { walk } = require('../../../utils');
 
 module.exports.validate = function({ jsSpec }, config) {
@@ -56,6 +59,23 @@ module.exports.validate = function({ jsSpec }, config) {
               path,
               message
             });
+          }
+        } else {
+          const checkStatus = config.no_response_body;
+          // if response body rule is on, loops through success codes and issues warning (by default)
+          // for non-204 success responses without a response body
+          if (checkStatus !== 'off') {
+            for (const successCode of successCodes) {
+              if (successCode != '204' && !obj[successCode].content) {
+                result[checkStatus].push({
+                  path: path.concat([successCode]),
+                  message:
+                    `A ` +
+                    successCode +
+                    ` response should include a response body. Use 204 for responses without content.`
+                });
+              }
+            }
           }
         }
       }
