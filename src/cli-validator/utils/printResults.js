@@ -128,27 +128,60 @@ module.exports = function print(
     });
   }
 
-  var originalJSON = JSON.parse(originalFile);
-
   if (fixProblems) {
 
-    var paramsToDelete = {};
-    var paramsToPrepend = {};
-    var newPathNames = {};
+    let originalJSON = JSON.parse(originalFile);
+
+    let paramsToDelete = {};
+    let paramsToPrepend = {};
+    let newPathNames = {};
+    let definitionsToDelete = {};
+
+    let markForDeletion = (path) => {
+      let pathstr = path.slice(0, path.length-1).join(',');
+      if (pathstr in paramsToDelete) {
+        paramsToDelete[pathstr].push(path[path.length-1]);
+      } else {
+        paramsToDelete[pathstr] = [path[path.length-1]];
+      }
+    };
+
+    let markForMoving = (path, parent) => {
+      let pathstr = path.slice(0, path.length-1).join(',');
+      if (!(pathstr in paramsToDelete && path[path.length-1] in paramsToDelete[pathstr])) {
+        if (pathstr in paramsToPrepend) {
+          paramsToPrepend[pathstr].push(parent[path[path.length-1]]);
+        } else {
+          paramsToPrepend[pathstr] = [parent[path[path.length-1]]];
+        }
+      }
+    };
+
+    let unmarkIfMarkedForMoving = (path, parent) => {
+      let pathstr = path.slice(0, path.length-1).join(',');
+      let compFunc = (param) => JSON.stringify(param) === JSON.stringify(parent[path[path.length-1]]);
+      if (pathstr in paramsToPrepend && paramsToPrepend[pathstr].findIndex(compFunc) != -1) {
+        paramsToPrepend[pathstr].splice(paramsToPrepend[pathstr].findIndex(compFunc), 1);
+      }
+    };
+
+    let getObjectFromPath = (path) => {
+      let pathcopy = path.slice(0);
+      let obj = originalJSON;
+      let parent, pParent, ppParent;
+      while (pathcopy.length) {
+        ppParent = pParent;
+        pParent = parent;
+        parent = obj;
+        obj = obj[pathcopy.shift()];
+      }
+      return {obj, parent, pParent, ppParent};
+    }
 
     types.forEach(type => {
-      let color = colors[type];
-      if (Object.keys(results[type]).length) {
-        console.log(chalk[color].bold(`${type}\n`));
-      }
-  
-      // convert 'color' from a background color to foreground color
-      color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
-  
       each(results[type], (problems, validator) => {
         problems.forEach(problem => {
           const message = problem.message.split(':')[0];
-          console.log(message);
           let path = problem.path;
           // path needs to be an array to get the line number
           if (!Array.isArray(path)) {
@@ -158,51 +191,31 @@ module.exports = function print(
             path.push(path[path.length-1].split(']')[0].split('[')[1]);
             path[path.length-2] = path[path.length-2].split(['['])[0];
           }
-          console.log(path)
-          let pathcopy = path.slice(0);
-          var val = originalJSON;
-          while (pathcopy.length) {
-            var pathParent = parentParent;
-            var parentParent = parent;
-            var parent = val;
-            val = val[pathcopy.shift()];
-          }
-          let lineNo = getLineNumberForPath(originalFile, path);
-          console.log(chalk[color](message));
-          console.log(chalk[color](lineNo));
-          if (message.includes("Schema must have a non-empty description.")) {
-            val['description'] = path[path.length-1];
+          const {obj, parent, ppParent} = getObjectFromPath(path, originalJSON);
+          if (message.includes("Schema must have a non-empty description")) {
+            obj['description'] = path[path.length-1];
           } else if (message.includes("Schema properties must have a description with content in it")) {
             parent['description'] = path[path.length-2];
           } else if (message.includes("Definition was declared but never used in document")) {
-            // delete parent[path[path.length-1]];
+            definitionsToDelete[path.join(',')] = true;
           } else if (message.includes("Common path parameters should be defined on path object")) {
-            if ('parameters' in pathParent) {
-              var params = pathParent['parameters'];
-              var paramToAdd = parent[path[path.length-1]];
-              var exists = false;
-              console.log(params);
+            if ('parameters' in ppParent) {
+              let params = ppParent['parameters'];
+              let paramToAdd = parent[path[path.length-1]];
+              let exists = false;
               params.forEach((param) => {
                 if (param.name === paramToAdd.name) {
                   exists = true;
                 }
               });
               if (!exists) {
-                pathParent['parameters'].push(parent[path[path.length-1]]);
+                ppParent['parameters'].push(parent[path[path.length-1]]);
               }
             } else {
-              pathParent['parameters'] = [parent[path[path.length-1]]];
+              ppParent['parameters'] = [parent[path[path.length-1]]];
             }
-            // parent.splice(path[path.length-1], 1);
-            let pathstr = path.slice(0, path.length-1).join(',');
-            if (pathstr in paramsToDelete) {
-              paramsToDelete[pathstr].push(path[path.length-1]);
-            } else {
-              paramsToDelete[pathstr] = [path[path.length-1]];
-            }
-            if (pathstr in paramsToPrepend && path[path.length-1] in paramsToPrepend[pathstr]) {
-              paramsToPrepend[pathstr].splice(paramsToPrepend[pathstr].indexOf(path[path.length-1]), 1);
-            }
+            markForDeletion(path);
+            unmarkIfMarkedForMoving(path, parent);
           } else if (message.includes("Rely on the `securitySchemas` and `security` fields to specify authorization methods.")) {
             if (!('security' in originalJSON)) {
               originalJSON['security'] = [{"IAM": []}];
@@ -215,72 +228,45 @@ module.exports = function print(
                 }
               };
             }
-            // parent.splice(path[path.length-1], 1);
-            let pathstr = path.slice(0, path.length-1).join(',');
-            if (pathstr in paramsToDelete) {
-              paramsToDelete[pathstr].push(path[path.length-1]);
-            } else {
-              paramsToDelete[pathstr] = [path[path.length-1]];
-            }
-            if (pathstr in paramsToPrepend && path[path.length-1] in paramsToPrepend[pathstr]) {
-              paramsToPrepend[pathstr].splice(paramsToPrepend[pathstr].indexOf(path[path.length-1]), 1);
-            }
+            markForDeletion(path);
+            unmarkIfMarkedForMoving(path, parent);
           } else if (message.includes("operationIds must follow case convention")) {
             parent[path[path.length-1]] = snakeCase.snakeCase(parent[path[path.length-1]]);
           } else if (message.includes("Required parameters should appear before optional parameters.")) {
-            // parent.unshift(parent.splice(path[path.length-1], 1)[0]);
-            let pathstr = path.slice(0, path.length-1).join(',');
-            if (!(pathstr in paramsToDelete && path[path.length-1] in paramsToDelete[pathstr])) {
-              if (pathstr in paramsToDelete) {
-                paramsToDelete[pathstr].push(path[path.length-1]);
-              } else {
-                paramsToDelete[pathstr] = [path[path.length-1]];
-              }
-              if (pathstr in paramsToPrepend) {
-                paramsToPrepend[pathstr].push(parent[path[path.length-1]]);
-              } else {
-                paramsToPrepend[pathstr] = [parent[path[path.length-1]]];
-              }
-            }
+            markForDeletion(path);
+            markForMoving(path, parent);
           } else if (message.includes("Property names must follow case convention")) {
             // parent[snakeCase.snakeCase(path[path.length-1])] = parent[path[path.length-1]];
             // delete parent[path[path.length-1]];
           } else if (message.includes("Path segments must follow case convention")) {
-            newPathNames[path.join('.')] = 1;
+            // newPathNames[path.join('.')] = 1;
           } else if (message.includes("Parameter names must follow case convention")) {
-            // val['name'] = snakeCase.snakeCase(val['name']);
+            // obj['name'] = snakeCase.snakeCase(obj['name']);
           } else if (message.includes("A 204 response MUST NOT include a message-body")) {
             delete parent['content'];
           }
-          console.log(val);
-          console.log("CCCCCCCCC");
         });
       });
     });
 
+    console.log("Deleting Definitions");
+    Object.keys(definitionsToDelete).forEach((path) => {
+      patharr = path.split(',');
+      const {parent} = getObjectFromPath(patharr);
+      delete parent[patharr[patharr.length-1]];
+    });
+
     console.log("Deleting/moving Parameters");
     Object.keys(paramsToDelete).forEach((path) => {
-      console.log(path);
-      console.log(paramsToDelete[path]);
       patharr = path.split(',');
-      let pathcopy = patharr.slice(0);
-      var val = originalJSON;
-      while (pathcopy.length) {
-        var pathParent = parentParent;
-        var parentParent = parent;
-        var parent = val;
-        val = val[pathcopy.shift()];
-      }
-      console.log(val);
-      console.log(path);
-      console.log(paramsToDelete[path]);
+      const {obj} = getObjectFromPath(patharr);
       paramsToDelete[path].sort().reverse();
       paramsToDelete[path].forEach((paramToDelete) => {
-        val.splice(paramToDelete, 1);
+        obj.splice(paramToDelete, 1);
       });
       if (path in paramsToPrepend) {
         paramsToPrepend[path].forEach((paramToPrepend) => {
-          val.unshift(paramToPrepend);
+          obj.unshift(paramToPrepend);
         });
         paramsToPrepend[path] = []
       }
@@ -289,12 +275,7 @@ module.exports = function print(
     console.log("Renaming Paths");
     Object.keys(newPathNames).forEach((path) => {
       path = path.split('.');
-      let pathcopy = path.slice(0);
-      var val = originalJSON;
-      while (pathcopy.length) {
-        var parent = val;
-        val = val[pathcopy.shift()];
-      }
+      const {parent} = getObjectFromPath(path);
       let pathSegments = path[path.length-1].split("/");
       pathSegments.forEach((segment, i) => {
         if (segment.includes("{")) {
