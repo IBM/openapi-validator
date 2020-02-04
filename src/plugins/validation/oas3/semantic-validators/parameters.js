@@ -22,12 +22,11 @@ module.exports.validate = function({ jsSpec }, config) {
   const configSchemas = config.schemas;
   config = config.parameters;
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(resolvedSpec, [], function(obj, path) {
     const isContentsOfParameterObject = isParameterObject(path, true); // 2nd arg is isOAS3
-    const isRef = !!obj.$ref;
 
     // obj is a parameter object
-    if (isContentsOfParameterObject && !isRef) {
+    if (isContentsOfParameterObject) {
       const allowedInValues = ['query', 'header', 'path', 'cookie'];
       if (!obj.in) {
         // bad because in is required

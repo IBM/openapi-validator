@@ -51,7 +51,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
@@ -101,7 +101,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -162,7 +162,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -221,7 +221,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -271,7 +271,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'components',
@@ -475,7 +475,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
@@ -557,7 +557,9 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const resolvedSpec = await resolver.dereference(spec);
+
+    const res = validate({ resolvedSpec: resolvedSpec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
