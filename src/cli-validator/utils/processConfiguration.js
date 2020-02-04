@@ -13,6 +13,26 @@ const defaultObject = defaultConfig.defaults;
 const deprecatedRuleObject = defaultConfig.deprecated;
 const configOptions = defaultConfig.options;
 
+const printConfigErrors = function(problems, chalk, fileName) {
+  const description = `Invalid configuration in ${chalk.underline(
+    fileName
+  )} file. See below for details.`;
+
+  const message = [];
+
+  // add all errors for printError
+  problems.forEach(function(problem) {
+    message.push(
+      `\n - ${chalk.red(problem.message)}\n   ${chalk.magenta(
+        problem.correction
+      )}`
+    );
+  });
+  if (message.length) {
+    printError(chalk, description, message.join('\n'));
+  }
+};
+
 const validateConfigObject = function(configObject, chalk) {
   const configErrors = [];
   let validObject = true;
@@ -147,21 +167,8 @@ const validateConfigObject = function(configObject, chalk) {
     configObject.invalid = false;
   } else {
     // if the object is not valid, exit and tell the user why
-    const description = `Invalid configuration in ${chalk.underline(
-      '.validaterc'
-    )} file. See below for details.`;
-    const message = [];
+    printConfigErrors(configErrors, chalk, '.validaterc');
 
-    // concatenate all the error messages for the printError module
-    configErrors.forEach(function(problem) {
-      message.push(
-        `\n - ${chalk.red(problem.message)}\n   ${chalk.magenta(
-          problem.correction
-        )}`
-      );
-    });
-
-    printError(chalk, description, message.join('\n'));
     configObject.invalid = true;
   }
 
@@ -208,7 +215,6 @@ const getConfigObject = async function(defaultMode, chalk, configFileOverride) {
     configObject = defaultObject;
   } else {
     try {
-      // the config file must be in the root folder of the project
       const fileAsString = await readFile(configFile, 'utf8');
       configObject = JSON.parse(fileAsString);
     } catch (err) {
@@ -263,6 +269,85 @@ const getFilesToIgnore = async function() {
   return filesToIgnore;
 };
 
+const validateLimits = function(limitsObject, chalk) {
+  const allowedLimits = ['warnings'];
+  const limitErrors = [];
+
+  Object.keys(limitsObject).forEach(function(key) {
+    if (!allowedLimits.includes(key)) {
+      // remove the entry and notify the user
+      delete limitsObject[key];
+      limitErrors.push({
+        message: `"${key}" limit not supported. This value will be ignored.`,
+        correction: `Valid limits for .thresholdrc are: ${allowedLimits.join(
+          ', '
+        )}.`
+      });
+    } else {
+      // valid limit option, ensure the limit given is a number
+      if (typeof limitsObject[key] !== 'number') {
+        // remove the entry and notify the user
+        delete limitsObject[key];
+        limitErrors.push({
+          message: `Value provided for ${key} limit is invalid.`,
+          correction: `${key} limit should be a number.`
+        });
+      }
+    }
+  });
+
+  // give the user corrections for .thresholdrc file
+  if (limitErrors.length) {
+    printConfigErrors(limitErrors, chalk, '.thresholdrc');
+  }
+
+  //  sets all limits options not defined by user to default
+  for (const limitOption of allowedLimits) {
+    if (!(limitOption in limitsObject)) {
+      limitsObject[limitOption] = Number.MAX_VALUE;
+    }
+  }
+
+  return limitsObject;
+};
+
+const getLimits = async function(chalk, limitsFileOverride) {
+  let limitsObject = {};
+
+  const findUpOpts = {};
+  let limitsFileName;
+
+  if (limitsFileOverride) {
+    limitsFileName = path.basename(limitsFileOverride);
+    findUpOpts.cwd = path.dirname(limitsFileOverride);
+  } else {
+    limitsFileName = '.thresholdrc';
+  }
+
+  // search up the file system for the first instance
+  // of the threshold file
+  const limitsFile = await findUp(limitsFileName, findUpOpts);
+
+  if (limitsFile !== null) {
+    try {
+      const fileAsString = await readFile(limitsFile, 'utf8');
+      limitsObject = JSON.parse(fileAsString);
+    } catch (err) {
+      // this most likely means there is a problem in the json syntax itself
+      const description =
+        'There is a problem with the .thresholdrc file. See below for details.';
+      printError(chalk, description, err);
+      return Promise.reject(2);
+    }
+  }
+
+  // returns complete limits object with all valid user settings
+  // and default values for undefined limits
+  limitsObject = validateLimits(limitsObject, chalk);
+
+  return limitsObject;
+};
+
 const validateConfigOption = function(userOption, defaultOption) {
   const result = { valid: true };
   // determine what type of option it is
@@ -286,3 +371,5 @@ module.exports.get = getConfigObject;
 module.exports.validate = validateConfigObject;
 module.exports.ignore = getFilesToIgnore;
 module.exports.validateOption = validateConfigOption;
+module.exports.validateLimits = validateLimits;
+module.exports.limits = getLimits;

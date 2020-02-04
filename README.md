@@ -146,11 +146,11 @@ The object will always have `errors` and `warnings` keys that map to arrays. If 
 ## Configuration
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
 Specific validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator. Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
-Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
+Additionally, certain files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
 To set up the configuration capability, simply run the command `lint-openapi init`.
-This will create (or over-write) a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
+This will create (or overwrite) a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
 
 _WARNING: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
 
@@ -434,6 +434,22 @@ The default values for each rule are described below.
 | duplicate_sibling_description | warning |
 | incorrect_ref_pattern        | warning |
 
+## Warnings Limit
+
+You may impose a warning limit on your API definitions. If the number of warnings issued exceeds the warning limit, the **exit code will be set to 1**. If the Validator is part of your CI build, this will cause the build to fail.
+
+To impose a warnings limit on a project, add a `.thresholdrc` to your project. It is recommended to add this file to the root of the project. The validator recursively searches up the filesystem from whichever directory the validator is invoked, and the nearest `.thresholdrc` will be used.
+
+The format for the `.thresholdrc` file is a top-level JSON object with a `"warnings"` field (shown below).
+
+    {
+      "warnings": 0
+    }
+
+###### limits
+| Limit                   | Default   |
+| ----------------------- | --------- |
+| warnings                | MAX_VALUE |
 
 ## Turning off `update-notifier`
 This package uses [`update-notifier`](https://github.com/yeoman/update-notifier) to alert users when new versions of the tool are available. To turn this feature _off_, follow [these instructions](https://github.com/yeoman/update-notifier/tree/8df01b35fbb8093e91d79fdf9900c344c2236f08#user-settings) from the package authors. It is recommended to keep this feature _on_ to help stay up to date with the latest changes.
