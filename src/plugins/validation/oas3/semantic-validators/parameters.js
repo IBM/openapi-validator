@@ -109,6 +109,5 @@ module.exports.validate = function({ jsSpec }, config) {
       }
     }
   });
-
   return { errors: result.error, warnings: result.warning };
 };

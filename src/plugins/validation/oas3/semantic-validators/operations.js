@@ -84,13 +84,13 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
                 'Operations with non-form request bodies should set a name with the x-codegen-request-body-name annotation.';
               result[checkStatus].push({
                 path: `paths.${pathName}.${opName}`,
-                message
+                message: message
               });
             }
           }
 
           // Assertation 3
-          const binaryStringStatus = configSchemas.json_or_param_binary_string;
+          const binaryStringStatus = configSchemas.binary_string;
           if (binaryStringStatus !== 'off') {
             for (const mimeType of requestBodyMimeTypes) {
               if (mimeType === 'application/json') {
@@ -104,7 +104,7 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
                 for (const p of octetSequencePaths) {
                   result[binaryStringStatus].push({
                     path: p,
-                    message
+                    message: message
                   });
                 }
               }
