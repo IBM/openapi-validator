@@ -15,6 +15,7 @@ const print = require('./utils/printResults');
 const printJson = require('./utils/printJsonResults');
 const printError = require('./utils/printError');
 const preprocessFile = require('./utils/preprocessFile');
+const fixProblems = require('./utils/fixProblems');
 
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
@@ -39,7 +40,7 @@ const processInput = async function(program) {
   const jsonOutput = !!program.json;
   const errorsOnly = !!program.errors_only;
 
-  const fixProblems = !!program.fix;
+  const doFixProblems = !!program.fix;
 
   const configFileOverride = program.config;
 
@@ -240,6 +241,14 @@ const processInput = async function(program) {
       results.warning = false;
     }
 
+    if (doFixProblems) {
+      fixProblems(
+        results,
+        originalFile,
+        errorsOnly
+      );
+    }
+
     if (jsonOutput) {
       printJson(results, originalFile, errorsOnly);
     } else {
@@ -250,8 +259,7 @@ const processInput = async function(program) {
           printValidators,
           reportingStats,
           originalFile,
-          errorsOnly,
-          fixProblems
+          errorsOnly
         );
         // fail on errors, but not if there are only warnings
         if (results.error) exitCode = 1;
