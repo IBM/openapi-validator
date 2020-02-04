@@ -4,15 +4,21 @@
 // Assertation 2. Operations with non-form request bodies should set the `x-codegen-request-body-name`
 // annotation (for code generation purposes)
 
+// Assertation 3. Request bodies with application/json content should not use schema
+// type: string, format: binary.
+
 const pick = require('lodash/pick');
 const each = require('lodash/each');
 const { hasRefProperty } = require('../../../utils');
+const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
+  .findOctetSequencePaths;
 
 module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
   const result = {};
   result.error = [];
   result.warning = [];
 
+  const configSchemas = config.schemas;
   config = config.operations;
 
   const REQUEST_BODY_NAME = 'x-codegen-request-body-name';
@@ -80,6 +86,28 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
                 path: `paths.${pathName}.${opName}`,
                 message
               });
+            }
+          }
+
+          // Assertation 3
+          const binaryStringStatus = configSchemas.json_or_param_binary_string;
+          if (binaryStringStatus !== 'off') {
+            for (const mimeType of requestBodyMimeTypes) {
+              if (mimeType === 'application/json') {
+                const schemaPath = `paths.${pathName}.${opName}.requestBody.content.${mimeType}.schema`;
+                const octetSequencePaths = findOctetSequencePaths(
+                  requestBodyContent[mimeType].schema,
+                  schemaPath
+                );
+                const message =
+                  'JSON request/response bodies should not contain binary (type: string, format: binary) values.';
+                for (const p of octetSequencePaths) {
+                  result[binaryStringStatus].push({
+                    path: p,
+                    message
+                  });
+                }
+              }
             }
           }
         }
