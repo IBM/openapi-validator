@@ -83,7 +83,7 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
           }
 
           // Assertation 3
-          const binaryStringStatus = configSchemas.json_or_param_binary_string;
+          const binaryStringStatus = configSchemas.binary_string;
           if (binaryStringStatus !== 'off') {
             for (const mimeType of requestBodyMimeTypes) {
               if (mimeType === 'application/json') {
