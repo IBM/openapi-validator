@@ -15,7 +15,7 @@ const { isParameterObject, walk } = require('../../../utils');
 const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
   .findOctetSequencePaths;
 
-module.exports.validate = function({ jsSpec }, config) {
+module.exports.validate = function({ resolvedSpec }, config) {
   const result = {};
   result.error = [];
   result.warning = [];
@@ -23,19 +23,18 @@ module.exports.validate = function({ jsSpec }, config) {
   const configSchemas = config.schemas;
   config = config.parameters;
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(resolvedSpec, [], function(obj, path) {
     const isContentsOfParameterObject = isParameterObject(path, true); // 2nd arg is isOAS3
-    const isRef = !!obj.$ref;
 
     // obj is a parameter object
-    if (isContentsOfParameterObject && !isRef) {
+    if (isContentsOfParameterObject) {
       const allowedInValues = ['query', 'header', 'path', 'cookie'];
       if (!obj.in) {
         // bad because in is required
         const checkStatus = config.no_in_property;
         if (checkStatus !== 'off') {
           result[checkStatus].push({
-            path,
+            path: path,
             message: 'Parameters MUST have an `in` property.'
           });
         }
@@ -57,7 +56,7 @@ module.exports.validate = function({ jsSpec }, config) {
         const checkStatus = config.missing_schema_or_content;
         if (checkStatus !== 'off') {
           result[checkStatus].push({
-            path,
+            path: path,
             message:
               'Parameters MUST have their data described by either `schema` or `content`.'
           });
@@ -67,7 +66,7 @@ module.exports.validate = function({ jsSpec }, config) {
         const checkStatus = config.has_schema_and_content;
         if (checkStatus !== 'off') {
           result[checkStatus].push({
-            path,
+            path: path,
             message:
               'Parameters MUST NOT have both a `schema` and `content` property.'
           });
