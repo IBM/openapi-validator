@@ -6,7 +6,8 @@
 require('./utils/checkVersion')('8.9.0');
 require('./utils/updateNotifier');
 
-const program = require('commander');
+// include the modified commander module
+const program = require('./utils/unsupportedOptionError.js');
 const cliValidator = require('./runValidator');
 const version = require('../../package.json').version;
 
