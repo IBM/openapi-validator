@@ -242,11 +242,7 @@ const processInput = async function(program) {
     }
 
     if (doFixProblems) {
-      fixProblems(
-        results,
-        originalFile,
-        errorsOnly
-      );
+      fixProblems(results, originalFile, errorsOnly);
     }
 
     if (jsonOutput) {
