@@ -1,3 +1,17 @@
+# [0.17.0](https://github.com/IBM/openapi-validator/compare/v0.16.2...v0.17.0) (2020-01-29)
+
+
+### Features
+
+* operationId should conform to naming convention ([#124](https://github.com/IBM/openapi-validator/issues/124)) ([79ca9b8](https://github.com/IBM/openapi-validator/commit/79ca9b8))
+
+## [0.16.2](https://github.com/IBM/openapi-validator/compare/v0.16.1...v0.16.2) (2020-01-27)
+
+
+### Bug Fixes
+
+* swagger2 validator should only report error if there's body parameter but no consume ([#123](https://github.com/IBM/openapi-validator/issues/123)) ([1d97cb2](https://github.com/IBM/openapi-validator/commit/1d97cb2))
+
 ## [0.16.1](https://github.com/IBM/openapi-validator/compare/v0.16.0...v0.16.1) (2020-01-16)
 
 
