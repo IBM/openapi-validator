@@ -1,7 +1,5 @@
 const each = require('lodash/each');
 const pad = require('pad');
-const fs = require('fs');
-const snakeCase = require('snake-case');
 
 // get line-number-producing, 'magic' code from Swagger Editor
 const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast')
