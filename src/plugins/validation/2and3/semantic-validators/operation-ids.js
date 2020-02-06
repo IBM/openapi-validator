@@ -64,11 +64,13 @@ module.exports.validate = function({ resolvedSpec }) {
     // - paths with path param has a GET, a DELETE, and a POST or PUT or PATCH.
 
     let checkPassed = true;
+    const verbs = [];
 
     if (!hasPathParam) {
       // operationId for GET should starts with "list"
       if (opKey === 'get' && !operationId.match(/^list[a-zA-Z0-9_]+/m)) {
         checkPassed = false;
+        verbs.push('list');
       }
 
       // operationId for POST should starts with "create" or "add"
@@ -77,27 +79,42 @@ module.exports.validate = function({ resolvedSpec }) {
         !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)
       ) {
         checkPassed = false;
+        verbs.push('add');
+        verbs.push('create');
       }
     } else {
       // operationId for GET should starts with "get"
       if (opKey === 'get' && !operationId.match(/^get[a-zA-Z0-9_]+/m)) {
         checkPassed = false;
+        verbs.push('get');
       }
 
       // operationId for DELETE should starts with "delete"
       if (opKey === 'delete' && !operationId.match(/^delete[a-zA-Z0-9_]+/m)) {
         checkPassed = false;
+        verbs.push('delete');
       }
 
-      // operationId for POST/PUT/PATCH should starts with "update"
+      // operationId for POST should start with "update" or "create"
       if (
-        ['put', 'post', 'patch'].includes(opKey) &&
+        opKey === 'post' &&
+        !operationId.match(/^(create|update)[a-zA-Z0-9_]+/m)
+      ) {
+        checkPassed = false;
+        verbs.push('create');
+        verbs.push('update');
+      }
+
+      // operationId for PUT/PATCH should starts with "update"
+      if (
+        ['put', 'patch'].includes(opKey) &&
         !operationId.match(/^update[a-zA-Z0-9_]+/m)
       ) {
         checkPassed = false;
+        verbs.push('update');
       }
     }
-    return checkPassed;
+    return { checkPassed, verbs };
   };
 
   operations.forEach(op => {
@@ -114,7 +131,7 @@ module.exports.validate = function({ resolvedSpec }) {
         // Assertation 2: OperationId must conform to naming conventions
         const regex = RegExp(/{[a-zA-Z0-9_-]+\}/m);
 
-        const checkPassed = operationIdPassedConventionCheck(
+        const { checkPassed, verbs } = operationIdPassedConventionCheck(
           op['opKey'],
           op.operationId,
           regex.test(op['pathKey'])
@@ -123,7 +140,10 @@ module.exports.validate = function({ resolvedSpec }) {
         if (checkPassed === false) {
           warnings.push({
             path: op.path + '.operationId',
-            message: `operationIds should follow consistent naming convention`
+            message: `operationIds should follow consistent naming convention. operationId verb should be ${verbs}`.replace(
+              ',',
+              ' or '
+            )
           });
         }
       }
