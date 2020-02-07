@@ -131,8 +131,8 @@ module.exports.validate = function({ resolvedSpec }) {
           });
         }
       } else if (flows.password) {
-        const tokenURL = flows.password.tokenURL;
-        if (!tokenURL) {
+        const tokenUrl = flows.password.tokenUrl;
+        if (!tokenUrl) {
           errors.push({
             message:
               "oauth2 authorization password flow must have required 'tokenUrl' property.",
