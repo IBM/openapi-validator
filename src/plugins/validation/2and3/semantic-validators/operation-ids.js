@@ -28,13 +28,15 @@ module.exports.validate = function({ resolvedSpec }) {
       const pathOps = pickBy(path, (obj, k) => {
         return validOperationKeys.indexOf(k) > -1;
       });
+      const allPathOperations = Object.keys(pathOps);
       each(pathOps, (op, opKey) =>
         arr.push(
           merge(
             {
               pathKey: `${pathKey}`,
               opKey: `${opKey}`,
-              path: `paths.${pathKey}.${opKey}`
+              path: `paths.${pathKey}.${opKey}`,
+              allPathOperations
             },
             op
           )
@@ -57,16 +59,17 @@ module.exports.validate = function({ resolvedSpec }) {
   const operationIdPassedConventionCheck = (
     opKey,
     operationId,
-    hasPathParam
+    allPathOperations,
+    pathEndsWithParam
   ) => {
     // Only consider paths for which
-    // - paths with no path param has a GET and POST path
-    // - paths with path param has a GET, a DELETE, and a POST or PUT or PATCH.
+    // - paths that do not end with param has a GET and POST operation
+    // - paths that end with param has a GET, DELETE, POST, PUT or PATCH.
 
     let checkPassed = true;
     const verbs = [];
 
-    if (!hasPathParam) {
+    if (!pathEndsWithParam) {
       // operationId for GET should starts with "list"
       if (opKey === 'get' && !operationId.match(/^list[a-zA-Z0-9_]+/m)) {
         checkPassed = false;
@@ -74,7 +77,7 @@ module.exports.validate = function({ resolvedSpec }) {
       }
 
       // operationId for POST should starts with "create" or "add"
-      if (
+      else if (
         opKey === 'post' &&
         !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)
       ) {
@@ -90,28 +93,50 @@ module.exports.validate = function({ resolvedSpec }) {
       }
 
       // operationId for DELETE should starts with "delete"
-      if (opKey === 'delete' && !operationId.match(/^delete[a-zA-Z0-9_]+/m)) {
+      else if (
+        opKey === 'delete' &&
+        !operationId.match(/^delete[a-zA-Z0-9_]+/m)
+      ) {
         checkPassed = false;
         verbs.push('delete');
       }
 
-      // operationId for POST should start with "update" or "create"
-      if (
-        opKey === 'post' &&
-        !operationId.match(/^(create|update)[a-zA-Z0-9_]+/m)
-      ) {
-        checkPassed = false;
-        verbs.push('create');
-        verbs.push('update');
-      }
-
-      // operationId for PUT/PATCH should starts with "update"
-      if (
-        ['put', 'patch'].includes(opKey) &&
+      // operationId for PATCH should starts with "update"
+      else if (
+        opKey === 'patch' &&
         !operationId.match(/^update[a-zA-Z0-9_]+/m)
       ) {
         checkPassed = false;
         verbs.push('update');
+      } else if (opKey === 'post') {
+        // operationId for POST should start with "add" or "create" only if PATCH operation exist for this path
+        if (
+          allPathOperations.includes('patch') &&
+          !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)
+        ) {
+          checkPassed = false;
+          verbs.push('add');
+          verbs.push('create');
+
+          // If PATCH operation doesn't exist for path, POST operationId should start with "update", "add" or "update"
+        } else if (
+          !allPathOperations.includes('patch') &&
+          !operationId.match(/^(update|add|create[a-zA-Z0-9_]+/m)
+        ) {
+          checkPassed = false;
+          verbs.push('update');
+          verbs.push('add');
+          verbs.push('create');
+        }
+      }
+
+      // operationId for PUT should starts with "replace"
+      else if (
+        opKey === 'put' &&
+        !operationId.match(/^replace[a-zA-Z0-9_]+/m)
+      ) {
+        checkPassed = false;
+        verbs.push('replace');
       }
     }
     return { checkPassed, verbs };
@@ -129,11 +154,12 @@ module.exports.validate = function({ resolvedSpec }) {
         });
       } else {
         // Assertation 2: OperationId must conform to naming conventions
-        const regex = RegExp(/{[a-zA-Z0-9_-]+\}/m);
+        const regex = RegExp(/{[a-zA-Z0-9_-]+\}$/m);
 
         const { checkPassed, verbs } = operationIdPassedConventionCheck(
           op['opKey'],
           op.operationId,
+          op.allPathOperations,
           regex.test(op['pathKey'])
         );
 
