@@ -94,7 +94,8 @@ const defaults = {
     },
     'responses': {
       'no_response_codes': 'error',
-      'no_success_response_codes': 'warning'
+      'no_success_response_codes': 'warning',
+      'no_response_body': 'warning'
     }
   }
 };
