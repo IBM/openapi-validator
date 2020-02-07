@@ -1,3 +1,10 @@
+## [0.17.1](https://github.com/IBM/openapi-validator/compare/v0.17.0...v0.17.1) (2020-02-07)
+
+
+### Bug Fixes
+
+* use correct property case for `tokenUrl` ([#134](https://github.com/IBM/openapi-validator/issues/134)) ([4395600](https://github.com/IBM/openapi-validator/commit/4395600))
+
 # [0.17.0](https://github.com/IBM/openapi-validator/compare/v0.16.2...v0.17.0) (2020-01-29)
 
 
