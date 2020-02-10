@@ -1,3 +1,10 @@
+# [0.18.0](https://github.com/IBM/openapi-validator/compare/v0.17.1...v0.18.0) (2020-02-07)
+
+
+### Features
+
+* add warning, non-204 success response should have response body ([#127](https://github.com/IBM/openapi-validator/issues/127)) ([90689c8](https://github.com/IBM/openapi-validator/commit/90689c8))
+
 ## [0.17.1](https://github.com/IBM/openapi-validator/compare/v0.17.0...v0.17.1) (2020-02-07)
 
 

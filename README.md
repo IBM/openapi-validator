@@ -57,6 +57,8 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 3. Install the dependencies using `npm install`
 4. Build the command line tool by running `npm run link`.
 
+_If you installed the validator using `npm install -g ibm-openapi-validator`, you will need to run `npm uninstall -g ibm-openapi-validator` before running `npm run link`._
+
 ### Platform specific binaries
 It is possible to build platform specific binaries for Linux, MacOS, and Windows that do not depend on having node.js installed.
 
@@ -202,6 +204,7 @@ The supported rules are described below:
 | no_request_body_content      | [Flag any operations with a `requestBody` that does not have a `content` field.][3] | oas3     |
 | no_request_body_name         | Flag any operations with a non-form `requestBody` that does not have a name set with `x-codegen-request-body-name`. | oas3|
 
+
 ##### pagination
 | Rule                        | Description                                                              | Spec   |
 | --------------------------- | ------------------------------------------------------------------------ | ------ |
@@ -237,6 +240,7 @@ The supported rules are described below:
 | inline_response_schema    | Flag any response object with a schema that doesn't reference a named model. | shared |
 | no_response_codes         | Flag any response object that has no valid response codes.   | oas3 |
 | no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
+| no_response_body          | Flag any non-204 success responses without a response body.  | oas3 |
 
 ##### schemas
 | Rule                        | Description                                                                   | Spec     |
@@ -355,6 +359,7 @@ The default values for each rule are described below.
 | ------------------------- | ------- |
 | no_response_codes         | error   |
 | no_success_response_codes | warning |
+| no_response_body          | warning |
 
 
 ##### shared
