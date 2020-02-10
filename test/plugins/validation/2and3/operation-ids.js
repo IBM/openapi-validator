@@ -170,7 +170,7 @@ describe('validation plugin - semantic - operation-ids', function() {
     const res = validate({ resolvedSpec });
 
     expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(14);
+    expect(res.warnings.length).toEqual(12);
     expect(res.warnings[0].path).toEqual('paths./books.get.operationId');
     expect(res.warnings[0].message).toEqual(
       'operationIds should follow consistent naming convention. operationId verb should be list'

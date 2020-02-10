@@ -109,24 +109,13 @@ module.exports.validate = function({ resolvedSpec }) {
         checkPassed = false;
         verbs.push('update');
       } else if (opKey === 'post') {
-        // operationId for POST should start with "add" or "create" only if PATCH operation exist for this path
+        // If PATCH operation doesn't exist for path, POST operationId should start with "update"
         if (
-          allPathOperations.includes('patch') &&
-          !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)
-        ) {
-          checkPassed = false;
-          verbs.push('add');
-          verbs.push('create');
-
-          // If PATCH operation doesn't exist for path, POST operationId should start with "update", "add" or "update"
-        } else if (
           !allPathOperations.includes('patch') &&
-          !operationId.match(/^(update|add|create[a-zA-Z0-9_]+/m)
+          !operationId.match(/^(update[a-zA-Z0-9_]+/m)
         ) {
           checkPassed = false;
           verbs.push('update');
-          verbs.push('add');
-          verbs.push('create');
         }
       }
 
