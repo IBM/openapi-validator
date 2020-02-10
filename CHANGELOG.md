@@ -1,3 +1,10 @@
+# [0.19.0](https://github.com/IBM/openapi-validator/compare/v0.18.0...v0.19.0) (2020-02-10)
+
+
+### Features
+
+* added configurable warning limits through .thresholdrc file ([#132](https://github.com/IBM/openapi-validator/issues/132)) ([2c3a919](https://github.com/IBM/openapi-validator/commit/2c3a919))
+
 # [0.18.0](https://github.com/IBM/openapi-validator/compare/v0.17.1...v0.18.0) (2020-02-07)
 
 
