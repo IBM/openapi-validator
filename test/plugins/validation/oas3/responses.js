@@ -1,4 +1,6 @@
 const expect = require('expect');
+const resolver = require('json-schema-ref-parser');
+
 const {
   validate
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/responses');
@@ -29,7 +31,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual(['paths', '/pets', 'get', 'responses']);
     expect(res.errors[0].message).toEqual(
@@ -63,7 +65,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual(['paths', '/pets', 'get', 'responses']);
     expect(res.errors[0].message).toEqual(
@@ -97,7 +99,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
@@ -127,7 +129,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
       'paths',
@@ -180,7 +182,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.warnings.length).toEqual(3);
     expect(res.warnings[0].path).toEqual([
       'paths',
@@ -212,6 +214,51 @@ describe('validation plugin - semantic - responses - oas3', function() {
     expect(res.warnings[2].message).toEqual(
       `A 203 response should include a response body. Use 204 for responses without content.`
     );
+  });
+
+  it('should not complain when a non-204 success has a ref to a response with content', async function() {
+    const config = {
+      responses: {
+        no_response_codes: 'error',
+        no_success_response_codes: 'warning',
+        no_response_body: 'warning'
+      }
+    };
+
+    const resolvedSpec = {
+      paths: {
+        '/comments': {
+          post: {
+            operationId: 'add_comment',
+            summary: 'adds a comment',
+            responses: {
+              '201': {
+                $ref: '#/components/responses/success'
+              }
+            }
+          }
+        }
+      },
+      components: {
+        responses: {
+          success: {
+            description: 'successful post',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const spec = await resolver.dereference(resolvedSpec);
+
+    const res = validate({ resolvedSpec: spec }, config);
+    expect(res.warnings.length).toEqual(0);
   });
 
   it('should complain about having only error responses', function() {
@@ -248,7 +295,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
       'paths',
@@ -298,7 +345,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
