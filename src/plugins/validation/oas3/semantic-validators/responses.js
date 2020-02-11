@@ -10,23 +10,22 @@
 // https://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.2.5
 
 // Assertation 4:
-// A non-204 success response MUST define a response body
+// A non-204 success response should define a response body
 
 const { walk } = require('../../../utils');
 
-module.exports.validate = function({ jsSpec }, config) {
+module.exports.validate = function({ resolvedSpec }, config) {
   const result = {};
   result.error = [];
   result.warning = [];
 
   config = config.responses;
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(resolvedSpec, [], function(obj, path) {
     const contentsOfResponsesObject =
       path[0] === 'paths' && path[path.length - 1] === 'responses';
-    const isRef = !!obj.$ref;
 
-    if (contentsOfResponsesObject && !isRef) {
+    if (contentsOfResponsesObject) {
       if (obj['204'] && obj['204'].content) {
         result.error.push({
           path: path.concat(['204', 'content']),
