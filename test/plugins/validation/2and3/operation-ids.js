@@ -128,16 +128,39 @@ describe('validation plugin - semantic - operation-ids', function() {
             operationId: 'listBooks'
           },
           delete: {
-            operationId: 'removeBooks'
+            operationId: 'removeBook'
           },
           post: {
-            operationId: 'changeBooks1'
+            operationId: 'updatesBook'
           },
           put: {
-            operationId: 'changeBooks2'
+            operationId: 'changeBook'
           },
           patch: {
-            operationId: 'changeBooks3'
+            operationId: 'changeBook2'
+          }
+        },
+        '/coffee/{id}': {
+          parameters: [
+            {
+              name: 'id',
+              in: 'path'
+            }
+          ],
+          get: {
+            operationId: 'listCoffee'
+          },
+          delete: {
+            operationId: 'removeCoffee'
+          },
+          post: {
+            operationId: 'changeCoffee'
+          },
+          put: {
+            operationId: 'changeCoffee2'
+          },
+          patch: {
+            operationId: 'changeCoffee3'
           }
         }
       }
@@ -147,10 +170,10 @@ describe('validation plugin - semantic - operation-ids', function() {
     const res = validate({ resolvedSpec });
 
     expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(9);
+    expect(res.warnings.length).toEqual(12);
     expect(res.warnings[0].path).toEqual('paths./books.get.operationId');
     expect(res.warnings[0].message).toEqual(
-      'operationIds should follow consistent naming convention'
+      'operationIds should follow consistent naming convention. operationId verb should be list'
     );
   });
 
@@ -187,13 +210,13 @@ describe('validation plugin - semantic - operation-ids', function() {
             operationId: 'deleteBook'
           },
           post: {
-            operationId: 'updateBook1'
+            operationId: 'addBook'
           },
           put: {
-            operationId: 'updateBook2'
+            operationId: 'replaceBook'
           },
           patch: {
-            operationId: 'updateBook3'
+            operationId: 'updateBook'
           }
         },
         '/coffee/{id}': {
@@ -207,16 +230,16 @@ describe('validation plugin - semantic - operation-ids', function() {
             operationId: 'get_coffee'
           },
           delete: {
-            operationId: 'delete_book'
+            operationId: 'delete_coffee'
           },
           post: {
-            operationId: 'update_book_1'
+            operationId: 'create_coffee'
           },
           put: {
-            operationId: 'update_book_2'
+            operationId: 'replace_coffee'
           },
           patch: {
-            operationId: 'update_book_3'
+            operationId: 'update_coffee'
           }
         }
       }

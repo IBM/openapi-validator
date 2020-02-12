@@ -1,3 +1,17 @@
+## [0.19.2](https://github.com/IBM/openapi-validator/compare/v0.19.1...v0.19.2) (2020-02-11)
+
+
+### Bug Fixes
+
+* resolve refs when checking for success response schemas ([#136](https://github.com/IBM/openapi-validator/issues/136)) ([b286c69](https://github.com/IBM/openapi-validator/commit/b286c69))
+
+## [0.19.1](https://github.com/IBM/openapi-validator/compare/v0.19.0...v0.19.1) (2020-02-11)
+
+
+### Bug Fixes
+
+* updated code and test to reflect updated naming convention ([#133](https://github.com/IBM/openapi-validator/issues/133)) ([c44f2fa](https://github.com/IBM/openapi-validator/commit/c44f2fa))
+
 # [0.19.0](https://github.com/IBM/openapi-validator/compare/v0.18.0...v0.19.0) (2020-02-10)
 
 

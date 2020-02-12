@@ -28,13 +28,15 @@ module.exports.validate = function({ resolvedSpec }) {
       const pathOps = pickBy(path, (obj, k) => {
         return validOperationKeys.indexOf(k) > -1;
       });
+      const allPathOperations = Object.keys(pathOps);
       each(pathOps, (op, opKey) =>
         arr.push(
           merge(
             {
               pathKey: `${pathKey}`,
               opKey: `${opKey}`,
-              path: `paths.${pathKey}.${opKey}`
+              path: `paths.${pathKey}.${opKey}`,
+              allPathOperations
             },
             op
           )
@@ -57,47 +59,76 @@ module.exports.validate = function({ resolvedSpec }) {
   const operationIdPassedConventionCheck = (
     opKey,
     operationId,
-    hasPathParam
+    allPathOperations,
+    pathEndsWithParam
   ) => {
     // Only consider paths for which
-    // - paths with no path param has a GET and POST path
-    // - paths with path param has a GET, a DELETE, and a POST or PUT or PATCH.
+    // - paths that do not end with param has a GET and POST operation
+    // - paths that end with param has a GET, DELETE, POST, PUT or PATCH.
 
     let checkPassed = true;
+    const verbs = [];
 
-    if (!hasPathParam) {
+    if (!pathEndsWithParam) {
       // operationId for GET should starts with "list"
       if (opKey === 'get' && !operationId.match(/^list[a-zA-Z0-9_]+/m)) {
         checkPassed = false;
+        verbs.push('list');
       }
 
       // operationId for POST should starts with "create" or "add"
-      if (
+      else if (
         opKey === 'post' &&
         !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)
       ) {
         checkPassed = false;
+        verbs.push('add');
+        verbs.push('create');
       }
     } else {
       // operationId for GET should starts with "get"
       if (opKey === 'get' && !operationId.match(/^get[a-zA-Z0-9_]+/m)) {
         checkPassed = false;
+        verbs.push('get');
       }
 
       // operationId for DELETE should starts with "delete"
-      if (opKey === 'delete' && !operationId.match(/^delete[a-zA-Z0-9_]+/m)) {
+      else if (
+        opKey === 'delete' &&
+        !operationId.match(/^delete[a-zA-Z0-9_]+/m)
+      ) {
         checkPassed = false;
+        verbs.push('delete');
       }
 
-      // operationId for POST/PUT/PATCH should starts with "update"
-      if (
-        ['put', 'post', 'patch'].includes(opKey) &&
+      // operationId for PATCH should starts with "update"
+      else if (
+        opKey === 'patch' &&
         !operationId.match(/^update[a-zA-Z0-9_]+/m)
       ) {
         checkPassed = false;
+        verbs.push('update');
+      } else if (opKey === 'post') {
+        // If PATCH operation doesn't exist for path, POST operationId should start with "update"
+        if (
+          !allPathOperations.includes('patch') &&
+          !operationId.match(/^(update[a-zA-Z0-9_]+/m)
+        ) {
+          checkPassed = false;
+          verbs.push('update');
+        }
+      }
+
+      // operationId for PUT should starts with "replace"
+      else if (
+        opKey === 'put' &&
+        !operationId.match(/^replace[a-zA-Z0-9_]+/m)
+      ) {
+        checkPassed = false;
+        verbs.push('replace');
       }
     }
-    return checkPassed;
+    return { checkPassed, verbs };
   };
 
   operations.forEach(op => {
@@ -112,18 +143,22 @@ module.exports.validate = function({ resolvedSpec }) {
         });
       } else {
         // Assertation 2: OperationId must conform to naming conventions
-        const regex = RegExp(/{[a-zA-Z0-9_-]+\}/m);
+        const regex = RegExp(/{[a-zA-Z0-9_-]+\}$/m);
 
-        const checkPassed = operationIdPassedConventionCheck(
+        const { checkPassed, verbs } = operationIdPassedConventionCheck(
           op['opKey'],
           op.operationId,
+          op.allPathOperations,
           regex.test(op['pathKey'])
         );
 
         if (checkPassed === false) {
           warnings.push({
             path: op.path + '.operationId',
-            message: `operationIds should follow consistent naming convention`
+            message: `operationIds should follow consistent naming convention. operationId verb should be ${verbs}`.replace(
+              ',',
+              ' or '
+            )
           });
         }
       }
