@@ -111,7 +111,7 @@ describe('validation plugin - semantic - operation-ids', function() {
         },
         '/coffee': {
           get: {
-            operationId: 'get books'
+            operationId: 'get_books'
           },
           post: {
             operationId: 'change_books'
@@ -158,9 +158,6 @@ describe('validation plugin - semantic - operation-ids', function() {
           },
           put: {
             operationId: 'changeCoffee2'
-          },
-          patch: {
-            operationId: 'changeCoffee3'
           }
         }
       }
