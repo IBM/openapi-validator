@@ -1,3 +1,10 @@
+## [0.19.3](https://github.com/IBM/openapi-validator/compare/v0.19.2...v0.19.3) (2020-02-12)
+
+
+### Bug Fixes
+
+* print usage menu for an unknown flag ([#130](https://github.com/IBM/openapi-validator/issues/130)) ([def7dcc](https://github.com/IBM/openapi-validator/commit/def7dcc))
+
 ## [0.19.2](https://github.com/IBM/openapi-validator/compare/v0.19.1...v0.19.2) (2020-02-11)
 
 
