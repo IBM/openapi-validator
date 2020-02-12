@@ -6,7 +6,7 @@
 require('./utils/checkVersion')('8.9.0');
 require('./utils/updateNotifier');
 
-const program = require('commander');
+const program = require('./utils/modified-commander');
 const cliValidator = require('./runValidator');
 const version = require('../../package.json').version;
 
