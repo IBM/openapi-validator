@@ -7,9 +7,10 @@
 // Assertation 3:
 // make sure the string follows semantic versioning 2.0.0
 
+const MessageCarrier = require('../../../utils/messageCarrier');
+
 module.exports.validate = function({ jsSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   // Regex taken from Semantic Versioning 2.0.0 documentation to check if string follows Semantic Versioning
   // https://semver.org/
@@ -22,20 +23,23 @@ module.exports.validate = function({ jsSpec }) {
   const openapi = jsSpec.openapi;
 
   if (!openapi) {
-    errors.push({
-      path: ['openapi'],
-      message: 'API definition must have an `openapi` field'
-    });
+    messages.addMessage(
+      ['openapi'],
+      'API definition must have an `openapi` field',
+      'error'
+    );
   } else if (typeof openapi !== 'string') {
-    errors.push({
-      path: ['openapi'],
-      message: 'API definition must have an `openapi` field as type string'
-    });
+    messages.addMessage(
+      ['openapi'],
+      'API definition must have an `openapi` field as type string',
+      'error'
+    );
   } else if (!openapi.match(semverRegex)) {
-    errors.push({
-      path: ['openapi'],
-      message: '`openapi` string must follow Semantic Versioning 2.0.0'
-    });
+    messages.addMessage(
+      ['openapi'],
+      '`openapi` string must follow Semantic Versioning 2.0.0',
+      'error'
+    );
   }
-  return { errors, warnings };
+  return messages;
 };

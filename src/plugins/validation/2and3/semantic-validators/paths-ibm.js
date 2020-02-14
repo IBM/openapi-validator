@@ -11,6 +11,7 @@
 const flatten = require('lodash/flatten');
 const isEqual = require('lodash/isEqual');
 const uniqWith = require('lodash/uniqWith');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 const { checkCase } = require('../../../utils');
 
@@ -26,9 +27,7 @@ const allowedOperations = [
 ];
 
 module.exports.validate = function({ resolvedSpec }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   config = config.paths;
 
@@ -93,10 +92,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
           const checkStatus = config.missing_path_parameter;
           if (checkStatus != 'off') {
             missingParameters.forEach(name => {
-              result[checkStatus].push({
-                path: `paths.${pathName}.${opName}.parameters`,
-                message: `Operation must include a path parameter with name: ${name}.`
-              });
+              messages.addMessage(
+                `paths.${pathName}.${opName}.parameters`,
+                `Operation must include a path parameter with name: ${name}.`,
+                checkStatus
+              );
             });
           }
         }
@@ -115,10 +115,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
           const checkStatus = config.missing_path_parameter;
           if (checkStatus != 'off') {
             missingParameters.forEach(name => {
-              result[checkStatus].push({
-                path: `paths.${pathName}`,
-                message: `Path parameter must be defined at the path or the operation level: ${name}.`
-              });
+              messages.addMessage(
+                `paths.${pathName}`,
+                `Path parameter must be defined at the path or the operation level: ${name}.`,
+                checkStatus
+              );
             });
           }
         }
@@ -148,11 +149,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
                 const index = pathObj[op].parameters.findIndex(
                   p => p.name === parameter
                 );
-                result[checkStatus].push({
-                  path: `paths.${pathName}.${op}.parameters.${index}`,
-                  message:
-                    'Common path parameters should be defined on path object'
-                });
+                messages.addMessage(
+                  `paths.${pathName}.${op}.parameters.${index}`,
+                  'Common path parameters should be defined on path object',
+                  checkStatus
+                );
               });
             }
           }
@@ -171,10 +172,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
           return;
         }
         if (!checkCase(segment, 'lower_snake_case')) {
-          result[checkStatus].push({
-            path: `paths.${pathName}`,
-            message: `Path segments must be lower snake case.`
-          });
+          messages.addMessage(
+            `paths.${pathName}`,
+            `Path segments must be lower snake case.`,
+            checkStatus
+          );
         }
       });
     } else {
@@ -194,10 +196,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
             }
             const isCorrectCase = checkCase(segment, caseConvention);
             if (!isCorrectCase) {
-              result[checkStatusPath].push({
-                path: `paths.${pathName}`,
-                message: `Path segments must follow case convention: ${caseConvention}`
-              });
+              messages.addMessage(
+                `paths.${pathName}`,
+                `Path segments must follow case convention: ${caseConvention}`,
+                checkStatusPath
+              );
             }
           });
         }
@@ -205,5 +208,5 @@ module.exports.validate = function({ resolvedSpec }, config) {
     }
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };

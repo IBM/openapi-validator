@@ -3,11 +3,10 @@
 // Assertation 2: Each scope defined in an OAuth2 scheme should be used in the spec
 
 const each = require('lodash/each');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   config = config.security_definitions;
 
@@ -99,35 +98,31 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
   // check what has been used and what has not been
   each(definedSchemes, (info, name) => {
     if (info.used === false) {
-      const checkStatus = config.unused_security_schemes;
-      if (checkStatus !== 'off') {
-        const location = isOAS3
-          ? 'components.securitySchemes'
-          : 'securityDefinitions';
-        result[checkStatus].push({
-          path: `${location}.${name}`,
-          message: `A security scheme is defined but never used: ${name}`
-        });
-      }
+      const location = isOAS3
+        ? 'components.securitySchemes'
+        : 'securityDefinitions';
+      messages.addMessage(
+        `${location}.${name}`,
+        `A security scheme is defined but never used: ${name}`,
+        config.unused_security_schemes
+      );
     }
   });
 
   each(definedScopes, (info, name) => {
     if (info.used === false) {
-      const checkStatus = config.unused_security_scopes;
-      if (checkStatus !== 'off') {
-        const path = isOAS3
-          ? `components.securitySchemes.${info.scheme}.flows.${
-              info.flow
-            }.scopes.${name}`
-          : `securityDefinitions.${info.scheme}.scopes.${name}`;
-        result[checkStatus].push({
-          path,
-          message: `A security scope is defined but never used: ${name}`
-        });
-      }
+      const path = isOAS3
+        ? `components.securitySchemes.${info.scheme}.flows.${
+            info.flow
+          }.scopes.${name}`
+        : `securityDefinitions.${info.scheme}.scopes.${name}`;
+      messages.addMessage(
+        path,
+        `A security scope is defined but never used: ${name}`,
+        config.unused_security_scopes
+      );
     }
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };

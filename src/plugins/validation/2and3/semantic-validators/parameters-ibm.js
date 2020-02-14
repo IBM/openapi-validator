@@ -11,11 +11,10 @@
 const pick = require('lodash/pick');
 const includes = require('lodash/includes');
 const { checkCase, isParameterObject, walk } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   config = config.parameters;
 
@@ -33,14 +32,11 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       const hasDescription = !!obj.description;
 
       if (!hasDescription && !isRef) {
-        const message = 'Parameter objects must have a `description` field.';
-        const checkStatus = config.no_parameter_description;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path,
-            message
-          });
-        }
+        messages.addMessage(
+          path,
+          'Parameter objects must have a `description` field.',
+          config.no_parameter_description
+        );
       }
 
       const isParameter = obj.in; // the `in` property is required by OpenAPI for parameters - this should be true (unless obj is a ref)
@@ -60,11 +56,11 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
               .every(v => v);
 
           if (!isCorrectCase) {
-            const message = `Parameter names must follow case convention: ${caseConvention}`;
-            result[checkStatus].push({
+            messages.addMessage(
               path,
-              message
-            });
+              `Parameter names must follow case convention: ${caseConvention}`,
+              checkStatus
+            );
           }
         }
       }
@@ -77,11 +73,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         messageCT = isOAS3
           ? `${messageCT} Rely on the \`content\` field of a request body or response object to specify content-type.`
           : `${messageCT} Rely on the \`consumes\` field to specify content-type.`;
-        if (definesContentType && checkStatusCT !== 'off') {
-          result[checkStatusCT].push({
-            path,
-            message: messageCT
-          });
+        if (definesContentType) {
+          messages.addMessage(path, messageCT, checkStatusCT);
         }
 
         // check for accept-type defined in a header parameter (AT = accept-type)
@@ -91,11 +84,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         messageAT = isOAS3
           ? `${messageAT} Rely on the \`content\` field of a response object to specify accept-type.`
           : `${messageAT} Rely on the \`produces\` field to specify accept-type.`;
-        if (definesAcceptType && checkStatusAT !== 'off') {
-          result[checkStatusAT].push({
-            path,
-            message: messageAT
-          });
+        if (definesAcceptType) {
+          messages.addMessage(path, messageAT, checkStatusAT);
         }
 
         // check for accept-type defined in a header parameter (AT = accept-type)
@@ -112,11 +102,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             messageAuth +
             ' This check will be converted to an `error` in an upcoming release.';
         }
-        if (definesAuth && checkStatusAuth !== 'off') {
-          result[checkStatusAuth].push({
-            path,
-            message: messageAuth
-          });
+        if (definesAuth) {
+          messages.addMessage(path, messageAuth, checkStatusAuth);
         }
       }
 
@@ -124,11 +111,11 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       if (checkStatus !== 'off') {
         const valid = formatValid(obj, isOAS3);
         if (!valid) {
-          const message = 'Parameter type+format is not well-defined.';
-          result[checkStatus].push({
+          messages.addMessage(
             path,
-            message
-          });
+            'Parameter type+format is not well-defined.',
+            checkStatus
+          );
         }
       }
 
@@ -141,20 +128,16 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       }
 
       if (isParameterRequired && isDefaultDefined) {
-        const message =
-          'Required parameters should not specify default values.';
-        const checkStatus = config.required_param_has_default;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path,
-            message
-          });
-        }
+        messages.addMessage(
+          path,
+          'Required parameters should not specify default values.',
+          config.required_param_has_default
+        );
       }
     }
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };
 
 function formatValid(obj, isOAS3) {

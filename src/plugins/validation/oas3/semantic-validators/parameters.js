@@ -12,65 +12,55 @@
 // defined way to encode an octet sequence in a URL.
 
 const { isParameterObject, walk } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
   .findOctetSequencePaths;
 
-module.exports.validate = function({ resolvedSpec }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+module.exports.validate = function({ jsSpec }, config) {
+  const messages = new MessageCarrier();
 
   const configSchemas = config.schemas;
   config = config.parameters;
 
-  walk(resolvedSpec, [], function(obj, path) {
+  walk(jsSpec, [], function(obj, path) {
     const isContentsOfParameterObject = isParameterObject(path, true); // 2nd arg is isOAS3
+    const isRef = !!obj.$ref;
 
     // obj is a parameter object
-    if (isContentsOfParameterObject) {
+    if (isContentsOfParameterObject && !isRef) {
       const allowedInValues = ['query', 'header', 'path', 'cookie'];
       if (!obj.in) {
         // bad because in is required
-        const checkStatus = config.no_in_property;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: path,
-            message: 'Parameters MUST have an `in` property.'
-          });
-        }
+        messages.addMessage(
+          path,
+          'Parameters MUST have an `in` property.',
+          config.no_in_property
+        );
       } else if (!allowedInValues.includes(obj.in)) {
         // bad because `in` must be one of a few values
-        const checkStatus = config.invalid_in_property;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: path.concat('in'),
-            message: `Unsupported value for \`in\`: '${
-              obj.in
-            }'. Allowed values are ${allowedInValues.join(', ')}`
-          });
-        }
+        messages.addMessage(
+          path.concat('in'),
+          `Unsupported value for \`in\`: '${
+            obj.in
+          }'. Allowed values are ${allowedInValues.join(', ')}`,
+          config.invalid_in_property
+        );
       }
 
       if (!obj.schema && !obj.content) {
         // bad because at least one is needed
-        const checkStatus = config.missing_schema_or_content;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: path,
-            message:
-              'Parameters MUST have their data described by either `schema` or `content`.'
-          });
-        }
+        messages.addMessage(
+          path,
+          'Parameters MUST have their data described by either `schema` or `content`.',
+          config.missing_schema_or_content
+        );
       } else if (obj.schema && obj.content) {
         // bad because only one is allowed to be used at a time
-        const checkStatus = config.has_schema_and_content;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: path,
-            message:
-              'Parameters MUST NOT have both a `schema` and `content` property.'
-          });
-        }
+        messages.addMessage(
+          path,
+          'Parameters MUST NOT have both a `schema` and `content` property.',
+          config.has_schema_and_content
+        );
       }
 
       const binaryStringStatus = configSchemas.json_or_param_binary_string;
@@ -98,15 +88,14 @@ module.exports.validate = function({ resolvedSpec }, config) {
         }
 
         for (const p of octetSequencePaths) {
-          const message =
-            'Parameters should not contain binary (type: string, format: binary) values.';
-          result[binaryStringStatus].push({
-            path: p,
-            message
-          });
+          messages.addMessage(
+            p,
+            'Parameters should not contain binary (type: string, format: binary) values.',
+            binaryStringStatus
+          );
         }
       }
     }
   });
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };

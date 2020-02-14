@@ -1,5 +1,5 @@
 const expect = require('expect');
-const { hasRefProperty } = require('../../src/plugins/utils');
+const { hasRefProperty } = require('../../../src/plugins/utils');
 
 const spec = {
   paths: {

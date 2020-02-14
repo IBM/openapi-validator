@@ -11,11 +11,10 @@ const each = require('lodash/each');
 const includes = require('lodash/includes');
 const map = require('lodash/map');
 const pick = require('lodash/pick');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   config = config.operations;
 
@@ -71,15 +70,11 @@ module.exports.validate = function({ jsSpec }, config) {
           !hasGlobalConsumes &&
           (hasBodyParamInOps || hasBodyParamInPath)
         ) {
-          const checkStatus = config.no_consumes_for_put_or_post;
-
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path: `paths.${pathKey}.${opKey}.consumes`,
-              message:
-                'PUT and POST operations with a body parameter must have a non-empty `consumes` field.'
-            });
-          }
+          messages.addMessage(
+            `paths.${pathKey}.${opKey}.consumes`,
+            'PUT and POST operations with a body parameter must have a non-empty `consumes` field.',
+            config.no_consumes_for_put_or_post
+          );
         }
       }
 
@@ -101,14 +96,11 @@ module.exports.validate = function({ jsSpec }, config) {
           successResponses.length === 1 && successResponses[0] === '204';
 
         if (!hasLocalProduces && !hasGlobalProduces && !onlyHas204) {
-          const checkStatus = config.no_produces;
-
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path: `paths.${pathKey}.${opKey}.produces`,
-              message: 'Operations must have a non-empty `produces` field.'
-            });
-          }
+          messages.addMessage(
+            `paths.${pathKey}.${opKey}.produces`,
+            'Operations must have a non-empty `produces` field.',
+            config.no_produces
+          );
         }
       }
 
@@ -116,18 +108,15 @@ module.exports.validate = function({ jsSpec }, config) {
       if (isGetOperation) {
         // get operations should not have a consumes property
         if (op.consumes) {
-          const checkStatus = config.get_op_has_consumes;
-
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path: `paths.${pathKey}.${opKey}.consumes`,
-              message: 'GET operations should not specify a consumes field.'
-            });
-          }
+          messages.addMessage(
+            `paths.${pathKey}.${opKey}.consumes`,
+            'GET operations should not specify a consumes field.',
+            config.get_op_has_consumes
+          );
         }
       }
     });
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };
