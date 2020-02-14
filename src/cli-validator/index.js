@@ -46,6 +46,10 @@ program
   )
   .option(
     '-f, --fix',
+    'automatically fix errors and make in-place changes to the API doc file'
+  )
+  .option(
+    '--fix_newfile',
     'automatically fix errors and write api doc to a new file {filename}_fixed.json'
   );
 

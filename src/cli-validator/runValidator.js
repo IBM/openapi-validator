@@ -41,6 +41,7 @@ const processInput = async function(program) {
   const errorsOnly = !!program.errors_only;
 
   const doFixProblems = !!program.fix;
+  const doFixProblemsNewFile = !!program.fix_newfile;
 
   const configFileOverride = program.config;
 
@@ -241,8 +242,8 @@ const processInput = async function(program) {
       results.warning = false;
     }
 
-    if (doFixProblems) {
-      fixProblems(results, originalFile, errorsOnly);
+    if (doFixProblems || doFixProblemsNewFile) {
+      fixProblems(results, originalFile, errorsOnly, validFile, doFixProblemsNewFile);
     }
 
     if (jsonOutput) {

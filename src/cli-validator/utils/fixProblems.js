@@ -3,7 +3,7 @@ const fs = require('fs');
 const snakeCase = require('snake-case');
 
 // this function prints all of the output
-module.exports = function print(results, originalFile, errorsOnly) {
+module.exports = function print(results, originalFile, errorsOnly, validFile, doFixProblemsNewFile) {
   const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
 
   const originalJSON = JSON.parse(originalFile);
@@ -82,13 +82,13 @@ module.exports = function print(results, originalFile, errorsOnly) {
         }
         const { obj, parent, ppParent } = getObjectFromPath(path);
         if (message.includes('Schema must have a non-empty description')) {
-          obj['description'] = path[path.length - 1];
+          // obj['description'] = path[path.length - 1];
         } else if (
           message.includes(
             'Schema properties must have a description with content in it'
           )
         ) {
-          parent['description'] = path[path.length - 2];
+          // parent['description'] = path[path.length - 2];
         } else if (
           message.includes('Definition was declared but never used in document')
         ) {
@@ -206,7 +206,14 @@ module.exports = function print(results, originalFile, errorsOnly) {
     delete parent[path[path.length - 1]];
   });
 
-  console.log('Writing Fixes to new file');
-  const fixedJSON = JSON.stringify(originalJSON, null, 4);
-  fs.writeFileSync('test1_new.json', fixedJSON);
+  const fixedJSON = JSON.stringify(originalJSON, null, 2);
+  if (doFixProblemsNewFile) {
+    console.log('Writing Fixes to new file');
+    var newfile = validFile.substr(0, validFile.lastIndexOf(".")) + '_new'
+      + validFile.substr(validFile.lastIndexOf("."), validFile.length-1);
+    fs.writeFileSync(newfile, fixedJSON);
+  } else {
+    console.log('Writing Fixes in-place');
+    fs.writeFileSync(validFile, fixedJSON);
+  }
 };
