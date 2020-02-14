@@ -2,19 +2,10 @@ const expect = require('expect');
 const {
   validate
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/operations');
+const config = require('../../../../src/.defaultsForValidator').defaults.oas3;
 
 describe('validation plugin - semantic - operations - oas3', function() {
   it('should complain about a request body not having a content field', function() {
-    const config = {
-      operations: {
-        no_request_body_content: 'error',
-        no_request_body_name: 'warning'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -39,16 +30,6 @@ describe('validation plugin - semantic - operations - oas3', function() {
   });
 
   it('should warn about an operation with a non-form, array schema request body that does not set a name', function() {
-    const config = {
-      operations: {
-        no_request_body_content: 'error',
-        no_request_body_name: 'warning'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -83,16 +64,6 @@ describe('validation plugin - semantic - operations - oas3', function() {
   });
 
   it('should not warn about an operation with a non-array json request body that does not set a name', function() {
-    const config = {
-      operations: {
-        no_request_body_content: 'error',
-        no_request_body_name: 'warning'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -120,16 +91,6 @@ describe('validation plugin - semantic - operations - oas3', function() {
   });
 
   it('should not warn about an operation with a non-form request body that sets a name', function() {
-    const config = {
-      operations: {
-        no_request_body_content: 'error',
-        no_request_body_name: 'warning'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -158,16 +119,6 @@ describe('validation plugin - semantic - operations - oas3', function() {
   });
 
   it('should not warn about an operation with a form request body that does not set a name', function() {
-    const config = {
-      operations: {
-        no_request_body_content: 'error',
-        no_request_body_name: 'warning'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -200,16 +151,6 @@ describe('validation plugin - semantic - operations - oas3', function() {
   });
 
   it('should not warn about an operation with a referenced request body that does not set a name', function() {
-    const config = {
-      operations: {
-        no_request_body_content: 'error',
-        no_request_body_name: 'warning'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const resolvedSpec = {
       paths: {
         '/pets': {
@@ -250,16 +191,6 @@ describe('validation plugin - semantic - operations - oas3', function() {
   });
 
   it('should not crash in request body name check when path name contains a period', function() {
-    const config = {
-      operations: {
-        no_request_body_content: 'error',
-        no_request_body_name: 'warning'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/other.pets': {
@@ -294,16 +225,6 @@ describe('validation plugin - semantic - operations - oas3', function() {
   });
 
   it('should not crash when request body is behind a ref', function() {
-    const config = {
-      operations: {
-        no_request_body_content: 'error',
-        no_request_body_name: 'warning'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const jsSpec = {
       paths: {
         '/resource': {

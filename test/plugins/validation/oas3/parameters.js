@@ -1,23 +1,11 @@
 const expect = require('expect');
-
 const {
   validate
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/parameters');
+const config = require('../../../../src/.defaultsForValidator').defaults.oas3;
 
 describe('validation plugin - semantic - parameters - oas3', function() {
   it('should not complain when parameter is valid', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error',
-        invalid_in_property: 'error',
-        missing_schema_or_content: 'error',
-        has_schema_and_content: 'error'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -51,24 +39,12 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ resolvedSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
 
   it('should complain when `in` is missing', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error',
-        invalid_in_property: 'error',
-        missing_schema_or_content: 'error',
-        has_schema_and_content: 'error'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -101,7 +77,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ resolvedSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -117,18 +93,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should complain when `in` is an invalid value', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error',
-        invalid_in_property: 'error',
-        missing_schema_or_content: 'error',
-        has_schema_and_content: 'error'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -162,7 +126,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ resolvedSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -179,18 +143,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should complain when the parameter has an undescribed data type', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error',
-        invalid_in_property: 'error',
-        missing_schema_or_content: 'error',
-        has_schema_and_content: 'error'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -221,7 +173,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ resolvedSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -237,18 +189,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should complain when a parameter describes data type with both `schema` and `content`', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error',
-        invalid_in_property: 'error',
-        missing_schema_or_content: 'error',
-        has_schema_and_content: 'error'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       components: {
         parameters: {
@@ -271,7 +211,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ resolvedSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'components',
@@ -475,7 +415,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const res = validate({ resolvedSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
@@ -527,18 +467,6 @@ describe('validation plugin - semantic - parameters - oas3', function() {
   });
 
   it('should not complain about a schema property named `parameters`', function() {
-    const config = {
-      parameters: {
-        no_in_property: 'error',
-        invalid_in_property: 'error',
-        missing_schema_or_content: 'error',
-        has_schema_and_content: 'error'
-      },
-      schemas: {
-        json_or_param_binary_string: 'warning'
-      }
-    };
-
     const spec = {
       components: {
         schemas: {
@@ -557,9 +485,7 @@ describe('validation plugin - semantic - parameters - oas3', function() {
       }
     };
 
-    const resolvedSpec = await resolver.dereference(spec);
-
-    const res = validate({ resolvedSpec: resolvedSpec }, config);
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });

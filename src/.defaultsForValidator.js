@@ -64,8 +64,7 @@ const defaults = {
       'description_mentions_json': 'warning',
       'array_of_arrays': 'warning',
       'property_case_convention': [ 'error', 'lower_snake_case'],
-      'enum_case_convention': [ 'error', 'lower_snake_case'],
-      'binary_string': 'warning'
+      'enum_case_convention': [ 'error', 'lower_snake_case']
     },
     'walker': {
       'no_empty_descriptions': 'error',

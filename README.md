@@ -430,7 +430,6 @@ The default values for each rule are described below.
 | array_of_arrays             | warning |
 | property_case_convention    | error, lower_snake_case |
 | enum_case_convention        | error, lower_snake_case |
-| json_or_param_binary_string | warning |
 
 ###### walker
 | Rule                          | Default |
