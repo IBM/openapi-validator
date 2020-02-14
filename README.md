@@ -57,6 +57,8 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 3. Install the dependencies using `npm install`
 4. Build the command line tool by running `npm run link`.
 
+_If you installed the validator using `npm install -g ibm-openapi-validator`, you will need to run `npm uninstall -g ibm-openapi-validator` before running `npm run link`._
+
 ### Platform specific binaries
 It is possible to build platform specific binaries for Linux, MacOS, and Windows that do not depend on having node.js installed.
 
@@ -144,11 +146,11 @@ The object will always have `errors` and `warnings` keys that map to arrays. If 
 ## Configuration
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
 Specific validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator. Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
-Additionally, certain files files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
+Additionally, certain files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
 To set up the configuration capability, simply run the command `lint-openapi init`.
-This will create (or over-write) a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
+This will create (or overwrite) a `.validaterc` file with all rules set to their [default value](#default-values). This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
 
 _WARNING: If a `.validaterc` file already exists and has been customized, this command will reset all rules to their default values._
 
@@ -202,6 +204,7 @@ The supported rules are described below:
 | no_request_body_content      | [Flag any operations with a `requestBody` that does not have a `content` field.][3] | oas3     |
 | no_request_body_name         | Flag any operations with a non-form `requestBody` that does not have a name set with `x-codegen-request-body-name`. | oas3|
 
+
 ##### pagination
 | Rule                        | Description                                                              | Spec   |
 | --------------------------- | ------------------------------------------------------------------------ | ------ |
@@ -237,6 +240,7 @@ The supported rules are described below:
 | inline_response_schema    | Flag any response object with a schema that doesn't reference a named model. | shared |
 | no_response_codes         | Flag any response object that has no valid response codes.   | oas3 |
 | no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
+| no_response_body          | Flag any non-204 success responses without a response body.  | oas3 |
 
 ##### schemas
 | Rule                        | Description                                                                   | Spec     |
@@ -355,6 +359,7 @@ The default values for each rule are described below.
 | ------------------------- | ------- |
 | no_response_codes         | error   |
 | no_success_response_codes | warning |
+| no_response_body          | warning |
 
 
 ##### shared
@@ -429,6 +434,22 @@ The default values for each rule are described below.
 | duplicate_sibling_description | warning |
 | incorrect_ref_pattern        | warning |
 
+## Warnings Limit
+
+You may impose a warning limit on your API definitions. If the number of warnings issued exceeds the warning limit, the **exit code will be set to 1**. If the Validator is part of your CI build, this will cause the build to fail.
+
+To impose a warnings limit on a project, add a `.thresholdrc` to your project. It is recommended to add this file to the root of the project. The validator recursively searches up the filesystem from whichever directory the validator is invoked, and the nearest `.thresholdrc` will be used.
+
+The format for the `.thresholdrc` file is a top-level JSON object with a `"warnings"` field (shown below).
+
+    {
+      "warnings": 0
+    }
+
+###### limits
+| Limit                   | Default   |
+| ----------------------- | --------- |
+| warnings                | MAX_VALUE |
 
 ## Turning off `update-notifier`
 This package uses [`update-notifier`](https://github.com/yeoman/update-notifier) to alert users when new versions of the tool are available. To turn this feature _off_, follow [these instructions](https://github.com/yeoman/update-notifier/tree/8df01b35fbb8093e91d79fdf9900c344c2236f08#user-settings) from the package authors. It is recommended to keep this feature _on_ to help stay up to date with the latest changes.

@@ -1,3 +1,45 @@
+## [0.19.3](https://github.com/IBM/openapi-validator/compare/v0.19.2...v0.19.3) (2020-02-12)
+
+
+### Bug Fixes
+
+* print usage menu for an unknown flag ([#130](https://github.com/IBM/openapi-validator/issues/130)) ([def7dcc](https://github.com/IBM/openapi-validator/commit/def7dcc))
+
+## [0.19.2](https://github.com/IBM/openapi-validator/compare/v0.19.1...v0.19.2) (2020-02-11)
+
+
+### Bug Fixes
+
+* resolve refs when checking for success response schemas ([#136](https://github.com/IBM/openapi-validator/issues/136)) ([b286c69](https://github.com/IBM/openapi-validator/commit/b286c69))
+
+## [0.19.1](https://github.com/IBM/openapi-validator/compare/v0.19.0...v0.19.1) (2020-02-11)
+
+
+### Bug Fixes
+
+* updated code and test to reflect updated naming convention ([#133](https://github.com/IBM/openapi-validator/issues/133)) ([c44f2fa](https://github.com/IBM/openapi-validator/commit/c44f2fa))
+
+# [0.19.0](https://github.com/IBM/openapi-validator/compare/v0.18.0...v0.19.0) (2020-02-10)
+
+
+### Features
+
+* added configurable warning limits through .thresholdrc file ([#132](https://github.com/IBM/openapi-validator/issues/132)) ([2c3a919](https://github.com/IBM/openapi-validator/commit/2c3a919))
+
+# [0.18.0](https://github.com/IBM/openapi-validator/compare/v0.17.1...v0.18.0) (2020-02-07)
+
+
+### Features
+
+* add warning, non-204 success response should have response body ([#127](https://github.com/IBM/openapi-validator/issues/127)) ([90689c8](https://github.com/IBM/openapi-validator/commit/90689c8))
+
+## [0.17.1](https://github.com/IBM/openapi-validator/compare/v0.17.0...v0.17.1) (2020-02-07)
+
+
+### Bug Fixes
+
+* use correct property case for `tokenUrl` ([#134](https://github.com/IBM/openapi-validator/issues/134)) ([4395600](https://github.com/IBM/openapi-validator/commit/4395600))
+
 # [0.17.0](https://github.com/IBM/openapi-validator/compare/v0.16.2...v0.17.0) (2020-01-29)
 
 

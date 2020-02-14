@@ -45,6 +45,8 @@ const processInput = async function(program) {
 
   const configFileOverride = program.config;
 
+  const limitsFileOverride = program.limits;
+
   // turn on coloring by default
   const colors = turnOffColoring ? false : true;
 
@@ -140,6 +142,14 @@ const processInput = async function(program) {
   let configObject;
   try {
     configObject = await config.get(defaultMode, chalk, configFileOverride);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+
+  // get limits from .thresholdrc file
+  let limitsObject;
+  try {
+    limitsObject = await config.limits(chalk, limitsFileOverride);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -258,8 +268,26 @@ const processInput = async function(program) {
           originalFile,
           errorsOnly
         );
-        // fail on errors, but not if there are only warnings
-        if (results.error) exitCode = 1;
+        // fail on errors or if number of warnings exceeds warnings limit
+        if (results.error) {
+          exitCode = 1;
+        } else {
+          // Calculate number of warnings and set exit code to 1 if warning limit exceeded
+          let numWarnings = 0;
+          for (const key of Object.keys(results.warnings)) {
+            numWarnings += results.warnings[key].length;
+          }
+          if (numWarnings > limitsObject.warnings) {
+            exitCode = 1;
+            console.log(
+              chalk.red(
+                `Number of warnings (${numWarnings}) exceeds warnings limit (${
+                  limitsObject.warnings
+                }).`
+              )
+            );
+          }
+        }
       } else {
         console.log(chalk.green(`\n${validFile} passed the validator`));
         if (validFile === last(filesToValidate)) console.log();
