@@ -1660,4 +1660,59 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
+
+  it('should produce a warning for properties that have the same name but an inconsistent type', () => {
+    const spec = {
+      components: {
+        schemas: {
+          person: {
+            description: 'Produce warnings',
+            properties: {
+              name: {
+                description: 'type integer',
+                type: 'integer'
+              }
+            }
+          },
+          adult: {
+            description: 'Causes first warnings',
+            properties: {
+              name: {
+                description: 'different type',
+                type: 'number'
+              }
+            }
+          },
+          kid: {
+            description: 'Causes second warning',
+            properties: {
+              name: {
+                type: 'string',
+                description: 'differnt type'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const message = 'Property has inconsistent type: name.';
+    const res = validate({ jsSpec: spec }, config);
+
+    expect(res.warnings.length).toEqual(3);
+    expect(res.errors.length).toEqual(0);
+
+    expect(res.warnings[0].message).toEqual(message);
+    expect(res.warnings[0].path).toEqual(
+      'components.schemas.person.properties.name'
+    );
+    expect(res.warnings[1].message).toEqual(message);
+    expect(res.warnings[1].path).toEqual(
+      'components.schemas.adult.properties.name'
+    );
+    expect(res.warnings[2].message).toEqual(message);
+    expect(res.warnings[2].path).toEqual(
+      'components.schemas.kid.properties.name'
+    );
+  });
 });
