@@ -122,7 +122,7 @@ module.exports = function print(results, originalFile, errorsOnly, validFile, do
               IAM: {
                 type: 'apiKey',
                 name: 'Authorization',
-                description: 'Your IBM Cloud IAM access token.',
+                description: obj['description'] ? obj['description'] : 'Your IBM Cloud IAM access token.',
                 in: 'header'
               }
             };
