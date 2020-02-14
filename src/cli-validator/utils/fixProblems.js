@@ -3,7 +3,13 @@ const fs = require('fs');
 const snakeCase = require('snake-case');
 
 // this function prints all of the output
-module.exports = function print(results, originalFile, errorsOnly, validFile, doFixProblemsNewFile) {
+module.exports = function print(
+  results,
+  originalFile,
+  errorsOnly,
+  validFile,
+  doFixProblemsNewFile
+) {
   const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
 
   const originalJSON = JSON.parse(originalFile);
@@ -122,7 +128,9 @@ module.exports = function print(results, originalFile, errorsOnly, validFile, do
               IAM: {
                 type: 'apiKey',
                 name: 'Authorization',
-                description: obj['description'] ? obj['description'] : 'Your IBM Cloud IAM access token.',
+                description: obj['description']
+                  ? obj['description']
+                  : 'Your IBM Cloud IAM access token.',
                 in: 'header'
               }
             };
@@ -209,8 +217,10 @@ module.exports = function print(results, originalFile, errorsOnly, validFile, do
   const fixedJSON = JSON.stringify(originalJSON, null, 2);
   if (doFixProblemsNewFile) {
     console.log('Writing Fixes to new file');
-    var newfile = validFile.substr(0, validFile.lastIndexOf(".")) + '_new'
-      + validFile.substr(validFile.lastIndexOf("."), validFile.length-1);
+    const newfile =
+      validFile.substr(0, validFile.lastIndexOf('.')) +
+      '_new' +
+      validFile.substr(validFile.lastIndexOf('.'), validFile.length - 1);
     fs.writeFileSync(newfile, fixedJSON);
   } else {
     console.log('Writing Fixes in-place');
