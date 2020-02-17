@@ -2,6 +2,8 @@ const intercept = require('intercept-stdout');
 const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
+const modifiedCommander = require('../../../src/cli-validator/utils/modified-commander');
+const sinon = require('sinon');
 
 // for an explanation of the text interceptor,
 // see the comments for the first test in expectedOutput.js
@@ -315,5 +317,22 @@ describe('cli tool - test option handling', function() {
     });
     expect(warningCount).toEqual(3); // without the config this value is 5
     expect(errorCount).toEqual(3); // without the config this value is 0
+  });
+
+  it('should return an error and usage menu when there is an unknown option', async function() {
+    const errorStub = sinon.stub(console, 'error');
+    const helpStub = sinon.stub(modifiedCommander, 'outputHelp');
+    const exitStub = sinon.stub(process, 'exit');
+
+    modifiedCommander.unknownOption('r');
+
+    expect(errorStub.called).toEqual(true);
+    expect(errorStub.secondCall.args[0].trim()).toEqual(
+      "error: unknown option `%s'"
+    );
+    expect(errorStub.secondCall.args[1].trim()).toEqual('r');
+    expect(helpStub.called).toEqual(true);
+    expect(exitStub.called).toEqual(true);
+    expect(exitStub.firstCall.args[0]).toEqual(1);
   });
 });
