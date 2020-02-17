@@ -112,7 +112,7 @@ module.exports.validate = function({ resolvedSpec }) {
         // If PATCH operation doesn't exist for path, POST operationId should start with "update"
         if (
           !allPathOperations.includes('patch') &&
-          !operationId.match(/^(update[a-zA-Z0-9_]+/m)
+          !operationId.match(/^update[a-zA-Z0-9_]+/m)
         ) {
           checkPassed = false;
           verbs.push('update');
