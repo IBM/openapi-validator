@@ -4,15 +4,10 @@ const fs = require('fs');
 const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/schema-ibm');
+const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
 describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   it('should return an error when a property does not use a well defined property type', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       definitions: {
         WordStyle: {
@@ -45,12 +40,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return an error when a property does not use a well defined property type', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       definitions: {
         WordStyle: {
@@ -71,12 +60,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it("should return an error when an array property's items does not use a well defined property type", () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       definitions: {
         Thing: {
@@ -113,12 +96,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it("should not error when an array property's items is a ref", () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       definitions: {
         Thing: {
@@ -147,12 +124,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return an error when a response does not use a well defined property type', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       responses: {
         Thing: {
@@ -186,12 +157,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should non return an error for a response schema of type file', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -215,12 +180,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should non return an error for a definition with root type of file', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       definitions: {
         SomeSchema: {
@@ -236,12 +195,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return an error for a response schema with non-root type file', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -285,7 +238,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return a warning when a property name is not snake case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'warning'
       }
@@ -306,7 +259,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -321,7 +274,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return a warning when an items property name is not snake case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'warning'
       }
@@ -351,7 +304,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -370,7 +323,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
 
   // tests for explicit property case convention
   it('should return a warning when a property name does not follow property_case_convention[1]=lower_snake_case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'off',
         property_case_convention: ['warning', 'lower_snake_case']
@@ -392,7 +345,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -407,7 +360,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return a warning when a property name does not follow property_case_convention[1]=lower_snake_case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'off',
         property_case_convention: ['warning', 'lower_snake_case']
@@ -438,7 +391,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -456,7 +409,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return no warnings when a property does follow property_case_convention[1]=lower_snake_case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'off',
         property_case_convention: ['warning', 'lower_snake_case']
@@ -487,19 +440,12 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({ jsSpec: spec }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
 
   it('should not return a case_convention error when property is deprecated', () => {
-    const config = {
-      schemas: {
-        snake_case_only: 'off',
-        property_case_convention: ['error', 'lower_snake_case']
-      }
-    };
-
     const spec = {
       definitions: {
         Thing: {
@@ -522,12 +468,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return an error when a schema has no description', () => {
-    const config = {
-      schemas: {
-        no_schema_description: 'warning'
-      }
-    };
-
     const spec = {
       definitions: {
         Pet: {
@@ -561,13 +501,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return an error when a schema property has no description', () => {
-    const config = {
-      schemas: {
-        snake_case_only: 'off',
-        no_property_description: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -580,7 +513,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 schema: {
                   type: 'object',
                   properties: {
-                    badProperty: {
+                    bad_property: {
                       type: 'string'
                     }
                   }
@@ -603,7 +536,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       '0',
       'schema',
       'properties',
-      'badProperty',
+      'bad_property',
       'description'
     ]);
     expect(res.warnings[0].message).toEqual(
@@ -612,12 +545,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return an error when JSON is in the description', () => {
-    const config = {
-      schemas: {
-        description_mentions_json: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -630,7 +557,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 schema: {
                   type: 'object',
                   properties: {
-                    anyObject: {
+                    any_object: {
                       type: 'object',
                       description: 'it is not always a JSON object'
                     }
@@ -654,7 +581,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       '0',
       'schema',
       'properties',
-      'anyObject',
+      'any_object',
       'description'
     ]);
     expect(res.warnings[0].message).toEqual(
@@ -663,14 +590,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should not die when a schema contains a description property', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error',
-        no_property_description: 'warning',
-        description_mentions_json: 'warning'
-      }
-    };
-
     const spec = {
       definitions: {
         Notice: {
@@ -699,12 +618,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should not return an error when JSON is in the description of a vendor extension', () => {
-    const config = {
-      schemas: {
-        description_mentions_json: 'warning'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -736,12 +649,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   });
 
   it('should return a warning when a schema property is an array of arrays', () => {
-    const config = {
-      schemas: {
-        array_of_arrays: 'warning'
-      }
-    };
-
     const spec = {
       definitions: {
         Thing: {
@@ -780,12 +687,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
 
 describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should return an error when an OASv3 schema has no description', () => {
-    const config = {
-      schemas: {
-        no_schema_description: 'warning'
-      }
-    };
-
     const spec = {
       components: {
         schemas: {
@@ -821,12 +722,6 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should return an error when a complex parameter schema does not use a well defined property type', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       components: {
         parameters: {
@@ -838,7 +733,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 schema: {
                   type: 'object',
                   properties: {
-                    BadProp: {
+                    bad_prop: {
                       description: 'property with bad format',
                       type: 'integer',
                       format: 'wrong'
@@ -862,7 +757,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'application/json',
       'schema',
       'properties',
-      'BadProp',
+      'bad_prop',
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
@@ -872,12 +767,6 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should return an error for a response schema of type file', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -918,12 +807,6 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should not validate an example when it contains the resemblence of a problem', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = {
       paths: {
         '/pets': {
@@ -984,12 +867,6 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should process allOf, oneOf, anyOf schemas correctly', () => {
-    const config = {
-      schemas: {
-        invalid_type_format_pair: 'error'
-      }
-    };
-
     const spec = yaml.safeLoad(
       fs.readFileSync('test/cli-validator/mockFiles/oas3/testoneof.yaml')
     );
@@ -1005,8 +882,163 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
+  it('should report an error when allOf, anyOf, or oneOf is not an array', () => {
+    const spec = yaml.safeLoad(
+      fs.readFileSync('test/cli-validator/mockFiles/oas3/testComposeModel.yaml')
+    );
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(3);
+    expect(res.errors[0].message).toEqual('oneOf value should be an array');
+    expect(res.errors[0].path).toEqual([
+      'components',
+      'schemas',
+      'oneOfError',
+      'oneOf'
+    ]);
+    expect(res.errors[1].message).toEqual('allOf value should be an array');
+    expect(res.errors[1].path).toEqual([
+      'components',
+      'schemas',
+      'allOfError',
+      'allOf'
+    ]);
+    expect(res.errors[2].message).toEqual('anyOf value should be an array');
+    expect(res.errors[2].path).toEqual([
+      'components',
+      'schemas',
+      'anyOfError',
+      'anyOf'
+    ]);
+  });
+
+  it('should report an error when allOf, anyOf, or oneOf is not an array with complex hierarchies', () => {
+    const spec = yaml.safeLoad(
+      fs.readFileSync(
+        'test/cli-validator/mockFiles/oas3/complexTestComposeModel.yaml'
+      )
+    );
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(3);
+    expect(res.errors[0].message).toEqual('oneOf value should be an array');
+    expect(res.errors[0].path).toEqual([
+      'components',
+      'schemas',
+      'complexOneOfError',
+      'oneOf',
+      0,
+      'oneOf'
+    ]);
+    expect(res.errors[1].message).toEqual('allOf value should be an array');
+    expect(res.errors[1].path).toEqual([
+      'components',
+      'schemas',
+      'complexAllOfError',
+      'oneOf',
+      0,
+      'allOf'
+    ]);
+    expect(res.errors[2].message).toEqual('anyOf value should be an array');
+    expect(res.errors[2].path).toEqual([
+      'components',
+      'schemas',
+      'complexAnyOfError',
+      'oneOf',
+      0,
+      'anyOf'
+    ]);
+  });
+
+  it('should report an error when non-array allOf, anyOf, or oneOf schema used in object prop', () => {
+    const spec = yaml.safeLoad(
+      fs.readFileSync(
+        'test/cli-validator/mockFiles/oas3/composeModelProps.yaml'
+      )
+    );
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(3);
+    expect(res.errors[0].message).toEqual('oneOf value should be an array');
+    expect(res.errors[0].path).toEqual([
+      'components',
+      'schemas',
+      'object1',
+      'properties',
+      'one_of_error_prop',
+      'schema',
+      'oneOf'
+    ]);
+    expect(res.errors[1].message).toEqual('allOf value should be an array');
+    expect(res.errors[1].path).toEqual([
+      'components',
+      'schemas',
+      'object1',
+      'properties',
+      'all_of_error_prop',
+      'schema',
+      'allOf'
+    ]);
+    expect(res.errors[2].message).toEqual('anyOf value should be an array');
+    expect(res.errors[2].path).toEqual([
+      'components',
+      'schemas',
+      'object1',
+      'properties',
+      'any_of_error_prop',
+      'schema',
+      'anyOf'
+    ]);
+  });
+
+  it('should report an error when non-array allOf, anyOf, or oneOf schema used as items schema in array', () => {
+    const spec = yaml.safeLoad(
+      fs.readFileSync(
+        'test/cli-validator/mockFiles/oas3/composeModelItems.yaml'
+      )
+    );
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(3);
+    expect(res.errors[0].message).toEqual('oneOf value should be an array');
+    expect(res.errors[0].path).toEqual([
+      'components',
+      'schemas',
+      'one_of_array',
+      'items',
+      'oneOf'
+    ]);
+    expect(res.errors[1].message).toEqual('allOf value should be an array');
+    expect(res.errors[1].path).toEqual([
+      'components',
+      'schemas',
+      'all_of_array',
+      'items',
+      'allOf'
+    ]);
+    expect(res.errors[2].message).toEqual('anyOf value should be an array');
+    expect(res.errors[2].path).toEqual([
+      'components',
+      'schemas',
+      'any_of_array',
+      'items',
+      'anyOf'
+    ]);
+  });
+
+  it('should not report an error when allOf, anyOf, or oneOf schema is an array', () => {
+    const spec = yaml.safeLoad(
+      fs.readFileSync(
+        'test/cli-validator/mockFiles/oas3/composeModelsUseArray.yaml'
+      )
+    );
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+  });
+
   it('should return a warning when an enum value is not snake case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'warning'
       }
@@ -1028,7 +1060,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -1045,7 +1077,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should return a warning when an enum value is not snake case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'warning'
       }
@@ -1074,7 +1106,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -1093,7 +1125,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should return a warning when an enum value is not snake case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'warning'
       }
@@ -1115,7 +1147,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -1132,7 +1164,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should return a warning when an enum value is not snake case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'warning'
       }
@@ -1161,7 +1193,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -1181,7 +1213,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
 
   // Tests for explicit enum_case_convention
   it('should return a warning when an enum value does not follow enum_case_convention[1]=lower_snake_case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'off',
         enum_case_convention: ['warning', 'lower_snake_case']
@@ -1204,7 +1236,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -1221,7 +1253,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should return a warning when an enum value does not follow enum_case_convention[1]=lower_snake_case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'off',
         enum_case_convention: ['warning', 'lower_snake_case']
@@ -1251,7 +1283,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -1270,7 +1302,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should return a warning when an enum value does not follow enum_case_convention[1]=lower_snake_case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'off',
         enum_case_convention: ['warning', 'lower_snake_case']
@@ -1293,7 +1325,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -1310,7 +1342,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should return a warning when an enum value does not follow enum_case_convention[1]=lower_snake_case', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'off',
         enum_case_convention: ['warning', 'lower_snake_case']
@@ -1340,7 +1372,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -1359,7 +1391,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   });
 
   it('should skip validation for non string values', () => {
-    const config = {
+    const customConfig = {
       schemas: {
         snake_case_only: 'warning'
       }
@@ -1381,7 +1413,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       }
     };
 
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });

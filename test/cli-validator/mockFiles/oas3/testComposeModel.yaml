@@ -1,0 +1,19 @@
+openapi: 3.0.0
+components:
+  schemas:
+    A:
+      description: a schema
+      type: string
+      format: byte
+    oneOfError:
+      description: should be array but instead just a ref
+      oneOf:
+        $ref: '#/components/schemas/A'
+    allOfError:
+      description: should be array but instead just a type
+      allOf:
+        type: string
+    anyOfError:
+      description: should be array but instead just a ref
+      anyOf:
+        $ref: '#/components/schemas/A'

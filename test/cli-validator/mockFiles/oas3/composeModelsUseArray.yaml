@@ -1,0 +1,22 @@
+openapi: 3.0.0
+components:
+  schemas:
+    object1:
+      type: object
+      description: an object schema
+      properties:
+        one_of_error_prop:
+          description: oneOf should be array
+          schema:
+            oneOf:
+              - type: string
+        all_of_error_prop:
+          description: allOf should be array
+          schema:
+            allOf:
+              - type: string
+        any_of_error_prop:
+          description: anyOf should be array
+          schema:
+            anyOf:
+              - type: string
