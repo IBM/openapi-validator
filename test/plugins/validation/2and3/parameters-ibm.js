@@ -594,7 +594,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 in: 'query',
                 schema: {
                   type: 'string',
-                  format: 'binary'
+                  format: 'byte'
                 }
               }
             ]

@@ -96,6 +96,9 @@ const defaults = {
       'no_response_codes': 'error',
       'no_success_response_codes': 'warning',
       'no_response_body': 'warning'
+    },
+    'schemas': {
+      'json_or_param_binary_string': 'warning'
     }
   }
 };
