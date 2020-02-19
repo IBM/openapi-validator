@@ -6,12 +6,11 @@
 
 const at = require('lodash/at');
 const { walk } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 // Walks an entire spec.
 module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   config = config.walker;
 
@@ -22,13 +21,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
 
       // verify description is not empty
       if (description.length === 0 || !description.trim()) {
-        const checkStatus = config.no_empty_descriptions;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: [...path, 'description'],
-            message: 'Items with a description must have content in it.'
-          });
-        }
+        messages.addMessage(
+          [...path, 'description'],
+          'Items with a description must have content in it.',
+          config.no_empty_descriptions
+        );
       }
 
       // check description siblings to $refs
@@ -41,14 +38,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
           referencedSchema.description &&
           referencedSchema.description === description
         ) {
-          const checkStatus = config.duplicate_sibling_description;
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path: [...path, 'description'],
-              message:
-                'Description sibling to $ref matches that of the referenced schema. This is redundant and should be removed.'
-            });
-          }
+          messages.addMessage(
+            [...path, 'description'],
+            'Description sibling to $ref matches that of the referenced schema. This is redundant and should be removed.',
+            config.duplicate_sibling_description
+          );
         }
       }
     }
@@ -56,13 +50,14 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
     // check for and flag null values - they are not allowed by the spec and are likely mistakes
     Object.keys(obj).forEach(key => {
       if (obj[key] === null) {
-        result.error.push({
-          path: [...path, key],
-          message: 'Null values are not allowed for any property.'
-        });
+        messages.addMessage(
+          [...path, key],
+          'Null values are not allowed for any property.',
+          'error'
+        );
       }
     });
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };

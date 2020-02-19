@@ -16,13 +16,12 @@
 // type: string, format: binary.
 
 const { walk } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
   .findOctetSequencePaths;
 
 module.exports.validate = function({ resolvedSpec }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   const configSchemas = config.schemas;
   config = config.responses;
@@ -38,56 +37,46 @@ module.exports.validate = function({ resolvedSpec }, config) {
       if (binaryStringStatus !== 'off') {
         validateNoBinaryStringsInResponse(
           obj,
-          result,
+          messages,
           path,
           binaryStringStatus
         );
       }
 
       if (!statusCodes.length) {
-        const message =
-          'Each `responses` object MUST have at least one response code.';
-        const checkStatus = config.no_response_codes;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path,
-            message
-          });
-        }
+        messages.addMessage(
+          path,
+          'Each `responses` object MUST have at least one response code.',
+          config.no_response_codes
+        );
       } else if (!successCodes.length) {
-        const message =
-          'Each `responses` object SHOULD have at least one code for a successful response.';
-        const checkStatus = config.no_success_response_codes;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path,
-            message
-          });
-        }
+        messages.addMessage(
+          path,
+          'Each `responses` object SHOULD have at least one code for a successful response.',
+          config.no_success_response_codes
+        );
       } else {
         // validate success codes
         for (const successCode of successCodes) {
           if (successCode !== '204' && !obj[successCode].content) {
-            const checkStatus = config.no_response_body;
-            if (checkStatus !== 'off') {
-              const message = `A ${successCode} response should include a response body. Use 204 for responses without content.`;
-              result[checkStatus].push({
-                path: path.concat([successCode]),
-                message
-              });
-            }
+            messages.addMessage(
+              path.concat([successCode]),
+              `A ${successCode} response should include a response body. Use 204 for responses without content.`,
+              config.no_response_body
+            );
           } else if (successCode === '204' && obj[successCode].content) {
-            result.error.push({
-              path: path.concat(['204', 'content']),
-              message: `A 204 response MUST NOT include a message-body.`
-            });
+            messages.addMessage(
+              path.concat(['204', 'content']),
+              `A 204 response MUST NOT include a message-body.`,
+              'error'
+            );
           }
         }
       }
     }
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };
 
 function getResponseCodes(responseObj) {
@@ -105,7 +94,7 @@ function isStatusCode(code) {
 
 function validateNoBinaryStringsInResponse(
   responseObj,
-  result,
+  messages,
   path,
   binaryStringStatus
 ) {
@@ -124,13 +113,12 @@ function validateNoBinaryStringsInResponse(
             responseBodyContent[mimeType].schema,
             schemaPath
           );
-          const message =
-            'JSON request/response bodies should not contain binary (type: string, format: binary) values.';
           for (const p of octetSequencePaths) {
-            result[binaryStringStatus].push({
-              path: p,
-              message
-            });
+            messages.addMessage(
+              p,
+              'JSON request/response bodies should not contain binary (type: string, format: binary) values.',
+              binaryStringStatus
+            );
           }
         }
       });

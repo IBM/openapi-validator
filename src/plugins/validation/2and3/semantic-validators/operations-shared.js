@@ -19,11 +19,10 @@ const map = require('lodash/map');
 const each = require('lodash/each');
 const findIndex = require('lodash/findIndex');
 const { checkCase, hasRefProperty } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   config = config.operations;
 
@@ -50,10 +49,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
       // check for operations that have a $ref property
       // these are illegal in the spec
       if (hasRefProperty(jsSpec, ['paths', pathKey, opKey])) {
-        result.error.push({
-          path: `paths.${pathKey}.${opKey}.$ref`,
-          message: '$ref found in illegal location'
-        });
+        messages.addMessage(
+          `paths.${pathKey}.${opKey}.$ref`,
+          '$ref found in illegal location',
+          'error'
+        );
       }
 
       // check for unique name/in properties in params
@@ -68,11 +68,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
         // it also will favor complaining about parameters later in the spec, which
         // makes more sense to the user.
         if (paramIndex !== nameAndInComboIndex) {
-          result.error.push({
-            path: `paths.${pathKey}.${opKey}.parameters[${paramIndex}]`,
-            message:
-              "Operation parameters must have unique 'name' + 'in' properties"
-          });
+          messages.addMessage(
+            `paths.${pathKey}.${opKey}.parameters[${paramIndex}]`,
+            "Operation parameters must have unique 'name' + 'in' properties",
+            'error'
+          );
         }
       });
 
@@ -87,11 +87,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
                 (content.schema.type === 'array' || content.schema.items);
 
               if (isArray) {
-                result[checkStatusArrRes].push({
-                  path: `paths.${pathKey}.${opKey}.responses.${name}.content.${contentType}.schema`,
-                  message:
-                    'Arrays MUST NOT be returned as the top-level structure in a response body.'
-                });
+                messages.addMessage(
+                  `paths.${pathKey}.${opKey}.responses.${name}.content.${contentType}.schema`,
+                  'Arrays MUST NOT be returned as the top-level structure in a response body.',
+                  checkStatusArrRes
+                );
               }
             });
           } else {
@@ -100,11 +100,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
               (response.schema.type === 'array' || response.schema.items);
 
             if (isArray) {
-              result[checkStatusArrRes].push({
-                path: `paths.${pathKey}.${opKey}.responses.${name}.schema`,
-                message:
-                  'Arrays MUST NOT be returned as the top-level structure in a response body.'
-              });
+              messages.addMessage(
+                `paths.${pathKey}.${opKey}.responses.${name}.schema`,
+                'Arrays MUST NOT be returned as the top-level structure in a response body.',
+                checkStatusArrRes
+              );
             }
           }
         });
@@ -115,23 +115,22 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
         op.operationId.length > 0 &&
         !!op.operationId.toString().trim();
       if (!hasOperationId) {
-        const checkStatus = config.no_operation_id;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: `paths.${pathKey}.${opKey}.operationId`,
-            message: 'Operations must have a non-empty `operationId`.'
-          });
-        }
+        messages.addMessage(
+          `paths.${pathKey}.${opKey}.operationId`,
+          'Operations must have a non-empty `operationId`.',
+          config.no_operation_id
+        );
       } else {
         // check operationId for case convention
         const checkStatus = config.operation_id_case_convention[0];
         const caseConvention = config.operation_id_case_convention[1];
         const isCorrectCase = checkCase(op.operationId, caseConvention);
-        if (!isCorrectCase && checkStatus != 'off') {
-          result[checkStatus].push({
-            path: `paths.${pathKey}.${opKey}.operationId`,
-            message: `operationIds must follow case convention: ${caseConvention}`
-          });
+        if (!isCorrectCase) {
+          messages.addMessage(
+            `paths.${pathKey}.${opKey}.operationId`,
+            `operationIds must follow case convention: ${caseConvention}`,
+            checkStatus
+          );
         }
       }
       const hasOperationTags = op.tags && op.tags.length > 0;
@@ -143,13 +142,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
         }
         for (let i = 0, len = op.tags.length; i < len; i++) {
           if (!resolvedTags.includes(op.tags[i])) {
-            const checkStatus = config.unused_tag;
-            if (checkStatus !== 'off') {
-              result[checkStatus].push({
-                path: `paths.${pathKey}.${opKey}.tags`,
-                message: 'tag is not defined at the global level: ' + op.tags[i]
-              });
-            }
+            messages.addMessage(
+              `paths.${pathKey}.${opKey}.tags`,
+              'tag is not defined at the global level: ' + op.tags[i],
+              config.unused_tag
+            );
           }
         }
       }
@@ -157,13 +154,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
       const hasSummary =
         op.summary && op.summary.length > 0 && !!op.summary.toString().trim();
       if (!hasSummary) {
-        const checkStatus = config.no_summary;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: `paths.${pathKey}.${opKey}.summary`,
-            message: 'Operations must have a non-empty `summary` field.'
-          });
-        }
+        messages.addMessage(
+          `paths.${pathKey}.${opKey}.summary`,
+          'Operations must have a non-empty `summary` field.',
+          config.no_summary
+        );
       }
 
       // this should be good with resolved spec, but double check
@@ -180,11 +175,11 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
               }
             } else {
               if (param.required) {
-                result[checkStatusParamOrder].push({
-                  path: `paths.${pathKey}.${opKey}.parameters[${indx}]`,
-                  message:
-                    'Required parameters should appear before optional parameters.'
-                });
+                messages.addMessage(
+                  `paths.${pathKey}.${opKey}.parameters[${indx}]`,
+                  'Required parameters should appear before optional parameters.',
+                  checkStatusParamOrder
+                );
               }
             }
           }
@@ -193,5 +188,5 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
     });
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };

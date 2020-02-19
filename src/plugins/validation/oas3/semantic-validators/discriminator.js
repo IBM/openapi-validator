@@ -13,10 +13,10 @@
 const each = require('lodash/each');
 const has = require('lodash/has');
 const get = require('lodash/get');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   const schemas = get(jsSpec, ['components', 'schemas'], []);
 
@@ -29,47 +29,48 @@ module.exports.validate = function({ jsSpec }) {
       // If discriminator is not an object, error out and return
       if (typeof discriminator === 'object') {
         if (!has(discriminator, 'propertyName')) {
-          errors.push({
-            path: basePath.concat([schemaName, 'discriminator']).join('.'),
-            message:
-              'Discriminator must be of type object with field name propertyName'
-          });
+          messages.addMessage(
+            basePath.concat([schemaName, 'discriminator']).join('.'),
+            'Discriminator must be of type object with field name propertyName',
+            'error'
+          );
           return;
         }
       } else {
-        errors.push({
-          path: basePath.concat([schemaName, 'discriminator']).join('.'),
-          message: 'Discriminator must be of type object'
-        });
+        messages.addMessage(
+          basePath.concat([schemaName, 'discriminator']).join('.'),
+          'Discriminator must be of type object',
+          'error'
+        );
         return;
       }
 
       // If discriminator propertyName is not a string, error out and return
       const { propertyName } = discriminator;
       if (typeof propertyName !== 'string') {
-        errors.push({
-          path: basePath
+        messages.addMessage(
+          basePath
             .concat([schemaName, 'discriminator', 'propertyName'])
             .join('.'),
-          message:
-            '`propertyName` inside discriminator object must be of type string'
-        });
+          '`propertyName` inside discriminator object must be of type string',
+          'error'
+        );
         return;
       }
 
       // If the schema's property doesn't include propertyName defined in discriminator, error out and return
       const { properties } = schema;
       if (!has(properties, propertyName)) {
-        errors.push({
-          path: basePath
+        messages.addMessage(
+          basePath
             .concat([schemaName, 'discriminator', 'propertyName'])
             .join('.'),
-          message:
-            'The discriminator property name used must be defined in this schema'
-        });
+          'The discriminator property name used must be defined in this schema',
+          'error'
+        );
         return;
       }
     }
   });
-  return { errors, warnings };
+  return messages;
 };

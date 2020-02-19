@@ -19,12 +19,12 @@
 const each = require('lodash/each');
 const findIndex = require('lodash/findIndex');
 const isObject = require('lodash/isObject');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 const templateRegex = /\{(.*?)\}/g;
 
 module.exports.validate = function({ resolvedSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   const seenRealPaths = {};
 
@@ -48,19 +48,21 @@ module.exports.validate = function({ resolvedSpec }) {
         templateRegex.test(substr) &&
         substr.replace(templateRegex, '').length > 0
       ) {
-        errors.push({
-          path: `paths.${pathName}`,
-          message: 'Partial path templating is not allowed.'
-        });
+        messages.addMessage(
+          `paths.${pathName}`,
+          'Partial path templating is not allowed.',
+          'error'
+        );
       }
     });
 
     // Assertation 6
     if (pathName.indexOf('?') > -1) {
-      errors.push({
-        path: `paths.${pathName}`,
-        message: 'Query strings in paths are not allowed.'
-      });
+      messages.addMessage(
+        `paths.${pathName}`,
+        'Query strings in paths are not allowed.',
+        'error'
+      );
     }
 
     const parametersFromPath = path.parameters ? path.parameters.slice() : [];
@@ -94,10 +96,11 @@ module.exports.validate = function({ resolvedSpec }) {
     // Assertation 3
     const hasBeenSeen = tallyRealPath(pathName);
     if (hasBeenSeen) {
-      errors.push({
-        path: `paths.${pathName}`,
-        message: 'Equivalent paths are not allowed.'
-      });
+      messages.addMessage(
+        `paths.${pathName}`,
+        'Equivalent paths are not allowed.',
+        'error'
+      );
     }
 
     // Assertation 4
@@ -112,10 +115,11 @@ module.exports.validate = function({ resolvedSpec }) {
       // it also will favor complaining about parameters later in the spec, which
       // makes more sense to the user.
       if (i !== nameAndInComboIndex && parameterDefinition.in) {
-        errors.push({
-          path: `paths.${pathName}.parameters[${i}]`,
-          message: "Path parameters must have unique 'name' + 'in' properties"
-        });
+        messages.addMessage(
+          `paths.${pathName}.parameters[${i}]`,
+          "Path parameters must have unique 'name' + 'in' properties",
+          'error'
+        );
       }
     });
 
@@ -131,13 +135,13 @@ module.exports.validate = function({ resolvedSpec }) {
         parameterDefinition.in === 'path' &&
         pathTemplates.indexOf(parameterDefinition.name) === -1
       ) {
-        errors.push({
-          path:
-            parameterDefinition.$$path || `paths.${pathName}.parameters[${i}]`,
-          message: `Path parameter was defined but never used: ${
+        messages.addMessage(
+          parameterDefinition.$$path || `paths.${pathName}.parameters[${i}]`,
+          `Path parameter was defined but never used: ${
             parameterDefinition.name
-          }`
-        });
+          }`,
+          'error'
+        );
       }
     });
 
@@ -147,26 +151,28 @@ module.exports.validate = function({ resolvedSpec }) {
 
         if (parameter === '') {
           // it was originally "{}"
-          errors.push({
-            path: `paths.${pathName}`,
-            message: 'Empty path parameter declarations are not valid'
-          });
+          messages.addMessage(
+            `paths.${pathName}`,
+            'Empty path parameter declarations are not valid',
+            'error'
+          );
         }
       });
     } else {
       each(availableParameters, (parameterDefinition, i) => {
         // Assertation 1, for cases when no templating is present on the path
         if (parameterDefinition.in === 'path') {
-          errors.push({
-            path: `paths.${pathName}.parameters[${i}]`,
-            message: `Path parameter was defined but never used: ${
+          messages.addMessage(
+            `paths.${pathName}.parameters[${i}]`,
+            `Path parameter was defined but never used: ${
               parameterDefinition.name
-            }`
-          });
+            }`,
+            'error'
+          );
         }
       });
     }
   });
 
-  return { errors, warnings };
+  return messages;
 };

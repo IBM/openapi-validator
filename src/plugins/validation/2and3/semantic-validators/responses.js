@@ -1,13 +1,12 @@
 const each = require('lodash/each');
 const { walk } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 const INLINE_SCHEMA_MESSAGE =
   'Response schemas should be defined with a named ref.';
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   config = config.responses;
 
@@ -41,39 +40,29 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                       const hasInlineSchema = !mediaType.schema[schemaType][i]
                         .$ref;
                       if (hasInlineSchema) {
-                        const checkStatus = config.inline_response_schema;
-                        if (checkStatus !== 'off') {
-                          result[checkStatus].push({
-                            path: [
-                              ...path,
-                              responseKey,
-                              'content',
-                              mediaTypeKey,
-                              'schema',
-                              schemaType,
-                              i
-                            ],
-                            message: INLINE_SCHEMA_MESSAGE
-                          });
-                        }
+                        messages.addMessage(
+                          [
+                            ...path,
+                            responseKey,
+                            'content',
+                            mediaTypeKey,
+                            'schema',
+                            schemaType,
+                            i
+                          ],
+                          INLINE_SCHEMA_MESSAGE,
+                          config.inline_response_schema
+                        );
                       }
                     }
                   }
                 });
               } else if (!mediaType.schema.$ref) {
-                const checkStatus = config.inline_response_schema;
-                if (checkStatus !== 'off') {
-                  result[checkStatus].push({
-                    path: [
-                      ...path,
-                      responseKey,
-                      'content',
-                      mediaTypeKey,
-                      'schema'
-                    ],
-                    message: INLINE_SCHEMA_MESSAGE
-                  });
-                }
+                messages.addMessage(
+                  [...path, responseKey, 'content', mediaTypeKey, 'schema'],
+                  INLINE_SCHEMA_MESSAGE,
+                  config.inline_response_schema
+                );
               }
             }
           });
@@ -83,18 +72,16 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
           const hasInlineSchema = response.schema && !response.schema.$ref;
           if (hasInlineSchema) {
-            const checkStatus = config.inline_response_schema;
-            if (checkStatus !== 'off') {
-              result[checkStatus].push({
-                path: [...path, responseKey, 'schema'],
-                message: INLINE_SCHEMA_MESSAGE
-              });
-            }
+            messages.addMessage(
+              [...path, responseKey, 'schema'],
+              INLINE_SCHEMA_MESSAGE,
+              config.inline_response_schema
+            );
           }
         }
       });
     }
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };

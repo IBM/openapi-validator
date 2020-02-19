@@ -10,13 +10,12 @@
 const pick = require('lodash/pick');
 const each = require('lodash/each');
 const { hasRefProperty } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
   .findOctetSequencePaths;
 
 module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   const configSchemas = config.schemas;
   config = config.operations;
@@ -39,13 +38,11 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
         const requestBodyMimeTypes =
           op.requestBody.content && Object.keys(requestBodyContent);
         if (!requestBodyContent || !requestBodyMimeTypes.length) {
-          const checkStatus = config.no_request_body_content;
-          if (checkStatus !== 'off') {
-            result[checkStatus].push({
-              path: `paths.${pathName}.${opName}.requestBody`,
-              message: 'Request bodies MUST specify a `content` property'
-            });
-          }
+          messages.addMessage(
+            `paths.${pathName}.${opName}.requestBody`,
+            'Request bodies MUST specify a `content` property',
+            config.no_request_body_content
+          );
         } else {
           // request body has content
           const firstMimeType = requestBodyMimeTypes[0]; // code generation uses the first mime type
@@ -78,15 +75,11 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
             !hasReferencedRequestBody &&
             !hasRequestBodyName
           ) {
-            const checkStatus = config.no_request_body_name;
-            if (checkStatus != 'off') {
-              const message =
-                'Operations with non-form request bodies should set a name with the x-codegen-request-body-name annotation.';
-              result[checkStatus].push({
-                path: `paths.${pathName}.${opName}`,
-                message
-              });
-            }
+            messages.addMessage(
+              `paths.${pathName}.${opName}`,
+              'Operations with non-form request bodies should set a name with the x-codegen-request-body-name annotation.',
+              config.no_request_body_name
+            );
           }
 
           // Assertation 3
@@ -99,13 +92,12 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
                   requestBodyContent[mimeType].schema,
                   schemaPath
                 );
-                const message =
-                  'JSON request/response bodies should not contain binary (type: string, format: binary) values.';
                 for (const p of octetSequencePaths) {
-                  result[binaryStringStatus].push({
-                    path: p,
-                    message
-                  });
+                  messages.addMessage(
+                    p,
+                    'JSON request/response bodies should not contain binary (type: string, format: binary) values.',
+                    binaryStringStatus
+                  );
                 }
               }
             }
@@ -115,7 +107,7 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
     });
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };
 
 function isFormParameter(mimeType) {
