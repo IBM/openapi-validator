@@ -1,6 +1,7 @@
 const each = require('lodash/each');
 const fs = require('fs');
 const snakeCase = require('snake-case');
+const camelCase = require('camelcase');
 
 // this function prints all of the output
 module.exports = function print(
@@ -8,7 +9,8 @@ module.exports = function print(
   originalFile,
   errorsOnly,
   validFile,
-  doFixProblemsNewFile
+  doFixProblemsNewFile,
+  configObject
 ) {
   const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
 
@@ -19,6 +21,7 @@ module.exports = function print(
   const newPathNames = {};
   const definitionsToDelete = {};
 
+  // Mark a parameter for deletion given a path separated by commas
   const markForDeletion = path => {
     const pathstr = path.slice(0, path.length - 1).join(',');
     if (pathstr in paramsToDelete) {
@@ -28,6 +31,7 @@ module.exports = function print(
     }
   };
 
+  // Mark a parameter for moving (reordering) given a path separated by commas
   const markForMoving = (path, parent) => {
     const pathstr = path.slice(0, path.length - 1).join(',');
     if (
@@ -44,6 +48,7 @@ module.exports = function print(
     }
   };
 
+  // Unmark a parameter for Moving if it is already marked for deletion
   const unmarkIfMarkedForMoving = (path, parent) => {
     const pathstr = path.slice(0, path.length - 1).join(',');
     const compFunc = param =>
@@ -59,6 +64,8 @@ module.exports = function print(
     }
   };
 
+  // Given a path array, traverse down the path on the original JSON object
+  // Return the found object and up to three parents
   const getObjectFromPath = path => {
     const pathcopy = path.slice(0);
     let obj = originalJSON;
@@ -82,11 +89,18 @@ module.exports = function print(
         if (!Array.isArray(path)) {
           path = path.split('.');
         }
+
+        // In the case that a path includes brackets ['path', 'to', 'array[index]'],
+        // remove the brackets and add the index inside as a new element ['path', 'to', 'array', 'index']
         if (path[path.length - 1].includes('[')) {
           path.push(path[path.length - 1].split(']')[0].split('[')[1]);
           path[path.length - 2] = path[path.length - 2].split(['['])[0];
         }
+
+        // Get object and it's parents from path
         const { obj, parent, ppParent } = getObjectFromPath(path);
+
+        // Fix changes based on given warning or error message
         if (message.includes('Schema must have a non-empty description')) {
           // obj['description'] = path[path.length - 1];
         } else if (
@@ -122,27 +136,38 @@ module.exports = function print(
             'Rely on the `securitySchemas` and `security` fields to specify authorization methods.'
           )
         ) {
-          if (!('security' in originalJSON)) {
-            originalJSON['security'] = [{ IAM: [] }];
-            originalJSON['components']['securitySchemes'] = {
-              IAM: {
-                type: 'apiKey',
-                name: 'Authorization',
-                description: obj['description']
-                  ? obj['description']
-                  : 'Your IBM Cloud IAM access token.',
-                in: 'header'
-              }
-            };
+          if (obj['description'].includes("IAM")) {
+            if (!('security' in originalJSON)) {
+              originalJSON['security'] = [{ IAM: [] }];
+              originalJSON['components']['securitySchemes'] = {
+                IAM: {
+                  type: 'apiKey',
+                  name: 'Authorization',
+                  description: obj['description']
+                    ? obj['description']
+                    : 'Your IBM Cloud IAM access token.',
+                  in: 'header'
+                }
+              };
+            }
+            markForDeletion(path);
+            unmarkIfMarkedForMoving(path, parent);
           }
-          markForDeletion(path);
-          unmarkIfMarkedForMoving(path, parent);
         } else if (
           message.includes('operationIds must follow case convention')
         ) {
-          parent[path[path.length - 1]] = snakeCase.snakeCase(
-            parent[path[path.length - 1]]
-          );
+          let opIdCase = configObject['shared']['operations']['operation_id_case_convention'][1];
+          if (opIdCase === "lower_snake_case") {
+            parent[path[path.length - 1]] = snakeCase.snakeCase(
+              parent[path[path.length - 1]]
+            );
+          } else if (opIdCase === "upper_snake_case") {
+            parent[path[path.length - 1]] = snakeCase.snakeCase(
+              parent[path[path.length - 1]]
+            ).toUpperCase();
+          } else if (opIdCase === "lower_camel_case") {
+            parent[path[path.length - 1]] = camelCase(parent[path[path.length - 1]]);
+          }
         } else if (
           message.includes(
             'Required parameters should appear before optional parameters.'

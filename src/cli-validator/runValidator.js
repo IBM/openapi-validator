@@ -258,7 +258,8 @@ const processInput = async function(program) {
         originalFile,
         errorsOnly,
         validFile,
-        doFixProblemsNewFile
+        doFixProblemsNewFile,
+        configObject
       );
     }
 
