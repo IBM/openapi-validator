@@ -136,7 +136,7 @@ module.exports = function print(
             'Rely on the `securitySchemas` and `security` fields to specify authorization methods.'
           )
         ) {
-          if (obj['description'].includes("IAM")) {
+          if (obj['description'].includes('IAM')) {
             if (!('security' in originalJSON)) {
               originalJSON['security'] = [{ IAM: [] }];
               originalJSON['components']['securitySchemes'] = {
@@ -156,17 +156,22 @@ module.exports = function print(
         } else if (
           message.includes('operationIds must follow case convention')
         ) {
-          let opIdCase = configObject['shared']['operations']['operation_id_case_convention'][1];
-          if (opIdCase === "lower_snake_case") {
+          const opIdCase =
+            configObject['shared']['operations'][
+              'operation_id_case_convention'
+            ][1];
+          if (opIdCase === 'lower_snake_case') {
             parent[path[path.length - 1]] = snakeCase.snakeCase(
               parent[path[path.length - 1]]
             );
-          } else if (opIdCase === "upper_snake_case") {
-            parent[path[path.length - 1]] = snakeCase.snakeCase(
+          } else if (opIdCase === 'upper_snake_case') {
+            parent[path[path.length - 1]] = snakeCase
+              .snakeCase(parent[path[path.length - 1]])
+              .toUpperCase();
+          } else if (opIdCase === 'lower_camel_case') {
+            parent[path[path.length - 1]] = camelCase(
               parent[path[path.length - 1]]
-            ).toUpperCase();
-          } else if (opIdCase === "lower_camel_case") {
-            parent[path[path.length - 1]] = camelCase(parent[path[path.length - 1]]);
+            );
           }
         } else if (
           message.includes(
