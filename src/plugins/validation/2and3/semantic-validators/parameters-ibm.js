@@ -181,7 +181,7 @@ function formatValid(obj, isOAS3) {
       return (
         !schema.format ||
         includes(
-          ['byte', 'binary', 'date', 'date-time', 'password'],
+          ['byte', 'date', 'date-time', 'password'],
           schema.format.toLowerCase()
         )
       );

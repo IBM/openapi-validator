@@ -253,6 +253,7 @@ The supported rules are described below:
 | array_of_arrays             | Flag any schema with a 'property' of type `array` with items of type `array`. | shared   |
 | property_case_convention    | Flag any property with a `name` that does not follow a given case convention. snake_case_only must be 'off' to use. | shared |
 | enum_case_convention        | Flag any enum with a `value` that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
+| json_or_param_binary_string | Flag parameters or application/json request/response bodies with schema type: string, format: binary. | oas3 |
 
 ##### security_definitions
 | Rule                        | Description                                                                           | Spec   |
@@ -361,6 +362,11 @@ The default values for each rule are described below.
 | no_success_response_codes | warning |
 | no_response_body          | warning |
 
+##### schemas
+
+| Rule                        | Default |
+| --------------------------- | ------- |
+| json_or_param_binary_string | warning |
 
 ##### shared
 

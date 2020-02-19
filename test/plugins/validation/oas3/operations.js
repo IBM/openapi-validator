@@ -263,4 +263,403 @@ describe('validation plugin - semantic - operations - oas3', function() {
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
+
+  it('should not complain about valid use of type:string, format: binary', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            'x-codegen-request-body-name': 'goodRequestBody',
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'multipart/form-data': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      type: 'object',
+                      properties: {
+                        prop1: {
+                          type: 'string',
+                          format: 'binary'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should warn about application/json request body with type:string, format: binary', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            'x-codegen-request-body-name': 'goodRequestBody',
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'string',
+                    format: 'binary'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[0].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema'
+    );
+  });
+
+  it('should warn about application/json request body with nested array of type:string, format: binary', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            'x-codegen-request-body-name': 'goodRequestBody',
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      type: 'array',
+                      items: {
+                        type: 'array',
+                        items: {
+                          type: 'string',
+                          format: 'binary'
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[0].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.items'
+    );
+  });
+
+  it('should warn about application/json request body with nested arrays of Objects with octet sequences', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            'x-codegen-request-body-name': 'goodRequestBody',
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      type: 'array',
+                      items: {
+                        type: 'array',
+                        items: {
+                          type: 'object',
+                          properties: {
+                            prop1: {
+                              type: 'string',
+                              format: 'binary'
+                            },
+                            prop2: {
+                              type: 'string',
+                              format: 'binary'
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(2);
+    expect(res.warnings[0].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[0].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.items.properties.prop1'
+    );
+    expect(res.warnings[1].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[1].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.items.properties.prop2'
+    );
+  });
+
+  it('should warn about json with type: string, format: binary when json is the second mime type', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            'x-codegen-request-body-name': 'goodRequestBody',
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'text/plain': {
+                  schema: {
+                    type: 'string'
+                  }
+                },
+                'application/json': {
+                  schema: {
+                    type: 'string',
+                    format: 'binary'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[0].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema'
+    );
+  });
+
+  it('should warn about json request body with nested arrays of Objects with prop of nested array type: string, format: binary', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            'x-codegen-request-body-name': 'goodRequestBody',
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          prop1: {
+                            type: 'array',
+                            items: {
+                              type: 'array',
+                              items: {
+                                type: 'string',
+                                format: 'binary'
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[0].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.properties.prop1.items.items'
+    );
+  });
+
+  it('should warn about json request body with nested arrays of Objects with props of type Object that have props of type: string, format: binary', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            'x-codegen-request-body-name': 'goodRequestBody',
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          prop1: {
+                            type: 'object',
+                            properties: {
+                              sub_prop1: {
+                                type: 'string',
+                                format: 'binary'
+                              },
+                              sub_prop2: {
+                                type: 'string',
+                                format: 'binary'
+                              }
+                            }
+                          },
+                          prop2: {
+                            type: 'object',
+                            properties: {
+                              sub_prop3: {
+                                type: 'string',
+                                format: 'binary'
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(3);
+    expect(res.warnings[0].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[0].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.properties.prop1.properties.sub_prop1'
+    );
+    expect(res.warnings[1].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[1].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.properties.prop1.properties.sub_prop2'
+    );
+    expect(res.warnings[2].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[2].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.properties.prop2.properties.sub_prop3'
+    );
+  });
+
+  it('should warn about json request body with nested arrays of Objects with props of type Object that have props of type: string, format: binary', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            'x-codegen-request-body-name': 'goodRequestBody',
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'application/json': {
+                  schema: {
+                    type: 'array',
+                    items: {
+                      type: 'array',
+                      items: {
+                        type: 'object',
+                        properties: {
+                          prop1: {
+                            type: 'object',
+                            properties: {
+                              sub_prop1: {
+                                type: 'string',
+                                format: 'binary'
+                              }
+                            }
+                          },
+                          prop2: {
+                            type: 'array',
+                            items: {
+                              type: 'string',
+                              format: 'binary'
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(2);
+    expect(res.warnings[0].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[0].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.properties.prop1.properties.sub_prop1'
+    );
+    expect(res.warnings[1].message).toEqual(
+      'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
+    );
+    expect(res.warnings[1].path).toEqual(
+      'paths./pets.post.requestBody.content.application/json.schema.items.items.properties.prop2.items'
+    );
+  });
 });

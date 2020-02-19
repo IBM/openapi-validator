@@ -1,3 +1,17 @@
+# [0.21.0](https://github.com/IBM/openapi-validator/compare/v0.20.0...v0.21.0) (2020-02-18)
+
+
+### Features
+
+* add validator warning for binary string in "application/json" or parameter ([#139](https://github.com/IBM/openapi-validator/issues/139)) ([9497333](https://github.com/IBM/openapi-validator/commit/9497333))
+
+# [0.20.0](https://github.com/IBM/openapi-validator/compare/v0.19.3...v0.20.0) (2020-02-17)
+
+
+### Features
+
+* validator should check for mandatory swagger or openapi field ([#137](https://github.com/IBM/openapi-validator/issues/137)) ([b4275d3](https://github.com/IBM/openapi-validator/commit/b4275d3))
+
 ## [0.19.3](https://github.com/IBM/openapi-validator/compare/v0.19.2...v0.19.3) (2020-02-12)
 
 
