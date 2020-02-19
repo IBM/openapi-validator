@@ -1,9 +1,11 @@
 /* eslint-disable */
+
+const MessageCarrier = require('../../../utils/messageCarrier');
+
 module.exports.validate = function({ jsSpec }) {
-  let errors = []
-  let warnings = []
+  const messages = new MessageCarrier();
 
   // do stuff
 
-  return { errors, warnings }
+  return messages;
 }

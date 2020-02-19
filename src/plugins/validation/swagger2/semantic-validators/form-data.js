@@ -17,10 +17,11 @@
 
 const isObject = require('lodash/isObject');
 const getIn = require('lodash/get');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ resolvedSpec }) {
-  let errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
+
   if (!isObject(resolvedSpec)) {
     return;
   }
@@ -86,18 +87,17 @@ module.exports.validate = function({ resolvedSpec }) {
     );
 
     if (formDataWithTypos.length) {
-      return (errors = errors.concat(
-        params.map((param, i) => {
-          if (param['in'] !== 'formdata') {
-            return;
-          }
-          const pathStr = `${path.join('.')}.${i}`;
-          return {
-            path: pathStr,
-            message: 'The form data value for `in` must be camelCase (formData)'
-          };
-        })
-      ));
+      params.forEach((param, i) => {
+        if (param['in'] !== 'formdata') {
+          return;
+        }
+        messages.addMessage(
+          `${path.join('.')}.${i}`,
+          'The form data value for `in` must be camelCase (formData)',
+          'error'
+        );
+      });
+      return;
     }
   }
 
@@ -114,11 +114,12 @@ module.exports.validate = function({ resolvedSpec }) {
     if (~inBodyIndex && hasFormData) {
       // We"ll blame the `in: body` parameter
       const pathStr = `${path.join('.')}.${inBodyIndex}`;
-      return errors.push({
-        path: pathStr,
-        message:
-          'Parameters cannot have `in` values of both "body" and "formData", as "formData" _will_ be the body'
-      });
+      messages.addMessage(
+        pathStr,
+        'Parameters cannot have `in` values of both "body" and "formData", as "formData" _will_ be the body',
+        'error'
+      );
+      return;
     }
   }
 
@@ -139,20 +140,21 @@ module.exports.validate = function({ resolvedSpec }) {
     const pathStr = [...path, typeFileIndex].join('.');
     // a - must have formData
     if (param['in'] !== 'formData') {
-      errors.push({
-        path: pathStr,
-        message: 'Parameters with `type` "file" must have `in` be "formData"'
-      });
+      messages.addMessage(
+        pathStr,
+        'Parameters with `type` "file" must have `in` be "formData"',
+        'error'
+      );
       hasErrors = true;
     }
 
     // - b. The consumes property must have `multipart/form-data`
     if (!hasConsumes(operation, 'multipart/form-data')) {
-      errors.push({
-        path: pathStr,
-        message:
-          'Operations with Parameters of `type` "file" must include "multipart/form-data" in their "consumes" property'
-      });
+      messages.addMessage(
+        pathStr,
+        'Operations with Parameters of `type` "file" must include "multipart/form-data" in their "consumes" property',
+        'error'
+      );
       hasErrors = true;
     }
 
@@ -175,13 +177,14 @@ module.exports.validate = function({ resolvedSpec }) {
     }
 
     const pathStr = path.slice(0, -1).join('.'); // Blame the operation, not the parameter0
-    return errors.push({
-      path: pathStr,
-      message:
-        'Operations with Parameters of `in` "formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property'
-    });
+    messages.addMessage(
+      pathStr,
+      'Operations with Parameters of `in` "formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property',
+      'error'
+    );
+    return;
   }
 
   walk(resolvedSpec, []);
-  return { errors, warnings };
+  return messages;
 };

@@ -6,10 +6,10 @@ const pickBy = require('lodash/pickBy');
 const reduce = require('lodash/reduce');
 const merge = require('lodash/merge');
 const each = require('lodash/each');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ resolvedSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   const validOperationKeys = [
     'get',
@@ -137,10 +137,11 @@ module.exports.validate = function({ resolvedSpec }) {
       const hasBeenSeen = tallyOperationId(op.operationId);
       if (hasBeenSeen) {
         // Assertation 1: Operations must have a unique operationId.
-        errors.push({
-          path: op.path + '.operationId',
-          message: 'operationIds must be unique'
-        });
+        messages.addMessage(
+          op.path + '.operationId',
+          'operationIds must be unique',
+          'error'
+        );
       } else {
         // Assertation 2: OperationId must conform to naming conventions
         const regex = RegExp(/{[a-zA-Z0-9_-]+\}$/m);
@@ -153,17 +154,18 @@ module.exports.validate = function({ resolvedSpec }) {
         );
 
         if (checkPassed === false) {
-          warnings.push({
-            path: op.path + '.operationId',
-            message: `operationIds should follow consistent naming convention. operationId verb should be ${verbs}`.replace(
+          messages.addMessage(
+            op.path + '.operationId',
+            `operationIds should follow consistent naming convention. operationId verb should be ${verbs}`.replace(
               ',',
               ' or '
-            )
-          });
+            ),
+            'warning'
+          );
         }
       }
     }
   });
 
-  return { errors, warnings };
+  return messages;
 };

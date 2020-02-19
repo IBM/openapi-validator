@@ -3,17 +3,20 @@
 
 // Assertation 2:
 // making sure that the required version and title are defined properly
+
+const MessageCarrier = require('../../../utils/messageCarrier');
+
 module.exports.validate = function({ jsSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   const info = jsSpec.info;
   const hasInfo = info && typeof info === 'object';
   if (!hasInfo) {
-    errors.push({
-      path: ['info'],
-      message: 'API definition must have an `info` object'
-    });
+    messages.addMessage(
+      ['info'],
+      'API definition must have an `info` object',
+      'error'
+    );
   } else {
     const title = jsSpec.info.title;
     const hasTitle =
@@ -23,16 +26,18 @@ module.exports.validate = function({ jsSpec }) {
       typeof version === 'string' && version.toString().trim().length > 0;
 
     if (!hasTitle) {
-      errors.push({
-        path: ['info', 'title'],
-        message: '`info` object must have a string-type `title` field'
-      });
+      messages.addMessage(
+        ['info', 'title'],
+        '`info` object must have a string-type `title` field',
+        'error'
+      );
     } else if (!hasVersion) {
-      errors.push({
-        path: ['info', 'version'],
-        message: '`info` object must have a string-type `version` field'
-      });
+      messages.addMessage(
+        ['info', 'version'],
+        '`info` object must have a string-type `version` field',
+        'error'
+      );
     }
   }
-  return { errors, warnings };
+  return messages;
 };

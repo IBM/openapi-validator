@@ -1,10 +1,10 @@
 /* eslint-disable */
 
+const MessageCarrier = require('../../../utils/messageCarrier');
+
 module.exports.validate = function({ jsSpec }, config) {
 
-  let result = {}
-  result.error = []
-  result.warning = []
+  const messages = new MessageCarrier();
 
   // use the appropriate validation category object
   // ex) `config = config.operations` for the operations validator
@@ -31,5 +31,5 @@ module.exports.validate = function({ jsSpec }, config) {
   }
 */
 
-  return { errors: result.error, warnings: result.warning }
+  return messages;
 }

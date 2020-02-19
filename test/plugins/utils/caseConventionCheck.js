@@ -1,5 +1,5 @@
 const expect = require('expect');
-const checkCase = require('../../src/plugins/utils/caseConventionCheck');
+const checkCase = require('../../../src/plugins/utils/caseConventionCheck');
 
 describe('case convention regex tests', function() {
   describe('lower snake case tests', function() {

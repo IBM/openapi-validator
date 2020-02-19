@@ -20,10 +20,10 @@
 const forIn = require('lodash/forIn');
 const includes = require('lodash/includes');
 const { checkCase, walk } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   config = config.schemas;
 
@@ -78,23 +78,15 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   });
 
   schemas.forEach(({ schema, path }) => {
-    let res = generateFormatErrors(schema, path, config, isOAS3);
-    errors.push(...res.error);
-    warnings.push(...res.warning);
+    generateFormatErrors(schema, path, config, isOAS3, messages);
 
-    res = generateDescriptionWarnings(schema, path, config, isOAS3);
-    errors.push(...res.error);
-    warnings.push(...res.warning);
+    generateDescriptionWarnings(schema, path, config, isOAS3, messages);
 
     const checkStatus = config.snake_case_only;
     if (checkStatus !== 'off') {
-      res = checkPropNames(schema, path, config);
-      errors.push(...res.error);
-      warnings.push(...res.warning);
+      checkPropNames(schema, path, config, messages);
 
-      res = checkEnumValues(schema, path, config);
-      errors.push(...res.error);
-      warnings.push(...res.warning);
+      checkEnumValues(schema, path, config, messages);
     } else {
       // optional support for property_case_convention and enum_case_convention
       // in config.  In the else block because support should be mutually exclusive
@@ -102,63 +94,58 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       if (config.property_case_convention) {
         const checkCaseStatus = config.property_case_convention[0];
         if (checkCaseStatus !== 'off') {
-          res = checkPropNamesCaseConvention(
+          checkPropNamesCaseConvention(
             schema,
             path,
-            config.property_case_convention
+            config.property_case_convention,
+            messages
           );
-          errors.push(...res.error);
-          warnings.push(...res.warning);
         }
       }
       if (config.enum_case_convention) {
         const checkCaseStatus = config.enum_case_convention[0];
         if (checkCaseStatus !== 'off') {
-          res = checkEnumCaseConvention(
+          checkEnumCaseConvention(
             schema,
             path,
-            config.enum_case_convention
+            config.enum_case_convention,
+            messages
           );
-          errors.push(...res.error);
-          warnings.push(...res.warning);
         }
       }
     }
   });
 
-  return { errors, warnings };
+  return messages;
 };
 
 // Flag as an error any property that does not have a recognized "type" and "format" according to the
 // [Swagger 2.0 spec](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#data-types)
-function generateFormatErrors(schema, contextPath, config, isOAS3) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
-
+function generateFormatErrors(schema, contextPath, config, isOAS3, messages) {
   if (schema.$ref) {
-    return result;
+    return;
   }
 
   // Special case: check for arrays of arrays
   let checkStatus = config.array_of_arrays;
   if (checkStatus !== 'off' && schema.type === 'array' && schema.items) {
     if (schema.items.type === 'array') {
-      const path = contextPath.concat(['items', 'type']);
-      const message =
-        'Array properties should avoid having items of type array.';
-      result[checkStatus].push({ path, message });
+      messages.addMessage(
+        contextPath.concat(['items', 'type']),
+        'Array properties should avoid having items of type array.',
+        checkStatus
+      );
     }
   }
 
   checkStatus = config.invalid_type_format_pair;
   if (checkStatus !== 'off' && !formatValid(schema, contextPath, isOAS3)) {
-    const path = contextPath.concat(['type']);
-    const message = 'Property type+format is not well-defined.';
-    result[checkStatus].push({ path, message });
+    messages.addMessage(
+      contextPath.concat(['type']),
+      'Property type+format is not well-defined.',
+      checkStatus
+    );
   }
-
-  return result;
 }
 
 function formatValid(property, path, isOAS3) {
@@ -209,11 +196,13 @@ function formatValid(property, path, isOAS3) {
 }
 
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#models
-function generateDescriptionWarnings(schema, contextPath, config, isOAS3) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
-
+function generateDescriptionWarnings(
+  schema,
+  contextPath,
+  config,
+  isOAS3,
+  messages
+) {
   // determine if this is a top-level schema
   const isTopLevelSchema = isOAS3
     ? contextPath.length === 3 &&
@@ -222,23 +211,18 @@ function generateDescriptionWarnings(schema, contextPath, config, isOAS3) {
     : contextPath.length === 2 && contextPath[0] === 'definitions';
 
   // Check description in schema only for "top level" schema
-  if (isTopLevelSchema) {
-    const checkStatus = config.no_schema_description;
-    if (result[checkStatus]) {
-      const hasDescription =
-        schema.description && schema.description.toString().trim().length;
-      if (!hasDescription) {
-        const message = 'Schema must have a non-empty description.';
-        result[checkStatus].push({
-          path: contextPath,
-          message: message
-        });
-      }
-    }
+  const hasDescription =
+    schema.description && schema.description.toString().trim().length;
+  if (isTopLevelSchema && !hasDescription) {
+    messages.addMessage(
+      contextPath,
+      'Schema must have a non-empty description.',
+      config.no_schema_description
+    );
   }
 
   if (!schema.properties) {
-    return result;
+    return;
   }
 
   // verify that every property of the model has a description
@@ -254,43 +238,29 @@ function generateDescriptionWarnings(schema, contextPath, config, isOAS3) {
     const hasDescription =
       property.description && property.description.toString().trim().length;
     if (!hasDescription) {
-      const message =
-        'Schema properties must have a description with content in it.';
-      const checkStatus = config.no_property_description;
-      if (checkStatus !== 'off') {
-        result[checkStatus].push({
-          path,
-          message
-        });
-      }
+      messages.addMessage(
+        path,
+        'Schema properties must have a description with content in it.',
+        config.no_property_description
+      );
     } else {
       // if the property does have a description, "Avoid describing a model as a 'JSON object' since this will be incorrect for some SDKs."
       const mentionsJSON = includes(property.description.toLowerCase(), 'json');
       if (mentionsJSON) {
-        const message =
-          'Not all languages use JSON, so descriptions should not state that the model is a JSON object.';
-        const checkStatus = config.description_mentions_json;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path,
-            message
-          });
-        }
+        messages.addMessage(
+          path,
+          'Not all languages use JSON, so descriptions should not state that the model is a JSON object.',
+          config.description_mentions_json
+        );
       }
     }
   });
-
-  return result;
 }
 
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
-function checkPropNames(schema, contextPath, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
-
+function checkPropNames(schema, contextPath, config, messages) {
   if (!schema.properties) {
-    return result;
+    return;
   }
 
   // flag any property whose name is not "lower snake case"
@@ -303,15 +273,14 @@ function checkPropNames(schema, contextPath, config) {
     const checkStatus = config.snake_case_only || 'off';
     if (checkStatus.match('error|warning')) {
       if (!checkCase(propName, 'lower_snake_case')) {
-        result[checkStatus].push({
-          path: contextPath.concat(['properties', propName]),
-          message: 'Property names must be lower snake case.'
-        });
+        messages.addMessage(
+          contextPath.concat(['properties', propName]),
+          'Property names must be lower snake case.',
+          checkStatus
+        );
       }
     }
   });
-
-  return result;
 }
 
 /**
@@ -320,16 +289,14 @@ function checkPropNames(schema, contextPath, config) {
  * @param contextPath
  * @param caseConvention an array, [0]='off' | 'warning' | 'error'. [1]='lower_snake_case' etc.
  */
-function checkPropNamesCaseConvention(schema, contextPath, caseConvention) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
-
-  if (!schema.properties) {
-    return result;
-  }
-  if (!caseConvention) {
-    return result;
+function checkPropNamesCaseConvention(
+  schema,
+  contextPath,
+  caseConvention,
+  messages
+) {
+  if (!schema.properties || !caseConvention) {
+    return;
   }
 
   // flag any property whose name does not follow the case convention
@@ -345,24 +312,19 @@ function checkPropNamesCaseConvention(schema, contextPath, caseConvention) {
 
       const isCorrectCase = checkCase(propName, caseConventionValue);
       if (!isCorrectCase) {
-        result[checkStatus].push({
-          path: contextPath.concat(['properties', propName]),
-          message: `Property names must follow case convention: ${caseConventionValue}`
-        });
+        messages.addMessage(
+          contextPath.concat(['properties', propName]),
+          `Property names must follow case convention: ${caseConventionValue}`,
+          checkStatus
+        );
       }
     }
   });
-
-  return result;
 }
 
-function checkEnumValues(schema, contextPath, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
-
+function checkEnumValues(schema, contextPath, config, messages) {
   if (!schema.enum) {
-    return result;
+    return;
   }
 
   for (let i = 0; i < schema.enum.length; i++) {
@@ -371,16 +333,15 @@ function checkEnumValues(schema, contextPath, config) {
       const checkStatus = config.snake_case_only || 'off';
       if (checkStatus.match('error|warning')) {
         if (!checkCase(enumValue, 'lower_snake_case')) {
-          result[checkStatus].push({
-            path: contextPath.concat(['enum', i.toString()]),
-            message: 'Enum values must be lower snake case.'
-          });
+          messages.addMessage(
+            contextPath.concat(['enum', i.toString()]),
+            'Enum values must be lower snake case.',
+            checkStatus
+          );
         }
       }
     }
   }
-
-  return result;
 }
 
 /**
@@ -389,16 +350,14 @@ function checkEnumValues(schema, contextPath, config) {
  * @param contextPath
  * @param caseConvention an array, [0]='off' | 'warning' | 'error'. [1]='lower_snake_case' etc.
  */
-function checkEnumCaseConvention(schema, contextPath, caseConvention) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
-
-  if (!schema.enum) {
-    return result;
-  }
-  if (!caseConvention) {
-    return result;
+function checkEnumCaseConvention(
+  schema,
+  contextPath,
+  caseConvention,
+  messages
+) {
+  if (!schema.enum || !caseConvention) {
+    return;
   }
 
   for (let i = 0; i < schema.enum.length; i++) {
@@ -409,16 +368,15 @@ function checkEnumCaseConvention(schema, contextPath, caseConvention) {
         const caseConventionValue = caseConvention[1];
         const isCorrectCase = checkCase(enumValue, caseConventionValue);
         if (!isCorrectCase) {
-          result[checkStatus].push({
-            path: contextPath.concat(['enum', i.toString()]),
-            message: `Enum values must follow case convention: ${caseConventionValue}`
-          });
+          messages.addMessage(
+            contextPath.concat(['enum', i.toString()]),
+            `Enum values must follow case convention: ${caseConventionValue}`,
+            checkStatus
+          );
         }
       }
     }
   }
-
-  return result;
 }
 
 // NOTE: this function is Swagger 2 specific and would need to be adapted to be used with OAS

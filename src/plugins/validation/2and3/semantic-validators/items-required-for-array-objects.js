@@ -9,10 +9,10 @@
 // Headers with 'array' type require an 'items' property
 
 const { walk } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   walk(jsSpec, [], function(obj, path) {
     // `definitions` for Swagger 2, `schemas` for OAS 3
@@ -28,23 +28,22 @@ module.exports.validate = function({ jsSpec }) {
 
       // Assertation 1
       if (obj.type === 'array' && typeof obj.items !== 'object') {
-        errors.push({
-          path: path.join('.'),
-          message:
-            "Schema objects with 'array' type require an 'items' property"
-        });
+        messages.addMessage(
+          path.join('.'),
+          "Schema objects with 'array' type require an 'items' property",
+          'error'
+        );
       }
 
       // Assertation 2
       if (Array.isArray(obj.required)) {
         obj.required.forEach((requiredProp, i) => {
           if (!obj.properties || !obj.properties[requiredProp]) {
-            const pathStr = path.concat([`required[${i}]`]).join('.');
-            errors.push({
-              path: pathStr,
-              message:
-                "Schema properties specified as 'required' must be defined"
-            });
+            messages.addMessage(
+              path.concat([`required[${i}]`]).join('.'),
+              "Schema properties specified as 'required' must be defined",
+              'error'
+            );
           }
         });
       }
@@ -53,13 +52,14 @@ module.exports.validate = function({ jsSpec }) {
     // this only applies to Swagger 2
     if (path[path.length - 2] === 'headers') {
       if (obj.type === 'array' && typeof obj.items !== 'object') {
-        errors.push({
+        messages.addMessage(
           path,
-          message: "Headers with 'array' type require an 'items' property"
-        });
+          "Headers with 'array' type require an 'items' property",
+          'error'
+        );
       }
     }
   });
 
-  return { errors, warnings };
+  return messages;
 };

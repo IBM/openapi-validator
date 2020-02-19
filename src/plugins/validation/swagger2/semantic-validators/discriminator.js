@@ -14,10 +14,10 @@ const each = require('lodash/each');
 const has = require('lodash/has');
 const get = require('lodash/get');
 const includes = require('lodash/includes');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   const schemas = get(jsSpec, ['definitions'], []);
 
@@ -29,21 +29,22 @@ module.exports.validate = function({ jsSpec }) {
 
       // If discriminator is not an string, error out and return
       if (typeof discriminator !== 'string') {
-        errors.push({
-          path: basePath.concat([schemaName, 'discriminator']).join('.'),
-          message: 'Discriminator must be of type string'
-        });
+        messages.addMessage(
+          basePath.concat([schemaName, 'discriminator']).join('.'),
+          'Discriminator must be of type string',
+          'error'
+        );
         return;
       }
 
       // If the schema's property doesn't include property defined in discriminator, error out and return
       const { properties } = schema;
       if (!has(properties, discriminator)) {
-        errors.push({
-          path: basePath.concat([schemaName, 'discriminator']).join('.'),
-          message:
-            'The discriminator defined must also be defined as a property in this schema'
-        });
+        messages.addMessage(
+          basePath.concat([schemaName, 'discriminator']).join('.'),
+          'The discriminator defined must also be defined as a property in this schema',
+          'error'
+        );
         return;
       }
 
@@ -51,31 +52,33 @@ module.exports.validate = function({ jsSpec }) {
       const { required } = schema;
 
       if (!required) {
-        errors.push({
-          path: basePath.concat([schemaName]).join('.'),
-          message:
-            'Required array not found. The discriminator defined must also be part of required properties'
-        });
+        messages.addMessage(
+          basePath.concat([schemaName]).join('.'),
+          'Required array not found. The discriminator defined must also be part of required properties',
+          'error'
+        );
         return;
       }
 
       // required must be an array
       if (!(required instanceof Array)) {
-        errors.push({
-          path: basePath.concat([schemaName, 'required']).join('.'),
-          message: 'Required must be an array'
-        });
+        messages.addMessage(
+          basePath.concat([schemaName, 'required']).join('.'),
+          'Required must be an array',
+          'error'
+        );
         return;
       }
 
       // discriminator must be in required
       if (!includes(required, discriminator)) {
-        errors.push({
-          path: basePath.concat([schemaName, 'required']).join('.'),
-          message: 'Discriminator is not listed as part of required'
-        });
+        messages.addMessage(
+          basePath.concat([schemaName, 'required']).join('.'),
+          'Discriminator is not listed as part of required',
+          'error'
+        );
       }
     }
   });
-  return { errors, warnings };
+  return messages;
 };
