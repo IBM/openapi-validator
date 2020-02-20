@@ -50,8 +50,12 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             This includes responses, request bodies, parameters (with content rather than schema),
             both at the operation level and within the top-level "components" object
     */
-
-    const modelLocations = ['definitions', 'schemas', 'properties'];
+    const modelLocations = [
+      'definitions',
+      'schemas',
+      'properties',
+      'parameters'
+    ];
     if (
       current === 'schema' ||
       current === 'items' ||
@@ -158,60 +162,156 @@ function generateFormatErrors(schema, contextPath, config, isOAS3, messages) {
   }
 
   checkStatus = config.invalid_type_format_pair;
-  if (checkStatus !== 'off' && !formatValid(schema, contextPath, isOAS3)) {
-    messages.addMessage(
-      contextPath.concat(['type']),
-      'Property type+format is not well-defined.',
-      checkStatus
-    );
+  if (checkStatus !== 'off') {
+    typeFormatErrors(schema, contextPath, isOAS3, messages, checkStatus);
   }
 }
 
-function formatValid(property, path, isOAS3) {
-  if (property.$ref) {
-    return true;
+function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
+  // error if format defined but not type
+  if (!obj.type && obj.format) {
+    messages.addMessage(
+      path.concat(['format']),
+      'Format defined without a type.',
+      checkStatus
+    );
   }
-  // if type is not present, skip validation of format
-  if (!property.type) {
-    return true;
+
+  // we will check ref in defintions section
+  // only proceed if type defined
+  if (obj.$ref || !obj.type) {
+    return;
   }
-  let valid = true;
-  switch (property.type) {
+
+  const validIntegerFormats = ['int32', 'int64'];
+  const validNumberFormats = ['float', 'double'];
+  const validStringFormats = [
+    'byte',
+    'binary',
+    'date',
+    'date-time',
+    'password'
+  ];
+  const validTypes = [
+    'integer',
+    'number',
+    'string',
+    'boolean',
+    'object',
+    'array'
+  ];
+  if (!isOAS3) {
+    validTypes.push('file');
+  }
+  switch (obj.type) {
     case 'integer':
-      valid =
-        !property.format ||
-        includes(['int32', 'int64'], property.format.toLowerCase());
+      if (
+        obj.format &&
+        !includes(validIntegerFormats, obj.format.toLowerCase())
+      ) {
+        messages.addMessage(
+          path.concat(['type']),
+          `Schema of type integer should use one of the following formats: ${validIntegerFormats.join(
+            ', '
+          )}.`,
+          checkStatus
+        );
+      }
       break;
     case 'number':
-      valid =
-        !property.format ||
-        includes(['float', 'double'], property.format.toLowerCase());
+      if (
+        obj.format &&
+        !includes(validNumberFormats, obj.format.toLowerCase())
+      ) {
+        messages.addMessage(
+          path.concat(['type']),
+          `Schema of type number should use one of the following formats: ${validNumberFormats.join(
+            ', '
+          )}.`,
+          checkStatus
+        );
+      }
       break;
     case 'string':
-      valid =
-        !property.format ||
-        includes(
-          ['byte', 'binary', 'date', 'date-time', 'password'],
-          property.format.toLowerCase()
+      if (
+        obj.format &&
+        !includes(validStringFormats, obj.format.toLowerCase())
+      ) {
+        messages.addMessage(
+          path.concat(['type']),
+          `Schema of type string should use one of the following formats: ${validStringFormats.join(
+            ', '
+          )}.`,
+          checkStatus
         );
+      }
       break;
     case 'boolean':
-      valid = property.format === undefined; // No valid formats for boolean -- should be omitted
+      // No valid formats for boolean, format should be undefined
+      if (obj.format !== undefined) {
+        messages.addMessage(
+          path.concat(['type']),
+          `Schema of type boolean should not have a format.`,
+          checkStatus
+        );
+      }
       break;
     case 'object':
+      // No valid format pairings for object, format should be undefined
+      if (obj.format !== undefined) {
+        messages.addMessage(
+          path.concat(['type']),
+          'Schema of type object should not have a format.',
+          checkStatus
+        );
+      }
+      break;
     case 'array':
-      valid = true;
+      // No valid format pairings for array, format should be undefined
+      if (obj.format !== undefined) {
+        messages.addMessage(
+          path.concat(['type']),
+          'Schema of type array should not have a format.',
+          checkStatus
+        );
+      }
       break;
     case 'file':
       // schemas of type file are allowed in swagger2 for responses and parameters
-      // of type 'formData' - the violating parameters are caught by parameters-ibm
+      // of type 'formData'
       // note: type file is only allowed for root schemas (not properties, etc.)
-      valid = !isOAS3 && isRootSchema(path);
+      if (isOAS3 || (!obj.in && !isRootSchema(path))) {
+        messages.addMessage(
+          path.concat(['type']),
+          'File type only valid for swagger2 and must be used as root schema.',
+          checkStatus
+        );
+      } else if (obj.in && obj.in !== 'formData') {
+        messages.addMessage(
+          path.concat(['type']),
+          'File type parameter must use in: formData.',
+          checkStatus
+        );
+      }
+      // Format should not be defined for schema of type file.
+      // Error reported in addition to potential error above.
+      // Only check for swagger2 because type file should not be used in OAS3.
+      if (!isOAS3 && obj.format !== undefined) {
+        messages.addMessage(
+          path.concat(['type']),
+          'Schema of type file should not have a format.',
+          checkStatus
+        );
+      }
       break;
     default:
-      valid = false;
+      // invalid type
+      messages.addMessage(
+        path.concat(['type']),
+        `Invalid type. Valid types are: ${validTypes.join(', ')}.`,
+        checkStatus
+      );
   }
-  return valid;
 }
 
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#models

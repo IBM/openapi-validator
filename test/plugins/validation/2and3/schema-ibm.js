@@ -34,7 +34,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'Schema of type number should use one of the following formats: float, double.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -54,7 +54,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual(['definitions', 'WordStyle', 'type']);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'Schema of type number should use one of the following formats: float, double.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -90,7 +90,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'Schema of type number should use one of the following formats: float, double.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -151,7 +151,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'Schema of type number should use one of the following formats: float, double.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -179,6 +179,82 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
+  it('should record an error when a file parameter does not use in: formData', () => {
+    const spec = {
+      paths: {
+        '/some/path/{id}': {
+          get: {
+            parameters: [
+              {
+                name: 'file_param',
+                in: 'query',
+                description: 'a file param',
+                type: 'file'
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: false }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].message).toEqual(
+      'File type parameter must use in: formData.'
+    );
+  });
+
+  it('should record an error when a file parameter does not use in: formData AND if format defined', () => {
+    const spec = {
+      paths: {
+        '/some/path/{id}': {
+          get: {
+            parameters: [
+              {
+                name: 'file_param',
+                in: 'query',
+                description: 'a file param',
+                type: 'file',
+                format: 'file_should_not_have_a_format'
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: false }, config);
+    expect(res.errors.length).toEqual(2);
+    expect(res.errors[0].message).toEqual(
+      'File type parameter must use in: formData.'
+    );
+    expect(res.errors[1].message).toEqual(
+      'Schema of type file should not have a format.'
+    );
+  });
+
+  it('should not record an error when a file parameter uses in: formData', () => {
+    const spec = {
+      paths: {
+        '/some/path/{id}': {
+          get: {
+            parameters: [
+              {
+                name: 'file_param',
+                in: 'formData',
+                description: 'a file param',
+                type: 'file'
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: false }, config);
+    expect(res.errors.length).toEqual(0);
+  });
+
   it('should non return an error for a definition with root type of file', () => {
     const spec = {
       definitions: {
@@ -192,6 +268,22 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should report file as a valid type for swagger2 when an invalid type is provided', () => {
+    const spec = {
+      definitions: {
+        SomeSchema: {
+          type: 'invalid_type'
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].message).toEqual(
+      'Invalid type. Valid types are: integer, number, string, boolean, object, array, file.'
+    );
   });
 
   it('should return an error for a response schema with non-root type file', () => {
@@ -231,7 +323,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'File type only valid for swagger2 and must be used as root schema.'
     );
 
     expect(res.warnings.length).toEqual(0);
@@ -761,9 +853,161 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'Schema of type integer should use one of the following formats: int32, int64.'
     );
     expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should record an error when items use an invalid type+format pair', () => {
+    const spec = {
+      components: {
+        schemas: {
+          Thing: {
+            type: 'object',
+            description: 'thing',
+            properties: {
+              thing: {
+                type: 'array',
+                description: 'thing array',
+                items: {
+                  description: 'invalid items',
+                  type: 'object',
+                  format: 'objects_should_not_have_formats'
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual([
+      'components',
+      'schemas',
+      'Thing',
+      'properties',
+      'thing',
+      'items',
+      'type'
+    ]);
+    expect(res.errors[0].message).toEqual(
+      'Schema of type object should not have a format.'
+    );
+  });
+
+  it('should not record an error when items and object properties use valid type+format pairs', () => {
+    const spec = {
+      components: {
+        schemas: {
+          Thing1: {
+            type: 'object',
+            description: 'thing',
+            properties: {
+              prop1: {
+                description: 'an object property',
+                type: 'string',
+                format: 'byte'
+              }
+            }
+          },
+          Thing2: {
+            type: 'array',
+            description: 'an array',
+            items: {
+              type: 'number',
+              format: 'float'
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(0);
+  });
+
+  it('should record an error when objects use an invalid type+format pair', () => {
+    const spec = {
+      components: {
+        schemas: {
+          Thing: {
+            type: 'object',
+            description: 'thing',
+            properties: {
+              thing: {
+                type: 'object',
+                description: 'thing object',
+                properties: {
+                  prop1: {
+                    description: 'a property',
+                    type: 'array',
+                    format: 'arrays_should_not_have_formats',
+                    items: {
+                      type: 'invalid_type'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(2);
+    expect(res.errors[0].path).toEqual([
+      'components',
+      'schemas',
+      'Thing',
+      'properties',
+      'thing',
+      'properties',
+      'prop1',
+      'type'
+    ]);
+    expect(res.errors[0].message).toEqual(
+      'Schema of type array should not have a format.'
+    );
+    expect(res.errors[1].path).toEqual([
+      'components',
+      'schemas',
+      'Thing',
+      'properties',
+      'thing',
+      'properties',
+      'prop1',
+      'items',
+      'type'
+    ]);
+    expect(res.errors[1].message).toEqual(
+      'Invalid type. Valid types are: integer, number, string, boolean, object, array.'
+    );
+  });
+
+  it('should record an error when schema has a format but no type', () => {
+    const spec = {
+      components: {
+        schemas: {
+          Thing: {
+            type: 'object',
+            description: 'thing',
+            properties: {
+              thing: {
+                description: 'should not have format without type',
+                format: 'byte'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].message).toEqual('Format defined without a type.');
   });
 
   it('should return an error for a response schema of type file', () => {
@@ -801,7 +1045,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'File type only valid for swagger2 and must be used as root schema.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -861,7 +1105,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'type'
     ]);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'Schema of type boolean should not have a format.'
     );
     expect(res.warnings.length).toEqual(0);
   });
@@ -874,12 +1118,11 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
     expect(res.errors.length).toEqual(2);
     expect(res.errors[0].message).toEqual(
-      'Property type+format is not well-defined.'
+      'Invalid type. Valid types are: integer, number, string, boolean, object, array.'
     );
     expect(res.errors[1].message).toEqual(
-      'Property type+format is not well-defined.'
+      'Schema of type string should use one of the following formats: byte, binary, date, date-time, password.'
     );
-    expect(res.warnings.length).toEqual(0);
   });
 
   it('should report an error when allOf, anyOf, or oneOf is not an array', () => {

@@ -119,40 +119,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should return an error when type does not match format', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  name: 'good_name',
-                  in: 'query',
-                  description: 'This is a good description.',
-                  type: 'number',
-                  format: 'int32'
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec }, config);
-      expect(res.errors.length).toEqual(1);
-      expect(res.errors[0].path).toEqual([
-        'paths',
-        '/pets',
-        'get',
-        'parameters',
-        '0'
-      ]);
-      expect(res.errors[0].message).toEqual(
-        'Parameter type+format is not well-defined.'
-      );
-      expect(res.warnings.length).toEqual(0);
-    });
-
     it('should not validate within extensions', () => {
       const spec = {
         paths: {
@@ -484,42 +450,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.errors[0].message).toEqual(
         'Parameter objects must have a `description` field.'
       );
-    });
-
-    it('should return an error when parameter type+format is not well-defined', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  name: 'good_name',
-                  in: 'query',
-                  description: 'This is a good description.',
-                  schema: {
-                    type: 'number',
-                    format: 'int32'
-                  }
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.errors.length).toEqual(1);
-      expect(res.errors[0].path).toEqual([
-        'paths',
-        '/pets',
-        'get',
-        'parameters',
-        '0'
-      ]);
-      expect(res.errors[0].message).toEqual(
-        'Parameter type+format is not well-defined.'
-      );
-      expect(res.warnings.length).toEqual(0);
     });
 
     it('should flag a required parameter that specifies a default value', () => {
