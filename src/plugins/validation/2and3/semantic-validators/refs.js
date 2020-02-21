@@ -15,12 +15,7 @@ module.exports.validate = function({ jsSpec, specStr, isOAS3 }) {
     return messages;
   }
 
-  const basePath = isOAS3 ? ['components', 'schemas'] : ['definitions'];
-
-  // Assertation 1
-  // This is a "creative" way to approach the problem of collecting used $refs,
-  // but other solutions required walking the jsSpec recursively to detect $refs,
-  // which can be quite slow.
+  // Collects all refs in the API definition
   const refRegex = /\$ref.*["'](.*)["']/g;
   let match = refRegex.exec(specStr);
   const refs = [];
@@ -29,14 +24,58 @@ module.exports.validate = function({ jsSpec, specStr, isOAS3 }) {
     match = refRegex.exec(specStr);
   }
 
+  const definitionSectionName = isOAS3 ? 'components' : 'definitions';
   // de-dupe the array, and filter out non-definition refs
   const definitionsRefs = filter(uniq(refs), v =>
-    startsWith(v, `#/${basePath.join('/')}`)
+    startsWith(v, `#/${definitionSectionName}`)
   );
 
-  const definitions = isOAS3 ? jsSpec.components.schemas : jsSpec.definitions;
-  each(definitions, (def, defName) => {
-    if (definitionsRefs.indexOf(`#/${basePath.join('/')}/${defName}`) === -1) {
+  // checks if the definitions are used, and if not, record a warning
+  if (isOAS3) {
+    // securitySchemes definition type excluded because
+    // security-definitions-ibm.js checks for unused security schemes
+    const definitionTypeList = [
+      'schemas',
+      'parameters',
+      'responses',
+      'examples',
+      'requestBodies',
+      'headers',
+      'links',
+      'callbacks'
+    ];
+    definitionTypeList.forEach(function(definitionType) {
+      if (jsSpec.components && jsSpec.components[definitionType]) {
+        recordDefinitionsNotUsed(
+          jsSpec.components[definitionType],
+          definitionsRefs,
+          ['components', definitionType],
+          messages
+        );
+      }
+    });
+  } else {
+    if (jsSpec.definitions) {
+      recordDefinitionsNotUsed(
+        jsSpec.definitions,
+        definitionsRefs,
+        ['definitions'],
+        messages
+      );
+    }
+  }
+
+  return messages;
+};
+
+function recordDefinitionsNotUsed(
+  definitions,
+  definitionsRefs,
+  basePath,
+  messages
+) {
+  each(definitions, (_, defName) => {
+    if (!definitionsRefs.includes(`#/${basePath.join('/')}/${defName}`)) {
       messages.addMessage(
         `${basePath.join('.')}.${defName}`,
         'Definition was declared but never used in document',
@@ -44,6 +83,4 @@ module.exports.validate = function({ jsSpec, specStr, isOAS3 }) {
       );
     }
   });
-
-  return messages;
-};
+}
