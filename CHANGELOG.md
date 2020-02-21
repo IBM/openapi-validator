@@ -1,3 +1,10 @@
+# [0.22.0](https://github.com/IBM/openapi-validator/compare/v0.21.0...v0.22.0) (2020-02-21)
+
+
+### Features
+
+* flag definitions that are defined but never used ([#144](https://github.com/IBM/openapi-validator/issues/144)) ([a131408](https://github.com/IBM/openapi-validator/commit/a131408))
+
 # [0.21.0](https://github.com/IBM/openapi-validator/compare/v0.20.0...v0.21.0) (2020-02-18)
 
 
