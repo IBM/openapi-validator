@@ -6,7 +6,11 @@
 // Assertation 5: "oauth2" security flow "accessCode" must have required string "tokenUrl", string "authorizationUrl" and object "scopes" parameters
 // Assertation 6: "oauth2" security flow "application" must have required string "tokenUrl", string "authorizationUrl" and object "scopes" parameters
 
+const MessageCarrier = require('../../../utils/messageCarrier');
+
 module.exports.validate = function({ jsSpec }) {
+  const messages = new MessageCarrier();
+
   const API_KEY = 'apiKey';
   const OAUTH2 = 'oauth2';
   const BASIC = 'basic';
@@ -17,9 +21,6 @@ module.exports.validate = function({ jsSpec }) {
   const ACCESS_CODE = 'accessCode';
   const oauth2Flows = [IMPLICIT, PASSWORD, APPLICATION, ACCESS_CODE];
 
-  const errors = [];
-  const warnings = [];
-
   const securityDefinitions = jsSpec.securityDefinitions;
 
   for (const key in securityDefinitions) {
@@ -28,32 +29,33 @@ module.exports.validate = function({ jsSpec }) {
     const path = `securityDefinitions.${key}`;
 
     if (auths.indexOf(type) === -1) {
-      errors.push({
-        message: `string 'type' param required for path: ${path}`,
+      messages.addMessageWithAuthId(
         path,
-        authId: key
-      });
+        `string 'type' param required for path: ${path}`,
+        key,
+        'error'
+      );
     } else {
       //apiKey validation
       if (type === API_KEY) {
         const authIn = security.in;
 
         if (authIn !== 'query' && authIn !== 'header') {
-          errors.push({
-            message:
-              "apiKey authorization must have required 'in' param, valid values are 'query' or 'header'.",
+          messages.addMessageWithAuthId(
             path,
-            authId: key
-          });
+            "apiKey authorization must have required 'in' param, valid values are 'query' or 'header'.",
+            key,
+            'error'
+          );
         }
 
         if (!security.name) {
-          errors.push({
-            message:
-              "apiKey authorization must have required 'name' string param. The name of the header or query parameter to be used.",
+          messages.addMessageWithAuthId(
             path,
-            authId: key
-          });
+            "apiKey authorization must have required 'name' string param. The name of the header or query parameter to be used.",
+            key,
+            'error'
+          );
         }
       } // oauth2 validation
       else if (type === OAUTH2) {
@@ -63,61 +65,61 @@ module.exports.validate = function({ jsSpec }) {
         const scopes = security.scopes;
 
         if (oauth2Flows.indexOf(flow) === -1) {
-          errors.push({
-            message:
-              "oauth2 authorization must have required 'flow' string param. Valid values are 'implicit', 'password', 'application' or 'accessCode'",
+          messages.addMessageWithAuthId(
             path,
-            authId: key
-          });
+            "oauth2 authorization must have required 'flow' string param. Valid values are 'implicit', 'password', 'application' or 'accessCode'",
+            key,
+            'error'
+          );
         } else if (flow === IMPLICIT) {
           if (!authorizationUrl) {
-            errors.push({
-              message:
-                "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter.",
+            messages.addMessageWithAuthId(
               path,
-              authId: key
-            });
+              "oauth2 authorization implicit flow must have required 'authorizationUrl' parameter.",
+              key,
+              'error'
+            );
           }
         } else if (flow === ACCESS_CODE) {
           if (!authorizationUrl || !tokenUrl) {
-            errors.push({
-              message:
-                "oauth2 authorization accessCode flow must have required 'authorizationUrl' and 'tokenUrl' string parameters.",
+            messages.addMessageWithAuthId(
               path,
-              authId: key
-            });
+              "oauth2 authorization accessCode flow must have required 'authorizationUrl' and 'tokenUrl' string parameters.",
+              key,
+              'error'
+            );
           }
         } else if (flow === PASSWORD) {
           if (!tokenUrl) {
-            errors.push({
-              message:
-                "oauth2 authorization password flow must have required 'tokenUrl' string parameter.",
+            messages.addMessageWithAuthId(
               path,
-              authId: key
-            });
+              "oauth2 authorization password flow must have required 'tokenUrl' string parameter.",
+              key,
+              'error'
+            );
           }
         } else if (flow === APPLICATION) {
           if (!tokenUrl) {
-            errors.push({
-              message:
-                "oauth2 authorization application flow must have required 'tokenUrl' string parameter.",
+            messages.addMessageWithAuthId(
               path,
-              authId: key
-            });
+              "oauth2 authorization application flow must have required 'tokenUrl' string parameter.",
+              key,
+              'error'
+            );
           }
         }
 
         if (typeof scopes !== 'object') {
-          errors.push({
-            message:
-              "'scopes' is required property type object. The available scopes for the OAuth2 security scheme.",
+          messages.addMessageWithAuthId(
             path,
-            authId: key
-          });
+            "'scopes' is required property type object. The available scopes for the OAuth2 security scheme.",
+            key,
+            'error'
+          );
         }
       }
     }
   }
 
-  return { errors, warnings };
+  return messages;
 };

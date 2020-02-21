@@ -13,11 +13,10 @@
 
 const match = require('matcher');
 const { walk } = require('../../../utils');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
 
   config = config.walker;
 
@@ -45,10 +44,11 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     ///// "type" should always have a string-type value, everywhere.
     if (obj.type && allowedParents.indexOf(path[path.length - 1]) === -1) {
       if (typeof obj.type !== 'string') {
-        result.error.push({
-          path: [...path, 'type'],
-          message: '"type" should be a string'
-        });
+        messages.addMessage(
+          [...path, 'type'],
+          '"type" should be a string',
+          'error'
+        );
       }
     }
 
@@ -56,28 +56,31 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
     if (obj.maximum && obj.minimum) {
       if (greater(obj.minimum, obj.maximum)) {
-        result.error.push({
-          path: path.concat(['minimum']),
-          message: 'Minimum cannot be more than maximum'
-        });
+        messages.addMessage(
+          path.concat(['minimum']),
+          'Minimum cannot be more than maximum',
+          'error'
+        );
       }
     }
 
     if (obj.maxProperties && obj.minProperties) {
       if (greater(obj.minProperties, obj.maxProperties)) {
-        result.error.push({
-          path: path.concat(['minProperties']),
-          message: 'minProperties cannot be more than maxProperties'
-        });
+        messages.addMessage(
+          path.concat(['minProperties']),
+          'minProperties cannot be more than maxProperties',
+          'error'
+        );
       }
     }
 
     if (obj.maxLength && obj.minLength) {
       if (greater(obj.minLength, obj.maxLength)) {
-        result.error.push({
-          path: path.concat(['minLength']),
-          message: 'minLength cannot be more than maxLength'
-        });
+        messages.addMessage(
+          path.concat(['minLength']),
+          'minLength cannot be more than maxLength',
+          'error'
+        );
       }
     }
 
@@ -90,33 +93,29 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       if (refBlacklist && refBlacklist.length && matches.length) {
         // Assertation 2
         // use the slice(1) to remove the `!` negator from the string
-        const checkStatus = config.incorrect_ref_pattern;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: [...path, '$ref'],
-            message: `${
-              blacklistPayload.location
-            } $refs must follow this format: ${refBlacklist[0].slice(1)}`
-          });
-        }
+        messages.addMessage(
+          [...path, '$ref'],
+          `${
+            blacklistPayload.location
+          } $refs must follow this format: ${refBlacklist[0].slice(1)}`,
+          config.incorrect_ref_pattern
+        );
       }
     }
 
     const keys = Object.keys(obj);
     keys.forEach(k => {
       if (keys.indexOf('$ref') > -1 && k !== '$ref') {
-        const checkStatus = config.$ref_siblings;
-        if (checkStatus !== 'off') {
-          result[checkStatus].push({
-            path: path.concat([k]),
-            message: 'Values alongside a $ref will be ignored.'
-          });
-        }
+        messages.addMessage(
+          path.concat([k]),
+          'Values alongside a $ref will be ignored.',
+          config.$ref_siblings
+        );
       }
     });
   });
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };
 
 // values are globs!

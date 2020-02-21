@@ -5,14 +5,14 @@ const uniq = require('lodash/uniq');
 const filter = require('lodash/filter');
 const startsWith = require('lodash/startsWith');
 const each = require('lodash/each');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec, specStr, isOAS3 }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   if (isOAS3 && !jsSpec.components) {
     // prevent trying to access components.schemas if components is undefined
-    return { errors, warnings };
+    return messages;
   }
 
   const basePath = isOAS3 ? ['components', 'schemas'] : ['definitions'];
@@ -37,12 +37,13 @@ module.exports.validate = function({ jsSpec, specStr, isOAS3 }) {
   const definitions = isOAS3 ? jsSpec.components.schemas : jsSpec.definitions;
   each(definitions, (def, defName) => {
     if (definitionsRefs.indexOf(`#/${basePath.join('/')}/${defName}`) === -1) {
-      warnings.push({
-        path: `${basePath.join('.')}.${defName}`,
-        message: 'Definition was declared but never used in document'
-      });
+      messages.addMessage(
+        `${basePath.join('.')}.${defName}`,
+        'Definition was declared but never used in document',
+        'warning'
+      );
     }
   });
 
-  return { errors, warnings };
+  return messages;
 };

@@ -7,27 +7,31 @@
 // Assertation 3:
 // make sure the value of swagger field must be "2.0"
 
+const MessageCarrier = require('../../../utils/messageCarrier');
+
 module.exports.validate = function({ jsSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   const swagger = jsSpec.swagger;
 
   if (!swagger) {
-    errors.push({
-      path: ['swagger'],
-      message: 'API definition must have an `swagger` field'
-    });
+    messages.addMessage(
+      ['swagger'],
+      'API definition must have an `swagger` field',
+      'error'
+    );
   } else if (typeof swagger !== 'string') {
-    errors.push({
-      path: ['swagger'],
-      message: 'API definition must have an `swagger` field as type string'
-    });
+    messages.addMessage(
+      ['swagger'],
+      'API definition must have an `swagger` field as type string',
+      'error'
+    );
   } else if (swagger !== '2.0') {
-    errors.push({
-      path: ['swagger'],
-      message: '`swagger` string must have the value `2.0`'
-    });
+    messages.addMessage(
+      ['swagger'],
+      '`swagger` string must have the value `2.0`',
+      'error'
+    );
   }
-  return { errors, warnings };
+  return messages;
 };

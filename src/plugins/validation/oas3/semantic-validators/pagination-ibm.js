@@ -16,15 +16,16 @@
 // - If the operation has an `offset` query parameter, the response body must contain an `offset` property this is type integer and required
 // - The response body must contain an array property with the same plural resource name appearing in the collection’s URL.
 
+const MessageCarrier = require('../../../utils/messageCarrier');
+
 module.exports.validate = function({ resolvedSpec }, config) {
-  const result = {};
-  result.error = [];
-  result.warning = [];
+  const messages = new MessageCarrier();
+
   const checkStatus = config.pagination.pagination_style;
 
   //when pagnation is turned off, skip all of the pagination checks
   if (checkStatus == 'off') {
-    return { errors: [], warnings: [] };
+    return messages;
   }
 
   // Loop through all paths looking for "list" operations.
@@ -87,11 +88,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
       !limitParam.schema.default ||
       !limitParam.schema.maximum
     ) {
-      result[checkStatus].push({
-        path: ['paths', path, 'get', 'parameters', limitParamIndex],
-        message:
-          'The limit parameter must be of type integer and optional with default and maximum values.'
-      });
+      messages.addMessage(
+        ['paths', path, 'get', 'parameters', limitParamIndex],
+        'The limit parameter must be of type integer and optional with default and maximum values.',
+        checkStatus
+      );
     }
 
     // - If the operation has an `offset` query parameter, it must be type integer and optional
@@ -106,10 +107,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
         offsetParam.schema.type !== 'integer' ||
         !!offsetParam.required
       ) {
-        result[checkStatus].push({
-          path: ['paths', path, 'get', 'parameters', offsetParamIndex],
-          message: 'The offset parameter must be of type integer and optional.'
-        });
+        messages.addMessage(
+          ['paths', path, 'get', 'parameters', offsetParamIndex],
+          'The offset parameter must be of type integer and optional.',
+          checkStatus
+        );
       }
     }
 
@@ -127,12 +129,13 @@ module.exports.validate = function({ resolvedSpec }, config) {
         startParam.schema.type !== 'string' ||
         !!startParam.required
       ) {
-        result[checkStatus].push({
-          path: ['paths', path, 'get', 'parameters', startParamIndex],
-          message: `The ${
+        messages.addMessage(
+          ['paths', path, 'get', 'parameters', startParamIndex],
+          `The ${
             startParam.name
-          } parameter must be of type string and optional.`
-        });
+          } parameter must be of type string and optional.`,
+          checkStatus
+        );
       }
     }
 
@@ -152,19 +155,21 @@ module.exports.validate = function({ resolvedSpec }, config) {
 
     const limitProp = jsonResponse.schema.properties.limit;
     if (!limitProp) {
-      result[checkStatus].push({
-        path: propertiesPath,
-        message: `A paginated list operation must include a "limit" property in the response body schema.`
-      });
+      messages.addMessage(
+        propertiesPath,
+        `A paginated list operation must include a "limit" property in the response body schema.`,
+        checkStatus
+      );
     } else if (
       limitProp.type !== 'integer' ||
       !jsonResponse.schema.required ||
       jsonResponse.schema.required.indexOf('limit') === -1
     ) {
-      result[checkStatus].push({
-        path: [...propertiesPath, 'limit'],
-        message: `The "limit" property in the response body of a paginated list operation must be of type integer and required.`
-      });
+      messages.addMessage(
+        [...propertiesPath, 'limit'],
+        `The "limit" property in the response body of a paginated list operation must be of type integer and required.`,
+        checkStatus
+      );
     }
 
     // - If the operation has an `offset` query parameter, the response body must contain an `offset` property this is type integer and required
@@ -172,19 +177,21 @@ module.exports.validate = function({ resolvedSpec }, config) {
     if (offsetParamIndex !== -1) {
       const offsetProp = jsonResponse.schema.properties.offset;
       if (!offsetProp) {
-        result[checkStatus].push({
-          path: propertiesPath,
-          message: `A paginated list operation with an "offset" parameter must include an "offset" property in the response body schema.`
-        });
+        messages.addMessage(
+          propertiesPath,
+          `A paginated list operation with an "offset" parameter must include an "offset" property in the response body schema.`,
+          checkStatus
+        );
       } else if (
         offsetProp.type !== 'integer' ||
         !jsonResponse.schema.required ||
         jsonResponse.schema.required.indexOf('offset') === -1
       ) {
-        result[checkStatus].push({
-          path: [...propertiesPath, 'offset'],
-          message: `The "offset" property in the response body of a paginated list operation must be of type integer and required.`
-        });
+        messages.addMessage(
+          [...propertiesPath, 'offset'],
+          `The "offset" property in the response body of a paginated list operation must be of type integer and required.`,
+          checkStatus
+        );
       }
     }
 
@@ -193,12 +200,13 @@ module.exports.validate = function({ resolvedSpec }, config) {
     const pluralResourceName = path.split('/').pop();
     const resourcesProp = jsonResponse.schema.properties[pluralResourceName];
     if (!resourcesProp || resourcesProp.type !== 'array') {
-      result[checkStatus].push({
-        path: propertiesPath,
-        message: `A paginated list operation must include an array property whose name matches the final segment of the path.`
-      });
+      messages.addMessage(
+        propertiesPath,
+        `A paginated list operation must include an array property whose name matches the final segment of the path.`,
+        checkStatus
+      );
     }
   }
 
-  return { errors: result.error, warnings: result.warning };
+  return messages;
 };

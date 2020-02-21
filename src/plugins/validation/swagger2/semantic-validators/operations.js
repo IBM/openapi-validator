@@ -6,10 +6,10 @@ const map = require('lodash/map');
 const each = require('lodash/each');
 const findIndex = require('lodash/findIndex');
 const findLastIndex = require('lodash/findLastIndex');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ resolvedSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   map(resolvedSpec.paths, (path, pathKey) => {
     const pathOps = pick(path, [
@@ -30,22 +30,23 @@ module.exports.validate = function({ resolvedSpec }) {
       const bodyParamIndex = findIndex(op.parameters, ['in', 'body']);
       const formDataParamIndex = findIndex(op.parameters, ['in', 'formData']);
       if (bodyParamIndex > -1 && formDataParamIndex > -1) {
-        errors.push({
-          path: `paths.${pathKey}.${opKey}.parameters`,
-          message:
-            'Operations cannot have both a "body" parameter and "formData" parameter'
-        });
+        messages.addMessage(
+          `paths.${pathKey}.${opKey}.parameters`,
+          'Operations cannot have both a "body" parameter and "formData" parameter',
+          'error'
+        );
       }
       // Assertation 2
       const lastBodyParamIndex = findLastIndex(op.parameters, ['in', 'body']);
       if (bodyParamIndex !== lastBodyParamIndex) {
-        errors.push({
-          path: `paths.${pathKey}.${opKey}.parameters`,
-          message: 'Operations must have no more than one body parameter'
-        });
+        messages.addMessage(
+          `paths.${pathKey}.${opKey}.parameters`,
+          'Operations must have no more than one body parameter',
+          'error'
+        );
       }
     });
   });
 
-  return { errors, warnings };
+  return messages;
 };

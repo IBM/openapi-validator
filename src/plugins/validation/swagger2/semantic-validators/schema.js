@@ -1,8 +1,8 @@
 const each = require('lodash/each');
+const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ resolvedSpec }) {
-  const errors = [];
-  const warnings = [];
+  const messages = new MessageCarrier();
 
   const schemas = [];
 
@@ -57,28 +57,26 @@ module.exports.validate = function({ resolvedSpec }) {
   schemas.forEach(({ schema, path }) => {
     if (Array.isArray(schema.properties) && Array.isArray(schema.required)) {
       schema.properties.forEach(() => {
-        errors.push(...generateReadOnlyErrors(schema, path));
+        generateReadOnlyErrors(schema, path, messages);
       });
     }
   });
 
-  return { errors, warnings };
+  return messages;
 };
 
-function generateReadOnlyErrors(schema, contextPath) {
-  const arr = [];
-
+function generateReadOnlyErrors(schema, contextPath, messages) {
   schema.properties.forEach((property, i) => {
     if (
       property.name &&
       property.readOnly &&
       schema.required.indexOf(property.name) > -1
     ) {
-      arr.push({
-        path: contextPath.concat(['required', i.toString()]),
-        message: 'Read only properties cannot marked as required by a schema.'
-      });
+      messages.addMessage(
+        contextPath.concat(['required', i.toString()]),
+        'Read only properties cannot marked as required by a schema.',
+        'error'
+      );
     }
   });
-  return arr;
 }
