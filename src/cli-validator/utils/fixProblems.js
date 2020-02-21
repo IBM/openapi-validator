@@ -19,9 +19,9 @@ module.exports = function print(
   const paramsToDelete = {};
   const paramsToPrepend = {};
   const newPathNames = {};
-  const definitionsToDelete = {};
+  const definitionsToDelete = [];
 
-  // Mark a parameter for deletion given a path separated by commas
+  // Mark a parameter for deletion given a path array
   const markForDeletion = path => {
     const pathstr = path.slice(0, path.length - 1).join(',');
     if (pathstr in paramsToDelete) {
@@ -31,7 +31,9 @@ module.exports = function print(
     }
   };
 
-  // Mark a parameter for moving (reordering) given a path separated by commas
+  // Given a path array to a parameter and it's parent,
+  // mark a required property that needs to be reordered in front of
+  // an optional property in the parent array of parameters.
   const markForMoving = (path, parent) => {
     const pathstr = path.slice(0, path.length - 1).join(',');
     if (
@@ -92,10 +94,16 @@ module.exports = function print(
 
         // In the case that a path includes brackets ['path', 'to', 'array[index]'],
         // remove the brackets and add the index inside as a new element ['path', 'to', 'array', 'index']
-        if (path[path.length - 1].includes('[')) {
-          path.push(path[path.length - 1].split(']')[0].split('[')[1]);
-          path[path.length - 2] = path[path.length - 2].split(['['])[0];
-        }
+        let newpath = [];
+        path.forEach(item => {
+          if (item.includes('[')) {
+            newpath.push(item.split('[')[0]);
+            newpath.push(item.split('[')[1].slice(0, -1));
+          } else {
+            newpath.push(item)
+          }
+        });
+        path = newpath;
 
         // Get object and it's parents from path
         const { obj, parent, ppParent } = getObjectFromPath(path);
@@ -112,7 +120,7 @@ module.exports = function print(
         } else if (
           message.includes('Definition was declared but never used in document')
         ) {
-          definitionsToDelete[path.join(',')] = true;
+          definitionsToDelete.push(path);
         } else if (
           message.includes(
             'Common path parameters should be defined on path object'
@@ -136,6 +144,9 @@ module.exports = function print(
             'Rely on the `securitySchemas` and `security` fields to specify authorization methods.'
           )
         ) {
+          // Create a security schema if it does not exist and remove the
+          // found Authorization security field. Use the field description if it exists.
+          // Only perform this on IAM security for now
           if (obj['description'].includes('IAM')) {
             if (!('security' in originalJSON)) {
               originalJSON['security'] = [{ IAM: [] }];
@@ -206,10 +217,9 @@ module.exports = function print(
   });
 
   console.log('Deleting Definitions');
-  Object.keys(definitionsToDelete).forEach(path => {
-    const patharr = path.split(',');
-    const { parent } = getObjectFromPath(patharr);
-    delete parent[patharr[patharr.length - 1]];
+  definitionsToDelete.forEach(path => {
+    const { parent } = getObjectFromPath(path);
+    delete parent[path[path.length - 1]];
   });
 
   console.log('Deleting/moving Parameters');
