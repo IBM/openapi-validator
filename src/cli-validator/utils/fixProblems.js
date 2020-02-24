@@ -94,13 +94,13 @@ module.exports = function print(
 
         // In the case that a path includes brackets ['path', 'to', 'array[index]'],
         // remove the brackets and add the index inside as a new element ['path', 'to', 'array', 'index']
-        let newpath = [];
+        const newpath = [];
         path.forEach(item => {
           if (item.includes('[')) {
             newpath.push(item.split('[')[0]);
             newpath.push(item.split('[')[1].slice(0, -1));
           } else {
-            newpath.push(item)
+            newpath.push(item);
           }
         });
         path = newpath;
