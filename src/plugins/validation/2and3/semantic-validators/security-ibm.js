@@ -88,7 +88,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
               `For security scheme types other than ${schemesWithNonEmptyArrays.join(
                 ' or '
               )}, the value must be an empty array.`,
-              config.invalid_non_empty_security_array
+              config.invalid_non_empty_security_array,
+              'invalid_non_empty_security_array'
             );
           }
 

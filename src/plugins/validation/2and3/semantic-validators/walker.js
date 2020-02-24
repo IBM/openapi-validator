@@ -98,7 +98,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           `${
             blacklistPayload.location
           } $refs must follow this format: ${refBlacklist[0].slice(1)}`,
-          config.incorrect_ref_pattern
+          config.incorrect_ref_pattern,
+          'incorrect_ref_pattern'
         );
       }
     }
@@ -109,7 +110,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         messages.addMessage(
           path.concat([k]),
           'Values alongside a $ref will be ignored.',
-          config.$ref_siblings
+          config.$ref_siblings,
+          '$ref_siblings'
         );
       }
     });

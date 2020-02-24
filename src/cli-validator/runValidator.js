@@ -33,6 +33,7 @@ const processInput = async function(program) {
 
   // interpret the options
   const printValidators = !!program.print_validator_modules;
+  const printRuleNames = !!program.print_rule_names;
   const reportingStats = !!program.report_statistics;
 
   const turnOffColoring = !!program.no_colors;
@@ -290,6 +291,7 @@ const processInput = async function(program) {
           results,
           chalk,
           printValidators,
+          printRuleNames,
           reportingStats,
           originalFile,
           errorsOnly

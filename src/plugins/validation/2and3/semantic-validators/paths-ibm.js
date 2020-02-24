@@ -95,7 +95,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
               messages.addMessage(
                 ['paths', pathName, opName, 'parameters'],
                 `Operation must include a path parameter with name: ${name}.`,
-                checkStatus
+                checkStatus,
+                'missing_path_parameter'
               );
             });
           }
@@ -118,7 +119,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
               messages.addMessage(
                 ['paths', pathName],
                 `Path parameter must be defined at the path or the operation level: ${name}.`,
-                checkStatus
+                checkStatus,
+                'missing_path_parameter'
               );
             });
           }
@@ -153,7 +155,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
                 messages.addMessage(
                   ['paths', pathName, op, 'parameters', `${index}`],
                   'Common path parameters should be defined on path object',
-                  checkStatus
+                  checkStatus,
+                  'duplicate_path_parameter'
                 );
               });
             }
@@ -176,7 +179,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
           messages.addMessage(
             ['paths', pathName],
             `Path segments must be lower snake case.`,
-            checkStatus
+            checkStatus,
+            'snake_case_only'
           );
         }
       });
@@ -200,7 +204,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
               messages.addMessage(
                 ['paths', pathName],
                 `Path segments must follow case convention: ${caseConvention}`,
-                checkStatusPath
+                checkStatusPath,
+                'paths_case_convention'
               );
             }
           });

@@ -104,7 +104,8 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
       messages.addMessage(
         `${location}.${name}`,
         `A security scheme is defined but never used: ${name}`,
-        config.unused_security_schemes
+        config.unused_security_schemes,
+        'unused_security_schemes'
       );
     }
   });
@@ -119,7 +120,8 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
       messages.addMessage(
         path,
         `A security scope is defined but never used: ${name}`,
-        config.unused_security_scopes
+        config.unused_security_scopes,
+        'unused_security_scopes'
       );
     }
   });

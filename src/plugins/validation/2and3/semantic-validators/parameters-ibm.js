@@ -33,7 +33,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         messages.addMessage(
           path,
           'Parameter objects must have a `description` field.',
-          config.no_parameter_description
+          config.no_parameter_description,
+          'no_parameter_description'
         );
       }
 
@@ -57,7 +58,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             messages.addMessage(
               path,
               `Parameter names must follow case convention: ${caseConvention}`,
-              checkStatus
+              checkStatus,
+              'param_name_case_convention'
             );
           }
         }
@@ -72,7 +74,12 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           ? `${messageCT} Rely on the \`content\` field of a request body or response object to specify content-type.`
           : `${messageCT} Rely on the \`consumes\` field to specify content-type.`;
         if (definesContentType) {
-          messages.addMessage(path, messageCT, checkStatusCT);
+          messages.addMessage(
+            path,
+            messageCT,
+            checkStatusCT,
+            'content_type_parameter'
+          );
         }
 
         // check for accept-type defined in a header parameter (AT = accept-type)
@@ -83,7 +90,12 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           ? `${messageAT} Rely on the \`content\` field of a response object to specify accept-type.`
           : `${messageAT} Rely on the \`produces\` field to specify accept-type.`;
         if (definesAcceptType) {
-          messages.addMessage(path, messageAT, checkStatusAT);
+          messages.addMessage(
+            path,
+            messageAT,
+            checkStatusAT,
+            'accept_type_parameter'
+          );
         }
 
         // check for accept-type defined in a header parameter (AT = accept-type)
@@ -101,7 +113,12 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             ' This check will be converted to an `error` in an upcoming release.';
         }
         if (definesAuth) {
-          messages.addMessage(path, messageAuth, checkStatusAuth);
+          messages.addMessage(
+            path,
+            messageAuth,
+            checkStatusAuth,
+            'authorization_parameter'
+          );
         }
       }
 
@@ -117,7 +134,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         messages.addMessage(
           path,
           'Required parameters should not specify default values.',
-          config.required_param_has_default
+          config.required_param_has_default,
+          'required_param_has_default'
         );
       }
     }

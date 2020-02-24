@@ -34,7 +34,8 @@ module.exports.validate = function({ jsSpec }, config) {
         messages.addMessage(
           path,
           'Parameters MUST have an `in` property.',
-          config.no_in_property
+          config.no_in_property,
+          'no_in_property'
         );
       } else if (!allowedInValues.includes(obj.in)) {
         // bad because `in` must be one of a few values
@@ -43,7 +44,8 @@ module.exports.validate = function({ jsSpec }, config) {
           `Unsupported value for \`in\`: '${
             obj.in
           }'. Allowed values are ${allowedInValues.join(', ')}`,
-          config.invalid_in_property
+          config.invalid_in_property,
+          'invalid_in_property'
         );
       }
 
@@ -52,14 +54,16 @@ module.exports.validate = function({ jsSpec }, config) {
         messages.addMessage(
           path,
           'Parameters MUST have their data described by either `schema` or `content`.',
-          config.missing_schema_or_content
+          config.missing_schema_or_content,
+          'missing_schema_or_content'
         );
       } else if (obj.schema && obj.content) {
         // bad because only one is allowed to be used at a time
         messages.addMessage(
           path,
           'Parameters MUST NOT have both a `schema` and `content` property.',
-          config.has_schema_and_content
+          config.has_schema_and_content,
+          'has_schema_and_content'
         );
       }
 
@@ -91,7 +95,8 @@ module.exports.validate = function({ jsSpec }, config) {
           messages.addMessage(
             p,
             'Parameters should not contain binary (type: string, format: binary) values.',
-            binaryStringStatus
+            binaryStringStatus,
+            'json_or_param_binary_string'
           );
         }
       }
