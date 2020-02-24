@@ -1,4 +1,7 @@
 const expect = require('expect');
+const intercept = require('intercept-stdout');
+const stripAnsiFrom = require('strip-ansi');
+const commandLineValidator = require('../../../../src/cli-validator/runValidator');
 const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/parameters-ibm');
@@ -608,6 +611,38 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.errors[0].message).toEqual(
         'Parameter objects must have a `description` field.'
       );
+    });
+
+    it('should produce a warning for parameters that are defined inline to an operation but appear on multiple operations.', async function() {
+      // set a variable to store text intercepted from stdout
+      const capturedText = [];
+
+      // this variable intercepts incoming text and pushes it into capturedText
+      const unhookIntercept = intercept(function(txt) {
+        capturedText.push(stripAnsiFrom(txt));
+        return '';
+      });
+
+      // set up mock user input
+      const program = {};
+      program.args = ['./test/cli-validator/mockFiles/inlineParameters.json'];
+      program.default_mode = true;
+
+      const exitCode = await commandLineValidator(program);
+
+      // this stops the interception of output text
+      unhookIntercept();
+
+      expect(exitCode).toEqual(0);
+
+      expect(capturedText[1].trim()).toEqual('warnings');
+      expect(capturedText[2].trim()).toEqual(
+        'Message :   Inline parameters that appear on multiple operations should be defined in the Parameters section and then referenced.'
+      );
+      expect(capturedText[3].trim()).toEqual(
+        'Path    :   components.parameters.Id'
+      );
+      expect(capturedText[4].trim()).toEqual('Line    :   90');
     });
   });
 });

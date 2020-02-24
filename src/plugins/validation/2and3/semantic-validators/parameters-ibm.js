@@ -8,6 +8,10 @@
 // Header parameters must not define a content-type or an accept-type.
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#do-not-explicitly-define-a-content-type-header-parameter
 
+// Assertation 4:
+// Parameters that are defined inline to an operation but appear on multiple operations should be defined
+// in the Parameters section (once) and then referenced from any operation that includes them.
+
 const pick = require('lodash/pick');
 const includes = require('lodash/includes');
 const { checkCase, isParameterObject, walk } = require('../../../utils');
@@ -15,6 +19,8 @@ const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   const messages = new MessageCarrier();
+
+  const parameterNames = [];
 
   config = config.parameters;
 
@@ -134,6 +140,10 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           config.required_param_has_default
         );
       }
+
+      if (isOAS3) {
+        checkInlineParameters(obj, isRef, parameterNames, messages, path);
+      }
     }
   });
 
@@ -181,4 +191,18 @@ function formatValid(obj, isOAS3) {
       return !isOAS3 && obj.in === 'formData';
   }
   return false;
+}
+
+function checkInlineParameters(obj, isRef, parameterNames, messages, path) {
+  if (!isRef) {
+    if (!parameterNames.includes(obj.name)) {
+      parameterNames.push(obj.name);
+    } else {
+      messages.addMessage(
+        path,
+        'Inline parameters that appear on multiple operations should be defined in the Parameters section and then referenced.',
+        'warning'
+      );
+    }
+  }
 }

@@ -1,0 +1,135 @@
+ {
+    "openapi":"3.0.0",
+    "info":{
+        "version":"1.0.0",
+        "title":"Duplicate properties",
+        "description":"This is a type related to duplicate keys",
+        "x-alternate-name":"DuplicateProperties",
+        "x-codegen-config" : {
+            "java": {
+                "apiPackage": "com.ibm.watson"
+            }
+        }
+    },
+    "paths":{
+	"/person":{
+	    "get":{
+                "operationId":"list_person",
+                "summary":"Retrieve a Person",
+                "description":"Retrieve a person",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "description": "ID parameter",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful request.",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/person"
+                                },
+                                "examples":{
+                                    "response":{
+                                        "value":{
+                                            "text":"Howdy!"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                        "description":"Uh oh."
+                    }
+                }
+            }
+	},
+	"/kid":{
+	    "get":{
+                "operationId":"list_kid",
+                "summary":"Retrieve a kid",
+                "description":"Retrieve a kid",
+                 "parameters": [
+                    {
+                        "$ref": "#/components/parameters/Id"
+                    }
+                ],
+                "responses":{
+                    "200":{
+                        "description":"Successful request.",
+                        "content":{
+                            "application/json":{
+                                "schema":{
+                                    "$ref":"#/components/schemas/kid"
+                                },
+                                "examples":{
+                                    "response":{
+                                        "value":{
+                                            "text":"Howdy!"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "400":{
+                         "description":"Uh oh."
+                    }
+                }
+            }
+	}
+    },
+     "components":{
+        "parameters": {
+            "Id": {
+                "name": "id",
+                "in": "query",
+                "description": "The ID associated with invoking the request.",
+                "required": true,
+                "schema": {
+                    "type": "string"
+                }
+            }
+        },
+        "schemas":{
+            "person":{
+		"description" : "Person's info",
+                "properties":{
+		    "name":{
+			"description": "Person's name",
+			"type": "string"
+		    },
+		    "age": {
+			"description": "Person's age",
+			"type": "number",
+			"minimum": 18,
+			"maximum": 64
+		    }
+                }
+            },
+	    "kid":{
+		"description" : "Kid's info",
+                "properties":{
+		    "name":{
+			"type": "string",
+                        "description": "Kid's name"
+ 		    },
+		    "age": {
+			"description": "Kid's age",
+			"type": "number",
+			"minimum": 18,
+			"maximum": 64
+		    }  
+                }
+		
+	    }
+        }
+    }
+}
