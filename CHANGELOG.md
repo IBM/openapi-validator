@@ -1,3 +1,10 @@
+# [0.23.0](https://github.com/IBM/openapi-validator/compare/v0.22.0...v0.23.0) (2020-02-24)
+
+
+### Features
+
+* error for oneOf, anyOf, allOf schema that does not use array ([#143](https://github.com/IBM/openapi-validator/issues/143)) ([1db6b27](https://github.com/IBM/openapi-validator/commit/1db6b27))
+
 # [0.22.0](https://github.com/IBM/openapi-validator/compare/v0.21.0...v0.22.0) (2020-02-21)
 
 
