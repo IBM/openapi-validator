@@ -20,6 +20,7 @@ components:
       - $ref: '#/components/schemas/A'
       - $ref: '#/components/schemas/B'
     C:
+      description: one of two allOf schemas
       oneOf:
         - allOf:
           - type: foo
@@ -29,6 +30,7 @@ components:
             format: url
             description: 'url string'
     Ok:
+      description: ok object
       type: object
       properties:
         ok:

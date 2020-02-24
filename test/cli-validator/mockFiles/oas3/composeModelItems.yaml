@@ -1,0 +1,21 @@
+openapi: 3.0.0
+components:
+  schemas:
+    one_of_array:
+      type: array
+      description: a oneOf array schema
+      items:
+        oneOf:
+          type: string
+    all_of_array:
+      type: array
+      description: an allOf array schema
+      items:
+        allOf:
+          type: string
+    any_of_array:
+      type: array
+      description: an anyOf array schema
+      items:
+        anyOf:
+          type: string
