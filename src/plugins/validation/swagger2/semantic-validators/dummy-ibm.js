@@ -4,7 +4,7 @@ const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec }, config) {
 
-  const messages = new MessageCarrier();
+  const messages = new MessageCarrier(config);
 
   // use the appropriate validation category object
   // ex) `config = config.operations` for the operations validator
@@ -22,13 +22,12 @@ module.exports.validate = function({ jsSpec }, config) {
   // error pushing format:
 
 /*
-  let checkStatus = config.custom_rule_name
-  if (checkStatus !== "off") {
-    result[checkStatus].push({
-      path: "path to error, either as an array or a string",
-      message: "message about the error/warning"
-    })
-  }
+  messages.addMessage(
+    path,
+    message,
+    config.custom_rule_name,
+    'custom_rule_name'
+  )
 */
 
   return messages;

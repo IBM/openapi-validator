@@ -91,7 +91,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
       messages.addMessage(
         ['paths', path, 'get', 'parameters', limitParamIndex],
         'The limit parameter must be of type integer and optional with default and maximum values.',
-        checkStatus
+        checkStatus,
+        'pagination_style'
       );
     }
 
@@ -110,7 +111,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
         messages.addMessage(
           ['paths', path, 'get', 'parameters', offsetParamIndex],
           'The offset parameter must be of type integer and optional.',
-          checkStatus
+          checkStatus,
+          'pagination_style'
         );
       }
     }
@@ -134,7 +136,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
           `The ${
             startParam.name
           } parameter must be of type string and optional.`,
-          checkStatus
+          checkStatus,
+          'pagination_style'
         );
       }
     }
@@ -158,7 +161,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
       messages.addMessage(
         propertiesPath,
         `A paginated list operation must include a "limit" property in the response body schema.`,
-        checkStatus
+        checkStatus,
+        'pagination_style'
       );
     } else if (
       limitProp.type !== 'integer' ||
@@ -168,7 +172,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
       messages.addMessage(
         [...propertiesPath, 'limit'],
         `The "limit" property in the response body of a paginated list operation must be of type integer and required.`,
-        checkStatus
+        checkStatus,
+        'pagination_style'
       );
     }
 
@@ -180,7 +185,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
         messages.addMessage(
           propertiesPath,
           `A paginated list operation with an "offset" parameter must include an "offset" property in the response body schema.`,
-          checkStatus
+          checkStatus,
+          'pagination_style'
         );
       } else if (
         offsetProp.type !== 'integer' ||
@@ -190,7 +196,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
         messages.addMessage(
           [...propertiesPath, 'offset'],
           `The "offset" property in the response body of a paginated list operation must be of type integer and required.`,
-          checkStatus
+          checkStatus,
+          'pagination_style'
         );
       }
     }
@@ -203,7 +210,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
       messages.addMessage(
         propertiesPath,
         `A paginated list operation must include an array property whose name matches the final segment of the path.`,
-        checkStatus
+        checkStatus,
+        'pagination_style'
       );
     }
   }

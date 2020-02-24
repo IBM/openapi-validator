@@ -10,6 +10,7 @@ module.exports = function print(
   results,
   chalk,
   printValidators,
+  printRuleNames,
   reportingStats,
   originalFile,
   errorsOnly
@@ -85,9 +86,13 @@ module.exports = function print(
         const lineNumber = getLineNumberForPath(originalFile, path);
 
         // print the path array as a dot-separated string
+
         console.log(chalk[color](`  Message :   ${problem.message}`));
         console.log(chalk[color](`  Path    :   ${path.join('.')}`));
         console.log(chalk[color](`  Line    :   ${lineNumber}`));
+        if (printRuleNames) {
+          console.log(chalk[color](`  Rule    :   ${problem.rule}`));
+        }
         console.log();
       });
     });

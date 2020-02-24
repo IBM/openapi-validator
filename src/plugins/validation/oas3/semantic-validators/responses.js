@@ -47,7 +47,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
         messages.addMessage(
           path,
           'Each `responses` object MUST have at least one response code.',
-          config.no_response_codes
+          config.no_response_codes,
+          'no_response_codes'
         );
       } else {
         for (const statusCode of statusCodes) {
@@ -63,7 +64,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
             messages.addMessage(
               path.concat(['422']),
               'Should use status code 400 instead of 422 for invalid request payloads.',
-              config.ibm_status_code_guidelines
+              config.ibm_status_code_guidelines,
+              'ibm_status_code_guidelines'
             );
           } else if (statusCode === '302') {
             messages.addMessage(
@@ -142,7 +144,8 @@ function validateNoBinaryStringsInResponse(
             messages.addMessage(
               p,
               'JSON request/response bodies should not contain binary (type: string, format: binary) values.',
-              binaryStringStatus
+              binaryStringStatus,
+              'json_or_param_binary_string'
             );
           }
         }

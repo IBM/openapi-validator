@@ -41,7 +41,8 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
           messages.addMessage(
             `paths.${pathName}.${opName}.requestBody`,
             'Request bodies MUST specify a `content` property',
-            config.no_request_body_content
+            config.no_request_body_content,
+            'no_request_body_content'
           );
         } else {
           // request body has content
@@ -80,7 +81,8 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
             messages.addMessage(
               `paths.${pathName}.${opName}`,
               'Operations with non-form request bodies should set a name with the x-codegen-request-body-name annotation.',
-              config.no_request_body_name
+              config.no_request_body_name,
+              'no_request_body_name'
             );
           }
 
@@ -98,7 +100,8 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
                   messages.addMessage(
                     p,
                     'JSON request/response bodies should not contain binary (type: string, format: binary) values.',
-                    binaryStringStatus
+                    binaryStringStatus,
+                    'json_or_param_binary_string'
                   );
                 }
               }

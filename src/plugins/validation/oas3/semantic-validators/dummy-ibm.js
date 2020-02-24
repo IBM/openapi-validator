@@ -4,7 +4,7 @@ const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec }, config) {
 
-  const messages = new MessageCarrier();
+  const messages = new MessageCarrier(config);
 
   // use the appropriate validation category object
   // ex) `config = config.operations` for the operations validator
@@ -23,9 +23,10 @@ module.exports.validate = function({ jsSpec }, config) {
 
 /*
   messages.addMessage(
-    path to error either as an array or string,
-    message about the error/warning,
-    config.custom_rule_name OR 'error' OR 'warning
+    path,
+    message,
+    config.custom_rule_name,
+    'custom_rule_name'
   )
 */
 
