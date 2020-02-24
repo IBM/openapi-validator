@@ -1,0 +1,22 @@
+openapi: 3.0.0
+components:
+  schemas:
+    A:
+      description: a schema
+      type: string
+      format: byte
+    complexOneOfError:
+      description: second oneOf should be array
+      oneOf:
+        - oneOf:
+            $ref: '#/components/schemas/A'
+    complexAllOfError:
+      description: allOf should be array
+      oneOf:
+        - allOf:
+            type: string
+    complexAnyOfError:
+      description: anyOf should be array
+      oneOf:
+        - anyOf:
+            $ref: '#/components/schemas/A'
