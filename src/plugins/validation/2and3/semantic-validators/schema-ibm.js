@@ -152,7 +152,8 @@ function generateFormatErrors(schema, contextPath, config, isOAS3, messages) {
       messages.addMessage(
         contextPath.concat(['items', 'type']),
         'Array properties should avoid having items of type array.',
-        checkStatus
+        checkStatus,
+        'array_of_arrays'
       );
     }
   }
@@ -162,7 +163,8 @@ function generateFormatErrors(schema, contextPath, config, isOAS3, messages) {
     messages.addMessage(
       contextPath.concat(['type']),
       'Property type+format is not well-defined.',
-      checkStatus
+      checkStatus,
+      'invalid_type_format_pair'
     );
   }
 }
@@ -236,7 +238,8 @@ function generateDescriptionWarnings(
     messages.addMessage(
       contextPath,
       'Schema must have a non-empty description.',
-      config.no_schema_description
+      config.no_schema_description,
+      'no_schema_description'
     );
   }
 
@@ -260,7 +263,8 @@ function generateDescriptionWarnings(
       messages.addMessage(
         path,
         'Schema properties must have a description with content in it.',
-        config.no_property_description
+        config.no_property_description,
+        'no_property_description'
       );
     } else {
       // if the property does have a description, "Avoid describing a model as a 'JSON object' since this will be incorrect for some SDKs."
@@ -269,7 +273,8 @@ function generateDescriptionWarnings(
         messages.addMessage(
           path,
           'Not all languages use JSON, so descriptions should not state that the model is a JSON object.',
-          config.description_mentions_json
+          config.description_mentions_json,
+          'description_mentions_json'
         );
       }
     }
@@ -295,7 +300,8 @@ function checkPropNames(schema, contextPath, config, messages) {
         messages.addMessage(
           contextPath.concat(['properties', propName]),
           'Property names must be lower snake case.',
-          checkStatus
+          checkStatus,
+          'snake_case_only'
         );
       }
     }
@@ -334,7 +340,8 @@ function checkPropNamesCaseConvention(
         messages.addMessage(
           contextPath.concat(['properties', propName]),
           `Property names must follow case convention: ${caseConventionValue}`,
-          checkStatus
+          checkStatus,
+          'property_case_convention'
         );
       }
     }
@@ -355,7 +362,8 @@ function checkEnumValues(schema, contextPath, config, messages) {
           messages.addMessage(
             contextPath.concat(['enum', i.toString()]),
             'Enum values must be lower snake case.',
-            checkStatus
+            checkStatus,
+            'snake_case_only'
           );
         }
       }
@@ -390,7 +398,8 @@ function checkEnumCaseConvention(
           messages.addMessage(
             contextPath.concat(['enum', i.toString()]),
             `Enum values must follow case convention: ${caseConventionValue}`,
-            checkStatus
+            checkStatus,
+            'enum_case_convention'
           );
         }
       }

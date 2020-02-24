@@ -24,7 +24,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
         messages.addMessage(
           [...path, 'description'],
           'Items with a description must have content in it.',
-          config.no_empty_descriptions
+          config.no_empty_descriptions,
+          'no_empty_descriptions'
         );
       }
 
@@ -41,7 +42,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
           messages.addMessage(
             [...path, 'description'],
             'Description sibling to $ref matches that of the referenced schema. This is redundant and should be removed.',
-            config.duplicate_sibling_description
+            config.duplicate_sibling_description,
+            'duplicate_sibling_description'
           );
         }
       }

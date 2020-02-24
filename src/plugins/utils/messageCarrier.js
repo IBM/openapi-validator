@@ -20,22 +20,27 @@ module.exports = class MessageCarrier {
     return this._messages.warning;
   }
 
-  // status should be 'off', 'error', or 'warning'
-  addMessage(path, message, status) {
-    if (this._messages[status]) {
-      this._messages[status].push({
-        path,
-        message
-      });
-    }
-  }
-
-  addMessageWithAuthId(path, message, authId, status) {
+  // status should be 'off', 'error', 'warning'
+  // rule is the name of the configOption, 'builtin' by default
+  addMessage(path, message, status, rule = 'builtin') {
     if (this._messages[status]) {
       this._messages[status].push({
         path,
         message,
-        authId
+        rule
+      });
+    }
+  }
+
+  // status should be 'off', 'error', 'warning'
+  // rule is the name of the configOption, 'builtin' by default
+  addMessageWithAuthId(path, message, authId, status, rule = 'builtin') {
+    if (this._messages[status]) {
+      this._messages[status].push({
+        path,
+        message,
+        authId,
+        rule
       });
     }
   }

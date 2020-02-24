@@ -145,7 +145,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
             messages.addMessage(
               `paths.${pathKey}.${opKey}.tags`,
               'tag is not defined at the global level: ' + op.tags[i],
-              config.unused_tag
+              config.unused_tag,
+              'unused_tag'
             );
           }
         }
@@ -157,7 +158,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
         messages.addMessage(
           `paths.${pathKey}.${opKey}.summary`,
           'Operations must have a non-empty `summary` field.',
-          config.no_summary
+          config.no_summary,
+          'no_summary'
         );
       }
 
@@ -178,7 +180,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
                 messages.addMessage(
                   `paths.${pathKey}.${opKey}.parameters[${indx}]`,
                   'Required parameters should appear before optional parameters.',
-                  checkStatusParamOrder
+                  checkStatusParamOrder,
+                  'parameter_order'
                 );
               }
             }

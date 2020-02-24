@@ -4,6 +4,8 @@ const stripAnsiFrom = require('strip-ansi');
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
 const inCodeValidator = require('../../../src/lib');
 const swaggerInMemory = require('../mockFiles/errWarnInMemory');
+const yaml = require('js-yaml');
+const fs = require('fs');
 
 describe('cli tool - test expected output - Swagger 2', function() {
   it('should not produce any errors or warnings from mockFiles/clean.yml', async function() {
@@ -66,6 +68,45 @@ describe('cli tool - test expected output - Swagger 2', function() {
 
     expect(whichProblems[0]).toEqual('errors');
     expect(whichProblems[1]).toEqual('warnings');
+  });
+
+  it('should print the associated rule with each error and warning', async function() {
+    const capturedText = [];
+
+    const unhookIntercept = intercept(function(txt) {
+      capturedText.push(txt);
+      return '';
+    });
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.default_mode = true;
+    program.print_rule_names = true;
+
+    const exitCode = await commandLineValidator(program);
+    unhookIntercept();
+
+    expect(exitCode).toEqual(1);
+
+    let ruleCount = 0;
+    capturedText.forEach(function(line) {
+      if (line.includes('Rule    :')) {
+        ruleCount++;
+      }
+    });
+
+    const defaultProgram = {};
+    defaultProgram.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    defaultProgram.default_mode = true;
+
+    const errAndWarnInMemory = yaml.safeLoad(
+      fs.readFileSync('./test/cli-validator/mockFiles/errAndWarn.yaml')
+    );
+    const validationResults = await inCodeValidator(errAndWarnInMemory, true);
+
+    expect(ruleCount).toEqual(
+      validationResults.errors.length + validationResults.warnings.length
+    );
   });
 
   it('should print the correct line numbers for each error/warning', async function() {

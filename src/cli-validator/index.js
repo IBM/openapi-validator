@@ -22,6 +22,10 @@ program
     'print the validators that catch each error/warning (helpful for development)'
   )
   .option(
+    '-r, --print_rule_names',
+    'print the configuration option names associated with each error and warning'
+  )
+  .option(
     '-n, --no_colors',
     'turn off output coloring'
   )

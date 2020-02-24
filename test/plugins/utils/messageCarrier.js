@@ -11,11 +11,13 @@ describe('MessageCarrier tests', function() {
     expect(messages.errors.length).toEqual(2);
     expect(messages.errors[0]).toEqual({
       path: ['paths', '/example', 'get'],
-      message: 'message1'
+      message: 'message1',
+      rule: 'builtin'
     });
     expect(messages.errors[1]).toEqual({
       path: ['paths', '/example', 'post'],
-      message: 'message2'
+      message: 'message2',
+      rule: 'builtin'
     });
   });
 
@@ -28,11 +30,13 @@ describe('MessageCarrier tests', function() {
     expect(messages.warnings.length).toEqual(2);
     expect(messages.warnings[0]).toEqual({
       path: 'paths./example.get',
-      message: 'message1'
+      message: 'message1',
+      rule: 'builtin'
     });
     expect(messages.warnings[1]).toEqual({
       path: 'paths./example.post',
-      message: 'message2'
+      message: 'message2',
+      rule: 'builtin'
     });
   });
 
@@ -51,12 +55,14 @@ describe('MessageCarrier tests', function() {
     expect(messageDict.error.length).toEqual(2);
     expect(messageDict.error[0]).toEqual({
       path: ['paths', '/example', 'get'],
-      message: 'message1'
+      message: 'message1',
+      rule: 'builtin'
     });
     expect(messageDict.warning.length).toEqual(1);
     expect(messageDict.warning[0]).toEqual({
       path: 'paths./example.get.requestBody',
-      message: 'message3'
+      message: 'message3',
+      rule: 'builtin'
     });
   });
 
@@ -111,16 +117,15 @@ describe('MessageCarrier tests', function() {
     );
 
     expect(messages.errors.length).toEqual(2);
-    expect(messages.errors[0]).toEqual({
-      path: ['paths', '/example', 'get'],
-      message: 'message1',
-      authId: 'authId1'
-    });
-    expect(messages.errors[1]).toEqual({
-      path: ['paths', '/example', 'post'],
-      message: 'message2',
-      authId: 'authId2'
-    });
+    expect(messages.errors[0].path).toEqual(['paths', '/example', 'get']);
+    expect(messages.errors[0].message).toEqual('message1');
+    expect(messages.errors[0].authId).toEqual('authId1');
+    expect(messages.errors[0].rule).toEqual('builtin');
+
+    expect(messages.errors[1].path).toEqual(['paths', '/example', 'post']);
+    expect(messages.errors[1].message).toEqual('message2');
+    expect(messages.errors[1].authId).toEqual('authId2');
+    expect(messages.errors[1].rule).toEqual('builtin');
   });
 
   it('addMessageWithAuthId adds warnings and includes the authId in the warning', function() {
@@ -140,15 +145,62 @@ describe('MessageCarrier tests', function() {
     );
 
     expect(messages.warnings.length).toEqual(2);
+
+    expect(messages.warnings.length).toEqual(2);
+    expect(messages.warnings[0].path).toEqual(['paths', '/example', 'get']);
+    expect(messages.warnings[0].message).toEqual('message1');
+    expect(messages.warnings[0].authId).toEqual('authId1');
+    expect(messages.warnings[0].rule).toEqual('builtin');
+
+    expect(messages.warnings[1].path).toEqual(['paths', '/example', 'post']);
+    expect(messages.warnings[1].message).toEqual('message2');
+    expect(messages.warnings[1].authId).toEqual('authId2');
+    expect(messages.warnings[1].rule).toEqual('builtin');
+  });
+
+  it('providing addMessageWithAuthId a valid key in config should set rule to that key', function() {
+    const config = {
+      valid_rule: 'warning'
+    };
+
+    const messages = new MessageCarrier();
+
+    messages.addMessageWithAuthId(
+      ['paths', '/example', 'get'],
+      'message1',
+      'authId1',
+      config.valid_rule,
+      'valid_rule'
+    );
+    messages.addMessageWithAuthId(
+      ['paths', '/example', 'post'],
+      'message2',
+      'authId2',
+      config.valid_rule,
+      'valid_rule'
+    );
+
+    expect(messages.warnings.length).toEqual(2);
+    expect(messages.warnings[0].path).toEqual(['paths', '/example', 'get']);
+    expect(messages.warnings[0].message).toEqual('message1');
+    expect(messages.warnings[0].authId).toEqual('authId1');
+    expect(messages.warnings[0].rule).toEqual('valid_rule');
+
+    expect(messages.warnings[1].path).toEqual(['paths', '/example', 'post']);
+    expect(messages.warnings[1].message).toEqual('message2');
+    expect(messages.warnings[1].authId).toEqual('authId2');
+    expect(messages.warnings[1].rule).toEqual('valid_rule');
     expect(messages.warnings[0]).toEqual({
       path: ['paths', '/example', 'get'],
       message: 'message1',
-      authId: 'authId1'
+      authId: 'authId1',
+      rule: 'valid_rule'
     });
     expect(messages.warnings[1]).toEqual({
       path: ['paths', '/example', 'post'],
       message: 'message2',
-      authId: 'authId2'
+      authId: 'authId2',
+      rule: 'valid_rule'
     });
   });
 });

@@ -47,13 +47,15 @@ module.exports.validate = function({ resolvedSpec }, config) {
         messages.addMessage(
           path,
           'Each `responses` object MUST have at least one response code.',
-          config.no_response_codes
+          config.no_response_codes,
+          'no_response_codes'
         );
       } else if (!successCodes.length) {
         messages.addMessage(
           path,
           'Each `responses` object SHOULD have at least one code for a successful response.',
-          config.no_success_response_codes
+          config.no_success_response_codes,
+          'no_success_response_codes'
         );
       } else {
         // validate success codes
@@ -62,7 +64,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
             messages.addMessage(
               path.concat([successCode]),
               `A ${successCode} response should include a response body. Use 204 for responses without content.`,
-              config.no_response_body
+              config.no_response_body,
+              'no_response_body'
             );
           } else if (successCode === '204' && obj[successCode].content) {
             messages.addMessage(
@@ -117,7 +120,8 @@ function validateNoBinaryStringsInResponse(
             messages.addMessage(
               p,
               'JSON request/response bodies should not contain binary (type: string, format: binary) values.',
-              binaryStringStatus
+              binaryStringStatus,
+              'json_or_param_binary_string'
             );
           }
         }
