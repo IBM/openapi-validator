@@ -2,6 +2,8 @@ const each = require('lodash/each');
 const fs = require('fs');
 const snakeCase = require('snake-case');
 const camelCase = require('camelcase');
+const yaml = require('js-yaml');
+const ext = require('./fileExtensionValidator');
 
 // this function prints all of the output
 module.exports = function print(
@@ -14,7 +16,14 @@ module.exports = function print(
 ) {
   const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
 
-  const originalJSON = JSON.parse(originalFile);
+  const originalFileIsJSON = ext.getFileExtension(validFile) === 'json';
+
+  let originalObj;
+  if (originalFileIsJSON) {
+    originalObj = JSON.parse(originalFile);
+  } else {
+    originalObj = yaml.safeLoad(originalFile);
+  }
 
   const paramsToDelete = {};
   const paramsToPrepend = {};
@@ -70,7 +79,7 @@ module.exports = function print(
   // Return the found object and up to three parents
   const getObjectFromPath = path => {
     const pathcopy = path.slice(0);
-    let obj = originalJSON;
+    let obj = originalObj;
     let parent, pParent, ppParent;
     while (pathcopy.length) {
       ppParent = pParent;
@@ -148,9 +157,9 @@ module.exports = function print(
           // found Authorization security field. Use the field description if it exists.
           // Only perform this on IAM security for now
           if (obj['description'].includes('IAM')) {
-            if (!('security' in originalJSON)) {
-              originalJSON['security'] = [{ IAM: [] }];
-              originalJSON['components']['securitySchemes'] = {
+            if (!('security' in originalObj)) {
+              originalObj['security'] = [{ IAM: [] }];
+              originalObj['components']['securitySchemes'] = {
                 IAM: {
                   type: 'apiKey',
                   name: 'Authorization',
@@ -254,16 +263,21 @@ module.exports = function print(
     delete parent[path[path.length - 1]];
   });
 
-  const fixedJSON = JSON.stringify(originalJSON, null, 2);
+  let updatedObj;
+  if (originalFileIsJSON) {
+    updatedObj = JSON.stringify(originalObj, null, 2);
+  } else {
+    updatedObj = yaml.safeDump(originalObj, {indent: 2});
+  }
   if (doFixProblemsNewFile) {
     console.log('Writing Fixes to new file');
     const newfile =
       validFile.substr(0, validFile.lastIndexOf('.')) +
       '_new' +
       validFile.substr(validFile.lastIndexOf('.'), validFile.length - 1);
-    fs.writeFileSync(newfile, fixedJSON);
+    fs.writeFileSync(newfile, updatedObj);
   } else {
     console.log('Writing Fixes in-place');
-    fs.writeFileSync(validFile, fixedJSON);
+    fs.writeFileSync(validFile, updatedObj);
   }
 };
