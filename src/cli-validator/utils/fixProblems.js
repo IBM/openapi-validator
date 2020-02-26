@@ -174,6 +174,36 @@ module.exports = function print(
             unmarkIfMarkedForMoving(path, parent);
           }
         } else if (
+          message.includes('operationIds should follow consistent naming convention')
+        ) {
+          const validVerbs = ['get', 'create', 'add', 'list', 'update', 'replace', 'delete'];
+
+          const messageArray = message.split(' ');
+          const verb = messageArray[messageArray.length - 1];
+          if (validVerbs.includes(verb)) {
+            const previousOpIdArray = snakeCase.snakeCase(parent[path[path.length - 1]]).toLowerCase().split('_');
+            let updatedOpIdArray;
+            // handling case where the first word in the opId is a verb but should be a different verb.
+            // for example, 'update' used when it should have been 'replace'
+            if (validVerbs.includes(previousOpIdArray[0])) {
+              updatedOpIdArray = previousOpIdArray;
+              updatedOpIdArray[0] = verb;
+            } else {
+              updatedOpIdArray = [verb, ...previousOpIdArray];
+            }
+            const opIdCase =
+              configObject['shared']['operations'][
+                'operation_id_case_convention'
+              ][1];
+            if (opIdCase === 'lower_snake_case') {
+              parent[path[path.length - 1]] = updatedOpIdArray.join('_').toLowerCase();
+            } else if (opIdCase === 'upper_snake_case') {
+              parent[path[path.length - 1]] = updatedOpIdArray.join('_').toUpperCase();
+            } else if (opIdCase === 'lower_camel_case') {
+              parent[path[path.length - 1]] = camelCase(updatedOpIdArray.join('_'));
+            }
+          }
+        } else if (
           message.includes('operationIds must follow case convention')
         ) {
           const opIdCase =
