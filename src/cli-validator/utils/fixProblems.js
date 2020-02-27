@@ -189,8 +189,8 @@ module.exports = function print(
             'Required parameters should appear before optional parameters.'
           )
         ) {
-          markForDeletion(path);
           markForMoving(path, parent);
+          markForDeletion(path);
         } else if (
           message.includes('Property names must follow case convention')
         ) {
@@ -231,8 +231,11 @@ module.exports = function print(
       obj.splice(paramToDelete, 1);
     });
     if (path in paramsToPrepend) {
+      let i;
+      for (i=0; i <= obj.length && obj[i]['required']; i++) {}
+      let indexToInsert = i - 1;
       paramsToPrepend[path].forEach(paramToPrepend => {
-        obj.unshift(paramToPrepend);
+        obj.splice(indexToInsert, 0, paramToPrepend);
       });
       paramsToPrepend[path] = [];
     }
