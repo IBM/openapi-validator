@@ -1,3 +1,10 @@
+# [0.24.0](https://github.com/IBM/openapi-validator/compare/v0.23.0...v0.24.0) (2020-02-25)
+
+
+### Features
+
+* list valid types and formats in error messages ([#145](https://github.com/IBM/openapi-validator/issues/145)) ([600bf8e](https://github.com/IBM/openapi-validator/commit/600bf8e))
+
 # [0.23.0](https://github.com/IBM/openapi-validator/compare/v0.22.0...v0.23.0) (2020-02-24)
 
 
