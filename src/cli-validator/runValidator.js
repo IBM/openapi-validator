@@ -251,7 +251,6 @@ const processInput = async function(program) {
     if (errorsOnly) {
       results.warning = false;
     }
-
     if (doFixProblems || doFixProblemsNewFile) {
       fixProblems(
         results,
