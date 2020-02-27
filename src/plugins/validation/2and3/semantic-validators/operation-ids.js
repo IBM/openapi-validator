@@ -8,8 +8,10 @@ const merge = require('lodash/merge');
 const each = require('lodash/each');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec }) {
+module.exports.validate = function({ resolvedSpec }, config) {
   const messages = new MessageCarrier();
+
+  config = config.operations;
 
   const validOperationKeys = [
     'get',
@@ -160,7 +162,7 @@ module.exports.validate = function({ resolvedSpec }) {
               ',',
               ' or '
             ),
-            'warning'
+            config.operation_id_naming_convention
           );
         }
       }

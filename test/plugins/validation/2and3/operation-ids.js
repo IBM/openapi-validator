@@ -3,6 +3,7 @@ const resolver = require('json-schema-ref-parser');
 const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/operation-ids');
+const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
 describe('validation plugin - semantic - operation-ids', function() {
   it('should complain about a repeated operationId in the same path', function() {
@@ -21,7 +22,7 @@ describe('validation plugin - semantic - operation-ids', function() {
       }
     };
 
-    const res = validate({ resolvedSpec: spec });
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./coolPath.get.operationId');
     expect(res.errors[0].message).toEqual('operationIds must be unique');
@@ -50,7 +51,7 @@ describe('validation plugin - semantic - operation-ids', function() {
       }
     };
 
-    const res = validate({ resolvedSpec: spec });
+    const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./greatPath.put.operationId');
     expect(res.errors[0].message).toEqual('operationIds must be unique');
@@ -91,7 +92,7 @@ describe('validation plugin - semantic - operation-ids', function() {
 
     const resolvedSpec = await resolver.dereference(spec);
 
-    const res = validate({ resolvedSpec });
+    const res = validate({ resolvedSpec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./greatPath.get.operationId');
     expect(res.errors[0].message).toEqual('operationIds must be unique');
@@ -164,7 +165,7 @@ describe('validation plugin - semantic - operation-ids', function() {
     };
 
     const resolvedSpec = await resolver.dereference(spec);
-    const res = validate({ resolvedSpec });
+    const res = validate({ resolvedSpec }, config);
 
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(12);
@@ -243,7 +244,7 @@ describe('validation plugin - semantic - operation-ids', function() {
     };
 
     const resolvedSpec = await resolver.dereference(spec);
-    const res = validate({ resolvedSpec });
+    const res = validate({ resolvedSpec }, config);
 
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
