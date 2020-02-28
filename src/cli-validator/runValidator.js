@@ -41,7 +41,7 @@ const processInput = async function(program) {
   const errorsOnly = !!program.errors_only;
 
   const doFixProblems = !!program.fix;
-  const doFixProblemsNewFile = !!program.fix_newfile;
+  const doFixProblemsNewFile = !!program.fix_new_file;
 
   const configFileOverride = program.config;
 
