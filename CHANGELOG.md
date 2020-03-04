@@ -1,3 +1,10 @@
+## [0.24.1](https://github.com/IBM/openapi-validator/compare/v0.24.0...v0.24.1) (2020-03-04)
+
+
+### Bug Fixes
+
+* make operationId naming convention check configurable ([#149](https://github.com/IBM/openapi-validator/issues/149)) ([c8b07ff](https://github.com/IBM/openapi-validator/commit/c8b07ff))
+
 # [0.24.0](https://github.com/IBM/openapi-validator/compare/v0.23.0...v0.24.0) (2020-02-25)
 
 
