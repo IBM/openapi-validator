@@ -64,6 +64,15 @@ It is possible to build platform specific binaries for Linux, MacOS, and Windows
 
 To build these, run `npm run pkg` in the root.  The binaries (lint-openapi-linux, lint-openapi-macos, lint-openapi-windows.exe respectively) are built in the 'bin' directory in the root.
 
+### Docker container
+A community Docker image is [publicly available on Docker hub](https://hub.docker.com/r/jamescooke/openapi-validator).
+
+`docker pull jamescooke/openapi-validator`
+
+Once pulled, the container can be run directly, but mount a volume containing the OpenAPI specification file so that it can be accessed.
+
+`docker run --volume "$PWD":/data jamescooke/openapi-validator [options] [command] [<files>]`
+
 ## Usage
 ### Command line
 `lint-openapi [options] [command] [<files>]`
