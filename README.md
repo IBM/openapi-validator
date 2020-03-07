@@ -86,6 +86,7 @@ Once pulled, the container can be run directly, but mount a volume containing th
 -  -v (--version) : Print the current semantic version of the validator
 -  -h (--help) : This option prints the usage menu.
 -  -c (--config) <path/to/your/config> : Path to a validator configuration file.  If provided, this is used instead of .validaterc.
+-  --debug : Enable debugging output.
 
 _These options only apply to running the validator on a file, not to any commands._
 
