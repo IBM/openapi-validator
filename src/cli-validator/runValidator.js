@@ -38,6 +38,7 @@ const processInput = async function(program) {
   const defaultMode = !!program.default_mode;
   const jsonOutput = !!program.json;
   const errorsOnly = !!program.errors_only;
+  const debug = !!program.debug;
 
   const configFileOverride = program.config;
 
@@ -236,8 +237,9 @@ const processInput = async function(program) {
       results = validator(swagger, configObject);
     } catch (err) {
       printError(chalk, 'There was a problem with a validator.', getError(err));
-      // Uncomment the line below to see the stack trace when the validator fails
-      // console.log(err.stack);
+      if (debug) {
+        console.log(err.stack);
+      }
       exitCode = 1;
       continue;
     }

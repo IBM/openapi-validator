@@ -43,6 +43,10 @@ program
   .option(
     '-e, --errors_only',
     'only print the errors, ignore the warnings'
+  )
+  .option(
+    '--debug',
+    'enable debugging output'
   );
 
 /* prettier-ignore */
