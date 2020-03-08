@@ -85,7 +85,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     }
 
     ///// Restricted $refs -- only check internal refs
-    if (obj.$ref && obj.$ref.startsWith('#')) {
+    if (obj.$ref && typeof obj.$ref === 'string' && obj.$ref.startsWith('#')) {
       const blacklistPayload = getRefPatternBlacklist(path, isOAS3);
       const refBlacklist = blacklistPayload.blacklist || [];
       const matches = match([obj.$ref], refBlacklist);

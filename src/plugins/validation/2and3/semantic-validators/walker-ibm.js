@@ -35,6 +35,7 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
       if (obj.$ref) {
         const referencedSchema = at(resolvedSpec, [path])[0];
         if (
+          referencedSchema &&
           referencedSchema.description &&
           referencedSchema.description === description
         ) {
