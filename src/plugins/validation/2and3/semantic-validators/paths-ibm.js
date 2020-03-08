@@ -93,7 +93,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
           if (checkStatus != 'off') {
             missingParameters.forEach(name => {
               messages.addMessage(
-                `paths.${pathName}.${opName}.parameters`,
+                ['paths', pathName, opName, 'parameters'],
                 `Operation must include a path parameter with name: ${name}.`,
                 checkStatus
               );
@@ -116,7 +116,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
           if (checkStatus != 'off') {
             missingParameters.forEach(name => {
               messages.addMessage(
-                `paths.${pathName}`,
+                ['paths', pathName],
                 `Path parameter must be defined at the path or the operation level: ${name}.`,
                 checkStatus
               );
@@ -150,7 +150,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
                   p => p.name === parameter
                 );
                 messages.addMessage(
-                  `paths.${pathName}.${op}.parameters.${index}`,
+                  ['paths', pathName, op, 'parameters', `${index}`],
                   'Common path parameters should be defined on path object',
                   checkStatus
                 );
@@ -173,7 +173,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         }
         if (!checkCase(segment, 'lower_snake_case')) {
           messages.addMessage(
-            `paths.${pathName}`,
+            ['paths', pathName],
             `Path segments must be lower snake case.`,
             checkStatus
           );
@@ -197,7 +197,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
             const isCorrectCase = checkCase(segment, caseConvention);
             if (!isCorrectCase) {
               messages.addMessage(
-                `paths.${pathName}`,
+                ['paths', pathName],
                 `Path segments must follow case convention: ${caseConvention}`,
                 checkStatusPath
               );
