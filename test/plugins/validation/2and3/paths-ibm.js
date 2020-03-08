@@ -56,19 +56,30 @@ describe('validation plugin - semantic - paths-ibm', function() {
     const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(3);
     expect(res.warnings.length).toEqual(0);
-    expect(res.errors[0].path).toEqual('paths./cool_path/{id}.post.parameters');
+    expect(res.errors[0].path).toEqual([
+      'paths',
+      '/cool_path/{id}',
+      'post',
+      'parameters'
+    ]);
     expect(res.errors[0].message).toEqual(
       'Operation must include a path parameter with name: id.'
     );
-    expect(res.errors[1].path).toEqual(
-      'paths./bogus/{id}/foo/{foo}/bar.post.parameters'
-    );
+    expect(res.errors[1].path).toEqual([
+      'paths',
+      '/bogus/{id}/foo/{foo}/bar',
+      'post',
+      'parameters'
+    ]);
     expect(res.errors[1].message).toEqual(
       'Operation must include a path parameter with name: id.'
     );
-    expect(res.errors[2].path).toEqual(
-      'paths./bogus/{id}/foo/{foo}/bar.post.parameters'
-    );
+    expect(res.errors[2].path).toEqual([
+      'paths',
+      '/bogus/{id}/foo/{foo}/bar',
+      'post',
+      'parameters'
+    ]);
     expect(res.errors[2].message).toEqual(
       'Operation must include a path parameter with name: foo.'
     );
@@ -232,7 +243,7 @@ describe('validation plugin - semantic - paths-ibm', function() {
       {
         message:
           'Path parameter must be defined at the path or the operation level: id.',
-        path: 'paths./cool_path/{id}'
+        path: ['paths', '/cool_path/{id}']
       }
     ]);
     expect(res.warnings).toEqual([]);
@@ -265,7 +276,7 @@ describe('validation plugin - semantic - paths-ibm', function() {
       {
         message:
           'Path parameter must be defined at the path or the operation level: id.',
-        path: 'paths./cool_path/{id}/more_path/{other_param}'
+        path: ['paths', '/cool_path/{id}/more_path/{other_param}']
       }
     ]);
     expect(res.warnings).toEqual([]);
@@ -297,9 +308,10 @@ describe('validation plugin - semantic - paths-ibm', function() {
     const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
-    expect(res.warnings[0].path).toEqual(
-      'paths./v1/api/NotGoodSegment/{shouldntMatter}/resource'
-    );
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/v1/api/NotGoodSegment/{shouldntMatter}/resource'
+    ]);
     expect(res.warnings[0].message).toEqual(
       'Path segments must be lower snake case.'
     );
@@ -331,9 +343,10 @@ describe('validation plugin - semantic - paths-ibm', function() {
     const res = validate({ resolvedSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
-    expect(res.warnings[0].path).toEqual(
-      'paths./v1/api/not.good_.segment/{id}/resource'
-    );
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/v1/api/not.good_.segment/{id}/resource'
+    ]);
     expect(res.warnings[0].message).toEqual(
       'Path segments must follow case convention: lower_snake_case'
     );
@@ -366,9 +379,10 @@ describe('validation plugin - semantic - paths-ibm', function() {
     const res = validate({ resolvedSpec: badSpec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
-    expect(res.warnings[0].path).toEqual(
-      'paths./v1/api/NotGoodSegment/{shouldntMatter}/resource'
-    );
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/v1/api/NotGoodSegment/{shouldntMatter}/resource'
+    ]);
     expect(res.warnings[0].message).toEqual(
       'Path segments must follow case convention: lower_camel_case'
     );
@@ -444,15 +458,23 @@ describe('validation plugin - semantic - paths-ibm', function() {
     const res = validate({ resolvedSpec: badSpec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(2);
-    expect(res.warnings[0].path).toEqual(
-      'paths./v1/api/resources/{id}.get.parameters.0'
-    );
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/v1/api/resources/{id}',
+      'get',
+      'parameters',
+      '0'
+    ]);
     expect(res.warnings[0].message).toEqual(
       'Common path parameters should be defined on path object'
     );
-    expect(res.warnings[1].path).toEqual(
-      'paths./v1/api/resources/{id}.post.parameters.0'
-    );
+    expect(res.warnings[1].path).toEqual([
+      'paths',
+      '/v1/api/resources/{id}',
+      'post',
+      'parameters',
+      '0'
+    ]);
     expect(res.warnings[1].message).toEqual(
       'Common path parameters should be defined on path object'
     );
