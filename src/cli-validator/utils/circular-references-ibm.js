@@ -72,25 +72,29 @@ const convertPaths = function(jsSpec, resolvedPaths) {
       //  (i.e. "definitions.QueryAggregation")
       // instead of the path to where the circular reference occurs
       const lastKey = i === path.length - 1;
-      if (current.$ref && !lastKey) {
-        // locationArray holds the keys to the references object in the spec
-        const locationArray = current.$ref
-          .split('/')
-          .filter(refKey => refKey !== '#');
-        // since we are following a ref to the first object level,
-        // realPath needs to be reset
-        realPath = [...locationArray];
+      if (!lastKey) {
+        const nextKey = path[i + 1];
+        // Only follow $ref if the next key is not present
+        if (!current[nextKey] && current.$ref) {
+          // locationArray holds the keys to the references object in the spec
+          const locationArray = current.$ref
+            .split('/')
+            .filter(refKey => refKey !== '#');
+          // since we are following a ref to the first object level,
+          // realPath needs to be reset
+          realPath = [...locationArray];
 
-        // to follow the keys to the ref object we need to start looking in,
-        // a mini-version of the parent loop is necessary
-        let refPrevious = jsSpec;
-        for (const refKey of locationArray) {
-          const refCurrent = refPrevious[refKey];
-          refPrevious = refCurrent;
+          // to follow the keys to the ref object we need to start looking in,
+          // a mini-version of the parent loop is necessary
+          let refPrevious = jsSpec;
+          for (const refKey of locationArray) {
+            const refCurrent = refPrevious[refKey];
+            refPrevious = refCurrent;
+          }
+          // set the parent current object to the object found at the
+          // referenced path to continue using the keys in the parent loop
+          current = refPrevious;
         }
-        // set the parent current object to the object found at the
-        // referenced path to continue using the keys in the parent loop
-        current = refPrevious;
       }
 
       previous = current;

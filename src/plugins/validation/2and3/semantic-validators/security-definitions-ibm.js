@@ -41,7 +41,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
             }
           });
         }
-      } else {
+      } else if (scheme.scopes) {
         Object.keys(scheme.scopes).forEach(scope => {
           definedScopes[scope] = {};
           definedScopes[scope].used = false;
