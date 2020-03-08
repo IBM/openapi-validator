@@ -119,6 +119,35 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(0);
     });
+
+    it('should gracefully handle Oauth security definition with no scopes', function() {
+      const spec = {
+        securityDefinitions: {
+          OauthSecurity: {
+            type: 'oauth2',
+            flow: 'implicit',
+            authorizationUrl: '/auth/v1/login'
+          }
+        },
+        security: [
+          {
+            OauthSecurity: []
+          }
+        ],
+        paths: {
+          '/pcloud/v1/images': {
+            get: {
+              operationId: 'pcloud.images.getall',
+              summary: 'List all available stock images'
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
+    });
   });
 
   describe('OpenAPI 3', function() {

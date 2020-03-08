@@ -134,6 +134,35 @@ describe('validation plugin - semantic - spec walker', () => {
     });
   });
 
+  describe('$ref as property name', () => {
+    it('should gracefully handle a property named $ref', function() {
+      const spec = {
+        definitions: {
+          JSONSchemaProps: {
+            description: 'A JSON-Schema following Specification Draft 4.',
+            properties: {
+              $ref: {
+                type: 'string'
+              },
+              maximum: {
+                type: 'integer',
+                format: 'int64'
+              },
+              minimum: {
+                type: 'integer',
+                format: 'int64'
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ jsSpec: spec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(0);
+    });
+  });
+
   describe('Minimums and maximums', () => {
     it('should return an error when minimum is more than maximum', () => {
       const spec = {
