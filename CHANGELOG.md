@@ -1,3 +1,10 @@
+## [0.24.2](https://github.com/IBM/openapi-validator/compare/v0.24.1...v0.24.2) (2020-03-09)
+
+
+### Bug Fixes
+
+* Add debug option ([2bb6df9](https://github.com/IBM/openapi-validator/commit/2bb6df94df97313b4d400c091625ade28378a613))
+
 ## [0.24.1](https://github.com/IBM/openapi-validator/compare/v0.24.0...v0.24.1) (2020-03-04)
 
 
