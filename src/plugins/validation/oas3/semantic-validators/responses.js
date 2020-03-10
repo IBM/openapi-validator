@@ -49,27 +49,45 @@ module.exports.validate = function({ resolvedSpec }, config) {
           'Each `responses` object MUST have at least one response code.',
           config.no_response_codes
         );
-      } else if (!successCodes.length) {
-        messages.addMessage(
-          path,
-          'Each `responses` object SHOULD have at least one code for a successful response.',
-          config.no_success_response_codes
-        );
       } else {
-        // validate success codes
-        for (const successCode of successCodes) {
-          if (successCode !== '204' && !obj[successCode].content) {
+        // default warnings for discouraged status code per IBM API Handbook
+        for (const statusCode of statusCodes) {
+          if (statusCode === '422') {
             messages.addMessage(
-              path.concat([successCode]),
-              `A ${successCode} response should include a response body. Use 204 for responses without content.`,
-              config.no_response_body
+              path.concat(['422']),
+              'Should use status code 400 instead of 422 for invalid request payloads.',
+              config.ibm_status_code_guidelines
             );
-          } else if (successCode === '204' && obj[successCode].content) {
+          } else if (statusCode === '302') {
             messages.addMessage(
-              path.concat(['204', 'content']),
-              `A 204 response MUST NOT include a message-body.`,
-              'error'
+              path.concat(['302']),
+              'Should use status codes 303 or 307 instead of 302.',
+              config.ibm_status_code_guidelines
             );
+          }
+        }
+        // validate all success codes
+        if (!successCodes.length) {
+          messages.addMessage(
+            path,
+            'Each `responses` object SHOULD have at least one code for a successful response.',
+            config.no_success_response_codes
+          );
+        } else {
+          for (const statusCode of successCodes) {
+            if (statusCode !== '204' && !obj[statusCode].content) {
+              messages.addMessage(
+                path.concat([statusCode]),
+                `A ${statusCode} response should include a response body. Use 204 for responses without content.`,
+                config.no_response_body
+              );
+            } else if (statusCode === '204' && obj[statusCode].content) {
+              messages.addMessage(
+                path.concat(['204', 'content']),
+                `A 204 response MUST NOT include a message-body.`,
+                'error'
+              );
+            }
           }
         }
       }

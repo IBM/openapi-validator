@@ -83,6 +83,76 @@ describe('validation plugin - semantic - responses - oas3', function() {
     );
   });
 
+  it('should complain when 422 response code used', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            responses: {
+              '200': {
+                description: '200 response',
+                content: {
+                  'multipart/form-data': {
+                    schema: {
+                      type: 'string',
+                      format: 'binary'
+                    }
+                  }
+                }
+              },
+              '422': {
+                description: '422 response discouraged'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec }, config);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].message).toEqual(
+      'Should use status code 400 instead of 422 for invalid request payloads.'
+    );
+  });
+
+  it('should complain when 302 response code used', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            responses: {
+              '200': {
+                description: '200 response',
+                content: {
+                  'multipart/form-data': {
+                    schema: {
+                      type: 'string',
+                      format: 'binary'
+                    }
+                  }
+                }
+              },
+              '302': {
+                description: '302 response discouraged'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec }, config);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].message).toEqual(
+      'Should use status codes 303 or 307 instead of 302.'
+    );
+  });
+
   it('should complain when default response body uses json as second mime type and uses schema type: string, format: binary', function() {
     const spec = {
       paths: {

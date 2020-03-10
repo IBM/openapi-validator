@@ -97,7 +97,8 @@ const defaults = {
     'responses': {
       'no_response_codes': 'error',
       'no_success_response_codes': 'warning',
-      'no_response_body': 'warning'
+      'no_response_body': 'warning',
+      'ibm_status_code_guidelines': 'warning'
     },
     'schemas': {
       'json_or_param_binary_string': 'warning'

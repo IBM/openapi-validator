@@ -252,6 +252,7 @@ The supported rules are described below:
 | no_response_codes         | Flag any response object that has no valid response codes.   | oas3 |
 | no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
 | no_response_body          | Flag any non-204 success responses without a response body.  | oas3 |
+| ibm_status_code_guidelines| Flag any violations of status code conventions per IBM API Handbook  | oas3 |
 
 ##### schemas
 | Rule                        | Description                                                                   | Spec     |
@@ -373,6 +374,7 @@ The default values for each rule are described below.
 | no_response_codes         | error   |
 | no_success_response_codes | warning |
 | no_response_body          | warning |
+| ibm_status_code_guidelines| warning |
 
 ##### schemas
 
