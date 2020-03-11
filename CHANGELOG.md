@@ -1,3 +1,11 @@
+## [0.24.3](https://github.com/IBM/openapi-validator/compare/v0.24.2...v0.24.3) (2020-03-11)
+
+
+### Bug Fixes
+
+* Fix crashes found on real API docs ([ddab1a0](https://github.com/IBM/openapi-validator/commit/ddab1a0a6c83d08fe8f49e2f1d3a60f7a833c093))
+* Pass path as array to preseve path segments containing periods. ([d1ed5c0](https://github.com/IBM/openapi-validator/commit/d1ed5c0eef42f95aaac6befc80ae02a9fdb5bb04))
+
 ## [0.24.2](https://github.com/IBM/openapi-validator/compare/v0.24.1...v0.24.2) (2020-03-09)
 
 
