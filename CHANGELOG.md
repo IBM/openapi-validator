@@ -1,3 +1,10 @@
+# [0.25.0](https://github.com/IBM/openapi-validator/compare/v0.24.3...v0.25.0) (2020-03-11)
+
+
+### Features
+
+* flag properties with the same name but different type ([#140](https://github.com/IBM/openapi-validator/issues/140)) ([3ab9c3a](https://github.com/IBM/openapi-validator/commit/3ab9c3ad59f60987d663e7162fa869cbfc1e1542))
+
 ## [0.24.3](https://github.com/IBM/openapi-validator/compare/v0.24.2...v0.24.3) (2020-03-11)
 
 
