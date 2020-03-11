@@ -100,6 +100,10 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     }
   });
 
+  // Collect the properties info. Pass it to checkProperties to catch
+  // properties that have the same name but an inconsistent type.
+  const propertiesToCompare = {};
+
   schemas.forEach(({ schema, path }) => {
     generateFormatErrors(schema, path, config, isOAS3, messages);
 
@@ -136,6 +140,15 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           );
         }
       }
+    }
+    if (config.inconsistent_property_type !== 'off') {
+      checkProperties(
+        schema,
+        propertiesToCompare,
+        path,
+        config.inconsistent_property_type,
+        messages
+      );
     }
   });
 
@@ -510,4 +523,45 @@ function isRootSchema(path) {
   return (
     current === 'schema' || (parent === 'definitions' && path.length === 2)
   );
+}
+
+// Flag any properties that have the same name but an inconsistent type.
+function checkProperties(
+  schema,
+  propertiesToCompare,
+  contextPath,
+  configOption,
+  messages
+) {
+  if (!schema.properties) return;
+
+  for (const [key, value] of Object.entries(schema.properties)) {
+    // skips properties that use $ref
+    if (value.type) {
+      if (propertiesToCompare[key]) {
+        if (propertiesToCompare[key].type !== value.type) {
+          // First property that appeared in API def, should only print once.
+          if (!propertiesToCompare[key].printed) {
+            propertiesToCompare[key].printed = true;
+            messages.addMessage(
+              propertiesToCompare[key].path,
+              `Property has inconsistent type: ${key}.`,
+              configOption
+            );
+          }
+          messages.addMessage(
+            contextPath.concat(['properties', key]).join('.'),
+            `Property has inconsistent type: ${key}.`,
+            configOption
+          );
+        }
+      } else {
+        propertiesToCompare[key] = {
+          type: value.type,
+          path: contextPath.concat(['properties', key]).join('.'),
+          printed: false
+        };
+      }
+    }
+  }
 }
