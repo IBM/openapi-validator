@@ -1,3 +1,10 @@
+# [0.26.0](https://github.com/IBM/openapi-validator/compare/v0.25.0...v0.26.0) (2020-03-16)
+
+
+### Features
+
+* adds a check for 422 and 302 status codes ([#154](https://github.com/IBM/openapi-validator/issues/154)) ([4d5ba65](https://github.com/IBM/openapi-validator/commit/4d5ba65870fb9d773122f57223593ee680c66a2f))
+
 # [0.25.0](https://github.com/IBM/openapi-validator/compare/v0.24.3...v0.25.0) (2020-03-11)
 
 
