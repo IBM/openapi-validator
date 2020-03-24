@@ -99,6 +99,71 @@ describe('validation plugin - semantic - responses', function() {
         expect(res.errors.length).toEqual(0);
       });
 
+      it('should complain for an array with items that use inline schema', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    schema: {
+                      type: 'array',
+                      items: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec }, config);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/stuff',
+          'get',
+          'responses',
+          '200',
+          'schema'
+        ]);
+        expect(res.warnings[0].message).toEqual(
+          'Response schemas should be defined with a named ref.'
+        );
+      });
+
+      it('should not complain for an array with items that use refs', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    schema: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/definitions/SchemaExample'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec }, config);
+        expect(res.warnings.length).toEqual(0);
+      });
+
       it('should not complain about a bad pattern within an extension', function() {
         const spec = {
           paths: {
@@ -271,6 +336,134 @@ describe('validation plugin - semantic - responses', function() {
         expect(res.warnings.length).toEqual(0);
         expect(res.errors.length).toEqual(0);
       });
+
+      it('should complain for an array with items that use an inline schema', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          anyOf: [
+                            {
+                              type: 'array',
+                              items: {
+                                type: 'object',
+                                properties: {
+                                  p1: {
+                                    type: 'string'
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              $ref: '#/components/schemas/SchemaExample'
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        expect(res.warnings.length).toEqual(1);
+        expect(res.warnings[0].path).toEqual([
+          'paths',
+          '/stuff',
+          'get',
+          'responses',
+          '200',
+          'content',
+          'application/json',
+          'schema',
+          'anyOf',
+          0
+        ]);
+        expect(res.warnings[0].message).toEqual(
+          'Response schemas should be defined with a named ref.'
+        );
+      });
+
+      it('should not complain for an array in anyOf with items that use refs', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          anyOf: [
+                            {
+                              type: 'array',
+                              items: {
+                                $ref: '#/components/schemas/SchemaExample'
+                              }
+                            },
+                            {
+                              $ref: '#/components/schemas/SchemaExample'
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        expect(res.warnings.length).toEqual(0);
+      });
+
+      it('should not complain for an array schema with items that use refs', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/SchemaExample'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        expect(res.warnings.length).toEqual(0);
+      });
+
       it('should complain about an inline schema', function() {
         const spec = {
           paths: {

@@ -39,7 +39,11 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                     ) {
                       const hasInlineSchema = !mediaType.schema[schemaType][i]
                         .$ref;
-                      if (hasInlineSchema) {
+                      const arrItemsIsRef =
+                        mediaType.schema[schemaType][i].items &&
+                        mediaType.schema[schemaType][i].items.$ref;
+
+                      if (hasInlineSchema && !arrItemsIsRef) {
                         messages.addMessage(
                           [
                             ...path,
@@ -57,7 +61,10 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                     }
                   }
                 });
-              } else if (!mediaType.schema.$ref) {
+              } else if (
+                !mediaType.schema.$ref &&
+                !(mediaType.schema.items && mediaType.schema.items.$ref)
+              ) {
                 messages.addMessage(
                   [...path, responseKey, 'content', mediaTypeKey, 'schema'],
                   INLINE_SCHEMA_MESSAGE,
@@ -71,7 +78,11 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           if (responseKey.startsWith('x-')) return;
 
           const hasInlineSchema = response.schema && !response.schema.$ref;
-          if (hasInlineSchema) {
+          const arrItemsIsRef =
+            response.schema &&
+            response.schema.items &&
+            response.schema.items.$ref;
+          if (hasInlineSchema && !arrItemsIsRef) {
             messages.addMessage(
               [...path, responseKey, 'schema'],
               INLINE_SCHEMA_MESSAGE,
