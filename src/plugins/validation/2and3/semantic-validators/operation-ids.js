@@ -158,7 +158,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         if (checkPassed === false) {
           messages.addMessage(
             op.path + '.operationId',
-            `operationIds should follow consistent naming convention. operationId verb should be ${verbs}`.replace(
+            `operationIds should follow naming convention: operationId verb should be ${verbs}`.replace(
               ',',
               ' or '
             ),

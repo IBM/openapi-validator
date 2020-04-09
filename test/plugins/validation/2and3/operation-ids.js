@@ -171,7 +171,7 @@ describe('validation plugin - semantic - operation-ids', function() {
     expect(res.warnings.length).toEqual(12);
     expect(res.warnings[0].path).toEqual('paths./books.get.operationId');
     expect(res.warnings[0].message).toEqual(
-      'operationIds should follow consistent naming convention. operationId verb should be list'
+      'operationIds should follow naming convention: operationId verb should be list'
     );
   });
 
