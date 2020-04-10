@@ -26,7 +26,7 @@ describe('validation plugin - semantic - operation-ids', function() {
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./coolPath.get.operationId');
     expect(res.errors[0].message).toEqual('operationIds must be unique');
-    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings.length).toEqual(0);
   });
 
   it('should complain about a repeated operationId in a different path', function() {
@@ -55,7 +55,7 @@ describe('validation plugin - semantic - operation-ids', function() {
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./greatPath.put.operationId');
     expect(res.errors[0].message).toEqual('operationIds must be unique');
-    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings.length).toEqual(0);
   });
 
   it('should complain about a repeated operationId in a shared path item', async function() {
@@ -96,7 +96,7 @@ describe('validation plugin - semantic - operation-ids', function() {
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('paths./greatPath.get.operationId');
     expect(res.errors[0].message).toEqual('operationIds must be unique');
-    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings.length).toEqual(0);
   });
 
   it('should complain about operationId naming convention', async function() {

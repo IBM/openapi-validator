@@ -146,24 +146,38 @@ module.exports.validate = function({ resolvedSpec }, config) {
         );
       } else {
         // Assertation 2: OperationId must conform to naming conventions
-        const regex = RegExp(/{[a-zA-Z0-9_-]+\}$/m);
 
-        const { checkPassed, verbs } = operationIdPassedConventionCheck(
-          op['opKey'],
-          op.operationId,
-          op.allPathOperations,
-          regex.test(op['pathKey'])
-        );
+        // We'll use a heuristic to decide if this path is part of a resource oriented API.
+        // If path ends in path param, look for corresponding create/list path
+        // Conversely, if no path param, look for path with path param
 
-        if (checkPassed === false) {
-          messages.addMessage(
-            op.path + '.operationId',
-            `operationIds should follow naming convention: operationId verb should be ${verbs}`.replace(
-              ',',
-              ' or '
-            ),
-            config.operation_id_naming_convention
+        const pathEndsWithParam = op.pathKey.endsWith('}');
+        const isResourceOriented = pathEndsWithParam
+          ? Object.keys(resolvedSpec.paths).includes(
+              op.pathKey.replace('/\\{[A-Za-z0-9-_]+\\}$', '')
+            )
+          : Object.keys(resolvedSpec.paths).some(p =>
+              p.startsWith(op.pathKey + '/{')
+            );
+
+        if (isResourceOriented) {
+          const { checkPassed, verbs } = operationIdPassedConventionCheck(
+            op['opKey'],
+            op.operationId,
+            op.allPathOperations,
+            pathEndsWithParam
           );
+
+          if (checkPassed === false) {
+            messages.addMessage(
+              op.path + '.operationId',
+              `operationIds should follow naming convention: operationId verb should be ${verbs}`.replace(
+                ',',
+                ' or '
+              ),
+              config.operation_id_naming_convention
+            );
+          }
         }
       }
     }
