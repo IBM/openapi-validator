@@ -1,3 +1,11 @@
+## [0.26.1](https://github.com/IBM/openapi-validator/compare/v0.26.0...v0.26.1) (2020-04-11)
+
+
+### Bug Fixes
+
+* Only check operationId naming convention for resource-oriented operations ([8da9d37](https://github.com/IBM/openapi-validator/commit/8da9d37e561e806cd43495b4b0440eb23ab9cf44))
+* Tweak message text for better summarization ([80f2302](https://github.com/IBM/openapi-validator/commit/80f2302408ad90ef179874d989baf83247d84fb0))
+
 # [0.26.0](https://github.com/IBM/openapi-validator/compare/v0.25.0...v0.26.0) (2020-03-16)
 
 
