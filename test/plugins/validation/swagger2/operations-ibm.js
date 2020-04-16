@@ -518,7 +518,7 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
             consumes: ['application/json'],
             produces: ['application/json'],
             summary: 'this is a summary',
-            operationId: 'list-cool_path',
+            operationId: 'list-cool-path',
             parameters: [
               {
                 name: 'Parameter',
