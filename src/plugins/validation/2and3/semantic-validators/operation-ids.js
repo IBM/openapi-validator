@@ -73,7 +73,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
 
     if (!pathEndsWithParam) {
       // operationId for GET should starts with "list"
-      if (opKey === 'get' && !operationId.match(/^list[a-zA-Z0-9_\-]+/m)) {
+      if (opKey === 'get' && !operationId.match(/^list[a-zA-Z0-9_-]+/m)) {
         checkPassed = false;
         verbs.push('list');
       }
@@ -81,7 +81,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       // operationId for POST should starts with "create" or "add"
       else if (
         opKey === 'post' &&
-        !operationId.match(/^(add|create)[a-zA-Z0-9_\-]+/m)
+        !operationId.match(/^(add|create)[a-zA-Z0-9_-]+/m)
       ) {
         checkPassed = false;
         verbs.push('add');
@@ -89,7 +89,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       }
     } else {
       // operationId for GET should starts with "get"
-      if (opKey === 'get' && !operationId.match(/^get[a-zA-Z0-9_\-]+/m)) {
+      if (opKey === 'get' && !operationId.match(/^get[a-zA-Z0-9_-]+/m)) {
         checkPassed = false;
         verbs.push('get');
       }
@@ -97,7 +97,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       // operationId for DELETE should starts with "delete"
       else if (
         opKey === 'delete' &&
-        !operationId.match(/^delete[a-zA-Z0-9_\-]+/m)
+        !operationId.match(/^delete[a-zA-Z0-9_-]+/m)
       ) {
         checkPassed = false;
         verbs.push('delete');
@@ -106,7 +106,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       // operationId for PATCH should starts with "update"
       else if (
         opKey === 'patch' &&
-        !operationId.match(/^update[a-zA-Z0-9_\-]+/m)
+        !operationId.match(/^update[a-zA-Z0-9_-]+/m)
       ) {
         checkPassed = false;
         verbs.push('update');
@@ -114,7 +114,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         // If PATCH operation doesn't exist for path, POST operationId should start with "update"
         if (
           !allPathOperations.includes('patch') &&
-          !operationId.match(/^update[a-zA-Z0-9_\-]+/m)
+          !operationId.match(/^update[a-zA-Z0-9_-]+/m)
         ) {
           checkPassed = false;
           verbs.push('update');
@@ -124,7 +124,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       // operationId for PUT should starts with "replace"
       else if (
         opKey === 'put' &&
-        !operationId.match(/^replace[a-zA-Z0-9_\-]+/m)
+        !operationId.match(/^replace[a-zA-Z0-9_-]+/m)
       ) {
         checkPassed = false;
         verbs.push('replace');
