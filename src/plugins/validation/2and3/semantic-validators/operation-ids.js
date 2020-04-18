@@ -68,69 +68,51 @@ module.exports.validate = function({ resolvedSpec }, config) {
     // - paths that do not end with param has a GET and POST operation
     // - paths that end with param has a GET, DELETE, POST, PUT or PATCH.
 
-    let checkPassed = true;
     const verbs = [];
 
     if (!pathEndsWithParam) {
       // operationId for GET should starts with "list"
-      if (opKey === 'get' && !operationId.match(/^list[a-zA-Z0-9_]+/m)) {
-        checkPassed = false;
+      if (opKey === 'get') {
         verbs.push('list');
       }
-
       // operationId for POST should starts with "create" or "add"
-      else if (
-        opKey === 'post' &&
-        !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)
-      ) {
-        checkPassed = false;
+      else if (opKey === 'post') {
         verbs.push('add');
         verbs.push('create');
       }
     } else {
       // operationId for GET should starts with "get"
-      if (opKey === 'get' && !operationId.match(/^get[a-zA-Z0-9_]+/m)) {
-        checkPassed = false;
+      if (opKey === 'get') {
         verbs.push('get');
       }
-
       // operationId for DELETE should starts with "delete"
-      else if (
-        opKey === 'delete' &&
-        !operationId.match(/^delete[a-zA-Z0-9_]+/m)
-      ) {
-        checkPassed = false;
+      else if (opKey === 'delete') {
         verbs.push('delete');
       }
-
       // operationId for PATCH should starts with "update"
-      else if (
-        opKey === 'patch' &&
-        !operationId.match(/^update[a-zA-Z0-9_]+/m)
-      ) {
-        checkPassed = false;
+      else if (opKey === 'patch') {
         verbs.push('update');
-      } else if (opKey === 'post') {
-        // If PATCH operation doesn't exist for path, POST operationId should start with "update"
-        if (
-          !allPathOperations.includes('patch') &&
-          !operationId.match(/^update[a-zA-Z0-9_]+/m)
-        ) {
-          checkPassed = false;
+      }
+      // If PATCH operation doesn't exist for path, POST operationId should start with "update"
+      else if (opKey === 'post') {
+        if (!allPathOperations.includes('patch')) {
           verbs.push('update');
         }
       }
-
       // operationId for PUT should starts with "replace"
-      else if (
-        opKey === 'put' &&
-        !operationId.match(/^replace[a-zA-Z0-9_]+/m)
-      ) {
-        checkPassed = false;
+      else if (opKey === 'put') {
         verbs.push('replace');
       }
     }
-    return { checkPassed, verbs };
+
+    if (verbs.length > 0) {
+      const checkPassed = verbs
+        .map(verb => operationId.startsWith(verb))
+        .some(v => v);
+      return { checkPassed, verbs };
+    }
+
+    return { checkPassed: true };
   };
 
   operations.forEach(op => {
