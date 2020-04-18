@@ -184,6 +184,9 @@ describe('validation plugin - semantic - operation-ids', function() {
           },
           post: {
             operationId: 'addBooks'
+          },
+          delete: {
+            operationId: 'deleteAllBooks'
           }
         },
         '/coffee': {
@@ -215,6 +218,9 @@ describe('validation plugin - semantic - operation-ids', function() {
           },
           patch: {
             operationId: 'updateBook'
+          },
+          head: {
+            operationId: 'headBook'
           }
         },
         '/coffee/{id}': {
