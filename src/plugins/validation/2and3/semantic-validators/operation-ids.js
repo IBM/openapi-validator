@@ -24,30 +24,25 @@ module.exports.validate = function({ resolvedSpec }, config) {
     'trace'
   ];
 
-  const validOperationIdPrefixWithoutParam = new Map(
-    [
-      // operationId for GET should starts with "list"
-      ['get', ['list']],
-      // operationId for POST should starts with "create" or "add"
-      ['post', ['add', 'create']]
-    ]
-  )
+  const validOperationIdPrefixWithoutParam = new Map([
+    // operationId for GET should starts with "list"
+    ['get', ['list']],
+    // operationId for POST should starts with "create" or "add"
+    ['post', ['add', 'create']]
+  ]);
 
-  const validOperationIdPrefixWithParam = new Map(
-    [
-      // operationId for GET should starts with "get"
-      ['get', ['get']],
-      // operationId for DELETE should starts with "delete"
-      ['delete', ['delete']],
-      // operationId for PATCH should starts with "update"
-      ['patch', ['update']],
-      // If PATCH operation doesn't exist for path, POST operationId should start with "update"
-      ['post', ['update']],
-      // operationId for PUT should starts with "replace"
-      ['put', ['replace']]
-    ]
-  )
-
+  const validOperationIdPrefixWithParam = new Map([
+    // operationId for GET should starts with "get"
+    ['get', ['get']],
+    // operationId for DELETE should starts with "delete"
+    ['delete', ['delete']],
+    // operationId for PATCH should starts with "update"
+    ['patch', ['update']],
+    // If PATCH operation doesn't exist for path, POST operationId should start with "update"
+    ['post', ['update']],
+    // operationId for PUT should starts with "replace"
+    ['put', ['replace']]
+  ]);
 
   const operations = reduce(
     resolvedSpec.paths,
@@ -96,20 +91,25 @@ module.exports.validate = function({ resolvedSpec }, config) {
     let checkPassed = true;
     const verbs = [];
 
-
     if (!pathEndsWithParam) {
-      let whitelistPrefixes = validOperationIdPrefixWithoutParam.get(opKey)
-      if (whitelistPrefixes && !whitelistPrefixes.find((x) => operationId.startsWith(x))) {
+      const whitelistPrefixes = validOperationIdPrefixWithoutParam.get(opKey);
+      if (
+        whitelistPrefixes &&
+        !whitelistPrefixes.find(x => operationId.startsWith(x))
+      ) {
         checkPassed = false;
-        verbs.push(whitelistPrefixes)
+        verbs.push(whitelistPrefixes);
       }
     } else {
-      let whitelistPrefixes = validOperationIdPrefixWithParam.get(opKey)
-      if (whitelistPrefixes && !whitelistPrefixes.find((x) => operationId.startsWith(x))) {
+      const whitelistPrefixes = validOperationIdPrefixWithParam.get(opKey);
+      if (
+        whitelistPrefixes &&
+        !whitelistPrefixes.find(x => operationId.startsWith(x))
+      ) {
         // If PATCH operation doesn't exist for path, POST operationId should start with "update"
         if (opKey !== 'post' || !allPathOperations.includes('patch')) {
           checkPassed = false;
-          verbs.push(whitelistPrefixes)
+          verbs.push(whitelistPrefixes);
         }
       }
     }
