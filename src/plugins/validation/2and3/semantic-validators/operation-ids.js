@@ -24,6 +24,31 @@ module.exports.validate = function({ resolvedSpec }, config) {
     'trace'
   ];
 
+  const validOperationIdPrefixWithoutParam = new Map(
+    [
+      // operationId for GET should starts with "list"
+      ['get', ['list']],
+      // operationId for POST should starts with "create" or "add"
+      ['post', ['add', 'create']]
+    ]
+  )
+
+  const validOperationIdPrefixWithParam = new Map(
+    [
+      // operationId for GET should starts with "get"
+      ['get', ['get']],
+      // operationId for DELETE should starts with "delete"
+      ['delete', ['delete']],
+      // operationId for PATCH should starts with "update"
+      ['patch', ['update']],
+      // If PATCH operation doesn't exist for path, POST operationId should start with "update"
+      ['post', ['update']],
+      // operationId for PUT should starts with "replace"
+      ['put', ['replace']]
+    ]
+  )
+
+
   const operations = reduce(
     resolvedSpec.paths,
     (arr, path, pathKey) => {
@@ -71,65 +96,24 @@ module.exports.validate = function({ resolvedSpec }, config) {
     let checkPassed = true;
     const verbs = [];
 
-    if (!pathEndsWithParam) {
-      // operationId for GET should starts with "list"
-      if (opKey === 'get' && !operationId.match(/^list[a-zA-Z0-9_]+/m)) {
-        checkPassed = false;
-        verbs.push('list');
-      }
 
-      // operationId for POST should starts with "create" or "add"
-      else if (
-        opKey === 'post' &&
-        !operationId.match(/^(add|create)[a-zA-Z0-9_]+/m)
-      ) {
+    if (!pathEndsWithParam) {
+      let whitelistPrefixes = validOperationIdPrefixWithoutParam.get(opKey)
+      if (whitelistPrefixes && !whitelistPrefixes.find((x) => operationId.startsWith(x))) {
         checkPassed = false;
-        verbs.push('add');
-        verbs.push('create');
+        verbs.push(whitelistPrefixes)
       }
     } else {
-      // operationId for GET should starts with "get"
-      if (opKey === 'get' && !operationId.match(/^get[a-zA-Z0-9_]+/m)) {
-        checkPassed = false;
-        verbs.push('get');
-      }
-
-      // operationId for DELETE should starts with "delete"
-      else if (
-        opKey === 'delete' &&
-        !operationId.match(/^delete[a-zA-Z0-9_]+/m)
-      ) {
-        checkPassed = false;
-        verbs.push('delete');
-      }
-
-      // operationId for PATCH should starts with "update"
-      else if (
-        opKey === 'patch' &&
-        !operationId.match(/^update[a-zA-Z0-9_]+/m)
-      ) {
-        checkPassed = false;
-        verbs.push('update');
-      } else if (opKey === 'post') {
+      let whitelistPrefixes = validOperationIdPrefixWithParam.get(opKey)
+      if (whitelistPrefixes && !whitelistPrefixes.find((x) => operationId.startsWith(x))) {
         // If PATCH operation doesn't exist for path, POST operationId should start with "update"
-        if (
-          !allPathOperations.includes('patch') &&
-          !operationId.match(/^update[a-zA-Z0-9_]+/m)
-        ) {
+        if (opKey !== 'post' || !allPathOperations.includes('patch')) {
           checkPassed = false;
-          verbs.push('update');
+          verbs.push(whitelistPrefixes)
         }
       }
-
-      // operationId for PUT should starts with "replace"
-      else if (
-        opKey === 'put' &&
-        !operationId.match(/^replace[a-zA-Z0-9_]+/m)
-      ) {
-        checkPassed = false;
-        verbs.push('replace');
-      }
     }
+
     return { checkPassed, verbs };
   };
 

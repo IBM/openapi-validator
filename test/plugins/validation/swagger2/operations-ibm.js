@@ -503,4 +503,43 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
+
+  it('If meet the prefix provision, should not complain about any characters in operation ID.', function() {
+    const config = {
+      operations: {
+        operation_id_naming_convention: 'warning'
+      }
+    };
+
+    const spec = {
+      paths: {
+        '/CoolPath': {
+          get: {
+            consumes: ['application/json'],
+            produces: ['application/json'],
+            summary: 'this is a summary',
+            operationId: 'list!"#$%&\'()0123456789=~|{}<>?/_[]@*+;:¥^-A',
+            parameters: [
+              {
+                name: 'Parameter',
+                in: 'body',
+                schema: {
+                  required: ['Property'],
+                  properties: [
+                    {
+                      name: 'Property'
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(0);
+    expect(res.errors.length).toEqual(0);
+  });
 });
