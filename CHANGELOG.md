@@ -1,3 +1,10 @@
+# [0.27.0](https://github.com/IBM/openapi-validator/compare/v0.26.1...v0.27.0) (2020-04-28)
+
+
+### Features
+
+* adds check for case-insensitive property name collisions ([#162](https://github.com/IBM/openapi-validator/issues/162)) ([85a797e](https://github.com/IBM/openapi-validator/commit/85a797e405d0acdb0d7700df284e22c105308893))
+
 ## [0.26.1](https://github.com/IBM/openapi-validator/compare/v0.26.0...v0.26.1) (2020-04-11)
 
 
