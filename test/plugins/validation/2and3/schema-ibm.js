@@ -542,7 +542,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        property_case_convention: 'warning'
+        property_case_collision: 'warning'
       }
     };
 
@@ -572,10 +572,10 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'definitions',
       'Thing',
       'properties',
-      'thingString'
+      'thing_string'
     ]);
     expect(res.warnings[0].message).toEqual(
-      'Property name is identical to another property except for the naming convention: thingString'
+      'Property name is identical to another property except for the naming convention: thing_string'
     );
   });
 

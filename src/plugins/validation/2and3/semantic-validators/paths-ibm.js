@@ -146,6 +146,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
             const checkStatus = config.duplicate_path_parameter || 'off';
             if (checkStatus.match('error|warning')) {
               operationKeys.forEach(op => {
+                if (!pathObj[op].parameters) return;
                 const index = pathObj[op].parameters.findIndex(
                   p => p.name === parameter
                 );
