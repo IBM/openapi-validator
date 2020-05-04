@@ -556,4 +556,53 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
+
+  it('should catch redundant path parameter that exists in one operation but not the other', function() {
+    const config = {
+      paths: {
+        duplicate_path_parameter: 'warning'
+      }
+    };
+
+    const goodSpec = {
+      paths: {
+        '/v1/api/resources/{id}': {
+          parameters: [
+            {
+              name: 'id',
+              in: 'path',
+              required: true,
+              type: 'string',
+              description: 'id of the resource to retrieve'
+            }
+          ],
+          get: {
+            operationId: 'get_resource',
+            parameters: [
+              {
+                name: 'id',
+                in: 'path'
+              }
+            ]
+          },
+          post: {
+            operationId: 'update_resource'
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: goodSpec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings[0].path).toEqual([
+      'paths',
+      '/v1/api/resources/{id}',
+      'get',
+      'parameters',
+      '0'
+    ]);
+    expect(res.warnings[0].message).toEqual(
+      'Common path parameters should be defined on path object'
+    );
+  });
 });
