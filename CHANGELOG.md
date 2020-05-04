@@ -1,3 +1,10 @@
+## [0.27.1](https://github.com/IBM/openapi-validator/compare/v0.27.0...v0.27.1) (2020-05-04)
+
+
+### Bug Fixes
+
+* dont crash when only a subset of ops contain redundant path params ([#168](https://github.com/IBM/openapi-validator/issues/168)) ([d9000d2](https://github.com/IBM/openapi-validator/commit/d9000d23999c241d7cd2e39bd551f1e3f10cfc9f))
+
 # [0.27.0](https://github.com/IBM/openapi-validator/compare/v0.26.1...v0.27.0) (2020-04-28)
 
 
