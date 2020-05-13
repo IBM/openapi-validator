@@ -1,25 +1,19 @@
-const intercept = require('intercept-stdout');
-const expect = require('expect');
-const stripAnsiFrom = require('strip-ansi');
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
 const circularRefsValidator = require('../../../src/cli-validator/utils/circular-references-ibm');
+const { getCapturedText } = require('../../test-utils');
 
 describe('cli tool - test circular reference module', function() {
   it('should correctly validate a file with circular references', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/circularRefs.yml'];
+    program.args = ['./test/cli-validator/mockFiles/circular-refs.yml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
 
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    consoleSpy.mockRestore();
 
     expect(exitCode).toEqual(0);
 

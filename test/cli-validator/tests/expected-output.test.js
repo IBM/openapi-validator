@@ -1,32 +1,27 @@
-const intercept = require('intercept-stdout');
-const expect = require('expect');
-const stripAnsiFrom = require('strip-ansi');
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
 const inCodeValidator = require('../../../src/lib');
-const swaggerInMemory = require('../mockFiles/errWarnInMemory');
+const swaggerInMemory = require('../mockFiles/err-warn-in-memory');
+const { getCapturedText } = require('../../test-utils');
 
 describe('cli tool - test expected output - Swagger 2', function() {
+  let consoleSpy;
+
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
   it('should not produce any errors or warnings from mockFiles/clean.yml', async function() {
-    // set a variable to store text intercepted from stdout
-    const capturedText = [];
-
-    // this variable intercepts incoming text and pushes it into capturedText
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      // by default, text is intercepted AND printed. returning an
-      //   empty string prevents any printing
-      return '';
-    });
-
     // set up mock user input
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/clean.yml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
-
-    // this stops the interception of output text
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(0);
     expect(capturedText.length).toEqual(2);
@@ -36,20 +31,13 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[1].trim()).toEqual('');
   });
 
-  it('should produce errors, then warnings from mockFiles/errAndWarn.yaml', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(txt);
-      return '';
-    });
-
+  it('should produce errors, then warnings from mockFiles/err-and-warn.yaml', async function() {
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     const whichProblems = [];
 
@@ -69,19 +57,12 @@ describe('cli tool - test expected output - Swagger 2', function() {
   });
 
   it('should print the correct line numbers for each error/warning', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
 
@@ -106,19 +87,12 @@ describe('cli tool - test expected output - Swagger 2', function() {
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/justWarn.yml'];
+    program.args = ['./test/cli-validator/mockFiles/just-warn.yml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(0);
 
@@ -127,23 +101,16 @@ describe('cli tool - test expected output - Swagger 2', function() {
   });
 
   it('should handle an array of file names', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
     program.args = [
-      './test/cli-validator/mockFiles/errAndWarn.yaml',
+      './test/cli-validator/mockFiles/err-and-warn.yaml',
       'notAFile.json',
       './test/cli-validator/mockFiles/clean.yml'
     ];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
 
@@ -155,7 +122,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
 
     expect(
       allOutput.includes(
-        'Validation Results for ./test/cli-validator/mockFiles/errAndWarn.yaml:'
+        'Validation Results for ./test/cli-validator/mockFiles/err-and-warn.yaml:'
       )
     ).toEqual(true);
 
@@ -179,53 +146,42 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(validationResults.warnings.length).toBeGreaterThan(0);
   });
 
-  it('should not produce any errors or warnings from mockFiles/cleanWithTabs.yml', async function() {
-    // set a variable to store text intercepted from stdout
-    const capturedText = [];
-
-    // this variable intercepts incoming text and pushes it into capturedText
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      // by default, text is intercepted AND printed. returning an
-      //   empty string prevents any printing
-      return '';
-    });
-
+  it('should not produce any errors or warnings from mockFiles/clean-with-tabs.yml', async function() {
     // set up mock user input
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/cleanWithTabs.yml'];
+    program.args = ['./test/cli-validator/mockFiles/clean-with-tabs.yml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
-
-    // this stops the interception of output text
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(0);
     expect(capturedText.length).toEqual(2);
     expect(capturedText[0].trim()).toEqual(
-      './test/cli-validator/mockFiles/cleanWithTabs.yml passed the validator'
+      './test/cli-validator/mockFiles/clean-with-tabs.yml passed the validator'
     );
     expect(capturedText[1].trim()).toEqual('');
   });
 });
 
 describe('test expected output - OpenAPI 3', function() {
+  let consoleSpy;
+
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
   it('should not produce any errors or warnings from a clean file', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/oas3/clean.yml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     const allOutput = capturedText.join('');
 
@@ -236,20 +192,12 @@ describe('test expected output - OpenAPI 3', function() {
   });
 
   it('should catch problems in a multi-file spec from an outside directory', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/multi-file-spec/main.yaml'];
     program.default_mode = true;
 
     const exitCode = await commandLineValidator(program);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     const allOutput = capturedText.join('');
 

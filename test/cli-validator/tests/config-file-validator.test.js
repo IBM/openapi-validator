@@ -1,10 +1,8 @@
 // the rule names are all snake case and need to stay that way. don't lint them
 /* eslint-disable camelcase */
 
-const intercept = require('intercept-stdout');
-const expect = require('expect');
-const stripAnsiFrom = require('strip-ansi');
 const chalk = require('chalk');
+const { getCapturedText } = require('../../test-utils');
 
 const { defaults, options } = require('../../../src/.defaultsForValidator');
 
@@ -12,20 +10,22 @@ const configFileValidator = require('../../../src/cli-validator/utils/processCon
   .validate;
 
 describe('cli tool - test config file validator', function() {
+  let consoleSpy;
+
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
   it('should print no errors with a clean config object', function() {
     // defaults should not throw any errors in the validator
     const config = defaults;
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(false);
     expect(capturedText.length).toEqual(0);
@@ -50,16 +50,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
@@ -89,16 +81,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
@@ -128,16 +112,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
@@ -159,16 +135,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
@@ -190,16 +158,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     const defaultSchemas = JSON.stringify(defaults.shared.schemas, null, 2);
     const configSchemas = JSON.stringify(res.shared.schemas, null, 2);
@@ -221,16 +181,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(false);
     expect(capturedText.length).toEqual(1);
@@ -251,16 +203,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(false);
     expect(capturedText.length).toEqual(1);
@@ -279,16 +223,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     const status = res.shared.parameters.param_name_case_convention;
     const defaultStatus = defaults.shared.parameters.param_name_case_convention;
@@ -310,16 +246,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
@@ -340,16 +268,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
@@ -370,16 +290,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(false);
     expect(capturedText.length).toEqual(0);
@@ -398,16 +310,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
@@ -427,16 +331,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
@@ -456,16 +352,8 @@ describe('cli tool - test config file validator', function() {
       }
     };
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const res = configFileValidator(config, chalk);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     const validOptions = options.case_conventions.join(', ');
 

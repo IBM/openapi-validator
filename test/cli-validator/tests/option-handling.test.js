@@ -1,28 +1,32 @@
-const intercept = require('intercept-stdout');
-const expect = require('expect');
 const stripAnsiFrom = require('strip-ansi');
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
 const modifiedCommander = require('../../../src/cli-validator/utils/modified-commander');
-const sinon = require('sinon');
+const {
+  getCapturedText,
+  getCapturedTextWithColor
+} = require('../../test-utils');
 
 // for an explanation of the text interceptor,
 // see the comments for the first test in expectedOutput.js
 
 describe('cli tool - test option handling', function() {
+  let consoleSpy;
+
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
   it('should color output by default @skip-ci', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(txt);
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
 
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedTextWithColor(consoleSpy.mock.calls);
 
     capturedText.forEach(function(line) {
       if (line !== '\n') {
@@ -32,20 +36,13 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should not color output when -n option is given', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(txt);
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.no_colors = true;
     program.default_mode = true;
 
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     capturedText.forEach(function(line) {
       expect(line).toEqual(stripAnsiFrom(line));
@@ -53,19 +50,12 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should not print validator source file by default', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
 
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     capturedText.forEach(function(line) {
       expect(line.includes('Validator')).toEqual(false);
@@ -73,20 +63,13 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should print validator source file when -p option is given', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.print_validator_modules = true;
     program.default_mode = true;
 
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     let validatorsPrinted = false;
 
@@ -100,20 +83,13 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should print only errors when the -e command is given', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.errors_only = true;
     program.default_mode = true;
 
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     capturedText.forEach(function(line) {
       expect(line.includes('warnings')).toEqual(false);
@@ -121,20 +97,13 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should print correct statistics report when -s option is given', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.report_statistics = true;
     program.default_mode = true;
 
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     let statisticsReported = false;
 
@@ -188,19 +157,12 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should not print statistics report by default', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
 
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     capturedText.forEach(function(line) {
       expect(line.includes('statistics')).toEqual(false);
@@ -208,20 +170,13 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should print json output when -j option is given', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.json = true;
     program.default_mode = true;
 
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     // capturedText should be JSON object. convert to json and check fields
     const outputObject = JSON.parse(capturedText);
@@ -247,20 +202,13 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should print only errors as json output when -j -e option is given', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.json = true;
     program.errors_only = true;
     program.default_mode = true;
     await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     // capturedText should be JSON object. convert to json and check fields
     const outputObject = JSON.parse(capturedText);
@@ -271,20 +219,13 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should change output for overridden options when config file is manually specified', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/justWarn.yml'];
+    program.args = ['./test/cli-validator/mockFiles/just-warn.yml'];
     program.config =
-      './test/cli-validator/mockFiles/justWarnConfigOverride.json';
+      './test/cli-validator/mockFiles/just-warn-config-override.json';
 
     const exitCode = await commandLineValidator(program);
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
 
@@ -314,19 +255,22 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should return an error and usage menu when there is an unknown option', async function() {
-    const errorStub = sinon.stub(console, 'error');
-    const helpStub = sinon.stub(modifiedCommander, 'outputHelp');
-    const exitStub = sinon.stub(process, 'exit');
+    const noop = () => {};
+    const errorStub = jest.spyOn(console, 'error').mockImplementation(noop);
+    const exitStub = jest.spyOn(process, 'exit').mockImplementation(noop);
+    const helpStub = jest
+      .spyOn(modifiedCommander, 'outputHelp')
+      .mockImplementation(noop);
 
     modifiedCommander.unknownOption('r');
 
-    expect(errorStub.called).toEqual(true);
-    expect(errorStub.secondCall.args[0].trim()).toEqual(
+    expect(errorStub).toHaveBeenCalled();
+    expect(errorStub.mock.calls[1][0].trim()).toEqual(
       "error: unknown option `%s'"
     );
-    expect(errorStub.secondCall.args[1].trim()).toEqual('r');
-    expect(helpStub.called).toEqual(true);
-    expect(exitStub.called).toEqual(true);
-    expect(exitStub.firstCall.args[0]).toEqual(1);
+    expect(errorStub.mock.calls[1][1].trim()).toEqual('r');
+    expect(helpStub).toHaveBeenCalled();
+    expect(exitStub).toHaveBeenCalled();
+    expect(exitStub.mock.calls[0][0]).toBe(1);
   });
 });
