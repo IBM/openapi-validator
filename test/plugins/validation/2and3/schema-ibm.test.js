@@ -1169,7 +1169,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
 
   it('should report an error when allOf, anyOf, or oneOf is not an array', () => {
     const spec = yaml.safeLoad(
-      fs.readFileSync('test/cli-validator/mockFiles/oas3/testComposeModel.yaml')
+      fs.readFileSync(
+        'test/cli-validator/mockFiles/oas3/test-compose-model.yaml'
+      )
     );
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -1200,7 +1202,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should report an error when allOf, anyOf, or oneOf is not an array with complex hierarchies', () => {
     const spec = yaml.safeLoad(
       fs.readFileSync(
-        'test/cli-validator/mockFiles/oas3/complexTestComposeModel.yaml'
+        'test/cli-validator/mockFiles/oas3/complex-test-compose-model.yaml'
       )
     );
 
@@ -1238,7 +1240,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should report an error when non-array allOf, anyOf, or oneOf schema used in object prop', () => {
     const spec = yaml.safeLoad(
       fs.readFileSync(
-        'test/cli-validator/mockFiles/oas3/composeModelProps.yaml'
+        'test/cli-validator/mockFiles/oas3/compose-model-props.yaml'
       )
     );
 
@@ -1279,7 +1281,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should report an error when non-array allOf, anyOf, or oneOf schema used as items schema in array', () => {
     const spec = yaml.safeLoad(
       fs.readFileSync(
-        'test/cli-validator/mockFiles/oas3/composeModelItems.yaml'
+        'test/cli-validator/mockFiles/oas3/compose-model-items.yaml'
       )
     );
 
@@ -1314,7 +1316,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should not report an error when allOf, anyOf, or oneOf schema is an array', () => {
     const spec = yaml.safeLoad(
       fs.readFileSync(
-        'test/cli-validator/mockFiles/oas3/composeModelsUseArray.yaml'
+        'test/cli-validator/mockFiles/oas3/compose-models-use-array.yaml'
       )
     );
 

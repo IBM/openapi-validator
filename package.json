@@ -8,13 +8,13 @@
   "scripts": {
     "link": "npm install -g",
     "unlink": "npm uninstall -g",
-    "test": "nyc mocha --recursive test/",
-    "test-validators": "mocha --recursive test/plugins",
-    "test-cli-tool": "mocha test/cli-validator/tests",
-    "test-travis": "npm run lint && nyc mocha --recursive --grep @skip-ci --invert test/",
+    "test": "jest test/",
+    "test-validators": "jest test/plugins",
+    "test-cli-tool": "jest test/cli-validator/tests",
+    "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test/",
+    "report-coverage": "codecov",
     "lint": "eslint --cache --quiet --ext '.js' src test",
     "fix": "eslint --fix --ext '.js' src test",
-    "report-coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
     "pkg": "./node_modules/.bin/pkg --out-path=./bin ./package.json; cd bin; rename -f 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
   },
   "dependencies": {
@@ -32,7 +32,6 @@
     "pad": "^2.2.1",
     "require-all": "^3.0.0",
     "semver": "^5.5.1",
-    "sinon": "^8.1.1",
     "update-notifier": "^2.5.0",
     "validator": "^11.0.0",
     "yaml-js": "^0.2.3"
@@ -46,10 +45,7 @@
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-prettier": "^2.6.2",
-    "expect": "^25.1.0",
-    "intercept-stdout": "^0.1.2",
-    "mocha": "^5.2.0",
-    "nyc": "^14.1.1",
+    "jest": "^26.0.0",
     "pkg": "^4.4.0",
     "prettier": "^1.14.2",
     "semantic-release": "^17.0.4",
@@ -68,5 +64,10 @@
   },
   "pkg": {
     "scripts": "src/**/*.js"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
+    "testEnvironment": "node"
   }
 }

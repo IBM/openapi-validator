@@ -1,30 +1,29 @@
 // the rule names are all snake case and need to stay that way. don't lint them
 /* eslint-disable camelcase */
 
-const intercept = require('intercept-stdout');
-const expect = require('expect');
-const stripAnsiFrom = require('strip-ansi');
-
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
+const { getCapturedText } = require('../../test-utils');
 
 describe('test the .thresholdrc limits', function() {
-  it('should show error and set exit code to 1 when warning limit exceeded', async function() {
-    const capturedText = [];
+  let consoleSpy;
 
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
+  it('should show error and set exit code to 1 when warning limit exceeded', async function() {
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/circularRefs.yml'];
+    program.args = ['./test/cli-validator/mockFiles/circular-refs.yml'];
     program.limits =
-      './test/cli-validator/mockFiles/thresholds/fiveWarnings.json';
+      './test/cli-validator/mockFiles/thresholds/five-warnings.json';
     program.default_mode = true;
 
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const exitCode = await commandLineValidator(program);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
 
@@ -34,22 +33,14 @@ describe('test the .thresholdrc limits', function() {
   });
 
   it('should print errors for unsupported limit options and invalid limit values', async function() {
-    const capturedText = [];
-
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/clean.yml'];
     program.limits =
-      './test/cli-validator/mockFiles/thresholds/invalidValues.json';
+      './test/cli-validator/mockFiles/thresholds/invalid-values.json';
     program.default_mode = true;
 
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const exitCode = await commandLineValidator(program);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     // limit values invalid, so default limit, Number.MAX_VALUE, used
     expect(exitCode).toEqual(0);
@@ -67,19 +58,10 @@ describe('test the .thresholdrc limits', function() {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/clean.yml'];
     program.limits =
-      './test/cli-validator/mockFiles/thresholds/zeroWarnings.json';
+      './test/cli-validator/mockFiles/thresholds/zero-warnings.json';
     program.default_mode = true;
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const exitCode = await commandLineValidator(program);
-
-    unhookIntercept();
 
     expect(exitCode).toEqual(0);
   });
@@ -88,19 +70,11 @@ describe('test the .thresholdrc limits', function() {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/clean.yml'];
     program.limits =
-      './test/cli-validator/mockFiles/thresholds/invalidJSON.json';
+      './test/cli-validator/mockFiles/thresholds/invalid-json.json';
     program.default_mode = true;
 
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     await expect(commandLineValidator(program)).rejects.toBe(2);
-
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     const allOutput = capturedText.join('');
 

@@ -1,12 +1,20 @@
-const intercept = require('intercept-stdout');
-const expect = require('expect');
-const stripAnsiFrom = require('strip-ansi');
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
+const { getCapturedText } = require('../../test-utils');
 
 // for an explanation of the text interceptor, see the comments for the
 // first test in expectedOutput.js
 
 describe('cli tool - test error handling', function() {
+  let consoleSpy;
+
+  beforeEach(() => {
+    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  });
+
+  afterEach(() => {
+    consoleSpy.mockRestore();
+  });
+
   const helpMessage = function() {
     console.log('\n  Usage: validate-swagger [options] <file>\n\n');
     console.log('  Options:\n');
@@ -18,13 +26,6 @@ describe('cli tool - test error handling', function() {
   };
 
   it('should return an error when there is no filename given', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
     program.args = [];
     program.default_mode = true;
@@ -37,7 +38,7 @@ describe('cli tool - test error handling', function() {
       exitCode = err;
     }
 
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(2);
     expect(capturedText.length).toEqual(5);
@@ -57,13 +58,6 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when there is no file extension', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
     program.args = ['json'];
     program.default_mode = true;
@@ -75,7 +69,7 @@ describe('cli tool - test error handling', function() {
       exitCode = err;
     }
 
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(2);
     expect(capturedText.length).toEqual(5);
@@ -92,13 +86,6 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when there is an invalid file extension', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
     program.args = ['badExtension.jsob'];
     program.default_mode = true;
@@ -110,7 +97,7 @@ describe('cli tool - test error handling', function() {
       exitCode = err;
     }
 
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(2);
     expect(capturedText.length).toEqual(5);
@@ -127,15 +114,8 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when a file contains an invalid object', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/badJson.json'];
+    program.args = ['./test/cli-validator/mockFiles/bad-json.json'];
     program.default_mode = true;
 
     let exitCode;
@@ -145,12 +125,12 @@ describe('cli tool - test error handling', function() {
       exitCode = err;
     }
 
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(3);
     expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid input file: ./test/cli-validator/mockFiles/badJson.json. See below for details.'
+      '[Error] Invalid input file: ./test/cli-validator/mockFiles/bad-json.json. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
       'SyntaxError: Unexpected token ; in JSON at position 14'
@@ -158,15 +138,8 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when a json file has duplicated key mappings', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/duplicateKeys.json'];
+    program.args = ['./test/cli-validator/mockFiles/duplicate-keys.json'];
     program.default_mode = true;
 
     let exitCode;
@@ -176,12 +149,12 @@ describe('cli tool - test error handling', function() {
       exitCode = err;
     }
 
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(3);
     expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid input file: ./test/cli-validator/mockFiles/duplicateKeys.json. See below for details.'
+      '[Error] Invalid input file: ./test/cli-validator/mockFiles/duplicate-keys.json. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
       'Syntax error: duplicated keys "version" near sion": "1.'
@@ -189,15 +162,8 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when the swagger contains a reference to a missing object', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/missingObject.yml'];
+    program.args = ['./test/cli-validator/mockFiles/missing-object.yml'];
     program.default_mode = true;
 
     let exitCode;
@@ -207,7 +173,7 @@ describe('cli tool - test error handling', function() {
       exitCode = err;
     }
 
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(3);
@@ -220,15 +186,8 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when the swagger contains a trailing comma', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(stripAnsiFrom(txt));
-      return '';
-    });
-
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/trailingComma.json'];
+    program.args = ['./test/cli-validator/mockFiles/trailing-comma.json'];
     program.default_mode = true;
 
     let exitCode;
@@ -238,12 +197,12 @@ describe('cli tool - test error handling', function() {
       exitCode = err;
     }
 
-    unhookIntercept();
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(12);
     expect(capturedText[0].trim()).toEqual(
-      '[Error] Trailing comma on line 36 of file ./test/cli-validator/mockFiles/trailingComma.json.'
+      '[Error] Trailing comma on line 36 of file ./test/cli-validator/mockFiles/trailing-comma.json.'
     );
     expect(capturedText[4]).toContain(
       'Parameter objects must have a `description` field.'
