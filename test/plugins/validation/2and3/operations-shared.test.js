@@ -811,14 +811,11 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should complain about an unused tag', function() {
+    it('should complain about an undefined tag', function() {
       const spec = {
         tags: [
           {
             name: 'some tag'
-          },
-          {
-            name: 'some other tag'
           }
         ],
         paths: {
@@ -827,6 +824,22 @@ describe('validation plugin - semantic - operations-shared', function() {
               operationId: 'get_everything',
               tags: ['not a tag'],
               summary: 'get everything as a string',
+              responses: {
+                '200': {
+                  content: {
+                    'text/plain': {
+                      schema: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            post: {
+              operationId: 'post_everything',
+              tags: ['some tag'],
+              summary: 'post everything as a string',
               responses: {
                 '200': {
                   content: {

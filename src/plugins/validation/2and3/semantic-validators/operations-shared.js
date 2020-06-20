@@ -145,7 +145,7 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
             messages.addMessage(
               `paths.${pathKey}.${opKey}.tags`,
               'tag is not defined at the global level: ' + op.tags[i],
-              config.unused_tag
+              config.undefined_tag
             );
           }
         }

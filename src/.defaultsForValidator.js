@@ -26,7 +26,7 @@ const defaults = {
       'no_summary': 'warning',
       'no_array_responses': 'error',
       'parameter_order': 'warning',
-      'unused_tag': 'warning',
+      'undefined_tag': 'warning',
       'operation_id_naming_convention': 'warning'
     },
     'pagination': {
