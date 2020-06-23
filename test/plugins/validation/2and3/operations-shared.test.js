@@ -818,7 +818,46 @@ describe('validation plugin - semantic - operations-shared', function() {
             name: 'some tag'
           },
           {
-            name: 'some other tag'
+            name: 'some unused tag'
+          }
+        ],
+        paths: {
+          '/': {
+            get: {
+              operationId: 'get_everything',
+              tags: ['some tag'],
+              summary: 'get everything as a string',
+              responses: {
+                '200': {
+                  content: {
+                    'text/plain': {
+                      schema: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings.length).toEqual(1);
+
+      expect(res.warnings[0].path).toEqual('tags');
+      expect(res.warnings[0].message).toEqual(
+        'A tag is defined but never used: some unused tag'
+      );
+    });
+
+    it('should complain about an undefined tag', function() {
+      const spec = {
+        tags: [
+          {
+            name: 'some tag'
           }
         ],
         paths: {
@@ -827,6 +866,22 @@ describe('validation plugin - semantic - operations-shared', function() {
               operationId: 'get_everything',
               tags: ['not a tag'],
               summary: 'get everything as a string',
+              responses: {
+                '200': {
+                  content: {
+                    'text/plain': {
+                      schema: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            post: {
+              operationId: 'post_everything',
+              tags: ['some tag'],
+              summary: 'post everything as a string',
               responses: {
                 '200': {
                   content: {

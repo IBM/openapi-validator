@@ -202,7 +202,8 @@ The supported rules are described below:
 ##### operations
 | Rule                         | Description                                                                         | Spec     |
 | ---------------------------- | ----------------------------------------------------------------------------------- | -------- |
-| unused_tag                   | Flag a tag that is in operations and not listed in `tags` on the top level.         | shared   |
+| undefined_tag                | Flag a tag that is in operations and not listed in `tags` on the top level.         | shared   |
+| unused_tag                   | Flag a tag that is listed in `tags` on the top level that is not used in the spec.  | shared   |
 | no_consumes_for_put_or_post  | Flag `put` or `post` operations that do not have a `consumes` field.                | swagger2 |
 | get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
 | no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
@@ -388,6 +389,7 @@ The default values for each rule are described below.
 ###### operations
 | Rule                         | Default |
 | ---------------------------- | ------- |
+| undefined_tag                | warning |
 | unused_tag                   | warning |
 | no_operation_id              | warning |
 | operation_id_case_convention | warning, lower_snake_case |
