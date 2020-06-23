@@ -1,3 +1,10 @@
+# [0.28.0](https://github.com/IBM/openapi-validator/compare/v0.27.1...v0.28.0) (2020-06-23)
+
+
+### Features
+
+* rule `unused_tag` renamed to `undefined_tag` ([#171](https://github.com/IBM/openapi-validator/issues/171)) ([95a4308](https://github.com/IBM/openapi-validator/commit/95a430838566e9ece4df8b9ec994870540e6b282))
+
 ## [0.27.1](https://github.com/IBM/openapi-validator/compare/v0.27.0...v0.27.1) (2020-05-04)
 
 
