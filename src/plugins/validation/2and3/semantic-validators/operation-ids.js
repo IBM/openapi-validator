@@ -85,9 +85,10 @@ module.exports.validate = function({ resolvedSpec }, config) {
       if (opKey === 'get') {
         verbs.push('get');
       }
-      // operationId for DELETE should starts with "delete"
+      // operationId for DELETE should starts with "delete" or "remove"
       else if (opKey === 'delete') {
         verbs.push('delete');
+        verbs.push('remove');
       }
       // operationId for PATCH should starts with "update"
       else if (opKey === 'patch') {
@@ -99,9 +100,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
           verbs.push('update');
         }
       }
-      // operationId for PUT should starts with "replace"
+      // operationId for PUT should starts with "replace", "set", or "add"
       else if (opKey === 'put') {
         verbs.push('replace');
+        verbs.push('set');
+        verbs.push('add');
       }
     }
 
