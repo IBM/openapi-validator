@@ -31,6 +31,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
         return validOperationKeys.indexOf(k) > -1;
       });
       const allPathOperations = Object.keys(pathOps);
+      const allPathOperationIds = {}
+      allPathOperations.forEach(operation => allPathOperationIds[operation] = pathOps[operation].operationId)
       each(pathOps, (op, opKey) =>
         arr.push(
           merge(
@@ -38,7 +40,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
               pathKey: `${pathKey}`,
               opKey: `${opKey}`,
               path: `paths.${pathKey}.${opKey}`,
-              allPathOperations
+              allPathOperations,
+              allPathOperationIds
             },
             op
           )
@@ -62,7 +65,9 @@ module.exports.validate = function({ resolvedSpec }, config) {
     opKey,
     operationId,
     allPathOperations,
-    pathEndsWithParam
+    allPathOperationIds,
+    pathEndsWithParam,
+    hasNoResponseBody
   ) => {
     // Only consider paths for which
     // - paths that do not end with param has a GET and POST operation
@@ -71,26 +76,42 @@ module.exports.validate = function({ resolvedSpec }, config) {
     const verbs = [];
 
     if (!pathEndsWithParam) {
-      // operationId for GET should starts with "list"
+      // operationId for GET should start with "list"
       if (opKey === 'get') {
         verbs.push('list');
       }
-      // operationId for POST should starts with "create" or "add"
+      // operationId for POST should start with "create" or "add"
       else if (opKey === 'post') {
-        verbs.push('add');
         verbs.push('create');
+        verbs.push('add');
       }
     } else {
-      // operationId for GET should starts with "get"
+      // operationId for GET should start with "get" or "check"
       if (opKey === 'get') {
         verbs.push('get');
+        
+        if (hasNoResponseBody) {
+          verbs.push('check');
+        }
       }
-      // operationId for DELETE should starts with "delete" or "remove"
+      // operationId for DELETE should start with "delete", "remove", or "unset"
       else if (opKey === 'delete') {
         verbs.push('delete');
-        verbs.push('remove');
+        
+        // "remove" should complement "add"
+        if (
+          allPathOperations.includes('post') && allPathOperationIds.post.startsWith('add') ||
+          allPathOperations.includes('put') && allPathOperationIds.put.startsWith('add')
+        ) {
+          verbs.push('remove');
+        }
+        
+        // "set" and "unset" should be symmetrical
+        if (allPathOperations.includes('put') && allPathOperationIds.put.startsWith('set')) {
+          verbs.push('unset');
+        }
       }
-      // operationId for PATCH should starts with "update"
+      // operationId for PATCH should start with "update"
       else if (opKey === 'patch') {
         verbs.push('update');
       }
@@ -100,11 +121,15 @@ module.exports.validate = function({ resolvedSpec }, config) {
           verbs.push('update');
         }
       }
-      // operationId for PUT should starts with "replace", "set", or "add"
+      // operationId for PUT should start with "replace", or "add", or "set"
       else if (opKey === 'put') {
         verbs.push('replace');
-        verbs.push('set');
         verbs.push('add');
+        
+        // "set" and "unset" should be symmetrical
+        if (allPathOperations.includes('delete') && allPathOperationIds.delete.startsWith('unset')) {
+          verbs.push('set');
+        }
       }
     }
 
@@ -137,6 +162,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         // Conversely, if no path param, look for path with path param
 
         const pathEndsWithParam = op.pathKey.endsWith('}');
+        const hasNoResponseBody = typeof op.responses["204"] !== 'undefined';
         const isResourceOriented = pathEndsWithParam
           ? Object.keys(resolvedSpec.paths).includes(
               op.pathKey.replace('/\\{[A-Za-z0-9-_]+\\}$', '')
@@ -150,14 +176,16 @@ module.exports.validate = function({ resolvedSpec }, config) {
             op['opKey'],
             op.operationId,
             op.allPathOperations,
-            pathEndsWithParam
+            op.allPathOperationIds,
+            pathEndsWithParam,
+            hasNoResponseBody
           );
 
           if (checkPassed === false) {
             messages.addMessage(
               op.path + '.operationId',
               `operationIds should follow naming convention: operationId verb should be ${verbs}`.replace(
-                ',',
+                /,/g,
                 ' or '
               ),
               config.operation_id_naming_convention
