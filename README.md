@@ -449,7 +449,7 @@ The default values for each rule are described below.
 | inconsistent_property_type  | warning |
 | property_case_convention    | error, lower_snake_case |
 | property_case_collision     | error   |
-| enum_case_convention        | error, lower_snake_case |
+| enum_case_convention        | warning, lower_snake_case |
 
 ###### walker
 | Rule                          | Default |
