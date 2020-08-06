@@ -1,3 +1,10 @@
+## [0.28.1](https://github.com/IBM/openapi-validator/compare/v0.28.0...v0.28.1) (2020-08-06)
+
+
+### Bug Fixes
+
+* Reduce default severity of enum case convention ([d09c4e8](https://github.com/IBM/openapi-validator/commit/d09c4e830556ea49a30162b771f39548c1b28f49))
+
 # [0.28.0](https://github.com/IBM/openapi-validator/compare/v0.27.1...v0.28.0) (2020-06-23)
 
 
