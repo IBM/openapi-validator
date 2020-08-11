@@ -50,8 +50,15 @@ module.exports.validate = function({ resolvedSpec }, config) {
           config.no_response_codes
         );
       } else {
-        // default warnings for discouraged status code per IBM API Handbook
         for (const statusCode of statusCodes) {
+          if (!obj[statusCode].description) {
+            messages.addMessage(
+              path.concat([statusCode]),
+              `All responses must include a description.`,
+              'error'
+            );
+          }
+          // default warnings for discouraged status code per IBM API Handbook
           if (statusCode === '422') {
             messages.addMessage(
               path.concat(['422']),
