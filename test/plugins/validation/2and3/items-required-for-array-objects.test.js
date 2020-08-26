@@ -2,6 +2,7 @@ const expect = require('expect');
 const {
   validate
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/items-required-for-array-objects');
+const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
 describe('validation plugin - semantic - items required for array objects - Swagger 2', () => {
   it('should return an error when an array header object omits an `items` property', () => {
@@ -34,7 +35,7 @@ describe('validation plugin - semantic - items required for array objects - Swag
       }
     };
 
-    const res = validate({ jsSpec: spec });
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -84,7 +85,7 @@ describe('validation plugin - semantic - items required for array objects - Swag
       }
     };
 
-    const res = validate({ jsSpec: spec });
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
@@ -98,7 +99,7 @@ describe('validation plugin - semantic - items required for array objects - Swag
       }
     };
 
-    const res = validate({ jsSpec: spec });
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual('definitions.TestObject');
     expect(res.errors[0].message).toEqual(
@@ -121,7 +122,7 @@ describe('validation plugin - semantic - items required for array objects - Swag
       }
     };
 
-    const res = validate({ jsSpec: spec });
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual(
       'definitions.TestObject.properties.arrayProperty'
@@ -162,7 +163,7 @@ describe('validation plugin - semantic - items required for array objects - Open
       }
     };
 
-    const res = validate({ jsSpec: spec });
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual(
       'paths./pets.get.responses.200.headers.X-MyHeader.schema'
@@ -173,7 +174,7 @@ describe('validation plugin - semantic - items required for array objects - Open
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should return an error when a model does not define a required property', () => {
+  it('should return a warning when a model does not define a required property', () => {
     const spec = {
       components: {
         schemas: {
@@ -190,15 +191,291 @@ describe('validation plugin - semantic - items required for array objects - Open
       }
     };
 
-    const res = validate({ jsSpec: spec });
-    expect(res.errors.length).toEqual(1);
-    expect(res.errors[0].path).toEqual(
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(
       'components.schemas.TestObject.required[0]'
     );
-    expect(res.errors[0].message).toEqual(
-      "Schema properties specified as 'required' must be defined"
+    expect(res.warnings[0].message).toEqual(
+      "Schema properties specified as 'required' should be defined"
     );
+  });
+
+  it('should return a warning when a model with a oneOf does not define a required property in all of its children', () => {
+    const spec = {
+      components: {
+        schemas: {
+          RefProp: {
+            properties: {
+              OptionalProperty: {
+                type: `string`
+              }
+            }
+          },
+          TestObject: {
+            type: 'object',
+            required: ['ImportantProperty'],
+            oneOf: [
+              {
+                $ref: '#/components/schemas/RefProp'
+              },
+              {
+                properties: {
+                  ImportantProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(
+      'components.schemas.TestObject.required[0]'
+    );
+    expect(res.warnings[0].message).toEqual(
+      "Schema properties specified as 'required' should be defined"
+    );
+  });
+
+  it('should return a warning when a model with an anyOf does not define a required property in all of its children', () => {
+    const spec = {
+      components: {
+        schemas: {
+          RefProp: {
+            properties: {
+              OptionalProperty: {
+                type: `string`
+              }
+            }
+          },
+          TestObject: {
+            type: 'object',
+            required: ['ImportantProperty'],
+            anyOf: [
+              {
+                $ref: '#/components/schemas/RefProp'
+              },
+              {
+                properties: {
+                  ImportantProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(
+      'components.schemas.TestObject.required[0]'
+    );
+    expect(res.warnings[0].message).toEqual(
+      "Schema properties specified as 'required' should be defined"
+    );
+  });
+
+  it('should not return a warning when a model with a nested anyOf defines a required property in all of its children', () => {
+    const spec = {
+      components: {
+        schemas: {
+          NestedRefProp: {
+            properties: {
+              ImportantProperty: {
+                type: `string`
+              }
+            }
+          },
+          RefProp: {
+            anyOf: [
+              {
+                $ref: '#/components/schemas/NestedRefProp'
+              },
+              {
+                properties: {
+                  ImportantProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          },
+          TestObject: {
+            type: 'object',
+            required: ['ImportantProperty'],
+            anyOf: [
+              {
+                $ref: '#/components/schemas/RefProp'
+              },
+              {
+                properties: {
+                  ImportantProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should not return a warning when a anyOf model with a nested allOf defines a required property in at least one of its children', () => {
+    const spec = {
+      components: {
+        schemas: {
+          NestedRefProp: {
+            properties: {
+              ImportantProperty: {
+                type: `string`
+              }
+            }
+          },
+          RefProp: {
+            allOf: [
+              {
+                $ref: '#/components/schemas/NestedRefProp'
+              },
+              {
+                properties: {
+                  OptionalProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          },
+          TestObject: {
+            type: 'object',
+            required: ['ImportantProperty'],
+            anyOf: [
+              {
+                $ref: '#/components/schemas/RefProp'
+              },
+              {
+                properties: {
+                  ImportantProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should not return a warning when a model with a nested allOf defines a required property in at least one of its children', () => {
+    const spec = {
+      components: {
+        schemas: {
+          NestedRefProp: {
+            properties: {
+              ImportantProperty: {
+                type: `string`
+              }
+            }
+          },
+          RefProp: {
+            allOf: [
+              {
+                $ref: '#/components/schemas/NestedRefProp'
+              },
+              {
+                properties: {
+                  OptionalProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          },
+          TestObject: {
+            type: 'object',
+            required: ['ImportantProperty'],
+            allOf: [
+              {
+                $ref: '#/components/schemas/RefProp'
+              },
+              {
+                properties: {
+                  OptionalProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
+  it('should return a warning when a model with an allOf does not define a required property in at least one of its children', () => {
+    const spec = {
+      components: {
+        schemas: {
+          RefProp: {
+            properties: {
+              OptionalProperty: {
+                type: `string`
+              }
+            }
+          },
+          TestObject: {
+            type: 'object',
+            required: ['ImportantProperty'],
+            allOf: [
+              {
+                $ref: '#/components/schemas/RefProp'
+              },
+              {
+                properties: {
+                  OptionalProperty: {
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(
+      'components.schemas.TestObject.required[0]'
+    );
+    expect(res.warnings[0].message).toEqual(
+      "Schema properties specified as 'required' should be defined"
+    );
   });
 
   it('should not return an error when a model definition is an array and has an `items` property', () => {
@@ -215,7 +492,7 @@ describe('validation plugin - semantic - items required for array objects - Open
       }
     };
 
-    const res = validate({ jsSpec: spec });
+    const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
   });
