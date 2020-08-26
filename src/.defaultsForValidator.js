@@ -68,7 +68,8 @@ const defaults = {
       'inconsistent_property_type': 'warning',
       'property_case_convention': [ 'error', 'lower_snake_case'],
       'property_case_collision': 'error',
-      'enum_case_convention': [ 'warning', 'lower_snake_case']
+      'enum_case_convention': [ 'warning', 'lower_snake_case'],
+      'undefined_required_properties': 'warning'
     },
     'walker': {
       'no_empty_descriptions': 'error',

@@ -269,6 +269,7 @@ The supported rules are described below:
 | property_case_collision     | Flag any property with a `name` that is identical to another property's `name` except for the naming convention | shared |
 | enum_case_convention        | Flag any enum with a `value` that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
 | json_or_param_binary_string | Flag parameters or application/json request/response bodies with schema type: string, format: binary. | oas3 |
+| undefined_required_properties| Flag any schema with undefined required properties                       | shared   |
 
 ##### security_definitions
 | Rule                        | Description                                                                           | Spec   |
@@ -383,6 +384,7 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | ------- |
 | json_or_param_binary_string | warning |
+| undefined_required_properties    | warning |
 
 ##### shared
 
