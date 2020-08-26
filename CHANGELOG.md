@@ -1,3 +1,10 @@
+## [0.29.1](https://github.com/IBM/openapi-validator/compare/v0.29.0...v0.29.1) (2020-08-26)
+
+
+### Bug Fixes
+
+* Required properties warning now checked in child refs ([#187](https://github.com/IBM/openapi-validator/issues/187)) ([5f2ae83](https://github.com/IBM/openapi-validator/commit/5f2ae839623130edb483ff7e93a390b3faaeb9a8))
+
 # [0.29.0](https://github.com/IBM/openapi-validator/compare/v0.28.1...v0.29.0) (2020-08-11)
 
 
