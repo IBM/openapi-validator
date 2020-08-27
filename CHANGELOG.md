@@ -1,3 +1,10 @@
+## [0.29.2](https://github.com/IBM/openapi-validator/compare/v0.29.1...v0.29.2) (2020-08-27)
+
+
+### Bug Fixes
+
+* **validator:** typo in `isURL` function call ([#189](https://github.com/IBM/openapi-validator/issues/189)) ([58f75a0](https://github.com/IBM/openapi-validator/commit/58f75a0d0213ab9e4ac2b258aff54ef8e14d1b7a))
+
 ## [0.29.1](https://github.com/IBM/openapi-validator/compare/v0.29.0...v0.29.1) (2020-08-26)
 
 
