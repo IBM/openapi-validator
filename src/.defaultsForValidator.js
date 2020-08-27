@@ -64,6 +64,7 @@ const defaults = {
       'no_schema_description': 'warning',
       'no_property_description': 'warning',
       'description_mentions_json': 'warning',
+      'no_schema_example': 'warning',
       'array_of_arrays': 'warning',
       'inconsistent_property_type': 'warning',
       'property_case_convention': [ 'error', 'lower_snake_case'],

@@ -108,6 +108,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     generateFormatErrors(schema, path, config, isOAS3, messages);
 
     generateDescriptionWarnings(schema, path, config, isOAS3, messages);
+    generateExampleWarnings(schema, path, config, isOAS3, messages);
 
     const checkStatus = config.snake_case_only;
     if (checkStatus !== 'off') {
@@ -398,6 +399,35 @@ function generateDescriptionWarnings(
       }
     }
   });
+}
+
+
+// http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#models
+function generateExampleWarnings(
+  schema,
+  contextPath,
+  config,
+  isOAS3,
+  messages
+) {
+
+  // determine if this is a top-level schema
+  const isTopLevelSchema = isOAS3
+    ? false
+    : contextPath.length === 2 && contextPath[0] === 'definitions';
+
+  // Check Example in schema only for "top level" schema
+  const hasExample =
+    schema.example && schema.example.toString().trim().length;
+
+  if (isTopLevelSchema && !hasExample) {
+    messages.addMessage(
+      contextPath,
+      'Schema must have a non-empty example.',
+      config.no_schema_example
+    );
+  }
+
 }
 
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting

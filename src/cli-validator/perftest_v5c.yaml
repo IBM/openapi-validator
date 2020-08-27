@@ -1,0 +1,67 @@
+swagger: '2.0'
+info:
+  title: perftest
+  x-ibm-name: perftest
+  version: v5c
+schemes:
+  - https
+basePath: /perftest
+securityDefinitions:
+  clientIdHeader:
+    type: apiKey
+    in: header
+    name: X-IBM-Client-Id
+x-ibm-configuration:
+  cors:
+    enabled: true
+  gateway: datapower-gateway
+  type: rest
+  phase: realized
+  enforced: true
+  testable: true
+  assembly:
+    execute:
+      - gatewayscript:
+          version: 1.0.0
+          title: gatewayscript
+          source: |-
+            setTimeout(function () {
+              console.log(' api Done')
+            }, 20)
+    catch: []
+  properties:
+    target-url:
+      value: 'http://example.com/operation-name'
+      description: The URL of the target service
+      encoded: false
+  application-authentication:
+    certificate: false
+paths:
+  /:
+    post:
+      responses:
+        '200':
+          description: success
+          schema:
+            type: string
+      consumes: []
+      produces: []
+produces:
+  - application/json
+  - application/xml
+consumes:
+  - application/json
+  - application/xml
+definitions:
+  ErrorModel:
+    type: object
+    required:
+    - message
+    - code
+    properties:
+      message:
+        type: string
+      code:
+        type: integer
+        minimum: 100
+        maximum: 600
