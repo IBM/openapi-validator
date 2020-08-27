@@ -35,12 +35,36 @@ function arrayOctetSequences(resolvedSchema, path) {
     const pathToSchema = Array.isArray(path)
       ? path.concat('items')
       : `${path}.items`;
-    if (arrayItems.type === 'string' && arrayItems.format === 'binary') {
-      arrayPathsToOctetSequence.push(pathToSchema);
-    } else if (arrayItems.type === 'object' || arrayItems.type === 'array') {
-      arrayPathsToOctetSequence.push(
-        ...findOctetSequencePaths(arrayItems, pathToSchema)
-      );
+    try {
+      if (arrayItems.type === 'string' && arrayItems.format === 'binary') {
+        arrayPathsToOctetSequence.push(pathToSchema);
+      } else if (arrayItems.type === 'object' || arrayItems.type === 'array') {
+        arrayPathsToOctetSequence.push(
+          ...findOctetSequencePaths(arrayItems, pathToSchema)
+        );
+      }
+    } catch(err) {
+      if (err instanceof TypeError) {
+        var escapedPaths = [];
+        const strEscaper = function(strToEscape) {
+          var newStr = "";
+          for (i=0;i<strToEscape.length;i++) {
+            if (strToEscape.charAt(i) == "/") {
+              newStr = newStr + "\\/";
+            } else {
+              newStr = newStr + strToEscape.charAt(i);
+            }
+          }
+          escapedPaths.push(newStr);
+        };
+        path.forEach(strEscaper);
+        var e = new TypeError("items.type and items.format must resolve for the path \"" + escapedPaths.join("/") + "\"");
+        e.stack = err.stack;
+        e.original = err;
+        throw e;
+      } else {
+        throw err;
+      }
     }
   }
   return arrayPathsToOctetSequence;
