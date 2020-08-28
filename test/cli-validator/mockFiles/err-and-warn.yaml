@@ -134,14 +134,17 @@ definitions:
       id:
         type: "integer"
         format: "int64"
+        description: "string"
       name:
         type: "string"
         description: "string"
     xml:
       name: "Category"
+    example:
+      id: 1
+      type: dog
   Tag:
     type: "object"
-    description: "string"
     properties:
       id:
         type: "integer"
@@ -152,12 +155,14 @@ definitions:
         description: "string"
     xml:
       name: "Tag"
+    example:
+      id: 1
+      type: dog
   Pet:
     type: "object"
-    description: "string"
     required:
     - "name"
-    - "photoUrls"
+    - "photo_urls"
     properties:
       id:
         type: "integer"
@@ -169,11 +174,11 @@ definitions:
         type: "string"
         example: "doggie"
         description: "string"
-      photoUrls:
+      photo_urls:
         type: "array"
         description: "string"
         xml:
-          name: "photoUrl"
+          name: "photo_url"
           wrapped: true
         items:
           type: "string"
@@ -194,9 +199,18 @@ definitions:
         - "sold"
     xml:
       name: "Pet"
+    example:
+      id: 1
+      category:
+        id: 1
+        name: dog
+      name: doggie,
+      photo_urls:
+        - 'http://111'
   UnusedString:
     description: "string"
     type: "string"
+    example: 'asd'
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

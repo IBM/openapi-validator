@@ -56,7 +56,8 @@ const defaults = {
       'unused_security_scopes': 'warning'
     },
     'security': {
-      'invalid_non_empty_security_array': 'error'
+      'invalid_non_empty_security_array': 'error',
+      'empty_security_array': 'error'
     },
     'schemas': {
       'invalid_type_format_pair': 'error',
@@ -78,7 +79,9 @@ const defaults = {
       '$ref_siblings': 'off',
       'duplicate_sibling_description': 'warning',
       'incorrect_ref_pattern': 'warning'
-    }
+    },
+    'custom' :{}
+   
   },
   'swagger2': {
     'operations': {

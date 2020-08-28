@@ -130,6 +130,10 @@ definitions:
         description: "list of pets"
         items:
           $ref: "#/definitions/Pet"
+    example:
+      pets:
+        - name: 'fred'
+          photo_urls: 'https://'
   Category:
     type: "object"
     description: "string"
@@ -143,6 +147,9 @@ definitions:
         description: "string"
     xml:
       name: "Category"
+    example:
+      id: 1
+      type: dog
   Tag:
     type: "object"
     description: "string"
@@ -156,6 +163,9 @@ definitions:
         description: "string"
     xml:
       name: "Tag"
+    example:
+      id: 1
+      type: dog
   Pet:
     type: "object"
     description: "string"
@@ -184,7 +194,6 @@ definitions:
       tags:
         type: "array"
         description: "string"
-        pattern: "^http(s)?:\\/\\/([^\\/?#]*)([^?#]*)(\\?([^#]*))?(#(.*))?$"
         xml:
           name: "tag"
           wrapped: true
@@ -199,6 +208,14 @@ definitions:
         - "sold"
     xml:
       name: "Pet"
+    example:
+      id: 1
+      category:
+        id: 1
+        name: dog
+      name: doggie,
+      photo_urls:
+        - 'http://111'
 externalDocs:
   description: "Find out more about Swagger"
   url: "http://swagger.io"

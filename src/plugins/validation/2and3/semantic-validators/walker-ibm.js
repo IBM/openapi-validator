@@ -10,74 +10,52 @@ const {
 } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-const custom = {
-  'produces': {
-    'array': [{
-      'value': 'r',
-      'fail': false,
-      'casesensitive': true,
-      'level': 'error'
-    }]
-  },
-
-  'paths': {
-    'key': [{
-      'value': '/',
-      'fail': false,
-      'casesensitive': true,
-      'level': 'error'
-    }]
-  },
-  'info': {
-    'title': {
-      'value': [{
-        'value': 'f',
-        'fail': true,
-        'casesensitive': true,
-        'level': 'error'
-      }]
-    }
-  }
-}
 // Walks an entire spec.
 module.exports.validate = function({
   jsSpec,
   resolvedSpec
 }, config) {
   const messages = new MessageCarrier();
+// console.log(config)
 
-  config = config.walker;
 
   walk(jsSpec, [], function(obj, path) {
     if (path) {
-      var customEntry = custom
-      flag = true
-      for (var i = 0; i < path.length - 1; i++) {
+      var customEntry = config.custom
+      var flag = true
+      for (var i = 0; i < path.length  ; i++) {
         if (customEntry[path[i]] == undefined) {
           flag = false;
           break;
-        } else {
-          customEntry = customEntry[path[i]]
-        }
+        } else   {
+           customEntry = customEntry[path[i]]
+         }
       }
-      console.log(customEntry)
-      if (flag && customEntry && customEntry.key) {
-        customEntry.key.forEach(function(action) {
-          console.log(path)
-          console.log(customEntry)
-          checkString(path, path[path.length - 1], action, messages)
+
+      if (flag && customEntry && customEntry['_parent'] && (obj.constructor.toString() =="function Object() { [native code] }")) {
+        // console.log(path,customEntry,customEntry['_parent'] , (obj.constructor =='[Function: Object]'))
+        customEntry['_parent'].forEach(function(action) {
+          Object.keys(obj).forEach(function(key) {
+            checkString(path, key, action, messages)
+          })
         })
-      } else if (customEntry && customEntry.array) {
-        customEntry.array.forEach(function(action) {
+        // console.log(customEntry['_child'] )
+        if  (customEntry['_child'] ) {
+          Object.keys(customEntry['_child']).forEach(function(e) {
+              customEntry['_child'][e].forEach(function (action) {
+                  checkString(path, obj[e], action, messages)
+              })
+          })
+        }
+
+      } else if (flag && customEntry && customEntry['_parent'] ) {
+        customEntry['_child'].forEach(function(action) {
           obj.forEach(function(e) {
             checkString(path, e, action, messages)
           })
         })
-      } else if (customEntry && customEntry.value) {
-        customEntry.value.forEach(function(action) {
-            checkString(path, obj, action, messages)
-        })
       }
+
       // check for empty descriptions
       if (obj.description !== undefined && obj.description !== null) {
         const description = obj.description.toString();
@@ -87,7 +65,7 @@ module.exports.validate = function({
           messages.addMessage(
             [...path, 'description'],
             'Items with a description must have content in it.',
-            config.no_empty_descriptions
+            config.walker.no_empty_descriptions
           );
         }
 
@@ -105,7 +83,7 @@ module.exports.validate = function({
             messages.addMessage(
               [...path, 'description'],
               'Description sibling to $ref matches that of the referenced schema. This is redundant and should be removed.',
-              config.duplicate_sibling_description
+              config.walker.duplicate_sibling_description
             );
           }
         }
@@ -128,13 +106,14 @@ module.exports.validate = function({
 
 
 function checkString(path, value, action, messages) {
-  // console.log(value)
+
   if (action.casesensitive) {
     value = value.toLowerCase();
   }
   if (value.split(action.value).length > 1) {
-    console.log(value.split(action.value).length)
-    if (action.fail) {
+
+    if (action.failIfFound) {
+      path.push(value)
       messages.addMessage(
         [...path, ' invalid substring'],
         value + ' contained an invalid string "' + action.value + '"',
@@ -142,7 +121,8 @@ function checkString(path, value, action, messages) {
       );
     }
   } else {
-    if (!action.fail) {
+    if (!action.failIfFound) {
+      path.push(value)
       messages.addMessage(
         [...path, ' missing substring'],
         value + ' does not contain a required string "' + action.value + '"',

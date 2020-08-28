@@ -74,7 +74,7 @@ describe('validation plugin - semantic - walker-ibm', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should not return an error when bad description is in extension', () => {
+  it('should return an error when bad description is in extension', () => {
     const spec = {
       'x-vendor-paths': {
         '/pets': {
@@ -84,7 +84,7 @@ describe('validation plugin - semantic - walker-ibm', () => {
                 name: 'tags',
                 in: 'query',
                 description: '   ',
-                type: 'string'
+                type: 'string',
               }
             ]
           }
@@ -93,7 +93,7 @@ describe('validation plugin - semantic - walker-ibm', () => {
     };
 
     const res = validate({ jsSpec: spec }, config);
-    expect(res.errors.length).toEqual(0);
+    expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
   });
 
@@ -213,7 +213,9 @@ describe('validation plugin - semantic - walker-ibm', () => {
     const resolvedSpec = await resolver.dereference(specCopy);
 
     const res = validate({ jsSpec: spec, resolvedSpec }, config);
+
     expect(res.errors.length).toEqual(0);
+
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
       'paths',

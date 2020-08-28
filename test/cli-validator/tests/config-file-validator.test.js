@@ -26,7 +26,7 @@ describe('cli tool - test config file validator', function() {
 
     const res = configFileValidator(config, chalk);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-
+    
     expect(res.invalid).toEqual(false);
     expect(capturedText.length).toEqual(0);
   });
