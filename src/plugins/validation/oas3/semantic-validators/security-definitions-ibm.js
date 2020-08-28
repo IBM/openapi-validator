@@ -165,7 +165,7 @@ module.exports.validate = function({ resolvedSpec }) {
       if (
         !openIdConnectURL ||
         typeof openIdConnectURL !== 'string' ||
-        !stringValidator.isurl(openIdConnectURL)
+        !stringValidator.isURL(openIdConnectURL)
       ) {
         messages.addMessage(
           path,
