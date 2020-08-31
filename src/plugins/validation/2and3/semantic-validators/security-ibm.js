@@ -59,7 +59,13 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   function validateSecurityObject({ security, path }) {
     security.forEach(schemeObject => {
       const schemeNames = Object.keys(schemeObject);
-
+      if (schemeNames.length == 0 ) {
+        messages.addMessage(
+          `${path}`,
+          'no security definition set',
+          config.invalid_non_empty_security_array
+        );
+      }
       schemeNames.forEach(schemeName => {
         const schemeIsDefined =
           securityDefinitions && securityDefinitions[schemeName];

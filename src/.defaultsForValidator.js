@@ -56,7 +56,8 @@ const defaults = {
       'unused_security_scopes': 'warning'
     },
     'security': {
-      'invalid_non_empty_security_array': 'error'
+      'invalid_non_empty_security_array': 'error',
+      'empty_security_array': 'error'
     },
     'schemas': {
       'invalid_type_format_pair': 'error',
@@ -64,6 +65,7 @@ const defaults = {
       'no_schema_description': 'warning',
       'no_property_description': 'warning',
       'description_mentions_json': 'warning',
+      'no_schema_example': 'warning',
       'array_of_arrays': 'warning',
       'inconsistent_property_type': 'warning',
       'property_case_convention': [ 'error', 'lower_snake_case'],
@@ -77,7 +79,9 @@ const defaults = {
       '$ref_siblings': 'off',
       'duplicate_sibling_description': 'warning',
       'incorrect_ref_pattern': 'warning'
-    }
+    },
+    'custom' :{}
+   
   },
   'swagger2': {
     'operations': {

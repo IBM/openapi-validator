@@ -5,6 +5,8 @@ const {
 
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
+
+
 describe('validation plugin - semantic - spec walker', () => {
   describe('Type key', () => {
     it('should return an error when "type" is a number', () => {

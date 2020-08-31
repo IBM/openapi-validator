@@ -7,8 +7,7 @@ const walk = function(obj, path, validation) {
   const current = path[path.length - 1];
   if (
     current === 'example' ||
-    current === 'examples' ||
-    (current && current.slice(0, 2) === 'x-')
+    current === 'examples' 
   ) {
     return;
   }
@@ -18,6 +17,7 @@ const walk = function(obj, path, validation) {
 
   // recursively walk through the spec
   const childProperties = Object.keys(obj);
+
   if (childProperties.length) {
     return childProperties.map(key => {
       return walk(obj[key], [...path, key], validation);

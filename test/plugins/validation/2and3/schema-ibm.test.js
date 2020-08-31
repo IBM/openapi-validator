@@ -19,7 +19,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               format: 'integer',
               description: 'Good to have a description'
             }
-          }
+          },
+          example: 1
         }
       }
     };
@@ -45,8 +46,10 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
         WordStyle: {
           type: 'number',
           format: 'integer',
-          description: 'word style'
+          description: 'word style',
+          example: 1
         }
+
       }
     };
 
@@ -74,7 +77,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 format: 'integer'
               }
             }
-          }
+          },example: {a:'a'}
         }
       }
     };
@@ -109,11 +112,13 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 $ref: '#/definitions/levelItem'
               }
             }
-          }
+          },
+          example: {a: 'a'}
         },
         levelItem: {
           type: 'string',
-          description: 'level item'
+          description: 'level item',
+          example: 'asd'
         }
       }
     };
@@ -121,6 +126,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const res = validate({ jsSpec: spec }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(0);
+
   });
 
   it('should return an error when a response does not use a well defined property type', () => {
@@ -136,7 +142,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               }
             }
           }
-        }
+        }, example: {'a':'b'}
+
       }
     };
 
@@ -150,6 +157,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'level',
       'type'
     ]);
+
     expect(res.errors[0].message).toEqual(
       'Schema of type number should use one of the following formats: float, double.'
     );
@@ -243,7 +251,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 name: 'file_param',
                 in: 'formData',
                 description: 'a file param',
-                type: 'file'
+                type: 'file',
+                example: {a:'a'}
               }
             ]
           }
@@ -260,7 +269,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       definitions: {
         SomeSchema: {
           type: 'file',
-          description: 'file schema, used for parameter or response'
+          description: 'file schema, used for parameter or response',
+          example: {a:'a'}
         }
       }
     };
@@ -274,7 +284,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const spec = {
       definitions: {
         SomeSchema: {
-          type: 'invalid_type'
+          type: 'invalid_type',
+          example: {a:'a'}
         }
       }
     };
@@ -298,7 +309,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                   properties: {
                     this_is_bad: {
                       type: 'file',
-                      description: 'non-root type of file is bad'
+                      description: 'non-root type of file is bad',
+                      example: {a:'a'}
                     }
                   }
                 }
@@ -591,7 +603,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               description: 'thing name',
               deprecated: true
             }
-          }
+          }, example: { a : "b" }
         }
       }
     };
@@ -620,7 +632,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               type: 'string',
               description: 'string'
             }
-          }
+          }, example: { a : "b" }
         }
       }
     };
@@ -634,6 +646,106 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     );
   });
 
+  it('should return an warning when a schema has no example', () => {
+    const spec = {
+      definitions: {
+        Pet: {
+          description: 'string',
+          required: ['id', 'name'],
+          properties: {
+            id: {
+              type: 'integer',
+              format: 'int64',
+              description: 'string'
+            },
+            name: {
+              type: 'string',
+              description: 'string'
+            },
+            tag: {
+              type: 'string',
+              description: 'string'
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(['definitions', 'Pet']);
+    expect(res.warnings[0].message).toEqual(
+      'Schema must have a non-empty example.'
+    );
+  });
+  it('should return a warning when a schema\'s  example is empty, object', () => {
+    const spec = {
+      definitions: {
+        Pet: {
+          description: 'string',
+          required: ['id', 'name'],
+          properties: {
+            id: {
+              type: 'integer',
+              format: 'int64',
+              description: 'string'
+            },
+            name: {
+              type: 'string',
+              description: 'string'
+            },
+            tag: {
+              type: 'string',
+              description: 'string'
+            }
+          }, example : {}
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(['definitions', 'Pet']);
+    expect(res.warnings[0].message).toEqual(
+      'Schema must have a non-empty example. Empty Object Provided'
+    );
+  });
+  it('should return a warning when a schema\'s  example is empty, string', () => {
+    const spec = {
+      definitions: {
+        Pet: {
+          description: 'string',
+          required: ['id', 'name'],
+          properties: {
+            id: {
+              type: 'integer',
+              format: 'int64',
+              description: 'string'
+            },
+            name: {
+              type: 'string',
+              description: 'string'
+            },
+            tag: {
+              type: 'string',
+              description: 'string'
+            }
+          },example : ""
+        }
+
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(['definitions', 'Pet']);
+    expect(res.warnings[0].message).toEqual(
+      'Schema must have a non-empty example. Empty String Provided'
+    );
+  });
   it('should return an error when a schema property has no description', () => {
     const spec = {
       paths: {
@@ -741,6 +853,9 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               readOnly: true,
               description: 'The description of the notice'
             }
+          },
+          example : {
+            a : "b"
           }
         }
       }
@@ -797,7 +912,11 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 description: 'array nested in an array'
               }
             }
-          }
+          },
+         example: [
+           'a',
+           'b'
+         ]
         }
       }
     };
@@ -840,7 +959,10 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 type: 'string',
                 description: 'string'
               }
-            }
+            },
+           example: {
+             a : "b"
+           }
           }
         }
       }
@@ -872,7 +994,10 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                       type: 'integer',
                       format: 'wrong'
                     }
-                  }
+                  },
+                 example: {
+                   a : "b"
+                 }
                 }
               }
             }
@@ -917,7 +1042,10 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                   format: 'objects_should_not_have_formats'
                 }
               }
-            }
+            },
+           example: {
+             a : "b"
+           }
           }
         }
       }
@@ -952,7 +1080,10 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 type: 'string',
                 format: 'byte'
               }
-            }
+            },
+           example: {
+             a : "b"
+           }
           },
           Thing2: {
             type: 'array',
@@ -992,7 +1123,10 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                   }
                 }
               }
-            }
+            },
+           example: {
+             a : "b"
+           }
           }
         }
       }
@@ -1041,7 +1175,10 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 description: 'should not have format without type',
                 format: 'byte'
               }
-            }
+            },
+           example: {
+             a : "b"
+           }
           }
         }
       }
@@ -1109,6 +1246,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                           type: 'boolean',
                           format: 'boolean'
                         }
+                      },
+                      example : {
+                        a : "b"
                       }
                     },
                     example: {
@@ -1342,6 +1482,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
               description: 'some color',
               enum: ['blue', 'light_blue', 'darkBlue']
             }
+          },
+          example : {
+            a : "b"
           }
         }
       }
@@ -1429,6 +1572,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
               description: 'some color',
               enum: ['blue', 'light_blue', 'darkBlue']
             }
+          },
+          example : {
+            a : "b"
           }
         }
       }
@@ -1518,6 +1664,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
               description: 'some color',
               enum: ['blue', 'light_blue', 'darkBlue']
             }
+          },
+          example : {
+            a : "b"
           }
         }
       }
@@ -1607,6 +1756,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
               description: 'some color',
               enum: ['blue', 'light_blue', 'darkBlue']
             }
+          },
+          example : {
+            a : "b"
           }
         }
       }
@@ -1695,6 +1847,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
               description: 'an integer',
               enum: [1, 2, 3]
             }
+          },
+          example : {
+            a : "b"
           }
         }
       }

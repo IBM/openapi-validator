@@ -34,7 +34,8 @@
     "semver": "^5.5.1",
     "update-notifier": "^4.1.0",
     "validator": "^11.0.0",
-    "yaml-js": "^0.2.3"
+    "yaml-js": "^0.2.3",
+    "yaml2json": "^1.0.2"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^3.0.2",

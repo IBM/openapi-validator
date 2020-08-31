@@ -261,6 +261,7 @@ The supported rules are described below:
 | invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | shared   |
 | snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | shared   |
 | no_schema_description       | Flag any schema without a `description` field.                                | shared   |
+| no_schema_example           | Flag any schema without an `example` field.   | shared   |
 | no_property_description     | Flag any schema that contains a 'property' without a `description` field.     | shared   |
 | description_mentions_json   | Flag any schema with a 'property' description that mentions the word 'JSON'.  | shared   |
 | array_of_arrays             | Flag any schema with a 'property' of type `array` with items of type `array`. | shared   |
@@ -320,6 +321,103 @@ For rules that accept additional configuration, there will be a limited set of a
 | k8s_camel_case   | Words must follow Kubernetes API camel case conventions. | learningOptOutAPI |
 | lower_dash_case  | Words must follow standard lower dash case conventions.  | learning-opt-out  |
 | upper_dash_case  | Words must follow standard upper dash case conventions.  | LEARNING-OPT-OUT  |
+
+
+### Custom Requests
+
+A custom pattern match can be provided that you can set if it should be expect or not expected.
+The default
+
+```
+'custom' :
+{
+ 'produces': {
+   '_child': [{
+     'value': '©',
+     'failIfFound': true,
+     'casesensitive': false,
+     'level': 'error'
+   }]
+ },
+ 'paths': {
+   '_parent': [{
+     'value': '©',
+     'failIfFound': true,
+     'casesensitive': true,
+     'level': 'error'
+   }]
+ },
+ 'info': {
+   '_parent': [{
+     'value': '©',
+     'failIfFound': true,
+     'casesensitive': true,
+     'level': 'error'
+   }],
+   '_child' : {
+     'title' : [{
+             'value': '©',
+             'failIfFound': true,
+             'casesensitive': true,
+             'level': 'error'
+           }]
+   }
+ }
+}
+```
+
+Inside the custom section you can enter which part of the tree you would like to add custom validation. To validate that items in the produces section contain the application you would do the following.
+
+```
+'custom' :
+{
+ 'produces': {
+   '_child': [{
+     'value': 'application',
+     'failIfFound': false,
+     'casesensitive': false,
+     'level': 'error'
+   }]
+ }
+}
+```
+
+To validate if an object key has a certain value do the following.
+```
+custom : {
+  'paths': {
+    '_parent': [{
+      'value': '©',
+      'failIfFound': true,
+      'casesensitive': true,
+      'level': 'error'
+    }]
+  },
+}
+```
+
+To validate the value of an object  has a certain value do the following.
+
+```
+custom: {
+  info: {
+    _child: {
+    title: [{
+            value: '©',
+            failIfFound: true,
+            casesensitive: true,
+            level: 'error'
+          }]
+  }
+}
+```
+
+
+| 'value' | Value to look for |
+| 'failIfFound' | If true fail if the value is found, if false fail if the value was not found.  |
+| 'casesensitive'|  Is it case sensitive |
+| 'level' | Error Reporting Level |
+
 
 ### Configuration file
 

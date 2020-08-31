@@ -103,7 +103,7 @@ const validateConfigObject = function(configObject, chalk) {
         const defaultStatus = defaultObject[spec][category][rule];
         const ruleTakesArray = Array.isArray(defaultStatus);
         const userGaveArray = Array.isArray(userStatus);
-
+        if (category != 'custom') {
         if (ruleTakesArray) {
           const userStatusArray = userGaveArray ? userStatus : [userStatus];
           userStatus = userStatusArray[0] || '';
@@ -130,12 +130,14 @@ const validateConfigObject = function(configObject, chalk) {
           });
         }
         if (!allowedStatusValues.includes(userStatus)) {
+
           validObject = false;
           configErrors.push({
             message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
             correction: `Valid statuses are: ${allowedStatusValues.join(', ')}`
           });
         }
+      }
       });
     });
   });

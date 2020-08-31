@@ -30,7 +30,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
   const messages = new MessageCarrier();
 
   config = config.paths;
-
+  if (resolvedSpec.paths) {
   const pathNames = Object.keys(resolvedSpec.paths);
 
   pathNames.forEach(pathName => {
@@ -208,6 +208,6 @@ module.exports.validate = function({ resolvedSpec }, config) {
       }
     }
   });
-
+}
   return messages;
 };

@@ -108,6 +108,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     generateFormatErrors(schema, path, config, isOAS3, messages);
 
     generateDescriptionWarnings(schema, path, config, isOAS3, messages);
+    generateExampleWarnings(schema, path, config, isOAS3, messages);
 
     const checkStatus = config.snake_case_only;
     if (checkStatus !== 'off') {
@@ -398,6 +399,44 @@ function generateDescriptionWarnings(
       }
     }
   });
+}
+
+
+// http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#models
+function generateExampleWarnings(
+  schema,
+  contextPath,
+  config,
+  isOAS3,
+  messages
+) {
+
+  // determine if this is a top-level schema
+  const isTopLevelSchema = isOAS3
+    ? false
+    : contextPath.length === 2 && contextPath[0] === 'definitions';
+
+
+  if (isTopLevelSchema && schema.example == undefined) {
+    messages.addMessage(
+      contextPath,
+      'Schema must have a non-empty example.',
+      config.no_schema_example
+    );
+  }  else if (isTopLevelSchema && schema.example.toString().trim() == "") {
+    messages.addMessage(
+      contextPath,
+      'Schema must have a non-empty example. Empty String Provided',
+      config.no_schema_example
+    );
+  } else if (isTopLevelSchema && typeof schema.example == 'object' && Object.keys(schema.example).length == 0  ) {
+    messages.addMessage(
+      contextPath,
+      'Schema must have a non-empty example. Empty Object Provided',
+      config.no_schema_example
+    );
+  }
+
 }
 
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
