@@ -246,9 +246,8 @@ describe('custom plugin - spec walker', () => {
     config.custom = {
       'paths': {
         '_parent': [{
-          'value': 'coolpath',
+          'value': /coolpath/,
           'failIfFound': true,
-          'casesensitive': true,
           'level': 'error'
         }]
       }
@@ -280,9 +279,8 @@ describe('custom plugin - spec walker', () => {
     config.custom = {
       'paths': {
         '_parent': [{
-          'value': 'coolpath',
+          'value': /coolpath/i  ,
           'failIfFound': true,
-          'casesensitive': false,
           'level': 'error'
         }]
       }
@@ -307,10 +305,10 @@ describe('custom plugin - spec walker', () => {
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       "paths",
-      "/coolpath/{id}",
+      "/CoolPath/{id}",
       " invalid substring"
     ]);
-    expect(res.errors[0].message).toEqual('/coolpath/{id} contained an invalid string "coolpath"');
+    expect(res.errors[0].message).toEqual('/CoolPath/{id} contained an invalid string "/coolpath/i"');
     expect(res.warnings.length).toEqual(0);
   })
   it('Check Key of object, 1 depth, not case sensitive, fail if found - pass', () => {
@@ -319,9 +317,8 @@ describe('custom plugin - spec walker', () => {
     config.custom = {
       'paths': {
         '_parent': [{
-          'value': 'coolpath',
+          'value': /coolpath/i,
           'failIfFound': true,
-          'casesensitive': false,
           'level': 'error'
         }]
       }
@@ -352,9 +349,8 @@ describe('custom plugin - spec walker', () => {
     config.custom = {
       'paths': {
         '_parent': [{
-          'value': 'coolpath',
+          'value': /coolpath/i,
           'failIfFound': false,
-          'casesensitive': false,
           'level': 'error'
         }]
       }
@@ -387,9 +383,8 @@ describe('custom plugin - spec walker', () => {
         '/Coolath/{id}': {
           'responses': {
             '_parent': [{
-              'value': '200',
+              'value': /200/i,
               'failIfFound': true,
-              'casesensitive': false,
               'level': 'error'
             }]
           }
@@ -424,9 +419,8 @@ describe('custom plugin - spec walker', () => {
         '/Coolath/{id}': {
           'responses': {
             '_parent': [{
-              'value': '200',
+              'value': /200/i,
               'failIfFound': true,
-              'casesensitive': false,
               'level': 'warning'
             }]
           }
@@ -466,9 +460,8 @@ describe('custom plugin - spec walker', () => {
               schema: {
                 '_child': {
                   type: [{
-                    'value': 'string',
+                    'value': /string/i,
                     'failIfFound': true,
-                    'casesensitive': false,
                     'level': 'warning'
                   }]
                 }
@@ -511,9 +504,8 @@ describe('custom plugin - spec walker', () => {
               schema: {
                 '_child': {
                   type: [{
-                    'value': 'string',
+                    'value': /string/,
                     'failIfFound': false,
-                    'casesensitive': true,
                     'level': 'warning'
                   }]
                 }
@@ -549,9 +541,8 @@ describe('custom plugin - spec walker', () => {
     config.custom = {
       'schemes': {
         '_child': [{
-          'value': 'http',
+          'value': /http/,
           'failIfFound': false,
-          'casesensitive': true,
           'level': 'warning'
         }]
       }
@@ -573,14 +564,12 @@ describe('custom plugin - spec walker', () => {
     config.custom = {
       'schemes': {
         '_child': [{
-          'value': 'http',
+          'value': /httP/i,
           'failIfFound': true,
-          'casesensitive': true,
           'level': 'warning'
         }]
       }
     }
-
     spec = {
       schemes: ["http","https"]
     };

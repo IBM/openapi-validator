@@ -18,7 +18,6 @@ module.exports.validate = function({
   const messages = new MessageCarrier();
   // console.log(config)
 
-
   walk(jsSpec, [], function(obj, path) {
     if (path) {
       var customEntry = config.custom
@@ -49,6 +48,7 @@ module.exports.validate = function({
         }
       } else if (flag && customEntry && customEntry['_child']) {
         customEntry['_child'].forEach(function(action) {
+
           obj.forEach(function(e) {
             checkString(path, e, action, messages)
           })
@@ -110,12 +110,12 @@ module.exports.validate = function({
 
 function checkString(path, value, action, messages) {
 
-  if (!action.casesensitive) {
-    value = value.toLowerCase();
-    action.value = action.value.toLowerCase();
-  }
-  if (value.split(action.value).length > 1) {
+  // if (!action.casesensitive) {
+  //   value = value.toLowerCase();
+  //   action.value = action.value.toLowerCase();
+  // }
 
+  if (value.split(action.value).length > 1) {
     if (action.failIfFound) {
       path.push(value)
       messages.addMessage(
