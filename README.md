@@ -333,32 +333,28 @@ The default
 {
  'produces': {
    '_child': [{
-     'value': '©',
+     'value': /c/,
      'failIfFound': true,
-     'casesensitive': false,
      'level': 'error'
    }]
  },
  'paths': {
    '_parent': [{
-     'value': '©',
+     'value': /c/,
      'failIfFound': true,
-     'casesensitive': true,
      'level': 'error'
    }]
  },
  'info': {
    '_parent': [{
-     'value': '©',
+     'value': /c/,
      'failIfFound': true,
-     'casesensitive': true,
      'level': 'error'
    }],
    '_child' : {
      'title' : [{
-             'value': '©',
+             'value': /c/,
              'failIfFound': true,
-             'casesensitive': true,
              'level': 'error'
            }]
    }
@@ -373,9 +369,8 @@ Inside the custom section you can enter which part of the tree you would like to
 {
  'produces': {
    '_child': [{
-     'value': 'application',
+     'value': /application/,
      'failIfFound': false,
-     'casesensitive': false,
      'level': 'error'
    }]
  }
@@ -387,9 +382,8 @@ To validate if an object key has a certain value do the following.
 custom : {
   'paths': {
     '_parent': [{
-      'value': '©',
+      'value': /c/,
       'failIfFound': true,
-      'casesensitive': true,
       'level': 'error'
     }]
   },
@@ -403,9 +397,8 @@ custom: {
   info: {
     _child: {
     title: [{
-            value: '©',
+            value: /c/i,
             failIfFound: true,
-            casesensitive: true,
             level: 'error'
           }]
   }
@@ -413,9 +406,8 @@ custom: {
 ```
 
 
-| 'value' | Value to look for |
+| /value/ | Regex string to search for |
 | 'failIfFound' | If true fail if the value is found, if false fail if the value was not found.  |
-| 'casesensitive'|  Is it case sensitive |
 | 'level' | Error Reporting Level |
 
 
