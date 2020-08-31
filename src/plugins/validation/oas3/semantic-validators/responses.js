@@ -15,7 +15,7 @@
 // Assertation 5. Response bodies with application/json content should not use schema
 // type: string, format: binary.
 
-const { walk } = require('../../../utils');
+const { walk, isResponseObject } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
   .findOctetSequencePaths;
@@ -27,10 +27,10 @@ module.exports.validate = function({ resolvedSpec }, config) {
   config = config.responses;
 
   walk(resolvedSpec, [], function(obj, path) {
-    const contentsOfResponsesObject =
-      path[0] === 'paths' && path[path.length - 1] === 'responses';
-
-    if (contentsOfResponsesObject) {
+    // because we are using the resolved spec here,
+    // and only want to validate the responses inside of operations,
+    // check that we are within the `paths` object
+    if (isResponseObject(path) && path[0] === 'paths') {
       const [statusCodes, successCodes] = getResponseCodes(obj);
 
       const binaryStringStatus = configSchemas.json_or_param_binary_string;
