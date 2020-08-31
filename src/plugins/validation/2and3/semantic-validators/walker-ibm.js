@@ -16,45 +16,48 @@ module.exports.validate = function({
   resolvedSpec
 }, config) {
   const messages = new MessageCarrier();
-// console.log(config)
+  // console.log(config)
 
 
   walk(jsSpec, [], function(obj, path) {
     if (path) {
       var customEntry = config.custom
       var flag = true
-      for (var i = 0; i < path.length  ; i++) {
+      for (var i = 0; i < path.length; i++) {
         if (customEntry[path[i]] == undefined) {
           flag = false;
           break;
-        } else   {
-           customEntry = customEntry[path[i]]
-         }
+        } else {
+          customEntry = customEntry[path[i]]
+        }
       }
 
-      if (flag && customEntry && customEntry['_parent'] && (obj.constructor.toString() =="function Object() { [native code] }")) {
-        // console.log(path,customEntry,customEntry['_parent'] , (obj.constructor =='[Function: Object]'))
-        customEntry['_parent'].forEach(function(action) {
-          Object.keys(obj).forEach(function(key) {
-            checkString(path, key, action, messages)
+      if (flag && customEntry && (obj.constructor.toString() == "function Object() { [native code] }")) {
+
+        if (customEntry['_parent']) {
+          customEntry['_parent'].forEach(function(action) {
+            Object.keys(obj).forEach(function(key) {
+              checkString(path, key, action, messages)
+            })
           })
-        })
-        // console.log(customEntry['_child'] )
-        if  (customEntry['_child'] ) {
+        } else if (flag && customEntry && customEntry['_child']) {
           Object.keys(customEntry['_child']).forEach(function(e) {
-              customEntry['_child'][e].forEach(function (action) {
-                  checkString(path, obj[e], action, messages)
-              })
+            customEntry['_child'][e].forEach(function(action) {
+              checkString(path, obj[e], action, messages)
+            })
           })
         }
-
-      } else if (flag && customEntry && customEntry['_parent'] ) {
+      } else if (flag && customEntry && customEntry['_child']) {
         customEntry['_child'].forEach(function(action) {
           obj.forEach(function(e) {
             checkString(path, e, action, messages)
           })
         })
       }
+
+
+
+
 
       // check for empty descriptions
       if (obj.description !== undefined && obj.description !== null) {
@@ -107,8 +110,9 @@ module.exports.validate = function({
 
 function checkString(path, value, action, messages) {
 
-  if (action.casesensitive) {
+  if (!action.casesensitive) {
     value = value.toLowerCase();
+    action.value = action.value.toLowerCase();
   }
   if (value.split(action.value).length > 1) {
 

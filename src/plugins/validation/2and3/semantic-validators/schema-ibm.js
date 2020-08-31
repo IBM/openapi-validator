@@ -416,14 +416,23 @@ function generateExampleWarnings(
     ? false
     : contextPath.length === 2 && contextPath[0] === 'definitions';
 
-  // Check Example in schema only for "top level" schema
-  const hasExample =
-    schema.example && schema.example.toString().trim().length;
 
-  if (isTopLevelSchema && !hasExample) {
+  if (isTopLevelSchema && schema.example == undefined) {
     messages.addMessage(
       contextPath,
       'Schema must have a non-empty example.',
+      config.no_schema_example
+    );
+  }  else if (isTopLevelSchema && schema.example.toString().trim() == "") {
+    messages.addMessage(
+      contextPath,
+      'Schema must have a non-empty example. Empty String Provided',
+      config.no_schema_example
+    );
+  } else if (isTopLevelSchema && typeof schema.example == 'object' && Object.keys(schema.example).length == 0  ) {
+    messages.addMessage(
+      contextPath,
+      'Schema must have a non-empty example. Empty Object Provided',
       config.no_schema_example
     );
   }

@@ -11,20 +11,20 @@ describe('validation plugin - semantic - walker-ibm', () => {
       paths: {
         '/pets': {
           get: {
-            parameters: [
-              {
-                name: 'tags',
-                in: 'query',
-                description: '',
-                type: 'string'
-              }
-            ]
+            parameters: [{
+              name: 'tags',
+              in: 'query',
+              description: '',
+              type: 'string'
+            }]
           }
         }
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({
+      jsSpec: spec
+    }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -45,20 +45,20 @@ describe('validation plugin - semantic - walker-ibm', () => {
       paths: {
         '/pets': {
           get: {
-            parameters: [
-              {
-                name: 'tags',
-                in: 'query',
-                description: '   ',
-                type: 'string'
-              }
-            ]
+            parameters: [{
+              name: 'tags',
+              in: 'query',
+              description: '   ',
+              type: 'string'
+            }]
           }
         }
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({
+      jsSpec: spec
+    }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -79,20 +79,20 @@ describe('validation plugin - semantic - walker-ibm', () => {
       'x-vendor-paths': {
         '/pets': {
           get: {
-            parameters: [
-              {
-                name: 'tags',
-                in: 'query',
-                description: '   ',
-                type: 'string',
-              }
-            ]
+            parameters: [{
+              name: 'tags',
+              in: 'query',
+              description: '   ',
+              type: 'string',
+            }]
           }
         }
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({
+      jsSpec: spec
+    }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.warnings.length).toEqual(0);
   });
@@ -102,20 +102,20 @@ describe('validation plugin - semantic - walker-ibm', () => {
       paths: {
         '/pets': {
           get: {
-            parameters: [
-              {
-                name: 'tags',
-                in: 'query',
-                description: null,
-                type: 'string'
-              }
-            ]
+            parameters: [{
+              name: 'tags',
+              in: 'query',
+              description: null,
+              type: 'string'
+            }]
           }
         }
       }
     };
 
-    const res = validate({ jsSpec: spec }, config);
+    const res = validate({
+      jsSpec: spec
+    }, config);
     expect(res.errors.length).toEqual(1);
     expect(res.errors[0].path).toEqual([
       'paths',
@@ -163,7 +163,10 @@ describe('validation plugin - semantic - walker-ibm', () => {
     const specCopy = JSON.parse(JSON.stringify(spec));
     const resolvedSpec = await resolver.dereference(specCopy);
 
-    const res = validate({ jsSpec: spec, resolvedSpec }, config);
+    const res = validate({
+      jsSpec: spec,
+      resolvedSpec
+    }, config);
     expect(res.errors.length).toEqual(0);
     expect(res.warnings.length).toEqual(1);
     expect(res.warnings[0].path).toEqual([
@@ -212,7 +215,10 @@ describe('validation plugin - semantic - walker-ibm', () => {
     const specCopy = JSON.parse(JSON.stringify(spec));
     const resolvedSpec = await resolver.dereference(specCopy);
 
-    const res = validate({ jsSpec: spec, resolvedSpec }, config);
+    const res = validate({
+      jsSpec: spec,
+      resolvedSpec
+    }, config);
 
     expect(res.errors.length).toEqual(0);
 
@@ -231,3 +237,357 @@ describe('validation plugin - semantic - walker-ibm', () => {
     );
   });
 });
+
+describe('custom plugin - spec walker', () => {
+
+  it('Check Key of object, 1 depth, case sensitive, fail if found - pass', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+      'paths': {
+        '_parent': [{
+          'value': 'coolpath',
+          'failIfFound': true,
+          'casesensitive': true,
+          'level': 'error'
+        }]
+      }
+    }
+
+    spec = {
+      paths: {
+        '/CoolPath/{id}': {
+          responses: {
+            '200': {
+              schema: {
+                type: "string"
+              }
+            }
+          }
+        }
+      }
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  })
+
+  it('Check Key of object, 1 depth, not case sensitive, fail if found - fail', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+      'paths': {
+        '_parent': [{
+          'value': 'coolpath',
+          'failIfFound': true,
+          'casesensitive': false,
+          'level': 'error'
+        }]
+      }
+    }
+
+    spec = {
+      paths: {
+        '/CoolPath/{id}': {
+          responses: {
+            '200': {
+              schema: {
+                type: "string"
+              }
+            }
+          }
+        }
+      }
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual([
+      "paths",
+      "/coolpath/{id}",
+      " invalid substring"
+    ]);
+    expect(res.errors[0].message).toEqual('/coolpath/{id} contained an invalid string "coolpath"');
+    expect(res.warnings.length).toEqual(0);
+  })
+  it('Check Key of object, 1 depth, not case sensitive, fail if found - pass', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+      'paths': {
+        '_parent': [{
+          'value': 'coolpath',
+          'failIfFound': true,
+          'casesensitive': false,
+          'level': 'error'
+        }]
+      }
+    }
+
+    spec = {
+      paths: {
+        '/Coolath/{id}': {
+          responses: {
+            '200': {
+              schema: {
+                type: "string"
+              }
+            }
+          }
+        }
+      }
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  })
+  it('Check Key of object, 1 depth, not case sensitive, fail if not found - pass', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+      'paths': {
+        '_parent': [{
+          'value': 'coolpath',
+          'failIfFound': false,
+          'casesensitive': false,
+          'level': 'error'
+        }]
+      }
+    }
+
+    spec = {
+      paths: {
+        '/Coolath/{id}': {
+          responses: {
+            '200': {
+              schema: {
+                type: "string"
+              }
+            }
+          }
+        }
+      }
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.warnings.length).toEqual(0);
+  })
+  it('Check Key of object, 3 depth, not case sensitive, fail if found - pass', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+      'paths': {
+        '/Coolath/{id}': {
+          'responses': {
+            '_parent': [{
+              'value': '200',
+              'failIfFound': true,
+              'casesensitive': false,
+              'level': 'error'
+            }]
+          }
+        }
+      }
+    }
+
+    spec = {
+      paths: {
+        '/Coolath/{id}': {
+          responses: {
+            '200': {
+              schema: {
+                type: "string"
+              }
+            }
+          }
+        }
+      }
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.warnings.length).toEqual(0);
+  })
+  it('Check Key of object, 3 depth, not case sensitive, fail if found, throw warning', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+      'paths': {
+        '/Coolath/{id}': {
+          'responses': {
+            '_parent': [{
+              'value': '200',
+              'failIfFound': true,
+              'casesensitive': false,
+              'level': 'warning'
+            }]
+          }
+        }
+      }
+    }
+
+    spec = {
+      paths: {
+        '/Coolath/{id}': {
+          responses: {
+            '200': {
+              schema: {
+                type: "string"
+              }
+            }
+          }
+        }
+      }
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+  })
+
+  it('Check value of object, 4 depth,  case sensitive, fail if found, throw warning', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+
+      'paths': {
+        '/Coolath/{id}': {
+          'responses': {
+            '200': {
+              schema: {
+                '_child': {
+                  type: [{
+                    'value': 'string',
+                    'failIfFound': true,
+                    'casesensitive': false,
+                    'level': 'warning'
+                  }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    spec = {
+      paths: {
+        '/Coolath/{id}': {
+          responses: {
+            '200': {
+              schema: {
+                type: "string"
+              }
+            }
+          }
+        }
+      }
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+  })
+
+  it('Check value of object, 4 depth,  case sensitive, not fail if found, throw warning', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+
+      'paths': {
+        '/Coolath/{id}': {
+          'responses': {
+            '200': {
+              schema: {
+                '_child': {
+                  type: [{
+                    'value': 'string',
+                    'failIfFound': false,
+                    'casesensitive': true,
+                    'level': 'warning'
+                  }]
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    spec = {
+      paths: {
+        '/Coolath/{id}': {
+          responses: {
+            '200': {
+              schema: {
+                type: "string"
+              }
+            }
+          }
+        }
+      }
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  })
+  it('Check value of array, 4 depth,  case sensitive, fail if found, throw warning', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+      'schemes': {
+        '_child': [{
+          'value': 'http',
+          'failIfFound': false,
+          'casesensitive': true,
+          'level': 'warning'
+        }]
+      }
+    }
+
+    spec = {
+      schemes: ["http","https"]
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  })
+
+  it('Check value of array, 4 depth,  case sensitive, not fail if found, throw warning', () => {
+    var spec = {}
+    var res = {}
+    config.custom = {
+      'schemes': {
+        '_child': [{
+          'value': 'http',
+          'failIfFound': true,
+          'casesensitive': true,
+          'level': 'warning'
+        }]
+      }
+    }
+
+    spec = {
+      schemes: ["http","https"]
+    };
+    var res = validate({
+      jsSpec: spec
+    }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(2);
+  })
+})

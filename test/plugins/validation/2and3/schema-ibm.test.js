@@ -646,6 +646,106 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     );
   });
 
+  it('should return an warning when a schema has no example', () => {
+    const spec = {
+      definitions: {
+        Pet: {
+          description: 'string',
+          required: ['id', 'name'],
+          properties: {
+            id: {
+              type: 'integer',
+              format: 'int64',
+              description: 'string'
+            },
+            name: {
+              type: 'string',
+              description: 'string'
+            },
+            tag: {
+              type: 'string',
+              description: 'string'
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(['definitions', 'Pet']);
+    expect(res.warnings[0].message).toEqual(
+      'Schema must have a non-empty example.'
+    );
+  });
+  it('should return a warning when a schema\'s  example is empty, object', () => {
+    const spec = {
+      definitions: {
+        Pet: {
+          description: 'string',
+          required: ['id', 'name'],
+          properties: {
+            id: {
+              type: 'integer',
+              format: 'int64',
+              description: 'string'
+            },
+            name: {
+              type: 'string',
+              description: 'string'
+            },
+            tag: {
+              type: 'string',
+              description: 'string'
+            }
+          }, example : {}
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(['definitions', 'Pet']);
+    expect(res.warnings[0].message).toEqual(
+      'Schema must have a non-empty example. Empty Object Provided'
+    );
+  });
+  it('should return a warning when a schema\'s  example is empty, string', () => {
+    const spec = {
+      definitions: {
+        Pet: {
+          description: 'string',
+          required: ['id', 'name'],
+          properties: {
+            id: {
+              type: 'integer',
+              format: 'int64',
+              description: 'string'
+            },
+            name: {
+              type: 'string',
+              description: 'string'
+            },
+            tag: {
+              type: 'string',
+              description: 'string'
+            }
+          },example : ""
+        }
+
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(1);
+    expect(res.warnings[0].path).toEqual(['definitions', 'Pet']);
+    expect(res.warnings[0].message).toEqual(
+      'Schema must have a non-empty example. Empty String Provided'
+    );
+  });
   it('should return an error when a schema property has no description', () => {
     const spec = {
       paths: {
