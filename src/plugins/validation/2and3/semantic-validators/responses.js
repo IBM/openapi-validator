@@ -1,5 +1,5 @@
 const each = require('lodash/each');
-const { walk } = require('../../../utils');
+const { walk, isResponseObject } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
 const INLINE_SCHEMA_MESSAGE =
@@ -11,10 +11,9 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   config = config.responses;
 
   walk(jsSpec, [], function(obj, path) {
-    const contentsOfResponsesObject = path[path.length - 1] === 'responses';
     const isRef = !!obj.$ref;
 
-    if (contentsOfResponsesObject && !isRef) {
+    if (isResponseObject(path, isOAS3) && !isRef) {
       each(obj, (response, responseKey) => {
         if (isOAS3) {
           each(response.content, (mediaType, mediaTypeKey) => {

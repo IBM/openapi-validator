@@ -110,7 +110,13 @@ describe('validation plugin - semantic - responses - oas3', function() {
     const res = validate({ resolvedSpec: spec }, config);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors.length).toEqual(1);
-    expect(res.errors[0].path).toEqual(['paths', '/pets', 'get', 'responses', '200']);
+    expect(res.errors[0].path).toEqual([
+      'paths',
+      '/pets',
+      'get',
+      'responses',
+      '200'
+    ]);
     expect(res.errors[0].message).toEqual(
       'All responses must include a description.'
     );

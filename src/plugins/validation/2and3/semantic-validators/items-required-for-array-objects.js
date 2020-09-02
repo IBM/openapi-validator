@@ -28,7 +28,7 @@ const checkReqProp = function(jsSpec, obj, requiredProp) {
   } else if (Array.isArray(obj.anyOf) || Array.isArray(obj.oneOf)) {
     const childList = obj.anyOf || obj.oneOf;
     let reqPropDefined = true;
-    childList.forEach((childObj) => {
+    childList.forEach(childObj => {
       if (!checkReqProp(jsSpec, childObj, requiredProp)) {
         reqPropDefined = false;
       }
@@ -36,7 +36,7 @@ const checkReqProp = function(jsSpec, obj, requiredProp) {
     return reqPropDefined;
   } else if (Array.isArray(obj.allOf)) {
     let reqPropDefined = false;
-    obj.allOf.forEach((childObj) => {
+    obj.allOf.forEach(childObj => {
       if (checkReqProp(jsSpec, childObj, requiredProp)) {
         reqPropDefined = true;
       }
@@ -44,7 +44,7 @@ const checkReqProp = function(jsSpec, obj, requiredProp) {
     return reqPropDefined;
   }
   return false;
-}
+};
 
 module.exports.validate = function({ jsSpec }, config) {
   const messages = new MessageCarrier();
@@ -71,7 +71,8 @@ module.exports.validate = function({ jsSpec }, config) {
       }
 
       // Assertation 2
-      const undefinedRequiredProperties = config.schemas.undefined_required_properties;
+      const undefinedRequiredProperties =
+        config.schemas.undefined_required_properties;
       if (Array.isArray(obj.required)) {
         obj.required.forEach((requiredProp, i) => {
           if (!checkReqProp(jsSpec, obj, requiredProp)) {
