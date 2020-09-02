@@ -1,3 +1,10 @@
+## [0.29.3](https://github.com/IBM/openapi-validator/compare/v0.29.2...v0.29.3) (2020-09-02)
+
+
+### Bug Fixes
+
+* dont validate schema properties called 'responses' as responses ([#194](https://github.com/IBM/openapi-validator/issues/194)) ([4277079](https://github.com/IBM/openapi-validator/commit/4277079d2651ef8324dc76fb226033f19273aab6))
+
 ## [0.29.2](https://github.com/IBM/openapi-validator/compare/v0.29.1...v0.29.2) (2020-08-27)
 
 
