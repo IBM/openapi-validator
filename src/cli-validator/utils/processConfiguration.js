@@ -367,9 +367,31 @@ const validateConfigOption = function(userOption, defaultOption) {
   return result;
 };
 
+const getSpectralRuleset = async function(defaultRuleset) {
+  const ruleSetFileName = '.spectral.json';
+  let ruleSetFile;
+
+  // search up the file system for the first instance
+  // of '.spectral.json'
+  try {
+    ruleSetFile = await findUp(ruleSetFileName);
+  } catch (err) {
+    // if there's any issue finding a custom ruleset, then
+    // just use the default
+    ruleSetFile = defaultRuleset;
+  }
+
+  if (ruleSetFile === null) {
+    ruleSetFile = defaultRuleset;
+  }
+
+  return ruleSetFile;
+};
+
 module.exports.get = getConfigObject;
 module.exports.validate = validateConfigObject;
 module.exports.ignore = getFilesToIgnore;
 module.exports.validateOption = validateConfigOption;
 module.exports.validateLimits = validateLimits;
 module.exports.limits = getLimits;
+module.exports.getSpectralRuleset = getSpectralRuleset;

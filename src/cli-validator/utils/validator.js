@@ -19,6 +19,8 @@ const sharedSemanticValidators = require('require-all')(
 
 const circularRefsValidator = require('./circular-references-ibm');
 
+const spectralValidator = require('../../spectral/utils/spectral-validator');
+
 const validators = {
   '2': {
     semanticValidators: semanticValidators2
@@ -29,7 +31,7 @@ const validators = {
 };
 
 // this function runs the validators on the swagger object
-module.exports = function validateSwagger(allSpecs, config) {
+module.exports = function validateSwagger(allSpecs, config, spectralResults) {
   const version = getVersion(allSpecs.jsSpec);
   allSpecs.isOAS3 = version === '3';
   const { semanticValidators } = validators[version];
@@ -44,6 +46,18 @@ module.exports = function validateSwagger(allSpecs, config) {
   // they need to be at the top level of the config object
   const configSpecToUse = allSpecs.isOAS3 ? 'oas3' : 'swagger2';
   config = merge(config.shared, config[configSpecToUse]);
+
+  // merge the spectral results
+  const parsedSpectralResults = spectralValidator.parseResults(spectralResults);
+  const key = 'spectral';
+  if (parsedSpectralResults.errors.length) {
+    validationResults.errors[key] = [...parsedSpectralResults.errors];
+    validationResults.error = true;
+  }
+  if (parsedSpectralResults.warnings.length) {
+    validationResults.warnings[key] = [...parsedSpectralResults.warnings];
+    validationResults.warning = true;
+  }
 
   // run circular reference validator
   if (allSpecs.circular) {

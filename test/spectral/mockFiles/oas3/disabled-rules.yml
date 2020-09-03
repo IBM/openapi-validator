@@ -1,13 +1,7 @@
 openapi: "3.0.0"
 info:
-  description: Sample API definition that validates cleanly
   version: 1.0.0
   title: Swagger Petstore
-  license:
-    name: MIT
-    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
-  contact:
-    email: "apiteam@swagger.io"
 servers:
   - url: http://petstore.swagger.io/v1
 tags:
@@ -59,7 +53,6 @@ paths:
     post:
       summary: Create a pet
       description: Create a pet
-      operationId: create_pets
       tags:
         - pets
       responses:
@@ -71,20 +64,83 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+    put:
+      summary: Update a pet
+      description: Update a pet
+      tags:
+        - pets
+      responses:
+        '405':
+          description: "Invalid input"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /anotherpet/path?query=true:
+    get:
+      summary: List all pets
+      description: List all pets
+      operationId: list_pets
+      tags:
+        - pets
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            maximum: 100
+        - name: offset
+          in: query
+          description: Offset of first element to return in results.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: An paged array of pets
+          headers:
+            x-next:
+              description: A link to the next page of responses
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pets"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /pets/{pet_id}:
     get:
       summary: Info for a specific pet
       description: Get information about a specific pet
-      operationId: get_pet_by_id
+      operationId: get pet by id
       tags:
         - pets
       parameters:
         - name: pet_id
           in: path
           required: true
+          schema:
+            type: string
+        - name: pet_id
+          in: path
+          required: true
           description: The id of the pet to retrieve
           schema:
             type: string
+      security:
+        - apikey: []
       responses:
         '200':
           description: Expected response to a valid request
@@ -98,8 +154,36 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
+  /given/{}:
+    post:
+      summary: "bad path"
+      description: Invalid path
+      operationId: "update_path"
+      tags:
+        - pets
+      parameters:
+        - name: incorrect_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: module_id
+          in: bar
+          required: true
+          schema:
+            type: ['string', 'number']
+      responses:
+        405:
+          description: "Invalid input"
+        default:
+          description: "Invalid input"
 components:
   schemas:
+    Sibling:
+      $ref: "#/components/schemas/Pet"
+      examples:
+        an_example:
+          name: something
     Pet:
       description:
         A pet

@@ -18,6 +18,7 @@
     "pkg": "./node_modules/.bin/pkg --out-path=./bin ./package.json; cd bin; rename -f 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
   },
   "dependencies": {
+    "@stoplight/spectral": "^5.5.0",
     "chalk": "^2.4.1",
     "commander": "^2.17.1",
     "deepmerge": "^2.1.1",
