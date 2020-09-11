@@ -15,12 +15,8 @@ const print = require('./utils/printResults');
 const printJson = require('./utils/printJsonResults');
 const printError = require('./utils/printError');
 const preprocessFile = require('./utils/preprocessFile');
-const { Spectral, isOpenApiv2, isOpenApiv3 } = require('@stoplight/spectral');
-
-// default spectral ruleset file
-const defaultSpectralRuleset =
-  process.cwd() + '/src/spectral/rulesets/.defaultsForSpectral.json';
-
+const spectralValidator = require('../spectral/utils/spectral-validator');
+const { Spectral } = require('@stoplight/spectral');
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
 
@@ -53,11 +49,6 @@ const processInput = async function(program) {
   const colors = turnOffColoring ? false : true;
 
   const chalk = new chalkPackage.constructor({ enabled: colors });
-
-  // create an instance of spectral
-  const spectral = new Spectral();
-  spectral.registerFormat('oas2', isOpenApiv2);
-  spectral.registerFormat('oas3', isOpenApiv3);
 
   // if the 'init' command is given, run the module
   // and exit the program
@@ -171,13 +162,11 @@ const processInput = async function(program) {
   let originalFile;
   let input;
 
-  // load the spectral ruleset, either a user's or the default ruleset
-  const spectralRuleset = await config.getSpectralRuleset(
-    defaultSpectralRuleset
-  );
-
+  // create an instance of spectral & load the spectral ruleset, either a user's
+  // or the default ruleset
+  const spectral = new Spectral();
   try {
-    await spectral.loadRuleset(spectralRuleset);
+    await spectralValidator.setup(spectral);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -258,7 +247,7 @@ const processInput = async function(program) {
     try {
       // let spectral handle the parsing of the original swagger/oa3 document
       const spectralResults = await spectral.run(originalFile);
-      results = validator(swagger, configObject, spectralResults);
+      results = validator(swagger, configObject, spectralResults, debug);
     } catch (err) {
       printError(chalk, 'There was a problem with a validator.', getError(err));
       if (debug) {

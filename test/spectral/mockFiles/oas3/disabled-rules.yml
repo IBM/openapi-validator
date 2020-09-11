@@ -7,6 +7,8 @@ servers:
 tags:
   - name: pets
     description: A pet
+  - name: "animal"
+    description: "Everything about your Pets"
 paths:
   /pets:
     get:
@@ -44,12 +46,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pets"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
     post:
       summary: Create a pet
       description: Create a pet

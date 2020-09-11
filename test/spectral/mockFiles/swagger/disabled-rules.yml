@@ -11,6 +11,11 @@ tags:
   externalDocs:
     description: "Find out more"
     url: "http://swagger.io"
+- name: "animal"
+  description: "Everything about your Pets"
+  externalDocs:
+    description: "Find out more"
+    url: "http://swagger.io"
 schemes:
 - "http"
 paths:
@@ -36,8 +41,6 @@ paths:
           $ref: "#/definitions/Pet"
       responses:
         405:
-          description: "Invalid input"
-        default:
           description: "Invalid input"
       security:
       - petstore_auth:
@@ -106,9 +109,10 @@ paths:
   /path1:
     post:
       summary: "path one"
+      description: operation with form data
       operationId: "form_data"
       tags:
-        - pets
+        - pet
       consumes:
       - "application/xml"
       produces:
@@ -181,9 +185,10 @@ paths:
   /given/{}:
     post:
       summary: "bad path"
+      description: Operation with a bad path
       operationId: "update_path"
       tags:
-        - pets
+        - pet
       consumes:
       - "application/json"
       - "application/xml"

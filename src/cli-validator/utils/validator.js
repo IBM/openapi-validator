@@ -31,7 +31,12 @@ const validators = {
 };
 
 // this function runs the validators on the swagger object
-module.exports = function validateSwagger(allSpecs, config, spectralResults) {
+module.exports = function validateSwagger(
+  allSpecs,
+  config,
+  spectralResults,
+  debug
+) {
   const version = getVersion(allSpecs.jsSpec);
   allSpecs.isOAS3 = version === '3';
   const { semanticValidators } = validators[version];
@@ -48,7 +53,10 @@ module.exports = function validateSwagger(allSpecs, config, spectralResults) {
   config = merge(config.shared, config[configSpecToUse]);
 
   // merge the spectral results
-  const parsedSpectralResults = spectralValidator.parseResults(spectralResults);
+  const parsedSpectralResults = spectralValidator.parseResults(
+    spectralResults,
+    debug
+  );
   const key = 'spectral';
   if (parsedSpectralResults.errors.length) {
     validationResults.errors[key] = [...parsedSpectralResults.errors];
