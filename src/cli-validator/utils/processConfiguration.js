@@ -368,20 +368,28 @@ const validateConfigOption = function(userOption, defaultOption) {
 };
 
 const getSpectralRuleset = async function(defaultRuleset) {
-  const ruleSetFileName = '.spectral.json';
+  // List of ruleset files to search for
+  const ruleSetFilesToFind = [
+    '.spectral.yaml',
+    '.spectral.yml',
+    '.spectral.json'
+  ];
   let ruleSetFile;
 
-  // search up the file system for the first instance
-  // of '.spectral.json'
+  // search up the file system for the first ruleset file found
   try {
-    ruleSetFile = await findUp(ruleSetFileName);
+    for (const file of ruleSetFilesToFind) {
+      if (!ruleSetFile) {
+        ruleSetFile = await findUp(file);
+      }
+    }
   } catch (err) {
     // if there's any issue finding a custom ruleset, then
     // just use the default
     ruleSetFile = defaultRuleset;
   }
 
-  if (ruleSetFile === null) {
+  if (!ruleSetFile) {
     ruleSetFile = defaultRuleset;
   }
 

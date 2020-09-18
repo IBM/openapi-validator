@@ -3,7 +3,7 @@ const config = require('../../cli-validator/utils/processConfiguration');
 const { isOpenApiv2, isOpenApiv3 } = require('@stoplight/spectral');
 // default spectral ruleset file
 const defaultSpectralRuleset =
-  __dirname + '/../rulesets/.defaultsForSpectral.json';
+  __dirname + '/../rulesets/.defaultsForSpectral.yaml';
 
 const parseResults = function(results, debug) {
   const messages = new MessageCarrier();
