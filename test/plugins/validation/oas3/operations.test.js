@@ -63,7 +63,7 @@ describe('validation plugin - semantic - operations - oas3', function() {
     expect(res.errors.length).toEqual(0);
   });
 
-  it('should not warn about an operation with a non-array json request body that does not set a name', function() {
+  it('should not warn about an operation with a non-array application/json request body that does not set a name', function() {
     const spec = {
       paths: {
         '/pets': {
@@ -74,6 +74,33 @@ describe('validation plugin - semantic - operations - oas3', function() {
               description: 'body for request',
               content: {
                 'application/json': {
+                  schema: {
+                    type: 'string'
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
+    expect(res.warnings.length).toEqual(0);
+    expect(res.errors.length).toEqual(0);
+  });
+
+  it('should not warn about an operation with a non-array `+json` request body that does not set a name', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          post: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            requestBody: {
+              description: 'body for request',
+              content: {
+                'application/merge-patch+json': {
                   schema: {
                     type: 'string'
                   }
