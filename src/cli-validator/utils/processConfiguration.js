@@ -383,7 +383,7 @@ const getSpectralRuleset = async function(defaultRuleset) {
         ruleSetFile = await findUp(file);
       }
     }
-  } catch (err) {
+  } catch {
     // if there's any issue finding a custom ruleset, then
     // just use the default
     ruleSetFile = defaultRuleset;

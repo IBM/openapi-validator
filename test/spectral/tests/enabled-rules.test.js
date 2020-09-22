@@ -121,7 +121,7 @@ describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
   let errors;
   let warnings;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     // set up mock user input
     const defaultMode = true;
     validationResults = await inCodeValidator(swaggerInMemory, defaultMode);
@@ -135,12 +135,6 @@ describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
     warnings = validationResults.warnings.map(warn => warn.message);
     expect(errors.length).toBeGreaterThan(0);
     expect(warnings.length).toBeGreaterThan(0);
-  });
-
-  afterEach(() => {
-    validationResults = '';
-    errors = '';
-    warnings = '';
   });
 
   it('test no-eval-in-markdown rule using mockFiles/swagger/enabled-rules-in-memory', function() {
@@ -360,7 +354,7 @@ describe('spectral - test enabled rules - OAS3 In Memory', function() {
   let errors;
   let warnings;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     // set up mock user input
     const defaultMode = true;
     validationResults = await inCodeValidator(oas3InMemory, defaultMode);
@@ -374,12 +368,6 @@ describe('spectral - test enabled rules - OAS3 In Memory', function() {
     warnings = validationResults.warnings.map(warn => warn.message);
     expect(errors.length).toBeGreaterThan(0);
     expect(warnings.length).toBeGreaterThan(0);
-  });
-
-  afterEach(() => {
-    validationResults = '';
-    errors = '';
-    warnings = '';
   });
 
   it('test no-eval-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function() {

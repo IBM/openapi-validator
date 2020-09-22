@@ -34,6 +34,10 @@ describe('spectral - test spectral-validator.js', function() {
 
     expect(parsedSpectralResults.errors.length).toEqual(1);
     expect(parsedSpectralResults.warnings.length).toEqual(0);
+    // Get the resulting error object & run validations
+    const errors = parsedSpectralResults.errors;
+    expect(errors[0].message).toEqual(mockResult[0].message);
+    expect(errors[0].path).toEqual(mockResult[0].path);
     expect(allOutput).not.toContain(
       'There was an error while parsing the spectral results:'
     );
@@ -61,6 +65,10 @@ describe('spectral - test spectral-validator.js', function() {
 
     expect(parsedSpectralResults.errors.length).toEqual(0);
     expect(parsedSpectralResults.warnings.length).toEqual(1);
+    // Get the resulting warning object & run validations
+    const warnings = parsedSpectralResults.warnings;
+    expect(warnings[0].message).toEqual(mockResult[0].message);
+    expect(warnings[0].path).toEqual(mockResult[0].path);
     expect(allOutput).not.toContain(
       'There was an error while parsing the spectral results:'
     );

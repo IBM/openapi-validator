@@ -25,10 +25,10 @@ const parseResults = function(results, debug) {
           // Our validator only supports warning/error level, so only include
           // those validation results (for now)
           if (severity === 1) {
-            //warning
+            // warning
             messages.addMessage(path, message, 'warning');
           } else if (severity === 0) {
-            //error
+            // error
             messages.addMessage(path, message, 'error');
           }
         } else {
@@ -38,7 +38,6 @@ const parseResults = function(results, debug) {
               JSON.stringify(validationResult)
             );
           }
-          continue;
         }
       }
     }
