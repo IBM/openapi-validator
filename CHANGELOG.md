@@ -1,3 +1,10 @@
+## [0.29.4](https://github.com/IBM/openapi-validator/compare/v0.29.3...v0.29.4) (2020-09-22)
+
+
+### Bug Fixes
+
+* recognize `application/merge-patch+json` media type as JSON ([#198](https://github.com/IBM/openapi-validator/issues/198)) ([958b6af](https://github.com/IBM/openapi-validator/commit/958b6af12736f5daabcd0c8d3dc914e25bead966))
+
 ## [0.29.3](https://github.com/IBM/openapi-validator/compare/v0.29.2...v0.29.3) (2020-09-02)
 
 
