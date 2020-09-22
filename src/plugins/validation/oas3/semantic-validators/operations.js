@@ -48,7 +48,7 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
           const firstMimeType = requestBodyMimeTypes[0]; // code generation uses the first mime type
           const oneContentType = requestBodyMimeTypes.length === 1;
           const isJson =
-	    firstMimeType === 'application/json' ||
+            firstMimeType === 'application/json' ||
             firstMimeType.endsWith('+json');
 
           const hasArraySchema =
