@@ -1,3 +1,10 @@
+# [0.30.0](https://github.com/IBM/openapi-validator/compare/v0.29.4...v0.30.0) (2020-09-23)
+
+
+### Features
+
+* initial Spectral integration ([#195](https://github.com/IBM/openapi-validator/issues/195)) ([ccbc7a6](https://github.com/IBM/openapi-validator/commit/ccbc7a6f73e121b360cb4b30b8ab8ff9cbdb6edb))
+
 ## [0.29.4](https://github.com/IBM/openapi-validator/compare/v0.29.3...v0.29.4) (2020-09-22)
 
 
