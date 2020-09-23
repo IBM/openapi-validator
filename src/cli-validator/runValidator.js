@@ -15,7 +15,8 @@ const print = require('./utils/printResults');
 const printJson = require('./utils/printJsonResults');
 const printError = require('./utils/printError');
 const preprocessFile = require('./utils/preprocessFile');
-
+const spectralValidator = require('../spectral/utils/spectral-validator');
+const { Spectral } = require('@stoplight/spectral');
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
 
@@ -161,6 +162,15 @@ const processInput = async function(program) {
   let originalFile;
   let input;
 
+  // create an instance of spectral & load the spectral ruleset, either a user's
+  // or the default ruleset
+  const spectral = new Spectral();
+  try {
+    await spectralValidator.setup(spectral);
+  } catch (err) {
+    return Promise.reject(err);
+  }
+
   for (const validFile of filesToValidate) {
     if (filesToValidate.length > 1) {
       console.log(
@@ -232,10 +242,12 @@ const processInput = async function(program) {
       process.chdir(originalWorkingDirectory);
     }
 
-    // run validator, print the results, and determine if validator passed
+    // run validator & spectral, print the results, and determine if validator passed
     let results;
     try {
-      results = validator(swagger, configObject);
+      // let spectral handle the parsing of the original swagger/oa3 document
+      const spectralResults = await spectral.run(originalFile);
+      results = validator(swagger, configObject, spectralResults, debug);
     } catch (err) {
       printError(chalk, 'There was a problem with a validator.', getError(err));
       if (debug) {

@@ -92,7 +92,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         let messageAuth =
           'Parameters must not explicitly define `Authorization`.';
         messageAuth = isOAS3
-          ? `${messageAuth} Rely on the \`securitySchemas\` and \`security\` fields to specify authorization methods.`
+          ? `${messageAuth} Rely on the \`securitySchemes\` and \`security\` fields to specify authorization methods.`
           : `${messageAuth} Rely on the \`securityDefinitions\` and \`security\` fields to specify authorization methods.`;
         // temporary message to alert users of pending status change
         if (checkStatusAuth === 'warning') {

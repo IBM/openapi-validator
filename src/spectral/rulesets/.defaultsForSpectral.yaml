@@ -1,0 +1,24 @@
+extends: [[spectral:oas, off]]
+formats: [oas2, oas3]
+functionsDir": ../functions
+rules:
+  no-eval-in-markdown: true
+  no-script-tags-in-markdown: true
+  openapi-tags: true
+  operation-description: true
+  operation-tags: true
+  operation-tag-defined: true
+  path-keys-no-trailing-slash: true
+  typed-enum: true
+  oas2-api-host: true
+  oas2-api-schemes: true
+  oas2-host-trailing-slash: true
+  oas2-valid-example: true
+  oas2-valid-definition-example: true
+  oas2-anyOf: true
+  oas2-oneOf: true
+  oas3-api-servers: true
+  oas3-examples-value-or-externalValue: true
+  oas3-server-trailing-slash: true
+  oas3-valid-example: true
+  oas3-valid-schema-example: true

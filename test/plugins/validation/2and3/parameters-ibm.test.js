@@ -420,7 +420,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '3'
       ]);
       expect(res.warnings[0].message).toEqual(
-        'Parameters must not explicitly define `Authorization`. Rely on the `securitySchemas` and `security` fields to specify authorization methods. This check will be converted to an `error` in an upcoming release.'
+        'Parameters must not explicitly define `Authorization`. Rely on the `securitySchemes` and `security` fields to specify authorization methods. This check will be converted to an `error` in an upcoming release.'
       );
     });
 

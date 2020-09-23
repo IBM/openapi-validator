@@ -9,3 +9,6 @@ dist
 bin/
 .nyc_output/
 coverage/
+.spectral.json
+.spectral.yaml
+.spectral.yml
