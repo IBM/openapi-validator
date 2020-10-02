@@ -1,3 +1,10 @@
+## [0.30.1](https://github.com/IBM/openapi-validator/compare/v0.30.0...v0.30.1) (2020-10-02)
+
+
+### Bug Fixes
+
+* fix spectral file path resolving ([#201](https://github.com/IBM/openapi-validator/issues/201)) ([8227946](https://github.com/IBM/openapi-validator/commit/8227946588404f1eda7af66e784209d0b2f894be))
+
 # [0.30.0](https://github.com/IBM/openapi-validator/compare/v0.29.4...v0.30.0) (2020-09-23)
 
 
