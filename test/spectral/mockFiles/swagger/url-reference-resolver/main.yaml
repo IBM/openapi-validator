@@ -1,0 +1,17 @@
+---
+swagger: '2.0'
+info:
+  title: main
+  version: 1.0.0
+paths:
+  "/example":
+    get:
+      produces:
+      - application/json
+      parameters: []
+      responses:
+        '200':
+          description: OK
+          schema:
+            $ref: 'http://json-schema.org/draft-04/schema#/properties/title'
+      summary: Summary

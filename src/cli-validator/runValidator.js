@@ -242,11 +242,27 @@ const processInput = async function(program) {
       process.chdir(originalWorkingDirectory);
     }
 
-    // run validator & spectral, print the results, and determine if validator passed
+    // run spectral and save the results
+    let spectralResults;
+    try {
+      process.chdir(path.dirname(validFile));
+      // let spectral handle the parsing of the original swagger/oa3 document
+      spectralResults = await spectral.run(originalFile);
+    } catch (err) {
+      printError(chalk, 'There was a problem with spectral.', getError(err));
+      if (debug) {
+        console.log(err.stack);
+      }
+      exitCode = 1;
+      continue;
+    } finally {
+      // return the working directory to its original location
+      process.chdir(originalWorkingDirectory);
+    }
+
+    // run validator, print the results, and determine if validator passed
     let results;
     try {
-      // let spectral handle the parsing of the original swagger/oa3 document
-      const spectralResults = await spectral.run(originalFile);
       results = validator(swagger, configObject, spectralResults, debug);
     } catch (err) {
       printError(chalk, 'There was a problem with a validator.', getError(err));
