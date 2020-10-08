@@ -6,7 +6,7 @@
 // the path both as an array and a string and returns the path in the same
 // format received:
 // typeof(path) === 'array' => [[path1, get], [path2, get], ...]
-// typeof(path) === 'string' => ['path1.get', path2.get, ...]
+// typeof(path) === 'string' => ['path1.get', 'path2.get', ...]
 
 const findOctetSequencePaths = (resolvedSchema, path) => {
   if (!resolvedSchema) {
@@ -47,10 +47,10 @@ function arrayOctetSequences(resolvedSchema, path) {
       if (err instanceof TypeError) {
         var escapedPaths = [];
         const strEscaper = function(strToEscape) {
-          var newStr = "";
+          var newStr = '';
           for (i=0;i<strToEscape.length;i++) {
-            if (strToEscape.charAt(i) == "/") {
-              newStr = newStr + "\\/";
+            if (strToEscape.charAt(i) == '/') {
+              newStr = newStr + '\\/';
             } else {
               newStr = newStr + strToEscape.charAt(i);
             }
@@ -58,7 +58,7 @@ function arrayOctetSequences(resolvedSchema, path) {
           escapedPaths.push(newStr);
         };
         path.forEach(strEscaper);
-        var e = new TypeError("items.type and items.format must resolve for the path \"" + escapedPaths.join("/") + "\"");
+        var e = new TypeError('items.type and items.format must resolve for the path \"' + escapedPaths.join('/') + '\"');
         e.stack = err.stack;
         e.original = err;
         throw e;
