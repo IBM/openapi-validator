@@ -1,12 +1,15 @@
 const expect = require('expect');
-const findOctetSequencePaths = require('../../../src/plugins/utils/findOctetSequencePaths').findOctetSequencePaths;
+const findOctetSequencePaths = require('../../../src/plugins/utils/findOctetSequencePaths')
+  .findOctetSequencePaths;
 
 function arrayEquals(a, b) {
-  return Array.isArray(a) &&
+  return (
+   Array.isArray(a) &&
     Array.isArray(b) &&
     a.length === b.length &&
-    a.every((val, index) => val === b[index]);
-};
+    a.every((val, index) => val === b[index])
+  );
+}
 
 describe('falsy values should return an empty array', function() {
   describe('undefined should return an empty array', function() {
@@ -49,11 +52,11 @@ describe('falsy values should return an empty array', function() {
 describe('binary format string schemas should return the passed path', function() {
   describe('binary format strings should include the path in string form', function() {
   it('should return an array with string elements', function() {
-    const schemaObj = {'type': 'string', 'format': 'binary'};
-    const path = ['path1.get'];
+      const schemaObj = {'type': 'string', 'format': 'binary'};
+      const path = ['path1.get'];
 
-    expect(arrayEquals(findOctetSequencePaths(schemaObj, path), path));
-  });
+      expect(arrayEquals(findOctetSequencePaths(schemaObj, path), path));
+    });
   });
 });
 
