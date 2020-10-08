@@ -52,7 +52,7 @@ describe('falsy values should return an empty array', function() {
 describe('binary format string schemas should return the passed path', function() {
   describe('binary format strings should include the path in string form', function() {
     it('should return an array with string elements', function() {
-      const schemaObj = {type: 'string', format: 'binary'};
+      const schemaObj = { type: 'string', format: 'binary' };
       const path = ['path1.get'];
 
       expect(arrayEquals(findOctetSequencePaths(schemaObj, path), path));
