@@ -43,12 +43,12 @@ function arrayOctetSequences(resolvedSchema, path) {
           ...findOctetSequencePaths(arrayItems, pathToSchema)
         );
       }
-    } catch(err) {
+    } catch (err) {
       if (err instanceof TypeError) {
-        var escapedPaths = [];
+        let escapedPaths = [];
         const strEscaper = function(strToEscape) {
-          var newStr = '';
-          for (i=0;i<strToEscape.length;i++) {
+          let newStr = '';
+          for (let i = 0; i < strToEscape.length; i++) {
             if (strToEscape.charAt(i) == '/') {
               newStr = newStr + '\\/';
             } else {
@@ -58,7 +58,9 @@ function arrayOctetSequences(resolvedSchema, path) {
           escapedPaths.push(newStr);
         };
         path.forEach(strEscaper);
-        var e = new TypeError('items.type and items.format must resolve for the path \"' + escapedPaths.join('/') + '\"');
+        let e = new TypeError('items.type and items.format must resolve for the path "' +
+            escapedPaths.join('/') +
+            '"');
         e.stack = err.stack;
         e.original = err;
         throw e;
