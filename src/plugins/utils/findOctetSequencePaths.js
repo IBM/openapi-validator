@@ -45,7 +45,7 @@ function arrayOctetSequences(resolvedSchema, path) {
       }
     } catch (err) {
       if (err instanceof TypeError) {
-        let escapedPaths = [];
+        const escapedPaths = [];
         const strEscaper = function(strToEscape) {
           let newStr = '';
           for (let i = 0; i < strToEscape.length; i++) {
@@ -58,9 +58,11 @@ function arrayOctetSequences(resolvedSchema, path) {
           escapedPaths.push(newStr);
         };
         path.forEach(strEscaper);
-        let e = new TypeError('items.type and items.format must resolve for the path "' +
+        const e = new TypeError(
+          'items.type and items.format must resolve for the path "' +
             escapedPaths.join('/') +
-            '"');
+            '"'
+        );
         e.stack = err.stack;
         e.original = err;
         throw e;
