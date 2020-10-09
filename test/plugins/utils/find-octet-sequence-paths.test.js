@@ -92,3 +92,27 @@ describe('object-type schemas must extract values from the resolved schema', fun
     expect(arrayEquals(findOctetSequencePaths(schemaObj, path), expectedOut));
   });
 });
+
+describe('array-type schemas require the proper values in proper fields', function() {
+  const schemaObj = { type: 'array', items: null };
+
+  it('should throw with a full path if the proper structure is not provided', function() {
+    const path = ['path1.get'];
+
+    expect(function() {
+      findOctetSequencePaths(schemaObj, path);
+    }).toThrow(
+      'items.type and items.format must resolve for the path "path1.get"'
+    );
+  });
+
+  it('should escape forward-slashes in the path', function() {
+    const path = ['path1/get'];
+
+    expect(function() {
+      findOctetSequencePaths(schemaObj, path);
+    }).toThrow(
+      'items.type and items.format must resolve for the path "path1\\/get"'
+    );
+  });
+});
