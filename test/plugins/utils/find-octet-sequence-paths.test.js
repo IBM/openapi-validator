@@ -60,6 +60,35 @@ describe('binary format string schemas should return the passed path', function(
   });
 });
 
-describe('array-type schemas must extract values from the resolved schema', function() {
-  describe('', function() {});
+describe('object-type schemas must extract values from the resolved schema', function() {
+  const schemaObj = { type: 'object' };
+  const path = ['path1.get'];
+  it('falsy properties should not append to the path', function() {
+    schemaObj.properties = false;
+
+    expect(arrayEquals(findOctetSequencePaths(schemaObj, path), path));
+  });
+
+  it('truthy properties should be added to the octet paths', function() {
+    schemaObj.properties = { one: { type: 'string', format: 'binary' } };
+    const expectedOut = ['path1.get', 'path1.get.properties.one'];
+
+    expect(arrayEquals(findOctetSequencePaths(schemaObj, path), expectedOut));
+  });
+
+  it('truthy properties should be recursively added to the octet paths', function() {
+    schemaObj.properties = {
+      one: {
+        type: 'object',
+        properties: { two: { type: 'string', format: 'binary' } }
+      }
+    };
+    const expectedOut = [
+      'path1.get',
+      'path1.get.properties.one',
+      'path1.get.properties.one.properties.two'
+    ];
+
+    expect(arrayEquals(findOctetSequencePaths(schemaObj, path), expectedOut));
+  });
 });
