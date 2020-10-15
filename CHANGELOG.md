@@ -1,3 +1,10 @@
+# [0.31.0](https://github.com/IBM/openapi-validator/compare/v0.30.1...v0.31.0) (2020-10-15)
+
+
+### Features
+
+* allow spectral rule severity to be modified in the validaterc ([#202](https://github.com/IBM/openapi-validator/issues/202)) ([dc81079](https://github.com/IBM/openapi-validator/commit/dc81079bbe620790868ce957e12bdab400fbcd64))
+
 ## [0.30.1](https://github.com/IBM/openapi-validator/compare/v0.30.0...v0.30.1) (2020-10-02)
 
 
