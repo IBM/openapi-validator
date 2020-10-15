@@ -106,6 +106,30 @@ const defaults = {
     'schemas': {
       'json_or_param_binary_string': 'warning'
     }
+  },
+  'spectral': {
+    'rules': {
+      'no-eval-in-markdown': "warning",
+      'no-script-tags-in-markdown': "warning",
+      'openapi-tags': "warning",
+      'operation-description': "warning",
+      'operation-tags': "warning",
+      'operation-tag-defined': "warning",
+      'path-keys-no-trailing-slash': "warning",
+      'typed-enum': "warning",
+      'oas2-api-host': "warning",
+      'oas2-api-schemes': "warning",
+      'oas2-host-trailing-slash': "warning",
+      'oas2-valid-example': "warning",
+      'oas2-valid-definition-example': "error",
+      'oas2-anyOf': "warning",
+      'oas2-oneOf': "warning",
+      'oas3-api-servers': "warning",
+      'oas3-examples-value-or-externalValue': "warning",
+      'oas3-server-trailing-slash': "warning",
+      'oas3-valid-example': "error",
+      'oas3-valid-schema-example': "error"
+    }
   }
 };
 

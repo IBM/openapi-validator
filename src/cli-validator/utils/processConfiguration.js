@@ -10,6 +10,8 @@ const defaultConfig = require('../../.defaultsForValidator');
 // global objects
 const readFile = util.promisify(fs.readFile);
 const defaultObject = defaultConfig.defaults;
+// Clear spectral rules from defaultObject, only use the explicit values in the validaterc file
+defaultObject.spectral.rules = {};
 const deprecatedRuleObject = defaultConfig.deprecated;
 const configOptions = defaultConfig.options;
 
@@ -42,6 +44,10 @@ const validateConfigObject = function(configObject, chalk) {
   const allowedSpecs = Object.keys(defaultObject);
   const userSpecs = Object.keys(configObject);
   userSpecs.forEach(spec => {
+    // Do not check "spectral" spec rules
+    if (spec === 'spectral') {
+      return;
+    }
     if (!allowedSpecs.includes(spec)) {
       validObject = false;
       configErrors.push({
