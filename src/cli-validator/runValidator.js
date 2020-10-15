@@ -166,7 +166,7 @@ const processInput = async function(program) {
   // or the default ruleset
   const spectral = new Spectral();
   try {
-    await spectralValidator.setup(spectral);
+    await spectralValidator.setup(spectral, configObject);
   } catch (err) {
     return Promise.reject(err);
   }

@@ -2,7 +2,7 @@ extends: [[spectral:oas, off]]
 formats: [oas2, oas3]
 functionsDir: ../functions
 rules:
-  no-eval-in-markdown: true
+  no-eval-in-markdown: error
   no-script-tags-in-markdown: true
   openapi-tags: true
   operation-description: true
