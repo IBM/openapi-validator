@@ -1,3 +1,10 @@
+## [0.31.1](https://github.com/IBM/openapi-validator/compare/v0.31.0...v0.31.1) (2020-10-23)
+
+
+### Bug Fixes
+
+* **findOctetSequencePaths:** Show path to erring element ([#190](https://github.com/IBM/openapi-validator/issues/190)) ([0247888](https://github.com/IBM/openapi-validator/commit/0247888de580b42abb9ee64c1e115cccd22ee079)), closes [#180](https://github.com/IBM/openapi-validator/issues/180)
+
 # [0.31.0](https://github.com/IBM/openapi-validator/compare/v0.30.1...v0.31.0) (2020-10-15)
 
 
