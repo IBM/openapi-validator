@@ -6,7 +6,7 @@
 // the path both as an array and a string and returns the path in the same
 // format received:
 // typeof(path) === 'array' => [[path1, get], [path2, get], ...]
-// typeof(path) === 'string' => ['path1.get', path2.get, ...]
+// typeof(path) === 'string' => ['path1.get', 'path2.get', ...]
 
 const findOctetSequencePaths = (resolvedSchema, path) => {
   if (!resolvedSchema) {
@@ -35,12 +35,40 @@ function arrayOctetSequences(resolvedSchema, path) {
     const pathToSchema = Array.isArray(path)
       ? path.concat('items')
       : `${path}.items`;
-    if (arrayItems.type === 'string' && arrayItems.format === 'binary') {
-      arrayPathsToOctetSequence.push(pathToSchema);
-    } else if (arrayItems.type === 'object' || arrayItems.type === 'array') {
-      arrayPathsToOctetSequence.push(
-        ...findOctetSequencePaths(arrayItems, pathToSchema)
-      );
+    try {
+      if (arrayItems.type === 'string' && arrayItems.format === 'binary') {
+        arrayPathsToOctetSequence.push(pathToSchema);
+      } else if (arrayItems.type === 'object' || arrayItems.type === 'array') {
+        arrayPathsToOctetSequence.push(
+          ...findOctetSequencePaths(arrayItems, pathToSchema)
+        );
+      }
+    } catch (err) {
+      if (err instanceof TypeError) {
+        const escapedPaths = [];
+        const strEscaper = function(strToEscape) {
+          let newStr = '';
+          for (let i = 0; i < strToEscape.length; i++) {
+            if (strToEscape.charAt(i) == '/') {
+              newStr = newStr + '\\/';
+            } else {
+              newStr = newStr + strToEscape.charAt(i);
+            }
+          }
+          escapedPaths.push(newStr);
+        };
+        path.forEach(strEscaper);
+        const e = new TypeError(
+          'items.type and items.format must resolve for the path "' +
+            escapedPaths.join('/') +
+            '"'
+        );
+        e.stack = err.stack;
+        e.original = err;
+        throw e;
+      } else {
+        throw err;
+      }
     }
   }
   return arrayPathsToOctetSequence;
