@@ -10,8 +10,8 @@
   https://github.com/kubernetes/community/blob/master/contributors/devel/sig-architecture/api-conventions.md#naming-conventions
 */
 
-const lowerSnakeCase = /^[a-z][a-z0-9]*(_[a-z0-9]+)*$/;
-const upperSnakeCase = /^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$/;
+const lowerSnakeCase = /^[a-z_][a-z0-9]*(_[a-z0-9]+)*$/;
+const upperSnakeCase = /^[A-Z_][A-Z0-9]*(_[A-Z0-9]+)*$/;
 const upperCamelCase = /^[A-Z][a-z0-9]+([A-Z][a-z0-9]+)*$/;
 const lowerCamelCase = /^[a-z][a-z0-9]*([A-Z][a-z0-9]+)*$/;
 const k8sCamelCase = /^[a-z][a-z0-9]*([A-Z]+[a-z0-9]*)*$/;

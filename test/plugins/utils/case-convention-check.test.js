@@ -15,6 +15,11 @@ describe('case convention regex tests', function() {
       expect(checkCase(string, convention)).toEqual(true);
     });
 
+    it('_good_case_string is snake case', function() {
+      const string = '_good_case_string';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+
     it('badCaseString is NOT snake case', function() {
       const string = 'badCaseString';
       expect(checkCase(string, convention)).toEqual(false);
@@ -38,7 +43,17 @@ describe('case convention regex tests', function() {
       expect(checkCase(string, convention)).toEqual(false);
     });
 
+    it('_good_case_string is NOT upper_snake_case', function() {
+      const string = '_good_case_string';
+      expect(checkCase(string, convention)).toEqual(false);
+    });
+
     it('GOOD_CASE_STRING is upper_snake_case', function() {
+      const string = 'GOOD_CASE_STRING';
+      expect(checkCase(string, convention)).toEqual(true);
+    });
+
+    it('_GOOD_CASE_STRING is upper_snake_case', function() {
       const string = 'GOOD_CASE_STRING';
       expect(checkCase(string, convention)).toEqual(true);
     });
