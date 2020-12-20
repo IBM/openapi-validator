@@ -155,7 +155,8 @@ The object will always have `errors` and `warnings` keys that map to arrays. If 
 
 ## Configuration
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
-Specific validation "rules" can be turned off, or configured to trigger either errors or warnings in the validator. Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
+Specific validation "rules" can be turned off, or configured to trigger an error, warning, info, or hint message in the validator output.
+Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
 Additionally, certain files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 ### Setup
@@ -298,7 +299,7 @@ The supported rules are described below:
 
 #### Statuses
 
-Each rule can be assigned a status. The supported statuses are `error`, `warning`, and `off`.
+Each rule can be assigned a status. The supported statuses are `error`, `warning`, `info`, `hint` and `off`.
 Some rules can be configured further with configuration options. The format of this configuration is to provide an array, rather than just a string. e.g.
 `"param_name_case_convention": ["error", "lower_camel_case"]`
 If just a string is provided for these rule, the default configuration option will be used. If only one value is provided in the array, it **MUST** be a status. The default configuration option will be used in this case as well. The rules that support configuration options will have **two** values in the [defaults](#default-values) table.
