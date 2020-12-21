@@ -43,8 +43,12 @@ module.exports = function validateSwagger(
   const validationResults = {
     errors: {},
     warnings: {},
+    infos: {},
+    hints: {},
     error: false,
-    warning: false
+    warning: false,
+    info: false,
+    hint: false
   };
 
   // use version specific and shared validations
@@ -65,6 +69,14 @@ module.exports = function validateSwagger(
   if (parsedSpectralResults.warnings.length) {
     validationResults.warnings[key] = [...parsedSpectralResults.warnings];
     validationResults.warning = true;
+  }
+  if (parsedSpectralResults.infos.length) {
+    validationResults.infos[key] = [...parsedSpectralResults.infos];
+    validationResults.info = true;
+  }
+  if (parsedSpectralResults.hints.length) {
+    validationResults.hints[key] = [...parsedSpectralResults.hints];
+    validationResults.hint = true;
   }
 
   // run circular reference validator
@@ -93,6 +105,14 @@ module.exports = function validateSwagger(
       validationResults.warnings[key] = [...problem.warnings];
       validationResults.warning = true;
     }
+    if (problem.infos.length) {
+      validationResults.infos[key] = [...problem.infos];
+      validationResults.info = true;
+    }
+    if (problem.hints.length) {
+      validationResults.hints[key] = [...problem.hints];
+      validationResults.hint = true;
+    }
   });
 
   Object.keys(sharedSemanticValidators).forEach(key => {
@@ -110,6 +130,20 @@ module.exports = function validateSwagger(
         problem.warnings
       );
       validationResults.warning = true;
+    }
+    if (problem.infos.length) {
+      validationResults.infos[key] = [].concat(
+        validationResults.infos[key] || [],
+        problem.infos
+      );
+      validationResults.info = true;
+    }
+    if (problem.hints.length) {
+      validationResults.hints[key] = [].concat(
+        validationResults.hints[key] || [],
+        problem.hints
+      );
+      validationResults.hint = true;
     }
   });
 

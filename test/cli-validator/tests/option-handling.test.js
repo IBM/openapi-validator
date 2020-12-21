@@ -124,11 +124,8 @@ describe('cli tool - test option handling', function() {
     expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('9');
 
     // errors
-    expect(capturedText[statsSection + 4].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 4].match(/\S+/g)[1]).toEqual('(40%)');
-
-    expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(20%)');
+    expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('2');
+    expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(40%)');
 
     expect(capturedText[statsSection + 6].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 6].match(/\S+/g)[1]).toEqual('(20%)');
@@ -136,15 +133,15 @@ describe('cli tool - test option handling', function() {
     expect(capturedText[statsSection + 7].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 7].match(/\S+/g)[1]).toEqual('(20%)');
 
-    // warnings
-    expect(capturedText[statsSection + 10].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 10].match(/\S+/g)[1]).toEqual('(22%)');
+    expect(capturedText[statsSection + 8].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 8].match(/\S+/g)[1]).toEqual('(20%)');
 
+    // warnings
     expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('2');
     expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(22%)');
 
-    expect(capturedText[statsSection + 12].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(11%)');
+    expect(capturedText[statsSection + 12].match(/\S+/g)[0]).toEqual('2');
+    expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(22%)');
 
     expect(capturedText[statsSection + 13].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 13].match(/\S+/g)[1]).toEqual('(11%)');
@@ -157,6 +154,9 @@ describe('cli tool - test option handling', function() {
 
     expect(capturedText[statsSection + 16].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 16].match(/\S+/g)[1]).toEqual('(11%)');
+
+    expect(capturedText[statsSection + 17].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 17].match(/\S+/g)[1]).toEqual('(11%)');
   });
 
   it('should not print statistics report by default', async function() {

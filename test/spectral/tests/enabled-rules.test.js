@@ -6,11 +6,10 @@ const oas3InMemory = require('../mockFiles/oas3/enabled-rules-in-memory');
 const re = /^Validator: spectral/;
 
 describe('spectral - test enabled rules - Swagger 2', function() {
-  let consoleSpy;
   let allOutput;
 
-  beforeEach(async () => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  beforeAll(async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
     const program = {};
     program.args = ['./test/spectral/mockFiles/swagger/enabled-rules.yml'];
@@ -34,10 +33,7 @@ describe('spectral - test enabled rules - Swagger 2', function() {
     // Since some spectral validations will result in errors, the exit code should equal 1
     expect(exitCode).toEqual(1);
     expect(foundOtherValidator).toBe(false);
-  });
 
-  afterEach(() => {
-    allOutput = '';
     consoleSpy.mockRestore();
   });
 
@@ -117,14 +113,16 @@ describe('spectral - test enabled rules - Swagger 2', function() {
 });
 
 describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
-  let validationResults;
   let errors;
   let warnings;
 
   beforeAll(async () => {
     // set up mock user input
     const defaultMode = true;
-    validationResults = await inCodeValidator(swaggerInMemory, defaultMode);
+    const validationResults = await inCodeValidator(
+      swaggerInMemory,
+      defaultMode
+    );
 
     // should produce an object with `errors` and `warnings` keys that should
     // both be non-empty
@@ -250,11 +248,10 @@ describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
 });
 
 describe('spectral - test enabled rules - OAS3', function() {
-  let consoleSpy;
   let allOutput;
 
-  beforeEach(async () => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+  beforeAll(async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
     const program = {};
     program.args = ['./test/spectral/mockFiles/oas3/enabled-rules.yml'];
@@ -279,10 +276,7 @@ describe('spectral - test enabled rules - OAS3', function() {
     // Since some spectral validations will result in errors, the exit code should equal 1
     expect(exitCode).toEqual(1);
     expect(foundOtherValidator).toBe(false);
-  });
 
-  afterEach(() => {
-    allOutput = '';
     consoleSpy.mockRestore();
   });
 
@@ -350,14 +344,13 @@ describe('spectral - test enabled rules - OAS3', function() {
 });
 
 describe('spectral - test enabled rules - OAS3 In Memory', function() {
-  let validationResults;
   let errors;
   let warnings;
 
   beforeAll(async () => {
     // set up mock user input
     const defaultMode = true;
-    validationResults = await inCodeValidator(oas3InMemory, defaultMode);
+    const validationResults = await inCodeValidator(oas3InMemory, defaultMode);
 
     // should produce an object with `errors` and `warnings` keys that should
     // both be non-empty

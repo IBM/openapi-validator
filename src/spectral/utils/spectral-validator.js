@@ -17,20 +17,25 @@ const parseResults = function(results, debug) {
         const message = validationResult['message'];
         const path = validationResult['path'];
 
+        if (code === 'parser') {
+          // Spectral doesn't allow disabling parser rules, so don't include them
+          // in the output (for now)
+          continue;
+        }
+
         if (typeof severity === 'number' && code && message && path) {
-          if (code === 'parser') {
-            // Spectral doesn't allow disabling parser rules, so don't include them
-            // in the output (for now)
-            continue;
-          }
-          // Our validator only supports warning/error level, so only include
-          // those validation results (for now)
-          if (severity === 1) {
-            // warning
-            messages.addMessage(path, message, 'warning');
-          } else if (severity === 0) {
+          if (severity === 0) {
             // error
             messages.addMessage(path, message, 'error');
+          } else if (severity === 1) {
+            // warning
+            messages.addMessage(path, message, 'warning');
+          } else if (severity === 2) {
+            // info
+            messages.addMessage(path, message, 'info');
+          } else if (severity === 3) {
+            // hint
+            messages.addMessage(path, message, 'hint');
           }
         } else {
           if (debug) {

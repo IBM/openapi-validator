@@ -4,7 +4,9 @@ module.exports = class MessageCarrier {
   constructor() {
     this._messages = {
       error: [],
-      warning: []
+      warning: [],
+      info: [],
+      hint: []
     };
   }
 
@@ -20,7 +22,15 @@ module.exports = class MessageCarrier {
     return this._messages.warning;
   }
 
-  // status should be 'off', 'error', or 'warning'
+  get infos() {
+    return this._messages.info;
+  }
+
+  get hints() {
+    return this._messages.hint;
+  }
+
+  // status should be 'off', 'error', 'warning', 'info', or 'hint'
   addMessage(path, message, status) {
     if (this._messages[status]) {
       this._messages[status].push({

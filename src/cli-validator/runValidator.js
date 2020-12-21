@@ -277,12 +277,14 @@ const processInput = async function(program) {
     // if errorsOnly is true, only errors will be returned, so need to force this to false
     if (errorsOnly) {
       results.warning = false;
+      results.info = false;
+      results.hint = false;
     }
 
     if (jsonOutput) {
       printJson(results, originalFile, errorsOnly);
     } else {
-      if (results.error || results.warning) {
+      if (results.error || results.warning || results.info || results.hint) {
         print(
           results,
           chalk,

@@ -14,10 +14,14 @@ module.exports = function print(
   originalFile,
   errorsOnly
 ) {
-  const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
+  const types = errorsOnly
+    ? ['errors']
+    : ['errors', 'warnings', 'infos', 'hints'];
   const colors = {
     errors: 'bgRed',
-    warnings: 'bgYellow'
+    warnings: 'bgYellow',
+    infos: 'bgGrey',
+    hints: 'bgGreen'
   };
 
   // define an object template in the case that statistics reporting is turned on
@@ -26,6 +30,12 @@ module.exports = function print(
       total: 0
     },
     warnings: {
+      total: 0
+    },
+    infos: {
+      total: 0
+    },
+    hints: {
       total: 0
     }
   };
@@ -91,8 +101,19 @@ module.exports = function print(
       chalk.cyan(`  Total number of errors   : ${stats.errors.total}`)
     );
     console.log(
-      chalk.cyan(`  Total number of warnings : ${stats.warnings.total}\n`)
+      chalk.cyan(`  Total number of warnings : ${stats.warnings.total}`)
     );
+    if (stats.infos.total > 0) {
+      console.log(
+        chalk.cyan(`  Total number of infos    : ${stats.infos.total}`)
+      );
+    }
+    if (stats.hints.total > 0) {
+      console.log(
+        chalk.cyan(`  Total number of hints    : ${stats.hints.total}`)
+      );
+    }
+    console.log('');
 
     types.forEach(type => {
       // print the type, either error or warning
