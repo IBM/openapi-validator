@@ -4,7 +4,7 @@ const fs = require('fs');
 const path = require('path');
 const readYaml = require('js-yaml');
 const last = require('lodash/last');
-const chalkPackage = require('chalk');
+const chalk = require('chalk');
 const jsonValidator = require('json-dup-key-validator');
 const globby = require('globby');
 const ext = require('./utils/fileExtensionValidator');
@@ -45,10 +45,10 @@ const processInput = async function(program) {
 
   const limitsFileOverride = program.limits;
 
-  // turn on coloring by default
-  const colors = turnOffColoring ? false : true;
-
-  const chalk = new chalkPackage.constructor({ enabled: colors });
+  // turn off coloring if explicitly requested
+  if (turnOffColoring) {
+    chalk.level = 0;
+  }
 
   // if the 'init' command is given, run the module
   // and exit the program
