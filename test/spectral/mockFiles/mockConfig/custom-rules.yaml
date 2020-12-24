@@ -1,0 +1,11 @@
+extends: ibm:oas
+rules:
+  oas3-request-body-example:
+    description: All request bodies should have an example.
+    formats: [oas3]
+    given: '$.paths..requestBody..content.*'
+    severity: warn
+    then:
+      function: xor
+      functionOptions:
+        properties: [ example, examples ]
