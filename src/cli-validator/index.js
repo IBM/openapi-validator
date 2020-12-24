@@ -41,6 +41,9 @@ program
     '-c, --config <file>', 'path to config file, used instead of .validaterc if provided'
   )
   .option(
+    '-r, --ruleset <file>', 'path to Spectral ruleset file, used instead of .spectral.yaml if provided'
+  )
+  .option(
     '-e, --errors_only',
     'only print the errors, ignore the warnings'
   )
