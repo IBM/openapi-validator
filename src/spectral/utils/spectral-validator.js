@@ -54,7 +54,7 @@ const parseResults = function(results, debug) {
 };
 
 // setup: registers the oas2/oas3 formats, and attempts to load the ruleset file
-const setup = async function(spectral, configObject) {
+const setup = async function(spectral, rulesetFileOverride, configObject) {
   if (!spectral) {
     const message =
       'Error (spectral-validator): An instance of spectral has not been initialized.';
@@ -73,6 +73,7 @@ const setup = async function(spectral, configObject) {
 
   // load the spectral ruleset, either a user's or the default ruleset
   const spectralRulesetURI = await config.getSpectralRuleset(
+    rulesetFileOverride,
     defaultSpectralRulesetURI
   );
 

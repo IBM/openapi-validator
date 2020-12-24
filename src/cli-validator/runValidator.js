@@ -42,6 +42,7 @@ const processInput = async function(program) {
   const debug = !!program.debug;
 
   const configFileOverride = program.config;
+  const rulesetFileOverride = program.ruleset;
 
   const limitsFileOverride = program.limits;
 
@@ -166,7 +167,7 @@ const processInput = async function(program) {
   // or the default ruleset
   const spectral = new Spectral();
   try {
-    await spectralValidator.setup(spectral, configObject);
+    await spectralValidator.setup(spectral, rulesetFileOverride, configObject);
   } catch (err) {
     return Promise.reject(err);
   }

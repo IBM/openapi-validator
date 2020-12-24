@@ -373,13 +373,16 @@ const validateConfigOption = function(userOption, defaultOption) {
   return result;
 };
 
-const getSpectralRuleset = async function(defaultRuleset) {
+const getSpectralRuleset = async function(rulesetFileOverride, defaultRuleset) {
   // List of ruleset files to search for
   const ruleSetFilesToFind = [
     '.spectral.yaml',
     '.spectral.yml',
     '.spectral.json'
   ];
+  if (rulesetFileOverride) {
+    ruleSetFilesToFind.splice(0, 0, rulesetFileOverride);
+  }
   let ruleSetFile;
 
   // search up the file system for the first ruleset file found

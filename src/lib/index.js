@@ -16,7 +16,7 @@ module.exports = async function(input, defaultMode = false) {
 
   try {
     configObject = await config.get(defaultMode, chalk);
-    await spectralValidator.setup(spectral, configObject);
+    await spectralValidator.setup(spectral, null, configObject);
   } catch (err) {
     return Promise.reject(err);
   }
