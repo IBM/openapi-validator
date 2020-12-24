@@ -1,0 +1,8 @@
+extends: ibm:oas
+rules:
+  # Turn off a rule that is on in the default ruleset
+  openapi-tags: off
+  # Turn on a rule that is off in the default ruleset
+  no-eval-in-markdown : error
+  # Change the severity of a rule in the default ruleset
+  oas3-valid-schema-example: warn
