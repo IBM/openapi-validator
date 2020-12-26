@@ -19,29 +19,48 @@ Support for Node v8 is deprecated. Support will be officially dropped when it re
 - NPM 5.x
 
 ## Table of contents
-- [Prerequisites](#prerequisites)
+
+<!--
+  The TOC below is generated using the `markdown-toc` node package.
+
+      https://github.com/jonschlinkert/markdown-toc
+
+  You should regenerate the TOC after making changes to this file.
+
+      markdown-toc --maxdepth 4 -i README.md
+  -->
+
+<!-- toc -->
+
 - [Installation](#installation)
-  - [NPM](#install-with-npm-recommended)
-  - [Source](#build-from-source)
+  * [Install with NPM (recommended)](#install-with-npm-recommended)
+  * [Build from source](#build-from-source)
+  * [Platform specific binaries](#platform-specific-binaries)
+  * [Docker container](#docker-container)
 - [Usage](#usage)
-  - [Command line](#command-line)
-  - [Node module](#node-module)
-    - [API](#api)
-    - [Structure of validation results](#validation-results)
+  * [Command line](#command-line)
+  * [Node module](#node-module)
+    + [API](#api)
+    + [Validation results](#validation-results)
 - [Configuration](#configuration)
-  - [Setup](#setup)
-  - [Definitions](#definitions)
-    - [Specs](#specs)
-    - [Categories](#categories)
-    - [Rules](#rules)
-    - [Statuses](#statuses)
-  - [Configuration file](#configuration-file)
-  - [Default mode](#default-mode)
-    - [Default values](#default-values)
-- [Troubleshooting](#troubleshooting)
-  - [Installing with NPM through a proxy](#installing-with-npm-through-a-proxy)
-- [Migration Guide](#migration-guide)
+  * [Setup](#setup)
+  * [Definitions](#definitions)
+    + [Specs](#specs)
+    + [Categories](#categories)
+    + [Rules](#rules)
+    + [Statuses](#statuses)
+    + [Configuration Options](#configuration-options)
+  * [Configuration file](#configuration-file)
+  * [Default mode](#default-mode)
+    + [Default values](#default-values)
+  * [Spectral configuration](#spectral-configuration)
+    + [Changing rule severity](#changing-rule-severity)
+    + [Custom rules](#custom-rules)
+- [Warnings Limit](#warnings-limit)
+- [Turning off `update-notifier`](#turning-off-update-notifier)
 - [License](#license)
+
+<!-- tocstop -->
 
 ## Installation
 
@@ -77,7 +96,7 @@ Once pulled, the container can be run directly, but mount a volume containing th
 ### Command line
 `lint-openapi [options] [command] [<files>]`
 
-#### [options]
+##### [options]
 -  -s (--report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
 -  -e (--errors_only) : Only print the errors, ignore the warnings.
 -  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
@@ -91,17 +110,17 @@ Once pulled, the container can be run directly, but mount a volume containing th
 
 _These options only apply to running the validator on a file, not to any commands._
 
-#### [command]
+##### [command]
 `$ lint-openapi init`
 - init : The `init` command initializes a `.validaterc` file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
 
-#### [command]
+##### [command]
 `$ lint-openapi migrate`
 - migrate : The `migrate` command migrates a `.validaterc` file from the legacy format to the current format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-openapi init`.
 
 _None of the above options pertain to these commands._
 
-#### \<files>
+##### \<files>
 - The OpenAPI document(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
 - Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-openapi files/*` will run the validator on all files in `files/`)
 
@@ -159,6 +178,11 @@ The command line validator is built so that each IBM validation can be configure
 Specific validation "rules" can be turned off, or configured to trigger an error, warning, info, or hint message in the validator output.
 Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
 Additionally, certain files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
+
+The validator also employs the [`Spectral`](https://github.com/stoplightio/spectral) validation/linting engine to detect certain issues in the API document.
+Spectral rules can also be configured to trigger an error, warning, info, or hint message in the validator output with the `.spectral.yaml` configuration file.
+Spectral further supports the creation of custom rules using a simple but powerful yaml syntax or custom Javascript functions.
+See the [Spectral configuration](#spectral-configuration) section for more details.
 
 ### Setup
 To set up the configuration capability, simply run the command `lint-openapi init`.
@@ -463,6 +487,74 @@ The default values for each rule are described below.
 | $ref_siblings                 | off     |
 | duplicate_sibling_description | warning |
 | incorrect_ref_pattern        | warning |
+
+### Spectral configuration
+
+Currently the validator configures Spectral to check the following rules from its
+[“oas" ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md):
+```
+no-eval-in-markdown: true
+no-script-tags-in-markdown: true
+openapi-tags: true
+operation-description: true
+operation-tags: true
+operation-tag-defined: true
+path-keys-no-trailing-slash: true
+typed-enum: true
+oas2-api-host: true
+oas2-api-schemes: true
+oas2-host-trailing-slash: true
+oas2-valid-example: true
+oas2-valid-definition-example: true
+oas2-anyOf: true
+oas2-oneOf: true
+oas3-api-servers: true
+oas3-examples-value-or-externalValue: true
+oas3-server-trailing-slash: true
+oas3-valid-example: true
+oas3-valid-schema-example: true
+```
+
+This ruleset has the alias `ibm:oas`, and you can "extend" this ruleset or specify your own custom ruleset
+with a [Spectral ruleset file](https://meta.stoplight.io/docs/spectral/docs/getting-started/3-rulesets.md).
+Note that all of the rules in the `spectral:oas` ruleset are defined in `ibm:oas` but only the rules listed above are enabled by default.
+
+You can provide a Spectral ruleset file to the IBM OpenAPI validator in a file named `.spectral.yaml`
+in the current directory or with the `--ruleset` command line option of the validator.
+
+#### Changing rule severity
+
+Any rule in the `ibm:oas` ruleset can be configured to trigger an error, warning, info, or hint message in the validator output.
+For example, to configure the `openapi-tags` rule to trigger an `info` message instead of a `warning`, specify the following in your Spectral ruleset file:
+```
+extends: ibm:oas
+rules:
+  openapi-tags: warn
+```
+
+To completely disable a rule, use the severity of `off`.
+For example, to disable the `operation-tags` rule, specify the following in your Spectral ruleset file:
+```
+extends: ibm:oas
+rules:
+  operation-tags: off
+```
+
+Since the `ibm:oas` ruleset includes all the rules in `spectral:oas`, you can also enable rules from that ruleset that are disabled by default in `ibm:oas`.
+For example, to enable the `info-contact` rule with it's default severity (`warning`), specify the following in your Spectral ruleset file:
+```
+extends: ibm:oas
+rules:
+  info-contact: true
+```
+
+You could also set the severity of `info-contact` explicitly to `error`, `warn`, `info`, or `hint`.
+
+#### Custom rules
+
+You can also specify custom rules in the Spectral ruleset file.
+Custom rules can be specified using a simple but powerful yaml syntax or with custom Javascript functions.
+See the Spectral documentation for detailed documentation on [Spectral custom rules](https://meta.stoplight.io/docs/spectral/docs/guides/4-custom-rulesets.md).
 
 ## Warnings Limit
 
