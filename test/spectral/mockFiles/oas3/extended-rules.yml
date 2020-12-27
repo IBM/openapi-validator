@@ -1,0 +1,58 @@
+openapi: '3.0.0'
+info:
+  title: Extended rules
+  version: 1.0.0
+  description: API def to exercise extended rules in openapi validator
+  contact:
+    email: support@sdkcodegen.ibm.com
+servers:
+  - url: http://petstore.swagger.io/v1
+tags:
+  - name: pets
+paths:
+  /pet:
+    post:
+      description: Add a new pet to the store
+      summary: Create pet
+      operationId: create_pet
+      tags:
+        - pets
+      requestBody:
+        description: Pet object that needs to be added to the store
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '204':
+          description: Success
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '42':
+          description: The answer to life, the universe, and everything
+        '5xx':
+          description: Sumpin bad happened
+        default:
+          description: Error
+
+components:
+  responses:
+    BadRequest:
+      description: The request could not be understood due to malformed syntax.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  schemas:
+    Error:
+      description: The error object.
+      type: object
+      properties:
+        code:
+          description: The error code of this error.
+          type: string
+        message:
+          description: The error message of this error.
+          type: string

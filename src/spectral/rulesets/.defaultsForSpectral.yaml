@@ -92,3 +92,21 @@ rules:
   oas3-schema: off
   # Turn off - duplicates non-configurable validation in base validator
   oas3-unused-components-schema: off
+
+  #
+  # Custom rules
+  #
+
+  # Response code must be 3-digit integer or "default"
+  # - https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.3.md#responses-object
+  # - https://tools.ietf.org/html/rfc7231#section-6)
+  openapi-response-code:
+    description: The response code must be a 3-digit integer or "default".
+    formats: [oas2, oas3]
+    given: '$.paths..responses'
+    severity: warn
+    then:
+      field: '@key'
+      function: pattern
+      functionOptions:
+        match: '^([0-9]{3}|default)$'
