@@ -1,3 +1,11 @@
+# [0.32.0](https://github.com/IBM/openapi-validator/compare/v0.31.1...v0.32.0) (2020-12-28)
+
+
+### Features
+
+* **spectral:** allow spectral ruleset file to be specified with command line option ([db60c11](https://github.com/IBM/openapi-validator/commit/db60c11e9bd218e99071a63b110ffd7daf8c42ba))
+* **spectral:** rework default spectral rules and expose as static "ibm:oas" ruleset ([cafad9e](https://github.com/IBM/openapi-validator/commit/cafad9e15671df4e52b5e477a12b92abd25e5e30))
+
 ## [0.31.1](https://github.com/IBM/openapi-validator/compare/v0.31.0...v0.31.1) (2020-10-23)
 
 
