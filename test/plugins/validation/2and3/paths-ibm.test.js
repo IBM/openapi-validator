@@ -273,9 +273,10 @@ describe('validation plugin - semantic - paths-ibm', function() {
     expect(res.errors[0].message).toEqual(
       'Path parameter must be defined at the path or the operation level: id.'
     );
-    expect(res.errors[0].path).toEqual(
-      ['paths', '/cool_path/{id}/more_path/{other_param}']
-    );
+    expect(res.errors[0].path).toEqual([
+      'paths',
+      '/cool_path/{id}/more_path/{other_param}'
+    ]);
   });
 
   it('should flag a path segment that is not snake_case but should ignore path parameter', function() {

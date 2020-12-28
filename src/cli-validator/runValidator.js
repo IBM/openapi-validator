@@ -33,7 +33,6 @@ const processInput = async function(program) {
 
   // interpret the options
   const printValidators = !!program.print_validator_modules;
-  const printRuleNames = !!program.print_rule_names;
   const reportingStats = !!program.report_statistics;
 
   const turnOffColoring = !!program.no_colors;
@@ -46,6 +45,8 @@ const processInput = async function(program) {
   const rulesetFileOverride = program.ruleset;
 
   const limitsFileOverride = program.limits;
+
+  const printRuleNames = program.verbose > 0;
 
   // turn off coloring if explicitly requested
   if (turnOffColoring) {

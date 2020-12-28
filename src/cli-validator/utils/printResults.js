@@ -88,18 +88,24 @@ module.exports = function print(
         // print the path array as a dot-separated string
 
         console.log(chalk[color](`  Message :   ${problem.message}`));
-        console.log(chalk[color](`  Path    :   ${path.join('.')}`));
-        console.log(chalk[color](`  Line    :   ${lineNumber}`));
         if (printRuleNames) {
           console.log(chalk[color](`  Rule    :   ${problem.rule}`));
         }
+        console.log(chalk[color](`  Path    :   ${path.join('.')}`));
+        console.log(chalk[color](`  Line    :   ${lineNumber}`));
         console.log();
       });
     });
   });
 
   // print the stats here, if applicable
-  if (reportingStats && (stats.errors.total || stats.warnings.total)) {
+  if (
+    reportingStats &&
+    (stats.errors.total ||
+      stats.warnings.total ||
+      stats.infos.total ||
+      stats.hints.total)
+  ) {
     console.log(chalk.bgCyan('statistics\n'));
 
     console.log(

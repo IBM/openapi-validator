@@ -28,16 +28,16 @@ const parseResults = function(results, debug) {
         if (typeof severity === 'number' && code && message && path) {
           if (severity === 0) {
             // error
-            messages.addMessage(path, message, 'error');
+            messages.addMessage(path, message, 'error', code);
           } else if (severity === 1) {
             // warning
-            messages.addMessage(path, message, 'warning');
+            messages.addMessage(path, message, 'warning', code);
           } else if (severity === 2) {
             // info
-            messages.addMessage(path, message, 'info');
+            messages.addMessage(path, message, 'info', code);
           } else if (severity === 3) {
             // hint
-            messages.addMessage(path, message, 'hint');
+            messages.addMessage(path, message, 'hint', code);
           }
         } else {
           if (debug) {
