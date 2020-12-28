@@ -95,7 +95,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
                 messages.addMessage(
                   `paths.${pathKey}.${opKey}.responses.${name}.content.${contentType}.schema`,
                   'Arrays MUST NOT be returned as the top-level structure in a response body.',
-                  checkStatusArrRes
+                  checkStatusArrRes,
+                  'no_array_responses'
                 );
               }
             });
@@ -108,7 +109,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
               messages.addMessage(
                 `paths.${pathKey}.${opKey}.responses.${name}.schema`,
                 'Arrays MUST NOT be returned as the top-level structure in a response body.',
-                checkStatusArrRes
+                checkStatusArrRes,
+                'no_array_responses'
               );
             }
           }
@@ -123,7 +125,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
         messages.addMessage(
           `paths.${pathKey}.${opKey}.operationId`,
           'Operations must have a non-empty `operationId`.',
-          config.no_operation_id
+          config.no_operation_id,
+          'no_operation_id'
         );
       } else {
         // check operationId for case convention
@@ -134,7 +137,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
           messages.addMessage(
             `paths.${pathKey}.${opKey}.operationId`,
             `operationIds must follow case convention: ${caseConvention}`,
-            checkStatus
+            checkStatus,
+            'operation_id_case_convention'
           );
         }
       }
@@ -197,7 +201,8 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
     messages.addMessage(
       `tags`,
       `A tag is defined but never used: ${tagName}`,
-      config.unused_tag
+      config.unused_tag,
+      'unused_tag'
     );
   });
 

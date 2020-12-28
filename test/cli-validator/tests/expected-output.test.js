@@ -2,8 +2,12 @@ const commandLineValidator = require('../../../src/cli-validator/runValidator');
 const inCodeValidator = require('../../../src/lib');
 const swaggerInMemory = require('../mockFiles/err-warn-in-memory');
 const { getCapturedText } = require('../../test-utils');
-const yaml = require('js-yaml');
+const yaml = require('yaml-js');
 const fs = require('fs');
+
+const count = (array, regex) => {
+  return array.reduce((a, v) => (v.match(regex) ? a + 1 : a), 0);
+};
 
 describe('cli tool - test expected output - Swagger 2', function() {
   let consoleSpy;
@@ -58,42 +62,66 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(whichProblems[1]).toEqual('warnings');
   });
 
-  it('should print the associated rule with each error and warning', async function() {
-    const capturedText = [];
-
-    const unhookIntercept = intercept(function(txt) {
-      capturedText.push(txt);
-      return '';
-    });
-
+  it('should display the associated rule with each error and warning', async function() {
     const program = {};
-    program.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
-    program.print_rule_names = true;
+    program.verbose = 1;
 
     const exitCode = await commandLineValidator(program);
-    unhookIntercept();
-
     expect(exitCode).toEqual(1);
 
-    let ruleCount = 0;
-    capturedText.forEach(function(line) {
-      if (line.includes('Rule    :')) {
-        ruleCount++;
-      }
-    });
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
 
-    const defaultProgram = {};
-    defaultProgram.args = ['./test/cli-validator/mockFiles/errAndWarn.yaml'];
-    defaultProgram.default_mode = true;
+    const messageCount = count(capturedText, /^\s*Message\s*:/);
+    const ruleCount = count(capturedText, /^\s*Rule\s*:/);
+    expect(messageCount).toEqual(ruleCount);
+  });
 
-    const errAndWarnInMemory = yaml.safeLoad(
-      fs.readFileSync('./test/cli-validator/mockFiles/errAndWarn.yaml')
+  it('should include the associated rule with each error and warning in JSON output', async function() {
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
+    program.default_mode = true;
+    program.json = true;
+
+    await commandLineValidator(program);
+    // exit code is not set for JSON output
+
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    const jsonOutput = JSON.parse(capturedText);
+
+    const msgsByType = Object.assign(
+      {},
+      jsonOutput.errors,
+      jsonOutput.warnings,
+      jsonOutput.infos,
+      jsonOutput.hints
     );
-    const validationResults = await inCodeValidator(errAndWarnInMemory, true);
+    const allMessages = Object.entries(msgsByType).reduce(
+      (newObj, val) => newObj.concat(val[1]),
+      []
+    );
 
-    expect(ruleCount).toEqual(
-      validationResults.errors.length + validationResults.warnings.length
+    allMessages.forEach(msg => expect(msg).toHaveProperty('rule'));
+  });
+
+  it('should include the associated rule in return value of in-memory validator', async function() {
+    const content = fs
+      .readFileSync('./test/cli-validator/mockFiles/err-and-warn.yaml')
+      .toString();
+    const oas2Object = yaml.load(content);
+
+    const defaultMode = true;
+    const validationResults = await inCodeValidator(oas2Object, defaultMode);
+
+    expect(validationResults.errors.length).toBe(5);
+    expect(validationResults.warnings.length).toBe(9);
+    expect(validationResults.infos).not.toBeDefined();
+    expect(validationResults.hints).not.toBeDefined();
+
+    validationResults.errors.forEach(msg => expect(msg).toHaveProperty('rule'));
+    validationResults.warnings.forEach(msg =>
+      expect(msg).toHaveProperty('rule')
     );
   });
 
@@ -250,6 +278,69 @@ describe('test expected output - OpenAPI 3', function() {
     expect(allOutput).toContain('warnings');
     expect(allOutput).toContain(
       'Operations must have a non-empty `operationId`.'
+    );
+  });
+
+  it('should display the associated rule with each error and warning', async function() {
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/oas3/err-and-warn.yaml'];
+    program.default_mode = true;
+    program.verbose = 1;
+
+    const exitCode = await commandLineValidator(program);
+    expect(exitCode).toEqual(1);
+
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+
+    const messageCount = count(capturedText, /^\s*Message\s*:/);
+    const ruleCount = count(capturedText, /^\s*Rule\s*:/);
+    expect(messageCount).toEqual(ruleCount);
+  });
+
+  it('should include the associated rule with each error and warning in JSON output', async function() {
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/oas3/err-and-warn.yaml'];
+    program.default_mode = true;
+    program.json = true;
+
+    await commandLineValidator(program);
+    // exit code is not set for JSON output
+
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    const jsonOutput = JSON.parse(capturedText);
+
+    const msgsByType = Object.assign(
+      {},
+      jsonOutput.errors,
+      jsonOutput.warnings,
+      jsonOutput.infos,
+      jsonOutput.hints
+    );
+    const allMessages = Object.entries(msgsByType).reduce(
+      (newObj, val) => newObj.concat(val[1]),
+      []
+    );
+
+    allMessages.forEach(msg => expect(msg).toHaveProperty('rule'));
+  });
+
+  it('should include the associated rule in return value of in-memory validator', async function() {
+    const content = fs
+      .readFileSync('./test/cli-validator/mockFiles/oas3/err-and-warn.yaml')
+      .toString();
+    const oas3Object = yaml.load(content);
+
+    const defaultMode = true;
+    const validationResults = await inCodeValidator(oas3Object, defaultMode);
+
+    expect(validationResults.errors.length).toBe(4);
+    expect(validationResults.warnings.length).toBe(11);
+    expect(validationResults.infos).not.toBeDefined();
+    expect(validationResults.hints).not.toBeDefined();
+
+    validationResults.errors.forEach(msg => expect(msg).toHaveProperty('rule'));
+    validationResults.warnings.forEach(msg =>
+      expect(msg).toHaveProperty('rule')
     );
   });
 });

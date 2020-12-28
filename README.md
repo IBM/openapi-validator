@@ -99,14 +99,16 @@ Once pulled, the container can be run directly, but mount a volume containing th
 ##### [options]
 -  -s (--report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
 -  -e (--errors_only) : Only print the errors, ignore the warnings.
+-  -j (--json) : Output results as a JSON object
 -  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
 -  -p (--print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This can be helpful for developing validations.
 -  -n (--no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
--  -v (--version) : Print the current semantic version of the validator
+-  -v (--verbose) : Increase verbosity of reported results.  Use this option to display the rule for each reported result.
 -  -h (--help) : This option prints the usage menu.
 -  -c (--config) <path/to/your/config> : Path to a validator configuration file.  If provided, this is used instead of .validaterc.
 -  -r (--ruleset) <path/to/your/ruleset> : Path to Spectral ruleset file, used instead of .spectral.yaml if provided.
 -  --debug : Enable debugging output.
+-  --version : Print the current semantic version of the validator
 
 _These options only apply to running the validator on a file, not to any commands._
 
@@ -177,10 +179,16 @@ The object will always have `errors` and `warnings` keys that map to arrays. If 
 The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
 Specific validation "rules" can be turned off, or configured to trigger an error, warning, info, or hint message in the validator output.
 Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
+There are also currently some validations that cannot be disabled or configured to a different severity.
+You can see the rule associated with each message produced by the validator with the `-v` command line option.
+Rules that are not configurable will show the name `builtin`.
+
 Additionally, certain files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 The validator also employs the [`Spectral`](https://github.com/stoplightio/spectral) validation/linting engine to detect certain issues in the API document.
 Spectral rules can also be configured to trigger an error, warning, info, or hint message in the validator output with the `.spectral.yaml` configuration file.
+When the validator issues a message as the result of a Spectral rule, the rule name displayed will correspond to the Spectral rule.
+Spectral rules must be configured in `.spectral.yaml` rather than in `.validaterc`.
 Spectral further supports the creation of custom rules using a simple but powerful yaml syntax or custom Javascript functions.
 See the [Spectral configuration](#spectral-configuration) section for more details.
 
@@ -223,6 +231,7 @@ The supported categories are described below:
 #### Rules
 
 Each category contains a group of rules. The spec that each rule applies to is marked in the third column. For the actual configuration structure, see the [default values](#default-values).
+You can use the `-v` option of the CLI validator to display the rule for each reported result.
 The supported rules are described below:
 
 ##### operations

@@ -14,16 +14,12 @@ const version = require('../../package.json').version;
 /* prettier-ignore */
 program
   .name('lint-openapi')
-  .version(version, '-v, --version')
+  .version(version, '--version')
   .description('Run the validator on a specified file')
   .arguments('[<file>]')
   .option(
     '-p, --print_validator_modules',
     'print the validators that catch each error/warning (helpful for development)'
-  )
-  .option(
-    '-r, --print_rule_names',
-    'print the configuration option names associated with each error and warning'
   )
   .option(
     '-n, --no_colors',
@@ -51,10 +47,19 @@ program
     '-e, --errors_only',
     'only print the errors, ignore the warnings'
   )
+  .option('-v, --verbose',
+    'increase the verbosity of reported results',
+    increaseVerbosity,
+    0
+  )
   .option(
     '--debug',
     'enable debugging output'
   );
+
+function increaseVerbosity(dummyValue, previous) {
+  return previous + 1;
+}
 
 /* prettier-ignore */
 program
