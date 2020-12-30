@@ -1,3 +1,10 @@
+# [0.33.0](https://github.com/IBM/openapi-validator/compare/v0.32.0...v0.33.0) (2020-12-30)
+
+
+### Features
+
+* command line option to print config option associated with each message ([7a56dde](https://github.com/IBM/openapi-validator/commit/7a56ddeb4cc54c7cdb3a6b1316001ab5659158b2))
+
 # [0.32.0](https://github.com/IBM/openapi-validator/compare/v0.31.1...v0.32.0) (2020-12-28)
 
 
