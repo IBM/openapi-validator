@@ -97,18 +97,18 @@ Once pulled, the container can be run directly, but mount a volume containing th
 `lint-openapi [options] [command] [<files>]`
 
 ##### [options]
--  -s (--report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
+-  -c (--config) <path/to/your/config> : Path to a validator configuration file.  If provided, this is used instead of .validaterc.
+-  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
 -  -e (--errors_only) : Only print the errors, ignore the warnings.
 -  -j (--json) : Output results as a JSON object
--  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
--  -p (--print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This can be helpful for developing validations.
 -  -n (--no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
+-  -p (--print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This can be helpful for developing validations.
 -  -v (--verbose) : Increase verbosity of reported results.  Use this option to display the rule for each reported result.
--  -h (--help) : This option prints the usage menu.
--  -c (--config) <path/to/your/config> : Path to a validator configuration file.  If provided, this is used instead of .validaterc.
 -  -r (--ruleset) <path/to/your/ruleset> : Path to Spectral ruleset file, used instead of .spectral.yaml if provided.
+-  -s (--report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
 -  --debug : Enable debugging output.
 -  --version : Print the current semantic version of the validator
+-  -h (--help) : This option prints the usage menu.
 
 _These options only apply to running the validator on a file, not to any commands._
 
