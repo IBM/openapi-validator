@@ -14,38 +14,39 @@ const version = require('../../package.json').version;
 /* prettier-ignore */
 program
   .name('lint-openapi')
-  .version(version, '--version')
   .description('Run the validator on a specified file')
   .arguments('[<file>]')
   .option(
-    '-p, --print_validator_modules',
-    'print the validators that catch each error/warning (helpful for development)'
-  )
-  .option(
-    '-n, --no_colors',
-    'turn off output coloring'
-  )
-  .option(
-    '-j, --json',
-    'output as json'
+    '-c, --config <file>',
+    'path to config file, used instead of .validaterc if provided'
   )
   .option(
     '-d, --default_mode',
     'ignore config file and run in default mode'
   )
   .option(
-    '-s, --report_statistics',
-    'report the frequency of each occurring error/warning'
-  )
-  .option(
-    '-c, --config <file>', 'path to config file, used instead of .validaterc if provided'
-  )
-  .option(
-    '-r, --ruleset <file>', 'path to Spectral ruleset file, used instead of .spectral.yaml if provided'
-  )
-  .option(
     '-e, --errors_only',
     'only print the errors, ignore the warnings'
+  )
+  .option(
+    '-j, --json',
+    'output as json'
+  )
+  .option(
+    '-n, --no_colors',
+    'turn off output coloring'
+  )
+  .option(
+    '-p, --print_validator_modules',
+    'print the validators that catch each error/warning (helpful for development)'
+  )
+  .option(
+    '-r, --ruleset <file>',
+    'path to Spectral ruleset file, used instead of .spectral.yaml if provided'
+  )
+  .option(
+    '-s, --report_statistics',
+    'report the frequency of each occurring error/warning'
   )
   .option('-v, --verbose',
     'increase the verbosity of reported results',
@@ -55,7 +56,8 @@ program
   .option(
     '--debug',
     'enable debugging output'
-  );
+  )
+  .version(version, '--version');
 
 function increaseVerbosity(dummyValue, previous) {
   return previous + 1;
