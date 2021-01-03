@@ -71,7 +71,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
             messages.addMessage(
               path.concat(['302']),
               'Should use status codes 303 or 307 instead of 302.',
-              config.ibm_status_code_guidelines
+              config.ibm_status_code_guidelines,
+              'ibm_status_code_guidelines'
             );
           }
         }
@@ -80,7 +81,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
           messages.addMessage(
             path,
             'Each `responses` object SHOULD have at least one code for a successful response.',
-            config.no_success_response_codes
+            config.no_success_response_codes,
+            'no_success_response_codes'
           );
         } else {
           for (const statusCode of successCodes) {
@@ -88,7 +90,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
               messages.addMessage(
                 path.concat([statusCode]),
                 `A ${statusCode} response should include a response body. Use 204 for responses without content.`,
-                config.no_response_body
+                config.no_response_body,
+                'no_response_body'
               );
             } else if (statusCode === '204' && obj[statusCode].content) {
               messages.addMessage(

@@ -157,7 +157,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
                 ',',
                 ' or '
               ),
-              config.operation_id_naming_convention
+              config.operation_id_naming_convention,
+              'operation_id_naming_convention'
             );
           }
         }

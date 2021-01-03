@@ -240,7 +240,8 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
           `Schema of type integer should use one of the following formats: ${validIntegerFormats.join(
             ', '
           )}.`,
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       }
       break;
@@ -254,7 +255,8 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
           `Schema of type number should use one of the following formats: ${validNumberFormats.join(
             ', '
           )}.`,
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       }
       break;
@@ -268,7 +270,8 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
           `Schema of type string should use one of the following formats: ${validStringFormats.join(
             ', '
           )}.`,
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       }
       break;
@@ -278,7 +281,8 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
         messages.addMessage(
           path.concat(['type']),
           `Schema of type boolean should not have a format.`,
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       }
       break;
@@ -288,7 +292,8 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
         messages.addMessage(
           path.concat(['type']),
           'Schema of type object should not have a format.',
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       }
       break;
@@ -298,7 +303,8 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
         messages.addMessage(
           path.concat(['type']),
           'Schema of type array should not have a format.',
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       }
       break;
@@ -310,13 +316,15 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
         messages.addMessage(
           path.concat(['type']),
           'File type only valid for swagger2 and must be used as root schema.',
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       } else if (obj.in && obj.in !== 'formData') {
         messages.addMessage(
           path.concat(['type']),
           'File type parameter must use in: formData.',
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       }
       // Format should not be defined for schema of type file.
@@ -326,7 +334,8 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
         messages.addMessage(
           path.concat(['type']),
           'Schema of type file should not have a format.',
-          checkStatus
+          checkStatus,
+          'invalid_type_format_pair'
         );
       }
       break;
@@ -335,7 +344,8 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
       messages.addMessage(
         path.concat(['type']),
         `Invalid type. Valid types are: ${validTypes.join(', ')}.`,
-        checkStatus
+        checkStatus,
+        'invalid_type_format_pair'
       );
   }
 }
@@ -462,7 +472,8 @@ function checkPropNamesCaseCollision(
       messages.addMessage(
         contextPath.concat(['properties', propName]),
         `Property name is identical to another property except for the naming convention: ${propName}`,
-        checkStatus
+        checkStatus,
+        'property_case_collision'
       );
     } else {
       prevProps.push(caselessPropName);
@@ -606,13 +617,15 @@ function checkProperties(
             messages.addMessage(
               propertiesToCompare[key].path,
               `Property has inconsistent type: ${key}.`,
-              configOption
+              configOption,
+              'inconsistent_property_type'
             );
           }
           messages.addMessage(
             contextPath.concat(['properties', key]).join('.'),
             `Property has inconsistent type: ${key}.`,
-            configOption
+            configOption,
+            'inconsistent_property_type'
           );
         }
       } else {

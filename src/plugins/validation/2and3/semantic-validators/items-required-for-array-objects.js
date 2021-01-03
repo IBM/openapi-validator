@@ -79,7 +79,8 @@ module.exports.validate = function({ jsSpec }, config) {
             messages.addMessage(
               path.concat([`required[${i}]`]).join('.'),
               "Schema properties specified as 'required' should be defined",
-              undefinedRequiredProperties
+              undefinedRequiredProperties,
+              'schemas.undefined_required_properties'
             );
           }
         });
