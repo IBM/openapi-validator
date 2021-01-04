@@ -1,3 +1,10 @@
+## [0.33.1](https://github.com/IBM/openapi-validator/compare/v0.33.0...v0.33.1) (2021-01-04)
+
+
+### Bug Fixes
+
+* specify rule name for all configurable rules ([38526f3](https://github.com/IBM/openapi-validator/commit/38526f3e34c70eeeb540ba20065e120cc155d48a))
+
 # [0.33.0](https://github.com/IBM/openapi-validator/compare/v0.32.0...v0.33.0) (2020-12-30)
 
 
