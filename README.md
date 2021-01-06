@@ -284,7 +284,7 @@ The supported rules are described below:
 ##### [responses][4]
 | Rule                      | Description                                                  | Spec |
 | ------------------------- | ------------------------------------------------------------ | ---- |
-| inline_response_schema    | Flag any response object with a schema that doesn't reference a named model. | shared |
+| inline_response_schema    | Flag any response object with a schema that doesn't reference a named model. Even if the model is only used once, naming it offers significant benefits for SDK generation. | shared |
 | no_response_codes         | Flag any response object that has no valid response codes.   | oas3 |
 | no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
 | no_response_body          | Flag any non-204 success responses without a response body.  | oas3 |
