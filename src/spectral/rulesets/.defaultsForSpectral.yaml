@@ -54,8 +54,8 @@ rules:
   oas2-operation-security-defined: off
   # Turn off
   oas2-valid-parameter-example: off
-  # Enable with same severity as Spectral
-  oas2-valid-definition-example: true
+  # Enable with warn severity
+  oas2-valid-definition-example: warn
   # Turn off
   oas2-valid-response-example: off
   # Turn off
@@ -80,14 +80,14 @@ rules:
   oas3-valid-oas-parameter-example: off
   # Turn off
   oas3-valid-oas-header-example: off
-  # Turn off
-  oas3-valid-oas-content-example: off
+  # Enable with warn severity
+  oas3-valid-oas-content-example: warn
   # Turn off
   oas3-valid-parameter-schema-example: off
   # Turn off
   oas3-valid-header-schema-example: off
-  # Enable with same severity as Spectral
-  oas3-valid-schema-example: true
+  # Enable with warn severity
+  oas3-valid-schema-example: warn
   # Turn off
   oas3-schema: off
   # Turn off - duplicates non-configurable validation in base validator

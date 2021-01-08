@@ -58,6 +58,8 @@ paths:
           application/json:
             schema:
               $ref: '#/components/schemas/TheBadModel'
+            example:
+              number_of_connectors: 3
       responses:
         204:
           description: "Success"
