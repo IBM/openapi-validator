@@ -1,3 +1,10 @@
+## [0.33.2](https://github.com/IBM/openapi-validator/compare/v0.33.1...v0.33.2) (2021-01-11)
+
+
+### Bug Fixes
+
+* allow null values for default property ([#227](https://github.com/IBM/openapi-validator/issues/227)) ([b7e2aa8](https://github.com/IBM/openapi-validator/commit/b7e2aa8326e4c95856d1c4ca482f11f6ace494fe))
+
 ## [0.33.1](https://github.com/IBM/openapi-validator/compare/v0.33.0...v0.33.1) (2021-01-04)
 
 
