@@ -30,8 +30,8 @@ describe('spectral - test enabled rules - Swagger 2', function() {
         foundOtherValidator = true;
       }
     });
-    // Since some spectral validations will result in errors, the exit code should equal 1
-    expect(exitCode).toEqual(1);
+
+    expect(exitCode).toEqual(0);
     expect(foundOtherValidator).toBe(false);
 
     consoleSpy.mockRestore();
@@ -124,14 +124,12 @@ describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
       defaultMode
     );
 
-    // should produce an object with `errors` and `warnings` keys that should
-    // both be non-empty
-    expect(validationResults.errors.length).toBeGreaterThan(0);
+    expect(validationResults.errors.length).toEqual(0);
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
     errors = validationResults.errors.map(error => error.message);
     warnings = validationResults.warnings.map(warn => warn.message);
-    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.length).toEqual(0);
     expect(warnings.length).toBeGreaterThan(0);
   });
 
@@ -219,11 +217,11 @@ describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test oas2-valid-example rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).toContain(
+  it('test oas2-valid-definition-example rule using mockFiles/swagger/enabled-rules-in-memory', function() {
+    expect(errors).not.toContain(
       '`number_of_coins` property type should be integer'
     );
-    expect(warnings).not.toContain(
+    expect(warnings).toContain(
       '`number_of_coins` property type should be integer'
     );
   });
@@ -273,8 +271,8 @@ describe('spectral - test enabled rules - OAS3', function() {
         foundOtherValidator = true;
       }
     });
-    // Since some spectral validations will result in errors, the exit code should equal 1
-    expect(exitCode).toEqual(1);
+
+    expect(exitCode).toEqual(0);
     expect(foundOtherValidator).toBe(false);
 
     consoleSpy.mockRestore();
@@ -336,9 +334,15 @@ describe('spectral - test enabled rules - OAS3', function() {
     );
   });
 
-  it('test oas3-valid-example rule using mockFiles/oas3/enabled-rules.yml', function() {
+  it('test oas3-valid-schema-example rule using mockFiles/oas3/enabled-rules.yml', function() {
     expect(allOutput).toContain(
       '`number_of_coins` property type should be integer'
+    );
+  });
+
+  it('test oas3-valid-oas-content-example rule using mockFiles/oas3/enabled-rules.yml', function() {
+    expect(allOutput).toContain(
+      '`number_of_connectors` property should be equal to one of the allowed values: 1, 2, a_string, 8'
     );
   });
 });
@@ -352,14 +356,13 @@ describe('spectral - test enabled rules - OAS3 In Memory', function() {
     const defaultMode = true;
     const validationResults = await inCodeValidator(oas3InMemory, defaultMode);
 
-    // should produce an object with `errors` and `warnings` keys that should
-    // both be non-empty
-    expect(validationResults.errors.length).toBeGreaterThan(0);
+    // should produce an object with an empty `errors` key and a non-empty `warnings` key
+    expect(validationResults.errors.length).toEqual(0);
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
     errors = validationResults.errors.map(error => error.message);
     warnings = validationResults.warnings.map(warn => warn.message);
-    expect(errors.length).toBeGreaterThan(0);
+    expect(errors.length).toEqual(0);
     expect(warnings.length).toBeGreaterThan(0);
   });
 
@@ -448,10 +451,10 @@ describe('spectral - test enabled rules - OAS3 In Memory', function() {
   });
 
   it('test oas3-valid-example rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).toContain(
+    expect(errors).not.toContain(
       '`number_of_coins` property type should be integer'
     );
-    expect(warnings).not.toContain(
+    expect(warnings).toContain(
       '`number_of_coins` property type should be integer'
     );
   });

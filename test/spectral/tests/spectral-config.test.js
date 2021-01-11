@@ -94,7 +94,7 @@ describe('Spectral - test custom configuration', function() {
     );
 
     // Verify warnings
-    expect(jsonOutput['warnings']['spectral'].length).toBe(17);
+    expect(jsonOutput['warnings']['spectral'].length).toBe(18);
     const warnings = jsonOutput['warnings']['spectral'].map(w => w['message']);
     // This warning should be turned off
     expect(warnings).not.toContain(
@@ -135,18 +135,18 @@ describe('Spectral - test custom configuration', function() {
 
     consoleSpy.mockRestore();
 
-    // Verify errors
-    expect(jsonOutput['errors']['spectral'].length).toBe(2);
+    // Verify there are no errors
+    expect(jsonOutput['errors']['spectral']).toBeUndefined();
 
     // Verify warnings
-    expect(jsonOutput['warnings']['spectral'].length).toBe(21);
+    expect(jsonOutput['warnings']['spectral'].length).toBe(23);
     const warnings = jsonOutput['warnings']['spectral'].map(w => w['message']);
-    // This is the new warning -- there should be four occurrences
+    // This is the new warning -- there should be three occurrences
     const warning = 'All request bodies should have an example.';
     const occurrences = warnings.reduce(
       (a, v) => (v === warning ? a + 1 : a),
       0
     );
-    expect(occurrences).toBe(4);
+    expect(occurrences).toBe(3);
   });
 });
