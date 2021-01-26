@@ -1759,4 +1759,45 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'components.schemas.kid.properties.name'
     );
   });
+
+  it('should not produce a warning for properties with duplicate common names', () => {
+    const spec = {
+      components: {
+        schemas: {
+          person: {
+            description: 'Produce warnings',
+            properties: {
+              name: {
+                description: 'type integer',
+                type: 'integer'
+              }
+            }
+          },
+          adult: {
+            description: 'Causes first warnings',
+            properties: {
+              code: {
+                description: 'different type',
+                type: 'number'
+              }
+            }
+          },
+          kid: {
+            description: 'Causes second warning',
+            properties: {
+              code: {
+                type: 'string',
+                description: 'differnt type'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+
+    expect(res.warnings.length).toEqual(0);
+    expect(res.errors.length).toEqual(0);
+  });
 });

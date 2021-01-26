@@ -483,7 +483,7 @@ The default values for each rule are described below.
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 | array_of_arrays             | warning |
-| inconsistent_property_type  | warning |
+| inconsistent_property_type  | warning, [code, default, type, value]]<br>(list of property names to exclude)|
 | property_case_convention    | error, lower_snake_case |
 | property_case_collision     | error   |
 | enum_case_convention        | warning, lower_snake_case |
