@@ -617,23 +617,26 @@ function checkProperties(
             messages.addMessage(
               propertiesToCompare[key].path,
               `Property has inconsistent type: ${key}.`,
-              configOption,
+              configOption[0],
               'inconsistent_property_type'
             );
           }
           messages.addMessage(
             contextPath.concat(['properties', key]).join('.'),
             `Property has inconsistent type: ${key}.`,
-            configOption,
+            configOption[0],
             'inconsistent_property_type'
           );
         }
       } else {
-        propertiesToCompare[key] = {
-          type: value.type,
-          path: contextPath.concat(['properties', key]).join('.'),
-          printed: false
-        };
+        if (configOption && configOption[1] && !configOption[1].includes(key)) {
+          // add property if the name is not excluded
+          propertiesToCompare[key] = {
+            type: value.type,
+            path: contextPath.concat(['properties', key]).join('.'),
+            printed: false
+          };
+        }
       }
     }
   }
