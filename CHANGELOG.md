@@ -1,3 +1,10 @@
+# [0.34.0](https://github.com/IBM/openapi-validator/compare/v0.33.2...v0.34.0) (2021-01-26)
+
+
+### Features
+
+* exclude common inconsistent property names ([#230](https://github.com/IBM/openapi-validator/issues/230)) ([d1b9909](https://github.com/IBM/openapi-validator/commit/d1b9909c3c99ddf7dd687b2ddd8f1f8f944f0347))
+
 ## [0.33.2](https://github.com/IBM/openapi-validator/compare/v0.33.1...v0.33.2) (2021-01-11)
 
 
