@@ -363,7 +363,7 @@ const validateConfigOption = function(userOption, defaultOption) {
       optionType = option;
     }
   });
-  // return directly if there is no matched optionType
+  // if optionType doesn't match, there are no predefined options for this rule
   if (!optionType) {
     return result;
   }
