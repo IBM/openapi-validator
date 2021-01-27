@@ -1,3 +1,10 @@
+## [0.34.1](https://github.com/IBM/openapi-validator/compare/v0.34.0...v0.34.1) (2021-01-27)
+
+
+### Bug Fixes
+
+* allow rules with flexible second options ([2b1d876](https://github.com/IBM/openapi-validator/commit/2b1d876f2e46d54471f75fe9fa31b58ce48665f7))
+
 # [0.34.0](https://github.com/IBM/openapi-validator/compare/v0.33.2...v0.34.0) (2021-01-26)
 
 
