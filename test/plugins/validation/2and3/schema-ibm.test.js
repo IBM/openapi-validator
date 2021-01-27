@@ -1800,4 +1800,51 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     expect(res.warnings.length).toEqual(0);
     expect(res.errors.length).toEqual(0);
   });
+
+  it('should not produce a warning for properties with duplicate custom names', () => {
+    const customConfig = {
+      schemas: {
+        inconsistent_property_type: ['warning', ['year']]
+      }
+    };
+
+    const spec = {
+      components: {
+        schemas: {
+          person: {
+            description: 'Produce warnings',
+            properties: {
+              year: {
+                description: 'type integer',
+                type: 'integer'
+              }
+            }
+          },
+          adult: {
+            description: 'Causes first warnings',
+            properties: {
+              year: {
+                description: 'different type',
+                type: 'number'
+              }
+            }
+          },
+          kid: {
+            description: 'Causes second warning',
+            properties: {
+              year: {
+                type: 'string',
+                description: 'differnt type'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, customConfig);
+
+    expect(res.warnings.length).toEqual(0);
+    expect(res.errors.length).toEqual(0);
+  });
 });

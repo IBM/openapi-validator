@@ -363,6 +363,10 @@ const validateConfigOption = function(userOption, defaultOption) {
       optionType = option;
     }
   });
+  // return directly if there is no matched optionType
+  if (!optionType) {
+    return result;
+  }
   // verify the given option is valid
   const validOptions = configOptions[optionType];
   if (!validOptions.includes(userOption)) {
