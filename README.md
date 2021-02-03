@@ -77,7 +77,7 @@ You can see the rule associated with each message produced by the validator with
 
 The validator also employs the [`Spectral`](https://github.com/stoplightio/spectral) validation/linting engine to detect certain issues in the API document.
 Spectral rules can also be configured to trigger an error, warning, info, or hint message in the validator output with the `.spectral.yaml` configuration file.
-When the validator issues a message as the result of a Spectral rule, the rule name displayed will correspond to the Spectral rule.
+When the validator issues a message as the result of a Spectral rule, the rule name displayed will correspond to the Spectral rule. You must add a Spectral configuration if you want to create a new rule, as opposed to modifying an existing one.
 
 To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file).  See the [Spectral configuration](#spectral-configuration) section for more details on customization with Spectral.
 
@@ -568,7 +568,7 @@ You could also set the severity of `info-contact` explicitly to `error`, `warn`,
 
 #### Custom Spectral rules
 
-Custom rules can be specified using a simple but powerful yaml syntax or with custom Javascript functions.
+New custom rules can be specified using a simple but powerful yaml syntax or with custom Javascript functions.
 Use the documentation on [Spectral custom rules](https://meta.stoplight.io/docs/spectral/docs/guides/4-custom-rulesets.md) in order to add these to your __.spectral.yaml__ file.
 
 
