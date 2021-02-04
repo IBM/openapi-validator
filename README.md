@@ -11,11 +11,8 @@
 This command line tool lets you validate OpenAPI documents according to their specification, either [2.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) or [3.0](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md),
 as well as IBM-defined best practices.
 
-#### Notice
-Support for Node v8 is deprecated. Support will be officially dropped when it reaches end of life (31 December 2019) or when v1.0 of this package is released, whichever happens first.
-
 #### Prerequisites
-- Node 8.9.x
+- Node 10.x
 - NPM 5.x
 
 ## Table of contents
@@ -32,6 +29,8 @@ Support for Node v8 is deprecated. Support will be officially dropped when it re
 
 <!-- toc -->
 
+- [Getting Started](#getting-started)
+  * [Customization](#customization)
 - [Installation](#installation)
   * [Install with NPM (recommended)](#install-with-npm-recommended)
   * [Build from source](#build-from-source)
@@ -54,15 +53,36 @@ Support for Node v8 is deprecated. Support will be officially dropped when it re
   * [Default mode](#default-mode)
     + [Default values](#default-values)
   * [Spectral configuration](#spectral-configuration)
-    + [Changing rule severity](#changing-rule-severity)
-    + [Custom rules](#custom-rules)
+    + [Changing Spectral rule severity](#changing-spectral-rule-severity)
+    + [Custom Spectral rules](#custom-spectral-rules)
 - [Warnings Limit](#warnings-limit)
 - [Turning off `update-notifier`](#turning-off-update-notifier)
 - [License](#license)
 
 <!-- tocstop -->
 
+## Getting Started
+The validator analyzes your API definition and reports any problems within. The validator is highly customizable, and supports both OpenAPI 3.0 and OpenAPI 2.0 (Swagger 2.0) formats. The tool also supports a number of rules from [Spectral](https://stoplight.io/open-source/spectral/). You can easily extend the tool with custom rules to meet your specific needs and ensure compliance to your standards.
+
+The default configuration uses both OpenAPI 3.0 rules as well as Spectral rules. The [default mode](#default-mode) section decscribes these rules. Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.  
+
+### Customization
+
+You can modify the behavior of the validator for your project to meet your preferred standards. Specific validation "rules" can be turned off, or configured to trigger an error, warning, info, or hint message in the validator output.
+
+Some validations can be configured even further, such as switching the case convention for parameter names.
+There are also currently some validations that cannot be disabled or configured to a different severity.
+You can see the rule associated with each message produced by the validator with the `-v` command line option.
+**Rules that are not configurable will show the name `builtin`.**
+
+The validator also employs the [`Spectral`](https://github.com/stoplightio/spectral) validation/linting engine to detect certain issues in the API document.
+Spectral rules can also be configured to trigger an error, warning, info, or hint message in the validator output with the `.spectral.yaml` configuration file.
+When the validator issues a message as the result of a Spectral rule, the rule name displayed will correspond to the Spectral rule. You must add a Spectral configuration if you want to create a new rule, as opposed to modifying an existing one.
+
+To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file).  See the [Spectral configuration](#spectral-configuration) section for more details on customization with Spectral.
+
 ## Installation
+There are two main ways to install the validator, either using NPM or building from source. Installing with NPM is reccomended.
 
 ### Install with NPM (recommended)
 
@@ -176,21 +196,7 @@ The Promise returned from the validator resolves into a JSON object. The structu
 The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the OpenAPI document.
 
 ## Configuration
-The command line validator is built so that each IBM validation can be configured. To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file) and continue reading this section.
-Specific validation "rules" can be turned off, or configured to trigger an error, warning, info, or hint message in the validator output.
-Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
-There are also currently some validations that cannot be disabled or configured to a different severity.
-You can see the rule associated with each message produced by the validator with the `-v` command line option.
-Rules that are not configurable will show the name `builtin`.
-
-Additionally, certain files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
-
-The validator also employs the [`Spectral`](https://github.com/stoplightio/spectral) validation/linting engine to detect certain issues in the API document.
-Spectral rules can also be configured to trigger an error, warning, info, or hint message in the validator output with the `.spectral.yaml` configuration file.
-When the validator issues a message as the result of a Spectral rule, the rule name displayed will correspond to the Spectral rule.
-Spectral rules must be configured in `.spectral.yaml` rather than in `.validaterc`.
-Spectral further supports the creation of custom rules using a simple but powerful yaml syntax or custom Javascript functions.
-See the [Spectral configuration](#spectral-configuration) section for more details.
+Use these sections to customize your traditional and Spectral rules to reflect your API standards.
 
 ### Setup
 To set up the configuration capability, simply run the command `lint-openapi init`.
@@ -358,7 +364,8 @@ For rules that accept additional configuration, there will be a limited set of a
 
 ### Configuration file
 
-Configurations are defined in a file, titled __.validaterc__.
+Non-Spectral configurations are defined in a file, titled __.validaterc__. **Spectral rules must be configured in `.spectral.yaml` rather than in `.validaterc`.**
+Additionally, certain files can be ignored by the validator. Any glob placed in a file called `.validateignore` will always be ignored by the validator at runtime. This is set up like a `.gitignore` or a `.eslintignore` file.
 
 The configuration file must be structured as a JSON object with specs as first-level keys, categories as second-level keys, rules as third-level keys, and statuses as values for the 'rules' objects.
 
@@ -483,7 +490,7 @@ The default values for each rule are described below.
 | no_property_description     | warning |
 | description_mentions_json   | warning |
 | array_of_arrays             | warning |
-| inconsistent_property_type  | warning, [code, default, type, value]]<br>(list of property names to exclude)|
+| inconsistent_property_type  | warning, [code, default, type, value]]<br>(list of property names to exclude) |
 | property_case_convention    | error, lower_snake_case |
 | property_case_collision     | error   |
 | enum_case_convention        | warning, lower_snake_case |
@@ -531,7 +538,7 @@ Note that all of the rules in the `spectral:oas` ruleset are defined in `ibm:oas
 You can provide a Spectral ruleset file to the IBM OpenAPI validator in a file named `.spectral.yaml`
 in the current directory or with the `--ruleset` command line option of the validator.
 
-#### Changing rule severity
+#### Changing Spectral rule severity
 
 Any rule in the `ibm:oas` ruleset can be configured to trigger an error, warning, info, or hint message in the validator output.
 For example, to configure the `openapi-tags` rule to trigger an `info` message instead of a `warning`, specify the following in your Spectral ruleset file:
@@ -559,11 +566,12 @@ rules:
 
 You could also set the severity of `info-contact` explicitly to `error`, `warn`, `info`, or `hint`.
 
-#### Custom rules
+#### Custom Spectral rules
 
-You can also specify custom rules in the Spectral ruleset file.
-Custom rules can be specified using a simple but powerful yaml syntax or with custom Javascript functions.
-See the Spectral documentation for detailed documentation on [Spectral custom rules](https://meta.stoplight.io/docs/spectral/docs/guides/4-custom-rulesets.md).
+New custom rules can be specified using a simple but powerful yaml syntax or with custom Javascript functions.
+Use the documentation on [Spectral custom rules](https://meta.stoplight.io/docs/spectral/docs/guides/4-custom-rulesets.md) in order to add these to your __.spectral.yaml__ file.
+
+
 
 ## Warnings Limit
 
