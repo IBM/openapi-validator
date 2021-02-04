@@ -70,7 +70,7 @@ The default configuration uses both OpenAPI 3.0 rules as well as Spectral rules.
 
 You can begin to modify the behavior of the validator for your project to meet your prefered standards. Specific validation "rules" can be turned off, or configured to trigger an error, warning, info, or hint message in the validator output.
 
-Some validations can be configured even further, such as switching the case convention to validate against for parameter names.
+Some validations can be configured even further, such as switching the case convention for parameter names.
 There are also currently some validations that cannot be disabled or configured to a different severity.
 You can see the rule associated with each message produced by the validator with the `-v` command line option.
 **Rules that are not configurable will show the name `builtin`.**
