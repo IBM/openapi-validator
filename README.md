@@ -62,7 +62,7 @@ as well as IBM-defined best practices.
 <!-- tocstop -->
 
 ## Getting Started
-The validator analyzes your API definition and reports any inconsistencies within the API definition. The validator is highly customizable, and supports both OpenAPI 3.0, OpenAPI 2.0 (Swagger 2.0), and Spectral rules.  You can easily create new rules and modify existing ones so that the tool will ensure compliance to your standards.
+The validator analyzes your API definition and reports any problems within. The validator is highly customizable, and supports both OpenAPI 3.0 and OpenAPI 2.0 (Swagger 2.0) formats. The tool also supports a number of rules from [Spectral](https://stoplight.io/open-source/spectral/). You can easily extend the tool with custom rules to meet your specific needs and ensure compliance to your standards.
 
 The default configuration uses both OpenAPI 3.0 rules as well as Spectral rules. The [default mode](#default-mode) section decscribes these rules. Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.  
 
