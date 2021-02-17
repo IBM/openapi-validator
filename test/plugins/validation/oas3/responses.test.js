@@ -626,7 +626,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     );
     expect(res.errors.length).toEqual(0);
   });
-  
+
   it('should not complain about having only a 101 response', function() {
     const spec = {
       paths: {
@@ -673,17 +673,12 @@ describe('validation plugin - semantic - responses - oas3', function() {
     const res = validate({ resolvedSpec: spec }, config);
     expect(res.warnings.length).toEqual(0);
     expect(res.errors.length).toEqual(1);
-    expect(res.errors[0].path).toEqual([
-      'paths',
-      '/pets',
-      'get',
-      'responses'
-    ]);
+    expect(res.errors[0].path).toEqual(['paths', '/pets', 'get', 'responses']);
     expect(res.errors[0].message).toEqual(
       'A `responses` object MUST NOT support 101 and any success (2xx) code.'
     );
   });
-  
+
   it('should complain about 204 response that defines a response body', function() {
     const spec = {
       paths: {

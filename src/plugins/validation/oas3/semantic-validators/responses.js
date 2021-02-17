@@ -77,14 +77,14 @@ module.exports.validate = function({ resolvedSpec }, config) {
           }
         }
         // validate all success codes
-        if (!successCodes.length && !("101" in obj)) {
+        if (!successCodes.length && !('101' in obj)) {
           messages.addMessage(
             path,
             'Each `responses` object SHOULD have at least one code for a successful response.',
             config.no_success_response_codes,
             'no_success_response_codes'
           );
-        } else if (successCodes.length && ("101" in obj)) {
+        } else if (successCodes.length && '101' in obj) {
           messages.addMessage(
             path,
             'A `responses` object MUST NOT support 101 and any success (2xx) code.',
