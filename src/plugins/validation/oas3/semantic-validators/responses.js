@@ -84,14 +84,15 @@ module.exports.validate = function({ resolvedSpec }, config) {
             config.no_success_response_codes,
             'no_success_response_codes'
           );
-        } else if (successCodes.length && '101' in obj) {
-          messages.addMessage(
-            path,
-            'A `responses` object MUST NOT support 101 and any success (2xx) code.',
-            config.protocol_switching_and_success_code,
-            'protocol_switching_and_success_code'
-          );
         } else {
+          if (successCodes.length && '101' in obj) {
+            messages.addMessage(
+              path,
+              'A `responses` object MUST NOT support 101 and any success (2xx) code.',
+              config.protocol_switching_and_success_code,
+              'protocol_switching_and_success_code'
+            );
+          }
           for (const statusCode of successCodes) {
             if (statusCode !== '204' && !obj[statusCode].content) {
               messages.addMessage(
