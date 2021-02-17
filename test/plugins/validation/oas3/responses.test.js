@@ -626,7 +626,64 @@ describe('validation plugin - semantic - responses - oas3', function() {
     );
     expect(res.errors.length).toEqual(0);
   });
+  
+  it('should not complain about having only a 101 response', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            responses: {
+              '101': {
+                description: 'switching protocols'
+              }
+            }
+          }
+        }
+      }
+    };
 
+    const res = validate({ resolvedSpec: spec }, config);
+    console.log(res.warnings);
+    expect(res.warnings.length).toEqual(0);
+    expect(res.errors.length).toEqual(0);
+  });
+
+  it('should complain about having a 101 along with any 2xx code', function() {
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            responses: {
+              '101': {
+                description: 'switching protocols'
+              },
+              '204': {
+                description: 'no content'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec }, config);
+    expect(res.warnings.length).toEqual(0);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual([
+      'paths',
+      '/pets',
+      'get',
+      'responses'
+    ]);
+    expect(res.errors[0].message).toEqual(
+      'A `responses` object MUST NOT support 101 and any success (2xx) code.'
+    );
+  });
+  
   it('should complain about 204 response that defines a response body', function() {
     const spec = {
       paths: {
