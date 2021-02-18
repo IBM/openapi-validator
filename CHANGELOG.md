@@ -1,3 +1,13 @@
+## [0.34.2](https://github.com/IBM/openapi-validator/compare/v0.34.1...v0.34.2) (2021-02-18)
+
+
+### Bug Fixes
+
+* add validation for use of 101 status code ([#237](https://github.com/IBM/openapi-validator/issues/237)) ([52e1319](https://github.com/IBM/openapi-validator/commit/52e13198cd5d01e407c0732c0f8a25453e647c5d))
+* run travis deploy step on main branch ([#239](https://github.com/IBM/openapi-validator/issues/239)) ([6b5abbb](https://github.com/IBM/openapi-validator/commit/6b5abbb9e1a7ec387ed4ad33d9ad9c3384577788))
+* update releaserc to use main branch ([#238](https://github.com/IBM/openapi-validator/issues/238)) ([4b1569b](https://github.com/IBM/openapi-validator/commit/4b1569b10946151e9c42ac2ec2701d7bd44939a3))
+* update semantic-release dependencies ([#240](https://github.com/IBM/openapi-validator/issues/240)) ([6edf60c](https://github.com/IBM/openapi-validator/commit/6edf60c6d2754fd97db5d6bbf11de368090ba8bd))
+
 ## [0.34.1](https://github.com/IBM/openapi-validator/compare/v0.34.0...v0.34.1) (2021-01-27)
 
 
