@@ -100,6 +100,7 @@ const defaults = {
     'responses': {
       'no_response_codes': 'error',
       'no_success_response_codes': 'warning',
+      'protocol_switching_and_success_code': 'error',
       'no_response_body': 'warning',
       'ibm_status_code_guidelines': 'warning'
     },
