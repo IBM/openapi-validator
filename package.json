@@ -38,8 +38,8 @@
     "yaml-js": "^0.2.3"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^3.0.2",
-    "@semantic-release/git": "^7.0.7",
+    "@semantic-release/changelog": "^5.0.1",
+    "@semantic-release/git": "^9.0.0",
     "babel-eslint": "^10.1.0",
     "codecov": "^3.5.0",
     "cz-conventional-changelog": "^2.1.0",
