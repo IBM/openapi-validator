@@ -4,13 +4,14 @@
 // Assertation 2:
 // making sure that the required version and title are defined properly
 
+const isPlainObject = require('lodash/isPlainObject');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec }) {
   const messages = new MessageCarrier();
 
   const info = jsSpec.info;
-  const hasInfo = info && typeof info === 'object';
+  const hasInfo = info && isPlainObject(info);
   if (!hasInfo) {
     messages.addMessage(
       ['info'],
