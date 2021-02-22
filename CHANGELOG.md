@@ -1,3 +1,10 @@
+## [0.34.3](https://github.com/IBM/openapi-validator/compare/v0.34.2...v0.34.3) (2021-02-22)
+
+
+### Bug Fixes
+
+* fix object type validations ([#242](https://github.com/IBM/openapi-validator/issues/242)) ([c08c5c7](https://github.com/IBM/openapi-validator/commit/c08c5c74257e1d5040424352e456a7478d6771b4))
+
 ## [0.34.2](https://github.com/IBM/openapi-validator/compare/v0.34.1...v0.34.2) (2021-02-18)
 
 
