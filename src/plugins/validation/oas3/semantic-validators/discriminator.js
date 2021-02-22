@@ -13,6 +13,7 @@
 const each = require('lodash/each');
 const has = require('lodash/has');
 const get = require('lodash/get');
+const isPlainObject = require('lodash/isPlainObject');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
 module.exports.validate = function({ jsSpec }) {
@@ -27,7 +28,7 @@ module.exports.validate = function({ jsSpec }) {
       const { discriminator } = schema;
 
       // If discriminator is not an object, error out and return
-      if (typeof discriminator === 'object') {
+      if (isPlainObject(discriminator)) {
         if (!has(discriminator, 'propertyName')) {
           messages.addMessage(
             basePath.concat([schemaName, 'discriminator']).join('.'),

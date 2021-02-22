@@ -174,6 +174,50 @@ describe('validation plugin - semantic - items required for array objects - Open
     expect(res.warnings.length).toEqual(0);
   });
 
+  it('should return an error when an array header object has a non-object `items` property', () => {
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            description:
+              'Returns all pets from the system that the user has access to',
+            responses: {
+              '200': {
+                description: 'pet response',
+                headers: {
+                  'X-MyHeader': {
+                    description: 'fake header',
+                    schema: {
+                      type: 'array',
+                      items: [
+                        {
+                          type: 'string'
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              default: {
+                description: 'unexpected error'
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(1);
+    expect(res.errors[0].path).toEqual(
+      'paths./pets.get.responses.200.headers.X-MyHeader.schema'
+    );
+    expect(res.errors[0].message).toEqual(
+      "Schema objects with 'array' type require an 'items' property"
+    );
+    expect(res.warnings.length).toEqual(0);
+  });
+
   it('should return a warning when a model does not define a required property', () => {
     const spec = {
       components: {

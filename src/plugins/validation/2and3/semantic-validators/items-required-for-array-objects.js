@@ -11,6 +11,7 @@
 const { walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 const at = require('lodash/at');
+const isPlainObject = require('lodash/isPlainObject');
 
 const reduceObj = function(jsSpec, obj) {
   if (obj['$ref']) {
@@ -62,7 +63,7 @@ module.exports.validate = function({ jsSpec }, config) {
       // if parent is 'schema', or we're in a model definition
 
       // Assertation 1
-      if (obj.type === 'array' && typeof obj.items !== 'object') {
+      if (obj.type === 'array' && !isPlainObject(obj.items)) {
         messages.addMessage(
           path.join('.'),
           "Schema objects with 'array' type require an 'items' property",
@@ -89,7 +90,7 @@ module.exports.validate = function({ jsSpec }, config) {
 
     // this only applies to Swagger 2
     if (path[path.length - 2] === 'headers') {
-      if (obj.type === 'array' && typeof obj.items !== 'object') {
+      if (obj.type === 'array' && !isPlainObject(obj.items)) {
         messages.addMessage(
           path,
           "Headers with 'array' type require an 'items' property",

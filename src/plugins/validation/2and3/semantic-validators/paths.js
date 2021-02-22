@@ -18,7 +18,7 @@
 
 const each = require('lodash/each');
 const findIndex = require('lodash/findIndex');
-const isObject = require('lodash/isObject');
+const isPlainObject = require('lodash/isPlainObject');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
 const templateRegex = /\{(.*?)\}/g;
@@ -68,7 +68,7 @@ module.exports.validate = function({ resolvedSpec }) {
     const parametersFromPath = path.parameters ? path.parameters.slice() : [];
 
     const availableParameters = parametersFromPath.map((param, i) => {
-      if (!isObject(param)) {
+      if (!isPlainObject(param)) {
         return;
       }
       param.$$path = `paths.${pathName}.parameters[${i}]`;
@@ -83,7 +83,7 @@ module.exports.validate = function({ resolvedSpec }) {
       ) {
         availableParameters.push(
           ...operation.parameters.map((param, i) => {
-            if (!isObject(param)) {
+            if (!isPlainObject(param)) {
               return;
             }
             param.$$path = `paths.${pathName}.${operationName}.parameters[${i}]`;
@@ -131,7 +131,7 @@ module.exports.validate = function({ resolvedSpec }) {
     // Assertation 1
     each(availableParameters, (parameterDefinition, i) => {
       if (
-        isObject(parameterDefinition) &&
+        isPlainObject(parameterDefinition) &&
         parameterDefinition.in === 'path' &&
         pathTemplates.indexOf(parameterDefinition.name) === -1
       ) {

@@ -3,6 +3,7 @@ const util = require('util');
 const fs = require('fs');
 const path = require('path');
 const readYaml = require('js-yaml');
+const isPlainObject = require('lodash/isPlainObject');
 const last = require('lodash/last');
 const chalk = require('chalk');
 const jsonValidator = require('json-dup-key-validator');
@@ -201,7 +202,7 @@ const processInput = async function(program) {
         input = readYaml.safeLoad(originalFile);
       }
 
-      if (typeof input !== 'object') {
+      if (!isPlainObject(input)) {
         throw `The given input in ${validFile} is not a valid object.`;
       }
 

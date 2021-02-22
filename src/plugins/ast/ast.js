@@ -1,5 +1,6 @@
 const YAML = require('yaml-js');
 const isArray = require('lodash/isArray');
+const isPlainObject = require('lodash/isPlainObject');
 const lodashFind = require('lodash/find');
 const memoize = require('lodash/memoize');
 
@@ -163,7 +164,7 @@ const pathForPosition = function(yaml, position) {
     throw new TypeError('yaml should be a string');
   }
   if (
-    typeof position !== 'object' ||
+    !isPlainObject(position) ||
     typeof position.line !== 'number' ||
     typeof position.column !== 'number'
   ) {

@@ -70,7 +70,7 @@ describe('validation plugin - semantic - oas3 discriminator', () => {
       ['components', 'schemas', 'Pet', 'discriminator'].join('.')
     );
     expect(res.errors[0].message).toEqual(
-      'Discriminator must be of type object with field name propertyName'
+      'Discriminator must be of type object'
     );
     expect(res.errors[1].path).toEqual(
       ['components', 'schemas', 'Food', 'discriminator'].join('.')
