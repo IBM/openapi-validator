@@ -513,6 +513,7 @@ no-eval-in-markdown: true
 no-script-tags-in-markdown: true
 openapi-tags: true
 operation-description: true
+operation-operationId-unique: true
 operation-tags: true
 operation-tag-defined: true
 path-keys-no-trailing-slash: true

@@ -120,21 +120,21 @@ describe('cli tool - test option handling', function() {
     const statsSection = capturedText.findIndex(x => x.includes('statistics'));
 
     // totals
-    expect(capturedText[statsSection + 1].match(/\S+/g)[5]).toEqual('5');
+    expect(capturedText[statsSection + 1].match(/\S+/g)[5]).toEqual('6');
     expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('9');
 
     // errors
     expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(40%)');
+    expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(33%)');
 
-    expect(capturedText[statsSection + 6].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 6].match(/\S+/g)[1]).toEqual('(20%)');
+    expect(capturedText[statsSection + 6].match(/\S+/g)[0]).toEqual('2');
+    expect(capturedText[statsSection + 6].match(/\S+/g)[1]).toEqual('(33%)');
 
     expect(capturedText[statsSection + 7].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 7].match(/\S+/g)[1]).toEqual('(20%)');
+    expect(capturedText[statsSection + 7].match(/\S+/g)[1]).toEqual('(17%)');
 
     expect(capturedText[statsSection + 8].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 8].match(/\S+/g)[1]).toEqual('(20%)');
+    expect(capturedText[statsSection + 8].match(/\S+/g)[1]).toEqual('(17%)');
 
     // warnings
     expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('2');
@@ -189,10 +189,16 @@ describe('cli tool - test option handling', function() {
     expect(outputObject.warning).toEqual(true);
     expect(outputObject.error).toEqual(true);
 
-    // {"line": 59, "message": "operationIds must be unique", "path": "paths./pet.put.operationId"
-    expect(outputObject['errors']['operation-ids'][0]['line']).toEqual(59);
-    expect(outputObject['errors']['operation-ids'][0]['message']).toEqual(
-      'operationIds must be unique'
+    // {"line": 36, "message": "Every operation must have a unique `operationId`.", "path": ["paths", "/pet", "post", "operationId"], "rule": "operation-operationId-unique"}
+    expect(outputObject['errors']['spectral'][0]['line']).toEqual(36);
+    expect(outputObject['errors']['spectral'][0]['message']).toEqual(
+      'Every operation must have a unique `operationId`.'
+    );
+
+    // {"line": 59, "message": "Every operation must have a unique `operationId`.", "path": ["paths", "/pet", "put", "operationId"], "rule": "operation-operationId-unique"}
+    expect(outputObject['errors']['spectral'][1]['line']).toEqual(59);
+    expect(outputObject['errors']['spectral'][1]['message']).toEqual(
+      'Every operation must have a unique `operationId`.'
     );
 
     // {"operations-shared": [{"line": 36, "message": "Operations must have a non-empty `operationId`.", "path": "paths./pet.post.operationId"},
