@@ -243,6 +243,15 @@ describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
       'oneOf is not available in OpenAPI v2, it was added in OpenAPI v3'
     );
   });
+
+  it('test oas2-operation-formData-consume-check rule using mockFiles/swagger/enabled-rules-in-memory', function() {
+    expect(errors).not.toContain(
+      'Operations with an `in: formData` parameter must include `application/x-www-form-urlencoded` or `multipart/form-data` in their `consumes` property.'
+    );
+    expect(warnings).toContain(
+      'Operations with an `in: formData` parameter must include `application/x-www-form-urlencoded` or `multipart/form-data` in their `consumes` property.'
+    );
+  });
 });
 
 describe('spectral - test enabled rules - OAS3', function() {

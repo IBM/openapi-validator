@@ -13,6 +13,7 @@
 
 // Assertation 3:
 // If a parameter with `in: formData` exists a consumes property ( inherited or inline ) my contain `application/x-www-form-urlencoded` or `multipart/form-data`
+// Assertation 3 checked with Spectral rule oas2-operation-formData-consume-check
 
 const isPlainObject = require('lodash/isPlainObject');
 const getIn = require('lodash/get');
@@ -50,7 +51,7 @@ module.exports.validate = function({ resolvedSpec }) {
 
       return (
         // assertationOne(obj, path)
-        assertationTwo(obj, path, opItem) || assertationThree(obj, path, opItem)
+        assertationTwo(obj, path, opItem)
       );
     }
 
@@ -160,32 +161,6 @@ module.exports.validate = function({ resolvedSpec }) {
     }
 
     return hasErrors;
-  }
-
-  // If a parameter with `in: formData` exists, a consumes property ( inherited or inline ) my contain `application/x-www-form-urlencoded` or `multipart/form-data`
-  function assertationThree(params, path, operation) {
-    const hasFormData = params.some(
-      p => isPlainObject(p) && p['in'] === 'formData'
-    );
-
-    if (!hasFormData) {
-      return;
-    }
-
-    if (
-      hasConsumes(operation, 'multipart/form-data') ||
-      hasConsumes(operation, 'application/x-www-form-urlencoded')
-    ) {
-      return;
-    }
-
-    const pathStr = path.slice(0, -1).join('.'); // Blame the operation, not the parameter0
-    messages.addMessage(
-      pathStr,
-      'Operations with Parameters of `in` "formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property',
-      'error'
-    );
-    return;
   }
 
   walk(resolvedSpec, []);

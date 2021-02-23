@@ -525,6 +525,7 @@ oas2-valid-example: true
 oas2-valid-definition-example: true
 oas2-anyOf: true
 oas2-oneOf: true
+oas2-operation-formData-consume-check: true
 oas3-api-servers: true
 oas3-examples-value-or-externalValue: true
 oas3-server-trailing-slash: true
