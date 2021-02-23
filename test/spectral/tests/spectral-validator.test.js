@@ -263,7 +263,7 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
     mockConfig.mockRestore();
   });
 
-  // There should be no errors and 2 warnings for a non-spectral rule
+  // There should be no errors, 2 warnings for a non-spectral rule
   it('test no spectral errors and no spectral warnings', function() {
     expect(validationResults.errors.length).toBe(0);
     expect(validationResults.warnings.length).toBe(2);
