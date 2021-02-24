@@ -127,11 +127,6 @@ paths:
         - name: pet_id
           in: path
           required: true
-          schema:
-            type: string
-        - name: pet_id
-          in: path
-          required: true
           description: The id of the pet to retrieve
           schema:
             type: string

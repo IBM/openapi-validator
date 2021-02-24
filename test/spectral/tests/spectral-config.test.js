@@ -40,7 +40,7 @@ describe('Spectral - test custom configuration', function() {
     expect(jsonOutput['warnings']['spectral'].length).toBe(10);
 
     // Verify infos
-    expect(jsonOutput['infos']['spectral'].length).toBe(5);
+    expect(jsonOutput['infos']['spectral'].length).toBe(6);
     expect(jsonOutput['infos']['spectral'][0]['message']).toEqual(
       'Markdown descriptions should not contain `<script>` tags.'
     );
@@ -94,7 +94,7 @@ describe('Spectral - test custom configuration', function() {
     );
 
     // Verify warnings
-    expect(jsonOutput['warnings']['spectral'].length).toBe(18);
+    expect(jsonOutput['warnings']['spectral'].length).toBe(20);
     const warnings = jsonOutput['warnings']['spectral'].map(w => w['message']);
     // This warning should be turned off
     expect(warnings).not.toContain(
@@ -139,7 +139,7 @@ describe('Spectral - test custom configuration', function() {
     expect(jsonOutput['errors']['spectral']).toBeUndefined();
 
     // Verify warnings
-    expect(jsonOutput['warnings']['spectral'].length).toBe(23);
+    expect(jsonOutput['warnings']['spectral'].length).toBe(25);
     const warnings = jsonOutput['warnings']['spectral'].map(w => w['message']);
     // This is the new warning -- there should be three occurrences
     const warning = 'All request bodies should have an example.';
