@@ -102,14 +102,6 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test operation-operationId-unique rule using mockFiles/swagger/disabled-rules.yml', function() {
-    // rule is disabled, so spectral shouldn't produce a warning
-    expect(allOutput).not.toContain('Validator: spectral');
-    expect(allOutput).not.toContain(
-      'Every operation must have a unique `operationId'
-    );
-  });
-
   it('test operation-parameters validator rule mockFiles/swagger/disabled-rules.yml', function() {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
@@ -279,15 +271,6 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
     expect(warnings).not.toContain(
       'Operation must have at least one `2xx` response.'
-    );
-  });
-
-  it('test operation-operationId-unique rule using mockFiles/swagger/disabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Every operation must have a unique `operationId.'
-    );
-    expect(warnings).not.toContain(
-      'Every operation must have a unique `operationId.'
     );
   });
 
@@ -472,14 +455,6 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test operation-operationId-unique rule using mockFiles/oas3/disabled-rules.yml', function() {
-    // rule is disabled, so spectral shouldn't produce a warning
-    expect(allOutput).not.toContain('Validator: spectral');
-    expect(allOutput).not.toContain(
-      'Every operation must have a unique `operationId'
-    );
-  });
-
   it('test operation-parameters validator rule mockFiles/oas3/disabled-rules.yml', function() {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
@@ -645,15 +620,6 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
     expect(warnings).not.toContain(
       'Operation must have at least one `2xx` response.'
-    );
-  });
-
-  it('test operation-operationId-unique rule using mockFiles/oas3/disabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Every operation must have a unique `operationId.'
-    );
-    expect(warnings).not.toContain(
-      'Every operation must have a unique `operationId.'
     );
   });
 

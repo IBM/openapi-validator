@@ -51,7 +51,7 @@ paths:
       - "pet"
       summary: "Update an existing pet"
       description: "put new data for existing pet"
-      operationId: "add_pet"
+      operationId: "add_pet_1"
       consumes:
       - "application/json"
       - "application/xml"
@@ -83,7 +83,7 @@ paths:
       - "pet"
       summary: "Add a new pet to the store"
       description: "post a pet to store"
-      operationId: "add_pet"
+      operationId: "add_pet_2"
       consumes:
       - "application/json"
       - "application/xml"

@@ -49,15 +49,6 @@ module.exports.validate = function({ resolvedSpec }, config) {
     []
   );
 
-  const seenOperationIds = {};
-
-  const tallyOperationId = operationId => {
-    const prev = seenOperationIds[operationId];
-    seenOperationIds[operationId] = true;
-    // returns if it was previously seen
-    return !!prev;
-  };
-
   const operationIdPassedConventionCheck = (
     opKey,
     operationId,
@@ -118,49 +109,39 @@ module.exports.validate = function({ resolvedSpec }, config) {
   operations.forEach(op => {
     // wrap in an if, since operationIds are not required
     if (op.operationId) {
-      const hasBeenSeen = tallyOperationId(op.operationId);
-      if (hasBeenSeen) {
-        // Assertation 1: Operations must have a unique operationId.
-        messages.addMessage(
-          op.path + '.operationId',
-          'operationIds must be unique',
-          'error'
-        );
-      } else {
-        // Assertation 2: OperationId must conform to naming conventions
+      // Assertation 2: OperationId must conform to naming conventions
 
-        // We'll use a heuristic to decide if this path is part of a resource oriented API.
-        // If path ends in path param, look for corresponding create/list path
-        // Conversely, if no path param, look for path with path param
+      // We'll use a heuristic to decide if this path is part of a resource oriented API.
+      // If path ends in path param, look for corresponding create/list path
+      // Conversely, if no path param, look for path with path param
 
-        const pathEndsWithParam = op.pathKey.endsWith('}');
-        const isResourceOriented = pathEndsWithParam
-          ? Object.keys(resolvedSpec.paths).includes(
-              op.pathKey.replace('/\\{[A-Za-z0-9-_]+\\}$', '')
-            )
-          : Object.keys(resolvedSpec.paths).some(p =>
-              p.startsWith(op.pathKey + '/{')
-            );
-
-        if (isResourceOriented) {
-          const { checkPassed, verbs } = operationIdPassedConventionCheck(
-            op['opKey'],
-            op.operationId,
-            op.allPathOperations,
-            pathEndsWithParam
+      const pathEndsWithParam = op.pathKey.endsWith('}');
+      const isResourceOriented = pathEndsWithParam
+        ? Object.keys(resolvedSpec.paths).includes(
+            op.pathKey.replace('/\\{[A-Za-z0-9-_]+\\}$', '')
+          )
+        : Object.keys(resolvedSpec.paths).some(p =>
+            p.startsWith(op.pathKey + '/{')
           );
 
-          if (checkPassed === false) {
-            messages.addMessage(
-              op.path + '.operationId',
-              `operationIds should follow naming convention: operationId verb should be ${verbs}`.replace(
-                ',',
-                ' or '
-              ),
-              config.operation_id_naming_convention,
-              'operation_id_naming_convention'
-            );
-          }
+      if (isResourceOriented) {
+        const { checkPassed, verbs } = operationIdPassedConventionCheck(
+          op['opKey'],
+          op.operationId,
+          op.allPathOperations,
+          pathEndsWithParam
+        );
+
+        if (checkPassed === false) {
+          messages.addMessage(
+            op.path + '.operationId',
+            `operationIds should follow naming convention: operationId verb should be ${verbs}`.replace(
+              ',',
+              ' or '
+            ),
+            config.operation_id_naming_convention,
+            'operation_id_naming_convention'
+          );
         }
       }
     }
