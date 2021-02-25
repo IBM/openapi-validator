@@ -297,15 +297,6 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     expect(warnings).not.toContain('Operations must have a default response.');
   });
 
-  it('test path-not-include-query rule using mockFiles/swagger/disabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'given keys should not include a query string.'
-    );
-    expect(warnings).not.toContain(
-      'given keys should not include a query string.'
-    );
-  });
-
   it('test oas2-unused-definition validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
     expect(errors).not.toContain(
       'Potentially unused definition has been detected.'
@@ -620,15 +611,6 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
     expect(warnings).not.toContain(
       'Path parameter declarations cannot be empty, ex.`/given/{}` is invalid.'
-    );
-  });
-
-  it('test path-not-include-query rule using mockFiles/oas3/disabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'given keys should not include a query string.'
-    );
-    expect(warnings).not.toContain(
-      'given keys should not include a query string.'
     );
   });
 
