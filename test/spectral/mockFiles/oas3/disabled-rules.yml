@@ -76,9 +76,9 @@ paths:
                 $ref: "#/components/schemas/Error"
   /anotherpet/path?query=true:
     get:
-      summary: List all pets
-      description: List all pets
-      operationId: list_pets
+      summary: List all other pets
+      description: List all other pets
+      operationId: list_other_pets
       tags:
         - pets
       parameters:
@@ -124,11 +124,6 @@ paths:
       tags:
         - pets
       parameters:
-        - name: pet_id
-          in: path
-          required: true
-          schema:
-            type: string
         - name: pet_id
           in: path
           required: true

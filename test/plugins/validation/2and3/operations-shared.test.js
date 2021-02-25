@@ -8,41 +8,6 @@ const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
 describe('validation plugin - semantic - operations-shared', function() {
   describe('Swagger 2', function() {
-    it('should complain about a non-unique (name + in combination) parameters', function() {
-      const spec = {
-        paths: {
-          '/': {
-            get: {
-              operationId: 'get_everything',
-              summary: 'this is a summary',
-              parameters: [
-                {
-                  name: 'test',
-                  in: 'query',
-                  description: 'just a test param',
-                  type: 'string'
-                },
-                {
-                  name: 'test',
-                  in: 'query',
-                  description: 'another test param',
-                  type: 'string'
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ resolvedSpec: spec }, config);
-      expect(res.errors.length).toEqual(1);
-      expect(res.errors[0].path).toEqual('paths./.get.parameters[1]');
-      expect(res.errors[0].message).toEqual(
-        "Operation parameters must have unique 'name' + 'in' properties"
-      );
-      expect(res.warnings.length).toEqual(0);
-    });
-
     it('should complain about a missing operationId', function() {
       const spec = {
         paths: {
@@ -650,64 +615,6 @@ describe('validation plugin - semantic - operations-shared', function() {
   });
 
   describe('OpenAPI 3', function() {
-    it('should complain about a non-unique (name + in combination) parameters', async function() {
-      const spec = {
-        components: {
-          parameters: {
-            RefParam: {
-              name: 'test',
-              in: 'query',
-              description: 'referenced test param',
-              schema: {
-                type: 'string'
-              }
-            }
-          }
-        },
-        paths: {
-          '/': {
-            get: {
-              operationId: 'get_everything',
-              summary: 'this is a summary',
-              responses: {
-                default: {
-                  description: 'default response',
-                  'text/plain': {
-                    schema: {
-                      type: 'string'
-                    }
-                  }
-                }
-              },
-              parameters: [
-                {
-                  $ref: '#/components/parameters/RefParam'
-                },
-                {
-                  name: 'test',
-                  in: 'query',
-                  description: 'another test param',
-                  schema: {
-                    type: 'string'
-                  }
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const resolvedSpec = await resolver.dereference(spec);
-
-      const res = validate({ resolvedSpec, isOAS3: true }, config);
-      expect(res.errors.length).toEqual(1);
-      expect(res.errors[0].path).toEqual('paths./.get.parameters[1]');
-      expect(res.errors[0].message).toEqual(
-        "Operation parameters must have unique 'name' + 'in' properties"
-      );
-      expect(res.warnings.length).toEqual(0);
-    });
-
     it('should complain about a top-level array response', function() {
       const spec = {
         paths: {

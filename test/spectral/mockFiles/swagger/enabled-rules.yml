@@ -53,6 +53,39 @@ paths:
           description: "Validation exception"
         default:
           description: "Error"
+  /pet/{pet_id}:
+    get:
+      tags:
+        - pet
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: get_pet_by_id
+      produces:
+      - "application/json"
+      parameters:
+      - name: pet_id
+        in: path
+        description: ID of pet to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: pet_id
+        in: path
+        description: ID of pet to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Pet'
+        default:
+          description: "Invalid input"
   /given/another/:
     post:
       summary: "bad path"
@@ -153,6 +186,33 @@ paths:
             $ref: '#/definitions/ModelWithOneOf'
         default:
           description: "Invalid input"
+  /path4:
+    post:
+      summary: "path four"
+      description: operation with form data
+      operationId: "form_data"
+      tags:
+        - pet
+      consumes:
+      # formData param, so consumes should include application/x-www-form-urlencoded or multipart/form-data
+      - "application/xml"
+      produces:
+      - "application/xml"
+      - "application/json"
+      parameters:
+      - in: "formData"
+        name: "body"
+        description: "Pet object that needs to be added to the store"
+        required: true
+        schema:
+          type: file
+      responses:
+        200:
+          description: "A paged array of pets"
+          schema:
+            $ref: '#/definitions/ModelWithOneOf'
+        default:
+          description: "Invalid input"
 definitions:
   TheBadModel:
     type: object
@@ -166,6 +226,19 @@ definitions:
           - 2
           - a_string
           - 8
+  Pet:
+      type: object
+      description: pet object
+      properties:
+        pet_id:
+          description: pet_id
+          type: integer
+          format: int64
+          example: 10
+        name:
+          description: pet name
+          type: string
+          example: doggie
   ModelWithBadExample:
     type: object
     description: A bad example model

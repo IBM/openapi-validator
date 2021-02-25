@@ -6,12 +6,12 @@ rules:
 
   # Turn off -- duplicates no_success_response_codes
   operation-2xx-response: off
-  # Turn off - duplicates non-configurable validation - form-data.js
-  oas2-operation-formData-consume-check: off
-  # Turn off - duplicates non-configurable validation - operation-ids.js
-  operation-operationId-unique: off
-  # Turn off - duplicates non-configurable validation - operations-shared.js
-  operation-parameters: off
+  # Enable with same severity as Spectral
+  oas2-operation-formData-consume-check: true
+  # Enable with same severity as Spectral
+  operation-operationId-unique: true
+  # Enable with same severity as Spectral
+  operation-parameters: true
   # Enable with same severity as Spectral
   operation-tag-defined: true
   # Turn off - duplicates missing_path_parameter

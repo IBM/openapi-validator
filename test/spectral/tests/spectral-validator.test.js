@@ -234,6 +234,7 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
       'no-script-tags-in-markdown': 'off',
       'openapi-tags': 'off',
       'operation-description': 'off',
+      'operation-parameters': 'off',
       'operation-tags': 'off',
       'operation-tag-defined': 'off',
       'path-keys-no-trailing-slash': 'off',
@@ -248,6 +249,7 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
       'oas3-api-servers': 'off',
       'oas3-examples-value-or-externalValue': 'off',
       'oas3-server-trailing-slash': 'off',
+      'oas3-valid-oas-content-example': 'off',
       'oas3-valid-example': 'off',
       'oas3-valid-schema-example': 'off'
     };
@@ -262,9 +264,9 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
     mockConfig.mockRestore();
   });
 
-  // There should be no errors and 2 warnings for a non-spectral rule
+  // There should be no errors and no warnings
   it('test no spectral errors and no spectral warnings', function() {
     expect(validationResults.errors.length).toBe(0);
-    expect(validationResults.warnings.length).toBe(2);
+    expect(validationResults.warnings.length).toBe(0);
   });
 });
