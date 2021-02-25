@@ -137,14 +137,14 @@ describe('cli tool - test option handling', function() {
     expect(capturedText[statsSection + 8].match(/\S+/g)[1]).toEqual('(20%)');
 
     // warnings
-    expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(25%)');
+    expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(13%)');
 
     expect(capturedText[statsSection + 12].match(/\S+/g)[0]).toEqual('2');
     expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(25%)');
 
-    expect(capturedText[statsSection + 13].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 13].match(/\S+/g)[1]).toEqual('(13%)');
+    expect(capturedText[statsSection + 13].match(/\S+/g)[0]).toEqual('2');
+    expect(capturedText[statsSection + 13].match(/\S+/g)[1]).toEqual('(25%)');
 
     expect(capturedText[statsSection + 14].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 14].match(/\S+/g)[1]).toEqual('(13%)');
@@ -188,9 +188,9 @@ describe('cli tool - test option handling', function() {
     );
 
     // {"operations-shared": [{"line": 36, "message": "Operations must have a non-empty `operationId`.", "path": "paths./pet.post.operationId"},
-    expect(outputObject['warnings'][0]['line']).toEqual(36);
+    expect(outputObject['warnings'][0]['line']).toEqual(197);
     expect(outputObject['warnings'][0]['message']).toEqual(
-      'Operations must have a non-empty `operationId`.'
+      'Potentially unused definition has been detected.'
     );
   });
 

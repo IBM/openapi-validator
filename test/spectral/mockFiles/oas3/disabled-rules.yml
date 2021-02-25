@@ -178,11 +178,6 @@ paths:
                 $ref: "#/components/schemas/Error"
 components:
   schemas:
-    Sibling:
-      $ref: "#/components/schemas/Pet"
-      examples:
-        an_example:
-          name: something
     Pet:
       description:
         A pet

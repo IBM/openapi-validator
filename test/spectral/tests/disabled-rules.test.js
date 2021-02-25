@@ -458,14 +458,6 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test oas3-unused-components-schema validator rule mockFiles/oas3/disabled-rules.yml', function() {
-    // rule is disabled, so spectral shouldn't produce a warning
-    expect(allOutput).not.toContain('Validator: spectral');
-    expect(allOutput).not.toContain(
-      'Potentially unused components schema has been detected'
-    );
-  });
-
   it('test oas3-parameter-description validator rule mockFiles/oas3/disabled-rules.yml', function() {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
@@ -611,15 +603,6 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
     expect(warnings).not.toContain(
       'Path parameter declarations cannot be empty, ex.`/given/{}` is invalid.'
-    );
-  });
-
-  it('test oas3-unused-components-schema validator rule mockFiles/oas3/disabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Potentially unused components schema has been detected'
-    );
-    expect(warnings).not.toContain(
-      'Potentially unused components schema has been detected'
     );
   });
 

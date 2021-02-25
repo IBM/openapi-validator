@@ -24,10 +24,6 @@ describe('cli tool - test circular reference module', function() {
         'Swagger object should not contain circular references.'
       )
     ).toEqual(true);
-
-    expect(
-      allOutput.includes('Definition was declared but never used in document')
-    ).toEqual(true);
   });
 
   it('should correct an arbitrary object with cyclic paths', function() {
