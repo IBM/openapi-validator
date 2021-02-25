@@ -74,7 +74,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /anotherpet/path?query=true:
+  /anotherpet/path:
     get:
       summary: List all other pets
       description: List all other pets
