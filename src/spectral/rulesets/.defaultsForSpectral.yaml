@@ -38,8 +38,8 @@ rules:
   path-declarations-must-exist: off
   # Enable with same severity as Spectral
   path-keys-no-trailing-slash: true
-  # Turn off - duplicates non-configurable validation - paths.js
-  path-not-include-query: off
+  # Enable with same severity as Spectral
+  path-not-include-query: true
   # Turn off - duplicates $ref_siblings (off by default)
   no-$ref-siblings: off
   # Enable with same severity as Spectral

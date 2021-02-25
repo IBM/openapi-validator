@@ -246,21 +246,6 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Paths cannot have query strings in them', () => {
-      it("should return one problem for an stray '?' in a path string", function() {
-        const spec = {
-          paths: {
-            '/report?': {}
-          }
-        };
-
-        const res = validate({ resolvedSpec: spec });
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].message).toEqual(
-          'Query strings in paths are not allowed.'
-        );
-        expect(res.errors[0].path).toEqual('paths./report?');
-      });
-
       it('should return no problems for a correct path template', function() {
         const spec = {
           paths: {
@@ -282,7 +267,7 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Integrations', () => {
-      it('should return two problems for an illegal query string in a path string', function() {
+      it('should return one problem for an illegal query string in a path string', function() {
         const spec = {
           paths: {
             '/report?rdate={relative_date}': {
@@ -297,17 +282,11 @@ describe('validation plugin - semantic - paths', function() {
         };
 
         const res = validate({ resolvedSpec: spec });
-        expect(res.errors.length).toEqual(2);
+        expect(res.errors.length).toEqual(1);
         expect(res.errors[0].message).toEqual(
           'Partial path templating is not allowed.'
         );
         expect(res.errors[0].path).toEqual(
-          'paths./report?rdate={relative_date}'
-        );
-        expect(res.errors[1].message).toEqual(
-          'Query strings in paths are not allowed.'
-        );
-        expect(res.errors[1].path).toEqual(
           'paths./report?rdate={relative_date}'
         );
       });

@@ -15,6 +15,7 @@
 
 // Assertation 6:
 // Paths cannot have literal query strings in them.
+// Handled by the Spectral rule, path-not-include-query
 
 const each = require('lodash/each');
 const findIndex = require('lodash/findIndex');
@@ -55,15 +56,6 @@ module.exports.validate = function({ resolvedSpec }) {
         );
       }
     });
-
-    // Assertation 6
-    if (pathName.indexOf('?') > -1) {
-      messages.addMessage(
-        `paths.${pathName}`,
-        'Query strings in paths are not allowed.',
-        'error'
-      );
-    }
 
     const parametersFromPath = path.parameters ? path.parameters.slice() : [];
 

@@ -134,7 +134,7 @@ paths:
       security:
       - apikey:
         - "write:pets"
-  /pet/find_by_status/path?query=true:
+  /pet/find_by_status/path:
     get:
       tags:
       - "pet"
