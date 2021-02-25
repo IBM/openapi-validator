@@ -37,7 +37,8 @@ module.exports = async function(input) {
   //   but without the $$ref tags (which are not used in the validations)
   const parser = new RefParser();
   parser.dereference.circular = false;
-  swagger.resolvedSpec = await parser.dereference(input);
+  // passes the parser a copy of the spec to keep the original spec intact
+  swagger.resolvedSpec = await parser.dereference(JSON.parse(swagger.specStr));
   swagger.circular = parser.$refs.circular;
 
   const version = getVersion(swagger.jsSpec);

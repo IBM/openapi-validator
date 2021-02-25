@@ -169,6 +169,15 @@ describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
     );
   });
 
+  it('test operation-parameters rule using mockFiles/swagger/enabled-rules-in-memory', function() {
+    expect(errors).not.toContain(
+      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
+    );
+    expect(warnings).toContain(
+      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
+    );
+  });
+
   it('test operation-tags rule using mockFiles/swagger/enabled-rules-in-memory', function() {
     expect(errors).not.toContain(
       'Operation should have non-empty `tags` array.'
@@ -408,6 +417,15 @@ describe('spectral - test enabled rules - OAS3 In Memory', function() {
     );
     expect(warnings).toContain(
       'Operation `description` must be present and non-empty string.'
+    );
+  });
+
+  it('test operation-parameters rule using mockFiles/oas3/enabled-rules-in-memory', function() {
+    expect(errors).not.toContain(
+      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
+    );
+    expect(warnings).toContain(
+      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
     );
   });
 

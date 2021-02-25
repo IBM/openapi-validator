@@ -274,15 +274,6 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test operation-parameters validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
-    );
-    expect(warnings).not.toContain(
-      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
-    );
-  });
-
   it('test operation-operationId-valid-in-url validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
     expect(errors).not.toContain(
       'operationId may only use characters that are valid when used in a URL.'
@@ -611,15 +602,6 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
     expect(warnings).not.toContain(
       'Operation must have at least one `2xx` response.'
-    );
-  });
-
-  it('test operation-parameters validator rule mockFiles/oas3/disabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
-    );
-    expect(warnings).not.toContain(
-      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
     );
   });
 

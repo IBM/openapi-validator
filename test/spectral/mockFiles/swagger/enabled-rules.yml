@@ -53,6 +53,39 @@ paths:
           description: "Validation exception"
         default:
           description: "Error"
+  /pet/{pet_id}:
+    get:
+      tags:
+        - pet
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: get_pet_by_id
+      produces:
+      - "application/json"
+      parameters:
+      - name: pet_id
+        in: path
+        description: ID of pet to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: pet_id
+        in: path
+        description: ID of pet to return
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/definitions/Pet'
+        default:
+          description: "Invalid input"
   /given/another/:
     post:
       summary: "bad path"
@@ -193,6 +226,19 @@ definitions:
           - 2
           - a_string
           - 8
+  Pet:
+      type: object
+      description: pet object
+      properties:
+        pet_id:
+          description: pet_id
+          type: integer
+          format: int64
+          example: 10
+        name:
+          description: pet name
+          type: string
+          example: doggie
   ModelWithBadExample:
     type: object
     description: A bad example model
