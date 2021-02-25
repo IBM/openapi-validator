@@ -6,8 +6,8 @@ rules:
 
   # Turn off -- duplicates no_success_response_codes
   operation-2xx-response: off
-  # Turn off - duplicates non-configurable validation - form-data.js
-  oas2-operation-formData-consume-check: off
+  # Enable with same severity as Spectral
+  oas2-operation-formData-consume-check: true
   # Enable with same severity as Spectral
   operation-operationId-unique: true
   # Turn off - duplicates non-configurable validation - operations-shared.js

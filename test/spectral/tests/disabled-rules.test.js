@@ -324,15 +324,6 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test oas2-operation-formData-consume-check validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Operations with an `in: formData` parameter must include `application/x-www-form-urlencoded` or `multipart/form-data` in their `consumes` property.'
-    );
-    expect(warnings).not.toContain(
-      'Operations with an `in: formData` parameter must include `application/x-www-form-urlencoded` or `multipart/form-data` in their `consumes` property.'
-    );
-  });
-
   it('test oas2-operation-security-defined validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
     expect(errors).not.toContain(
       'Operation `security` values must match a scheme defined in the `securityDefinitions` object.'

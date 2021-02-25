@@ -138,29 +138,6 @@ describe('validation plugin - semantic - form data', function() {
         );
         expect(res.errors[0].path).toEqual('paths./some.post.parameters.0');
       });
-
-      it("should complain if 'in:formData` and no consumes - 'multipart/form-data' or 'application/x-www-form-urlencoded'", function() {
-        const spec = {
-          paths: {
-            '/some': {
-              post: {
-                parameters: [
-                  {
-                    in: 'formData'
-                  }
-                ]
-              }
-            }
-          }
-        };
-
-        const res = validate({ resolvedSpec: spec });
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].message).toEqual(
-          'Operations with Parameters of `in` "formData" must include "application/x-www-form-urlencoded" or "multipart/form-data" in their "consumes" property'
-        );
-        expect(res.errors[0].path).toEqual('paths./some.post');
-      });
     });
   });
 

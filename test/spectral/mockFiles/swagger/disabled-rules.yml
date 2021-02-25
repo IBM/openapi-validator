@@ -115,6 +115,7 @@ paths:
         - pet
       consumes:
       - "application/xml"
+      - "multipart/form-data"
       produces:
       - "application/xml"
       - "application/json"
