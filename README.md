@@ -539,6 +539,8 @@ This ruleset has the alias `ibm:oas`, and you can "extend" this ruleset or speci
 with a [Spectral ruleset file](https://meta.stoplight.io/docs/spectral/docs/getting-started/3-rulesets.md).
 Note that all of the rules in the `spectral:oas` ruleset are defined in `ibm:oas` but only the rules listed above are enabled by default.
 
+The `ibm:oas` ruleset also includes custom Spectral rules, [documented here](docs/spectral-rules.md). These are configurable rules in the `ibm:oas` ruleset that are not part of the `spectral:oas` ruleset.
+
 You can provide a Spectral ruleset file to the IBM OpenAPI validator in a file named `.spectral.yaml`
 in the current directory or with the `--ruleset` command line option of the validator.
 

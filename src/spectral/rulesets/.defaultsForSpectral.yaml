@@ -92,3 +92,15 @@ rules:
   oas3-schema: off
   # Turn off - duplicates non-configurable validation in base validator
   oas3-unused-components-schema: off
+
+  # custom Spectral rule to ensure content object contains schema
+  content-entry-contains-schema:
+    description: Content entries in request and response bodies must specify a schema
+    given:
+    - $.paths[*].[post,put,patch].requestBody.content[*]
+    - $.paths[*].[get,post,put,patch,delete].responses[*].content[*]
+    severity: warn
+    resolved: true
+    then:
+      field: schema
+      function: truthy

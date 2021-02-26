@@ -12,7 +12,7 @@ describe('Spectral - test custom configuration', function() {
     );
     const mockConfig = jest
       .spyOn(config, 'getSpectralRuleset')
-      .mockReturnValue(mockPath);
+      .mockResolvedValue(mockPath);
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
@@ -66,7 +66,7 @@ describe('Spectral - test custom configuration', function() {
     );
     const mockConfig = jest
       .spyOn(config, 'getSpectralRuleset')
-      .mockReturnValue(mockPath);
+      .mockResolvedValue(mockPath);
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
@@ -114,7 +114,7 @@ describe('Spectral - test custom configuration', function() {
     );
     const mockConfig = jest
       .spyOn(config, 'getSpectralRuleset')
-      .mockReturnValue(mockPath);
+      .mockResolvedValue(mockPath);
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
