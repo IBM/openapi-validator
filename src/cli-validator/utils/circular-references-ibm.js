@@ -2,6 +2,7 @@
 // correct them,
 
 const isPlainObject = require('lodash/isPlainObject');
+const isObject = require('lodash/isObject');
 
 // and return them as problems if applicable
 const validate = function({ jsSpec, resolvedSpec }, config) {
@@ -29,7 +30,8 @@ const correctSpec = function(resolvedSpec) {
       return null;
     }
 
-    if (!isPlainObject(object)) {
+    // we need to catch arrays here, in addition to plain objects
+    if (!isObject(object)) {
       return null;
     }
 

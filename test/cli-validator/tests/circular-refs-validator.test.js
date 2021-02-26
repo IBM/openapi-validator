@@ -63,4 +63,27 @@ describe('cli tool - test circular reference module', function() {
     const realPath = circularRefsValidator.convert(testObject, resolvedPaths);
     expect(realPath[0]).toEqual('definitions.something.foo');
   });
+
+  it('should correctly validate a file using the composite pattern', async function() {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/composite-pattern.yaml'];
+    program.default_mode = true;
+
+    const exitCode = await commandLineValidator(program);
+
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    consoleSpy.mockRestore();
+
+    expect(exitCode).toEqual(0);
+
+    const allOutput = capturedText.join('');
+
+    expect(
+      allOutput.includes(
+        'Swagger object should not contain circular references.'
+      )
+    ).toEqual(true);
+  });
 });
