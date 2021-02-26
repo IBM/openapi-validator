@@ -127,8 +127,8 @@ describe('spectral - test config file changes with .spectral.yml', function() {
       '../mockFiles/mockConfig/.mockSpectral.yaml'
     );
     const mockConfig = jest
-      .spyOn(config, 'getSpectralRuleset')
-      .mockReturnValue(mockPath);
+      .spyOn(config, 'getUserSpectralRuleset')
+      .mockResolvedValue(mockPath);
 
     // Below is used from enabled-rules.test.js
     // set up mock user input

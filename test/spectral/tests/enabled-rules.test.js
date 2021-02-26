@@ -360,7 +360,7 @@ describe('spectral - test enabled rules - OAS3', function() {
 
   it('test oas3-valid-oas-content-example rule using mockFiles/oas3/enabled-rules.yml', function() {
     expect(allOutput).toContain(
-      '`number_of_connectors` property should be equal to one of the allowed values: 1, 2, a_string, 8'
+      '`number_of_connectors` property should be equal to one of the allowed values: 1, 2, `a_string`, 8'
     );
   });
 });

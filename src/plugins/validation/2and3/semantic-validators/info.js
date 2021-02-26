@@ -12,13 +12,7 @@ module.exports.validate = function({ jsSpec }) {
 
   const info = jsSpec.info;
   const hasInfo = info && isPlainObject(info);
-  if (!hasInfo) {
-    messages.addMessage(
-      ['info'],
-      'API definition must have an `info` object',
-      'error'
-    );
-  } else {
+  if (hasInfo) {
     const title = jsSpec.info.title;
     const hasTitle =
       typeof title === 'string' && title.toString().trim().length > 0;

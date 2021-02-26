@@ -377,7 +377,7 @@ const validateConfigOption = function(userOption, defaultOption) {
   return result;
 };
 
-const getSpectralRuleset = async function(rulesetFileOverride, defaultRuleset) {
+const getUserSpectralRuleset = async function(rulesetFileOverride) {
   // List of ruleset files to search for
   const ruleSetFilesToFind = [
     '.spectral.yaml',
@@ -387,7 +387,7 @@ const getSpectralRuleset = async function(rulesetFileOverride, defaultRuleset) {
   if (rulesetFileOverride) {
     ruleSetFilesToFind.splice(0, 0, rulesetFileOverride);
   }
-  let ruleSetFile;
+  let ruleSetFile = null;
 
   // search up the file system for the first ruleset file found
   try {
@@ -397,15 +397,11 @@ const getSpectralRuleset = async function(rulesetFileOverride, defaultRuleset) {
       }
     }
   } catch {
-    // if there's any issue finding a custom ruleset, then
-    // just use the default
-    ruleSetFile = defaultRuleset;
+    // do nothing, ruleSetFile stays null if not found
   }
 
-  if (!ruleSetFile) {
-    ruleSetFile = defaultRuleset;
-  }
-
+  // returns user-defined ruleset if it exists
+  // null otherwise
   return ruleSetFile;
 };
 
@@ -415,4 +411,4 @@ module.exports.ignore = getFilesToIgnore;
 module.exports.validateOption = validateConfigOption;
 module.exports.validateLimits = validateLimits;
 module.exports.limits = getLimits;
-module.exports.getSpectralRuleset = getSpectralRuleset;
+module.exports.getUserSpectralRuleset = getUserSpectralRuleset;

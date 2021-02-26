@@ -3,10 +3,14 @@ const config = require('../../cli-validator/utils/processConfiguration');
 const { Spectral } = require('@stoplight/spectral');
 const { isOpenApiv2, isOpenApiv3 } = require('@stoplight/spectral');
 const { mergeRules } = require('@stoplight/spectral/dist/rulesets');
+const yaml = require('js-yaml');
 const fs = require('fs');
+const lodash = require('lodash');
+const path = require('path');
 // default spectral ruleset file
 const defaultSpectralRulesetURI =
   __dirname + '/../rulesets/.defaultsForSpectral.yaml';
+const customRulesDirectoryURI = __dirname + '/../rulesets/custom-rules';
 
 const parseResults = function(results, debug) {
   const messages = new MessageCarrier();
@@ -63,7 +67,8 @@ const setup = async function(spectral, rulesetFileOverride, configObject) {
 
   // Add IBM default ruleset to static assets to allow extends to reference it
   const staticAssets = require('@stoplight/spectral/rulesets/assets/assets.json');
-  const content = fs.readFileSync(defaultSpectralRulesetURI, 'utf8');
+  const allSpectralRuleURIs = getAllSpectralRulesetURIs();
+  const content = JSON.stringify(mergeSpectralRules(allSpectralRuleURIs));
   staticAssets['ibm:oas'] = content;
   Spectral.registerStaticAssets(staticAssets);
 
@@ -71,14 +76,15 @@ const setup = async function(spectral, rulesetFileOverride, configObject) {
   spectral.registerFormat('oas2', isOpenApiv2);
   spectral.registerFormat('oas3', isOpenApiv3);
 
-  // load the spectral ruleset, either a user's or the default ruleset
-  const spectralRulesetURI = await config.getSpectralRuleset(
-    rulesetFileOverride,
-    defaultSpectralRulesetURI
+  // load the user's spectral ruleset if it exists
+  const userSpectralRulesetURI = await config.getUserSpectralRuleset(
+    rulesetFileOverride
   );
 
   // Load either the user-defined ruleset or our default ruleset
-  await spectral.loadRuleset(spectralRulesetURI);
+  await spectral.loadRuleset(
+    userSpectralRulesetURI ? userSpectralRulesetURI : allSpectralRuleURIs
+  );
 
   // Combine default/user ruleset with the validaterc spectral rules
   // The validaterc rules will take precendence in the case of duplicate rules
@@ -91,6 +97,35 @@ const setup = async function(spectral, rulesetFileOverride, configObject) {
     return Promise.reject(err);
   }
 };
+
+function mergeSpectralRules(spectralURIs) {
+  const mergedRules = {};
+  spectralURIs.forEach(function(uri) {
+    // merge the next rule file into the aggregate mergedRules object
+    if (fs.lstatSync(uri).isFile()) {
+      lodash.merge(mergedRules, yaml.safeLoad(fs.readFileSync(uri, 'utf8')));
+    }
+  });
+  return mergedRules;
+}
+
+function getAllSpectralRulesetURIs() {
+  const files = [defaultSpectralRulesetURI];
+  try {
+    // add all paths to custom Spectral rule files
+    const filenames = fs.readdirSync(customRulesDirectoryURI);
+    filenames.forEach(function(filename) {
+      const uri = path.join(customRulesDirectoryURI, filename);
+      if (fs.lstatSync(uri).isFile()) {
+        files.push(uri);
+      }
+    });
+  } catch (err) {
+    console.log('Unable to load custom rules: ' + err);
+    return;
+  }
+  return files;
+}
 
 module.exports = {
   parseResults,

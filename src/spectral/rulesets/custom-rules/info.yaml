@@ -1,0 +1,10 @@
+functions: [infoIsObject]
+rules:
+  info-include-info-object:
+    message: "{{error}}"
+    given: $.
+    severity: error
+    resolved: true
+    then:
+      field: info
+      function: infoIsObject
