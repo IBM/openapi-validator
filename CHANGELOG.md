@@ -1,3 +1,10 @@
+## [0.34.4](https://github.com/IBM/openapi-validator/compare/v0.34.3...v0.34.4) (2021-03-01)
+
+
+### Bug Fixes
+
+* properly handle circular regressions to prevent call stack exceptions ([#253](https://github.com/IBM/openapi-validator/issues/253)) ([3696487](https://github.com/IBM/openapi-validator/commit/3696487e2e6bf4b61d527aeeff3bb659d0ff032e))
+
 ## [0.34.3](https://github.com/IBM/openapi-validator/compare/v0.34.2...v0.34.3) (2021-02-22)
 
 
