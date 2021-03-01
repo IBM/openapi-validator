@@ -1,0 +1,29 @@
+openapi: '3.0.2'
+info:
+  title: Repro "call stack" error
+  description: Reproduce the "Maximum call stack size exceeded" error with Composite-pattern schemas
+  version: '0.1.0'
+paths:
+  /example:
+    post:
+      summary: Just an example path
+      description: Just an example path to make this a valid spec
+      operationId: postExample
+components:
+  schemas:
+    Pair:
+      description: A pair of two elements or pairs or both
+      type: object
+      properties:
+        a:
+          oneOf:
+            - $ref: "#/components/schemas/Element"
+            - $ref: "#/components/schemas/Pair"
+        b:
+          oneOf:
+            - $ref: "#/components/schemas/Element"
+            - $ref: "#/components/schemas/Pair"
+    Element:
+      description: An elemental numeric value
+      type: number
+      example: 42
