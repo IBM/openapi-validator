@@ -32,7 +32,7 @@ describe('test info and hint rules - OAS3', function() {
     consoleSpy.mockRestore();
 
     // errors for non-unique operation ids
-    expect(jsonOutput['errors']['spectral'].length).toBe(2);
+    expect(jsonOutput['errors']['spectral'].length).toBe(1);
 
     // Verify errors
     expect(jsonOutput['errors']['operations-shared'].length).toBe(2);
