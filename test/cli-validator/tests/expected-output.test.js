@@ -145,7 +145,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     const validationResults = await inCodeValidator(oas2Object, defaultMode);
 
     expect(validationResults.errors.length).toBe(5);
-    expect(validationResults.warnings.length).toBe(9);
+    expect(validationResults.warnings.length).toBe(8);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 
@@ -181,10 +181,9 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[33].match(/\S+/g)[2]).toEqual('15');
     expect(capturedText[37].match(/\S+/g)[2]).toEqual('15');
     expect(capturedText[41].match(/\S+/g)[2]).toEqual('197');
-    expect(capturedText[45].match(/\S+/g)[2]).toEqual('108');
-    expect(capturedText[49].match(/\S+/g)[2]).toEqual('131');
-    expect(capturedText[53].match(/\S+/g)[2]).toEqual('134');
-    expect(capturedText[57].match(/\S+/g)[2]).toEqual('126');
+    expect(capturedText[45].match(/\S+/g)[2]).toEqual('131');
+    expect(capturedText[49].match(/\S+/g)[2]).toEqual('134');
+    expect(capturedText[53].match(/\S+/g)[2]).toEqual('126');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
@@ -364,7 +363,7 @@ describe('test expected output - OpenAPI 3', function() {
     const validationResults = await inCodeValidator(oas3Object, defaultMode);
 
     expect(validationResults.errors.length).toBe(4);
-    expect(validationResults.warnings.length).toBe(11);
+    expect(validationResults.warnings.length).toBe(10);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 

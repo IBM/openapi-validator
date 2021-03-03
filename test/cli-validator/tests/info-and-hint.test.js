@@ -39,7 +39,7 @@ describe('test info and hint rules - OAS3', function() {
     expect(jsonOutput['errors']['schema-ibm'].length).toBe(1);
 
     // Verify warnings
-    expect(jsonOutput['warnings']['responses'].length).toBe(3);
+    expect(jsonOutput['warnings']['responses'].length).toBe(2);
     expect(jsonOutput['warnings']['operations-shared'].length).toBe(2);
     expect(jsonOutput['warnings']['refs'].length).toBe(1);
     expect(jsonOutput['warnings']['schema-ibm'].length).toBe(1);

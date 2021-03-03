@@ -76,6 +76,64 @@ describe('validation plugin - semantic - responses', function() {
         expect(res.errors.length).toEqual(0);
       });
 
+      it('should not complain about inline array schema with items defined as ref', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                produces: ['application/json'],
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    schema: {
+                      type: 'array',
+                      items: {
+                        $ref: '#/components/schemas/ListStuffResponseModel'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec }, config);
+        expect(res.warnings.length).toEqual(0);
+        expect(res.errors.length).toEqual(0);
+      });
+
+      it('should not complain about inline array schema with primitive type items', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                produces: ['application/json'],
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    schema: {
+                      type: 'array',
+                      items: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec }, config);
+        expect(res.warnings.length).toEqual(0);
+        expect(res.errors.length).toEqual(0);
+      });
+
       it('should not complain for a response with no schema', function() {
         const spec = {
           paths: {
@@ -271,6 +329,80 @@ describe('validation plugin - semantic - responses', function() {
         expect(res.warnings.length).toEqual(0);
         expect(res.errors.length).toEqual(0);
       });
+
+      it('should not complain for a valid combined schema where one schema is an array with items defined as ref', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          anyOf: [
+                            {
+                              $ref:
+                                '#/components/schemas/ListStuffResponseModel'
+                            },
+                            {
+                              type: 'array',
+                              items: {
+                                $ref:
+                                  '#/components/schemas/ListStuffSecondModel'
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        expect(res.warnings.length).toEqual(0);
+        expect(res.errors.length).toEqual(0);
+      });
+
+      it('should not complain for a valid combined schema where one schema is an array with items defined as ref', function() {
+        const spec = {
+          paths: {
+            '/stuff': {
+              get: {
+                summary: 'list stuff',
+                operationId: 'listStuff',
+                responses: {
+                  200: {
+                    description: 'successful operation',
+                    content: {
+                      'application/json': {
+                        schema: {
+                          type: 'array',
+                          items: {
+                            $ref: '#/components/schemas/ListStuffResponseModel'
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        expect(res.warnings.length).toEqual(0);
+        expect(res.errors.length).toEqual(0);
+      });
+
       it('should complain about an inline schema', function() {
         const spec = {
           paths: {
