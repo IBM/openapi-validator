@@ -514,9 +514,11 @@ no-script-tags-in-markdown: true
 openapi-tags: true
 operation-description: true
 operation-operationId-unique: true
+operation-parameters: true
 operation-tags: true
 operation-tag-defined: true
 path-keys-no-trailing-slash: true
+path-not-include-query: true
 typed-enum: true
 oas2-api-host: true
 oas2-api-schemes: true
