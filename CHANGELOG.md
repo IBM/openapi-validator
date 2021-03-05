@@ -1,3 +1,10 @@
+# [0.35.0](https://github.com/IBM/openapi-validator/compare/v0.34.4...v0.35.0) (2021-03-05)
+
+
+### Features
+
+* include the validator version in the JSON output ([#256](https://github.com/IBM/openapi-validator/issues/256)) ([6442a0b](https://github.com/IBM/openapi-validator/commit/6442a0b4f126891510713b1a5d48455af2af2ed4))
+
 ## [0.34.4](https://github.com/IBM/openapi-validator/compare/v0.34.3...v0.34.4) (2021-03-01)
 
 
