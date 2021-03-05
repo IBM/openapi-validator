@@ -1,4 +1,5 @@
 const each = require('lodash/each');
+const validatorVersion = require('../../../package.json').version;
 
 // this module generates machine readable output,
 // rather than the human-readable-focused module,
@@ -18,6 +19,8 @@ module.exports = function generateOutput(results) {
       output[type].push(...problems);
     });
   });
+
+  output['version'] = validatorVersion;
 
   return output;
 };

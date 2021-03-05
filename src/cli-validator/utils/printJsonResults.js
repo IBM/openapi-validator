@@ -3,16 +3,16 @@ const each = require('lodash/each');
 // get line-number-producing, 'magic' code from Swagger Editor
 const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast')
   .getLineNumberForPath;
+const version = require('../../../package.json').version;
 
 // function to print the results as json to the console.
 module.exports = function printJson(results, originalFile, errorsOnly) {
+  // add the validator version to the JSON output
+  results['version'] = version;
   const types = errorsOnly ? ['errors'] : ['errors', 'warnings'];
   types.forEach(type => {
     each(results[type], problems => {
       problems.forEach(problem => {
-        // TODO figure out how to include the config option that caused the error/warning
-        // and inject that as additional data.
-
         let path = problem.path;
 
         // path needs to be an array to get the line number

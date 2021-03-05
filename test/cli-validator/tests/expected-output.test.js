@@ -78,14 +78,44 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(messageCount).toEqual(ruleCount);
   });
 
+  it('should include the validator version in JSON output', async function() {
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/clean.yml'];
+    program.default_mode = true;
+    program.json = true;
+
+    const exitcode = await commandLineValidator(program);
+    expect(exitcode).toBe(0);
+
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    const jsonOutput = JSON.parse(capturedText);
+    const expectedValidatorVersion = require('../../../package.json').version;
+    expect(jsonOutput.version).toBeTruthy();
+    expect(jsonOutput.version).toBe(expectedValidatorVersion);
+  });
+
+  it('should include the validator version in JSON output for the inCodeValidator', async function() {
+    const content = fs
+      .readFileSync('./test/cli-validator/mockFiles/clean.yml')
+      .toString();
+    const spec = yaml.load(content);
+
+    const defaultMode = true;
+    const validationResults = await inCodeValidator(spec, defaultMode);
+
+    const expectedValidatorVersion = require('../../../package.json').version;
+    expect(validationResults.version).toBeTruthy();
+    expect(validationResults.version).toBe(expectedValidatorVersion);
+  });
+
   it('should include the associated rule with each error and warning in JSON output', async function() {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
     program.json = true;
 
-    await commandLineValidator(program);
-    // exit code is not set for JSON output
+    const exitcode = await commandLineValidator(program);
+    expect(exitcode).toBe(0);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     const jsonOutput = JSON.parse(capturedText);
@@ -114,7 +144,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     const defaultMode = true;
     const validationResults = await inCodeValidator(oas2Object, defaultMode);
 
-    expect(validationResults.errors.length).toBe(6);
+    expect(validationResults.errors.length).toBe(5);
     expect(validationResults.warnings.length).toBe(9);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
@@ -139,23 +169,22 @@ describe('cli tool - test expected output - Swagger 2', function() {
     //   example output would be [ 'Line', ':', '59' ]
 
     // errors
-    expect(capturedText[4].match(/\S+/g)[2]).toEqual('36');
-    expect(capturedText[8].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[12].match(/\S+/g)[2]).toEqual('31');
-    expect(capturedText[16].match(/\S+/g)[2]).toEqual('54');
-    expect(capturedText[20].match(/\S+/g)[2]).toEqual('108');
-    expect(capturedText[24].match(/\S+/g)[2]).toEqual('172');
+    expect(capturedText[4].match(/\S+/g)[2]).toEqual('59');
+    expect(capturedText[8].match(/\S+/g)[2]).toEqual('31');
+    expect(capturedText[12].match(/\S+/g)[2]).toEqual('54');
+    expect(capturedText[16].match(/\S+/g)[2]).toEqual('108');
+    expect(capturedText[20].match(/\S+/g)[2]).toEqual('172');
 
     // warnings
-    expect(capturedText[29].match(/\S+/g)[2]).toEqual('36');
-    expect(capturedText[33].match(/\S+/g)[2]).toEqual('59');
+    expect(capturedText[25].match(/\S+/g)[2]).toEqual('36');
+    expect(capturedText[29].match(/\S+/g)[2]).toEqual('59');
+    expect(capturedText[33].match(/\S+/g)[2]).toEqual('15');
     expect(capturedText[37].match(/\S+/g)[2]).toEqual('15');
-    expect(capturedText[41].match(/\S+/g)[2]).toEqual('15');
-    expect(capturedText[45].match(/\S+/g)[2]).toEqual('197');
-    expect(capturedText[49].match(/\S+/g)[2]).toEqual('108');
-    expect(capturedText[53].match(/\S+/g)[2]).toEqual('131');
-    expect(capturedText[57].match(/\S+/g)[2]).toEqual('134');
-    expect(capturedText[61].match(/\S+/g)[2]).toEqual('126');
+    expect(capturedText[41].match(/\S+/g)[2]).toEqual('197');
+    expect(capturedText[45].match(/\S+/g)[2]).toEqual('108');
+    expect(capturedText[49].match(/\S+/g)[2]).toEqual('131');
+    expect(capturedText[53].match(/\S+/g)[2]).toEqual('134');
+    expect(capturedText[57].match(/\S+/g)[2]).toEqual('126');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
@@ -334,7 +363,7 @@ describe('test expected output - OpenAPI 3', function() {
     const defaultMode = true;
     const validationResults = await inCodeValidator(oas3Object, defaultMode);
 
-    expect(validationResults.errors.length).toBe(5);
+    expect(validationResults.errors.length).toBe(4);
     expect(validationResults.warnings.length).toBe(11);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
