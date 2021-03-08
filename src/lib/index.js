@@ -2,7 +2,7 @@ const chalk = require('chalk');
 const config = require('../cli-validator/utils/processConfiguration');
 const buildSwaggerObject = require('../cli-validator/utils/buildSwaggerObject');
 const validator = require('../cli-validator/utils/validator');
-const getOutput = require('./utils/printForMachine');
+const { formatResultsAsObject } = require('../cli-validator/utils/jsonResults');
 const spectralValidator = require('../spectral/utils/spectral-validator');
 const { Spectral } = require('@stoplight/spectral');
 
@@ -31,5 +31,5 @@ module.exports = async function(input, defaultMode = false) {
   const results = validator(swagger, configObject, spectralResults);
 
   // return a json object containing the errors/warnings
-  return getOutput(results);
+  return formatResultsAsObject(results);
 };

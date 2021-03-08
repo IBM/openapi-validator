@@ -34,26 +34,26 @@ describe('Spectral - test custom configuration', function() {
     consoleSpy.mockRestore();
 
     // Verify errors
-    expect(jsonOutput['errors']['spectral'].length).toBe(2);
+    expect(jsonOutput['errors'].length).toBe(2);
 
     // Verify warnings
-    expect(jsonOutput['warnings']['spectral'].length).toBe(10);
+    expect(jsonOutput['warnings'].length).toBe(10);
 
     // Verify infos
-    expect(jsonOutput['infos']['spectral'].length).toBe(6);
-    expect(jsonOutput['infos']['spectral'][0]['message']).toEqual(
+    expect(jsonOutput['infos'].length).toBe(6);
+    expect(jsonOutput['infos'][0]['message']).toEqual(
       'Markdown descriptions should not contain `<script>` tags.'
     );
-    expect(jsonOutput['infos']['spectral'][4]['message']).toEqual(
+    expect(jsonOutput['infos'][4]['message']).toEqual(
       'Operation tags should be defined in global tags.'
     );
 
     // Verify hints
-    expect(jsonOutput['hints']['spectral'].length).toBe(2);
-    expect(jsonOutput['hints']['spectral'][0]['message']).toEqual(
+    expect(jsonOutput['hints'].length).toBe(2);
+    expect(jsonOutput['hints'][0]['message']).toEqual(
       'OpenAPI object should have non-empty `tags` array.'
     );
-    expect(jsonOutput['hints']['spectral'][1]['message']).toEqual(
+    expect(jsonOutput['hints'][1]['message']).toEqual(
       'Operation should have non-empty `tags` array.'
     );
   });
@@ -88,14 +88,14 @@ describe('Spectral - test custom configuration', function() {
     consoleSpy.mockRestore();
 
     // Verify errors
-    expect(jsonOutput['errors']['spectral'].length).toBe(1);
-    expect(jsonOutput['errors']['spectral'][0]['message']).toEqual(
+    expect(jsonOutput['errors'].length).toBe(1);
+    expect(jsonOutput['errors'][0]['message']).toEqual(
       'Markdown descriptions should not contain `eval(`.'
     );
 
     // Verify warnings
-    expect(jsonOutput['warnings']['spectral'].length).toBe(20);
-    const warnings = jsonOutput['warnings']['spectral'].map(w => w['message']);
+    expect(jsonOutput['warnings'].length).toBe(20);
+    const warnings = jsonOutput['warnings'].map(w => w['message']);
     // This warning should be turned off
     expect(warnings).not.toContain(
       'OpenAPI object should have non-empty `tags` array.'
@@ -136,11 +136,11 @@ describe('Spectral - test custom configuration', function() {
     consoleSpy.mockRestore();
 
     // Verify there are no errors
-    expect(jsonOutput['errors']['spectral']).toBeUndefined();
+    expect(jsonOutput['errors']).toBeUndefined();
 
     // Verify warnings
-    expect(jsonOutput['warnings']['spectral'].length).toBe(25);
-    const warnings = jsonOutput['warnings']['spectral'].map(w => w['message']);
+    expect(jsonOutput['warnings'].length).toBe(25);
+    const warnings = jsonOutput['warnings'].map(w => w['message']);
     // This is the new warning -- there should be three occurrences
     const warning = 'All request bodies should have an example.';
     const occurrences = warnings.reduce(

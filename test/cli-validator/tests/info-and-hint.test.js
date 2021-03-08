@@ -32,28 +32,20 @@ describe('test info and hint rules - OAS3', function() {
     consoleSpy.mockRestore();
 
     // errors for non-unique operation ids
-    expect(jsonOutput['errors']['spectral'].length).toBe(1);
-
-    // Verify errors
-    expect(jsonOutput['errors']['operations-shared'].length).toBe(2);
-    expect(jsonOutput['errors']['schema-ibm'].length).toBe(1);
+    expect(jsonOutput['errors'].length).toBe(4);
 
     // Verify warnings
-    expect(jsonOutput['warnings']['responses'].length).toBe(2);
-    expect(jsonOutput['warnings']['operations-shared'].length).toBe(2);
-    expect(jsonOutput['warnings']['refs'].length).toBe(1);
-    expect(jsonOutput['warnings']['schema-ibm'].length).toBe(1);
-    expect(jsonOutput['warnings']['security-definitions-ibm'].length).toBe(1);
+    expect(jsonOutput['warnings'].length).toBe(7);
 
     // Verify infos
-    expect(jsonOutput['infos']['schema-ibm'].length).toBe(1);
-    expect(jsonOutput['infos']['schema-ibm'][0]['message']).toEqual(
+    expect(jsonOutput['infos'].length).toBe(1);
+    expect(jsonOutput['infos'][0]['message']).toEqual(
       'Schema must have a non-empty description.'
     );
 
     // Verify hints
-    expect(jsonOutput['hints']['operations-shared'].length).toBe(2);
-    expect(jsonOutput['hints']['operations-shared'][0]['message']).toEqual(
+    expect(jsonOutput['hints'].length).toBe(2);
+    expect(jsonOutput['hints'][0]['message']).toEqual(
       'A tag is defined but never used: store'
     );
   });
