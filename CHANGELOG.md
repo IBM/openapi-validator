@@ -1,3 +1,10 @@
+## [0.35.1](https://github.com/IBM/openapi-validator/compare/v0.35.0...v0.35.1) (2021-03-08)
+
+
+### Bug Fixes
+
+* no error for inline array schema when items field is a ref ([#257](https://github.com/IBM/openapi-validator/issues/257)) ([4dd3708](https://github.com/IBM/openapi-validator/commit/4dd370802110acb5dee6de78f02d0f9adc812980))
+
 # [0.35.0](https://github.com/IBM/openapi-validator/compare/v0.34.4...v0.35.0) (2021-03-05)
 
 
