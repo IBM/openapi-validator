@@ -22,11 +22,16 @@ const schemas = {
 module.exports = async function(input) {
   // initialize an object to be passed through all the validators
   const swagger = {};
+  const parser = new RefParser();
+
+  // in case of multi-file specifications, bundle the spec into one file with
+  // only internal refs. use this for the spec string and the js spec
+  const bundledSpec = await parser.bundle(copyObject(input));
 
   // formatting the JSON string with indentations is necessary for the
   //   validations that use it with regular expressions (e.g. refs.js)
   const indentationSpaces = 2;
-  swagger.specStr = JSON.stringify(input, null, indentationSpaces);
+  swagger.specStr = JSON.stringify(bundledSpec, null, indentationSpaces);
 
   // deep copy input to a jsSpec by parsing the spec string.
   // just setting it equal to 'input' and then calling 'dereference'
@@ -35,10 +40,9 @@ module.exports = async function(input) {
 
   // dereference() resolves all references. it esentially returns the resolvedSpec,
   //   but without the $$ref tags (which are not used in the validations)
-  const parser = new RefParser();
   parser.dereference.circular = false;
   // passes the parser a copy of the spec to keep the original spec intact
-  swagger.resolvedSpec = await parser.dereference(JSON.parse(swagger.specStr));
+  swagger.resolvedSpec = await parser.dereference(copyObject(input));
   swagger.circular = parser.$refs.circular;
 
   const version = getVersion(swagger.jsSpec);
@@ -53,3 +57,8 @@ module.exports = async function(input) {
 
   return swagger;
 };
+
+// copy an object such that changes to the copy won't affect the original
+function copyObject(obj) {
+  return JSON.parse(JSON.stringify(obj));
+}
