@@ -1,3 +1,10 @@
+## [0.35.2](https://github.com/IBM/openapi-validator/compare/v0.35.1...v0.35.2) (2021-03-09)
+
+
+### Bug Fixes
+
+* bundle original spec to account for multi-file API definitions ([#252](https://github.com/IBM/openapi-validator/issues/252)) ([f241c8b](https://github.com/IBM/openapi-validator/commit/f241c8b5275a36e01c8f88090f99c57105bb72a3))
+
 ## [0.35.1](https://github.com/IBM/openapi-validator/compare/v0.35.0...v0.35.1) (2021-03-08)
 
 
