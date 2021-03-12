@@ -181,22 +181,15 @@ describe('cli tool - test option handling', function() {
     // capturedText should be JSON object. convert to json and check fields
     const outputObject = JSON.parse(capturedText);
 
-    //console.print(JSON.stringify(outputObject)); //FIXME
-
-    expect(outputObject.warning).toEqual(true);
-    expect(outputObject.error).toEqual(true);
-
     // {"line": 59, "message": "Every operation must have a unique `operationId`.", "path": ["paths", "/pet", "put", "operationId"], "rule": "operation-operationId-unique"}
-    expect(outputObject['errors']['spectral'][0]['line']).toEqual(59);
-    expect(outputObject['errors']['spectral'][0]['message']).toEqual(
+    expect(outputObject['errors'][0]['line']).toEqual(59);
+    expect(outputObject['errors'][0]['message']).toEqual(
       'Every operation must have a unique `operationId`.'
     );
 
     // {"operations-shared": [{"line": 36, "message": "Operations must have a non-empty `operationId`.", "path": "paths./pet.post.operationId"},
-    expect(outputObject['warnings']['operations-shared'][0]['line']).toEqual(
-      36
-    );
-    expect(outputObject['warnings']['operations-shared'][0]['message']).toEqual(
+    expect(outputObject['warnings'][0]['line']).toEqual(36);
+    expect(outputObject['warnings'][0]['message']).toEqual(
       'Operations must have a non-empty `operationId`.'
     );
   });
@@ -213,8 +206,6 @@ describe('cli tool - test option handling', function() {
     // capturedText should be JSON object. convert to json and check fields
     const outputObject = JSON.parse(capturedText);
 
-    expect(outputObject.warning).toEqual(false);
-    expect(outputObject.error).toEqual(true);
     expect(outputObject.warnings).toEqual(undefined);
   });
 

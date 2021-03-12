@@ -113,7 +113,6 @@ describe('spectral - test enabled rules - Swagger 2', function() {
 });
 
 describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
-  let errors;
   let warnings;
 
   beforeAll(async () => {
@@ -124,139 +123,94 @@ describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
       defaultMode
     );
 
-    expect(validationResults.errors.length).toEqual(0);
+    expect(validationResults.errors).toBeUndefined();
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
-    errors = validationResults.errors.map(error => error.message);
     warnings = validationResults.warnings.map(warn => warn.message);
-    expect(errors.length).toEqual(0);
     expect(warnings.length).toBeGreaterThan(0);
   });
 
   it('test no-eval-in-markdown rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Markdown descriptions should not contain `eval(``.'
-    );
     expect(warnings).toContain(
       'Markdown descriptions should not contain `eval(`.'
     );
   });
 
   it('test no-script-tags-in-markdown rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Markdown descriptions should not contain `<script>` tags.'
-    );
     expect(warnings).toContain(
       'Markdown descriptions should not contain `<script>` tags.'
     );
   });
 
   it('test openapi-tags rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'OpenAPI object should have non-empty `tags` array.'
-    );
     expect(warnings).toContain(
       'OpenAPI object should have non-empty `tags` array.'
     );
   });
 
   it('test operation-description rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Operation `description` must be present and non-empty string.'
-    );
     expect(warnings).toContain(
       'Operation `description` must be present and non-empty string.'
     );
   });
 
   it('test operation-parameters rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
-    );
     expect(warnings).toContain(
       'A parameter in this operation already exposes the same combination of `name` and `in` values.'
     );
   });
 
   it('test operation-tags rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Operation should have non-empty `tags` array.'
-    );
     expect(warnings).toContain('Operation should have non-empty `tags` array.');
   });
 
   it('test operation-tag-defined rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Operation tags should be defined in global tags.'
-    );
     expect(warnings).toContain(
       'Operation tags should be defined in global tags.'
     );
   });
 
   it('test path-keys-no-trailing-slash rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain('paths should not end with a slash.');
     expect(warnings).toContain('paths should not end with a slash.');
   });
 
   it('test typed-enum rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Enum value `a_string` does not respect the specified type `integer`.'
-    );
     expect(warnings).toContain(
       'Enum value `a_string` does not respect the specified type `integer`.'
     );
   });
 
   it('test oas2-api-host rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'OpenAPI `host` must be present and non-empty string.'
-    );
     expect(warnings).toContain(
       'OpenAPI `host` must be present and non-empty string.'
     );
   });
 
   it('test oas2-api-schemes rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'OpenAPI host `schemes` must be present and non-empty array.'
-    );
     expect(warnings).toContain(
       'OpenAPI host `schemes` must be present and non-empty array.'
     );
   });
 
   it('test oas2-valid-definition-example rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      '`number_of_coins` property type should be integer'
-    );
     expect(warnings).toContain(
       '`number_of_coins` property type should be integer'
     );
   });
 
   it('test oas2-anyOf rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'anyOf is not available in OpenAPI v2, it was added in OpenAPI v3'
-    );
     expect(warnings).toContain(
       'anyOf is not available in OpenAPI v2, it was added in OpenAPI v3'
     );
   });
 
   it('test oas2-oneOf rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'oneOf is not available in OpenAPI v2, it was added in OpenAPI v3'
-    );
     expect(warnings).toContain(
       'oneOf is not available in OpenAPI v2, it was added in OpenAPI v3'
     );
   });
 
   it('test oas2-operation-formData-consume-check rule using mockFiles/swagger/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Operations with an `in: formData` parameter must include `application/x-www-form-urlencoded` or `multipart/form-data` in their `consumes` property.'
-    );
     expect(warnings).toContain(
       'Operations with an `in: formData` parameter must include `application/x-www-form-urlencoded` or `multipart/form-data` in their `consumes` property.'
     );
@@ -366,7 +320,6 @@ describe('spectral - test enabled rules - OAS3', function() {
 });
 
 describe('spectral - test enabled rules - OAS3 In Memory', function() {
-  let errors;
   let warnings;
 
   beforeAll(async () => {
@@ -375,112 +328,76 @@ describe('spectral - test enabled rules - OAS3 In Memory', function() {
     const validationResults = await inCodeValidator(oas3InMemory, defaultMode);
 
     // should produce an object with an empty `errors` key and a non-empty `warnings` key
-    expect(validationResults.errors.length).toEqual(0);
+    expect(validationResults.errors).toBeUndefined();
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
-    errors = validationResults.errors.map(error => error.message);
     warnings = validationResults.warnings.map(warn => warn.message);
-    expect(errors.length).toEqual(0);
     expect(warnings.length).toBeGreaterThan(0);
   });
 
   it('test no-eval-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Markdown descriptions should not contain `eval(``.'
-    );
     expect(warnings).toContain(
       'Markdown descriptions should not contain `eval(`.'
     );
   });
 
   it('test no-script-tags-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Markdown descriptions should not contain `<script>` tags.'
-    );
     expect(warnings).toContain(
       'Markdown descriptions should not contain `<script>` tags.'
     );
   });
 
   it('test openapi-tags rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'OpenAPI object should have non-empty `tags` array.'
-    );
     expect(warnings).toContain(
       'OpenAPI object should have non-empty `tags` array.'
     );
   });
 
   it('test operation-description rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Operation `description` must be present and non-empty string.'
-    );
     expect(warnings).toContain(
       'Operation `description` must be present and non-empty string.'
     );
   });
 
   it('test operation-parameters rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'A parameter in this operation already exposes the same combination of `name` and `in` values.'
-    );
     expect(warnings).toContain(
       'A parameter in this operation already exposes the same combination of `name` and `in` values.'
     );
   });
 
   it('test operation-tags rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Operation should have non-empty `tags` array.'
-    );
     expect(warnings).toContain('Operation should have non-empty `tags` array.');
   });
 
   it('test operation-tag-defined rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Operation tags should be defined in global tags.'
-    );
     expect(warnings).toContain(
       'Operation tags should be defined in global tags.'
     );
   });
 
   it('test path-keys-no-trailing-slash rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain('paths should not end with a slash.');
     expect(warnings).toContain('paths should not end with a slash.');
   });
 
   it('test typed-enum rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Enum value `a_string` does not respect the specified type `integer`.'
-    );
     expect(warnings).toContain(
       'Enum value `a_string` does not respect the specified type `integer`.'
     );
   });
 
   it('test oas3-api-servers rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'OpenAPI `servers` must be present and non-empty array.'
-    );
     expect(warnings).toContain(
       'OpenAPI `servers` must be present and non-empty array.'
     );
   });
 
   it('test oas3-examples-value-or-externalValue rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      'Examples should have either a `value` or `externalValue` field.'
-    );
     expect(warnings).toContain(
       'Examples should have either a `value` or `externalValue` field.'
     );
   });
 
   it('test oas3-valid-example rule using mockFiles/oas3/enabled-rules-in-memory', function() {
-    expect(errors).not.toContain(
-      '`number_of_coins` property type should be integer'
-    );
     expect(warnings).toContain(
       '`number_of_coins` property type should be integer'
     );

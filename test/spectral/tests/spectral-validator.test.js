@@ -266,7 +266,7 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
 
   // There should be no errors and no warnings
   it('test no spectral errors and no spectral warnings', function() {
-    expect(validationResults.errors.length).toBe(0);
-    expect(validationResults.warnings.length).toBe(0);
+    expect(validationResults.errors).toBeUndefined();
+    expect(validationResults.warnings).toBeUndefined();
   });
 });
