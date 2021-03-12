@@ -1,3 +1,10 @@
+# [0.36.0](https://github.com/IBM/openapi-validator/compare/v0.35.2...v0.36.0) (2021-03-12)
+
+
+### Features
+
+* synchronize the inCodeValidator output to match the CLI -json output ([#260](https://github.com/IBM/openapi-validator/issues/260)) ([e61f803](https://github.com/IBM/openapi-validator/commit/e61f8032dbe1299eec1612d3e15f8650fadf3ecf))
+
 ## [0.35.2](https://github.com/IBM/openapi-validator/compare/v0.35.1...v0.35.2) (2021-03-09)
 
 
