@@ -18,13 +18,13 @@ module.exports = function(requiredVersion) {
   }
 
   // print deprecation warnings for specific node versions that will no longer be supported
-  const isNodeEight = semver.satisfies(process.version, '8.x');
-  if (isNodeEight) {
+  const isNodeTen = semver.satisfies(process.version, '10.x');
+  if (isNodeTen) {
     console.log(
       '\n' +
         chalk.yellow('[Warning]') +
-        ` Support for Node v8 is deprecated. Support will be officially dropped when it reaches end of life` +
-        ` (31 December 2019) or when v1.0 of this package is released, whichever happens first.\n`
+        ` Support for Node 10.x is deprecated. Support will be officially dropped when it reaches end of life` +
+        ` (30 April 2021).\n`
     );
   }
 };
