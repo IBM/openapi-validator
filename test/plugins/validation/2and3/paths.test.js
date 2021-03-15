@@ -203,28 +203,6 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Paths cannot have partial templates', () => {
-      it('should return one problem for an illegal partial path template', function() {
-        const spec = {
-          paths: {
-            '/CoolPath/user{id}': {
-              parameters: [
-                {
-                  name: 'id',
-                  in: 'path'
-                }
-              ]
-            }
-          }
-        };
-
-        const res = validate({ resolvedSpec: spec });
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].message).toEqual(
-          'Partial path templating is not allowed.'
-        );
-        expect(res.errors[0].path).toEqual('paths./CoolPath/user{id}');
-      });
-
       it('should return no problems for a correct path template', function() {
         const spec = {
           paths: {
@@ -267,30 +245,6 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Integrations', () => {
-      it('should return one problem for an illegal query string in a path string', function() {
-        const spec = {
-          paths: {
-            '/report?rdate={relative_date}': {
-              parameters: [
-                {
-                  name: 'relative_date',
-                  in: 'path'
-                }
-              ]
-            }
-          }
-        };
-
-        const res = validate({ resolvedSpec: spec });
-        expect(res.errors.length).toEqual(1);
-        expect(res.errors[0].message).toEqual(
-          'Partial path templating is not allowed.'
-        );
-        expect(res.errors[0].path).toEqual(
-          'paths./report?rdate={relative_date}'
-        );
-      });
-
       it.skip('should return two problems for an equivalent path string missing a parameter definition', function() {
         const spec = {
           paths: {
