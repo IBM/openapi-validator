@@ -1,3 +1,10 @@
+# [0.37.0](https://github.com/IBM/openapi-validator/compare/v0.36.0...v0.37.0) (2021-03-16)
+
+
+### Features
+
+* custom Spectral rule to ensure content objects contain schema ([#258](https://github.com/IBM/openapi-validator/issues/258)) ([bb9e419](https://github.com/IBM/openapi-validator/commit/bb9e419e347a407b9a8126ff28ddad80b4923e80))
+
 # [0.36.0](https://github.com/IBM/openapi-validator/compare/v0.35.2...v0.36.0) (2021-03-12)
 
 
