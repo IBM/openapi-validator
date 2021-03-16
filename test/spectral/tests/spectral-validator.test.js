@@ -251,7 +251,9 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
       'oas3-server-trailing-slash': 'off',
       'oas3-valid-oas-content-example': 'off',
       'oas3-valid-example': 'off',
-      'oas3-valid-schema-example': 'off'
+      'oas3-valid-schema-example': 'off',
+      'content-entry-contains-schema': 'off',
+      'response-example-provided': 'off'
     };
     const mockConfig = jest.spyOn(config, 'get').mockReturnValue(mockObject);
 
