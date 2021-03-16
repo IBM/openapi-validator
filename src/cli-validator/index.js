@@ -2,8 +2,8 @@
 
 // this module enforces that the user is running a supported version
 // of Node by exiting the process if the version is less than
-// the passed in argument (currently 8.9.x)
-require('./utils/checkVersion')('10.0');
+// the passed in argument (currently 10.0.0)
+require('./utils/checkVersion')('10.0.0');
 require('./utils/updateNotifier');
 
 const program = require('./utils/modified-commander');
