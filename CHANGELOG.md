@@ -1,3 +1,10 @@
+## [0.37.1](https://github.com/IBM/openapi-validator/compare/v0.37.0...v0.37.1) (2021-03-16)
+
+
+### Bug Fixes
+
+* correct the minimum required version of Node ([#264](https://github.com/IBM/openapi-validator/issues/264)) ([8b3bad4](https://github.com/IBM/openapi-validator/commit/8b3bad46d25d39b22b5feca8628d74b951825af0))
+
 # [0.37.0](https://github.com/IBM/openapi-validator/compare/v0.36.0...v0.37.0) (2021-03-16)
 
 
