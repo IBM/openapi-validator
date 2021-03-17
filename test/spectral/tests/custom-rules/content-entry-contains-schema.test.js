@@ -3,7 +3,7 @@ const inCodeValidator = require('../../../../src/lib');
 describe('spectral - test validation that schema provided in content object', function() {
   it('should not error when the content object contains a schema', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
       paths: {
         path1: {
           get: {
@@ -42,7 +42,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
   it('should error when a content object in a requestBody reference does not contain a schema', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
       paths: {
         path1: {
           post: {
@@ -76,7 +76,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
   it('should error when a content object in a response reference does not contain a schema', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
       paths: {
         path1: {
           post: {
@@ -112,7 +112,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
   it('should error when the content object does not contain a schema in a response', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
       paths: {
         'pets/{petId}': {
           get: {
@@ -149,7 +149,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
   it('should error when the content object does not contain a schema in a request body', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
       paths: {
         createPet: {
           post: {

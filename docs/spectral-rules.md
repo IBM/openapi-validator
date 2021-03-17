@@ -29,6 +29,33 @@ responses:
 
 **Default Severity**: warn
 
+## response-error-response-has-content
+
+`4xx` and `5xx` series responses should provide a useful error response object. This rule ensures that error responses provide a content object.
+
+**Bad Example**
+
+```yaml
+responses:
+  400:
+    description: 'example error description`
+```
+
+**Good Example**
+
+```yaml
+responses:
+  400:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            $ref: '#/components/responses/ErrorResponse'
+```
+
+**Default Severity**: warn
+
 ## response-example-provided
 
 Response examples are used to generate documentation. To improve the generated documentation, response examples should be provided in the schema object or "next to" the schema object.

@@ -35,7 +35,7 @@ describe('test info and hint rules - OAS3', function() {
     expect(jsonOutput['errors'].length).toBe(4);
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(8);
+    expect(jsonOutput['warnings'].length).toBe(13);
 
     // Verify infos
     expect(jsonOutput['infos'].length).toBe(1);

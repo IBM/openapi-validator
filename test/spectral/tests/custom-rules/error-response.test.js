@@ -3,7 +3,12 @@ const inCodeValidator = require('../../../../src/lib');
 describe('spectral - test error-response validation does not produce false positives', function() {
   it('should not error for missing content for success response with no content or failure response with content', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
+      info: {
+        version: '1.0.0',
+        title: 'ErrorAPI'
+      },
+      servers: [{ url: 'http://api.errorapi.com/v1' }],
       paths: {
         path1: {
           get: {
@@ -31,7 +36,7 @@ describe('spectral - test error-response validation does not produce false posit
               'application/json': {
                 schema: {
                   $ref: '#/components/schemas/AcceptableErrorModel'
-                },
+                }
               }
             }
           },
@@ -40,7 +45,7 @@ describe('spectral - test error-response validation does not produce false posit
               'application/json': {
                 schema: {
                   $ref: '#/components/schemas/ErrorContainerModel'
-                },
+                }
               }
             }
           }
@@ -81,10 +86,7 @@ describe('spectral - test error-response validation does not produce false posit
             properties: {
               code: {
                 type: 'string',
-                enum: [
-                  'error_1',
-                  'error_2'
-                ]
+                enum: ['error_1', 'error_2']
               },
               message: {
                 type: 'string'
@@ -101,11 +103,7 @@ describe('spectral - test error-response validation does not produce false posit
           ErrorTargetModel: {
             type: {
               type: 'string',
-              enum: [
-                'field',
-                'parameter',
-                'header'
-              ]
+              enum: ['field', 'parameter', 'header']
             },
             name: {
               type: 'string',
@@ -118,9 +116,7 @@ describe('spectral - test error-response validation does not produce false posit
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Error response should have a content field'
+      warn => warn.message === 'Error response should have a content field'
     );
     expect(expectedWarnings.length).toBe(0);
   });
@@ -129,7 +125,12 @@ describe('spectral - test error-response validation does not produce false posit
 describe('spectral - test error-response validation catches invalid error responses', function() {
   it('should error for missing content for failure response with no content', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
+      info: {
+        version: '1.0.0',
+        title: 'ErrorAPI'
+      },
+      servers: [{ url: 'http://api.errorapi.com/v1' }],
       paths: {
         path1: {
           get: {
@@ -154,20 +155,16 @@ describe('spectral - test error-response validation catches invalid error respon
         },
         schemas: {
           BadErrorModel: {
-            type: 'string',
+            type: 'string'
           }
         }
       }
     };
 
     const res = await inCodeValidator(spec, true);
-    expect(res.warnings).toBe('');
     const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Error response should have a content field'
+      warn => warn.message === 'Error response should have a content field'
     );
     expect(expectedWarnings.length).toBe(1);
   });
 });
-

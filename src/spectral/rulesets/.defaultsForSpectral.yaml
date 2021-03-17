@@ -115,3 +115,13 @@ rules:
     resolved: true
     then:
       function: response-example-provided
+  # ensure error response has content
+  response-error-response-has-content:
+    description: Error response should have a content field
+    given: $.paths[*][*].responses[?(@property >= 400 && @property < 600)]
+    severity: warn
+    formats: ["oas3"]
+    resolved: true
+    then:
+      field: content
+      function: truthy
