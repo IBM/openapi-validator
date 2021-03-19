@@ -141,10 +141,13 @@ describe('spectral - test error-response validation catches invalid error respon
                 description: 'Success response with no response body'
               },
               '400': {
-                $ref: '#/components/responses/BadErrorModelResponse'
+                $ref: '#/components/responses/NoObjectErrorModelResponse'
               },
               '404': {
                 $ref: '#/components/responses/NoContentErrorResponse'
+              },
+              '500': {
+                $ref: '#/components/responses/MissingPropertiesErrorResponse'
               }
             }
           }
@@ -152,7 +155,7 @@ describe('spectral - test error-response validation catches invalid error respon
       },
       components: {
         responses: {
-          BadErrorModelResponse: {
+          NoObjectErrorModelResponse: {
             content: {
               'application/json': {
                 schema: {
@@ -165,16 +168,29 @@ describe('spectral - test error-response validation catches invalid error respon
             schema: {
               $ref: '#/components/schemas/BadErrorModel'
             }
+          },
+          MissingPropertiesErrorResponse: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/MissingPropertiesErrorModel'
+                }
+              }
+            }
           }
         },
         schemas: {
           BadErrorModel: {
             type: 'string'
+          },
+          MissingPropertiesErrorModel: {
+            type: 'object',
+            properties: {}
           }
         }
       }
     };
-    
+
     res = await inCodeValidator(spec, true);
   });
 
@@ -188,6 +204,13 @@ describe('spectral - test error-response validation catches invalid error respon
   it('should error for error-response that is not an object', function() {
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === 'Error response should be an object'
+    );
+    expect(expectedWarnings.length).toBe(1);
+  });
+
+  it('should error for error-response that does not include error field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === 'Error response should have a uuid `trace` field'
     );
     expect(expectedWarnings.length).toBe(1);
   });
