@@ -1,3 +1,10 @@
+# [0.38.0](https://github.com/IBM/openapi-validator/compare/v0.37.1...v0.38.0) (2021-03-19)
+
+
+### Features
+
+* warn for missing response examples ([#265](https://github.com/IBM/openapi-validator/issues/265)) ([0f10376](https://github.com/IBM/openapi-validator/commit/0f103760dc316d172c77ab3300513ccbd7cc16fe))
+
 ## [0.37.1](https://github.com/IBM/openapi-validator/compare/v0.37.0...v0.37.1) (2021-03-16)
 
 
