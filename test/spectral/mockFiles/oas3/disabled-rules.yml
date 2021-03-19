@@ -260,6 +260,9 @@ components:
         message:
           type: string
           description: "message property"
+        trace:
+          type: string
+          format: uuid
       example:
         code: 123
         message: "error occurred"

@@ -148,6 +148,9 @@ describe('spectral - test error-response validation catches invalid error respon
               },
               '500': {
                 $ref: '#/components/responses/MissingPropertiesErrorResponse'
+              },
+              '501': {
+                $ref: '#/components/responses/IncorrectPropertiesErrorResponse'
               }
             }
           }
@@ -177,6 +180,15 @@ describe('spectral - test error-response validation catches invalid error respon
                 }
               }
             }
+          },
+          IncorrectPropertiesErrorResponse: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/IncorrectPropertiesModel'
+                }
+              }
+            }
           }
         },
         schemas: {
@@ -186,6 +198,15 @@ describe('spectral - test error-response validation catches invalid error respon
           MissingPropertiesErrorModel: {
             type: 'object',
             properties: {}
+          },
+          IncorrectPropertiesModel: {
+            type: 'object',
+            properties: {
+              trace: {
+                type: 'string'
+                // missing format, uuid
+              }
+            }
           }
         }
       }
@@ -212,6 +233,6 @@ describe('spectral - test error-response validation catches invalid error respon
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === 'Error response should have a uuid `trace` field'
     );
-    expect(expectedWarnings.length).toBe(1);
+    expect(expectedWarnings.length).toBe(2);
   });
 });
