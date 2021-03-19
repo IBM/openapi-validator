@@ -1,37 +1,23 @@
-const path = require('path');
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
-const config = require('../../../src/cli-validator/utils/processConfiguration');
 const { getCapturedText } = require('../../test-utils');
 
 describe('Spectral - test custom configuration', function() {
   it('test Spectral info and hint rules', async function() {
-    // Set config to mock .spectral.yml file before running
-    const mockPath = path.join(
-      __dirname,
-      '../mockFiles/mockConfig/info-and-hint.yaml'
-    );
-    const mockConfig = jest
-      .spyOn(config, 'getSpectralRuleset')
-      .mockResolvedValue(mockPath);
-
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+
     // set up mock user input
     const program = {};
     program.args = ['./test/spectral/mockFiles/oas3/enabled-rules.yml'];
     program.default_mode = true;
     program.json = true;
+    program.ruleset = 'test/spectral/mockFiles/mockConfig/info-and-hint.yaml';
 
-    // Note: validator does not set exitcode for jsonOutput
-    await commandLineValidator(program);
-
-    // Ensure mockConfig was called and revert it to its original state
-    expect(mockConfig).toHaveBeenCalled();
-    mockConfig.mockRestore();
+    const exitcode = await commandLineValidator(program);
+    expect(exitcode).toBe(0);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    const jsonOutput = JSON.parse(capturedText);
-
     consoleSpy.mockRestore();
+    const jsonOutput = JSON.parse(capturedText);
 
     // Verify errors
     expect(jsonOutput['errors'].length).toBe(2);
@@ -59,33 +45,20 @@ describe('Spectral - test custom configuration', function() {
   });
 
   it('test Spectral custom config that extends ibm:oas', async function() {
-    // Set config to mock .spectral.yml file before running
-    const mockPath = path.join(
-      __dirname,
-      '../mockFiles/mockConfig/extends-default.yaml'
-    );
-    const mockConfig = jest
-      .spyOn(config, 'getSpectralRuleset')
-      .mockResolvedValue(mockPath);
-
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
     const program = {};
     program.args = ['./test/spectral/mockFiles/oas3/enabled-rules.yml'];
     program.default_mode = true;
     program.json = true;
+    program.ruleset = 'test/spectral/mockFiles/mockConfig/extends-default.yaml';
 
-    // Note: validator does not set exitcode for jsonOutput
-    await commandLineValidator(program);
-
-    // Ensure mockConfig was called and revert it to its original state
-    expect(mockConfig).toHaveBeenCalled();
-    mockConfig.mockRestore();
+    const exitcode = await commandLineValidator(program);
+    expect(exitcode).toBe(0);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    const jsonOutput = JSON.parse(capturedText);
-
     consoleSpy.mockRestore();
+    const jsonOutput = JSON.parse(capturedText);
 
     // Verify errors
     expect(jsonOutput['errors'].length).toBe(1);
@@ -94,7 +67,7 @@ describe('Spectral - test custom configuration', function() {
     );
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(20);
+    expect(jsonOutput['warnings'].length).toBe(21);
     const warnings = jsonOutput['warnings'].map(w => w['message']);
     // This warning should be turned off
     expect(warnings).not.toContain(
@@ -107,39 +80,26 @@ describe('Spectral - test custom configuration', function() {
   });
 
   it('test Spectral custom config that extends ibm:oas with custom rules', async function() {
-    // Set config to mock .spectral.yml file before running
-    const mockPath = path.join(
-      __dirname,
-      '../mockFiles/mockConfig/custom-rules.yaml'
-    );
-    const mockConfig = jest
-      .spyOn(config, 'getSpectralRuleset')
-      .mockResolvedValue(mockPath);
-
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
     const program = {};
     program.args = ['./test/spectral/mockFiles/oas3/enabled-rules.yml'];
     program.default_mode = true;
     program.json = true;
+    program.ruleset = 'test/spectral/mockFiles/mockConfig/custom-rules.yaml';
 
-    // Note: validator does not set exitcode for jsonOutput
-    await commandLineValidator(program);
-
-    // Ensure mockConfig was called and revert it to its original state
-    expect(mockConfig).toHaveBeenCalled();
-    mockConfig.mockRestore();
+    const exitcode = await commandLineValidator(program);
+    expect(exitcode).toBe(0);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    const jsonOutput = JSON.parse(capturedText);
-
     consoleSpy.mockRestore();
+    const jsonOutput = JSON.parse(capturedText);
 
     // Verify there are no errors
     expect(jsonOutput['errors']).toBeUndefined();
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(25);
+    expect(jsonOutput['warnings'].length).toBe(26);
     const warnings = jsonOutput['warnings'].map(w => w['message']);
     // This is the new warning -- there should be three occurrences
     const warning = 'All request bodies should have an example.';

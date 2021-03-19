@@ -1,4 +1,7 @@
 extends: spectral:oas
+functionsDir: './ibm-oas'
+functions:
+  - response-example-provided
 rules:
 
   # Original list created from Spectral with:
@@ -104,3 +107,11 @@ rules:
     then:
       field: schema
       function: truthy
+  # custom Spectral rule to ensure response example provided
+  response-example-provided:
+    message: "{{error}}"
+    given: $.paths[*][*].responses[*].content.application/json
+    severity: warn
+    resolved: true
+    then:
+      function: response-example-provided

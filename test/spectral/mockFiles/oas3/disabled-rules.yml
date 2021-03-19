@@ -192,6 +192,10 @@ components:
         tag:
           type: string
           description: "tag property"
+      example:
+        id: 1
+        name: doggie
+        tag: dog
     Pets:
       description:
         A list of pets
@@ -220,6 +224,15 @@ components:
         next_token:
           type: string
           description: next token
+      example:
+        pets:
+        - id: 1
+          name: doggie
+          tag: dog
+        next_url: 'https://www.nexturl.com'
+        limit: 50
+        offset: 20
+        next_token: TOKEN_STRING
 
     Error:
       description:
@@ -235,3 +248,6 @@ components:
         message:
           type: string
           description: "message property"
+      example:
+        code: 123
+        message: "error occurred"
