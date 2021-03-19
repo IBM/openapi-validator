@@ -1,6 +1,7 @@
 extends: spectral:oas
 functionsDir: './ibm-oas'
 functions:
+  - error-response-schema
   - response-example-provided
 rules:
 
@@ -125,3 +126,12 @@ rules:
     then:
       field: content
       function: truthy
+  # ensure error response has content
+  response-error-response-schema:
+    message: "{{error}}"
+    given: $.paths[*][*].responses[?(@property >= 400 && @property < 600)].content[*].schema
+    severity: warn
+    formats: ["oas3"]
+    resolved: true
+    then:
+      function: error-response-schema
