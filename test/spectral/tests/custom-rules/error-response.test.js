@@ -123,7 +123,9 @@ describe('spectral - test error-response validation does not produce false posit
 });
 
 describe('spectral - test error-response validation catches invalid error responses', function() {
-  it('should error for missing content for failure response with no content', async () => {
+  let res;
+
+  beforeAll(async () => {
     const spec = {
       openapi: '3.0.0',
       info: {
@@ -139,7 +141,10 @@ describe('spectral - test error-response validation catches invalid error respon
                 description: 'Success response with no response body'
               },
               '400': {
-                $ref: '#/components/responses/BadErrorResponse'
+                $ref: '#/components/responses/BadErrorModelResponse'
+              },
+              '404': {
+                $ref: '#/components/responses/NoContentErrorResponse'
               }
             }
           }
@@ -147,7 +152,16 @@ describe('spectral - test error-response validation catches invalid error respon
       },
       components: {
         responses: {
-          BadErrorResponse: {
+          BadErrorModelResponse: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/BadErrorModel'
+                }
+              }
+            }
+          },
+          NoContentErrorResponse: {
             schema: {
               $ref: '#/components/schemas/BadErrorModel'
             }
@@ -160,10 +174,20 @@ describe('spectral - test error-response validation catches invalid error respon
         }
       }
     };
+    
+    res = await inCodeValidator(spec, true);
+  });
 
-    const res = await inCodeValidator(spec, true);
+  it('should error for missing content for failure response with no content', function() {
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === 'Error response should have a content field'
+    );
+    expect(expectedWarnings.length).toBe(1);
+  });
+
+  it('should error for error-response that is not an object', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === 'Error response should be an object'
     );
     expect(expectedWarnings.length).toBe(1);
   });
