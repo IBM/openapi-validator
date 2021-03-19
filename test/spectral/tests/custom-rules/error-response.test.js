@@ -205,6 +205,9 @@ describe('spectral - test error-response validation catches invalid error respon
               trace: {
                 type: 'string'
                 // missing format, uuid
+              },
+              status_code: {
+                type: 'string'
               }
             }
           }
@@ -234,5 +237,12 @@ describe('spectral - test error-response validation catches invalid error respon
       warn => warn.message === 'Error response should have a uuid `trace` field'
     );
     expect(expectedWarnings.length).toBe(2);
+  });
+
+  it('should error for error-response that does not include error field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === '`status_code` field must be an integer'
+    );
+    expect(expectedWarnings.length).toBe(1);
   });
 });
