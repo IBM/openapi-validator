@@ -1,31 +1,34 @@
 module.exports = function(errorResponseSchema, _opts, paths) {
   const errors = [];
-  if (!schemaIsObject(errorResponseSchema)) {
-    return [{ message: 'Error response should be an object' }];
+  if (!schemaIsObjectWithProperties(errorResponseSchema)) {
+    return [{ message: 'Error response should be an object with properties' }];
   } else {
     const rootPath = paths.target !== void 0 ? paths.target : paths.given;
     errors.push(
-      ...validateErrorResponseProperties(
-        errorResponseSchema.properties,
-        rootPath
-      )
+      ...validateErrorResponseProperties(errorResponseSchema.properties, [
+        ...rootPath,
+        'properties'
+      ])
     );
   }
   return errors;
 };
 
-function validateErrorResponseProperties(errorResponseProperties, rootPath) {
+function validateErrorResponseProperties(
+  errorResponseProperties,
+  pathToProperties
+) {
   const errors = [];
   if (!hasTraceField(errorResponseProperties)) {
     errors.push({
       message: 'Error response should have a uuid `trace` field',
-      path: [...rootPath, 'properties']
+      path: pathToProperties
     });
   }
   if (!validStatusCodeField(errorResponseProperties)) {
     errors.push({
       message: '`status_code` field must be an integer',
-      path: [...rootPath, 'properties', 'status_code']
+      path: [...pathToProperties, 'status_code']
     });
   }
   if (errorResponseProperties.errors) {
@@ -33,9 +36,30 @@ function validateErrorResponseProperties(errorResponseProperties, rootPath) {
     if (errorResponseProperties.errors.type !== 'array') {
       errors.push({
         message: '`errors` field should be an array of error models',
-        path: [...rootPath, 'properties', 'errors']
+        path: [...pathToProperties, 'errors']
       });
+    } else {
+      // `errors` is error model container, so validate the items
+      // are valid error models
+      errors.push(
+        ...validateErrorModelSchema(errorResponseProperties.errors.items, [
+          ...pathToProperties,
+          'errors',
+          'items'
+        ])
+      );
     }
+  }
+  return errors;
+}
+
+function validateErrorModelSchema(errorModelSchema, pathToSchema) {
+  const errors = [];
+  if (!schemaIsObjectWithProperties(errorModelSchema)) {
+    errors.push({
+      message: 'Error Model should be an object with properties',
+      path: pathToSchema
+    });
   }
   return errors;
 }
@@ -57,8 +81,6 @@ function hasTraceField(errorResponseProperties) {
   );
 }
 
-function schemaIsObject(errorResponseSchema) {
-  return (
-    errorResponseSchema.properties || errorResponseSchema.type === 'object'
-  );
+function schemaIsObjectWithProperties(errorResponseSchema) {
+  return !!errorResponseSchema.properties;
 }

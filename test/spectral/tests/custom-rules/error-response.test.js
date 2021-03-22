@@ -258,7 +258,8 @@ describe('spectral - test error-response validation catches invalid error respon
 
   it('should error for error-response that is not an object', function() {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === 'Error response should be an object'
+      warn =>
+        warn.message === 'Error response should be an object with properties'
     );
     expect(expectedWarnings.length).toBe(1);
   });
@@ -287,7 +288,7 @@ describe('spectral - test error-response validation catches invalid error respon
 
   it('should error for error-response that with an invalid status_code field', function() {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === 'Error Model should be an object'
+      warn => warn.message === 'Error Model should be an object with properties'
     );
     expect(expectedWarnings.length).toBe(1);
   });
