@@ -66,7 +66,13 @@ function validateErrorModelSchema(errorModelSchema, pathToSchema) {
       errors.push({
         message:
           'Error Model should contain `code` field, a snake-case, string, enum error code',
-        path: [...pathToSchema, 'properties']
+        path: [...pathToSchema, 'properties', 'code']
+      });
+    }
+    if (!hasMessageField(errorModelSchema.properties)) {
+      errors.push({
+        message: 'Error Model should contain a string, `message`, field',
+        path: [...pathToSchema, 'properties', 'message']
       });
     }
   }
@@ -84,10 +90,15 @@ function validStatusCodeField(errorResponseProperties) {
 function hasCodeField(errorModelSchemaProperties) {
   return (
     errorModelSchemaProperties.code &&
-    // type either not defined or type defined as a string
-    (!errorModelSchemaProperties.code.type ||
-      errorModelSchemaProperties.code.type === 'string') &&
+    errorModelSchemaProperties.code.type === 'string' &&
     errorModelSchemaProperties.code.enum
+  );
+}
+
+function hasMessageField(errorModelSchemaProperties) {
+  return (
+    errorModelSchemaProperties.message &&
+    errorModelSchemaProperties.message.type === 'string'
   );
 }
 
