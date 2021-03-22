@@ -146,6 +146,10 @@ describe('spectral - test error-response validation catches invalid error respon
               '404': {
                 $ref: '#/components/responses/NoContentErrorResponse'
               },
+              '412': {
+                $ref:
+                  '#/components/responses/ErrorContainerModelItemsNotObjectsResponse'
+              },
               '500': {
                 $ref: '#/components/responses/MissingPropertiesErrorResponse'
               },
@@ -189,6 +193,16 @@ describe('spectral - test error-response validation catches invalid error respon
                 }
               }
             }
+          },
+          ErrorContainerModelItemsNotObjectsResponse: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref:
+                    '#/components/schemas/ErrorContainerModelItemsNotObjects'
+                }
+              }
+            }
           }
         },
         schemas: {
@@ -209,6 +223,22 @@ describe('spectral - test error-response validation catches invalid error respon
               },
               status_code: {
                 type: 'string'
+              }
+            }
+          },
+          ErrorContainerModelItemsNotObjects: {
+            type: 'object',
+            properties: {
+              errors: {
+                type: 'array',
+                items: {}
+              },
+              trace: {
+                type: 'string',
+                format: 'uuid'
+              },
+              status_code: {
+                type: 'integer'
               }
             }
           }
@@ -251,6 +281,13 @@ describe('spectral - test error-response validation catches invalid error respon
     const expectedWarnings = res.warnings.filter(
       warn =>
         warn.message === '`errors` field should be an array of error models'
+    );
+    expect(expectedWarnings.length).toBe(1);
+  });
+
+  it('should error for error-response that with an invalid status_code field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === 'Error Model should be an object'
     );
     expect(expectedWarnings.length).toBe(1);
   });
