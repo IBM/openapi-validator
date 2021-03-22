@@ -60,6 +60,15 @@ function validateErrorModelSchema(errorModelSchema, pathToSchema) {
       message: 'Error Model should be an object with properties',
       path: pathToSchema
     });
+  } else {
+    // error model has properties, validate the properties
+    if (!hasCodeField(errorModelSchema.properties)) {
+      errors.push({
+        message:
+          'Error Model should contain `code` field, a snake-case, string, enum error code',
+        path: [...pathToSchema, 'properties']
+      });
+    }
   }
   return errors;
 }
@@ -69,6 +78,16 @@ function validStatusCodeField(errorResponseProperties) {
   return (
     !errorResponseProperties.status_code ||
     errorResponseProperties.status_code.type === 'integer'
+  );
+}
+
+function hasCodeField(errorModelSchemaProperties) {
+  return (
+    errorModelSchemaProperties.code &&
+    // type either not defined or type defined as a string
+    (!errorModelSchemaProperties.code.type ||
+      errorModelSchemaProperties.code.type === 'string') &&
+    errorModelSchemaProperties.code.enum
   );
 }
 
