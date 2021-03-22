@@ -155,6 +155,10 @@ describe('spectral - test error-response validation catches invalid error respon
               },
               '501': {
                 $ref: '#/components/responses/IncorrectPropertiesErrorResponse'
+              },
+              '502': {
+                $ref:
+                  '#/components/responses/ErrorContainerModelIncorrectItemsPropertiesResponse'
               }
             }
           }
@@ -203,6 +207,16 @@ describe('spectral - test error-response validation catches invalid error respon
                 }
               }
             }
+          },
+          ErrorContainerModelIncorrectItemsPropertiesResponse: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref:
+                    '#/components/schemas/ErrorContainerModelIncorrectItemsProperties'
+                }
+              }
+            }
           }
         },
         schemas: {
@@ -232,6 +246,30 @@ describe('spectral - test error-response validation catches invalid error respon
               errors: {
                 type: 'array',
                 items: {}
+              },
+              trace: {
+                type: 'string',
+                format: 'uuid'
+              },
+              status_code: {
+                type: 'integer'
+              }
+            }
+          },
+          ErrorContainerModelIncorrectItemsProperties: {
+            type: 'object',
+            properties: {
+              errors: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    code: {
+                      type: 'string'
+                      // should be an enum
+                    }
+                  }
+                }
               },
               trace: {
                 type: 'string',
@@ -289,6 +327,15 @@ describe('spectral - test error-response validation catches invalid error respon
   it('should error for error-response that with an invalid status_code field', function() {
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === 'Error Model should be an object with properties'
+    );
+    expect(expectedWarnings.length).toBe(1);
+  });
+
+  it('should error for error-response that with an invalid status_code field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn =>
+        warn.message ===
+        'Error Model should contain `code` field, a snake-case, string, enum error code'
     );
     expect(expectedWarnings.length).toBe(1);
   });
