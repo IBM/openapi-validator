@@ -267,6 +267,9 @@ describe('spectral - test error-response validation catches invalid error respon
                     code: {
                       type: 'string'
                       // should be an enum
+                    },
+                    message: {
+                      type: 'integer'
                     }
                   }
                 }
@@ -316,7 +319,7 @@ describe('spectral - test error-response validation catches invalid error respon
     expect(expectedWarnings.length).toBe(1);
   });
 
-  it('should error for error-response that with an invalid status_code field', function() {
+  it('should error for error-response `errors` field that is not an array', function() {
     const expectedWarnings = res.warnings.filter(
       warn =>
         warn.message === '`errors` field should be an array of error models'
@@ -324,18 +327,26 @@ describe('spectral - test error-response validation catches invalid error respon
     expect(expectedWarnings.length).toBe(1);
   });
 
-  it('should error for error-response that with an invalid status_code field', function() {
+  it('should error for error-response that with `errors` field that does not have object items', function() {
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === 'Error Model should be an object with properties'
     );
     expect(expectedWarnings.length).toBe(1);
   });
 
-  it('should error for error-response that with an invalid status_code field', function() {
+  it('should error for error model with missing or invalid code field', function() {
     const expectedWarnings = res.warnings.filter(
       warn =>
         warn.message ===
         'Error Model should contain `code` field, a snake-case, string, enum error code'
+    );
+    expect(expectedWarnings.length).toBe(1);
+  });
+
+  it('should error for error model with missing or invalid message field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn =>
+        warn.message === 'Error Model should contain a string, `message`, field'
     );
     expect(expectedWarnings.length).toBe(1);
   });
