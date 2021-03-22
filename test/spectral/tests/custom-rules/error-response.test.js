@@ -232,14 +232,14 @@ describe('spectral - test error-response validation catches invalid error respon
     expect(expectedWarnings.length).toBe(1);
   });
 
-  it('should error for error-response that does not include error field', function() {
+  it('should error for error-response that does not include trace field', function() {
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === 'Error response should have a uuid `trace` field'
     );
     expect(expectedWarnings.length).toBe(2);
   });
 
-  it('should error for error-response that does not include error field', function() {
+  it('should error for error-response that with an invalid status_code field', function() {
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === '`status_code` field must be an integer'
     );
