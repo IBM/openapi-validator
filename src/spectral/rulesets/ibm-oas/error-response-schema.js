@@ -75,6 +75,13 @@ function validateErrorModelSchema(errorModelSchema, pathToSchema) {
         path: [...pathToSchema, 'properties', 'message']
       });
     }
+    if (!hasMoreInfoField(errorModelSchema.properties)) {
+      errors.push({
+        message:
+          'Error Model should contain `more_info` field that contains a URL with more info about the error',
+        path: [...pathToSchema, 'properties', 'more_info']
+      });
+    }
   }
   return errors;
 }
@@ -99,6 +106,13 @@ function hasMessageField(errorModelSchemaProperties) {
   return (
     errorModelSchemaProperties.message &&
     errorModelSchemaProperties.message.type === 'string'
+  );
+}
+
+function hasMoreInfoField(errorModelSchemaProperties) {
+  return (
+    errorModelSchemaProperties.more_info &&
+    errorModelSchemaProperties.more_info.type === 'string'
   );
 }
 

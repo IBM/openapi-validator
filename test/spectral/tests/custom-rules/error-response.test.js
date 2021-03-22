@@ -357,7 +357,8 @@ describe('spectral - test error-response validation catches invalid error respon
   it('should error for error model with missing or invalid `more_info` field', function() {
     const expectedWarnings = res.warnings.filter(
       warn =>
-        warn.message === 'Error Model should contain `more_info` field that contains a URL with more info about the error'
+        warn.message ===
+        'Error Model should contain `more_info` field that contains a URL with more info about the error'
     );
     expect(expectedWarnings.length).toBe(1);
   });
