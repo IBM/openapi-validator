@@ -249,7 +249,8 @@ describe('spectral - test error-response validation catches invalid error respon
 
   it('should error for error-response that with an invalid status_code field', function() {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === '`errors` field should be an array of error models'
+      warn =>
+        warn.message === '`errors` field should be an array of error models'
     );
     expect(expectedWarnings.length).toBe(1);
   });

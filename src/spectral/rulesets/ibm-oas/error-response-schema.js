@@ -28,6 +28,15 @@ function validateErrorResponseProperties(errorResponseProperties, rootPath) {
       path: [...rootPath, 'properties', 'status_code']
     });
   }
+  if (errorResponseProperties.errors) {
+    // validate `errors` is error model container
+    if (errorResponseProperties.errors.type !== 'array') {
+      errors.push({
+        message: '`errors` field should be an array of error models',
+        path: [...rootPath, 'properties', 'errors']
+      });
+    }
+  }
   return errors;
 }
 
