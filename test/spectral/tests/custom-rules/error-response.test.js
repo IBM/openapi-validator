@@ -202,6 +202,7 @@ describe('spectral - test error-response validation catches invalid error respon
           IncorrectPropertiesModel: {
             type: 'object',
             properties: {
+              errors: {},
               trace: {
                 type: 'string'
                 // missing format, uuid
@@ -242,6 +243,13 @@ describe('spectral - test error-response validation catches invalid error respon
   it('should error for error-response that with an invalid status_code field', function() {
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === '`status_code` field must be an integer'
+    );
+    expect(expectedWarnings.length).toBe(1);
+  });
+
+  it('should error for error-response that with an invalid status_code field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === '`errors` field should be an array of error models'
     );
     expect(expectedWarnings.length).toBe(1);
   });
