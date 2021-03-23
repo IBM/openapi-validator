@@ -1,7 +1,9 @@
 const inCodeValidator = require('../../../../src/lib');
 
 describe('spectral - test error-response validation does not produce false positives', function() {
-  it('should not error for missing content for success response with no content or failure response with content', async () => {
+  let res;
+
+  beforeAll(async () => {
     const spec = {
       openapi: '3.0.0',
       info: {
@@ -114,9 +116,84 @@ describe('spectral - test error-response validation does not produce false posit
       }
     };
 
-    const res = await inCodeValidator(spec, true);
+    res = await inCodeValidator(spec, true);
+  });
+
+  it('should not error when content object provided', function() {
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === 'Error response should have a content field'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error-response that is an object', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn =>
+        warn.message === 'Error response should be an object with properties'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error-response that includes trace field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === 'Error response should have a uuid `trace` field'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error-response with a valid status_code field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === '`status_code` field must be an integer'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error-response `errors` field that is an array', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn =>
+        warn.message === '`errors` field should be an array of error models'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error-response that with `errors` field that has object items', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === 'Error Model should be an object with properties'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error model with valid code field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn =>
+        warn.message ===
+        'Error Model should contain `code` field, a snake-case, string, enum error code'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error model with valid message field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn =>
+        warn.message === 'Error Model should contain a string, `message`, field'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error model with valid `more_info` field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn =>
+        warn.message ===
+        'Error Model should contain `more_info` field that contains a URL with more info about the error'
+    );
+    expect(expectedWarnings.length).toBe(0);
+  });
+
+  it('should not error for error model with `errors` or `error` field', function() {
+    const expectedWarnings = res.warnings.filter(
+      warn =>
+        warn.message ===
+        'Error response should contain an error model container called `errors`'
     );
     expect(expectedWarnings.length).toBe(0);
   });
