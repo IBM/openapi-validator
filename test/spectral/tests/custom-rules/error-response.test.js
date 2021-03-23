@@ -159,6 +159,13 @@ describe('spectral - test error-response validation catches invalid error respon
               '502': {
                 $ref:
                   '#/components/responses/ErrorContainerModelIncorrectItemsPropertiesResponse'
+              },
+              '503': {
+                $ref:
+                  '#/components/responses/SingleErrorModelIncorrectPropertiesResponse'
+              },
+              '504': {
+                $ref: '#/components/responses/SingleErrorModelNotObjectResponse'
               }
             }
           }
@@ -217,6 +224,25 @@ describe('spectral - test error-response validation catches invalid error respon
                 }
               }
             }
+          },
+          SingleErrorModelIncorrectPropertiesResponse: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref:
+                    '#/components/schemas/SingleErrorModelIncorrectProperties'
+                }
+              }
+            }
+          },
+          SingleErrorModelNotObjectResponse: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/SingleErrorModelNotObject'
+                }
+              }
+            }
           }
         },
         schemas: {
@@ -262,19 +288,7 @@ describe('spectral - test error-response validation catches invalid error respon
               errors: {
                 type: 'array',
                 items: {
-                  type: 'object',
-                  properties: {
-                    code: {
-                      type: 'string'
-                      // should be an enum
-                    },
-                    message: {
-                      type: 'integer'
-                    },
-                    more_info: {
-                      type: 'integer'
-                    }
-                  }
+                  $ref: '#/components/schemas/IncorrectPropertiesSchema'
                 }
               },
               trace: {
@@ -282,6 +296,51 @@ describe('spectral - test error-response validation catches invalid error respon
                 format: 'uuid'
               },
               status_code: {
+                type: 'integer'
+              }
+            }
+          },
+          SingleErrorModelNotObject: {
+            type: 'object',
+            properties: {
+              error: {
+                type: 'string'
+              },
+              trace: {
+                type: 'string',
+                format: 'uuid'
+              },
+              status_code: {
+                type: 'integer'
+              }
+            }
+          },
+          SingleErrorModelIncorrectProperties: {
+            type: 'object',
+            properties: {
+              error: {
+                $ref: '#/components/schemas/IncorrectPropertiesSchema'
+              },
+              trace: {
+                type: 'string',
+                format: 'uuid'
+              },
+              status_code: {
+                type: 'integer'
+              }
+            }
+          },
+          IncorrectPropertiesSchema: {
+            type: 'object',
+            properties: {
+              code: {
+                type: 'string'
+                // should be an enum
+              },
+              message: {
+                type: 'integer'
+              },
+              more_info: {
                 type: 'integer'
               }
             }
@@ -334,7 +393,7 @@ describe('spectral - test error-response validation catches invalid error respon
     const expectedWarnings = res.warnings.filter(
       warn => warn.message === 'Error Model should be an object with properties'
     );
-    expect(expectedWarnings.length).toBe(1);
+    expect(expectedWarnings.length).toBe(2);
   });
 
   it('should error for error model with missing or invalid code field', function() {
@@ -343,7 +402,7 @@ describe('spectral - test error-response validation catches invalid error respon
         warn.message ===
         'Error Model should contain `code` field, a snake-case, string, enum error code'
     );
-    expect(expectedWarnings.length).toBe(1);
+    expect(expectedWarnings.length).toBe(2);
   });
 
   it('should error for error model with missing or invalid message field', function() {
@@ -351,7 +410,7 @@ describe('spectral - test error-response validation catches invalid error respon
       warn =>
         warn.message === 'Error Model should contain a string, `message`, field'
     );
-    expect(expectedWarnings.length).toBe(1);
+    expect(expectedWarnings.length).toBe(2);
   });
 
   it('should error for error model with missing or invalid `more_info` field', function() {
@@ -360,6 +419,6 @@ describe('spectral - test error-response validation catches invalid error respon
         warn.message ===
         'Error Model should contain `more_info` field that contains a URL with more info about the error'
     );
-    expect(expectedWarnings.length).toBe(1);
+    expect(expectedWarnings.length).toBe(2);
   });
 });
