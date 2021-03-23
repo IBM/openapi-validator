@@ -1,9 +1,14 @@
 module.exports = function(errorResponseSchema, _opts, paths) {
   const errors = [];
+  const rootPath = paths.target !== void 0 ? paths.target : paths.given;
   if (!schemaIsObjectWithProperties(errorResponseSchema)) {
-    return [{ message: 'Error response should be an object with properties' }];
+    return [
+      {
+        message: 'Error response should be an object with properties',
+        path: rootPath
+      }
+    ];
   } else {
-    const rootPath = paths.target !== void 0 ? paths.target : paths.given;
     errors.push(
       ...validateErrorResponseProperties(errorResponseSchema.properties, [
         ...rootPath,
@@ -22,7 +27,7 @@ function validateErrorResponseProperties(
   if (!hasTraceField(errorResponseProperties)) {
     errors.push({
       message: 'Error response should have a uuid `trace` field',
-      path: pathToProperties
+      path: [...pathToProperties, 'trace']
     });
   }
   if (!validStatusCodeField(errorResponseProperties)) {
@@ -57,6 +62,13 @@ function validateErrorResponseProperties(
         'error'
       ])
     );
+  } else {
+    // no `errors` or `error` field, so recommend that one be added
+    errors.push({
+      message:
+        'Error response should contain an error model container called `errors`',
+      path: pathToProperties
+    });
   }
   return errors;
 }
