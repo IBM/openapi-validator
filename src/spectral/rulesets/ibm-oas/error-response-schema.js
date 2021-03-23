@@ -49,6 +49,14 @@ function validateErrorResponseProperties(
         ])
       );
     }
+  } else if (errorResponseProperties.error) {
+    // expect a single error model, validate error model schema
+    errors.push(
+      ...validateErrorModelSchema(errorResponseProperties.error, [
+        ...pathToProperties,
+        'error'
+      ])
+    );
   }
   return errors;
 }
