@@ -17,7 +17,6 @@ const { printJson } = require('./utils/jsonResults');
 const printError = require('./utils/printError');
 const preprocessFile = require('./utils/preprocessFile');
 const spectralValidator = require('../spectral/utils/spectral-validator');
-const dedupFunction = require('../cli-validator/utils/noDeduplication');
 const { Spectral } = require('@stoplight/spectral');
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
@@ -169,9 +168,7 @@ const processInput = async function(program) {
 
   // create an instance of spectral & load the spectral ruleset, either a user's
   // or the default ruleset
-  const spectral = new Spectral({
-    computeFingerprint: dedupFunction
-  });
+  const spectral = new Spectral();
   try {
     await spectralValidator.setup(spectral, rulesetFileOverride, configObject);
   } catch (err) {

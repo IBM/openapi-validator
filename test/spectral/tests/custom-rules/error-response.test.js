@@ -188,15 +188,6 @@ describe('spectral - test error-response validation does not produce false posit
     );
     expect(expectedWarnings.length).toBe(0);
   });
-
-  it('should not error for error model with `errors` or `error` field', function() {
-    const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Error response should contain an error model container called `errors`'
-    );
-    expect(expectedWarnings.length).toBe(0);
-  });
 });
 
 describe('spectral - test error-response validation catches invalid error responses', function() {
@@ -479,7 +470,7 @@ describe('spectral - test error-response validation catches invalid error respon
         warn.message ===
         'Error Model should contain `code` field, a snake-case, string, enum error code'
     );
-    expect(expectedWarnings.length).toBe(2);
+    expect(expectedWarnings.length).toBe(3);
   });
 
   it('should error for error model with missing or invalid message field', function() {
@@ -487,7 +478,7 @@ describe('spectral - test error-response validation catches invalid error respon
       warn =>
         warn.message === 'Error Model should contain a string, `message`, field'
     );
-    expect(expectedWarnings.length).toBe(2);
+    expect(expectedWarnings.length).toBe(3);
   });
 
   it('should error for error model with missing or invalid `more_info` field', function() {
@@ -496,15 +487,6 @@ describe('spectral - test error-response validation catches invalid error respon
         warn.message ===
         'Error Model should contain `more_info` field that contains a URL with more info about the error'
     );
-    expect(expectedWarnings.length).toBe(2);
-  });
-
-  it('should error for error model without `errors` or `error` field', function() {
-    const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Error response should contain an error model container called `errors`'
-    );
-    expect(expectedWarnings.length).toBe(1);
+    expect(expectedWarnings.length).toBe(3);
   });
 });

@@ -4,7 +4,6 @@ const buildSwaggerObject = require('../cli-validator/utils/buildSwaggerObject');
 const validator = require('../cli-validator/utils/validator');
 const { formatResultsAsObject } = require('../cli-validator/utils/jsonResults');
 const spectralValidator = require('../spectral/utils/spectral-validator');
-const dedupFunction = require('../cli-validator/utils/noDeduplication');
 const { Spectral } = require('@stoplight/spectral');
 
 module.exports = async function(input, defaultMode = false) {
@@ -13,10 +12,7 @@ module.exports = async function(input, defaultMode = false) {
   // or the default ruleset
   let configObject;
   let spectralResults;
-  let globalId = 0;
-  const spectral = new Spectral({
-    computeFingerprint: dedupFunction
-  });
+  const spectral = new Spectral();
 
   try {
     configObject = await config.get(defaultMode, chalk);
