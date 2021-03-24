@@ -10,20 +10,16 @@ module.exports = function(errorResponseSchema, _opts, paths) {
     ];
   } else {
     errors.push(
-      ...validateErrorResponseProperties(errorResponseSchema.properties, [
-        ...rootPath,
-        'properties'
-      ])
+      ...validateErrorResponseProperties(errorResponseSchema, rootPath)
     );
   }
   return errors;
 };
 
-function validateErrorResponseProperties(
-  errorResponseProperties,
-  pathToProperties
-) {
+function validateErrorResponseProperties(errorResponseSchema, pathToSchema) {
   const errors = [];
+  const errorResponseProperties = errorResponseSchema.properties;
+  const pathToProperties = [...pathToSchema, 'properties'];
   if (!hasTraceField(errorResponseProperties)) {
     errors.push({
       message: 'Error response should have a uuid `trace` field',
@@ -63,12 +59,8 @@ function validateErrorResponseProperties(
       ])
     );
   } else {
-    // no `errors` or `error` field, so recommend that one be added
-    errors.push({
-      message:
-        'Error response should contain an error model container called `errors`',
-      path: pathToProperties
-    });
+    // no `errors` or `error` field, so expect error model at top level of schema
+    errors.push(...validateErrorModelSchema(errorResponseSchema, pathToSchema));
   }
   return errors;
 }
