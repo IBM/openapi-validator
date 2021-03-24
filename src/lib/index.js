@@ -13,7 +13,6 @@ module.exports = async function(input, defaultMode = false) {
   // or the default ruleset
   let configObject;
   let spectralResults;
-  const globalId = 0;
   const spectral = new Spectral({
     computeFingerprint: dedupFunction
   });
