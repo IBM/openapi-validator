@@ -326,8 +326,8 @@ describe('spectral - test error-response validation catches invalid error respon
             properties: {
               errors: {},
               trace: {
-                type: 'string'
-                // missing format, uuid
+                // should be string, uuid
+                type: 'integer'
               },
               status_code: {
                 type: 'string'
@@ -402,8 +402,8 @@ describe('spectral - test error-response validation catches invalid error respon
             type: 'object',
             properties: {
               code: {
-                type: 'string'
-                // should be an enum
+                // should be string
+                type: 'integer'
               },
               message: {
                 type: 'integer'
@@ -468,7 +468,7 @@ describe('spectral - test error-response validation catches invalid error respon
     const expectedWarnings = res.warnings.filter(
       warn =>
         warn.message ===
-        'Error Model should contain `code` field, a snake-case, string, enum error code'
+        'Error Model should contain `code` field, a snake-case, string error code'
     );
     expect(expectedWarnings.length).toBe(3);
   });

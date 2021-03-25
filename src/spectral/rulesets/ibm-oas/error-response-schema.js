@@ -77,7 +77,7 @@ function validateErrorModelSchema(errorModelSchema, pathToSchema) {
     if (!hasCodeField(errorModelSchema.properties)) {
       errors.push({
         message:
-          'Error Model should contain `code` field, a snake-case, string, enum error code',
+          'Error Model should contain `code` field, a snake-case, string error code',
         path: [...pathToSchema, 'properties', 'code']
       });
     }
@@ -109,8 +109,7 @@ function validStatusCodeField(errorResponseProperties) {
 function hasCodeField(errorModelSchemaProperties) {
   return (
     errorModelSchemaProperties.code &&
-    errorModelSchemaProperties.code.type === 'string' &&
-    errorModelSchemaProperties.code.enum
+    errorModelSchemaProperties.code.type === 'string'
   );
 }
 
@@ -132,8 +131,7 @@ function hasTraceField(errorResponseProperties) {
   return (
     errorResponseProperties &&
     errorResponseProperties.trace &&
-    errorResponseProperties.trace.type === 'string' &&
-    errorResponseProperties.trace.format === 'uuid'
+    errorResponseProperties.trace.type === 'string'
   );
 }
 
