@@ -129,7 +129,6 @@ function hasMoreInfoField(errorModelSchemaProperties) {
 
 function hasTraceField(errorResponseProperties) {
   return (
-    errorResponseProperties &&
     errorResponseProperties.trace &&
     errorResponseProperties.trace.type === 'string'
   );

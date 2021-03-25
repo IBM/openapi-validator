@@ -67,7 +67,7 @@ describe('Spectral - test custom configuration', function() {
     );
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(28);
+    expect(jsonOutput['warnings'].length).toBe(34);
     const warnings = jsonOutput['warnings'].map(w => w['message']);
     // This warning should be turned off
     expect(warnings).not.toContain(
@@ -99,7 +99,7 @@ describe('Spectral - test custom configuration', function() {
     expect(jsonOutput['errors']).toBeUndefined();
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(33);
+    expect(jsonOutput['warnings'].length).toBe(39);
     const warnings = jsonOutput['warnings'].map(w => w['message']);
     // This is the new warning -- there should be three occurrences
     const warning = 'All request bodies should have an example.';

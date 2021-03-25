@@ -121,7 +121,9 @@ describe('spectral - test error-response validation does not produce false posit
 
   it('should not error when content object provided', function() {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === 'Error response should have a content field'
+      warn =>
+        warn.message ===
+        'Request bodies and non-204 responses should define a content object'
     );
     expect(expectedWarnings.length).toBe(0);
   });
@@ -422,7 +424,9 @@ describe('spectral - test error-response validation catches invalid error respon
 
   it('should error for missing content for failure response with no content', function() {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === 'Error response should have a content field'
+      warn =>
+        warn.message ===
+        'Request bodies and non-204 responses should define a content object'
     );
     expect(expectedWarnings.length).toBe(1);
   });

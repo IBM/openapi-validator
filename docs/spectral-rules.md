@@ -2,6 +2,33 @@
 
 This document outlines the custom Spectral rules implemented in `ibm:oas` ruleset.
 
+## content-entry-provided
+
+Checks for `content` entry for all request bodies and non-204 responses.
+
+**Bad Example**
+
+```yaml
+responses:
+  200:
+    description: 'example error description`
+```
+
+**Good Example**
+
+```yaml
+responses:
+  200:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            $ref: '#/components/responses/SuccessSchema'
+```
+
+**Default Severity**: warn
+
 ## content-entry-contains-schema
 
 Any request or response body that has `content` should contain a schema.
@@ -25,33 +52,6 @@ responses:
       application/json:
         schema:
           type: string
-```
-
-**Default Severity**: warn
-
-## response-error-response-has-content
-
-`4xx` and `5xx` series responses should provide a useful error response object. This rule ensures that error responses provide a content object.
-
-**Bad Example**
-
-```yaml
-responses:
-  400:
-    description: 'example error description`
-```
-
-**Good Example**
-
-```yaml
-responses:
-  400:
-    content:
-      application/json:
-        schema:
-          type: object
-          properties:
-            $ref: '#/components/responses/ErrorResponse'
 ```
 
 **Default Severity**: warn
