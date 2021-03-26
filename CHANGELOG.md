@@ -1,3 +1,10 @@
+# [0.39.0](https://github.com/IBM/openapi-validator/compare/v0.38.0...v0.39.0) (2021-03-26)
+
+
+### Features
+
+* remove error for partial path templating ([#262](https://github.com/IBM/openapi-validator/issues/262)) ([2838875](https://github.com/IBM/openapi-validator/commit/2838875151857d94a1c98a4509b2ca5eaed19ea0))
+
 # [0.38.0](https://github.com/IBM/openapi-validator/compare/v0.37.1...v0.38.0) (2021-03-19)
 
 
