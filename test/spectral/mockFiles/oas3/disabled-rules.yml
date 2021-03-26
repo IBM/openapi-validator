@@ -68,6 +68,10 @@ paths:
       responses:
         '405':
           description: "Invalid input"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         default:
           description: unexpected error
           content:
@@ -166,8 +170,16 @@ paths:
       responses:
         405:
           description: "Invalid input"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
         default:
           description: "Invalid input"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Sibling:
@@ -238,16 +250,28 @@ components:
       description:
         An error in processing a service request
       required:
-        - code
-        - message
+        - error
+        - trace
       properties:
-        code:
-          type: integer
-          format: int32
-          description: "code property"
-        message:
+        error:
+          type: 'object'
+          properties:
+            code:
+              type: string
+              enum:
+              - 'error1'
+              - 'error2'
+              description: "code property"
+            message:
+              type: string
+              description: "message property"
+            more_info:
+              type: string
+        trace:
           type: string
-          description: "message property"
+          format: uuid
       example:
-        code: 123
-        message: "error occurred"
+        error:
+          code: 'error1'
+          message: "error occurred"
+        trace: "00112233-4455-6677-8899-aabbccddeeff"

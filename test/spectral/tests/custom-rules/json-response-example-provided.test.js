@@ -6,7 +6,7 @@ const inCodeValidator = require('../../../../src/lib');
 describe('spectral - test validation that schema provided in content object', function() {
   it('should not error when a response example provided in the schema or at the response level', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
       paths: {
         path1: {
           get: {
@@ -64,7 +64,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
   it('should error when a response example is not provided', async () => {
     const spec = {
-      Openapi: '3.0.0',
+      openapi: '3.0.0',
       paths: {
         path1: {
           get: {

@@ -1,6 +1,7 @@
 extends: spectral:oas
 functionsDir: './ibm-oas'
 functions:
+  - error-response-schema
   - response-example-provided
 rules:
 
@@ -95,7 +96,19 @@ rules:
   oas3-schema: off
   # Turn off - duplicates non-configurable validation in base validator
   oas3-unused-components-schema: off
-
+  
+  # custom Spectral rule to ensure request bodies and non-204 responses provide content object
+  content-entry-provided:
+    description: Request bodies and non-204 responses should define a content object
+    given:
+      - $.paths[*][*].responses[?(@property != '204')]
+      - $.paths[*][*].requestBody
+    severity: warn
+    formats: ["oas3"]
+    resolved: true
+    then:
+      field: content
+      function: truthy
   # custom Spectral rule to ensure content object contains schema
   content-entry-contains-schema:
     description: Content entries in request and response bodies must specify a schema
@@ -115,3 +128,12 @@ rules:
     resolved: true
     then:
       function: response-example-provided
+  # ensure error response has content
+  response-error-response-schema:
+    message: "{{error}}"
+    given: $.paths[*][*].responses[?(@property >= 400 && @property < 600)].content[*].schema
+    severity: warn
+    formats: ["oas3"]
+    resolved: true
+    then:
+      function: error-response-schema
