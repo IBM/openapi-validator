@@ -58,7 +58,7 @@ responses:
 
 ## ibm-sdk-operations
 
-Validates the structure of the `x-sdk-operations` object.
+Validates the structure of the `x-sdk-operations` object using [this JSON Schema document](/src/spectral/schemas/x-sdk-operations.json).
 
 **Default Severity**: warn
 
