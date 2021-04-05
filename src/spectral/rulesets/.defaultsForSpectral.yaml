@@ -94,8 +94,8 @@ rules:
   oas3-valid-header-schema-example: off
   # Enable with warn severity
   oas3-valid-schema-example: warn
-  # Turn off
-  oas3-schema: off
+  # Enable with same severity as Spectral
+  oas3-schema: true
   # Turn off - duplicates non-configurable validation in base validator
   oas3-unused-components-schema: off
 

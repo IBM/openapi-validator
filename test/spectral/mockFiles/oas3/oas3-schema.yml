@@ -1,0 +1,60 @@
+openapi: "3.0.0"
+info:
+  description: Sample API definition
+  version: 1.0.0
+  title: Swagger Petstore
+  license:
+    name: MIT
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  contact:
+    email: "apiteam@swagger.io"
+servers:
+  - url: http://petstore.swagger.io/v1
+tags:
+  - name: pets
+    description: A pet
+paths:
+  /pets:
+    get:
+      summary: List all pets
+      description: List all pets
+      operationId: get_pets
+      tags:
+        - pets
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pets"
+components:
+  schemas:
+    Pet:
+      description: A pet
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: "id property"
+        name:
+          type: string
+          description: "name property"
+        tag:
+          type: string
+          description: "tag property"
+      example:
+        id: 1
+        name: doggie
+        tag: dog
+    Pets:
+      type: array
+      items:
+        $ref: '#/components/schemas/Pet'
+    DiscriminatorNotObject:
+      discriminator: ''
+    DiscriminatorMissingPropertyNameField:
+      discriminator: {}
+    DiscriminatorPropertyNameFieldNotAString:
+      discriminator:
+        propertyName: 1

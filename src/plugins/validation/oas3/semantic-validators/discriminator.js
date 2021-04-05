@@ -1,11 +1,14 @@
 // Assertation 1:
 // if discriminator exist inside schema object, it must be of type Object
+// enforced by Spectral's oas3-schema rule
 
 // Assertion 2:
 // discriminator object must have a field name propertyName
+// enforced by Spectral's oas3-schema rule
 
 // Assertation 3:
 // propertyName is of type string
+// enforced by Spectral's oas3-schema rule
 
 // Assertation 4:
 // properties inside a schema object must include propertyName from discriminator object
@@ -27,39 +30,12 @@ module.exports.validate = function({ jsSpec }) {
     if (has(schema, 'discriminator')) {
       const { discriminator } = schema;
 
-      // If discriminator is not an object, error out and return
-      if (isPlainObject(discriminator)) {
-        if (!has(discriminator, 'propertyName')) {
-          messages.addMessage(
-            basePath.concat([schemaName, 'discriminator']).join('.'),
-            'Discriminator must be of type object with field name propertyName',
-            'error'
-          );
-          return;
-        }
-      } else {
-        messages.addMessage(
-          basePath.concat([schemaName, 'discriminator']).join('.'),
-          'Discriminator must be of type object',
-          'error'
-        );
+      if (!isPlainObject(discriminator)) {
         return;
       }
 
-      // If discriminator propertyName is not a string, error out and return
       const { propertyName } = discriminator;
-      if (typeof propertyName !== 'string') {
-        messages.addMessage(
-          basePath
-            .concat([schemaName, 'discriminator', 'propertyName'])
-            .join('.'),
-          '`propertyName` inside discriminator object must be of type string',
-          'error'
-        );
-        return;
-      }
-
-      // If the schema's property doesn't include propertyName defined in discriminator, error out and return
+      // If the schema's property doesn't include propertyName defined in discriminator, add error and return
       const { properties } = schema;
       if (!has(properties, propertyName)) {
         messages.addMessage(
