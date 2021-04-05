@@ -149,7 +149,7 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Error"
-  /given/{}:
+  /given/{id_path_param}:
     post:
       summary: "bad path"
       description: Invalid path
@@ -157,16 +157,12 @@ paths:
       tags:
         - pets
       parameters:
-        - name: incorrect_id
+        - name: id_path_param
+          description: 'incorrect id parameter'
           in: path
           required: true
           schema:
             type: string
-        - name: module_id
-          in: bar
-          required: true
-          schema:
-            type: ['string', 'number']
       responses:
         405:
           description: "Invalid input"

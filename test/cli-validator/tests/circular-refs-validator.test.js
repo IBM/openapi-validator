@@ -70,6 +70,7 @@ describe('cli tool - test circular reference module', function() {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/composite-pattern.yaml'];
     program.default_mode = true;
+    program.ruleset = 'test/spectral/mockFiles/mockConfig/extends-default.yaml';
 
     const exitCode = await commandLineValidator(program);
 

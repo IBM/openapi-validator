@@ -1,5 +1,6 @@
 extends: ibm:oas
 rules:
+  oas3-schema: off
   oas3-request-body-example:
     description: All request bodies should have an example.
     formats: [oas3]

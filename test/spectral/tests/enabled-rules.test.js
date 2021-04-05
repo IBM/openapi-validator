@@ -250,7 +250,7 @@ describe('spectral - test enabled rules - OAS3', function() {
       }
     });
 
-    expect(exitCode).toEqual(0);
+    expect(exitCode).toEqual(1);
     expect(foundOtherValidator).toBe(false);
 
     consoleSpy.mockRestore();
@@ -333,18 +333,27 @@ describe('spectral - test enabled rules - OAS3', function() {
 
 describe('spectral - test enabled rules - OAS3 In Memory', function() {
   let warnings;
+  let errors;
 
   beforeAll(async () => {
     // set up mock user input
     const defaultMode = true;
     const validationResults = await inCodeValidator(oas3InMemory, defaultMode);
 
-    // should produce an object with an empty `errors` key and a non-empty `warnings` key
-    expect(validationResults.errors).toBeUndefined();
+    // should produce an object with an oas3-schema error for duplicate parameter names
+    // and a non-empty `warnings` key
+    expect(validationResults.errors.length).toBeGreaterThan(0);
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
+    errors = validationResults.errors.map(err => err.message);
     warnings = validationResults.warnings.map(warn => warn.message);
     expect(warnings.length).toBeGreaterThan(0);
+  });
+
+  it('test oas3-schema rule using mockFiles/oas3/enabled-rules-in-memory', function() {
+    expect(errors).toContain(
+      '`parameters` property should not have duplicate items (items ## 0 and 1 are identical).'
+    );
   });
 
   it('test no-eval-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function() {
