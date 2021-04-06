@@ -2,6 +2,7 @@ extends: spectral:oas
 functionsDir: './ibm-oas'
 functions:
   - error-response-schema
+  - json-schema-validation
   - response-example-provided
 rules:
 
@@ -101,8 +102,8 @@ rules:
   content-entry-provided:
     description: Request bodies and non-204 responses should define a content object
     given:
-      - $.paths[*][*].responses[?(@property != '204')]
-      - $.paths[*][*].requestBody
+    - $.paths[*][*].responses[?(@property != '204')]
+    - $.paths[*][*].requestBody
     severity: warn
     formats: ["oas3"]
     resolved: true
@@ -120,6 +121,17 @@ rules:
     then:
       field: schema
       function: truthy
+  # custom Spectral rule to ensure valid x-sdk-operations schema
+  ibm-sdk-operations:
+    message: "{{error}}"
+    given: $.
+    severity: warn
+    formats: ["oas3"]
+    resolved: true
+    then:
+      function: json-schema-validation
+      functionOptions:
+        schemaKey: 'ibm/schemas/x-sdk-operations'
   # custom Spectral rule to ensure response example provided
   response-example-provided:
     message: "{{error}}"

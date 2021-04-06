@@ -1,0 +1,116 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "IBM SDK Operations Extension",
+  "description": "sdk operations extension schema",
+  "type": "object",
+  "properties": {
+    "paths": {
+      "$ref": "#/definitions/Paths"
+    }
+  },
+  "definitions": {
+    "Paths": {
+      "type": "object",
+      "patternProperties": {
+        ".*": {
+          "$ref": "#/definitions/PathItem"
+        }
+      }
+    },
+    "PathItem": {
+      "type": "object",
+      "patternProperties": {
+        "^(get|put|post|delete|options|head|patch|trace)$": {
+          "$ref": "#/definitions/Operation"
+        }
+      }
+    },
+    "Operation": {
+      "type": "object",
+      "properties": {
+        "x-sdk-operations": {
+          "$ref": "#/definitions/SdkOperations"
+        }
+      }
+    },
+    "SdkOperations": {
+      "type": "object",
+      "properties": {
+        "request-examples": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/x-sdk-request-examples-array"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "x-sdk-request-examples-array": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/x-sdk-request-example"
+      }
+    },
+    "x-sdk-request-example": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name or title of the example. In documentation it should appear as a header above the example."
+        },
+        "contentType": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "The media type of the response in this example."
+          }
+        },
+        "example": {
+          "type": "array",
+          "description": "An array of code or text elements that make up the example",
+          "items": {
+            "$ref": "#/definitions/x-sdk-request-example-element"
+          }
+        },
+        "response": {},
+        "description": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "example"
+      ],
+      "additionalProperties": false
+    },
+    "x-sdk-request-example-element": {
+      "type": "object",
+      "description": "An element of the request example.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The name or title of the example element. In documentation it should appear as a header above the example element."
+        },
+        "type": {
+          "type": "string",
+          "description": "The element type indicates the type of content in the element. `text` elements contain a textual description or explanation, possibly using markdown for rich text elements. `code` elements contain code appropriate for the language of the request example. `code` elements will be presented in a `<pre><code>` block in documentation and should contain no markup or escapes other than escapes for quote and backslash (required for JSON).",
+          "enum": [
+            "text",
+            "code"
+          ]
+        },
+        "source": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Content of the example element as an array of strings. The content is formed by simple concatenation of the array elements."
+        }
+      },
+      "required": [
+        "type",
+        "source"
+      ]
+    }
+  }
+}
