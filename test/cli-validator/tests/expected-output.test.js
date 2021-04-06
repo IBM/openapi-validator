@@ -115,7 +115,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     program.json = true;
 
     const exitcode = await commandLineValidator(program);
-    expect(exitcode).toBe(0);
+    expect(exitcode).toBe(1);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     const jsonOutput = JSON.parse(capturedText);

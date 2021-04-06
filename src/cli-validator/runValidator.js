@@ -288,6 +288,32 @@ const processInput = async function(program) {
       results.hint = false;
     }
 
+    // fail on errors or if number of warnings exceeds warnings limit
+    if (results.error) {
+      exitCode = 1;
+    } else {
+      // Calculate number of warnings and set exit code to 1 if warning limit exceeded
+      let numWarnings = 0;
+      for (const key of Object.keys(results.warnings)) {
+        numWarnings += results.warnings[key].length;
+      }
+      if (numWarnings > limitsObject.warnings) {
+        exitCode = 1;
+        // add the exceeded warnings limit as an error
+        if (!results.errors) {
+          results.errors = {};
+        }
+        results.errors['warnings-limit'] = [
+          {
+            path: [],
+            message: `Number of warnings (${numWarnings}) exceeds warnings limit (${
+              limitsObject.warnings
+            }).`
+          }
+        ];
+      }
+    }
+
     if (jsonOutput) {
       printJson(results, originalFile, errorsOnly);
     } else {
@@ -301,26 +327,6 @@ const processInput = async function(program) {
           originalFile,
           errorsOnly
         );
-        // fail on errors or if number of warnings exceeds warnings limit
-        if (results.error) {
-          exitCode = 1;
-        } else {
-          // Calculate number of warnings and set exit code to 1 if warning limit exceeded
-          let numWarnings = 0;
-          for (const key of Object.keys(results.warnings)) {
-            numWarnings += results.warnings[key].length;
-          }
-          if (numWarnings > limitsObject.warnings) {
-            exitCode = 1;
-            console.log(
-              chalk.red(
-                `Number of warnings (${numWarnings}) exceeds warnings limit (${
-                  limitsObject.warnings
-                }).`
-              )
-            );
-          }
-        }
       } else {
         console.log(chalk.green(`\n${validFile} passed the validator`));
         if (validFile === last(filesToValidate)) console.log();

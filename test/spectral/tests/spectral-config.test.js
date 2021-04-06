@@ -13,7 +13,7 @@ describe('Spectral - test custom configuration', function() {
     program.ruleset = 'test/spectral/mockFiles/mockConfig/info-and-hint.yaml';
 
     const exitcode = await commandLineValidator(program);
-    expect(exitcode).toBe(0);
+    expect(exitcode).toBe(1);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     consoleSpy.mockRestore();
@@ -54,7 +54,7 @@ describe('Spectral - test custom configuration', function() {
     program.ruleset = 'test/spectral/mockFiles/mockConfig/extends-default.yaml';
 
     const exitcode = await commandLineValidator(program);
-    expect(exitcode).toBe(0);
+    expect(exitcode).toBe(1);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     consoleSpy.mockRestore();
