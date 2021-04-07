@@ -18,6 +18,7 @@ const printError = require('./utils/printError');
 const preprocessFile = require('./utils/preprocessFile');
 const spectralValidator = require('../spectral/utils/spectral-validator');
 const dedupFunction = require('../cli-validator/utils/noDeduplication');
+const addPathsToComponents = require('./utils/addPathsToComponents');
 const { Spectral } = require('@stoplight/spectral');
 // import the init module for creating a .validaterc file
 const init = require('./utils/init.js');
@@ -48,7 +49,7 @@ const processInput = async function(program) {
 
   const limitsFileOverride = program.limits;
 
-  const printRuleNames = program.verbose > 0;
+  const verbose = program.verbose > 0;
 
   // turn off coloring if explicitly requested
   if (turnOffColoring) {
@@ -314,15 +315,19 @@ const processInput = async function(program) {
       }
     }
 
+    if (verbose) {
+      addPathsToComponents(results, swagger.jsSpec);
+    }
+
     if (jsonOutput) {
-      printJson(results, originalFile, errorsOnly);
+      printJson(results, originalFile, verbose, errorsOnly);
     } else {
       if (results.error || results.warning || results.info || results.hint) {
         print(
           results,
           chalk,
           printValidators,
-          printRuleNames,
+          verbose,
           reportingStats,
           originalFile,
           errorsOnly
