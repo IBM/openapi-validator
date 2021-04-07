@@ -1,3 +1,10 @@
+## [0.40.1](https://github.com/IBM/openapi-validator/compare/v0.40.0...v0.40.1) (2021-04-07)
+
+
+### Bug Fixes
+
+* set the exit code for json output ([#269](https://github.com/IBM/openapi-validator/issues/269)) ([b6e9899](https://github.com/IBM/openapi-validator/commit/b6e98990835876b87a51d5076554d736fe7ccfa2))
+
 # [0.40.0](https://github.com/IBM/openapi-validator/compare/v0.39.0...v0.40.0) (2021-04-06)
 
 
