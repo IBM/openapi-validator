@@ -88,7 +88,7 @@ module.exports = function print(
         // print the path array as a dot-separated string
 
         console.log(chalk[color](`  Message :   ${problem.message}`));
-        if (printRuleNames) {
+        if (printRuleNames && problem.rule) {
           console.log(chalk[color](`  Rule    :   ${problem.rule}`));
         }
         console.log(chalk[color](`  Path    :   ${path.join('.')}`));

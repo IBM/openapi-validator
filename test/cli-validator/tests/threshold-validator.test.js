@@ -27,9 +27,7 @@ describe('test the .thresholdrc limits', function() {
 
     expect(exitCode).toEqual(1);
 
-    expect(capturedText[capturedText.length - 1].slice(0, 18)).toEqual(
-      `Number of warnings`
-    );
+    expect(capturedText[2].slice(14, 32)).toEqual(`Number of warnings`);
   });
 
   it('should print errors for unsupported limit options and invalid limit values', async function() {
