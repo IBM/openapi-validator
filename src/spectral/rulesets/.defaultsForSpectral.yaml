@@ -123,7 +123,7 @@ rules:
   # custom Spectral rule to ensure response example provided
   response-example-provided:
     message: "{{error}}"
-    given: $.paths[*][*].responses[*].content.application/json
+    given: $.paths[*][*].responses[?(@property >= 200 && @property < 300)].content.application/json
     severity: warn
     resolved: true
     then:
