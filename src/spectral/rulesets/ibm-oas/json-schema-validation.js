@@ -1,6 +1,15 @@
-const AJV = require('ajv');
-const ajv = new AJV({ allErrors: true, jsonPointers: true });
-const { STATIC_ASSETS } = require('@stoplight/spectral/dist/assets');
+let ajv;
+let STATIC_ASSETS;
+
+try {
+  const AJV = require('ajv');
+  ajv = new AJV({ allErrors: true, jsonPointers: true });
+  STATIC_ASSETS = require('@stoplight/spectral/dist/assets').STATIC_ASSETS;
+} catch (err) {
+  const AJV = require('../../../node_modules/ajv');
+  ajv = new AJV({ allErrors: true, jsonPointers: true });
+  STATIC_ASSETS = require('../../assets').STATIC_ASSETS;
+}
 
 // performs JSON Schema validation on the given object
 // expects `schemaKey` options with the key to retrieve the schema
