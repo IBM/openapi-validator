@@ -70,11 +70,7 @@ const setup = async function(spectral, rulesetFileOverride, configObject) {
 
   // Add IBM default ruleset to static assets to allow extends to reference it
   const staticAssets = require('@stoplight/spectral/rulesets/assets/assets.json');
-  setupStaticAssets(
-    staticAssets,
-    defaultSpectralRulesetURI,
-    spectralRulesetURI
-  );
+  setupStaticAssets(staticAssets, defaultSpectralRulesetURI);
   Spectral.registerStaticAssets(staticAssets);
 
   // Register formats
@@ -98,8 +94,7 @@ const setup = async function(spectral, rulesetFileOverride, configObject) {
 
 function setupStaticAssets(staticAssets, defaultSpectralRulesetURI) {
   // register ruleset
-  const content = fs.readFileSync(defaultSpectralRulesetURI, 'utf8');
-  staticAssets['ibm:oas'] = content;
+  staticAssets['ibm:oas'] = addDataToSpectralConfig(defaultSpectralRulesetURI);
 
   const parentDirectory = path.parse(defaultSpectralRulesetURI).dir;
 
@@ -116,6 +111,14 @@ function setupStaticAssets(staticAssets, defaultSpectralRulesetURI) {
       'utf8'
     );
   });
+}
+
+function addDataToSpectralConfig(defaultSpectralRulesetURI) {
+  const content = fs.readFileSync(defaultSpectralRulesetURI, 'utf8');
+  return content.replace(
+    '\\./schemas',
+    path.join(__dirname, '../rulesets/schemas')
+  );
 }
 
 module.exports = {
