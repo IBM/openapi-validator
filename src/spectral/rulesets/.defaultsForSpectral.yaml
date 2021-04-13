@@ -1,6 +1,7 @@
 extends: spectral:oas
 functionsDir: './ibm-oas'
 functions:
+  - check-major-version
   - error-response-schema
   - response-example-provided
 rules:
@@ -96,7 +97,7 @@ rules:
   oas3-schema: off
   # Turn off - duplicates non-configurable validation in base validator
   oas3-unused-components-schema: off
-  
+
   # custom Spectral rule to ensure request bodies and non-204 responses provide content object
   content-entry-provided:
     description: Request bodies and non-204 responses should define a content object
@@ -137,3 +138,12 @@ rules:
     resolved: true
     then:
       function: error-response-schema
+  # ensure major version is in path
+  major-version-in-path:
+    description: 'All paths must contain the API major version as a distinct path segment'
+    message: "{{error}}"
+    formats: ["oas2", "oas3"]
+    given: $
+    severity: warn
+    then:
+      function: check-major-version

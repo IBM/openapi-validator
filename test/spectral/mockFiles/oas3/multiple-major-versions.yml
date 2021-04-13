@@ -1,0 +1,97 @@
+openapi: "3.0.0"
+info:
+  version: 1.0.0
+  title: 'Test major-version-in-path'
+servers:
+  - url: http://petstore.swagger.io
+tags:
+  - name: pets
+    description: A pet
+paths:
+  /v1/pet:
+    post:
+      summary: Add pet
+      description: "Add a new pet to the store"
+      operationId: "add_pet"
+      tags:
+        - pets
+      requestBody:
+        description: "Pet object that needs to be added to the store"
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        204:
+          description: "Success"
+        400:
+          description: "Invalid input"
+        default:
+          description: "Invalid input"
+  /v1/pet/{pet_id}:
+    get:
+      tags:
+        - pets
+      summary: Find pet by ID
+      description: Returns a single pet
+      operationId: get_pet_by_id
+      parameters:
+        - name: pet_id
+          in: path
+          description: ID of pet to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        default:
+          description: "Invalid input"
+  /v2/search:
+    get:
+      summary: search
+      description: Search for a pet
+      operationId: v2_search
+      tags:
+        - pets
+      parameters:
+        - name: pet_id
+          in: query
+          description: ID of pet to return
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        200:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Pet'
+        default:
+          description: "Invalid input"
+components:
+  schemas:
+    Pet:
+      type: object
+      description: pet object
+      properties:
+        pet_id:
+          description: pet_id
+          type: integer
+          format: int64
+          example: 10
+        name:
+          description: pet name
+          type: string
+          example: doggie
+      example:
+        id: 1
+        name: doggie

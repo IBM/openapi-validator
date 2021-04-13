@@ -254,6 +254,7 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
       'oas3-valid-schema-example': 'off',
       'content-entry-provided': 'off',
       'content-entry-contains-schema': 'off',
+      'major-version-in-path': 'off',
       'response-example-provided': 'off',
       'response-error-response-schema': 'off'
     };
