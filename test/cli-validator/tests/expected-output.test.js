@@ -400,13 +400,13 @@ describe('test expected output - OpenAPI 3', function() {
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     const jsonOutput = JSON.parse(capturedText);
-    expect(jsonOutput.warnings[3].componentPath).toEqual([
+    expect(jsonOutput.warnings[4].componentPath).toEqual([
       'components',
       'responses',
       'Ok',
       'content',
       'application/json'
     ]);
-    expect(jsonOutput.warnings[3].componentLine).toEqual(6);
+    expect(jsonOutput.warnings[4].componentLine).toEqual(6);
   });
 });

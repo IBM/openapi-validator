@@ -110,6 +110,12 @@ describe('spectral - test enabled rules - Swagger 2', function() {
       'oneOf is not available in OpenAPI v2, it was added in OpenAPI v3'
     );
   });
+
+  it('test major-version-in-path rule using mockFiles/swagger/enabled-rules.yml', function() {
+    expect(allOutput).toContain(
+      'Major version segment not present in either basePath or paths'
+    );
+  });
 });
 
 describe('spectral - test enabled rules - Swagger 2 In Memory', function() {
@@ -315,6 +321,12 @@ describe('spectral - test enabled rules - OAS3', function() {
   it('test oas3-valid-oas-content-example rule using mockFiles/oas3/enabled-rules.yml', function() {
     expect(allOutput).toContain(
       '`number_of_connectors` property should be equal to one of the allowed values: 1, 2, `a_string`, 8'
+    );
+  });
+
+  it('test major-version-in-path rule using mockFiles/oas3/enabled-rules.yml', function() {
+    expect(allOutput).toContain(
+      'Major version segment not present in either server URLs or paths'
     );
   });
 });

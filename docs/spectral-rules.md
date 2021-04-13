@@ -56,6 +56,12 @@ responses:
 
 **Default Severity**: warn
 
+## major-version-in-path
+
+Validates that every path contains a path segment for the API major version, of the form `v<n>`, and that all paths have the same major version segment. The major version can appear in either the server URL (oas3), the basePath (oas2), or in each path entry.
+
+**Default Severity**: warn
+
 ## response-error-response-schema
 
 `4xx` and `5xx` error responses should provide good information to help the user resolve the error. The error response validations are based on the design principles outlined in the [errors section of the IBM API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors). The `response-error-response-schema` rule is more lenient than what is outlined in the handbook. Specifically, the `response-error-response-schema` rule does not require an Error Container Model and allows for a single Error Model to be provided at the top level of the error response schema or in an `error` field.
