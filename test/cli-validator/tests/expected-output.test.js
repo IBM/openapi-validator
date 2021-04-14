@@ -332,8 +332,8 @@ describe('test expected output - OpenAPI 3', function() {
     program.default_mode = true;
     program.json = true;
 
-    await commandLineValidator(program);
-    // exit code is not set for JSON output
+    const exitCode = await commandLineValidator(program);
+    expect(exitCode).toEqual(1);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     const jsonOutput = JSON.parse(capturedText);
@@ -371,5 +371,42 @@ describe('test expected output - OpenAPI 3', function() {
     validationResults.warnings.forEach(msg =>
       expect(msg).toHaveProperty('rule')
     );
+  });
+
+  it('should include the path to the component (if it exists) when in verbose mode', async function() {
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/oas3/testoneof.yaml'];
+    program.default_mode = true;
+    program.verbose = 1;
+
+    const exitCode = await commandLineValidator(program);
+    expect(exitCode).toEqual(1);
+
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    const allText = capturedText.join();
+    expect(allText).toContain('Component Path');
+    expect(allText).toContain('Component Line');
+  });
+
+  it('should include the path to the component (if it exists) when in verbose mode and json mode', async function() {
+    const program = {};
+    program.args = ['./test/cli-validator/mockFiles/oas3/testoneof.yaml'];
+    program.default_mode = true;
+    program.verbose = 1;
+    program.json = true;
+
+    const exitCode = await commandLineValidator(program);
+    expect(exitCode).toEqual(1);
+
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    const jsonOutput = JSON.parse(capturedText);
+    expect(jsonOutput.warnings[3].componentPath).toEqual([
+      'components',
+      'responses',
+      'Ok',
+      'content',
+      'application/json'
+    ]);
+    expect(jsonOutput.warnings[3].componentLine).toEqual(6);
   });
 });
