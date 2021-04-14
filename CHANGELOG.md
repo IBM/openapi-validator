@@ -1,3 +1,10 @@
+# [0.42.0](https://github.com/IBM/openapi-validator/compare/v0.41.0...v0.42.0) (2021-04-14)
+
+
+### Features
+
+* add rule to check for consistent major version in path ([b6c8e65](https://github.com/IBM/openapi-validator/commit/b6c8e652c301267250c4ad152e7ff71f7ce5920f))
+
 # [0.41.0](https://github.com/IBM/openapi-validator/compare/v0.40.3...v0.41.0) (2021-04-14)
 
 
