@@ -1,3 +1,10 @@
+## [0.40.3](https://github.com/IBM/openapi-validator/compare/v0.40.2...v0.40.3) (2021-04-14)
+
+
+### Bug Fixes
+
+* soften the response-example-provided rule to look only at success responses ([#273](https://github.com/IBM/openapi-validator/issues/273)) ([b5dac3e](https://github.com/IBM/openapi-validator/commit/b5dac3e206eef9c44412a005b03a3de7a7405144))
+
 ## [0.40.2](https://github.com/IBM/openapi-validator/compare/v0.40.1...v0.40.2) (2021-04-14)
 
 
