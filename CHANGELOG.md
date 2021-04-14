@@ -1,3 +1,10 @@
+## [0.40.2](https://github.com/IBM/openapi-validator/compare/v0.40.1...v0.40.2) (2021-04-14)
+
+
+### Bug Fixes
+
+* cannot find ajv module when ibm:oas ruleset extended ([#279](https://github.com/IBM/openapi-validator/issues/279)) ([fd2cb29](https://github.com/IBM/openapi-validator/commit/fd2cb29fb691308fdea314a97b20444ad6411976))
+
 ## [0.40.1](https://github.com/IBM/openapi-validator/compare/v0.40.0...v0.40.1) (2021-04-07)
 
 
