@@ -1,3 +1,10 @@
+# [0.41.0](https://github.com/IBM/openapi-validator/compare/v0.40.3...v0.41.0) (2021-04-14)
+
+
+### Features
+
+* show path to component that caused error in verbose mode ([#272](https://github.com/IBM/openapi-validator/issues/272)) ([3c1c458](https://github.com/IBM/openapi-validator/commit/3c1c458726f60fdb15828fdc1b99906ef53aa020))
+
 ## [0.40.3](https://github.com/IBM/openapi-validator/compare/v0.40.2...v0.40.3) (2021-04-14)
 
 
