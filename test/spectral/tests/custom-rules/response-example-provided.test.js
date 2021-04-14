@@ -62,7 +62,7 @@ describe('spectral - test validation that schema provided in content object', fu
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should error when a response example is not provided', async () => {
+  it('should only error when a response example is not provided in a success response', async () => {
     const spec = {
       openapi: '3.0.0',
       paths: {
@@ -70,6 +70,26 @@ describe('spectral - test validation that schema provided in content object', fu
           get: {
             responses: {
               '200': {
+                content: {
+                  'application/json': {
+                    // schema provided
+                    schema: {
+                      type: 'string'
+                    }
+                  }
+                }
+              },
+              '300': {
+                content: {
+                  'application/json': {
+                    // schema provided
+                    schema: {
+                      type: 'string'
+                    }
+                  }
+                }
+              },
+              default: {
                 content: {
                   'application/json': {
                     // schema provided
