@@ -2,7 +2,6 @@ extends: spectral:oas
 functionsDir: './ibm-oas'
 functions:
   - error-response-schema
-  - json-schema-validation
   - response-example-provided
 rules:
 
@@ -121,17 +120,6 @@ rules:
     then:
       field: schema
       function: truthy
-  # custom Spectral rule to ensure valid x-sdk-operations schema
-  ibm-sdk-operations:
-    message: "{{error}}"
-    given: $.
-    severity: warn
-    formats: ["oas3"]
-    resolved: true
-    then:
-      function: json-schema-validation
-      functionOptions:
-        schemaKey: 'ibm/schemas/x-sdk-operations'
   # custom Spectral rule to ensure response example provided
   response-example-provided:
     message: "{{error}}"

@@ -103,17 +103,6 @@ function setupStaticAssets(staticAssets, defaultSpectralRulesetURI) {
 
   const parentDirectory = path.parse(defaultSpectralRulesetURI).dir;
 
-  // register schemas
-  const baseKey = 'ibm/schemas';
-  const schemaDirURI = path.join(parentDirectory, 'schemas');
-  fs.readdirSync(schemaDirURI).forEach(function(jsonSchemaFile) {
-    const schemaKey = path.join(baseKey, path.parse(jsonSchemaFile).name);
-    staticAssets[schemaKey] = fs.readFileSync(
-      path.join(schemaDirURI, jsonSchemaFile),
-      'utf8'
-    );
-  });
-
   // register custom functions
   const customFunctionsDirURI = path.join(parentDirectory, 'ibm-oas');
   fs.readdirSync(customFunctionsDirURI).forEach(function(customFunctionFile) {
