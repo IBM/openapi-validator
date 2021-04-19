@@ -68,6 +68,32 @@ Validates that every path contains a path segment for the API major version, of 
 
 **Default Severity**: warn
 
+## parameter-schema-or-content
+
+Parameters must provide either a schema or content object.
+
+**Bad Example**
+
+```yaml
+parameters:
+- name: param1
+  in: query
+  description: query param
+```
+
+**Good Example**
+
+```yaml
+parameters:
+- name: param1
+  in: query
+  description: query param
+  schema:
+    type: string
+```
+
+**Default Severity**: error
+
 ## response-example-provided
 
 Response examples are used to generate documentation. To improve the generated documentation, response examples should be provided in the schema object or "next to" the schema object.

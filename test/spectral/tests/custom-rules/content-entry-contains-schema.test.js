@@ -33,9 +33,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Content entries in request and response bodies must specify a schema'
+      warn => warn.message === 'Content entries must specify a schema'
     );
     expect(expectedWarnings.length).toBe(0);
   });
@@ -67,9 +65,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Content entries in request and response bodies must specify a schema'
+      warn => warn.message === 'Content entries must specify a schema'
     );
     expect(expectedWarnings.length).toBe(1);
   });
@@ -103,9 +99,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Content entries in request and response bodies must specify a schema'
+      warn => warn.message === 'Content entries must specify a schema'
     );
     expect(expectedWarnings.length).toBe(1);
   });
@@ -140,9 +134,7 @@ describe('spectral - test validation that schema provided in content object', fu
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Content entries in request and response bodies must specify a schema'
+      warn => warn.message === 'Content entries must specify a schema'
     );
     expect(expectedWarnings.length).toBe(2);
   });
@@ -168,10 +160,49 @@ describe('spectral - test validation that schema provided in content object', fu
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
-        warn.message ===
-        'Content entries in request and response bodies must specify a schema'
+      warn => warn.message === 'Content entries must specify a schema'
     );
     expect(expectedWarnings.length).toBe(1);
+  });
+
+  it('should error when the content object does not contain a schema in a parameter', async () => {
+    const spec = {
+      openapi: '3.0.0',
+      paths: {
+        createPet: {
+          post: {
+            operationId: 'addPet',
+            parameters: [
+              {
+                name: 'exampleParam1',
+                description: 'example param 1',
+                in: 'query',
+                content: {
+                  'application/json': {
+                    // no schema provided
+                  }
+                }
+              },
+              {
+                name: 'exampleParam2',
+                description: 'example param 2',
+                in: 'query',
+                content: {
+                  'application/json': {
+                    // no schema provided
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = await inCodeValidator(spec, true);
+    const expectedWarnings = res.warnings.filter(
+      warn => warn.message === 'Content entries must specify a schema'
+    );
+    expect(expectedWarnings.length).toBe(2);
   });
 });
