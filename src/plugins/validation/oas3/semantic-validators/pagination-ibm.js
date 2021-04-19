@@ -17,6 +17,7 @@
 // - The response body must contain an array property with the same plural resource name appearing in the collection’s URL.
 
 const MessageCarrier = require('../../../utils/messageCarrier');
+const mergeAllOfSchemaProperties = require('../../../utils/mergeAllOfSchemaProperties');
 
 module.exports.validate = function({ resolvedSpec }, config) {
   const messages = new MessageCarrier();
@@ -55,9 +56,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
       continue;
     }
 
+    const jsonResponseSchema = mergeAllOfSchemaProperties(jsonResponse.schema);
+
     // If no array at top level of response, skip this path
     if (
-      !Object.values(jsonResponse.schema.properties).some(
+      !Object.values(jsonResponseSchema.properties).some(
         prop => prop.type === 'array'
       )
     ) {
@@ -154,7 +157,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       'properties'
     ];
 
-    const limitProp = jsonResponse.schema.properties.limit;
+    const limitProp = jsonResponseSchema.properties.limit;
     if (!limitProp) {
       messages.addMessage(
         propertiesPath,
@@ -164,8 +167,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
       );
     } else if (
       limitProp.type !== 'integer' ||
-      !jsonResponse.schema.required ||
-      jsonResponse.schema.required.indexOf('limit') === -1
+      !jsonResponseSchema.required ||
+      jsonResponseSchema.required.indexOf('limit') === -1
     ) {
       messages.addMessage(
         [...propertiesPath, 'limit'],
@@ -178,7 +181,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     // - If the operation has an `offset` query parameter, the response body must contain an `offset` property this is type integer and required
 
     if (offsetParamIndex !== -1) {
-      const offsetProp = jsonResponse.schema.properties.offset;
+      const offsetProp = jsonResponseSchema.properties.offset;
       if (!offsetProp) {
         messages.addMessage(
           propertiesPath,
@@ -188,8 +191,8 @@ module.exports.validate = function({ resolvedSpec }, config) {
         );
       } else if (
         offsetProp.type !== 'integer' ||
-        !jsonResponse.schema.required ||
-        jsonResponse.schema.required.indexOf('offset') === -1
+        !jsonResponseSchema.required ||
+        jsonResponseSchema.required.indexOf('offset') === -1
       ) {
         messages.addMessage(
           [...propertiesPath, 'offset'],
@@ -203,7 +206,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     // - The response body must contain an array property with the same plural resource name appearing in the collection’s URL.
 
     const pluralResourceName = path.split('/').pop();
-    const resourcesProp = jsonResponse.schema.properties[pluralResourceName];
+    const resourcesProp = jsonResponseSchema.properties[pluralResourceName];
     if (!resourcesProp || resourcesProp.type !== 'array') {
       messages.addMessage(
         propertiesPath,

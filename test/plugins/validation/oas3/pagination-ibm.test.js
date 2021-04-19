@@ -147,6 +147,78 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     });
   });
 
+  it('should not complain when limit and offset params in allOf schema', function() {
+    const spec = {
+      paths: {
+        '/resources': {
+          get: {
+            summary: 'this is a summary',
+            operationId: 'operationId',
+            parameters: [
+              {
+                name: 'limit',
+                in: 'query',
+                description: 'limit',
+                required: false,
+                schema: {
+                  type: 'integer',
+                  default: 10,
+                  maximum: 50
+                }
+              }
+            ],
+            responses: {
+              '200': {
+                content: {
+                  'application/json': {
+                    schema: {
+                      description: 'A collection of resources',
+                      type: 'object',
+                      properties: {
+                        resources: {
+                          description: 'An array of resources',
+                          type: 'array',
+                          items: {
+                            type: 'string'
+                          }
+                        }
+                      },
+                      allOf: [
+                        {
+                          description: 'Pagination response properties',
+                          type: 'object',
+                          required: ['limit', 'offset'],
+                          properties: {
+                            limit: {
+                              description:
+                                'The maximum number of items returned in this response',
+                              type: 'integer',
+                              format: 'int32'
+                            },
+                            offset: {
+                              description:
+                                'The offset in the collection of the first element in this page',
+                              type: 'integer',
+                              format: 'int32'
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    };
+
+    const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+    expect(res.warnings.length).toEqual(0);
+    expect(res.errors.length).toEqual(0);
+  });
+
   describe('limit query parameter', function() {
     it('should complain when limit parameter is not an integer', function() {
       const spec = {
