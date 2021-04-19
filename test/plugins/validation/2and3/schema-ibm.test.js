@@ -2,7 +2,7 @@ const expect = require('expect');
 const yaml = require('js-yaml');
 const fs = require('fs');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/schema-ibm');
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
@@ -17,11 +17,11 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
             level: {
               type: 'number',
               format: 'integer',
-              description: 'Good to have a description'
-            }
-          }
-        }
-      }
+              description: 'Good to have a description',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -31,7 +31,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'WordStyle',
       'properties',
       'level',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'Schema of type number should use one of the following formats: float, double.'
@@ -45,9 +45,9 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
         WordStyle: {
           type: 'number',
           format: 'integer',
-          description: 'word style'
-        }
-      }
+          description: 'word style',
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -71,12 +71,12 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               description: 'has some items',
               items: {
                 type: 'number',
-                format: 'integer'
-              }
-            }
-          }
-        }
-      }
+                format: 'integer',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -87,7 +87,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'properties',
       'level',
       'items',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'Schema of type number should use one of the following formats: float, double.'
@@ -106,16 +106,16 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               type: 'array',
               description: 'has one item, its a ref',
               items: {
-                $ref: '#/definitions/levelItem'
-              }
-            }
-          }
+                $ref: '#/definitions/levelItem',
+              },
+            },
+          },
         },
         levelItem: {
           type: 'string',
-          description: 'level item'
-        }
-      }
+          description: 'level item',
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -132,12 +132,12 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               level: {
                 type: 'number',
                 format: 'integer',
-                description: 'i need better types'
-              }
-            }
-          }
-        }
-      }
+                description: 'i need better types',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -148,7 +148,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'schema',
       'properties',
       'level',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'Schema of type number should use one of the following formats: float, double.'
@@ -162,16 +162,16 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
         '/pets': {
           get: {
             responses: {
-              '200': {
+              200: {
                 description: 'legal response',
                 schema: {
-                  type: 'file'
-                }
-              }
-            }
-          }
-        }
-      }
+                  type: 'file',
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -189,12 +189,12 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 name: 'file_param',
                 in: 'query',
                 description: 'a file param',
-                type: 'file'
-              }
-            ]
-          }
-        }
-      }
+                type: 'file',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: false }, config);
@@ -215,12 +215,12 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 in: 'query',
                 description: 'a file param',
                 type: 'file',
-                format: 'file_should_not_have_a_format'
-              }
-            ]
-          }
-        }
-      }
+                format: 'file_should_not_have_a_format',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: false }, config);
@@ -243,12 +243,12 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 name: 'file_param',
                 in: 'formData',
                 description: 'a file param',
-                type: 'file'
-              }
-            ]
-          }
-        }
-      }
+                type: 'file',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: false }, config);
@@ -260,9 +260,9 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       definitions: {
         SomeSchema: {
           type: 'file',
-          description: 'file schema, used for parameter or response'
-        }
-      }
+          description: 'file schema, used for parameter or response',
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -274,9 +274,9 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const spec = {
       definitions: {
         SomeSchema: {
-          type: 'invalid_type'
-        }
-      }
+          type: 'invalid_type',
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -292,21 +292,21 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
         '/pets': {
           get: {
             responses: {
-              '200': {
+              200: {
                 description: 'legal response',
                 schema: {
                   properties: {
                     this_is_bad: {
                       type: 'file',
-                      description: 'non-root type of file is bad'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                      description: 'non-root type of file is bad',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -320,7 +320,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'schema',
       'properties',
       'this_is_bad',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'File type only valid for swagger2 and must be used as root schema.'
@@ -332,8 +332,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   it('should return a warning when a property name is not snake case', () => {
     const customConfig = {
       schemas: {
-        snake_case_only: 'warning'
-      }
+        snake_case_only: 'warning',
+      },
     };
 
     const spec = {
@@ -344,11 +344,11 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
           properties: {
             thingString: {
               type: 'string',
-              description: 'thing string'
-            }
-          }
-        }
-      }
+              description: 'thing string',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, customConfig);
@@ -358,7 +358,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'definitions',
       'Thing',
       'properties',
-      'thingString'
+      'thingString',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Property names must be lower snake case.'
@@ -368,8 +368,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
   it('should return a warning when an items property name is not snake case', () => {
     const customConfig = {
       schemas: {
-        snake_case_only: 'warning'
-      }
+        snake_case_only: 'warning',
+      },
     };
 
     const spec = {
@@ -386,14 +386,14 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 properties: {
                   thingString: {
                     type: 'string',
-                    description: 'thing string'
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    description: 'thing string',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, customConfig);
@@ -406,7 +406,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'thing',
       'items',
       'properties',
-      'thingString'
+      'thingString',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Property names must be lower snake case.'
@@ -418,8 +418,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        property_case_convention: ['warning', 'lower_snake_case']
-      }
+        property_case_convention: ['warning', 'lower_snake_case'],
+      },
     };
 
     const spec = {
@@ -430,11 +430,11 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
           properties: {
             thingString: {
               type: 'string',
-              description: 'thing string'
-            }
-          }
-        }
-      }
+              description: 'thing string',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, customConfig);
@@ -444,7 +444,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'definitions',
       'Thing',
       'properties',
-      'thingString'
+      'thingString',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Property names must follow case convention: lower_snake_case'
@@ -455,8 +455,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        property_case_convention: ['warning', 'lower_snake_case']
-      }
+        property_case_convention: ['warning', 'lower_snake_case'],
+      },
     };
 
     const spec = {
@@ -473,14 +473,14 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 properties: {
                   thingString: {
                     type: 'string',
-                    description: 'thing string'
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    description: 'thing string',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, customConfig);
@@ -493,7 +493,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'thing',
       'items',
       'properties',
-      'thingString'
+      'thingString',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Property names must follow case convention: lower_snake_case'
@@ -504,8 +504,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        property_case_convention: ['warning', 'lower_snake_case']
-      }
+        property_case_convention: ['warning', 'lower_snake_case'],
+      },
     };
 
     const spec = {
@@ -522,14 +522,14 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                 properties: {
                   thing_string: {
                     type: 'string',
-                    description: 'thing string'
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                    description: 'thing string',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, customConfig);
@@ -542,8 +542,8 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        property_case_collision: 'warning'
-      }
+        property_case_collision: 'warning',
+      },
     };
 
     const spec = {
@@ -554,15 +554,15 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
           properties: {
             thingString: {
               type: 'string',
-              description: 'thing string'
+              description: 'thing string',
             },
             thing_string: {
               type: 'string',
-              description: 'thing string'
-            }
-          }
-        }
-      }
+              description: 'thing string',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, customConfig);
@@ -572,7 +572,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'definitions',
       'Thing',
       'properties',
-      'thing_string'
+      'thing_string',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Property name is identical to another property except for the naming convention: thing_string'
@@ -589,11 +589,11 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
             thingName: {
               type: 'string',
               description: 'thing name',
-              deprecated: true
-            }
-          }
-        }
-      }
+              deprecated: true,
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -610,19 +610,19 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
             id: {
               type: 'integer',
               format: 'int64',
-              description: 'string'
+              description: 'string',
             },
             name: {
               type: 'string',
-              description: 'string'
+              description: 'string',
             },
             tag: {
               type: 'string',
-              description: 'string'
-            }
-          }
-        }
-      }
+              description: 'string',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -648,15 +648,15 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                   type: 'object',
                   properties: {
                     bad_property: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -671,7 +671,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'schema',
       'properties',
       'bad_property',
-      'description'
+      'description',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Schema properties must have a description with content in it.'
@@ -693,15 +693,15 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                   properties: {
                     any_object: {
                       type: 'object',
-                      description: 'it is not always a JSON object'
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                      description: 'it is not always a JSON object',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -716,7 +716,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'schema',
       'properties',
       'any_object',
-      'description'
+      'description',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Not all languages use JSON, so descriptions should not state that the model is a JSON object.'
@@ -734,16 +734,16 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               type: 'string',
               readOnly: true,
               description:
-                'Identifies the notice. Many notices may have the same ID. This field exists so that user applications can programmatically identify a notice and take automatic corrective action.'
+                'Identifies the notice. Many notices may have the same ID. This field exists so that user applications can programmatically identify a notice and take automatic corrective action.',
             },
             description: {
               type: 'string',
               readOnly: true,
-              description: 'The description of the notice'
-            }
-          }
-        }
-      }
+              description: 'The description of the notice',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -766,15 +766,15 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
                   properties: {
                     'x-vendor-anyObject': {
                       type: 'object',
-                      description: 'it is not always a JSON object'
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                      description: 'it is not always a JSON object',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -794,12 +794,12 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               description: 'has some items',
               items: {
                 type: 'array',
-                description: 'array nested in an array'
-              }
-            }
-          }
-        }
-      }
+                description: 'array nested in an array',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -811,7 +811,7 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
       'properties',
       'level',
       'items',
-      'type'
+      'type',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Array properties should avoid having items of type array.'
@@ -830,20 +830,20 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
               id: {
                 type: 'integer',
                 format: 'int64',
-                description: 'string'
+                description: 'string',
               },
               name: {
                 type: 'string',
-                description: 'string'
+                description: 'string',
               },
               tag: {
                 type: 'string',
-                description: 'string'
-              }
-            }
-          }
-        }
-      }
+                description: 'string',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -870,15 +870,15 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                     bad_prop: {
                       description: 'property with bad format',
                       type: 'integer',
-                      format: 'wrong'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                      format: 'wrong',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -892,7 +892,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'schema',
       'properties',
       'bad_prop',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'Schema of type integer should use one of the following formats: int32, int64.'
@@ -914,13 +914,13 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 items: {
                   description: 'invalid items',
                   type: 'object',
-                  format: 'objects_should_not_have_formats'
-                }
-              }
-            }
-          }
-        }
-      }
+                  format: 'objects_should_not_have_formats',
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -932,7 +932,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'thing',
       'items',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'Schema of type object should not have a format.'
@@ -950,20 +950,20 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
               prop1: {
                 description: 'an object property',
                 type: 'string',
-                format: 'byte'
-              }
-            }
+                format: 'byte',
+              },
+            },
           },
           Thing2: {
             type: 'array',
             description: 'an array',
             items: {
               type: 'number',
-              format: 'float'
-            }
-          }
-        }
-      }
+              format: 'float',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -987,15 +987,15 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                     type: 'array',
                     format: 'arrays_should_not_have_formats',
                     items: {
-                      type: 'invalid_type'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                      type: 'invalid_type',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -1008,7 +1008,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'thing',
       'properties',
       'prop1',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'Schema of type array should not have a format.'
@@ -1022,7 +1022,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'prop1',
       'items',
-      'type'
+      'type',
     ]);
     expect(res.errors[1].message).toEqual(
       'Invalid type. Valid types are: integer, number, string, boolean, object, array.'
@@ -1039,12 +1039,12 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             properties: {
               thing: {
                 description: 'should not have format without type',
-                format: 'byte'
-              }
-            }
-          }
-        }
-      }
+                format: 'byte',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -1058,19 +1058,19 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
         '/pets': {
           get: {
             responses: {
-              '200': {
+              200: {
                 content: {
                   'application/json': {
                     schema: {
-                      type: 'file'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                      type: 'file',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -1084,7 +1084,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'content',
       'application/json',
       'schema',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'File type only valid for swagger2 and must be used as root schema.'
@@ -1098,7 +1098,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
         '/pets': {
           get: {
             responses: {
-              '200': {
+              200: {
                 content: {
                   'application/json': {
                     schema: {
@@ -1107,9 +1107,9 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                         prop: {
                           description: 'boolean types should not have formats',
                           type: 'boolean',
-                          format: 'boolean'
-                        }
-                      }
+                          format: 'boolean',
+                        },
+                      },
                     },
                     example: {
                       schema: {
@@ -1117,18 +1117,18 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                         properties: {
                           prop: {
                             type: 'boolean',
-                            format: 'boolean'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                            format: 'boolean',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -1144,7 +1144,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'schema',
       'properties',
       'prop',
-      'type'
+      'type',
     ]);
     expect(res.errors[0].message).toEqual(
       'Schema of type boolean should not have a format.'
@@ -1181,21 +1181,21 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'components',
       'schemas',
       'oneOfError',
-      'oneOf'
+      'oneOf',
     ]);
     expect(res.errors[1].message).toEqual('allOf value should be an array');
     expect(res.errors[1].path).toEqual([
       'components',
       'schemas',
       'allOfError',
-      'allOf'
+      'allOf',
     ]);
     expect(res.errors[2].message).toEqual('anyOf value should be an array');
     expect(res.errors[2].path).toEqual([
       'components',
       'schemas',
       'anyOfError',
-      'anyOf'
+      'anyOf',
     ]);
   });
 
@@ -1215,7 +1215,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'complexOneOfError',
       'oneOf',
       0,
-      'oneOf'
+      'oneOf',
     ]);
     expect(res.errors[1].message).toEqual('allOf value should be an array');
     expect(res.errors[1].path).toEqual([
@@ -1224,7 +1224,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'complexAllOfError',
       'oneOf',
       0,
-      'allOf'
+      'allOf',
     ]);
     expect(res.errors[2].message).toEqual('anyOf value should be an array');
     expect(res.errors[2].path).toEqual([
@@ -1233,7 +1233,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'complexAnyOfError',
       'oneOf',
       0,
-      'anyOf'
+      'anyOf',
     ]);
   });
 
@@ -1254,7 +1254,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'one_of_error_prop',
       'schema',
-      'oneOf'
+      'oneOf',
     ]);
     expect(res.errors[1].message).toEqual('allOf value should be an array');
     expect(res.errors[1].path).toEqual([
@@ -1264,7 +1264,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'all_of_error_prop',
       'schema',
-      'allOf'
+      'allOf',
     ]);
     expect(res.errors[2].message).toEqual('anyOf value should be an array');
     expect(res.errors[2].path).toEqual([
@@ -1274,7 +1274,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'any_of_error_prop',
       'schema',
-      'anyOf'
+      'anyOf',
     ]);
   });
 
@@ -1293,7 +1293,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'schemas',
       'one_of_array',
       'items',
-      'oneOf'
+      'oneOf',
     ]);
     expect(res.errors[1].message).toEqual('allOf value should be an array');
     expect(res.errors[1].path).toEqual([
@@ -1301,7 +1301,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'schemas',
       'all_of_array',
       'items',
-      'allOf'
+      'allOf',
     ]);
     expect(res.errors[2].message).toEqual('anyOf value should be an array');
     expect(res.errors[2].path).toEqual([
@@ -1309,7 +1309,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'schemas',
       'any_of_array',
       'items',
-      'anyOf'
+      'anyOf',
     ]);
   });
 
@@ -1327,8 +1327,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should return a warning when an enum value is not snake case', () => {
     const customConfig = {
       schemas: {
-        snake_case_only: 'warning'
-      }
+        snake_case_only: 'warning',
+      },
     };
 
     const spec = {
@@ -1340,11 +1340,11 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             color: {
               type: 'string',
               description: 'some color',
-              enum: ['blue', 'light_blue', 'darkBlue']
-            }
-          }
-        }
-      }
+              enum: ['blue', 'light_blue', 'darkBlue'],
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1356,7 +1356,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'color',
       'enum',
-      '2'
+      '2',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must be lower snake case.'
@@ -1366,8 +1366,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should return a warning when an enum value is not snake case', () => {
     const customConfig = {
       schemas: {
-        snake_case_only: 'warning'
-      }
+        snake_case_only: 'warning',
+      },
     };
 
     const spec = {
@@ -1384,13 +1384,13 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 items: {
                   type: 'string',
                   description: 'the values',
-                  enum: ['all', 'enumValues', 'possible']
-                }
-              }
-            ]
-          }
-        }
-      }
+                  enum: ['all', 'enumValues', 'possible'],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1404,7 +1404,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '0',
       'items',
       'enum',
-      '1'
+      '1',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must be lower snake case.'
@@ -1414,8 +1414,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should return a warning when an enum value is not snake case', () => {
     const customConfig = {
       schemas: {
-        snake_case_only: 'warning'
-      }
+        snake_case_only: 'warning',
+      },
     };
 
     const spec = {
@@ -1427,11 +1427,11 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             color: {
               type: 'string',
               description: 'some color',
-              enum: ['blue', 'light_blue', 'darkBlue']
-            }
-          }
-        }
-      }
+              enum: ['blue', 'light_blue', 'darkBlue'],
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1443,7 +1443,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'color',
       'enum',
-      '2'
+      '2',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must be lower snake case.'
@@ -1453,8 +1453,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should return a warning when an enum value is not snake case', () => {
     const customConfig = {
       schemas: {
-        snake_case_only: 'warning'
-      }
+        snake_case_only: 'warning',
+      },
     };
 
     const spec = {
@@ -1471,13 +1471,13 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 items: {
                   type: 'string',
                   description: 'the values',
-                  enum: ['all', 'enumValues', 'possible']
-                }
-              }
-            ]
-          }
-        }
-      }
+                  enum: ['all', 'enumValues', 'possible'],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1491,7 +1491,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '0',
       'items',
       'enum',
-      '1'
+      '1',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must be lower snake case.'
@@ -1503,8 +1503,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        enum_case_convention: ['warning', 'lower_snake_case']
-      }
+        enum_case_convention: ['warning', 'lower_snake_case'],
+      },
     };
 
     const spec = {
@@ -1516,11 +1516,11 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             color: {
               type: 'string',
               description: 'some color',
-              enum: ['blue', 'light_blue', 'darkBlue']
-            }
-          }
-        }
-      }
+              enum: ['blue', 'light_blue', 'darkBlue'],
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1532,7 +1532,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'color',
       'enum',
-      '2'
+      '2',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must follow case convention: lower_snake_case'
@@ -1543,8 +1543,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        enum_case_convention: ['warning', 'lower_snake_case']
-      }
+        enum_case_convention: ['warning', 'lower_snake_case'],
+      },
     };
 
     const spec = {
@@ -1561,13 +1561,13 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 items: {
                   type: 'string',
                   description: 'the values',
-                  enum: ['all', 'enumValues', 'possible']
-                }
-              }
-            ]
-          }
-        }
-      }
+                  enum: ['all', 'enumValues', 'possible'],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1581,7 +1581,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '0',
       'items',
       'enum',
-      '1'
+      '1',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must follow case convention: lower_snake_case'
@@ -1592,8 +1592,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        enum_case_convention: ['warning', 'lower_snake_case']
-      }
+        enum_case_convention: ['warning', 'lower_snake_case'],
+      },
     };
 
     const spec = {
@@ -1605,11 +1605,11 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             color: {
               type: 'string',
               description: 'some color',
-              enum: ['blue', 'light_blue', 'darkBlue']
-            }
-          }
-        }
-      }
+              enum: ['blue', 'light_blue', 'darkBlue'],
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1621,7 +1621,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'properties',
       'color',
       'enum',
-      '2'
+      '2',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must follow case convention: lower_snake_case'
@@ -1632,8 +1632,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
     const customConfig = {
       schemas: {
         snake_case_only: 'off',
-        enum_case_convention: ['warning', 'lower_snake_case']
-      }
+        enum_case_convention: ['warning', 'lower_snake_case'],
+      },
     };
 
     const spec = {
@@ -1650,13 +1650,13 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
                 items: {
                   type: 'string',
                   description: 'the values',
-                  enum: ['all', 'enumValues', 'possible']
-                }
-              }
-            ]
-          }
-        }
-      }
+                  enum: ['all', 'enumValues', 'possible'],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1670,7 +1670,7 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       '0',
       'items',
       'enum',
-      '1'
+      '1',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Enum values must follow case convention: lower_snake_case'
@@ -1680,8 +1680,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should skip validation for non string values', () => {
     const customConfig = {
       schemas: {
-        snake_case_only: 'warning'
-      }
+        snake_case_only: 'warning',
+      },
     };
 
     const spec = {
@@ -1693,11 +1693,11 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             integer: {
               type: 'integer',
               description: 'an integer',
-              enum: [1, 2, 3]
-            }
-          }
-        }
-      }
+              enum: [1, 2, 3],
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec, isOAS3: true }, customConfig);
@@ -1714,30 +1714,30 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             properties: {
               name: {
                 description: 'type integer',
-                type: 'integer'
-              }
-            }
+                type: 'integer',
+              },
+            },
           },
           adult: {
             description: 'Causes first warnings',
             properties: {
               name: {
                 description: 'different type',
-                type: 'number'
-              }
-            }
+                type: 'number',
+              },
+            },
           },
           kid: {
             description: 'Causes second warning',
             properties: {
               name: {
                 type: 'string',
-                description: 'differnt type'
-              }
-            }
-          }
-        }
-      }
+                description: 'differnt type',
+              },
+            },
+          },
+        },
+      },
     };
 
     const message = 'Property has inconsistent type: name.';
@@ -1769,30 +1769,30 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             properties: {
               name: {
                 description: 'type integer',
-                type: 'integer'
-              }
-            }
+                type: 'integer',
+              },
+            },
           },
           adult: {
             description: 'Causes first warnings',
             properties: {
               code: {
                 description: 'different type',
-                type: 'number'
-              }
-            }
+                type: 'number',
+              },
+            },
           },
           kid: {
             description: 'Causes second warning',
             properties: {
               code: {
                 type: 'string',
-                description: 'differnt type'
-              }
-            }
-          }
-        }
-      }
+                description: 'differnt type',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -1804,8 +1804,8 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
   it('should not produce a warning for properties with duplicate custom names', () => {
     const customConfig = {
       schemas: {
-        inconsistent_property_type: ['warning', ['year']]
-      }
+        inconsistent_property_type: ['warning', ['year']],
+      },
     };
 
     const spec = {
@@ -1816,30 +1816,30 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
             properties: {
               year: {
                 description: 'type integer',
-                type: 'integer'
-              }
-            }
+                type: 'integer',
+              },
+            },
           },
           adult: {
             description: 'Causes first warnings',
             properties: {
               year: {
                 description: 'different type',
-                type: 'number'
-              }
-            }
+                type: 'number',
+              },
+            },
           },
           kid: {
             description: 'Causes second warning',
             properties: {
               year: {
                 type: 'string',
-                description: 'differnt type'
-              }
-            }
-          }
-        }
-      }
+                description: 'differnt type',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, customConfig);

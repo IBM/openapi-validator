@@ -7,7 +7,7 @@ const config = require('../../../src/cli-validator/utils/processConfiguration');
 const defaultConfig = require('../../../src/.defaultsForValidator');
 const defaultObject = defaultConfig.defaults;
 
-describe('spectral - test spectral-validator.js', function() {
+describe('spectral - test spectral-validator.js', function () {
   let consoleSpy;
 
   beforeEach(() => {
@@ -18,7 +18,7 @@ describe('spectral - test spectral-validator.js', function() {
     consoleSpy.mockRestore();
   });
 
-  it('test should parse mock spectral result as an error', function() {
+  it('test should parse mock spectral result as an error', function () {
     // Create a mock Spectral result object
     const mockResult = [
       {
@@ -27,8 +27,8 @@ describe('spectral - test spectral-validator.js', function() {
         path: ['paths', '/pet', 'put'],
         severity: 0,
         start: { line: 0, character: 0 },
-        end: { line: 134, character: 15 }
-      }
+        end: { line: 134, character: 15 },
+      },
     ];
     const debug = false;
     const parsedSpectralResults = spectralValidator.parseResults(
@@ -49,7 +49,7 @@ describe('spectral - test spectral-validator.js', function() {
     );
   });
 
-  it('test should parse mock spectral result as a warning', function() {
+  it('test should parse mock spectral result as a warning', function () {
     // Create a mock Spectral result object
     const mockResult = [
       {
@@ -58,8 +58,8 @@ describe('spectral - test spectral-validator.js', function() {
         path: ['paths', '/pet', 'put'],
         severity: 1,
         start: { line: 0, character: 0 },
-        end: { line: 134, character: 15 }
-      }
+        end: { line: 134, character: 15 },
+      },
     ];
     const debug = false;
     const parsedSpectralResults = spectralValidator.parseResults(
@@ -80,7 +80,7 @@ describe('spectral - test spectral-validator.js', function() {
     );
   });
 
-  it('test should output debug statement when failing to parse mock spectral result: incorrect severity', function() {
+  it('test should output debug statement when failing to parse mock spectral result: incorrect severity', function () {
     // Create a mock Spectral result object
     const mockResult = [
       {
@@ -89,8 +89,8 @@ describe('spectral - test spectral-validator.js', function() {
         path: ['paths', '/pet', 'put'],
         severity: 'error',
         start: { line: 0, character: 0 },
-        end: { line: 134, character: 15 }
-      }
+        end: { line: 134, character: 15 },
+      },
     ];
     const debug = true;
     const parsedSpectralResults = spectralValidator.parseResults(
@@ -107,7 +107,7 @@ describe('spectral - test spectral-validator.js', function() {
     );
   });
 
-  it('test promise should be rejected when attempting to setup spectral without a valid instance', async function() {
+  it('test promise should be rejected when attempting to setup spectral without a valid instance', async function () {
     let spectral;
     await expect(spectralValidator.setup(spectral)).rejects.toEqual(
       'Error (spectral-validator): An instance of spectral has not been initialized.'
@@ -115,7 +115,7 @@ describe('spectral - test spectral-validator.js', function() {
   });
 });
 
-describe('spectral - test config file changes with .spectral.yml', function() {
+describe('spectral - test config file changes with .spectral.yml', function () {
   let validationResults;
   let errors;
   let warnings;
@@ -144,14 +144,14 @@ describe('spectral - test config file changes with .spectral.yml', function() {
     expect(validationResults.errors.length).toBeGreaterThan(0);
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
-    errors = validationResults.errors.map(error => error.message);
-    warnings = validationResults.warnings.map(warn => warn.message);
+    errors = validationResults.errors.map((error) => error.message);
+    warnings = validationResults.warnings.map((warn) => warn.message);
     expect(errors.length).toBeGreaterThan(0);
     expect(warnings.length).toBeGreaterThan(0);
   });
 
   // One test should be an error instead of a warning compared to the enable-rules.test.js
-  it('test no-eval-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function() {
+  it('test no-eval-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function () {
     expect(errors).toContain(
       'Markdown descriptions should not contain `eval(`.'
     );
@@ -161,7 +161,7 @@ describe('spectral - test config file changes with .spectral.yml', function() {
   });
 
   // Other tests should be their default severity levels
-  it('test no-script-tags-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function() {
+  it('test no-script-tags-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Markdown descriptions should not contain `<script>` tags.'
     );
@@ -171,7 +171,7 @@ describe('spectral - test config file changes with .spectral.yml', function() {
   });
 });
 
-describe('spectral - test config file changes with .validaterc', function() {
+describe('spectral - test config file changes with .validaterc', function () {
   let validationResults;
   let errors;
   let warnings;
@@ -196,14 +196,14 @@ describe('spectral - test config file changes with .validaterc', function() {
     expect(validationResults.errors.length).toBeGreaterThan(0);
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
-    errors = validationResults.errors.map(error => error.message);
-    warnings = validationResults.warnings.map(warn => warn.message);
+    errors = validationResults.errors.map((error) => error.message);
+    warnings = validationResults.warnings.map((warn) => warn.message);
     expect(errors.length).toBeGreaterThan(0);
     expect(warnings.length).toBeGreaterThan(0);
   });
 
   // One test should be an error instead of a warning compared to the enable-rules.test.js
-  it('test no-script-tags-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function() {
+  it('test no-script-tags-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function () {
     expect(errors).toContain(
       'Markdown descriptions should not contain `<script>` tags.'
     );
@@ -213,7 +213,7 @@ describe('spectral - test config file changes with .validaterc', function() {
   });
 
   // Other tests should be their default severity levels
-  it('test no-eval-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function() {
+  it('test no-eval-in-markdown rule using mockFiles/oas3/enabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Markdown descriptions should not contain `eval(`.'
     );
@@ -223,7 +223,7 @@ describe('spectral - test config file changes with .validaterc', function() {
   });
 });
 
-describe('spectral - test config file changes with .validaterc, all rules off', function() {
+describe('spectral - test config file changes with .validaterc, all rules off', function () {
   let validationResults;
 
   beforeAll(async () => {
@@ -256,7 +256,7 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
       'content-entry-contains-schema': 'off',
       'major-version-in-path': 'off',
       'response-example-provided': 'off',
-      'response-error-response-schema': 'off'
+      'response-error-response-schema': 'off',
     };
     const mockConfig = jest.spyOn(config, 'get').mockReturnValue(mockObject);
 
@@ -270,7 +270,7 @@ describe('spectral - test config file changes with .validaterc, all rules off', 
   });
 
   // There should be no errors and no warnings
-  it('test no spectral errors and no spectral warnings', function() {
+  it('test no spectral errors and no spectral warnings', function () {
     expect(validationResults.errors).toBeUndefined();
     expect(validationResults.warnings).toBeUndefined();
   });

@@ -4,8 +4,8 @@ const { getCapturedText } = require('../../test-utils');
 
 const defaultConfig = require('../../../src/.defaultsForValidator').defaults;
 
-describe('test info and hint rules - OAS3', function() {
-  it('test info and hint rules', async function() {
+describe('test info and hint rules - OAS3', function () {
+  it('test info and hint rules', async function () {
     // Create custom config with some info and hint settings
     const customConfig = JSON.parse(JSON.stringify(defaultConfig));
     customConfig['shared']['schemas']['no_schema_description'] = 'info';

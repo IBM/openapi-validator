@@ -5,7 +5,7 @@ const isPlainObject = require('lodash/isPlainObject');
 const { isParameterObject, walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec }) {
+module.exports.validate = function ({ resolvedSpec }) {
   const messages = new MessageCarrier();
 
   walk(resolvedSpec, [], (obj, path) => {

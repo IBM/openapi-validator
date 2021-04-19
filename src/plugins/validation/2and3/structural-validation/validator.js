@@ -7,11 +7,11 @@ const { getLineNumberForPath } = require('../../../ast/ast');
 const validator = new JSONSchema.Validator();
 validator.addSchema(jsonSchema);
 
-module.exports.validate = function({ jsSpec, specStr, settings = {} }) {
-  settings.schemas.forEach(schema => validator.addSchema(schema));
+module.exports.validate = function ({ jsSpec, specStr, settings = {} }) {
+  settings.schemas.forEach((schema) => validator.addSchema(schema));
   return validator
     .validate(jsSpec, settings.testSchema || {})
-    .errors.map(err => {
+    .errors.map((err) => {
       return {
         level: 'error',
         line: getLineNumberForPath(
@@ -21,7 +21,7 @@ module.exports.validate = function({ jsSpec, specStr, settings = {} }) {
         path: err.property.replace('instance.', ''),
         message: err.message,
         source: 'schema',
-        original: err // this won't make it into state, but is still helpful
+        original: err, // this won't make it into state, but is still helpful
       };
     });
 };

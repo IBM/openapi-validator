@@ -1,4 +1,4 @@
-const walk = function(obj, path, validation) {
+const walk = function (obj, path, validation) {
   if (typeof obj !== 'object' || obj === null) {
     return;
   }
@@ -19,7 +19,7 @@ const walk = function(obj, path, validation) {
   // recursively walk through the spec
   const childProperties = Object.keys(obj);
   if (childProperties.length) {
-    return childProperties.map(key => {
+    return childProperties.map((key) => {
       return walk(obj[key], [...path, key], validation);
     });
   } else {

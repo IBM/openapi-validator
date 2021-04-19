@@ -15,12 +15,12 @@ const match = require('matcher');
 const { walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function ({ jsSpec, isOAS3 }, config) {
   const messages = new MessageCarrier();
 
   config = config.walker;
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(jsSpec, [], function (obj, path) {
     // parent keys that allow non-string "type" properties. for example,
     // having a definition called "type" is allowed
     const allowedParents = isOAS3
@@ -31,14 +31,14 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           'parameters',
           'requestBodies',
           'headers',
-          'securitySchemes'
+          'securitySchemes',
         ]
       : [
           'definitions',
           'properties',
           'parameters',
           'responses',
-          'securityDefinitions'
+          'securityDefinitions',
         ];
 
     ///// "type" should always have a string-type value, everywhere.
@@ -105,7 +105,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     }
 
     const keys = Object.keys(obj);
-    keys.forEach(k => {
+    keys.forEach((k) => {
       if (keys.indexOf('$ref') > -1 && k !== '$ref') {
         messages.addMessage(
           path.concat([k]),
@@ -124,7 +124,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 const unacceptableRefPatternsS2 = {
   responses: ['!*#/responses*'],
   schema: ['!*#/definitions*'],
-  parameters: ['!*#/parameters*']
+  parameters: ['!*#/parameters*'],
 };
 
 const unacceptableRefPatternsOAS3 = {
@@ -136,7 +136,7 @@ const unacceptableRefPatternsOAS3 = {
   callbacks: ['!*#/components/callbacks*'],
   examples: ['!*#/components/examples*'],
   headers: ['!*#/components/headers*'],
-  links: ['!*#/components/links*']
+  links: ['!*#/components/links*'],
 };
 
 const exceptionedParents = ['properties'];

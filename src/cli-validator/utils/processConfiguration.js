@@ -15,7 +15,7 @@ defaultObject.spectral.rules = {};
 const deprecatedRuleObject = defaultConfig.deprecated;
 const configOptions = defaultConfig.options;
 
-const printConfigErrors = function(problems, chalk, fileName) {
+const printConfigErrors = function (problems, chalk, fileName) {
   const description = `Invalid configuration in ${chalk.underline(
     fileName
   )} file. See below for details.`;
@@ -23,7 +23,7 @@ const printConfigErrors = function(problems, chalk, fileName) {
   const message = [];
 
   // add all errors for printError
-  problems.forEach(function(problem) {
+  problems.forEach(function (problem) {
     message.push(
       `\n - ${chalk.red(problem.message)}\n   ${chalk.magenta(
         problem.correction
@@ -35,7 +35,7 @@ const printConfigErrors = function(problems, chalk, fileName) {
   }
 };
 
-const validateConfigObject = function(configObject, chalk) {
+const validateConfigObject = function (configObject, chalk) {
   const configErrors = [];
   let validObject = true;
 
@@ -43,7 +43,7 @@ const validateConfigObject = function(configObject, chalk) {
 
   const allowedSpecs = Object.keys(defaultObject);
   const userSpecs = Object.keys(configObject);
-  userSpecs.forEach(spec => {
+  userSpecs.forEach((spec) => {
     // Do not check "spectral" spec rules
     if (spec === 'spectral') {
       return;
@@ -52,7 +52,7 @@ const validateConfigObject = function(configObject, chalk) {
       validObject = false;
       configErrors.push({
         message: `'${spec}' is not a valid spec.`,
-        correction: `Valid specs are: ${allowedSpecs.join(', ')}`
+        correction: `Valid specs are: ${allowedSpecs.join(', ')}`,
       });
       return; // skip rules for categories for invalid spec
     }
@@ -60,12 +60,12 @@ const validateConfigObject = function(configObject, chalk) {
     // check that all categories are valid
     const allowedCategories = Object.keys(defaultObject[spec]);
     const userCategories = Object.keys(configObject[spec]);
-    userCategories.forEach(category => {
+    userCategories.forEach((category) => {
       if (!allowedCategories.includes(category)) {
         validObject = false;
         configErrors.push({
           message: `'${category}' is not a valid category.`,
-          correction: `Valid categories are: ${allowedCategories.join(', ')}`
+          correction: `Valid categories are: ${allowedCategories.join(', ')}`,
         });
         return; // skip rules for invalid category
       }
@@ -73,7 +73,7 @@ const validateConfigObject = function(configObject, chalk) {
       // check that all rules are valid
       const allowedRules = Object.keys(defaultObject[spec][category]);
       const userRules = Object.keys(configObject[spec][category]);
-      userRules.forEach(rule => {
+      userRules.forEach((rule) => {
         if (
           deprecatedRules.includes(rule) ||
           // account for rules with same name in different categories
@@ -95,7 +95,7 @@ const validateConfigObject = function(configObject, chalk) {
           validObject = false;
           configErrors.push({
             message: `'${rule}' is not a valid rule for the ${category} category`,
-            correction: `Valid rules are: ${allowedRules.join(', ')}`
+            correction: `Valid rules are: ${allowedRules.join(', ')}`,
           });
           return; // skip statuses for invalid rule
         }
@@ -119,7 +119,7 @@ const validateConfigObject = function(configObject, chalk) {
             if (!result.valid) {
               configErrors.push({
                 message: `'${configOption}' is not a valid option for the ${rule} rule in the ${category} category.`,
-                correction: `Valid options are: ${result.options.join(', ')}`
+                correction: `Valid options are: ${result.options.join(', ')}`,
               });
               validObject = false;
             }
@@ -132,14 +132,14 @@ const validateConfigObject = function(configObject, chalk) {
           userStatus = 'off';
           configErrors.push({
             message: `Array-value configuration options are not supported for the ${rule} rule in the ${category} category.`,
-            correction: `Valid statuses are: ${allowedStatusValues.join(', ')}`
+            correction: `Valid statuses are: ${allowedStatusValues.join(', ')}`,
           });
         }
         if (!allowedStatusValues.includes(userStatus)) {
           validObject = false;
           configErrors.push({
             message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
-            correction: `Valid statuses are: ${allowedStatusValues.join(', ')}`
+            correction: `Valid statuses are: ${allowedStatusValues.join(', ')}`,
           });
         }
       });
@@ -150,19 +150,19 @@ const validateConfigObject = function(configObject, chalk) {
   //   and set all missing statuses to their default value
   if (validObject) {
     const requiredSpecs = allowedSpecs;
-    requiredSpecs.forEach(spec => {
+    requiredSpecs.forEach((spec) => {
       if (!userSpecs.includes(spec)) {
         configObject[spec] = {};
       }
       const requiredCategories = Object.keys(defaultObject[spec]);
       const userCategories = Object.keys(configObject[spec]);
-      requiredCategories.forEach(category => {
+      requiredCategories.forEach((category) => {
         if (!userCategories.includes(category)) {
           configObject[spec][category] = {};
         }
         const requiredRules = Object.keys(defaultObject[spec][category]);
         const userRules = Object.keys(configObject[spec][category]);
-        requiredRules.forEach(rule => {
+        requiredRules.forEach((rule) => {
           if (!userRules.includes(rule)) {
             configObject[spec][category][rule] =
               defaultObject[spec][category][rule];
@@ -181,7 +181,11 @@ const validateConfigObject = function(configObject, chalk) {
   return configObject;
 };
 
-const getConfigObject = async function(defaultMode, chalk, configFileOverride) {
+const getConfigObject = async function (
+  defaultMode,
+  chalk,
+  configFileOverride
+) {
   let configObject;
 
   const findUpOpts = {};
@@ -241,7 +245,7 @@ const getConfigObject = async function(defaultMode, chalk, configFileOverride) {
   return configObject;
 };
 
-const getFilesToIgnore = async function() {
+const getFilesToIgnore = async function () {
   // search up the file system for the first instance
   // of the ignore file
   const ignoreFile = await findUp('.validateignore');
@@ -261,12 +265,12 @@ const getFilesToIgnore = async function() {
     // also, ignore any blank lines
     const globsToIgnore = fileAsString
       .split('\n')
-      .filter(line => line.trim().length !== 0)
-      .map(glob => pathToFile + glob);
+      .filter((line) => line.trim().length !== 0)
+      .map((glob) => pathToFile + glob);
 
     filesToIgnore = await globby(globsToIgnore, {
       expandDirectories: true,
-      dot: true
+      dot: true,
     });
   } catch (err) {
     filesToIgnore = [];
@@ -275,11 +279,11 @@ const getFilesToIgnore = async function() {
   return filesToIgnore;
 };
 
-const validateLimits = function(limitsObject, chalk) {
+const validateLimits = function (limitsObject, chalk) {
   const allowedLimits = ['warnings'];
   const limitErrors = [];
 
-  Object.keys(limitsObject).forEach(function(key) {
+  Object.keys(limitsObject).forEach(function (key) {
     if (!allowedLimits.includes(key)) {
       // remove the entry and notify the user
       delete limitsObject[key];
@@ -287,7 +291,7 @@ const validateLimits = function(limitsObject, chalk) {
         message: `"${key}" limit not supported. This value will be ignored.`,
         correction: `Valid limits for .thresholdrc are: ${allowedLimits.join(
           ', '
-        )}.`
+        )}.`,
       });
     } else {
       // valid limit option, ensure the limit given is a number
@@ -296,7 +300,7 @@ const validateLimits = function(limitsObject, chalk) {
         delete limitsObject[key];
         limitErrors.push({
           message: `Value provided for ${key} limit is invalid.`,
-          correction: `${key} limit should be a number.`
+          correction: `${key} limit should be a number.`,
         });
       }
     }
@@ -317,7 +321,7 @@ const validateLimits = function(limitsObject, chalk) {
   return limitsObject;
 };
 
-const getLimits = async function(chalk, limitsFileOverride) {
+const getLimits = async function (chalk, limitsFileOverride) {
   let limitsObject = {};
 
   const findUpOpts = {};
@@ -354,11 +358,11 @@ const getLimits = async function(chalk, limitsFileOverride) {
   return limitsObject;
 };
 
-const validateConfigOption = function(userOption, defaultOption) {
+const validateConfigOption = function (userOption, defaultOption) {
   const result = { valid: true };
   // determine what type of option it is
   let optionType;
-  Object.keys(configOptions).forEach(option => {
+  Object.keys(configOptions).forEach((option) => {
     if (configOptions[option].includes(defaultOption)) {
       optionType = option;
     }
@@ -377,12 +381,15 @@ const validateConfigOption = function(userOption, defaultOption) {
   return result;
 };
 
-const getSpectralRuleset = async function(rulesetFileOverride, defaultRuleset) {
+const getSpectralRuleset = async function (
+  rulesetFileOverride,
+  defaultRuleset
+) {
   // List of ruleset files to search for
   const ruleSetFilesToFind = [
     '.spectral.yaml',
     '.spectral.yml',
-    '.spectral.json'
+    '.spectral.json',
   ];
   if (rulesetFileOverride) {
     ruleSetFilesToFind.splice(0, 0, rulesetFileOverride);

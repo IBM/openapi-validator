@@ -1,8 +1,8 @@
 const commandLineValidator = require('../../../src/cli-validator/runValidator');
 const { getCapturedText } = require('../../test-utils');
 
-describe('Spectral - test custom configuration', function() {
-  it('test Spectral info and hint rules', async function() {
+describe('Spectral - test custom configuration', function () {
+  it('test Spectral info and hint rules', async function () {
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
     // set up mock user input
@@ -44,7 +44,7 @@ describe('Spectral - test custom configuration', function() {
     );
   });
 
-  it('test Spectral custom config that extends ibm:oas', async function() {
+  it('test Spectral custom config that extends ibm:oas', async function () {
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
     const program = {};
@@ -68,7 +68,7 @@ describe('Spectral - test custom configuration', function() {
 
     // Verify warnings
     expect(jsonOutput['warnings'].length).toBe(35);
-    const warnings = jsonOutput['warnings'].map(w => w['message']);
+    const warnings = jsonOutput['warnings'].map((w) => w['message']);
     // This warning should be turned off
     expect(warnings).not.toContain(
       'OpenAPI object should have non-empty `tags` array.'
@@ -79,7 +79,7 @@ describe('Spectral - test custom configuration', function() {
     );
   });
 
-  it('test Spectral custom config that extends ibm:oas with custom rules', async function() {
+  it('test Spectral custom config that extends ibm:oas with custom rules', async function () {
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     // set up mock user input
     const program = {};
@@ -100,7 +100,7 @@ describe('Spectral - test custom configuration', function() {
 
     // Verify warnings
     expect(jsonOutput['warnings'].length).toBe(40);
-    const warnings = jsonOutput['warnings'].map(w => w['message']);
+    const warnings = jsonOutput['warnings'].map((w) => w['message']);
     // This is the new warning -- there should be three occurrences
     const warning = 'All request bodies should have an example.';
     const occurrences = warnings.reduce(

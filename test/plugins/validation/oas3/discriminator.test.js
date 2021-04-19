@@ -1,6 +1,6 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/discriminator');
 
 describe('validation plugin - semantic - oas3 discriminator', () => {
@@ -10,16 +10,16 @@ describe('validation plugin - semantic - oas3 discriminator', () => {
         schemas: {
           Pet: {
             discriminator: {
-              propertyName: 'petType'
+              propertyName: 'petType',
             },
             properties: {
               petType: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(0);
@@ -30,10 +30,10 @@ describe('validation plugin - semantic - oas3 discriminator', () => {
       components: {
         schemas: {
           Pet: {
-            discriminator: ''
-          }
-        }
-      }
+            discriminator: '',
+          },
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(1);
@@ -50,18 +50,18 @@ describe('validation plugin - semantic - oas3 discriminator', () => {
       components: {
         schemas: {
           Pet: {
-            discriminator: []
+            discriminator: [],
           },
           Food: {
-            discriminator: {}
+            discriminator: {},
           },
           Human: {
             discriminator: {
-              notPropertyName: 'not property name'
-            }
-          }
-        }
-      }
+              notPropertyName: 'not property name',
+            },
+          },
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(3);
@@ -92,16 +92,16 @@ describe('validation plugin - semantic - oas3 discriminator', () => {
         schemas: {
           Pet: {
             discriminator: {
-              propertyName: {}
-            }
+              propertyName: {},
+            },
           },
           Food: {
             discriminator: {
-              propertyName: 123
-            }
-          }
-        }
-      }
+              propertyName: 123,
+            },
+          },
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(2);
@@ -130,22 +130,22 @@ describe('validation plugin - semantic - oas3 discriminator', () => {
         schemas: {
           Pet: {
             discriminator: {
-              propertyName: 'petType'
+              propertyName: 'petType',
             },
             properties: {
               name: {
-                type: 'string'
-              }
-            }
+                type: 'string',
+              },
+            },
           },
           Food: {
             discriminator: {
-              propertyName: 'expirationDate'
+              propertyName: 'expirationDate',
             },
-            properties: {}
-          }
-        }
-      }
+            properties: {},
+          },
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(2);

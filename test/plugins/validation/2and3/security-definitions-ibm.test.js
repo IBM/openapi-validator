@@ -1,40 +1,40 @@
 const expect = require('expect');
 const resolver = require('json-schema-ref-parser');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/security-definitions-ibm');
 
 const config = {
   security_definitions: {
     unused_security_schemes: 'warning',
-    unused_security_scopes: 'warning'
-  }
+    unused_security_scopes: 'warning',
+  },
 };
 
-describe('validation plugin - semantic - security-definitions-ibm', function() {
-  describe('Swagger 2', function() {
-    it('should warn about an unused security definition', function() {
+describe('validation plugin - semantic - security-definitions-ibm', function () {
+  describe('Swagger 2', function () {
+    it('should warn about an unused security definition', function () {
       const spec = {
         securityDefinitions: {
           basicAuth: {
-            type: 'basic'
+            type: 'basic',
           },
           coolApiAuth: {
             type: 'oauth2',
             scopes: {
-              'read:coolData': 'read some cool data'
-            }
+              'read:coolData': 'read some cool data',
+            },
           },
           api_key: {
             type: 'apiKey',
             name: 'api_key',
-            in: 'header'
-          }
+            in: 'header',
+          },
         },
         security: [
           {
-            basicAuth: []
-          }
+            basicAuth: [],
+          },
         ],
         paths: {
           'CoolPath/secured': {
@@ -43,12 +43,12 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
               summary: 'secure get operation',
               security: [
                 {
-                  coolApiAuth: ['read:coolData']
-                }
-              ]
-            }
-          }
-        }
+                  coolApiAuth: ['read:coolData'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -60,7 +60,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       expect(res.warnings[0].path).toEqual('securityDefinitions.api_key');
     });
 
-    it('should warn about an unused security scope', function() {
+    it('should warn about an unused security scope', function () {
       const spec = {
         securityDefinitions: {
           coolApiAuth: {
@@ -68,14 +68,14 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
             scopes: {
               'read:coolData': 'read some cool data',
               'write:otherCoolData': 'write lots of cool data',
-              'read:unusedScope': 'this scope will not be used'
-            }
-          }
+              'read:unusedScope': 'this scope will not be used',
+            },
+          },
         },
         security: [
           {
-            coolApiAuth: ['write:otherCoolData']
-          }
+            coolApiAuth: ['write:otherCoolData'],
+          },
         ],
         paths: {
           'CoolPath/secured': {
@@ -84,12 +84,12 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
               summary: 'secure get operation',
               security: [
                 {
-                  coolApiAuth: ['read:coolData']
-                }
-              ]
-            }
-          }
-        }
+                  coolApiAuth: ['read:coolData'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -103,16 +103,16 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       );
     });
 
-    it('should not complain if there are no security definitions', function() {
+    it('should not complain if there are no security definitions', function () {
       const spec = {
         paths: {
           'CoolPath/secured': {
             get: {
               operationId: 'secureGet',
-              summary: 'secure get operation'
-            }
-          }
-        }
+              summary: 'secure get operation',
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -120,28 +120,28 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should gracefully handle Oauth security definition with no scopes', function() {
+    it('should gracefully handle Oauth security definition with no scopes', function () {
       const spec = {
         securityDefinitions: {
           OauthSecurity: {
             type: 'oauth2',
             flow: 'implicit',
-            authorizationUrl: '/auth/v1/login'
-          }
+            authorizationUrl: '/auth/v1/login',
+          },
         },
         security: [
           {
-            OauthSecurity: []
-          }
+            OauthSecurity: [],
+          },
         ],
         paths: {
           '/pcloud/v1/images': {
             get: {
               operationId: 'pcloud.images.getall',
-              summary: 'List all available stock images'
-            }
-          }
-        }
+              summary: 'List all available stock images',
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -150,23 +150,23 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
     });
   });
 
-  describe('OpenAPI 3', function() {
-    it('should follow references to security schemes', async function() {
+  describe('OpenAPI 3', function () {
+    it('should follow references to security schemes', async function () {
       const spec = {
         components: {
           schemas: {
             SecuritySchemeModel: {
               type: 'http',
               scheme: 'basic',
-              descriptions: 'example text for def with unused security def'
-            }
+              descriptions: 'example text for def with unused security def',
+            },
           },
           securitySchemes: {
             scheme1: {
-              $ref: '#/components/schemas/SecuritySchemeModel'
-            }
-          }
-        }
+              $ref: '#/components/schemas/SecuritySchemeModel',
+            },
+          },
+        },
       };
 
       const resolvedSpec = await resolver.dereference(spec);
@@ -178,21 +178,21 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
         'A security scheme is defined but never used: scheme1'
       );
     });
-    it('should warn about an unused security definition', function() {
+    it('should warn about an unused security definition', function () {
       const spec = {
         components: {
           securitySchemes: {
             UnusedAuth: {
               type: 'http',
               scheme: 'basic',
-              descriptions: 'basic auth for OpenAPI 3, not used'
+              descriptions: 'basic auth for OpenAPI 3, not used',
             },
             UsedAuth: {
               type: 'http',
               scheme: 'basic',
-              descriptions: 'basic auth for OpenAPI 3, used'
-            }
-          }
+              descriptions: 'basic auth for OpenAPI 3, used',
+            },
+          },
         },
         paths: {
           '/': {
@@ -201,17 +201,17 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
               summary: 'list everything',
               security: [
                 {
-                  UsedAuth: []
-                }
+                  UsedAuth: [],
+                },
               ],
               responses: {
                 default: {
-                  description: 'default response'
-                }
-              }
-            }
-          }
-        }
+                  description: 'default response',
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -225,7 +225,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       );
     });
 
-    it('should warn about an unused security scope', function() {
+    it('should warn about an unused security scope', function () {
       const spec = {
         components: {
           securitySchemes: {
@@ -237,12 +237,12 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
                   authorizationUrl: 'https://example.com/api/oauth/dialog',
                   scopes: {
                     'write:pets': 'modify pets in your account',
-                    'read:pets': 'read your pets'
-                  }
-                }
-              }
-            }
-          }
+                    'read:pets': 'read your pets',
+                  },
+                },
+              },
+            },
+          },
         },
         paths: {
           '/': {
@@ -251,17 +251,17 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
               summary: 'list everything',
               security: [
                 {
-                  ScopedAuth: ['read:pets']
-                }
+                  ScopedAuth: ['read:pets'],
+                },
               ],
               responses: {
                 default: {
-                  description: 'default response'
-                }
-              }
-            }
-          }
-        }
+                  description: 'default response',
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -275,7 +275,7 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       );
     });
 
-    it('should not complain if all definitions/scopes are used', function() {
+    it('should not complain if all definitions/scopes are used', function () {
       const spec = {
         components: {
           securitySchemes: {
@@ -287,12 +287,12 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
                   authorizationUrl: 'https://example.com/api/oauth/dialog',
                   scopes: {
                     'write:pets': 'modify pets in your account',
-                    'read:pets': 'read your pets'
-                  }
-                }
-              }
-            }
-          }
+                    'read:pets': 'read your pets',
+                  },
+                },
+              },
+            },
+          },
         },
         paths: {
           '/': {
@@ -301,17 +301,17 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
               summary: 'list everything',
               security: [
                 {
-                  ScopedAuth: ['read:pets', 'write:pets']
-                }
+                  ScopedAuth: ['read:pets', 'write:pets'],
+                },
               ],
               responses: {
                 default: {
-                  description: 'default response'
-                }
-              }
-            }
-          }
-        }
+                  description: 'default response',
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -319,21 +319,21 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should not complain if all definitions are used with multiple auth schemes', function() {
+    it('should not complain if all definitions are used with multiple auth schemes', function () {
       const spec = {
         components: {
           securitySchemes: {
             api_key: {
               type: 'apiKey',
               name: 'api_key',
-              in: 'header'
+              in: 'header',
             },
             api_secret: {
               type: 'apiKey',
               name: 'api_secret',
-              in: 'header'
-            }
-          }
+              in: 'header',
+            },
+          },
         },
         paths: {
           '/': {
@@ -343,17 +343,17 @@ describe('validation plugin - semantic - security-definitions-ibm', function() {
               security: [
                 {
                   api_key: [],
-                  api_secret: []
-                }
+                  api_secret: [],
+                },
               ],
               responses: {
                 default: {
-                  description: 'default response'
-                }
-              }
-            }
-          }
-        }
+                  description: 'default response',
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);

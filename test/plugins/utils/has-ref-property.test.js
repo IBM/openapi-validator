@@ -7,18 +7,18 @@ const spec = {
       post: {
         description: 'a simple operation',
         requestBody: {
-          $ref: 'external.yaml#/resource-post-request-body'
+          $ref: 'external.yaml#/resource-post-request-body',
         },
         responses: {
-          '200': {
-            description: 'a simple response'
+          200: {
+            description: 'a simple response',
           },
-          '400': {
-            $ref: '#/components/responses/ErrorResponse'
-          }
-        }
-      }
-    }
+          400: {
+            $ref: '#/components/responses/ErrorResponse',
+          },
+        },
+      },
+    },
   },
   components: {
     responses: {
@@ -27,13 +27,13 @@ const spec = {
         content: {
           'application/json': {
             schema: {
-              $ref: 'external.yaml#/error-response-schema'
-            }
-          }
-        }
-      }
-    }
-  }
+              $ref: 'external.yaml#/error-response-schema',
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 describe('has ref property - util', () => {
@@ -81,7 +81,7 @@ describe('has ref property - util', () => {
       '400',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ];
     const hasRef = hasRefProperty(spec, path);
 

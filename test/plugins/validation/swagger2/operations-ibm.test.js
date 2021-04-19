@@ -1,14 +1,14 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/swagger2/semantic-validators/operations-ibm');
 
-describe('validation plugin - semantic - operations-ibm - swagger2', function() {
-  it('should complain about PUT operation with body parameter and a missing consumes', function() {
+describe('validation plugin - semantic - operations-ibm - swagger2', function () {
+  it('should complain about PUT operation with body parameter and a missing consumes', function () {
     const config = {
       operations: {
-        no_consumes_for_put_or_post: 'error'
-      }
+        no_consumes_for_put_or_post: 'error',
+      },
     };
 
     const spec = {
@@ -26,15 +26,15 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -46,11 +46,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain about POST operation with body parameter and a missing consumes', function() {
+  it('should complain about POST operation with body parameter and a missing consumes', function () {
     const config = {
       operations: {
-        no_consumes_for_put_or_post: 'error'
-      }
+        no_consumes_for_put_or_post: 'error',
+      },
     };
 
     const spec = {
@@ -69,15 +69,15 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -89,11 +89,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain about PUT opeartion with body parameter in path and a missing consumes', function() {
+  it('should complain about PUT opeartion with body parameter in path and a missing consumes', function () {
     const config = {
       operations: {
-        no_consumes_for_put_or_post: 'error'
-      }
+        no_consumes_for_put_or_post: 'error',
+      },
     };
 
     const spec = {
@@ -107,20 +107,20 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                 required: ['Property'],
                 properties: [
                   {
-                    name: 'Property'
-                  }
-                ]
-              }
-            }
+                    name: 'Property',
+                  },
+                ],
+              },
+            },
           ],
           put: {
             consumes: [' '],
             produces: ['application/json'],
             summary: 'this is a summary',
-            operationId: 'operationId'
-          }
-        }
-      }
+            operationId: 'operationId',
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -132,11 +132,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain about POST opeartion with body parameter in path and a missing consumes', function() {
+  it('should complain about POST opeartion with body parameter in path and a missing consumes', function () {
     const config = {
       operations: {
-        no_consumes_for_put_or_post: 'error'
-      }
+        no_consumes_for_put_or_post: 'error',
+      },
     };
 
     const spec = {
@@ -150,20 +150,20 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                 required: ['Property'],
                 properties: [
                   {
-                    name: 'Property'
-                  }
-                ]
-              }
-            }
+                    name: 'Property',
+                  },
+                ],
+              },
+            },
           ],
           post: {
             consumes: [' '],
             produces: ['application/json'],
             summary: 'this is a summary',
-            operationId: 'operationId'
-          }
-        }
-      }
+            operationId: 'operationId',
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -175,11 +175,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should not complain about missing consumes when there is no body parameter', function() {
+  it('should not complain about missing consumes when there is no body parameter', function () {
     const config = {
       operations: {
-        no_consumes_for_put_or_post: 'error'
-      }
+        no_consumes_for_put_or_post: 'error',
+      },
     };
 
     const spec = {
@@ -188,10 +188,10 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
           put: {
             produces: ['application/json'],
             summary: 'this is a summary',
-            operationId: 'operationId'
-          }
-        }
-      }
+            operationId: 'operationId',
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -199,11 +199,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should not complain about a missing consumes when there is a global consumes', function() {
+  it('should not complain about a missing consumes when there is a global consumes', function () {
     const config = {
       operations: {
-        no_consumes_for_put_or_post: 'error'
-      }
+        no_consumes_for_put_or_post: 'error',
+      },
     };
 
     const spec = {
@@ -222,15 +222,15 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -238,11 +238,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain about a get operation having consumes', function() {
+  it('should complain about a get operation having consumes', function () {
     const config = {
       operations: {
-        get_op_has_consumes: 'warning'
-      }
+        get_op_has_consumes: 'warning',
+      },
     };
 
     const spec = {
@@ -261,15 +261,15 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -281,11 +281,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.errors.length).toEqual(0);
   });
 
-  it('should complain about a get operation not having produces', function() {
+  it('should complain about a get operation not having produces', function () {
     const config = {
       operations: {
-        no_produces: 'error'
-      }
+        no_produces: 'error',
+      },
     };
 
     const spec = {
@@ -302,15 +302,15 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -322,11 +322,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain about a post operation not having produces', function() {
+  it('should complain about a post operation not having produces', function () {
     const config = {
       operations: {
-        no_produces: 'error'
-      }
+        no_produces: 'error',
+      },
     };
 
     const spec = {
@@ -344,29 +344,29 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
             ],
             responses: {
-              '200': {
+              200: {
                 description: 'successful response producing text/plain',
                 schema: {
-                  type: 'string'
-                }
+                  type: 'string',
+                },
               },
-              '204': {
-                description: 'no content is a possibility here'
+              204: {
+                description: 'no content is a possibility here',
               },
-              '500': {
-                description: 'internal error'
-              }
-            }
-          }
-        }
-      }
+              500: {
+                description: 'internal error',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -378,11 +378,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should not complain about a missing produces when there is a global produces', function() {
+  it('should not complain about a missing produces when there is a global produces', function () {
     const config = {
       operations: {
-        no_produces: 'error'
-      }
+        no_produces: 'error',
+      },
     };
 
     const spec = {
@@ -400,15 +400,15 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -416,11 +416,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should not complain about a missing produces for a HEAD operation', function() {
+  it('should not complain about a missing produces for a HEAD operation', function () {
     const config = {
       operations: {
-        no_produces: 'error'
-      }
+        no_produces: 'error',
+      },
     };
 
     const spec = {
@@ -438,15 +438,15 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -454,11 +454,11 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should not complain about a missing produces for an op where the only success response is a 204', function() {
+  it('should not complain about a missing produces for an op where the only success response is a 204', function () {
     const config = {
       operations: {
-        no_produces: 'error'
-      }
+        no_produces: 'error',
+      },
     };
 
     const spec = {
@@ -477,26 +477,26 @@ describe('validation plugin - semantic - operations-ibm - swagger2', function() 
                   required: ['Property'],
                   properties: [
                     {
-                      name: 'Property'
-                    }
-                  ]
-                }
-              }
+                      name: 'Property',
+                    },
+                  ],
+                },
+              },
             ],
             responses: {
-              '204': {
-                description: 'no content'
+              204: {
+                description: 'no content',
               },
-              '400': {
-                description: 'bad request'
+              400: {
+                description: 'bad request',
               },
-              '500': {
-                description: 'internal error'
-              }
-            }
-          }
-        }
-      }
+              500: {
+                description: 'internal error',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);

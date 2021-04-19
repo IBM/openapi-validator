@@ -4,7 +4,7 @@ const { getCapturedText } = require('../../test-utils');
 // for an explanation of the text interceptor, see the comments for the
 // first test in expectedOutput.js
 
-describe('cli tool - test error handling', function() {
+describe('cli tool - test error handling', function () {
   let consoleSpy;
 
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe('cli tool - test error handling', function() {
     consoleSpy.mockRestore();
   });
 
-  const helpMessage = function() {
+  const helpMessage = function () {
     console.log('\n  Usage: validate-swagger [options] <file>\n\n');
     console.log('  Options:\n');
     console.log(
@@ -25,7 +25,7 @@ describe('cli tool - test error handling', function() {
     console.log('    -h, --help                     output usage information');
   };
 
-  it('should return an error when there is no filename given', async function() {
+  it('should return an error when there is no filename given', async function () {
     const program = {};
     program.args = [];
     program.default_mode = true;
@@ -57,7 +57,7 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when there is no file extension', async function() {
+  it('should return an error when there is no file extension', async function () {
     const program = {};
     program.args = ['json'];
     program.default_mode = true;
@@ -85,7 +85,7 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when there is an invalid file extension', async function() {
+  it('should return an error when there is an invalid file extension', async function () {
     const program = {};
     program.args = ['badExtension.jsob'];
     program.default_mode = true;
@@ -113,7 +113,7 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when a file contains an invalid object', async function() {
+  it('should return an error when a file contains an invalid object', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/bad-json.json'];
     program.default_mode = true;
@@ -137,7 +137,7 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when a json file has duplicated key mappings', async function() {
+  it('should return an error when a json file has duplicated key mappings', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/duplicate-keys.json'];
     program.default_mode = true;
@@ -161,7 +161,7 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when the swagger contains a reference to a missing object', async function() {
+  it('should return an error when the swagger contains a reference to a missing object', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/missing-object.yml'];
     program.default_mode = true;
@@ -185,7 +185,7 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when the swagger contains a trailing comma', async function() {
+  it('should return an error when the swagger contains a trailing comma', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/trailing-comma.json'];
     program.default_mode = true;

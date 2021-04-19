@@ -22,12 +22,12 @@ const circularRefsValidator = require('./circular-references-ibm');
 const spectralValidator = require('../../spectral/utils/spectral-validator');
 
 const validators = {
-  '2': {
-    semanticValidators: semanticValidators2
+  2: {
+    semanticValidators: semanticValidators2,
   },
-  '3': {
-    semanticValidators: semanticValidators3
-  }
+  3: {
+    semanticValidators: semanticValidators3,
+  },
 };
 
 // this function runs the validators on the swagger object
@@ -48,7 +48,7 @@ module.exports = function validateSwagger(
     error: false,
     warning: false,
     info: false,
-    hint: false
+    hint: false,
   };
 
   // use version specific and shared validations
@@ -95,7 +95,7 @@ module.exports = function validateSwagger(
 
   // run semantic validators
 
-  Object.keys(semanticValidators).forEach(key => {
+  Object.keys(semanticValidators).forEach((key) => {
     const problem = semanticValidators[key].validate(allSpecs, config);
     if (problem.errors.length) {
       validationResults.errors[key] = [...problem.errors];
@@ -115,7 +115,7 @@ module.exports = function validateSwagger(
     }
   });
 
-  Object.keys(sharedSemanticValidators).forEach(key => {
+  Object.keys(sharedSemanticValidators).forEach((key) => {
     const problem = sharedSemanticValidators[key].validate(allSpecs, config);
     if (problem.errors.length) {
       validationResults.errors[key] = [].concat(
@@ -155,9 +155,9 @@ module.exports = function validateSwagger(
   if (structuralKeys.length) {
     validationResults.error = true;
     validationResults.errors['structural-validator'] = structuralKeys.map(
-      key => ({
+      (key) => ({
         message: `Schema error: ${structuralResults[key].message}`,
-        path: structuralResults[key].path
+        path: structuralResults[key].path,
       })
     );
   }

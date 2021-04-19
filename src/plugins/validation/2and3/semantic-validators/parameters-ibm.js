@@ -11,12 +11,12 @@
 const { checkCase, isParameterObject, walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function ({ jsSpec, isOAS3 }, config) {
   const messages = new MessageCarrier();
 
   config = config.parameters;
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(jsSpec, [], function (obj, path) {
     // skip parameters within operations that are excluded
     if (obj['x-sdk-exclude'] === true) {
       return;
@@ -51,8 +51,8 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             !obj.name ||
             obj.name
               .split('.')
-              .map(s => checkCase(s, caseConvention))
-              .every(v => v);
+              .map((s) => checkCase(s, caseConvention))
+              .every((v) => v);
 
           if (!isCorrectCase) {
             messages.addMessage(

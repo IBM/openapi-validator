@@ -6,7 +6,7 @@ module.exports = class MessageCarrier {
       error: [],
       warning: [],
       info: [],
-      hint: []
+      hint: [],
     };
   }
 
@@ -37,7 +37,7 @@ module.exports = class MessageCarrier {
       this._messages[status].push({
         path,
         message,
-        rule
+        rule,
       });
     }
   }
@@ -50,7 +50,7 @@ module.exports = class MessageCarrier {
         path,
         message,
         authId,
-        rule
+        rule,
       });
     }
   }

@@ -1,6 +1,6 @@
 const get = require('lodash/get');
 
-module.exports.transformPathToArray = function(property, jsSpec) {
+module.exports.transformPathToArray = function (property, jsSpec) {
   const str =
     property.slice(0, 9) === 'instance.' ? property.slice(9) : property;
 
@@ -8,7 +8,7 @@ module.exports.transformPathToArray = function(property, jsSpec) {
 
   str
     .split('.')
-    .map(item => {
+    .map((item) => {
       // 'key[0]' becomes ['key', '0']
       if (item.includes('[')) {
         const index = parseInt(item.match(/\[(.*)\]/)[1]);
@@ -18,7 +18,7 @@ module.exports.transformPathToArray = function(property, jsSpec) {
         return item;
       }
     })
-    .reduce(function(a, b) {
+    .reduce(function (a, b) {
       // flatten!
       return a.concat(b);
     }, [])

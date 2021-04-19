@@ -1,14 +1,14 @@
 const expect = require('expect');
 const resolver = require('json-schema-ref-parser');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/operations-shared');
 
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
-describe('validation plugin - semantic - operations-shared', function() {
-  describe('Swagger 2', function() {
-    it('should complain about a missing operationId', function() {
+describe('validation plugin - semantic - operations-shared', function () {
+  describe('Swagger 2', function () {
+    it('should complain about a missing operationId', function () {
       const spec = {
         paths: {
           '/CoolPath': {
@@ -23,15 +23,15 @@ describe('validation plugin - semantic - operations-shared', function() {
                     required: ['Property'],
                     properties: [
                       {
-                        name: 'Property'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+                        name: 'Property',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -43,7 +43,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should complain about an empty operationId', function() {
+    it('should complain about an empty operationId', function () {
       const spec = {
         paths: {
           '/CoolPath': {
@@ -59,15 +59,15 @@ describe('validation plugin - semantic - operations-shared', function() {
                     required: ['Property'],
                     properties: [
                       {
-                        name: 'Property'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+                        name: 'Property',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -79,7 +79,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should complain about a missing summary', function() {
+    it('should complain about a missing summary', function () {
       const spec = {
         paths: {
           '/CoolPath': {
@@ -94,15 +94,15 @@ describe('validation plugin - semantic - operations-shared', function() {
                     required: ['Property'],
                     properties: [
                       {
-                        name: 'Property'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+                        name: 'Property',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -114,7 +114,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should complain about an empty summary', function() {
+    it('should complain about an empty summary', function () {
       const spec = {
         paths: {
           '/CoolPath': {
@@ -130,15 +130,15 @@ describe('validation plugin - semantic - operations-shared', function() {
                     required: ['Property'],
                     properties: [
                       {
-                        name: 'Property'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+                        name: 'Property',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -150,7 +150,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should not complain about anything when x-sdk-exclude is true', function() {
+    it('should not complain about anything when x-sdk-exclude is true', function () {
       const spec = {
         paths: {
           '/CoolPath': {
@@ -165,15 +165,15 @@ describe('validation plugin - semantic - operations-shared', function() {
                     required: ['Property'],
                     properties: [
                       {
-                        name: 'Property'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+                        name: 'Property',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -181,7 +181,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should complain about an anonymous array response model', function() {
+    it('should complain about an anonymous array response model', function () {
       const spec = {
         paths: {
           '/stuff': {
@@ -195,14 +195,14 @@ describe('validation plugin - semantic - operations-shared', function() {
                   schema: {
                     type: 'array',
                     items: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -216,7 +216,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should complain about an anonymous array response model - from a $ref', async function() {
+    it('should complain about an anonymous array response model - from a $ref', async function () {
       const spec = {
         paths: {
           '/stuff': {
@@ -228,21 +228,21 @@ describe('validation plugin - semantic - operations-shared', function() {
                 200: {
                   description: 'successful operation',
                   schema: {
-                    $ref: '#/responses/Success'
-                  }
-                }
-              }
-            }
-          }
+                    $ref: '#/responses/Success',
+                  },
+                },
+              },
+            },
+          },
         },
         responses: {
           Success: {
             type: 'array',
             items: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
 
       const resolvedSpec = await resolver.dereference(spec);
@@ -258,7 +258,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should complain about an anonymous array response model with no type but an `items` field', function() {
+    it('should complain about an anonymous array response model with no type but an `items` field', function () {
       const spec = {
         paths: {
           '/stuff': {
@@ -271,14 +271,14 @@ describe('validation plugin - semantic - operations-shared', function() {
                   description: 'successful operation',
                   schema: {
                     items: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -292,7 +292,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should not complain about an empty summary within a vendor extension', function() {
+    it('should not complain about an empty summary within a vendor extension', function () {
       const spec = {
         paths: {
           '/CoolPath': {
@@ -308,15 +308,15 @@ describe('validation plugin - semantic - operations-shared', function() {
                     required: ['Property'],
                     properties: [
                       {
-                        name: 'Property'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+                        name: 'Property',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -324,7 +324,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should report required parameters before optional parameters', function() {
+    it('should report required parameters before optional parameters', function () {
       const spec = {
         paths: {
           '/stuff': {
@@ -336,24 +336,24 @@ describe('validation plugin - semantic - operations-shared', function() {
                 {
                   name: 'foo',
                   in: 'query',
-                  type: 'string'
+                  type: 'string',
                 },
                 {
                   name: 'bar',
                   in: 'query',
                   type: 'string',
-                  required: true
+                  required: true,
                 },
                 {
                   name: 'baz',
                   in: 'query',
                   type: 'string',
-                  required: true
-                }
-              ]
-            }
-          }
-        }
+                  required: true,
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -368,7 +368,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       );
     });
 
-    it('should report required ref parameters before optional ref parameters', async function() {
+    it('should report required ref parameters before optional ref parameters', async function () {
       const spec = {
         paths: {
           '/stuff': {
@@ -378,37 +378,37 @@ describe('validation plugin - semantic - operations-shared', function() {
               produces: ['application/json'],
               parameters: [
                 {
-                  $ref: '#/parameters/fooParam'
+                  $ref: '#/parameters/fooParam',
                 },
                 {
-                  $ref: '#/parameters/barParam'
+                  $ref: '#/parameters/barParam',
                 },
                 {
-                  $ref: '#/parameters/bazParam'
-                }
-              ]
-            }
-          }
+                  $ref: '#/parameters/bazParam',
+                },
+              ],
+            },
+          },
         },
         parameters: {
           fooParam: {
             name: 'foo',
             in: 'query',
-            type: 'string'
+            type: 'string',
           },
           barParam: {
             name: 'bar',
             in: 'query',
             type: 'string',
-            required: true
+            required: true,
           },
           bazParam: {
             name: 'foo',
             in: 'query',
             type: 'string',
-            required: true
-          }
-        }
+            required: true,
+          },
+        },
       };
 
       const resolvedSpec = await resolver.dereference(spec);
@@ -425,7 +425,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       );
     });
 
-    it('should not complain if required ref parameters appear before a required parameter', async function() {
+    it('should not complain if required ref parameters appear before a required parameter', async function () {
       const spec = {
         paths: {
           '/fake/{id}': {
@@ -435,21 +435,21 @@ describe('validation plugin - semantic - operations-shared', function() {
               produces: ['application/json'],
               parameters: [
                 {
-                  $ref: '#/parameters/Authorization'
+                  $ref: '#/parameters/Authorization',
                 },
                 {
-                  $ref: '#/parameters/ProjectId'
+                  $ref: '#/parameters/ProjectId',
                 },
                 {
                   name: 'id',
                   in: 'path',
                   type: 'string',
                   required: true,
-                  description: 'something'
-                }
-              ]
-            }
-          }
+                  description: 'something',
+                },
+              ],
+            },
+          },
         },
         parameters: {
           Authorization: {
@@ -458,14 +458,14 @@ describe('validation plugin - semantic - operations-shared', function() {
             description: 'Identity Access Management (IAM) bearer token.',
             required: true,
             type: 'string',
-            default: 'Bearer <token>'
+            default: 'Bearer <token>',
           },
           ProjectId: {
             name: 'project_id',
             in: 'query',
             description: 'The ID of the project to use.',
             required: true,
-            type: 'string'
+            type: 'string',
           },
           XOpenIDToken: {
             name: 'X-OpenID-Connect-ID-Token',
@@ -473,9 +473,9 @@ describe('validation plugin - semantic - operations-shared', function() {
             description: 'UAA token.',
             required: true,
             type: 'string',
-            default: '<token>'
-          }
-        }
+            default: '<token>',
+          },
+        },
       };
 
       const resolvedSpec = await resolver.dereference(spec);
@@ -485,7 +485,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should be able to handle parameters with `.` characters in the name', async function() {
+    it('should be able to handle parameters with `.` characters in the name', async function () {
       const spec = {
         paths: {
           '/fake/{id}': {
@@ -495,21 +495,21 @@ describe('validation plugin - semantic - operations-shared', function() {
               produces: ['application/json'],
               parameters: [
                 {
-                  $ref: '#/parameters/Authorization'
+                  $ref: '#/parameters/Authorization',
                 },
                 {
-                  $ref: '#/parameters/Project.Id'
+                  $ref: '#/parameters/Project.Id',
                 },
                 {
                   name: 'id',
                   in: 'path',
                   type: 'string',
                   required: true,
-                  description: 'something'
-                }
-              ]
-            }
-          }
+                  description: 'something',
+                },
+              ],
+            },
+          },
         },
         parameters: {
           Authorization: {
@@ -518,14 +518,14 @@ describe('validation plugin - semantic - operations-shared', function() {
             description: 'Identity Access Management (IAM) bearer token.',
             required: true,
             type: 'string',
-            default: 'Bearer <token>'
+            default: 'Bearer <token>',
           },
           'Project.Id': {
             name: 'project_id',
             in: 'query',
             description: 'The ID of the project to use.',
             required: true,
-            type: 'string'
+            type: 'string',
           },
           XOpenIDToken: {
             name: 'X-OpenID-Connect-ID-Token',
@@ -533,9 +533,9 @@ describe('validation plugin - semantic - operations-shared', function() {
             description: 'UAA token.',
             required: true,
             type: 'string',
-            default: '<token>'
-          }
-        }
+            default: '<token>',
+          },
+        },
       };
 
       const resolvedSpec = await resolver.dereference(spec);
@@ -545,7 +545,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should complain about an operationId with the wrong case', function() {
+    it('should complain about an operationId with the wrong case', function () {
       const spec = {
         paths: {
           '/CoolPath': {
@@ -561,15 +561,15 @@ describe('validation plugin - semantic - operations-shared', function() {
                     required: ['Property'],
                     properties: [
                       {
-                        name: 'Property'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+                        name: 'Property',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -581,7 +581,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should not complain about a valid operationId', function() {
+    it('should not complain about a valid operationId', function () {
       const spec = {
         paths: {
           '/CoolPath': {
@@ -597,15 +597,15 @@ describe('validation plugin - semantic - operations-shared', function() {
                     required: ['Property'],
                     properties: [
                       {
-                        name: 'Property'
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        }
+                        name: 'Property',
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec }, config);
@@ -614,8 +614,8 @@ describe('validation plugin - semantic - operations-shared', function() {
     });
   });
 
-  describe('OpenAPI 3', function() {
-    it('should complain about a top-level array response', function() {
+  describe('OpenAPI 3', function () {
+    it('should complain about a top-level array response', function () {
       const spec = {
         paths: {
           '/': {
@@ -627,33 +627,33 @@ describe('validation plugin - semantic - operations-shared', function() {
                 content: {
                   'application/json': {
                     schema: {
-                      type: 'string'
-                    }
-                  }
-                }
+                      type: 'string',
+                    },
+                  },
+                },
               },
               responses: {
-                '200': {
+                200: {
                   content: {
                     'text/plain': {
                       schema: {
-                        type: 'string'
-                      }
+                        type: 'string',
+                      },
                     },
                     'application/json': {
                       schema: {
                         type: 'array',
                         items: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -667,7 +667,7 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should complain about a top-level array response without a type but with an `items` field', function() {
+    it('should complain about a top-level array response without a type but with an `items` field', function () {
       const spec = {
         paths: {
           '/': {
@@ -679,32 +679,32 @@ describe('validation plugin - semantic - operations-shared', function() {
                 content: {
                   'application/json': {
                     schema: {
-                      type: 'string'
-                    }
-                  }
-                }
+                      type: 'string',
+                    },
+                  },
+                },
               },
               responses: {
-                '200': {
+                200: {
                   content: {
                     'text/plain': {
                       schema: {
-                        type: 'string'
-                      }
+                        type: 'string',
+                      },
                     },
                     'application/json': {
                       schema: {
                         items: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -718,15 +718,15 @@ describe('validation plugin - semantic - operations-shared', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should complain about an unused tag', function() {
+    it('should complain about an unused tag', function () {
       const spec = {
         tags: [
           {
-            name: 'some tag'
+            name: 'some tag',
           },
           {
-            name: 'some unused tag'
-          }
+            name: 'some unused tag',
+          },
         ],
         paths: {
           '/': {
@@ -735,19 +735,19 @@ describe('validation plugin - semantic - operations-shared', function() {
               tags: ['some tag'],
               summary: 'get everything as a string',
               responses: {
-                '200': {
+                200: {
                   content: {
                     'text/plain': {
                       schema: {
-                        type: 'string'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -760,12 +760,12 @@ describe('validation plugin - semantic - operations-shared', function() {
       );
     });
 
-    it('should complain about an undefined tag', function() {
+    it('should complain about an undefined tag', function () {
       const spec = {
         tags: [
           {
-            name: 'some tag'
-          }
+            name: 'some tag',
+          },
         ],
         paths: {
           '/': {
@@ -774,35 +774,35 @@ describe('validation plugin - semantic - operations-shared', function() {
               tags: ['not a tag'],
               summary: 'get everything as a string',
               responses: {
-                '200': {
+                200: {
                   content: {
                     'text/plain': {
                       schema: {
-                        type: 'string'
-                      }
-                    }
-                  }
-                }
-              }
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
             },
             post: {
               operationId: 'post_everything',
               tags: ['some tag'],
               summary: 'post everything as a string',
               responses: {
-                '200': {
+                200: {
                   content: {
                     'text/plain': {
                       schema: {
-                        type: 'string'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -815,15 +815,15 @@ describe('validation plugin - semantic - operations-shared', function() {
       );
     });
 
-    it('should complain about a $ref in an operation', function() {
+    it('should complain about a $ref in an operation', function () {
       const jsSpec = {
         paths: {
           '/resource': {
             post: {
-              $ref: 'external.yaml#/some-post'
-            }
-          }
-        }
+              $ref: 'external.yaml#/some-post',
+            },
+          },
+        },
       };
 
       const resolvedSpec = {
@@ -832,10 +832,10 @@ describe('validation plugin - semantic - operations-shared', function() {
             post: {
               description: 'illegally referenced operation',
               operationId: 'create_resource',
-              summary: 'simple operation'
-            }
-          }
-        }
+              summary: 'simple operation',
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec, resolvedSpec, isOAS3: true }, config);

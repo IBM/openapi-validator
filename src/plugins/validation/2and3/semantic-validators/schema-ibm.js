@@ -22,14 +22,14 @@ const includes = require('lodash/includes');
 const { checkCase, walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function ({ jsSpec, isOAS3 }, config) {
   const messages = new MessageCarrier();
 
   config = config.schemas;
 
   const schemas = [];
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(jsSpec, [], function (obj, path) {
     const current = path[path.length - 1];
 
     /*
@@ -54,7 +54,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       'definitions',
       'schemas',
       'properties',
-      'parameters'
+      'parameters',
     ];
     if (
       current === 'schema' ||
@@ -216,7 +216,7 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
     'binary',
     'date',
     'date-time',
-    'password'
+    'password',
   ];
   const validTypes = [
     'integer',
@@ -224,7 +224,7 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
     'string',
     'boolean',
     'object',
-    'array'
+    'array',
   ];
   if (!isOAS3) {
     validTypes.push('file');
@@ -634,7 +634,7 @@ function checkProperties(
           propertiesToCompare[key] = {
             type: value.type,
             path: contextPath.concat(['properties', key]).join('.'),
-            printed: false
+            printed: false,
           };
         }
       }

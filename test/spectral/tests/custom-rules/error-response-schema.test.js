@@ -1,6 +1,6 @@
 const inCodeValidator = require('../../../../src/lib');
 
-describe('spectral - test error-response validation does not produce false positives', function() {
+describe('spectral - test error-response validation does not produce false positives', function () {
   let res;
 
   beforeAll(async () => {
@@ -8,28 +8,28 @@ describe('spectral - test error-response validation does not produce false posit
       openapi: '3.0.0',
       info: {
         version: '1.0.0',
-        title: 'ErrorAPI'
+        title: 'ErrorAPI',
       },
       servers: [{ url: 'http://api.errorapi.com/v1' }],
       paths: {
         path1: {
           get: {
             responses: {
-              '204': {
-                description: 'Success response with no response body'
+              204: {
+                description: 'Success response with no response body',
               },
-              '400': {
-                $ref: '#/components/responses/ErrorResponse'
+              400: {
+                $ref: '#/components/responses/ErrorResponse',
               },
-              '404': {
-                $ref: '#/components/responses/AcceptableErrorResponse'
+              404: {
+                $ref: '#/components/responses/AcceptableErrorResponse',
               },
-              '500': {
-                $ref: '#/components/responses/ErrorResponse'
-              }
-            }
-          }
-        }
+              500: {
+                $ref: '#/components/responses/ErrorResponse',
+              },
+            },
+          },
+        },
       },
       components: {
         responses: {
@@ -37,33 +37,33 @@ describe('spectral - test error-response validation does not produce false posit
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/AcceptableErrorModel'
-                }
-              }
-            }
+                  $ref: '#/components/schemas/AcceptableErrorModel',
+                },
+              },
+            },
           },
           ErrorResponse: {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/ErrorContainerModel'
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/ErrorContainerModel',
+                },
+              },
+            },
+          },
         },
         schemas: {
           AcceptableErrorModel: {
             type: 'object',
             properties: {
               error: {
-                $ref: '#/components/schemas/ErrorModel'
+                $ref: '#/components/schemas/ErrorModel',
               },
               trace: {
                 type: 'string',
-                format: 'uuid'
-              }
-            }
+                format: 'uuid',
+              },
+            },
           },
           ErrorContainerModel: {
             type: 'object',
@@ -71,120 +71,124 @@ describe('spectral - test error-response validation does not produce false posit
               errors: {
                 type: 'array',
                 items: {
-                  $ref: '#/components/schemas/ErrorModel'
-                }
+                  $ref: '#/components/schemas/ErrorModel',
+                },
               },
               trace: {
                 type: 'string',
-                format: 'uuid'
+                format: 'uuid',
               },
               status_code: {
-                type: 'integer'
-              }
-            }
+                type: 'integer',
+              },
+            },
           },
           ErrorModel: {
             type: 'object',
             properties: {
               code: {
                 type: 'string',
-                enum: ['error_1', 'error_2']
+                enum: ['error_1', 'error_2'],
               },
               message: {
-                type: 'string'
+                type: 'string',
               },
               more_info: {
                 type: 'string',
-                description: 'url with link to more information about the error'
+                description:
+                  'url with link to more information about the error',
               },
               target: {
-                $ref: '#/components/schemas/ErrorTargetModel'
-              }
-            }
+                $ref: '#/components/schemas/ErrorTargetModel',
+              },
+            },
           },
           ErrorTargetModel: {
             type: {
               type: 'string',
-              enum: ['field', 'parameter', 'header']
+              enum: ['field', 'parameter', 'header'],
             },
             name: {
               type: 'string',
-              description: 'name of the problematic field that caused the error'
-            }
-          }
-        }
-      }
+              description:
+                'name of the problematic field that caused the error',
+            },
+          },
+        },
+      },
     };
 
     res = await inCodeValidator(spec, true);
   });
 
-  it('should not error when content object provided', function() {
+  it('should not error when content object provided', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Request bodies and non-204 responses should define a content object'
     );
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should not error for error-response that is an object', function() {
+  it('should not error for error-response that is an object', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message === 'Error response should be an object with properties'
     );
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should not error for error-response that includes trace field', function() {
+  it('should not error for error-response that includes trace field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === 'Error response should have a uuid `trace` field'
+      (warn) =>
+        warn.message === 'Error response should have a uuid `trace` field'
     );
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should not error for error-response with a valid status_code field', function() {
+  it('should not error for error-response with a valid status_code field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === '`status_code` field must be an integer'
+      (warn) => warn.message === '`status_code` field must be an integer'
     );
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should not error for error-response `errors` field that is an array', function() {
+  it('should not error for error-response `errors` field that is an array', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message === '`errors` field should be an array of error models'
     );
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should not error for error-response that with `errors` field that has object items', function() {
+  it('should not error for error-response that with `errors` field that has object items', function () {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === 'Error Model should be an object with properties'
+      (warn) =>
+        warn.message === 'Error Model should be an object with properties'
     );
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should not error for error model with valid code field', function() {
+  it('should not error for error model with valid code field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Error Model should contain `code` field, a snake-case, string, enum error code'
     );
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should not error for error model with valid message field', function() {
+  it('should not error for error model with valid message field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message === 'Error Model should contain a string, `message`, field'
     );
     expect(expectedWarnings.length).toBe(0);
   });
 
-  it('should not error for error model with valid `more_info` field', function() {
+  it('should not error for error model with valid `more_info` field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Error Model should contain `more_info` field that contains a URL with more info about the error'
     );
@@ -192,7 +196,7 @@ describe('spectral - test error-response validation does not produce false posit
   });
 });
 
-describe('spectral - test error-response validation catches invalid error responses', function() {
+describe('spectral - test error-response validation catches invalid error responses', function () {
   let res;
 
   beforeAll(async () => {
@@ -200,46 +204,47 @@ describe('spectral - test error-response validation catches invalid error respon
       openapi: '3.0.0',
       info: {
         version: '1.0.0',
-        title: 'ErrorAPI'
+        title: 'ErrorAPI',
       },
       servers: [{ url: 'http://api.errorapi.com/v1' }],
       paths: {
         path1: {
           get: {
             responses: {
-              '204': {
-                description: 'Success response with no response body'
+              204: {
+                description: 'Success response with no response body',
               },
-              '400': {
-                $ref: '#/components/responses/NoObjectErrorModelResponse'
+              400: {
+                $ref: '#/components/responses/NoObjectErrorModelResponse',
               },
-              '404': {
-                $ref: '#/components/responses/NoContentErrorResponse'
+              404: {
+                $ref: '#/components/responses/NoContentErrorResponse',
               },
-              '412': {
+              412: {
                 $ref:
-                  '#/components/responses/ErrorContainerModelItemsNotObjectsResponse'
+                  '#/components/responses/ErrorContainerModelItemsNotObjectsResponse',
               },
-              '500': {
-                $ref: '#/components/responses/MissingPropertiesErrorResponse'
+              500: {
+                $ref: '#/components/responses/MissingPropertiesErrorResponse',
               },
-              '501': {
-                $ref: '#/components/responses/IncorrectPropertiesErrorResponse'
+              501: {
+                $ref: '#/components/responses/IncorrectPropertiesErrorResponse',
               },
-              '502': {
+              502: {
                 $ref:
-                  '#/components/responses/ErrorContainerModelIncorrectItemsPropertiesResponse'
+                  '#/components/responses/ErrorContainerModelIncorrectItemsPropertiesResponse',
               },
-              '503': {
+              503: {
                 $ref:
-                  '#/components/responses/SingleErrorModelIncorrectPropertiesResponse'
+                  '#/components/responses/SingleErrorModelIncorrectPropertiesResponse',
               },
-              '504': {
-                $ref: '#/components/responses/SingleErrorModelNotObjectResponse'
-              }
-            }
-          }
-        }
+              504: {
+                $ref:
+                  '#/components/responses/SingleErrorModelNotObjectResponse',
+              },
+            },
+          },
+        },
       },
       components: {
         responses: {
@@ -247,81 +252,81 @@ describe('spectral - test error-response validation catches invalid error respon
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/BadErrorModel'
-                }
-              }
-            }
+                  $ref: '#/components/schemas/BadErrorModel',
+                },
+              },
+            },
           },
           NoContentErrorResponse: {
             schema: {
-              $ref: '#/components/schemas/BadErrorModel'
-            }
+              $ref: '#/components/schemas/BadErrorModel',
+            },
           },
           MissingPropertiesErrorResponse: {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/MissingPropertiesErrorModel'
-                }
-              }
-            }
+                  $ref: '#/components/schemas/MissingPropertiesErrorModel',
+                },
+              },
+            },
           },
           IncorrectPropertiesErrorResponse: {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/IncorrectPropertiesModel'
-                }
-              }
-            }
+                  $ref: '#/components/schemas/IncorrectPropertiesModel',
+                },
+              },
+            },
           },
           ErrorContainerModelItemsNotObjectsResponse: {
             content: {
               'application/json': {
                 schema: {
                   $ref:
-                    '#/components/schemas/ErrorContainerModelItemsNotObjects'
-                }
-              }
-            }
+                    '#/components/schemas/ErrorContainerModelItemsNotObjects',
+                },
+              },
+            },
           },
           ErrorContainerModelIncorrectItemsPropertiesResponse: {
             content: {
               'application/json': {
                 schema: {
                   $ref:
-                    '#/components/schemas/ErrorContainerModelIncorrectItemsProperties'
-                }
-              }
-            }
+                    '#/components/schemas/ErrorContainerModelIncorrectItemsProperties',
+                },
+              },
+            },
           },
           SingleErrorModelIncorrectPropertiesResponse: {
             content: {
               'application/json': {
                 schema: {
                   $ref:
-                    '#/components/schemas/SingleErrorModelIncorrectProperties'
-                }
-              }
-            }
+                    '#/components/schemas/SingleErrorModelIncorrectProperties',
+                },
+              },
+            },
           },
           SingleErrorModelNotObjectResponse: {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/SingleErrorModelNotObject'
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/SingleErrorModelNotObject',
+                },
+              },
+            },
+          },
         },
         schemas: {
           BadErrorModel: {
-            type: 'string'
+            type: 'string',
           },
           MissingPropertiesErrorModel: {
             type: 'object',
-            properties: {}
+            properties: {},
           },
           IncorrectPropertiesModel: {
             type: 'object',
@@ -329,28 +334,28 @@ describe('spectral - test error-response validation catches invalid error respon
               errors: {},
               trace: {
                 // should be string, uuid
-                type: 'integer'
+                type: 'integer',
               },
               status_code: {
-                type: 'string'
-              }
-            }
+                type: 'string',
+              },
+            },
           },
           ErrorContainerModelItemsNotObjects: {
             type: 'object',
             properties: {
               errors: {
                 type: 'array',
-                items: {}
+                items: {},
               },
               trace: {
                 type: 'string',
-                format: 'uuid'
+                format: 'uuid',
               },
               status_code: {
-                type: 'integer'
-              }
-            }
+                type: 'integer',
+              },
+            },
           },
           ErrorContainerModelIncorrectItemsProperties: {
             type: 'object',
@@ -358,136 +363,138 @@ describe('spectral - test error-response validation catches invalid error respon
               errors: {
                 type: 'array',
                 items: {
-                  $ref: '#/components/schemas/IncorrectPropertiesSchema'
-                }
+                  $ref: '#/components/schemas/IncorrectPropertiesSchema',
+                },
               },
               trace: {
                 type: 'string',
-                format: 'uuid'
+                format: 'uuid',
               },
               status_code: {
-                type: 'integer'
-              }
-            }
+                type: 'integer',
+              },
+            },
           },
           SingleErrorModelNotObject: {
             type: 'object',
             properties: {
               error: {
-                type: 'string'
+                type: 'string',
               },
               trace: {
                 type: 'string',
-                format: 'uuid'
+                format: 'uuid',
               },
               status_code: {
-                type: 'integer'
-              }
-            }
+                type: 'integer',
+              },
+            },
           },
           SingleErrorModelIncorrectProperties: {
             type: 'object',
             properties: {
               error: {
-                $ref: '#/components/schemas/IncorrectPropertiesSchema'
+                $ref: '#/components/schemas/IncorrectPropertiesSchema',
               },
               trace: {
                 type: 'string',
-                format: 'uuid'
+                format: 'uuid',
               },
               status_code: {
-                type: 'integer'
-              }
-            }
+                type: 'integer',
+              },
+            },
           },
           IncorrectPropertiesSchema: {
             type: 'object',
             properties: {
               code: {
                 // should be string
-                type: 'integer'
+                type: 'integer',
               },
               message: {
-                type: 'integer'
+                type: 'integer',
               },
               more_info: {
-                type: 'integer'
-              }
-            }
-          }
-        }
-      }
+                type: 'integer',
+              },
+            },
+          },
+        },
+      },
     };
 
     res = await inCodeValidator(spec, true);
   });
 
-  it('should error for missing content for failure response with no content', function() {
+  it('should error for missing content for failure response with no content', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Request bodies and non-204 responses should define a content object'
     );
     expect(expectedWarnings.length).toBe(1);
   });
 
-  it('should error for error-response that is not an object', function() {
+  it('should error for error-response that is not an object', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message === 'Error response should be an object with properties'
     );
     expect(expectedWarnings.length).toBe(1);
   });
 
-  it('should error for error-response that does not include trace field', function() {
+  it('should error for error-response that does not include trace field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === 'Error response should have a uuid `trace` field'
+      (warn) =>
+        warn.message === 'Error response should have a uuid `trace` field'
     );
     expect(expectedWarnings.length).toBe(2);
   });
 
-  it('should error for error-response that with an invalid status_code field', function() {
+  it('should error for error-response that with an invalid status_code field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === '`status_code` field must be an integer'
+      (warn) => warn.message === '`status_code` field must be an integer'
     );
     expect(expectedWarnings.length).toBe(1);
   });
 
-  it('should error for error-response `errors` field that is not an array', function() {
+  it('should error for error-response `errors` field that is not an array', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message === '`errors` field should be an array of error models'
     );
     expect(expectedWarnings.length).toBe(1);
   });
 
-  it('should error for error-response that with `errors` field that does not have object items', function() {
+  it('should error for error-response that with `errors` field that does not have object items', function () {
     const expectedWarnings = res.warnings.filter(
-      warn => warn.message === 'Error Model should be an object with properties'
+      (warn) =>
+        warn.message === 'Error Model should be an object with properties'
     );
     expect(expectedWarnings.length).toBe(2);
   });
 
-  it('should error for error model with missing or invalid code field', function() {
+  it('should error for error model with missing or invalid code field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Error Model should contain `code` field, a snake-case, string error code'
     );
     expect(expectedWarnings.length).toBe(3);
   });
 
-  it('should error for error model with missing or invalid message field', function() {
+  it('should error for error model with missing or invalid message field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message === 'Error Model should contain a string, `message`, field'
     );
     expect(expectedWarnings.length).toBe(3);
   });
 
-  it('should error for error model with missing or invalid `more_info` field', function() {
+  it('should error for error model with missing or invalid `more_info` field', function () {
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Error Model should contain `more_info` field that contains a URL with more info about the error'
     );

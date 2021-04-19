@@ -1,6 +1,6 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/swagger2/semantic-validators/parameters');
 
 describe('validation plugin - semantic - parameters', () => {
@@ -14,12 +14,12 @@ describe('validation plugin - semantic - parameters', () => {
                 name: 'tags',
                 in: 'query',
                 description: 'tags to filter by',
-                type: 'array'
-              }
-            ]
-          }
-        }
-      }
+                type: 'array',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -29,7 +29,7 @@ describe('validation plugin - semantic - parameters', () => {
       '/pets',
       'get',
       'parameters',
-      '0'
+      '0',
     ]);
     expect(res.errors[0].message).toEqual(
       "Parameters with 'array' type require an 'items' property."

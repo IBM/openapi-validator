@@ -1,9 +1,9 @@
-module.exports = function(response) {
+module.exports = function (response) {
   if (!responseLevelExamples(response) && !schemaLevelExample(response)) {
     return [
       {
-        message: 'Response bodies should include an example response'
-      }
+        message: 'Response bodies should include an example response',
+      },
     ];
   }
 };

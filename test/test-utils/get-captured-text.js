@@ -1,13 +1,13 @@
 const stripAnsiFrom = require('strip-ansi');
 
-module.exports.getCapturedText = callsToLog =>
+module.exports.getCapturedText = (callsToLog) =>
   formatCapturedText(callsToLog, false);
 
-module.exports.getCapturedTextWithColor = callsToLog =>
+module.exports.getCapturedTextWithColor = (callsToLog) =>
   formatCapturedText(callsToLog, true);
 
 function formatCapturedText(callsToLog, preserveColors) {
-  return callsToLog.map(args => {
+  return callsToLog.map((args) => {
     // the validator only ever uses the first arg in consolg.log
     const output = preserveColors ? args[0] : stripAnsiFrom(args[0]);
 

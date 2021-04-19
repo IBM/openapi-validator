@@ -1,6 +1,6 @@
 const last = require('lodash/last');
 
-const getExtension = filename => {
+const getExtension = (filename) => {
   return last(filename.split('.')).toLowerCase();
 };
 

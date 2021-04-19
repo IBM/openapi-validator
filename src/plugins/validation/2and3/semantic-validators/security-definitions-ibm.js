@@ -5,7 +5,7 @@
 const each = require('lodash/each');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
+module.exports.validate = function ({ resolvedSpec, isOAS3 }, config) {
   const messages = new MessageCarrier();
 
   config = config.security_definitions;
@@ -32,7 +32,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
         if (scheme.flows) {
           each(scheme.flows, (flow, flowType) => {
             if (flow.scopes) {
-              Object.keys(flow.scopes).forEach(scope => {
+              Object.keys(flow.scopes).forEach((scope) => {
                 definedScopes[scope] = {};
                 definedScopes[scope].used = false;
                 definedScopes[scope].scheme = name;
@@ -42,7 +42,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
           });
         }
       } else if (scheme.scopes) {
-        Object.keys(scheme.scopes).forEach(scope => {
+        Object.keys(scheme.scopes).forEach((scope) => {
           definedScopes[scope] = {};
           definedScopes[scope].used = false;
           definedScopes[scope].scheme = name;
@@ -72,10 +72,10 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
   });
 
   function flagUsedDefinitions(security) {
-    security.forEach(scheme => {
+    security.forEach((scheme) => {
       const schemeNames = Object.keys(scheme);
 
-      schemeNames.forEach(schemeName => {
+      schemeNames.forEach((schemeName) => {
         // make sure this scheme was in the security definitions, then label as used
         if (definedSchemes[schemeName]) {
           definedSchemes[schemeName].used = true;
@@ -84,7 +84,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
           const scopesArray = scheme[schemeName];
 
           if (type.toLowerCase() === 'oauth2') {
-            scopesArray.forEach(scope => {
+            scopesArray.forEach((scope) => {
               if (definedScopes[scope]) {
                 definedScopes[scope].used = true;
               }
@@ -113,9 +113,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
   each(definedScopes, (info, name) => {
     if (info.used === false) {
       const path = isOAS3
-        ? `components.securitySchemes.${info.scheme}.flows.${
-            info.flow
-          }.scopes.${name}`
+        ? `components.securitySchemes.${info.scheme}.flows.${info.flow}.scopes.${name}`
         : `securityDefinitions.${info.scheme}.scopes.${name}`;
       messages.addMessage(
         path,

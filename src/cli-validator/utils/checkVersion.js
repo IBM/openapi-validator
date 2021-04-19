@@ -4,7 +4,7 @@ const chalk = require('chalk');
 // this module can be used to handle any version-specific functionality
 // it will be called immediately when the program is run
 
-module.exports = function(requiredVersion) {
+module.exports = function (requiredVersion) {
   // this is called since the code uses features that require `requiredVersion`
   const isSupportedVersion = semver.gte(process.version, requiredVersion);
   if (!isSupportedVersion) {

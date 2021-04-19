@@ -23,7 +23,7 @@
 const stringValidator = require('validator');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec }) {
+module.exports.validate = function ({ resolvedSpec }) {
   const messages = new MessageCarrier();
 
   const API_KEY = 'apiKey';

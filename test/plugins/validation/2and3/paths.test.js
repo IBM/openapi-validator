@@ -1,11 +1,11 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/paths');
 
-describe('validation plugin - semantic - paths', function() {
-  describe('Path parameter definitions need matching paramater declarations', function() {
-    it('should not return problems for a valid definiton/declaration pair', function() {
+describe('validation plugin - semantic - paths', function () {
+  describe('Path parameter definitions need matching paramater declarations', function () {
+    it('should not return problems for a valid definiton/declaration pair', function () {
       const spec = {
         paths: {
           '/CoolPath/{id}': {
@@ -13,11 +13,11 @@ describe('validation plugin - semantic - paths', function() {
               {
                 name: 'id',
                 in: 'path',
-                description: 'An id'
-              }
-            ]
-          }
-        }
+                description: 'An id',
+              },
+            ],
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec });
@@ -27,11 +27,11 @@ describe('validation plugin - semantic - paths', function() {
   });
 
   describe('Empty path templates are not allowed', () => {
-    it('should return one problem for an empty path template', function() {
+    it('should return one problem for an empty path template', function () {
       const spec = {
         paths: {
-          '/CoolPath/{}': {}
-        }
+          '/CoolPath/{}': {},
+        },
       };
 
       const res = validate({ resolvedSpec: spec });
@@ -43,26 +43,26 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Path strings must be equivalently different', () => {
-      it('should return one problem for an equivalent templated path strings', function() {
+      it('should return one problem for an equivalent templated path strings', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
                   name: 'id',
-                  in: 'path'
-                }
-              ]
+                  in: 'path',
+                },
+              ],
             },
             '/CoolPath/{count}': {
               parameters: [
                 {
                   name: 'count',
-                  in: 'path'
-                }
-              ]
-            }
-          }
+                  in: 'path',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -72,7 +72,7 @@ describe('validation plugin - semantic - paths', function() {
         expect(res.errors[0].path).toEqual('paths./CoolPath/{count}');
       });
 
-      it('should return no problems for a templated and untemplated pair of path strings', function() {
+      it('should return no problems for a templated and untemplated pair of path strings', function () {
         const spec = {
           paths: {
             '/CoolPath/': {},
@@ -80,11 +80,11 @@ describe('validation plugin - semantic - paths', function() {
               parameters: [
                 {
                   name: 'count',
-                  in: 'path'
-                }
-              ]
-            }
-          }
+                  in: 'path',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -92,30 +92,30 @@ describe('validation plugin - semantic - paths', function() {
         expect(res.warnings.length).toEqual(0);
       });
 
-      it('should return no problems for a templated and double-templated set of path strings', function() {
+      it('should return no problems for a templated and double-templated set of path strings', function () {
         const spec = {
           paths: {
             '/CoolPath/{group_id}/all': {
               parameters: [
                 {
                   name: 'group_id',
-                  in: 'path'
-                }
-              ]
+                  in: 'path',
+                },
+              ],
             },
             '/CoolPath/{group_id}/{user_id}': {
               parameters: [
                 {
                   name: 'group_id',
-                  in: 'path'
+                  in: 'path',
                 },
                 {
                   name: 'user_id',
-                  in: 'path'
-                }
-              ]
-            }
-          }
+                  in: 'path',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -125,26 +125,26 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Paths must have unique name + in parameters', () => {
-      it('should return one problem for an name + in collision', function() {
+      it('should return one problem for an name + in collision', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
                   name: 'id',
-                  in: 'path'
-                }
-              ]
+                  in: 'path',
+                },
+              ],
             },
             '/CoolPath/{count}': {
               parameters: [
                 {
                   name: 'count',
-                  in: 'path'
-                }
-              ]
-            }
-          }
+                  in: 'path',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -155,22 +155,22 @@ describe('validation plugin - semantic - paths', function() {
         expect(res.errors[0].path).toEqual('paths./CoolPath/{count}');
       });
 
-      it('should return no problems for an name collision only', function() {
+      it('should return no problems for an name collision only', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
                   name: 'id',
-                  in: 'path'
+                  in: 'path',
                 },
                 {
                   name: 'id',
-                  in: 'query'
-                }
-              ]
-            }
-          }
+                  in: 'query',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -178,22 +178,22 @@ describe('validation plugin - semantic - paths', function() {
         expect(res.warnings.length).toEqual(0);
       });
 
-      it("should return no problems when 'in' is not defined", function() {
+      it("should return no problems when 'in' is not defined", function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
                   name: 'id',
-                  in: 'path'
+                  in: 'path',
                 },
                 {
-                  name: 'id'
+                  name: 'id',
                   // in: "path"
-                }
-              ]
-            }
-          }
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -203,18 +203,18 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Paths cannot have partial templates', () => {
-      it('should return no problems for a correct path template', function() {
+      it('should return no problems for a correct path template', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
                   name: 'id',
-                  in: 'path'
-                }
-              ]
-            }
-          }
+                  in: 'path',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -224,18 +224,18 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Paths cannot have query strings in them', () => {
-      it('should return no problems for a correct path template', function() {
+      it('should return no problems for a correct path template', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
                   name: 'id',
-                  in: 'path'
-                }
-              ]
-            }
-          }
+                  in: 'path',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -245,19 +245,19 @@ describe('validation plugin - semantic - paths', function() {
     });
 
     describe('Integrations', () => {
-      it.skip('should return two problems for an equivalent path string missing a parameter definition', function() {
+      it.skip('should return two problems for an equivalent path string missing a parameter definition', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
                   name: 'id',
-                  in: 'path'
-                }
-              ]
+                  in: 'path',
+                },
+              ],
             },
-            '/CoolPath/{count}': {}
-          }
+            '/CoolPath/{count}': {},
+          },
         };
 
         const res = validate({ resolvedSpec: spec });
@@ -273,7 +273,7 @@ describe('validation plugin - semantic - paths', function() {
       });
     });
 
-    it('should not crash when `parameters` is not an array', function() {
+    it('should not crash when `parameters` is not an array', function () {
       const spec = {
         paths: {
           '/resource': {
@@ -285,22 +285,22 @@ describe('validation plugin - semantic - paths', function() {
                 allOf: [
                   {
                     name: 'one',
-                    type: 'string'
+                    type: 'string',
                   },
                   {
                     name: 'two',
-                    type: 'string'
-                  }
-                ]
+                    type: 'string',
+                  },
+                ],
               },
               responses: {
-                '200': {
-                  description: 'response'
-                }
-              }
-            }
-          }
-        }
+                200: {
+                  description: 'response',
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec });

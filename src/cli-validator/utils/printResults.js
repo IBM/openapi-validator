@@ -23,28 +23,28 @@ module.exports = function print(
     errors: 'bgRed',
     warnings: 'bgYellow',
     infos: 'bgGrey',
-    hints: 'bgGreen'
+    hints: 'bgGreen',
   };
 
   // define an object template in the case that statistics reporting is turned on
   const stats = {
     errors: {
-      total: 0
+      total: 0,
     },
     warnings: {
-      total: 0
+      total: 0,
     },
     infos: {
-      total: 0
+      total: 0,
     },
     hints: {
-      total: 0
-    }
+      total: 0,
+    },
   };
 
   console.log();
 
-  types.forEach(type => {
+  types.forEach((type) => {
     let color = colors[type];
     if (Object.keys(results[type]).length) {
       console.log(chalk[color].bold(`${type}\n`));
@@ -58,7 +58,7 @@ module.exports = function print(
         console.log(`Validator: ${validator}`);
       }
 
-      problems.forEach(problem => {
+      problems.forEach((problem) => {
         // To allow messages with fillins to be grouped properly in the statistics,
         // truncate the message at the first ':'
         const message = problem.message.split(':')[0];
@@ -138,13 +138,13 @@ module.exports = function print(
     }
     console.log('');
 
-    types.forEach(type => {
+    types.forEach((type) => {
       // print the type, either error or warning
       if (stats[type].total) {
         console.log('  ' + chalk.underline.cyan(type));
       }
 
-      Object.keys(stats[type]).forEach(message => {
+      Object.keys(stats[type]).forEach((message) => {
         if (message !== 'total') {
           // calculate percentage
           const number = stats[type][message];

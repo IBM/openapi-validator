@@ -1,21 +1,21 @@
 const addPathsToComponents = require('../../../../src/cli-validator/utils/addPathsToComponents');
 
-describe('test postprocessing util - test component path finding', function() {
-  it('should correctly add component paths', function() {
+describe('test postprocessing util - test component path finding', function () {
+  it('should correctly add component paths', function () {
     const unresolvedSpec = {
       paths: {
         '/path1': {
           get: {
             responses: {
-              '200': {
-                $ref: '#/components/responses/GenericResponse'
+              200: {
+                $ref: '#/components/responses/GenericResponse',
               },
-              '201': {
-                $ref: '#/components/responses/GenericResponse'
-              }
-            }
-          }
-        }
+              201: {
+                $ref: '#/components/responses/GenericResponse',
+              },
+            },
+          },
+        },
       },
       components: {
         responses: {
@@ -23,23 +23,23 @@ describe('test postprocessing util - test component path finding', function() {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/GenericSchema'
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/GenericSchema',
+                },
+              },
+            },
+          },
         },
         schemas: {
           GenericSchema: {
             type: 'object',
             properties: {
               stringProp: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
     };
     // mimicing errors from a resolved spec
     const originalResults = {
@@ -49,16 +49,16 @@ describe('test postprocessing util - test component path finding', function() {
             message: 'simple error message',
             path:
               'paths./path1.get.responses.200.content.application/json.schema.properties.stringProp',
-            rule: 'made_up_rule'
+            rule: 'made_up_rule',
           },
           {
             message: 'simple error message',
             path:
               'paths./path1.get.responses.201.content.application/json.schema.properties.stringProp',
-            rule: 'made_up_rule'
-          }
-        ]
-      }
+            rule: 'made_up_rule',
+          },
+        ],
+      },
     };
     addPathsToComponents(originalResults, unresolvedSpec);
     const errors = originalResults.errors['validator-name'];
@@ -68,27 +68,27 @@ describe('test postprocessing util - test component path finding', function() {
       'schemas',
       'GenericSchema',
       'properties',
-      'stringProp'
+      'stringProp',
     ]);
     expect(errors[1].componentPath).toEqual([
       'components',
       'schemas',
       'GenericSchema',
       'properties',
-      'stringProp'
+      'stringProp',
     ]);
   });
 
-  it('should correctly add component paths when an array index is in the path', function() {
+  it('should correctly add component paths when an array index is in the path', function () {
     const unresolvedSpec = {
       paths: {
         '/path1': {
           post: {
             requestBody: {
-              $ref: '#/components/requestBodies/OneOfRequest'
-            }
-          }
-        }
+              $ref: '#/components/requestBodies/OneOfRequest',
+            },
+          },
+        },
       },
       components: {
         requestBodies: {
@@ -96,41 +96,41 @@ describe('test postprocessing util - test component path finding', function() {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/OneOfSchema'
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/OneOfSchema',
+                },
+              },
+            },
+          },
         },
         schemas: {
           OneOfSchema: {
             oneOf: [
               {
-                $ref: '#/components/schemas/Cat'
+                $ref: '#/components/schemas/Cat',
               },
               {
-                $ref: '#/components/schemas/Dog'
-              }
-            ]
+                $ref: '#/components/schemas/Dog',
+              },
+            ],
           },
           Cat: {
             type: 'object',
             properties: {
               meows: {
-                type: 'boolean'
-              }
-            }
+                type: 'boolean',
+              },
+            },
           },
           Dog: {
             type: 'object',
             properties: {
               barks: {
-                type: 'boolean'
-              }
-            }
-          }
-        }
-      }
+                type: 'boolean',
+              },
+            },
+          },
+        },
+      },
     };
     // mimicing errors from a resolved spec
     const originalResults = {
@@ -140,7 +140,7 @@ describe('test postprocessing util - test component path finding', function() {
             message: 'simple error message',
             path:
               'paths./path1.post.requestBody.content.application/json.schema.oneOf.0.properties.meows',
-            rule: 'made_up_rule'
+            rule: 'made_up_rule',
           },
           {
             message: 'simple error message with array path',
@@ -155,9 +155,9 @@ describe('test postprocessing util - test component path finding', function() {
               'oneOf',
               '0',
               'properties',
-              'meows'
+              'meows',
             ],
-            rule: 'made_up_rule'
+            rule: 'made_up_rule',
           },
           {
             message: 'simple error message with array path with a number index',
@@ -172,12 +172,12 @@ describe('test postprocessing util - test component path finding', function() {
               'oneOf',
               0,
               'properties',
-              'meows'
+              'meows',
             ],
-            rule: 'made_up_rule'
-          }
-        ]
-      }
+            rule: 'made_up_rule',
+          },
+        ],
+      },
     };
     addPathsToComponents(originalResults, unresolvedSpec);
     const errors = originalResults.errors['validator-name'];
@@ -187,50 +187,50 @@ describe('test postprocessing util - test component path finding', function() {
       'schemas',
       'Cat',
       'properties',
-      'meows'
+      'meows',
     ]);
     expect(errors[1].componentPath).toEqual([
       'components',
       'schemas',
       'Cat',
       'properties',
-      'meows'
+      'meows',
     ]);
     expect(errors[2].componentPath).toEqual([
       'components',
       'schemas',
       'Cat',
       'properties',
-      'meows'
+      'meows',
     ]);
   });
 
-  it('should not add a component path when the error path is invalid', function() {
+  it('should not add a component path when the error path is invalid', function () {
     const unresolvedSpec = {
       paths: {
         '/path1': {
           get: {
             responses: {
-              '200': {
+              200: {
                 content: {
                   'application/json': {
                     schema: {
-                      $ref: '#/components/schemas/GenericSchema'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      $ref: '#/components/schemas/GenericSchema',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       components: {
         schemas: {
           GenericSchema: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
     // invalid error path
     const originalResults = {
@@ -240,10 +240,10 @@ describe('test postprocessing util - test component path finding', function() {
             message: 'simple error message',
             path:
               'paths./path1.get.requestBody.content.application/json.schema',
-            rule: 'made_up_rule'
-          }
-        ]
-      }
+            rule: 'made_up_rule',
+          },
+        ],
+      },
     };
     addPathsToComponents(originalResults, unresolvedSpec);
     const errors = originalResults.errors['validator-name'];
@@ -251,24 +251,24 @@ describe('test postprocessing util - test component path finding', function() {
     expect(errors[0].componentPath).toBeUndefined();
   });
 
-  it('should not add a component path when the ref is invalid', function() {
+  it('should not add a component path when the ref is invalid', function () {
     const unresolvedSpec = {
       paths: {
         '/path1': {
           get: {
             responses: {
-              '200': {
+              200: {
                 content: {
                   'application/json': {
                     schema: {
-                      $ref: '#/components/schemas/SchemaDoesntExist'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      $ref: '#/components/schemas/SchemaDoesntExist',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       components: {
         schemas: {
@@ -276,12 +276,12 @@ describe('test postprocessing util - test component path finding', function() {
             type: 'object',
             properties: {
               stringProp: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
     };
 
     // invalid error path
@@ -292,10 +292,10 @@ describe('test postprocessing util - test component path finding', function() {
             message: 'simple error message',
             path:
               'paths./path1.get.responses.200.content.application/json.schema.stringProp',
-            rule: 'made_up_rule'
-          }
-        ]
-      }
+            rule: 'made_up_rule',
+          },
+        ],
+      },
     };
 
     addPathsToComponents(originalResults, unresolvedSpec);
@@ -304,7 +304,7 @@ describe('test postprocessing util - test component path finding', function() {
     expect(errors[0].componentPath).toBeUndefined();
   });
 
-  it('should not add a component path when the ref is invalid', function() {
+  it('should not add a component path when the ref is invalid', function () {
     const unresolvedSpec = {
       swagger: '2.0',
       paths: {
@@ -320,12 +320,12 @@ describe('test postprocessing util - test component path finding', function() {
                 description: 'Pet object that needs to be added to the store',
                 required: true,
                 schema: {
-                  $ref: '#/definitions/Pet'
-                }
-              }
-            ]
-          }
-        }
+                  $ref: '#/definitions/Pet',
+                },
+              },
+            ],
+          },
+        },
       },
       definitions: {
         Pet: {
@@ -333,15 +333,15 @@ describe('test postprocessing util - test component path finding', function() {
           properties: {
             id: {
               type: 'integer',
-              format: 'int64'
+              format: 'int64',
             },
             name: {
               type: 'string',
-              description: 'string'
-            }
-          }
-        }
-      }
+              description: 'string',
+            },
+          },
+        },
+      },
     };
 
     const originalResults = {
@@ -350,10 +350,10 @@ describe('test postprocessing util - test component path finding', function() {
           {
             message: 'simple error message',
             path: 'paths./pet.post.parameters.0.schema.properties.id',
-            rule: 'made_up_rule'
-          }
-        ]
-      }
+            rule: 'made_up_rule',
+          },
+        ],
+      },
     };
 
     addPathsToComponents(originalResults, unresolvedSpec);
@@ -363,7 +363,7 @@ describe('test postprocessing util - test component path finding', function() {
       'definitions',
       'Pet',
       'properties',
-      'id'
+      'id',
     ]);
   });
 });

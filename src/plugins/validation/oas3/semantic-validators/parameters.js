@@ -16,13 +16,13 @@ const MessageCarrier = require('../../../utils/messageCarrier');
 const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
   .findOctetSequencePaths;
 
-module.exports.validate = function({ jsSpec }, config) {
+module.exports.validate = function ({ jsSpec }, config) {
   const messages = new MessageCarrier();
 
   const configSchemas = config.schemas;
   config = config.parameters;
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(jsSpec, [], function (obj, path) {
     const isContentsOfParameterObject = isParameterObject(path, true); // 2nd arg is isOAS3
     const isRef = !!obj.$ref;
 
@@ -74,12 +74,12 @@ module.exports.validate = function({ jsSpec }, config) {
           ...findOctetSequencePaths(obj.schema, path.concat(['schema']))
         );
         if (obj.content) {
-          Object.keys(obj.content).forEach(function(mimeType) {
+          Object.keys(obj.content).forEach(function (mimeType) {
             if (mimeType === 'application/json') {
               const paramContentPath = path.concat([
                 'content',
                 mimeType,
-                'schema'
+                'schema',
               ]);
               octetSequencePaths.push(
                 ...findOctetSequencePaths(

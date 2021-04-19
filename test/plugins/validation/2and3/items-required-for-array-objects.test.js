@@ -1,6 +1,6 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/items-required-for-array-objects');
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
@@ -10,7 +10,7 @@ describe('validation plugin - semantic - items required for array objects - Swag
       swagger: '2.0',
       info: {
         version: '1.0.0',
-        title: 'Swagger Petstore'
+        title: 'Swagger Petstore',
       },
       paths: {
         '/pets': {
@@ -18,21 +18,21 @@ describe('validation plugin - semantic - items required for array objects - Swag
             description:
               'Returns all pets from the system that the user has access to',
             responses: {
-              '200': {
+              200: {
                 description: 'pet response',
                 headers: {
                   'X-MyHeader': {
-                    type: 'array'
-                  }
-                }
+                    type: 'array',
+                  },
+                },
               },
               default: {
-                description: 'unexpected error'
-              }
-            }
-          }
-        }
-      }
+                description: 'unexpected error',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -44,7 +44,7 @@ describe('validation plugin - semantic - items required for array objects - Swag
       'responses',
       '200',
       'headers',
-      'X-MyHeader'
+      'X-MyHeader',
     ]);
     expect(res.errors[0].message).toEqual(
       "Headers with 'array' type require an 'items' property"
@@ -57,7 +57,7 @@ describe('validation plugin - semantic - items required for array objects - Swag
       swagger: '2.0',
       info: {
         version: '1.0.0',
-        title: 'Swagger Petstore'
+        title: 'Swagger Petstore',
       },
       paths: {
         '/pets': {
@@ -65,24 +65,24 @@ describe('validation plugin - semantic - items required for array objects - Swag
             description:
               'Returns all pets from the system that the user has access to',
             responses: {
-              '200': {
+              200: {
                 description: 'pet response',
                 headers: {
                   'X-MyHeader': {
                     type: 'array',
                     items: {
-                      type: 'string'
-                    }
-                  }
-                }
+                      type: 'string',
+                    },
+                  },
+                },
               },
               default: {
-                description: 'unexpected error'
-              }
-            }
-          }
-        }
-      }
+                description: 'unexpected error',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -94,9 +94,9 @@ describe('validation plugin - semantic - items required for array objects - Swag
     const spec = {
       definitions: {
         TestObject: {
-          type: 'array'
-        }
-      }
+          type: 'array',
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -115,11 +115,11 @@ describe('validation plugin - semantic - items required for array objects - Swag
           type: 'object',
           properties: {
             arrayProperty: {
-              type: 'array'
-            }
-          }
-        }
-      }
+              type: 'array',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -143,24 +143,24 @@ describe('validation plugin - semantic - items required for array objects - Open
             description:
               'Returns all pets from the system that the user has access to',
             responses: {
-              '200': {
+              200: {
                 description: 'pet response',
                 headers: {
                   'X-MyHeader': {
                     description: 'fake header',
                     schema: {
-                      type: 'array'
-                    }
-                  }
-                }
+                      type: 'array',
+                    },
+                  },
+                },
               },
               default: {
-                description: 'unexpected error'
-              }
-            }
-          }
-        }
-      }
+                description: 'unexpected error',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -182,7 +182,7 @@ describe('validation plugin - semantic - items required for array objects - Open
             description:
               'Returns all pets from the system that the user has access to',
             responses: {
-              '200': {
+              200: {
                 description: 'pet response',
                 headers: {
                   'X-MyHeader': {
@@ -191,20 +191,20 @@ describe('validation plugin - semantic - items required for array objects - Open
                       type: 'array',
                       items: [
                         {
-                          type: 'string'
-                        }
-                      ]
-                    }
-                  }
-                }
+                          type: 'string',
+                        },
+                      ],
+                    },
+                  },
+                },
               },
               default: {
-                description: 'unexpected error'
-              }
-            }
-          }
-        }
-      }
+                description: 'unexpected error',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -227,12 +227,12 @@ describe('validation plugin - semantic - items required for array objects - Open
             required: ['ImportantProperty'],
             properties: {
               OptionalProperty: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -253,28 +253,28 @@ describe('validation plugin - semantic - items required for array objects - Open
           RefProp: {
             properties: {
               OptionalProperty: {
-                type: `string`
-              }
-            }
+                type: `string`,
+              },
+            },
           },
           TestObject: {
             type: 'object',
             required: ['ImportantProperty'],
             oneOf: [
               {
-                $ref: '#/components/schemas/RefProp'
+                $ref: '#/components/schemas/RefProp',
               },
               {
                 properties: {
                   ImportantProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -295,28 +295,28 @@ describe('validation plugin - semantic - items required for array objects - Open
           RefProp: {
             properties: {
               OptionalProperty: {
-                type: `string`
-              }
-            }
+                type: `string`,
+              },
+            },
           },
           TestObject: {
             type: 'object',
             required: ['ImportantProperty'],
             anyOf: [
               {
-                $ref: '#/components/schemas/RefProp'
+                $ref: '#/components/schemas/RefProp',
               },
               {
                 properties: {
                   ImportantProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -337,42 +337,42 @@ describe('validation plugin - semantic - items required for array objects - Open
           NestedRefProp: {
             properties: {
               ImportantProperty: {
-                type: `string`
-              }
-            }
+                type: `string`,
+              },
+            },
           },
           RefProp: {
             anyOf: [
               {
-                $ref: '#/components/schemas/NestedRefProp'
+                $ref: '#/components/schemas/NestedRefProp',
               },
               {
                 properties: {
                   ImportantProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
+                    type: 'string',
+                  },
+                },
+              },
+            ],
           },
           TestObject: {
             type: 'object',
             required: ['ImportantProperty'],
             anyOf: [
               {
-                $ref: '#/components/schemas/RefProp'
+                $ref: '#/components/schemas/RefProp',
               },
               {
                 properties: {
                   ImportantProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -387,42 +387,42 @@ describe('validation plugin - semantic - items required for array objects - Open
           NestedRefProp: {
             properties: {
               ImportantProperty: {
-                type: `string`
-              }
-            }
+                type: `string`,
+              },
+            },
           },
           RefProp: {
             allOf: [
               {
-                $ref: '#/components/schemas/NestedRefProp'
+                $ref: '#/components/schemas/NestedRefProp',
               },
               {
                 properties: {
                   OptionalProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
+                    type: 'string',
+                  },
+                },
+              },
+            ],
           },
           TestObject: {
             type: 'object',
             required: ['ImportantProperty'],
             anyOf: [
               {
-                $ref: '#/components/schemas/RefProp'
+                $ref: '#/components/schemas/RefProp',
               },
               {
                 properties: {
                   ImportantProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -437,42 +437,42 @@ describe('validation plugin - semantic - items required for array objects - Open
           NestedRefProp: {
             properties: {
               ImportantProperty: {
-                type: `string`
-              }
-            }
+                type: `string`,
+              },
+            },
           },
           RefProp: {
             allOf: [
               {
-                $ref: '#/components/schemas/NestedRefProp'
+                $ref: '#/components/schemas/NestedRefProp',
               },
               {
                 properties: {
                   OptionalProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
+                    type: 'string',
+                  },
+                },
+              },
+            ],
           },
           TestObject: {
             type: 'object',
             required: ['ImportantProperty'],
             allOf: [
               {
-                $ref: '#/components/schemas/RefProp'
+                $ref: '#/components/schemas/RefProp',
               },
               {
                 properties: {
                   OptionalProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -487,28 +487,28 @@ describe('validation plugin - semantic - items required for array objects - Open
           RefProp: {
             properties: {
               OptionalProperty: {
-                type: `string`
-              }
-            }
+                type: `string`,
+              },
+            },
           },
           TestObject: {
             type: 'object',
             required: ['ImportantProperty'],
             allOf: [
               {
-                $ref: '#/components/schemas/RefProp'
+                $ref: '#/components/schemas/RefProp',
               },
               {
                 properties: {
                   OptionalProperty: {
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -529,11 +529,11 @@ describe('validation plugin - semantic - items required for array objects - Open
           TestObject: {
             type: 'array',
             items: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);

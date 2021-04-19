@@ -1,12 +1,12 @@
 const inCodeValidator = require('../../../../src/lib');
 
-describe('spectral - test content entry validation does not produce false positives', function() {
+describe('spectral - test content entry validation does not produce false positives', function () {
   it('should not error when content object provided or for 204 response without content', async () => {
     const spec = {
       openapi: '3.0.0',
       info: {
         version: '1.0.0',
-        title: 'ErrorAPI'
+        title: 'ErrorAPI',
       },
       servers: [{ url: 'http://api.errorapi.com/v1' }],
       paths: {
@@ -15,24 +15,24 @@ describe('spectral - test content entry validation does not produce false positi
             requestBody: {
               content: {
                 'application/json': {
-                  $ref: '#/components/schemas/GenericSchema'
-                }
-              }
+                  $ref: '#/components/schemas/GenericSchema',
+                },
+              },
             },
             responses: {
-              '200': {
+              200: {
                 content: {
                   'application/json': {
-                    $ref: '#/components/schemas/GenericSchema'
-                  }
-                }
+                    $ref: '#/components/schemas/GenericSchema',
+                  },
+                },
               },
-              '204': {
-                description: 'Success response with no response body'
-              }
-            }
-          }
-        }
+              204: {
+                description: 'Success response with no response body',
+              },
+            },
+          },
+        },
       },
       components: {
         schemas: {
@@ -40,17 +40,17 @@ describe('spectral - test content entry validation does not produce false positi
             type: 'object',
             properties: {
               prop: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
+                type: 'string',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Request bodies and non-204 responses should define a content object'
     );
@@ -58,13 +58,13 @@ describe('spectral - test content entry validation does not produce false positi
   });
 });
 
-describe('spectral - test content entry validation does not produce false positives', function() {
+describe('spectral - test content entry validation does not produce false positives', function () {
   it('should error when content object not provided', async () => {
     const spec = {
       openapi: '3.0.0',
       info: {
         version: '1.0.0',
-        title: 'ErrorAPI'
+        title: 'ErrorAPI',
       },
       servers: [{ url: 'http://api.errorapi.com/v1' }],
       paths: {
@@ -72,19 +72,19 @@ describe('spectral - test content entry validation does not produce false positi
           post: {
             requestBody: {},
             responses: {
-              '200': {},
-              '300': {},
-              '400': {},
-              '500': {}
-            }
-          }
-        }
-      }
+              200: {},
+              300: {},
+              400: {},
+              500: {},
+            },
+          },
+        },
+      },
     };
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Request bodies and non-204 responses should define a content object'
     );

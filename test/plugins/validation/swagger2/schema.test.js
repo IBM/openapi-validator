@@ -1,6 +1,6 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/swagger2/semantic-validators/schema');
 
 describe('validation plugin - semantic - schema', () => {
@@ -12,11 +12,11 @@ describe('validation plugin - semantic - schema', () => {
           properties: [
             {
               name: 'BadProperty',
-              readOnly: true
-            }
-          ]
-        }
-      }
+              readOnly: true,
+            },
+          ],
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -25,7 +25,7 @@ describe('validation plugin - semantic - schema', () => {
       'definitions',
       'CoolModel',
       'required',
-      '0'
+      '0',
     ]);
     expect(res.errors[0].message).toEqual(
       'Read only properties cannot marked as required by a schema.'
@@ -40,11 +40,11 @@ describe('validation plugin - semantic - schema', () => {
           required: ['BadProperty'],
           properties: [
             {
-              name: 'BadProperty'
-            }
-          ]
-        }
-      }
+              name: 'BadProperty',
+            },
+          ],
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -64,15 +64,15 @@ describe('validation plugin - semantic - schema', () => {
                   properties: [
                     {
                       name: 'BadProperty',
-                      readOnly: true
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
+                      readOnly: true,
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -85,7 +85,7 @@ describe('validation plugin - semantic - schema', () => {
       '200',
       'schema',
       'required',
-      '0'
+      '0',
     ]);
     expect(res.errors[0].message).toEqual(
       'Read only properties cannot marked as required by a schema.'
@@ -104,15 +104,15 @@ describe('validation plugin - semantic - schema', () => {
                   required: ['BadProperty'],
                   properties: [
                     {
-                      name: 'BadProperty'
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
+                      name: 'BadProperty',
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -134,15 +134,15 @@ describe('validation plugin - semantic - schema', () => {
                   properties: [
                     {
                       name: 'BadProperty',
-                      readOnly: true
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      readOnly: true,
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -155,7 +155,7 @@ describe('validation plugin - semantic - schema', () => {
       '0',
       'schema',
       'required',
-      '0'
+      '0',
     ]);
     expect(res.errors[0].message).toEqual(
       'Read only properties cannot marked as required by a schema.'
@@ -176,15 +176,15 @@ describe('validation plugin - semantic - schema', () => {
                   required: ['BadProperty'],
                   properties: [
                     {
-                      name: 'BadProperty'
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        }
-      }
+                      name: 'BadProperty',
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });

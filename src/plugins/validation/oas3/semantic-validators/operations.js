@@ -14,7 +14,7 @@ const MessageCarrier = require('../../../utils/messageCarrier');
 const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
   .findOctetSequencePaths;
 
-module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
+module.exports.validate = function ({ resolvedSpec, jsSpec }, config) {
   const messages = new MessageCarrier();
 
   const configSchemas = config.schemas;
@@ -68,7 +68,7 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
             'paths',
             pathName,
             opName,
-            'requestBody'
+            'requestBody',
           ]);
 
           // form params do not need names
@@ -119,7 +119,7 @@ function isFormParameter(mimeType) {
   const formDataMimeTypes = [
     'multipart/form-data',
     'application/x-www-form-urlencoded',
-    'application/octet-stream'
+    'application/octet-stream',
   ];
   return formDataMimeTypes.includes(mimeType);
 }

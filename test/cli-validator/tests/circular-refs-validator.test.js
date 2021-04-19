@@ -2,8 +2,8 @@ const commandLineValidator = require('../../../src/cli-validator/runValidator');
 const circularRefsValidator = require('../../../src/cli-validator/utils/circular-references-ibm');
 const { getCapturedText } = require('../../test-utils');
 
-describe('cli tool - test circular reference module', function() {
-  it('should correctly validate a file with circular references', async function() {
+describe('cli tool - test circular reference module', function () {
+  it('should correctly validate a file with circular references', async function () {
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
     const program = {};
@@ -30,12 +30,12 @@ describe('cli tool - test circular reference module', function() {
     ).toEqual(true);
   });
 
-  it('should correct an arbitrary object with cyclic paths', function() {
+  it('should correct an arbitrary object with cyclic paths', function () {
     const testObject = {};
     const nestedObject = {
       foo: {
-        bar: testObject
-      }
+        bar: testObject,
+      },
     };
     testObject.key = nestedObject;
 
@@ -43,20 +43,20 @@ describe('cli tool - test circular reference module', function() {
     expect(paths[0].join('.')).toEqual('key.foo.bar');
   });
 
-  it('should correctly convert a resolved path to a real one using refs', function() {
+  it('should correctly convert a resolved path to a real one using refs', function () {
     const testObject = {
       first: {
         second: {
-          $ref: '#/definitions/something'
-        }
+          $ref: '#/definitions/something',
+        },
       },
       definitions: {
         something: {
           foo: {
-            $ref: '#/definitions/something'
-          }
-        }
-      }
+            $ref: '#/definitions/something',
+          },
+        },
+      },
     };
 
     const resolvedPaths = [['first', 'second', 'foo']];
@@ -64,7 +64,7 @@ describe('cli tool - test circular reference module', function() {
     expect(realPath[0]).toEqual('definitions.something.foo');
   });
 
-  it('should correctly validate a file using the composite pattern', async function() {
+  it('should correctly validate a file using the composite pattern', async function () {
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
 
     const program = {};

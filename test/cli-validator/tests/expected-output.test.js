@@ -9,7 +9,7 @@ const count = (array, regex) => {
   return array.reduce((a, v) => (v.match(regex) ? a + 1 : a), 0);
 };
 
-describe('cli tool - test expected output - Swagger 2', function() {
+describe('cli tool - test expected output - Swagger 2', function () {
   let consoleSpy;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     consoleSpy.mockRestore();
   });
 
-  it('should not produce any errors or warnings from mockFiles/clean.yml', async function() {
+  it('should not produce any errors or warnings from mockFiles/clean.yml', async function () {
     // set up mock user input
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/clean.yml'];
@@ -37,7 +37,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[1].trim()).toEqual('');
   });
 
-  it('should produce errors, then warnings from mockFiles/err-and-warn.yaml', async function() {
+  it('should produce errors, then warnings from mockFiles/err-and-warn.yaml', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
@@ -49,7 +49,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
 
     expect(exitCode).toEqual(1);
 
-    capturedText.forEach(function(line) {
+    capturedText.forEach(function (line) {
       if (line.includes('errors')) {
         whichProblems.push('errors');
       }
@@ -62,7 +62,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(whichProblems[1]).toEqual('warnings');
   });
 
-  it('should display the associated rule with each error and warning', async function() {
+  it('should display the associated rule with each error and warning', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
@@ -78,7 +78,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(messageCount).toEqual(ruleCount);
   });
 
-  it('should include the validator version in JSON output', async function() {
+  it('should include the validator version in JSON output', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/clean.yml'];
     program.default_mode = true;
@@ -94,7 +94,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(jsonOutput.version).toBe(expectedValidatorVersion);
   });
 
-  it('should include the validator version in JSON output for the inCodeValidator', async function() {
+  it('should include the validator version in JSON output for the inCodeValidator', async function () {
     const content = fs
       .readFileSync('./test/cli-validator/mockFiles/clean.yml')
       .toString();
@@ -108,7 +108,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(validationResults.version).toBe(expectedValidatorVersion);
   });
 
-  it('should include the associated rule with each error and warning in JSON output', async function() {
+  it('should include the associated rule with each error and warning in JSON output', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
@@ -132,10 +132,10 @@ describe('cli tool - test expected output - Swagger 2', function() {
       []
     );
 
-    allMessages.forEach(msg => expect(msg).toHaveProperty('rule'));
+    allMessages.forEach((msg) => expect(msg).toHaveProperty('rule'));
   });
 
-  it('should include the associated rule in return value of in-memory validator', async function() {
+  it('should include the associated rule in return value of in-memory validator', async function () {
     const content = fs
       .readFileSync('./test/cli-validator/mockFiles/err-and-warn.yaml')
       .toString();
@@ -149,13 +149,15 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 
-    validationResults.errors.forEach(msg => expect(msg).toHaveProperty('rule'));
-    validationResults.warnings.forEach(msg =>
+    validationResults.errors.forEach((msg) =>
+      expect(msg).toHaveProperty('rule')
+    );
+    validationResults.warnings.forEach((msg) =>
       expect(msg).toHaveProperty('rule')
     );
   });
 
-  it('should print the correct line numbers for each error/warning', async function() {
+  it('should print the correct line numbers for each error/warning', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/err-and-warn.yaml'];
     program.default_mode = true;
@@ -186,7 +188,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[53].match(/\S+/g)[2]).toEqual('126');
   });
 
-  it('should return exit code of 0 if there are only warnings', async function() {
+  it('should return exit code of 0 if there are only warnings', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/just-warn.yml'];
     program.default_mode = true;
@@ -200,12 +202,12 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(allOutput.includes('warnings')).toEqual(true);
   });
 
-  it('should handle an array of file names', async function() {
+  it('should handle an array of file names', async function () {
     const program = {};
     program.args = [
       './test/cli-validator/mockFiles/err-and-warn.yaml',
       'notAFile.json',
-      './test/cli-validator/mockFiles/clean.yml'
+      './test/cli-validator/mockFiles/clean.yml',
     ];
     program.default_mode = true;
 
@@ -233,7 +235,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     ).toEqual(true);
   });
 
-  it('should return errors and warnings using the in-memory module', async function() {
+  it('should return errors and warnings using the in-memory module', async function () {
     const defaultMode = true;
     const validationResults = await inCodeValidator(
       swaggerInMemory,
@@ -246,7 +248,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(validationResults.warnings.length).toBeGreaterThan(0);
   });
 
-  it('should not produce any errors or warnings from mockFiles/clean-with-tabs.yml', async function() {
+  it('should not produce any errors or warnings from mockFiles/clean-with-tabs.yml', async function () {
     // set up mock user input
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/clean-with-tabs.yml'];
@@ -264,7 +266,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
   });
 });
 
-describe('test expected output - OpenAPI 3', function() {
+describe('test expected output - OpenAPI 3', function () {
   let consoleSpy;
 
   beforeEach(() => {
@@ -275,7 +277,7 @@ describe('test expected output - OpenAPI 3', function() {
     consoleSpy.mockRestore();
   });
 
-  it('should not produce any errors or warnings from a clean file', async function() {
+  it('should not produce any errors or warnings from a clean file', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/oas3/clean.yml'];
     program.default_mode = true;
@@ -291,7 +293,7 @@ describe('test expected output - OpenAPI 3', function() {
     );
   });
 
-  it('should catch problems in a multi-file spec from an outside directory', async function() {
+  it('should catch problems in a multi-file spec from an outside directory', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/multi-file-spec/main.yaml'];
     program.default_mode = true;
@@ -310,7 +312,7 @@ describe('test expected output - OpenAPI 3', function() {
     );
   });
 
-  it('should display the associated rule with each error and warning', async function() {
+  it('should display the associated rule with each error and warning', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/oas3/err-and-warn.yaml'];
     program.default_mode = true;
@@ -326,7 +328,7 @@ describe('test expected output - OpenAPI 3', function() {
     expect(messageCount).toEqual(ruleCount);
   });
 
-  it('should include the associated rule with each error and warning in JSON output', async function() {
+  it('should include the associated rule with each error and warning in JSON output', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/oas3/err-and-warn.yaml'];
     program.default_mode = true;
@@ -350,10 +352,10 @@ describe('test expected output - OpenAPI 3', function() {
       []
     );
 
-    allMessages.forEach(msg => expect(msg).toHaveProperty('rule'));
+    allMessages.forEach((msg) => expect(msg).toHaveProperty('rule'));
   });
 
-  it('should include the associated rule in return value of in-memory validator', async function() {
+  it('should include the associated rule in return value of in-memory validator', async function () {
     const content = fs
       .readFileSync('./test/cli-validator/mockFiles/oas3/err-and-warn.yaml')
       .toString();
@@ -367,13 +369,15 @@ describe('test expected output - OpenAPI 3', function() {
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 
-    validationResults.errors.forEach(msg => expect(msg).toHaveProperty('rule'));
-    validationResults.warnings.forEach(msg =>
+    validationResults.errors.forEach((msg) =>
+      expect(msg).toHaveProperty('rule')
+    );
+    validationResults.warnings.forEach((msg) =>
       expect(msg).toHaveProperty('rule')
     );
   });
 
-  it('should include the path to the component (if it exists) when in verbose mode', async function() {
+  it('should include the path to the component (if it exists) when in verbose mode', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/oas3/testoneof.yaml'];
     program.default_mode = true;
@@ -388,7 +392,7 @@ describe('test expected output - OpenAPI 3', function() {
     expect(allText).toContain('Component Line');
   });
 
-  it('should include the path to the component (if it exists) when in verbose mode and json mode', async function() {
+  it('should include the path to the component (if it exists) when in verbose mode and json mode', async function () {
     const program = {};
     program.args = ['./test/cli-validator/mockFiles/oas3/testoneof.yaml'];
     program.default_mode = true;
@@ -405,7 +409,7 @@ describe('test expected output - OpenAPI 3', function() {
       'responses',
       'Ok',
       'content',
-      'application/json'
+      'application/json',
     ]);
     expect(jsonOutput.warnings[4].componentLine).toEqual(6);
   });

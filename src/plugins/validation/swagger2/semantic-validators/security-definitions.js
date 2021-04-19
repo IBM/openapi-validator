@@ -9,7 +9,7 @@
 const isPlainObject = require('lodash/isPlainObject');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec }) {
+module.exports.validate = function ({ jsSpec }) {
   const messages = new MessageCarrier();
 
   const API_KEY = 'apiKey';

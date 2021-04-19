@@ -1,7 +1,7 @@
 const each = require('lodash/each');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec }) {
+module.exports.validate = function ({ resolvedSpec }) {
   const messages = new MessageCarrier();
 
   const schemas = [];
@@ -27,8 +27,8 @@ module.exports.validate = function({ resolvedSpec }) {
                   opName,
                   'parameters',
                   parameterIndex.toString(),
-                  'schema'
-                ]
+                  'schema',
+                ],
               });
             }
           });
@@ -44,8 +44,8 @@ module.exports.validate = function({ resolvedSpec }) {
                   opName,
                   'responses',
                   responseName,
-                  'schema'
-                ]
+                  'schema',
+                ],
               });
             }
           });

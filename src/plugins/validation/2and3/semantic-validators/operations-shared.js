@@ -20,7 +20,7 @@ const each = require('lodash/each');
 const { checkCase, hasRefProperty } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
+module.exports.validate = function ({ jsSpec, resolvedSpec, isOAS3 }, config) {
   const messages = new MessageCarrier();
 
   config = config.operations;
@@ -42,7 +42,7 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
       'patch',
       'delete',
       'options',
-      'trace'
+      'trace',
     ]);
 
     each(pathOps, (op, opKey) => {
@@ -176,7 +176,7 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
     });
   });
 
-  unusedTags.forEach(tagName => {
+  unusedTags.forEach((tagName) => {
     messages.addMessage(
       `tags`,
       `A tag is defined but never used: ${tagName}`,

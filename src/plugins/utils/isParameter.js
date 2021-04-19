@@ -8,7 +8,7 @@ module.exports = (path, isOAS3) => {
     'head',
     'patch',
     'trace',
-    'components'
+    'components',
   ];
 
   const inParametersSection = path[path.length - 2] === 'parameters';

@@ -9,12 +9,12 @@ const { walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
 // Walks an entire spec.
-module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
+module.exports.validate = function ({ jsSpec, resolvedSpec }, config) {
   const messages = new MessageCarrier();
 
   config = config.walker;
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(jsSpec, [], function (obj, path) {
     // check for empty descriptions
     if (obj.description !== undefined && obj.description !== null) {
       const description = obj.description.toString();
@@ -51,7 +51,7 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
     }
 
     // check for and flag null values - they are not allowed by the spec and are likely mistakes
-    Object.keys(obj).forEach(key => {
+    Object.keys(obj).forEach((key) => {
       if (key !== 'default' && obj[key] === null) {
         messages.addMessage(
           [...path, key],

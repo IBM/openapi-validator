@@ -9,7 +9,7 @@ const { defaults, options } = require('../../../src/.defaultsForValidator');
 const configFileValidator = require('../../../src/cli-validator/utils/processConfiguration')
   .validate;
 
-describe('cli tool - test config file validator', function() {
+describe('cli tool - test config file validator', function () {
   let consoleSpy;
 
   beforeEach(() => {
@@ -20,7 +20,7 @@ describe('cli tool - test config file validator', function() {
     consoleSpy.mockRestore();
   });
 
-  it('should print no errors with a clean config object', function() {
+  it('should print no errors with a clean config object', function () {
     // defaults should not throw any errors in the validator
     const config = defaults;
 
@@ -31,23 +31,23 @@ describe('cli tool - test config file validator', function() {
     expect(capturedText.length).toEqual(0);
   });
 
-  it('should print an error for an unsupported spec', function() {
+  it('should print an error for an unsupported spec', function () {
     const config = {
       openApi4: {
         operations: {
           no_operation_id: 'warning',
           no_summary: 'warning',
-          no_array_responses: 'error'
+          no_array_responses: 'error',
         },
         nonValidCategory: {
           no_parameter_description: 'error',
           snake_case_only: 'warning',
-          invalid_type_format_pair: 'error'
+          invalid_type_format_pair: 'error',
         },
         walker: {
-          no_empty_descriptions: 'error'
-        }
-      }
+          no_empty_descriptions: 'error',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -62,23 +62,23 @@ describe('cli tool - test config file validator', function() {
     );
   });
 
-  it('should print an error for an unsupported category', function() {
+  it('should print an error for an unsupported category', function () {
     const config = {
       shared: {
         operations: {
           no_operation_id: 'warning',
           no_summary: 'warning',
-          no_array_responses: 'error'
+          no_array_responses: 'error',
         },
         nonValidCategory: {
           no_parameter_description: 'error',
           snake_case_only: 'warning',
-          invalid_type_format_pair: 'error'
+          invalid_type_format_pair: 'error',
         },
         walker: {
-          no_empty_descriptions: 'error'
-        }
-      }
+          no_empty_descriptions: 'error',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -93,23 +93,23 @@ describe('cli tool - test config file validator', function() {
     );
   });
 
-  it('should print an error for an unsupported rule name', function() {
+  it('should print an error for an unsupported rule name', function () {
     const config = {
       shared: {
         operations: {
           nonValidRule: 'error',
           no_operation_id: 'warning',
           no_summary: 'warning',
-          no_array_responses: 'error'
+          no_array_responses: 'error',
         },
         parameters: {
           no_parameter_description: 'error',
-          invalid_type_format_pair: 'error'
+          invalid_type_format_pair: 'error',
         },
         walker: {
-          no_empty_descriptions: 'error'
-        }
-      }
+          no_empty_descriptions: 'error',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -124,15 +124,15 @@ describe('cli tool - test config file validator', function() {
     );
   });
 
-  it('should print an error for an unsupported rule status', function() {
+  it('should print an error for an unsupported rule status', function () {
     const config = {
       swagger2: {
         operations: {
           no_consumes_for_put_or_post: 'error',
           get_op_has_consumes: 'warning',
-          no_produces: 'nonValidStatus'
-        }
-      }
+          no_produces: 'nonValidStatus',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -147,15 +147,15 @@ describe('cli tool - test config file validator', function() {
     );
   });
 
-  it('should fill in default values for rules that are not included', function() {
+  it('should fill in default values for rules that are not included', function () {
     const config = {
       shared: {
         operations: {
           no_operation_id: 'warning',
           no_summary: 'warning',
-          no_array_responses: 'error'
-        }
-      }
+          no_array_responses: 'error',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -170,15 +170,15 @@ describe('cli tool - test config file validator', function() {
     expect(defaultSchemas).toEqual(configSchemas);
   });
 
-  it('should print no errors with a config object that includes a deprecated rule', function() {
+  it('should print no errors with a config object that includes a deprecated rule', function () {
     const config = {
       swagger2: {
         operations: {
           no_consumes_for_put_or_post: 'error',
           get_op_has_consumes: 'warning',
-          no_produces_for_get: 'warning'
-        }
-      }
+          no_produces_for_get: 'warning',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -192,15 +192,15 @@ describe('cli tool - test config file validator', function() {
   });
 
   // deprecated rule with the period in it
-  it('should print no errors with a config object that includes a nested deprecated rule', function() {
+  it('should print no errors with a config object that includes a nested deprecated rule', function () {
     const config = {
       shared: {
         parameters: {
           snake_case_only: 'error',
           content_type_parameter: 'error',
-          accept_type_parameter: 'error'
-        }
-      }
+          accept_type_parameter: 'error',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -214,13 +214,13 @@ describe('cli tool - test config file validator', function() {
   });
 
   // just a string when supposed to be an array, corrects the array when string is valid
-  it('should create array when given a valid status string for rules with config options', function() {
+  it('should create array when given a valid status string for rules with config options', function () {
     const config = {
       shared: {
         parameters: {
-          param_name_case_convention: 'error'
-        }
-      }
+          param_name_case_convention: 'error',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -237,13 +237,13 @@ describe('cli tool - test config file validator', function() {
   });
 
   // just a string when supposed to be an array, throws error when string is invalid
-  it('should error when given an invalid status string for rules with config options', function() {
+  it('should error when given an invalid status string for rules with config options', function () {
     const config = {
       shared: {
         parameters: {
-          param_name_case_convention: 'snake_case'
-        }
-      }
+          param_name_case_convention: 'snake_case',
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -259,13 +259,13 @@ describe('cli tool - test config file validator', function() {
   });
 
   // handles empty array
-  it('should error when given an empty array for rules with config options', function() {
+  it('should error when given an empty array for rules with config options', function () {
     const config = {
       shared: {
         parameters: {
-          param_name_case_convention: []
-        }
-      }
+          param_name_case_convention: [],
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -281,13 +281,13 @@ describe('cli tool - test config file validator', function() {
   });
 
   // handles array with one value that is valid
-  it('should not error when given an array with one valid status for a rule with config options', function() {
+  it('should not error when given an array with one valid status for a rule with config options', function () {
     const config = {
       shared: {
         parameters: {
-          param_name_case_convention: ['error']
-        }
-      }
+          param_name_case_convention: ['error'],
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -301,13 +301,13 @@ describe('cli tool - test config file validator', function() {
   });
 
   // handles array with only one value that is not valid
-  it('should error when given an array with one invalid status for rule with config options', function() {
+  it('should error when given an array with one invalid status for rule with config options', function () {
     const config = {
       shared: {
         parameters: {
-          param_name_case_convention: ['camel_case']
-        }
-      }
+          param_name_case_convention: ['camel_case'],
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -322,13 +322,13 @@ describe('cli tool - test config file validator', function() {
     );
   });
 
-  it('should error when given an array for rules without config options', function() {
+  it('should error when given an array for rules without config options', function () {
     const config = {
       shared: {
         parameters: {
-          no_parameter_description: ['error', 'camel_case']
-        }
-      }
+          no_parameter_description: ['error', 'camel_case'],
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);
@@ -343,13 +343,13 @@ describe('cli tool - test config file validator', function() {
     );
   });
 
-  it('should error when given an invalid config option', function() {
+  it('should error when given an invalid config option', function () {
     const config = {
       shared: {
         parameters: {
-          param_name_case_convention: ['error', 'nowordseparatorscase']
-        }
-      }
+          param_name_case_convention: ['error', 'nowordseparatorscase'],
+        },
+      },
     };
 
     const res = configFileValidator(config, chalk);

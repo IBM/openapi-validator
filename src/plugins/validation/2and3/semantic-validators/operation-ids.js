@@ -8,7 +8,7 @@ const merge = require('lodash/merge');
 const each = require('lodash/each');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec }, config) {
+module.exports.validate = function ({ resolvedSpec }, config) {
   const messages = new MessageCarrier();
 
   config = config.operations;
@@ -21,7 +21,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     'patch',
     'delete',
     'options',
-    'trace'
+    'trace',
   ];
 
   const operations = reduce(
@@ -38,7 +38,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
               pathKey: `${pathKey}`,
               opKey: `${opKey}`,
               path: `paths.${pathKey}.${opKey}`,
-              allPathOperations
+              allPathOperations,
             },
             op
           )
@@ -98,15 +98,15 @@ module.exports.validate = function({ resolvedSpec }, config) {
 
     if (verbs.length > 0) {
       const checkPassed = verbs
-        .map(verb => operationId.startsWith(verb))
-        .some(v => v);
+        .map((verb) => operationId.startsWith(verb))
+        .some((v) => v);
       return { checkPassed, verbs };
     }
 
     return { checkPassed: true };
   };
 
-  operations.forEach(op => {
+  operations.forEach((op) => {
     // wrap in an if, since operationIds are not required
     if (op.operationId) {
       // Assertation 2: OperationId must conform to naming conventions
@@ -120,7 +120,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         ? Object.keys(resolvedSpec.paths).includes(
             op.pathKey.replace('/\\{[A-Za-z0-9-_]+\\}$', '')
           )
-        : Object.keys(resolvedSpec.paths).some(p =>
+        : Object.keys(resolvedSpec.paths).some((p) =>
             p.startsWith(op.pathKey + '/{')
           );
 

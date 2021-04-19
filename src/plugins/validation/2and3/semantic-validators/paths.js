@@ -21,12 +21,12 @@ const MessageCarrier = require('../../../utils/messageCarrier');
 
 const templateRegex = /\{(.*?)\}/g;
 
-module.exports.validate = function({ resolvedSpec }) {
+module.exports.validate = function ({ resolvedSpec }) {
   const messages = new MessageCarrier();
 
   const seenRealPaths = {};
 
-  const tallyRealPath = path => {
+  const tallyRealPath = (path) => {
     // ~~ is a flag for a removed template string
     const realPath = path.replace(templateRegex, '~~');
     const prev = seenRealPaths[realPath];
@@ -82,7 +82,7 @@ module.exports.validate = function({ resolvedSpec }) {
     each(parametersFromPath, (parameterDefinition, i) => {
       const nameAndInComboIndex = findIndex(parametersFromPath, {
         name: parameterDefinition.name,
-        in: parameterDefinition.in
+        in: parameterDefinition.in,
       });
       // comparing the current index against the first found index is good, because
       // it cuts down on error quantity when only two parameters are involved,
@@ -99,7 +99,7 @@ module.exports.validate = function({ resolvedSpec }) {
     });
 
     let pathTemplates = pathName.match(templateRegex) || [];
-    pathTemplates = pathTemplates.map(str =>
+    pathTemplates = pathTemplates.map((str) =>
       str.replace('{', '').replace('}', '')
     );
 
@@ -112,16 +112,14 @@ module.exports.validate = function({ resolvedSpec }) {
       ) {
         messages.addMessage(
           parameterDefinition.$$path || `paths.${pathName}.parameters[${i}]`,
-          `Path parameter was defined but never used: ${
-            parameterDefinition.name
-          }`,
+          `Path parameter was defined but never used: ${parameterDefinition.name}`,
           'error'
         );
       }
     });
 
     if (pathTemplates) {
-      pathTemplates.forEach(parameter => {
+      pathTemplates.forEach((parameter) => {
         // Assertation 2
 
         if (parameter === '') {
@@ -139,9 +137,7 @@ module.exports.validate = function({ resolvedSpec }) {
         if (parameterDefinition.in === 'path') {
           messages.addMessage(
             `paths.${pathName}.parameters[${i}]`,
-            `Path parameter was defined but never used: ${
-              parameterDefinition.name
-            }`,
+            `Path parameter was defined but never used: ${parameterDefinition.name}`,
             'error'
           );
         }

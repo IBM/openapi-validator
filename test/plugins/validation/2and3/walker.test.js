@@ -1,6 +1,6 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/walker');
 
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
@@ -12,14 +12,14 @@ describe('validation plugin - semantic - spec walker', () => {
         paths: {
           '/CoolPath/{id}': {
             responses: {
-              '200': {
+              200: {
                 schema: {
-                  type: 4
-                }
-              }
-            }
-          }
-        }
+                  type: 4,
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -30,7 +30,7 @@ describe('validation plugin - semantic - spec walker', () => {
         'responses',
         '200',
         'schema',
-        'type'
+        'type',
       ]);
       expect(res.errors[0].message).toEqual('"type" should be a string');
       expect(res.warnings.length).toEqual(0);
@@ -41,14 +41,14 @@ describe('validation plugin - semantic - spec walker', () => {
         paths: {
           '/CoolPath/{id}': {
             responses: {
-              '200': {
+              200: {
                 schema: {
-                  type: ['number', 'string']
-                }
-              }
-            }
-          }
-        }
+                  type: ['number', 'string'],
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -59,7 +59,7 @@ describe('validation plugin - semantic - spec walker', () => {
         'responses',
         '200',
         'schema',
-        'type'
+        'type',
       ]);
       expect(res.errors[0].message).toEqual('"type" should be a string');
       expect(res.warnings.length).toEqual(0);
@@ -73,17 +73,17 @@ describe('validation plugin - semantic - spec walker', () => {
             properties: {
               code: {
                 type: 'integer',
-                format: 'int32'
+                format: 'int32',
               },
               type: {
-                type: 'string'
+                type: 'string',
               },
               message: {
-                type: 'string'
-              }
-            }
-          }
-        }
+                type: 'string',
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -99,14 +99,14 @@ describe('validation plugin - semantic - spec walker', () => {
             properties: {
               code: {
                 type: 'integer',
-                format: 'int32'
+                format: 'int32',
               },
               message: {
-                type: 'string'
-              }
-            }
-          }
-        }
+                type: 'string',
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -122,10 +122,10 @@ describe('validation plugin - semantic - spec walker', () => {
           securitySchemes: {
             type: {
               type: 'http',
-              scheme: 'basic'
-            }
-          }
-        }
+              scheme: 'basic',
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -135,26 +135,26 @@ describe('validation plugin - semantic - spec walker', () => {
   });
 
   describe('$ref as property name', () => {
-    it('should gracefully handle a property named $ref', function() {
+    it('should gracefully handle a property named $ref', function () {
       const spec = {
         definitions: {
           JSONSchemaProps: {
             description: 'A JSON-Schema following Specification Draft 4.',
             properties: {
               $ref: {
-                type: 'string'
+                type: 'string',
               },
               maximum: {
                 type: 'integer',
-                format: 'int64'
+                format: 'int64',
               },
               minimum: {
                 type: 'integer',
-                format: 'int64'
-              }
-            }
-          }
-        }
+                format: 'int64',
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -169,9 +169,9 @@ describe('validation plugin - semantic - spec walker', () => {
         definitions: {
           MyNumber: {
             minimum: '5',
-            maximum: '2'
-          }
-        }
+            maximum: '2',
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -179,7 +179,7 @@ describe('validation plugin - semantic - spec walker', () => {
       expect(res.errors[0].path).toEqual([
         'definitions',
         'MyNumber',
-        'minimum'
+        'minimum',
       ]);
       expect(res.errors[0].message).toEqual(
         'Minimum cannot be more than maximum'
@@ -192,9 +192,9 @@ describe('validation plugin - semantic - spec walker', () => {
         definitions: {
           MyNumber: {
             minimum: '1',
-            maximum: '2'
-          }
-        }
+            maximum: '2',
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -207,9 +207,9 @@ describe('validation plugin - semantic - spec walker', () => {
         definitions: {
           MyNumber: {
             minProperties: '5',
-            maxProperties: '2'
-          }
-        }
+            maxProperties: '2',
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -217,7 +217,7 @@ describe('validation plugin - semantic - spec walker', () => {
       expect(res.errors[0].path).toEqual([
         'definitions',
         'MyNumber',
-        'minProperties'
+        'minProperties',
       ]);
       expect(res.errors[0].message).toEqual(
         'minProperties cannot be more than maxProperties'
@@ -230,9 +230,9 @@ describe('validation plugin - semantic - spec walker', () => {
         definitions: {
           MyNumber: {
             minProperties: '1',
-            maxProperties: '2'
-          }
-        }
+            maxProperties: '2',
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -245,9 +245,9 @@ describe('validation plugin - semantic - spec walker', () => {
         definitions: {
           MyNumber: {
             minLength: '5',
-            maxLength: '2'
-          }
-        }
+            maxLength: '2',
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -255,7 +255,7 @@ describe('validation plugin - semantic - spec walker', () => {
       expect(res.errors[0].path).toEqual([
         'definitions',
         'MyNumber',
-        'minLength'
+        'minLength',
       ]);
       expect(res.errors[0].message).toEqual(
         'minLength cannot be more than maxLength'
@@ -268,9 +268,9 @@ describe('validation plugin - semantic - spec walker', () => {
         definitions: {
           MyNumber: {
             minLength: '1',
-            maxLength: '2'
-          }
-        }
+            maxLength: '2',
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -281,17 +281,17 @@ describe('validation plugin - semantic - spec walker', () => {
 
   describe('Refs are restricted in specific areas of a spec', () => {
     describe('Response $refs', () => {
-      it('should return a problem for a parameters $ref in a response position', function() {
+      it('should return a problem for a parameters $ref in a response position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               responses: {
-                '200': {
-                  $ref: '#/parameters/abc'
-                }
-              }
-            }
-          }
+                200: {
+                  $ref: '#/parameters/abc',
+                },
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -302,22 +302,22 @@ describe('validation plugin - semantic - spec walker', () => {
           '/CoolPath/{id}',
           'responses',
           '200',
-          '$ref'
+          '$ref',
         ]);
         expect(res.warnings[0].message).toEqual(
           'responses $refs must follow this format: *#/responses*'
         );
       });
 
-      it('should return a problem for a definitions $ref in a response position', function() {
+      it('should return a problem for a definitions $ref in a response position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               schema: {
-                $ref: '#/responses/abc'
-              }
-            }
-          }
+                $ref: '#/responses/abc',
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -327,24 +327,24 @@ describe('validation plugin - semantic - spec walker', () => {
           'paths',
           '/CoolPath/{id}',
           'schema',
-          '$ref'
+          '$ref',
         ]);
         expect(res.warnings[0].message).toEqual(
           'schema $refs must follow this format: *#/definitions*'
         );
       });
 
-      it('should not return a problem for a responses $ref in a response position', function() {
+      it('should not return a problem for a responses $ref in a response position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               responses: {
-                '200': {
-                  $ref: '#/responses/abc'
-                }
-              }
-            }
-          }
+                200: {
+                  $ref: '#/responses/abc',
+                },
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -354,15 +354,15 @@ describe('validation plugin - semantic - spec walker', () => {
     });
 
     describe('Schema $refs', () => {
-      it('should return a problem for a parameters $ref in a schema position', function() {
+      it('should return a problem for a parameters $ref in a schema position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               schema: {
-                $ref: '#/parameters/abc'
-              }
-            }
-          }
+                $ref: '#/parameters/abc',
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -372,19 +372,19 @@ describe('validation plugin - semantic - spec walker', () => {
           'paths',
           '/CoolPath/{id}',
           'schema',
-          '$ref'
+          '$ref',
         ]);
       });
 
-      it('should return a problem for a responses $ref in a schema position', function() {
+      it('should return a problem for a responses $ref in a schema position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               schema: {
-                $ref: '#/responses/abc'
-              }
-            }
-          }
+                $ref: '#/responses/abc',
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -394,19 +394,19 @@ describe('validation plugin - semantic - spec walker', () => {
           'paths',
           '/CoolPath/{id}',
           'schema',
-          '$ref'
+          '$ref',
         ]);
       });
 
-      it('should not return a problem for a definition $ref in a schema position', function() {
+      it('should not return a problem for a definition $ref in a schema position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               schema: {
-                $ref: '#/definitions/abc'
-              }
-            }
-          }
+                $ref: '#/definitions/abc',
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -414,7 +414,7 @@ describe('validation plugin - semantic - spec walker', () => {
         expect(res.warnings.length).toEqual(0);
       });
 
-      it("should not return a problem for a schema property named 'properties'", function() {
+      it("should not return a problem for a schema property named 'properties'", function () {
         // #492 regression
         const spec = {
           definitions: {
@@ -423,17 +423,17 @@ describe('validation plugin - semantic - spec walker', () => {
               properties: {
                 plan_id: {
                   type: 'string',
-                  description: 'ID of the new plan from the catalog.'
+                  description: 'ID of the new plan from the catalog.',
                 },
                 parameters: {
-                  $ref: '#/definitions/Parameter'
+                  $ref: '#/definitions/Parameter',
                 },
                 previous_values: {
-                  $ref: '#/definitions/PreviousValues'
-                }
-              }
-            }
-          }
+                  $ref: '#/definitions/PreviousValues',
+                },
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -443,17 +443,17 @@ describe('validation plugin - semantic - spec walker', () => {
     });
 
     describe('Parameter $refs', () => {
-      it('should return a problem for a definition $ref in a parameter position', function() {
+      it('should return a problem for a definition $ref in a parameter position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
-                  $ref: '#/definitions/abc'
-                }
-              ]
-            }
-          }
+                  $ref: '#/definitions/abc',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -464,24 +464,24 @@ describe('validation plugin - semantic - spec walker', () => {
           '/CoolPath/{id}',
           'parameters',
           '0',
-          '$ref'
+          '$ref',
         ]);
         expect(res.warnings[0].message).toEqual(
           'parameters $refs must follow this format: *#/parameters*'
         );
       });
 
-      it('should return a problem for a responses $ref in a parameter position', function() {
+      it('should return a problem for a responses $ref in a parameter position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
-                  $ref: '#/responses/abc'
-                }
-              ]
-            }
-          }
+                  $ref: '#/responses/abc',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -492,21 +492,21 @@ describe('validation plugin - semantic - spec walker', () => {
           '/CoolPath/{id}',
           'parameters',
           '0',
-          '$ref'
+          '$ref',
         ]);
       });
 
-      it('should not return a problem for a parameter $ref in a parameter position', function() {
+      it('should not return a problem for a parameter $ref in a parameter position', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               parameters: [
                 {
-                  $ref: '#/parameters/abc'
-                }
-              ]
-            }
-          }
+                  $ref: '#/parameters/abc',
+                },
+              ],
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -516,7 +516,7 @@ describe('validation plugin - semantic - spec walker', () => {
     });
 
     describe('Restricted $refs - OpenAPI 3', () => {
-      it('should return a problem for a schema not defined in schemas', function() {
+      it('should return a problem for a schema not defined in schemas', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
@@ -526,14 +526,14 @@ describe('validation plugin - semantic - spec walker', () => {
                   content: {
                     'application/json': {
                       schema: {
-                        $ref: '#/components/requestBodies/Object'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
+                        $ref: '#/components/requestBodies/Object',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -547,14 +547,14 @@ describe('validation plugin - semantic - spec walker', () => {
           'content',
           'application/json',
           'schema',
-          '$ref'
+          '$ref',
         ]);
         expect(res.warnings[0].message).toEqual(
           'schema $refs must follow this format: *#/components/schemas*'
         );
       });
 
-      it('should not return a problem for a header ref within a responses object', function() {
+      it('should not return a problem for a header ref within a responses object', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
@@ -564,19 +564,19 @@ describe('validation plugin - semantic - spec walker', () => {
                   content: {
                     'application/json': {
                       schema: {
-                        type: 'string'
-                      }
-                    }
+                        type: 'string',
+                      },
+                    },
                   },
                   headers: {
                     'X-Fake-Header': {
-                      $ref: '#/components/headers/FakeHeader'
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      $ref: '#/components/headers/FakeHeader',
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -592,10 +592,10 @@ describe('validation plugin - semantic - spec walker', () => {
             '/CoolPath/{id}': {
               schema: {
                 $ref: '#/definitions/abc',
-                description: 'My very cool schema'
-              }
-            }
-          }
+                description: 'My very cool schema',
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec }, config);
@@ -609,10 +609,10 @@ describe('validation plugin - semantic - spec walker', () => {
             '/CoolPath/{id}': {
               schema: {
                 $ref: '#/definitions/abc',
-                description: 'My very cool schema'
-              }
-            }
-          }
+                description: 'My very cool schema',
+              },
+            },
+          },
         };
 
         // temporarily configure $ref_siblings to be a warning
@@ -630,41 +630,41 @@ describe('validation plugin - semantic - spec walker', () => {
           'paths',
           '/CoolPath/{id}',
           'schema',
-          'description'
+          'description',
         ]);
       });
 
-      it('should return a problem for a links $ref that does not have the correct format', function() {
+      it('should return a problem for a links $ref that does not have the correct format', function () {
         const spec = {
           paths: {
             '/CoolPath/{id}': {
               responses: {
-                '200': {
+                200: {
                   desciption: 'hi',
                   content: {
                     'application/json': {
                       schema: {
-                        type: 'string'
-                      }
-                    }
+                        type: 'string',
+                      },
+                    },
                   },
                   headers: {
                     Location: {
                       description: 'hi',
                       schema: {
-                        type: 'string'
-                      }
-                    }
+                        type: 'string',
+                      },
+                    },
                   },
                   links: {
                     link1: {
-                      $ref: '#/parameters/abc'
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      $ref: '#/parameters/abc',
+                    },
+                  },
+                },
+              },
+            },
+          },
         };
 
         const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -677,7 +677,7 @@ describe('validation plugin - semantic - spec walker', () => {
           '200',
           'links',
           'link1',
-          '$ref'
+          '$ref',
         ]);
         expect(res.warnings[0].message).toEqual(
           'links $refs must follow this format: *#/components/links*'

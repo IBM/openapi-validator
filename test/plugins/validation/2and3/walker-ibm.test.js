@@ -1,7 +1,7 @@
 const expect = require('expect');
 const resolver = require('json-schema-ref-parser');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/walker-ibm');
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
@@ -16,12 +16,12 @@ describe('validation plugin - semantic - walker-ibm', () => {
                 name: 'tags',
                 in: 'query',
                 description: '',
-                type: 'string'
-              }
-            ]
-          }
-        }
-      }
+                type: 'string',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -32,7 +32,7 @@ describe('validation plugin - semantic - walker-ibm', () => {
       'get',
       'parameters',
       '0',
-      'description'
+      'description',
     ]);
     expect(res.errors[0].message).toEqual(
       'Items with a description must have content in it.'
@@ -50,12 +50,12 @@ describe('validation plugin - semantic - walker-ibm', () => {
                 name: 'tags',
                 in: 'query',
                 description: '   ',
-                type: 'string'
-              }
-            ]
-          }
-        }
-      }
+                type: 'string',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -66,7 +66,7 @@ describe('validation plugin - semantic - walker-ibm', () => {
       'get',
       'parameters',
       '0',
-      'description'
+      'description',
     ]);
     expect(res.errors[0].message).toEqual(
       'Items with a description must have content in it.'
@@ -84,12 +84,12 @@ describe('validation plugin - semantic - walker-ibm', () => {
                 name: 'tags',
                 in: 'query',
                 description: '   ',
-                type: 'string'
-              }
-            ]
-          }
-        }
-      }
+                type: 'string',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -107,12 +107,12 @@ describe('validation plugin - semantic - walker-ibm', () => {
                 name: 'tags',
                 in: 'query',
                 description: null,
-                type: 'string'
-              }
-            ]
-          }
-        }
-      }
+                type: 'string',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -123,7 +123,7 @@ describe('validation plugin - semantic - walker-ibm', () => {
       'get',
       'parameters',
       '0',
-      'description'
+      'description',
     ]);
     expect(res.errors[0].message).toEqual(
       'Null values are not allowed for any property.'
@@ -141,12 +141,12 @@ describe('validation plugin - semantic - walker-ibm', () => {
                 name: 'tags',
                 in: 'query',
                 default: null,
-                type: 'string'
-              }
-            ]
-          }
-        }
-      }
+                type: 'string',
+              },
+            ],
+          },
+        },
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -167,19 +167,19 @@ describe('validation plugin - semantic - walker-ibm', () => {
                 description: 'successful operation',
                 schema: {
                   $ref: '#/responses/Success',
-                  description: 'simple success response'
-                }
-              }
-            }
-          }
-        }
+                  description: 'simple success response',
+                },
+              },
+            },
+          },
+        },
       },
       responses: {
         Success: {
           type: 'string',
-          description: 'simple success response'
-        }
-      }
+          description: 'simple success response',
+        },
+      },
     };
 
     // clone spec, otherwise 'dereference' will change the spec by reference
@@ -196,7 +196,7 @@ describe('validation plugin - semantic - walker-ibm', () => {
       'responses',
       '200',
       'schema',
-      'description'
+      'description',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Description sibling to $ref matches that of the referenced schema. This is redundant and should be removed.'
@@ -216,19 +216,19 @@ describe('validation plugin - semantic - walker-ibm', () => {
                 description: 'successful operation',
                 schema: {
                   $ref: '#/responses/Success',
-                  description: 'simple success response'
-                }
-              }
-            }
-          }
-        }
+                  description: 'simple success response',
+                },
+              },
+            },
+          },
+        },
       },
       responses: {
         Success: {
           type: 'string',
-          description: 'simple success response'
-        }
-      }
+          description: 'simple success response',
+        },
+      },
     };
 
     // clone spec, otherwise 'dereference' will change the spec by reference
@@ -245,7 +245,7 @@ describe('validation plugin - semantic - walker-ibm', () => {
       'responses',
       '200',
       'schema',
-      'description'
+      'description',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Description sibling to $ref matches that of the referenced schema. This is redundant and should be removed.'

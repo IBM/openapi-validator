@@ -13,7 +13,7 @@
 const each = require('lodash/each');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function ({ jsSpec, isOAS3 }, config) {
   const messages = new MessageCarrier();
 
   config = config.security;
@@ -27,7 +27,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
   if (jsSpec.security) {
     securityObjects.push({
       security: jsSpec.security,
-      path: 'security'
+      path: 'security',
     });
   }
 
@@ -40,7 +40,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       if (operation.security) {
         securityObjects.push({
           security: operation.security,
-          path: `paths.${pathName}.${opName}.security`
+          path: `paths.${pathName}.${opName}.security`,
         });
       }
     });
@@ -51,16 +51,16 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     : jsSpec.securityDefinitions;
 
   if (securityObjects.length) {
-    securityObjects.forEach(obj => {
+    securityObjects.forEach((obj) => {
       validateSecurityObject(obj);
     });
   }
 
   function validateSecurityObject({ security, path }) {
-    security.forEach(schemeObject => {
+    security.forEach((schemeObject) => {
       const schemeNames = Object.keys(schemeObject);
 
-      schemeNames.forEach(schemeName => {
+      schemeNames.forEach((schemeName) => {
         const schemeIsDefined =
           securityDefinitions && securityDefinitions[schemeName];
 
@@ -130,7 +130,7 @@ function checkSwagger2Scopes(scope, definition) {
 function checkOAS3Scopes(scope, definition) {
   let scopeIsDefined = false;
   if (definition.flows) {
-    Object.keys(definition.flows).forEach(flowType => {
+    Object.keys(definition.flows).forEach((flowType) => {
       if (
         definition.flows[flowType].scopes &&
         definition.flows[flowType].scopes[scope]

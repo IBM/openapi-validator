@@ -1,13 +1,13 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/openapi');
 
 describe('validation plugin - semantic - openapi', () => {
   //this is for openapi object
   it('should return an error when an API definition does not have openapi field', () => {
     const spec = {
-      Openapi: '3.0.0'
+      Openapi: '3.0.0',
     };
 
     const res = validate({ jsSpec: spec });
@@ -20,7 +20,7 @@ describe('validation plugin - semantic - openapi', () => {
 
   it('should return an error when an openapi field is not a string', () => {
     const spec = {
-      openapi: 123
+      openapi: 123,
     };
 
     const res = validate({ jsSpec: spec });
@@ -33,7 +33,7 @@ describe('validation plugin - semantic - openapi', () => {
 
   it('should return an error when an openapi does not conform to semantic versioning 2.0.0', () => {
     const spec = {
-      openapi: 'v1.0.10'
+      openapi: 'v1.0.10',
     };
 
     const res = validate({ jsSpec: spec });

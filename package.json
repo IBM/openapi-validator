@@ -19,7 +19,7 @@
     "pkg": "./node_modules/.bin/pkg --out-path=./bin ./package.json; cd bin; rename -f 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
   },
   "dependencies": {
-    "@stoplight/spectral": "^5.8.1",
+    "@stoplight/spectral": "^5.9.1",
     "chalk": "^4.1.0",
     "commander": "^2.17.1",
     "deepmerge": "^2.1.1",
@@ -44,13 +44,13 @@
     "babel-eslint": "^10.1.0",
     "codecov": "^3.5.0",
     "cz-conventional-changelog": "^2.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^3.0.1",
-    "eslint-plugin-prettier": "^2.6.2",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-plugin-prettier": "^3.4.0",
     "jest": "^26.0.0",
     "pkg": "^4.4.0",
-    "prettier": "^1.14.2",
-    "semantic-release": "^17.0.4",
+    "prettier": "^2.2.1",
+    "semantic-release": "^17.4.2",
     "strip-ansi": "^4.0.0"
   },
   "bin": {

@@ -7,7 +7,7 @@ module.exports = (path, isOAS3 = true) => {
     'options',
     'head',
     'patch',
-    'trace'
+    'trace',
   ];
 
   const pathLength = path.length;

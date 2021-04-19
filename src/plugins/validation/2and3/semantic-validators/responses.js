@@ -15,12 +15,12 @@ function arrayItemsAreRefOrPrimitive(schema) {
   );
 }
 
-module.exports.validate = function({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function ({ jsSpec, isOAS3 }, config) {
   const messages = new MessageCarrier();
 
   config = config.responses;
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(jsSpec, [], function (obj, path) {
     const isRef = !!obj.$ref;
 
     if (isResponseObject(path, isOAS3) && !isRef) {
@@ -39,7 +39,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                 mediaType.schema.oneOf;
 
               if (hasCombinedSchema) {
-                combinedSchemaTypes.forEach(schemaType => {
+                combinedSchemaTypes.forEach((schemaType) => {
                   if (mediaType.schema[schemaType]) {
                     for (
                       let i = 0;
@@ -60,7 +60,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
                             mediaTypeKey,
                             'schema',
                             schemaType,
-                            i
+                            i,
                           ],
                           INLINE_SCHEMA_MESSAGE,
                           config.inline_response_schema,

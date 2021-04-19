@@ -1,11 +1,11 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/refs');
 
-describe('validation plugin - semantic - refs', function() {
-  describe('Definitions should be referenced at least once in the document', function() {
-    it('should warn about an unused definition - Swagger 2', function() {
+describe('validation plugin - semantic - refs', function () {
+  describe('Definitions should be referenced at least once in the document', function () {
+    it('should warn about an unused definition - Swagger 2', function () {
       const jsSpec = {
         paths: {
           '/CoolPath/{id}': {
@@ -13,10 +13,10 @@ describe('validation plugin - semantic - refs', function() {
               {
                 name: 'id',
                 in: 'path',
-                description: 'An id'
-              }
-            ]
-          }
+                description: 'An id',
+              },
+            ],
+          },
         },
         definitions: {
           SchemaObject: {
@@ -24,11 +24,11 @@ describe('validation plugin - semantic - refs', function() {
             required: ['id'],
             properties: {
               id: {
-                type: 'string'
-              }
-            }
-          }
-        }
+                type: 'string',
+              },
+            },
+          },
+        },
       };
 
       const specStr = JSON.stringify(jsSpec, null, 2);
@@ -43,7 +43,7 @@ describe('validation plugin - semantic - refs', function() {
       );
     });
 
-    it('should warn about an unused schema definition - OpenAPI 3', function() {
+    it('should warn about an unused schema definition - OpenAPI 3', function () {
       const jsSpec = {
         paths: {
           '/CoolPath/{id}': {
@@ -51,10 +51,10 @@ describe('validation plugin - semantic - refs', function() {
               {
                 name: 'id',
                 in: 'path',
-                description: 'An id'
-              }
-            ]
-          }
+                description: 'An id',
+              },
+            ],
+          },
         },
         components: {
           schemas: {
@@ -63,12 +63,12 @@ describe('validation plugin - semantic - refs', function() {
               required: ['id'],
               properties: {
                 id: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
       };
 
       const specStr = JSON.stringify(jsSpec, null, 2);
@@ -83,7 +83,7 @@ describe('validation plugin - semantic - refs', function() {
       );
     });
 
-    it('should not warn about a used schema definition - OpenAPI 3', function() {
+    it('should not warn about a used schema definition - OpenAPI 3', function () {
       const jsSpec = {
         paths: {
           '/CoolPath/{id}': {
@@ -93,13 +93,13 @@ describe('validation plugin - semantic - refs', function() {
                 content: {
                   'application/json': {
                     schema: {
-                      $ref: '#/components/schemas/SchemaObject'
-                    }
-                  }
-                }
-              }
-            }
-          }
+                      $ref: '#/components/schemas/SchemaObject',
+                    },
+                  },
+                },
+              },
+            },
+          },
         },
         components: {
           schemas: {
@@ -108,12 +108,12 @@ describe('validation plugin - semantic - refs', function() {
               required: ['id'],
               properties: {
                 id: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
       };
 
       const specStr = JSON.stringify(jsSpec, null, 2);
@@ -125,31 +125,31 @@ describe('validation plugin - semantic - refs', function() {
     });
   });
 
-  it('should warn about an unused parameter definition - OpenAPI 3', function() {
+  it('should warn about an unused parameter definition - OpenAPI 3', function () {
     const jsSpec = {
       paths: {
         '/CoolPath/{id}': {
           parameters: [
             {
-              $ref: '#/components/parameters/one_parameter_definition'
-            }
-          ]
-        }
+              $ref: '#/components/parameters/one_parameter_definition',
+            },
+          ],
+        },
       },
       components: {
         parameters: {
           one_parameter_definition: {
             name: 'id',
             in: 'path',
-            description: 'An id'
+            description: 'An id',
           },
           other_parameter_definition: {
             name: 'other',
             in: 'query',
-            description: 'another param'
-          }
-        }
-      }
+            description: 'another param',
+          },
+        },
+      },
     };
 
     const specStr = JSON.stringify(jsSpec, null, 2);
@@ -165,34 +165,34 @@ describe('validation plugin - semantic - refs', function() {
     expect(res.warnings.length).toEqual(1);
   });
 
-  it('should not warn about used parameter definitions - OpenAPI 3', function() {
+  it('should not warn about used parameter definitions - OpenAPI 3', function () {
     const jsSpec = {
       paths: {
         '/CoolPath/{id}': {
           parameters: [
             {
-              $ref: '#/components/parameters/one_parameter_definition'
+              $ref: '#/components/parameters/one_parameter_definition',
             },
             {
-              $ref: '#/components/parameters/other_parameter_definition'
-            }
-          ]
-        }
+              $ref: '#/components/parameters/other_parameter_definition',
+            },
+          ],
+        },
       },
       components: {
         parameters: {
           one_parameter_definition: {
             name: 'id',
             in: 'path',
-            description: 'An id'
+            description: 'An id',
           },
           other_parameter_definition: {
             name: 'other',
             in: 'query',
-            description: 'another param'
-          }
-        }
-      }
+            description: 'another param',
+          },
+        },
+      },
     };
 
     const specStr = JSON.stringify(jsSpec, null, 2);
@@ -202,23 +202,23 @@ describe('validation plugin - semantic - refs', function() {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should warn about an unused response definition - OpenAPI 3', function() {
+  it('should warn about an unused response definition - OpenAPI 3', function () {
     const jsSpec = {
       paths: {
         '/CoolPath/{id}': {
           responses: {
-            '200': {
+            200: {
               description: '200 response',
               content: {
                 'application/json': {
                   schema: {
-                    type: 'string'
-                  }
-                }
-              }
-            }
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              },
+            },
+          },
+        },
       },
       components: {
         responses: {
@@ -227,13 +227,13 @@ describe('validation plugin - semantic - refs', function() {
             content: {
               'application/json': {
                 schema: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
-      }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const specStr = JSON.stringify(jsSpec, null, 2);
@@ -247,26 +247,26 @@ describe('validation plugin - semantic - refs', function() {
     expect(res.warnings.length).toEqual(1);
   });
 
-  it('should not warn about a used response definition - OpenAPI 3', function() {
+  it('should not warn about a used response definition - OpenAPI 3', function () {
     const jsSpec = {
       paths: {
         '/CoolPath/{id}': {
           responses: {
-            '200': {
+            200: {
               description: '200 response',
               content: {
                 'application/json': {
                   schema: {
-                    type: 'string'
-                  }
-                }
-              }
+                    type: 'string',
+                  },
+                },
+              },
             },
-            '400': {
-              $ref: '#/components/responses/response400'
-            }
-          }
-        }
+            400: {
+              $ref: '#/components/responses/response400',
+            },
+          },
+        },
       },
       components: {
         responses: {
@@ -275,13 +275,13 @@ describe('validation plugin - semantic - refs', function() {
             content: {
               'application/json': {
                 schema: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
-      }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const specStr = JSON.stringify(jsSpec, null, 2);

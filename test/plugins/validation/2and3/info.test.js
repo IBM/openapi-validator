@@ -1,14 +1,14 @@
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/info');
 
 describe('validation plugin - semantic - info', () => {
   //this is for openapi object
   it('should return an error when a parameter does not have info', () => {
     const spec = {
-      Openapi: '3.0.0'
+      Openapi: '3.0.0',
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -21,7 +21,7 @@ describe('validation plugin - semantic - info', () => {
   it('should return an error when a info is not defined as a proper object', () => {
     const spec = {
       Openapi: '3.0.0',
-      info: 'abc'
+      info: 'abc',
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -36,8 +36,8 @@ describe('validation plugin - semantic - info', () => {
       Openapi: '3.0.0',
       info: {
         title: 32,
-        version: '32'
-      }
+        version: '32',
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -52,8 +52,8 @@ describe('validation plugin - semantic - info', () => {
       Openapi: '3.0.0',
       info: {
         title: '32',
-        version: 32
-      }
+        version: 32,
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -67,8 +67,8 @@ describe('validation plugin - semantic - info', () => {
     const spec = {
       Openapi: '3.0.0',
       info: {
-        version: '32'
-      }
+        version: '32',
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);
@@ -82,8 +82,8 @@ describe('validation plugin - semantic - info', () => {
     const spec = {
       Openapi: '3.0.0',
       info: {
-        title: '32'
-      }
+        title: '32',
+      },
     };
 
     const res = validate({ jsSpec: spec }, config);

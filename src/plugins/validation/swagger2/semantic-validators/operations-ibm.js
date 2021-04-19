@@ -13,7 +13,7 @@ const map = require('lodash/map');
 const pick = require('lodash/pick');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec }, config) {
+module.exports.validate = function ({ jsSpec }, config) {
   const messages = new MessageCarrier();
 
   config = config.operations;
@@ -29,7 +29,7 @@ module.exports.validate = function({ jsSpec }, config) {
       'put',
       'patch',
       'delete',
-      'options'
+      'options',
     ]);
     each(pathOps, (op, opKey) => {
       // if operation is excluded, don't validate it
@@ -48,7 +48,7 @@ module.exports.validate = function({ jsSpec }, config) {
         // Check for body parameter in path
         let hasBodyParamInPath = false;
         if (path.parameters) {
-          path.parameters.forEach(parameter => {
+          path.parameters.forEach((parameter) => {
             if (parameter.in === 'body') {
               hasBodyParamInPath = true;
             }
@@ -58,7 +58,7 @@ module.exports.validate = function({ jsSpec }, config) {
         // Check for body parameter in operation
         let hasBodyParamInOps = false;
         if (op.parameters) {
-          op.parameters.forEach(parameter => {
+          op.parameters.forEach((parameter) => {
             if (parameter.in === 'body') {
               hasBodyParamInOps = true;
             }
@@ -91,7 +91,7 @@ module.exports.validate = function({ jsSpec }, config) {
         // determine if only success response is a 204
         const responses = op.responses || {};
         const successResponses = Object.keys(responses).filter(
-          code => code.charAt(0) === '2'
+          (code) => code.charAt(0) === '2'
         );
         const onlyHas204 =
           successResponses.length === 1 && successResponses[0] === '204';

@@ -23,17 +23,17 @@ const allowedOperations = [
   'options',
   'head',
   'patch',
-  'trace'
+  'trace',
 ];
 
-module.exports.validate = function({ resolvedSpec }, config) {
+module.exports.validate = function ({ resolvedSpec }, config) {
   const messages = new MessageCarrier();
 
   config = config.paths;
 
   const pathNames = Object.keys(resolvedSpec.paths);
 
-  pathNames.forEach(pathName => {
+  pathNames.forEach((pathName) => {
     // get all path parameters contained in curly brackets
     const regex = /\{(.*?)\}/g;
     let parameters = pathName.match(regex);
@@ -42,12 +42,12 @@ module.exports.validate = function({ resolvedSpec }, config) {
     if (parameters) {
       // parameter strings will still have curly braces around them
       //   from regex match - take them out
-      parameters = parameters.map(param => {
+      parameters = parameters.map((param) => {
         return param.slice(1, -1);
       });
 
       const path = resolvedSpec.paths[pathName];
-      const operations = Object.keys(path).filter(pathItem =>
+      const operations = Object.keys(path).filter((pathItem) =>
         allowedOperations.includes(pathItem)
       );
 
@@ -55,11 +55,11 @@ module.exports.validate = function({ resolvedSpec }, config) {
       let globalParameters = [];
       if (path.parameters) {
         globalParameters = path.parameters
-          .filter(param => param.in.toLowerCase() === 'path')
-          .map(param => param.name);
+          .filter((param) => param.in.toLowerCase() === 'path')
+          .map((param) => param.name);
       }
 
-      operations.forEach(opName => {
+      operations.forEach((opName) => {
         const operation = path[opName];
 
         // ignore validating excluded operations
@@ -71,14 +71,14 @@ module.exports.validate = function({ resolvedSpec }, config) {
         let givenParameters = [];
         if (operation.parameters) {
           givenParameters = operation.parameters
-            .filter(param => param.in && param.in.toLowerCase() === 'path')
-            .map(param => param.name);
+            .filter((param) => param.in && param.in.toLowerCase() === 'path')
+            .map((param) => param.name);
         }
 
         let accountsForAllParameters = true;
         const missingParameters = [];
 
-        parameters.forEach(name => {
+        parameters.forEach((name) => {
           if (
             !givenParameters.includes(name) &&
             !globalParameters.includes(name)
@@ -91,7 +91,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         if (!accountsForAllParameters) {
           const checkStatus = config.missing_path_parameter;
           if (checkStatus != 'off') {
-            missingParameters.forEach(name => {
+            missingParameters.forEach((name) => {
               messages.addMessage(
                 ['paths', pathName, opName, 'parameters'],
                 `Operation must include a path parameter with name: ${name}.`,
@@ -106,7 +106,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       if (!operations.length) {
         let accountsForAllParameters = true;
         const missingParameters = [];
-        parameters.forEach(name => {
+        parameters.forEach((name) => {
           if (!globalParameters.includes(name)) {
             accountsForAllParameters = false;
             missingParameters.push(name);
@@ -115,7 +115,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         if (!accountsForAllParameters) {
           const checkStatus = config.missing_path_parameter;
           if (checkStatus != 'off') {
-            missingParameters.forEach(name => {
+            missingParameters.forEach((name) => {
               messages.addMessage(
                 ['paths', pathName],
                 `Path parameter must be defined at the path or the operation level: ${name}.`,
@@ -133,24 +133,24 @@ module.exports.validate = function({ resolvedSpec }, config) {
     if (parameters) {
       const pathObj = resolvedSpec.paths[pathName];
       const operationKeys = Object.keys(pathObj).filter(
-        op => allowedOperations.indexOf(op) > -1
+        (op) => allowedOperations.indexOf(op) > -1
       );
       if (operationKeys.length > 1) {
-        parameters.forEach(parameter => {
+        parameters.forEach((parameter) => {
           const operationPathParams = uniqWith(
             flatten(
-              operationKeys.map(op => pathObj[op].parameters).filter(Boolean)
-            ).filter(p => p.name === parameter),
+              operationKeys.map((op) => pathObj[op].parameters).filter(Boolean)
+            ).filter((p) => p.name === parameter),
             isEqual
           );
           if (operationPathParams.length === 1) {
             // All definitions of this path param are the same in the operations
             const checkStatus = config.duplicate_path_parameter || 'off';
             if (checkStatus.match('error|warning')) {
-              operationKeys.forEach(op => {
+              operationKeys.forEach((op) => {
                 if (!pathObj[op].parameters) return;
                 const index = pathObj[op].parameters.findIndex(
-                  p => p.name === parameter
+                  (p) => p.name === parameter
                 );
                 messages.addMessage(
                   ['paths', pathName, op, 'parameters', `${index}`],
@@ -169,7 +169,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     const checkStatus = config.snake_case_only;
     if (checkStatus != 'off') {
       const segments = pathName.split('/');
-      segments.forEach(segment => {
+      segments.forEach((segment) => {
         // the first element will be "" since pathName starts with "/"
         // also, ignore validating the path parameters
         if (segment === '' || segment[0] === '{') {
@@ -193,7 +193,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
         if (checkStatusPath !== 'off') {
           const caseConvention = config.paths_case_convention[1];
           const segments = pathName.split('/');
-          segments.forEach(segment => {
+          segments.forEach((segment) => {
             // the first element will be "" since pathName starts with "/"
             // also, ignore validating the path parameters
             if (segment === '' || segment[0] === '{') {

@@ -1,13 +1,13 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/pagination-ibm');
 
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
-describe('validation plugin - semantic - pagaination - oas3', function() {
-  describe('only check paginated list operations', function() {
-    it('should skip operations that do not return an array', function() {
+describe('validation plugin - semantic - pagaination - oas3', function () {
+  describe('only check paginated list operations', function () {
+    it('should skip operations that do not return an array', function () {
       const spec = {
         paths: {
           '/pets': {
@@ -23,12 +23,12 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
-                }
+                    maximum: 50,
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -38,21 +38,21 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                         properties: {
                           resource: {
                             description: 'resource',
-                            type: 'object'
+                            type: 'object',
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -60,7 +60,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should skip operations that do not have a limit query parameter', function() {
+    it('should skip operations that do not have a limit query parameter', function () {
       const spec = {
         paths: {
           '/pets': {
@@ -69,7 +69,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
               operationId: 'operationId',
               parameters: [],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -81,22 +81,22 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: 'resource',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -104,7 +104,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
       expect(res.errors.length).toEqual(0);
     });
 
-    it('should skip operations that do not have an application/json response', function() {
+    it('should skip operations that do not have an application/json response', function () {
       const spec = {
         paths: {
           '/pets': {
@@ -120,25 +120,25 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
-                }
+                    maximum: 50,
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/octet-stream': {
                       schema: {
                         description: '',
-                        type: 'string'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -147,8 +147,8 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     });
   });
 
-  describe('limit query parameter', function() {
-    it('should complain when limit parameter is not an integer', function() {
+  describe('limit query parameter', function () {
+    it('should complain when limit parameter is not an integer', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -164,12 +164,12 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'string',
                     default: '10',
-                    maximum: '50'
-                  }
-                }
+                    maximum: '50',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -181,22 +181,22 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -207,14 +207,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         '/resources',
         'get',
         'parameters',
-        0
+        0,
       ]);
       expect(res.warnings[0].message).toEqual(
         'The limit parameter must be of type integer and optional with default and maximum values.'
       );
     });
 
-    it('should complain when limit parameter is not optional', function() {
+    it('should complain when limit parameter is not optional', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -230,12 +230,12 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
-                }
+                    maximum: 50,
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -247,22 +247,22 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -273,14 +273,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         '/resources',
         'get',
         'parameters',
-        0
+        0,
       ]);
       expect(res.warnings[0].message).toEqual(
         'The limit parameter must be of type integer and optional with default and maximum values.'
       );
     });
 
-    it('should complain when limit parameter does not specify a default value', function() {
+    it('should complain when limit parameter does not specify a default value', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -294,12 +294,12 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   description: 'limit',
                   schema: {
                     type: 'integer',
-                    maximum: 50
-                  }
-                }
+                    maximum: 50,
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -311,22 +311,22 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -337,80 +337,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         '/resources',
         'get',
         'parameters',
-        0
+        0,
       ]);
       expect(res.warnings[0].message).toEqual(
         'The limit parameter must be of type integer and optional with default and maximum values.'
       );
     });
 
-    it('should complain when limit parameter does not specify a maximum value', function() {
-      const spec = {
-        paths: {
-          '/resources': {
-            get: {
-              summary: 'this is a summary',
-              operationId: 'operationId',
-              parameters: [
-                {
-                  name: 'limit',
-                  in: 'query',
-                  description: 'limit',
-                  schema: {
-                    type: 'integer',
-                    default: 10
-                  }
-                }
-              ],
-              responses: {
-                '200': {
-                  content: {
-                    'application/json': {
-                      schema: {
-                        description: '',
-                        type: 'object',
-                        required: ['resources', 'limit'],
-                        properties: {
-                          resources: {
-                            description: '',
-                            type: 'array',
-                            items: {
-                              type: 'object'
-                            }
-                          },
-                          limit: {
-                            description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      };
-
-      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(1);
-      expect(res.errors.length).toEqual(0);
-      expect(res.warnings[0].path).toEqual([
-        'paths',
-        '/resources',
-        'get',
-        'parameters',
-        0
-      ]);
-      expect(res.warnings[0].message).toEqual(
-        'The limit parameter must be of type integer and optional with default and maximum values.'
-      );
-    });
-  });
-
-  describe('offset query parameter', function() {
-    it('should complain when the offset parameter is not an integer', function() {
+    it('should complain when limit parameter does not specify a maximum value', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -425,20 +359,86 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
+                  },
+                },
+              ],
+              responses: {
+                200: {
+                  content: {
+                    'application/json': {
+                      schema: {
+                        description: '',
+                        type: 'object',
+                        required: ['resources', 'limit'],
+                        properties: {
+                          resources: {
+                            description: '',
+                            type: 'array',
+                            items: {
+                              type: 'object',
+                            },
+                          },
+                          limit: {
+                            description: 'limit',
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings[0].path).toEqual([
+        'paths',
+        '/resources',
+        'get',
+        'parameters',
+        0,
+      ]);
+      expect(res.warnings[0].message).toEqual(
+        'The limit parameter must be of type integer and optional with default and maximum values.'
+      );
+    });
+  });
+
+  describe('offset query parameter', function () {
+    it('should complain when the offset parameter is not an integer', function () {
+      const spec = {
+        paths: {
+          '/resources': {
+            get: {
+              summary: 'this is a summary',
+              operationId: 'operationId',
+              parameters: [
+                {
+                  name: 'limit',
+                  in: 'query',
+                  description: 'limit',
+                  schema: {
+                    type: 'integer',
+                    default: 10,
+                    maximum: 50,
+                  },
                 },
                 {
                   name: 'offset',
                   in: 'query',
                   description: 'offset',
                   schema: {
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -450,26 +450,26 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
+                            type: 'integer',
                           },
                           offset: {
                             description: 'offset',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -480,14 +480,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         '/resources',
         'get',
         'parameters',
-        1
+        1,
       ]);
       expect(res.warnings[0].message).toEqual(
         'The offset parameter must be of type integer and optional.'
       );
     });
 
-    it('should complain when the offset parameter is not optional', function() {
+    it('should complain when the offset parameter is not optional', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -502,8 +502,8 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
+                    maximum: 50,
+                  },
                 },
                 {
                   name: 'offset',
@@ -511,12 +511,12 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   description: 'offset',
                   required: true,
                   schema: {
-                    type: 'integer'
-                  }
-                }
+                    type: 'integer',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -528,26 +528,26 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
+                            type: 'integer',
                           },
                           offset: {
                             description: 'offset',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -558,7 +558,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         '/resources',
         'get',
         'parameters',
-        1
+        1,
       ]);
       expect(res.warnings[0].message).toEqual(
         'The offset parameter must be of type integer and optional.'
@@ -566,8 +566,8 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     });
   });
 
-  describe('start|cursor|page_token query parameter', function() {
-    it('should complain when the start parameter is not a string or optional', function() {
+  describe('start|cursor|page_token query parameter', function () {
+    it('should complain when the start parameter is not a string or optional', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -582,20 +582,20 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
+                    maximum: 50,
+                  },
                 },
                 {
                   name: 'start',
                   in: 'query',
                   description: 'start',
                   schema: {
-                    type: 'integer'
-                  }
-                }
+                    type: 'integer',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -607,22 +607,22 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -633,14 +633,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         '/resources',
         'get',
         'parameters',
-        1
+        1,
       ]);
       expect(res.warnings[0].message).toEqual(
         'The start parameter must be of type string and optional.'
       );
     });
 
-    it('should complain when the cursor parameter is not a string or optional', function() {
+    it('should complain when the cursor parameter is not a string or optional', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -655,8 +655,8 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
+                    maximum: 50,
+                  },
                 },
                 {
                   name: 'cursor',
@@ -664,12 +664,12 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   description: 'cursor',
                   required: true,
                   schema: {
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -681,22 +681,22 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -707,7 +707,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         '/resources',
         'get',
         'parameters',
-        1
+        1,
       ]);
       expect(res.warnings[0].message).toEqual(
         'The cursor parameter must be of type string and optional.'
@@ -715,8 +715,8 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     });
   });
 
-  describe('limit property in response body', function() {
-    it('should complain when limit property is not defined in response body', function() {
+  describe('limit property in response body', function () {
+    it('should complain when limit property is not defined in response body', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -732,12 +732,12 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
-                }
+                    maximum: 50,
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -749,88 +749,18 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      };
-
-      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(1);
-      expect(res.errors.length).toEqual(0);
-      expect(res.warnings[0].path).toEqual([
-        'paths',
-        '/resources',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'properties'
-      ]);
-      expect(res.warnings[0].message).toEqual(
-        'A paginated list operation must include a "limit" property in the response body schema.'
-      );
-    });
-
-    it('should complain when limit property in response body is not an integer', function() {
-      const spec = {
-        paths: {
-          '/resources': {
-            get: {
-              summary: 'this is a summary',
-              operationId: 'operationId',
-              parameters: [
-                {
-                  name: 'limit',
-                  in: 'query',
-                  description: 'limit',
-                  required: false,
-                  schema: {
-                    type: 'integer',
-                    default: 10,
-                    maximum: 50
-                  }
-                }
-              ],
-              responses: {
-                '200': {
-                  content: {
-                    'application/json': {
-                      schema: {
-                        description: '',
-                        type: 'object',
-                        required: ['resources', 'limit'],
-                        properties: {
-                          resources: {
-                            description: '',
-                            type: 'array',
-                            items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
-                          limit: {
-                            description: 'limit',
-                            type: 'string'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -846,14 +776,13 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         'application/json',
         'schema',
         'properties',
-        'limit'
       ]);
       expect(res.warnings[0].message).toEqual(
-        'The "limit" property in the response body of a paginated list operation must be of type integer and required.'
+        'A paginated list operation must include a "limit" property in the response body schema.'
       );
     });
 
-    it('should complain when limit property in response body is not required', function() {
+    it('should complain when limit property in response body is not an integer', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -869,12 +798,83 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
-                }
+                    maximum: 50,
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
+                  content: {
+                    'application/json': {
+                      schema: {
+                        description: '',
+                        type: 'object',
+                        required: ['resources', 'limit'],
+                        properties: {
+                          resources: {
+                            description: '',
+                            type: 'array',
+                            items: {
+                              type: 'object',
+                            },
+                          },
+                          limit: {
+                            description: 'limit',
+                            type: 'string',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
+      expect(res.warnings.length).toEqual(1);
+      expect(res.errors.length).toEqual(0);
+      expect(res.warnings[0].path).toEqual([
+        'paths',
+        '/resources',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'limit',
+      ]);
+      expect(res.warnings[0].message).toEqual(
+        'The "limit" property in the response body of a paginated list operation must be of type integer and required.'
+      );
+    });
+
+    it('should complain when limit property in response body is not required', function () {
+      const spec = {
+        paths: {
+          '/resources': {
+            get: {
+              summary: 'this is a summary',
+              operationId: 'operationId',
+              parameters: [
+                {
+                  name: 'limit',
+                  in: 'query',
+                  description: 'limit',
+                  required: false,
+                  schema: {
+                    type: 'integer',
+                    default: 10,
+                    maximum: 50,
+                  },
+                },
+              ],
+              responses: {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -886,22 +886,22 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -917,7 +917,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         'application/json',
         'schema',
         'properties',
-        'limit'
+        'limit',
       ]);
       expect(res.warnings[0].message).toEqual(
         'The "limit" property in the response body of a paginated list operation must be of type integer and required.'
@@ -925,8 +925,8 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     });
   });
 
-  describe('offset property in response body', function() {
-    it('should complain when offset property is not defined in response body', function() {
+  describe('offset property in response body', function () {
+    it('should complain when offset property is not defined in response body', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -942,20 +942,20 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
+                    maximum: 50,
+                  },
                 },
                 {
                   name: 'offset',
                   in: 'query',
                   description: 'offset',
                   schema: {
-                    type: 'integer'
-                  }
-                }
+                    type: 'integer',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -967,22 +967,22 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -997,14 +997,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         'content',
         'application/json',
         'schema',
-        'properties'
+        'properties',
       ]);
       expect(res.warnings[0].message).toEqual(
         'A paginated list operation with an "offset" parameter must include an "offset" property in the response body schema.'
       );
     });
 
-    it('should complain when offset property in response body is not an integer', function() {
+    it('should complain when offset property in response body is not an integer', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -1020,20 +1020,20 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
+                    maximum: 50,
+                  },
                 },
                 {
                   name: 'offset',
                   in: 'query',
                   description: 'offset',
                   schema: {
-                    type: 'integer'
-                  }
-                }
+                    type: 'integer',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -1045,26 +1045,26 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
+                            type: 'integer',
                           },
                           offset: {
                             description: 'offset',
-                            type: 'string'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'string',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -1080,14 +1080,14 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         'application/json',
         'schema',
         'properties',
-        'offset'
+        'offset',
       ]);
       expect(res.warnings[0].message).toEqual(
         'The "offset" property in the response body of a paginated list operation must be of type integer and required.'
       );
     });
 
-    it('should complain when offset property in response body is not required', function() {
+    it('should complain when offset property in response body is not required', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -1103,20 +1103,20 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
+                    maximum: 50,
+                  },
                 },
                 {
                   name: 'offset',
                   in: 'query',
                   description: 'offset',
                   schema: {
-                    type: 'integer'
-                  }
-                }
+                    type: 'integer',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -1128,26 +1128,26 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
+                            type: 'integer',
                           },
                           offset: {
                             description: 'offset',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -1163,7 +1163,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         'application/json',
         'schema',
         'properties',
-        'offset'
+        'offset',
       ]);
       expect(res.warnings[0].message).toEqual(
         'The "offset" property in the response body of a paginated list operation must be of type integer and required.'
@@ -1171,8 +1171,8 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
     });
   });
 
-  describe('collection property in response body', function() {
-    it('should complain when response body does not include an array property whose name matches the final segment of the path', function() {
+  describe('collection property in response body', function () {
+    it('should complain when response body does not include an array property whose name matches the final segment of the path', function () {
       const spec = {
         paths: {
           '/resources': {
@@ -1188,20 +1188,20 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                   schema: {
                     type: 'integer',
                     default: 10,
-                    maximum: 50
-                  }
+                    maximum: 50,
+                  },
                 },
                 {
                   name: 'offset',
                   in: 'query',
                   description: 'offset',
                   schema: {
-                    type: 'integer'
-                  }
-                }
+                    type: 'integer',
+                  },
+                },
               ],
               responses: {
-                '200': {
+                200: {
                   content: {
                     'application/json': {
                       schema: {
@@ -1213,26 +1213,26 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
                             description: '',
                             type: 'array',
                             items: {
-                              type: 'object'
-                            }
+                              type: 'object',
+                            },
                           },
                           limit: {
                             description: 'limit',
-                            type: 'integer'
+                            type: 'integer',
                           },
                           offset: {
                             description: 'offset',
-                            type: 'integer'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                            type: 'integer',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ resolvedSpec: spec, isOAS3: true }, config);
@@ -1247,7 +1247,7 @@ describe('validation plugin - semantic - pagaination - oas3', function() {
         'content',
         'application/json',
         'schema',
-        'properties'
+        'properties',
       ]);
       expect(res.warnings[0].message).toEqual(
         'A paginated list operation must include an array property whose name matches the final segment of the path.'

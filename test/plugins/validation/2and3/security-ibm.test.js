@@ -1,12 +1,12 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/security-ibm');
 
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
-describe('validation plugin - semantic - security-ibm', function() {
-  describe('Swagger 2', function() {
+describe('validation plugin - semantic - security-ibm', function () {
+  describe('Swagger 2', function () {
     it('should return an error when an operation references a non-existing security scope', () => {
       const spec = {
         securityDefinitions: {
@@ -15,9 +15,9 @@ describe('validation plugin - semantic - security-ibm', function() {
             name: 'apikey',
             in: 'query',
             scopes: {
-              asdf: 'blah blah'
-            }
-          }
+              asdf: 'blah blah',
+            },
+          },
         },
         paths: {
           '/': {
@@ -25,12 +25,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               description: 'asdf',
               security: [
                 {
-                  api_key: ['write:pets']
-                }
-              ]
-            }
-          }
-        }
+                  api_key: ['write:pets'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -48,8 +48,8 @@ describe('validation plugin - semantic - security-ibm', function() {
           api_key: {
             type: 'apiKey',
             name: 'apikey',
-            in: 'query'
-          }
+            in: 'query',
+          },
         },
         paths: {
           '/': {
@@ -57,12 +57,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               description: 'asdf',
               security: [
                 {
-                  fictional_security_definition: ['write:pets']
-                }
-              ]
-            }
-          }
-        }
+                  fictional_security_definition: ['write:pets'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -84,9 +84,9 @@ describe('validation plugin - semantic - security-ibm', function() {
             name: 'apikey',
             in: 'query',
             scopes: {
-              'write:pets': 'write to pets'
-            }
-          }
+              'write:pets': 'write to pets',
+            },
+          },
         },
         paths: {
           '/': {
@@ -94,12 +94,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               description: 'asdf',
               security: [
                 {
-                  api_key: ['write:pets']
-                }
-              ]
-            }
-          }
-        }
+                  api_key: ['write:pets'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -107,23 +107,23 @@ describe('validation plugin - semantic - security-ibm', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should error on a non-empty array for security object that is not of type oauth2', function() {
+    it('should error on a non-empty array for security object that is not of type oauth2', function () {
       const spec = {
         securityDefinitions: {
           basicAuth: {
-            type: 'basic'
+            type: 'basic',
           },
           coolApiAuth: {
             type: 'oauth2',
             scopes: {
-              'read:coolData': 'read some cool data'
-            }
-          }
+              'read:coolData': 'read some cool data',
+            },
+          },
         },
         security: [
           {
-            basicAuth: ['not a good place for a scope']
-          }
+            basicAuth: ['not a good place for a scope'],
+          },
         ],
         paths: {
           'CoolPath/secured': {
@@ -132,12 +132,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               summary: 'secure get operation',
               security: [
                 {
-                  coolApiAuth: ['read:coolData']
-                }
-              ]
-            }
-          }
-        }
+                  coolApiAuth: ['read:coolData'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -149,23 +149,23 @@ describe('validation plugin - semantic - security-ibm', function() {
       expect(res.errors[0].path).toEqual('security.basicAuth');
     });
 
-    it('should not error on a non-empty array for security object of type oauth2', function() {
+    it('should not error on a non-empty array for security object of type oauth2', function () {
       const spec = {
         securityDefinitions: {
           basicAuth: {
-            type: 'basic'
+            type: 'basic',
           },
           coolApiAuth: {
             type: 'oauth2',
             scopes: {
-              'read:coolData': 'read some cool data'
-            }
-          }
+              'read:coolData': 'read some cool data',
+            },
+          },
         },
         security: [
           {
-            basicAuth: []
-          }
+            basicAuth: [],
+          },
         ],
         paths: {
           'CoolPath/secured': {
@@ -174,12 +174,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               summary: 'secure get operation',
               security: [
                 {
-                  coolApiAuth: ['read:coolData']
-                }
-              ]
-            }
-          }
-        }
+                  coolApiAuth: ['read:coolData'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -187,7 +187,7 @@ describe('validation plugin - semantic - security-ibm', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should not validate an object property with the name "security"', function() {
+    it('should not validate an object property with the name "security"', function () {
       const spec = {
         paths: {
           'CoolPath/secured': {
@@ -202,15 +202,15 @@ describe('validation plugin - semantic - security-ibm', function() {
                     properties: {
                       security: {
                         type: 'string',
-                        description: 'just an innocent string'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                        description: 'just an innocent string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -219,7 +219,7 @@ describe('validation plugin - semantic - security-ibm', function() {
     });
   });
 
-  describe('OpenAPI 3', function() {
+  describe('OpenAPI 3', function () {
     it('should return an error when an operation references a non-existing security scope', () => {
       const spec = {
         components: {
@@ -231,12 +231,12 @@ describe('validation plugin - semantic - security-ibm', function() {
                 implicit: {
                   authorizationUrl: 'https://example.com/api/oauth',
                   scopes: {
-                    'read:pets': "you can read but you can't write"
-                  }
-                }
-              }
-            }
-          }
+                    'read:pets': "you can read but you can't write",
+                  },
+                },
+              },
+            },
+          },
         },
         paths: {
           '/': {
@@ -244,12 +244,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               description: 'asdf',
               security: [
                 {
-                  TestAuth: ['write:pets']
-                }
-              ]
-            }
-          }
-        }
+                  TestAuth: ['write:pets'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -274,12 +274,12 @@ describe('validation plugin - semantic - security-ibm', function() {
                   scopes: {
                     'read:pets': "you can read but you can't write",
                     'read:houses': "you can read but you can't write",
-                    'write:houses': "you can write but you can't read"
-                  }
-                }
-              }
-            }
-          }
+                    'write:houses': "you can write but you can't read",
+                  },
+                },
+              },
+            },
+          },
         },
         paths: {
           '/': {
@@ -291,13 +291,13 @@ describe('validation plugin - semantic - security-ibm', function() {
                     'write:houses',
                     'read:houses',
                     'write:pets',
-                    'read:pets'
-                  ]
-                }
-              ]
-            }
-          }
-        }
+                    'read:pets',
+                  ],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -320,12 +320,12 @@ describe('validation plugin - semantic - security-ibm', function() {
                 implicit: {
                   authorizationUrl: 'https://example.com/api/oauth',
                   scopes: {
-                    'read:pets': "you can read but you can't write"
-                  }
-                }
-              }
-            }
-          }
+                    'read:pets': "you can read but you can't write",
+                  },
+                },
+              },
+            },
+          },
         },
         paths: {
           '/': {
@@ -333,12 +333,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               description: 'asdf',
               security: [
                 {
-                  UndefinedAuth: ['read:pets']
-                }
-              ]
-            }
-          }
-        }
+                  UndefinedAuth: ['read:pets'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -361,18 +361,18 @@ describe('validation plugin - semantic - security-ibm', function() {
                 implicit: {
                   authorizationUrl: 'https://example.com/api/oauth',
                   scopes: {
-                    'read:pets': "you can read but you can't write"
-                  }
-                }
-              }
-            }
-          }
+                    'read:pets': "you can read but you can't write",
+                  },
+                },
+              },
+            },
+          },
         },
         security: [
           {
-            TestAuth: ['read:pets']
-          }
-        ]
+            TestAuth: ['read:pets'],
+          },
+        ],
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -387,9 +387,9 @@ describe('validation plugin - semantic - security-ibm', function() {
             TestAuth: {
               type: 'openIdConnect',
               description: 'just a test',
-              openIdConnectUrl: 'https://auth.com/openId'
-            }
-          }
+              openIdConnectUrl: 'https://auth.com/openId',
+            },
+          },
         },
         paths: {
           '/': {
@@ -397,12 +397,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               description: 'asdf',
               security: [
                 {
-                  TestAuth: ['write:pets']
-                }
-              ]
-            }
-          }
-        }
+                  TestAuth: ['write:pets'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -410,14 +410,14 @@ describe('validation plugin - semantic - security-ibm', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should error on a non-empty array for security req that is not oauth2 or openIdConnect', function() {
+    it('should error on a non-empty array for security req that is not oauth2 or openIdConnect', function () {
       const spec = {
         components: {
           securitySchemes: {
             TestAuth: {
-              type: 'apikey'
-            }
-          }
+              type: 'apikey',
+            },
+          },
         },
         paths: {
           '/': {
@@ -426,12 +426,12 @@ describe('validation plugin - semantic - security-ibm', function() {
               summary: 'secure get operation',
               security: [
                 {
-                  TestAuth: ['read:coolData']
-                }
-              ]
-            }
-          }
-        }
+                  TestAuth: ['read:coolData'],
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -443,7 +443,7 @@ describe('validation plugin - semantic - security-ibm', function() {
       expect(res.errors[0].path).toEqual('paths./.get.security.TestAuth');
     });
 
-    it('should not error on a non-empty array for security req that is of type oauth2', function() {
+    it('should not error on a non-empty array for security req that is of type oauth2', function () {
       const spec = {
         components: {
           securitySchemes: {
@@ -453,24 +453,24 @@ describe('validation plugin - semantic - security-ibm', function() {
                 implicit: {
                   authorizationUrl: 'https://auth.com',
                   scopes: {
-                    'write:pets': 'write access'
-                  }
+                    'write:pets': 'write access',
+                  },
                 },
                 password: {
                   tokenUrl: 'https://auth.com/token',
                   scopes: {
-                    'read:pets': 'read access'
-                  }
-                }
-              }
-            }
-          }
+                    'read:pets': 'read access',
+                  },
+                },
+              },
+            },
+          },
         },
         security: [
           {
-            TestAuth: ['read:pets']
-          }
-        ]
+            TestAuth: ['read:pets'],
+          },
+        ],
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -478,21 +478,21 @@ describe('validation plugin - semantic - security-ibm', function() {
       expect(res.warnings.length).toEqual(0);
     });
 
-    it('should not error on a non-empty array for security object that is of type openIdConnect', function() {
+    it('should not error on a non-empty array for security object that is of type openIdConnect', function () {
       const spec = {
         components: {
           securitySchemes: {
             TestAuth: {
               type: 'openIdConnect',
-              openIdConnectUrl: 'https://auth.com/openId'
-            }
-          }
+              openIdConnectUrl: 'https://auth.com/openId',
+            },
+          },
         },
         security: [
           {
-            TestAuth: ['read:pets']
-          }
-        ]
+            TestAuth: ['read:pets'],
+          },
+        ],
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -507,21 +507,21 @@ describe('validation plugin - semantic - security-ibm', function() {
             api_key: {
               type: 'apiKey',
               name: 'api_key',
-              in: 'header'
+              in: 'header',
             },
             api_secret: {
               type: 'apiKey',
               name: 'api_secret',
-              in: 'header'
-            }
-          }
+              in: 'header',
+            },
+          },
         },
         security: [
           {
             api_key: [],
-            api_secret: []
-          }
-        ]
+            api_secret: [],
+          },
+        ],
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);

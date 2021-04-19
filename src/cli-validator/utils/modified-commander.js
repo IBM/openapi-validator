@@ -8,7 +8,7 @@ const program = require('commander');
 delete program['unknownOption'];
 
 // reimplementing the funciton
-program.unknownOption = function(flag) {
+program.unknownOption = function (flag) {
   if (this._allowUnknownOption) return;
   console.error();
   console.error("  error: unknown option `%s'", flag);

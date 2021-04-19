@@ -1,6 +1,6 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/swagger2/semantic-validators/discriminator');
 
 describe('validation plugin - semantic - swagger2 discriminator', () => {
@@ -12,12 +12,12 @@ describe('validation plugin - semantic - swagger2 discriminator', () => {
           discriminator: 'petType',
           properties: {
             petType: {
-              type: 'string'
-            }
+              type: 'string',
+            },
           },
-          required: ['petType']
-        }
-      }
+          required: ['petType'],
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(0);
@@ -28,13 +28,13 @@ describe('validation plugin - semantic - swagger2 discriminator', () => {
       definitions: {
         Pet: {
           type: 'object',
-          discriminator: {}
+          discriminator: {},
         },
         Food: {
           type: 'object',
-          discriminator: 123
-        }
-      }
+          discriminator: 123,
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(2);
@@ -61,11 +61,11 @@ describe('validation plugin - semantic - swagger2 discriminator', () => {
           discriminator: 'petType',
           properties: {
             type: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(1);
@@ -85,11 +85,11 @@ describe('validation plugin - semantic - swagger2 discriminator', () => {
           discriminator: 'petType',
           properties: {
             petType: {
-              type: 'string'
-            }
-          }
-        }
-      }
+              type: 'string',
+            },
+          },
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(1);
@@ -107,22 +107,22 @@ describe('validation plugin - semantic - swagger2 discriminator', () => {
           discriminator: 'petType',
           properties: {
             petType: {
-              type: 'string'
-            }
+              type: 'string',
+            },
           },
-          required: {}
+          required: {},
         },
         Food: {
           type: 'object',
           discriminator: 'foodType',
           properties: {
             foodType: {
-              type: 'string'
-            }
+              type: 'string',
+            },
           },
-          required: 123
-        }
-      }
+          required: 123,
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(2);
@@ -144,12 +144,12 @@ describe('validation plugin - semantic - swagger2 discriminator', () => {
           discriminator: 'petType',
           properties: {
             petType: {
-              type: 'string'
-            }
+              type: 'string',
+            },
           },
-          required: ['name']
-        }
-      }
+          required: ['name'],
+        },
+      },
     };
     const res = validate({ jsSpec: spec });
     expect(res.errors.length).toEqual(1);

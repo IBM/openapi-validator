@@ -29,9 +29,9 @@ function formatResultsAsObject(
 
   const allErrorCategories = ['errors', 'warnings', 'infos', 'hints'];
   const types = errorsOnly ? ['errors'] : allErrorCategories;
-  types.forEach(type => {
-    each(results[type], problems => {
-      problems.forEach(problem => {
+  types.forEach((type) => {
+    each(results[type], (problems) => {
+      problems.forEach((problem) => {
         let path = problem.path;
 
         // path needs to be an array to get the line number

@@ -1,13 +1,13 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/swagger2/semantic-validators/swagger');
 
 describe('validation plugin - semantic - swagger', () => {
   //this is for openapi object
   it('should return an error when an API definition does not have swagger field', () => {
     const spec = {
-      Swagger: '2.0'
+      Swagger: '2.0',
     };
 
     const res = validate({ jsSpec: spec });
@@ -20,7 +20,7 @@ describe('validation plugin - semantic - swagger', () => {
 
   it('should return an error when an swagger field is not a string', () => {
     const spec = {
-      swagger: 123
+      swagger: 123,
     };
 
     const res = validate({ jsSpec: spec });
@@ -33,7 +33,7 @@ describe('validation plugin - semantic - swagger', () => {
 
   it('should return an error when an swagger field does not have value `2.0`', () => {
     const spec = {
-      swagger: '2.0.0'
+      swagger: '2.0.0',
     };
 
     const res = validate({ jsSpec: spec });

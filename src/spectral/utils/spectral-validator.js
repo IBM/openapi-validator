@@ -9,7 +9,7 @@ const path = require('path');
 const defaultSpectralRulesetURI =
   __dirname + '/../rulesets/.defaultsForSpectral.yaml';
 
-const parseResults = function(results, debug) {
+const parseResults = function (results, debug) {
   const messages = new MessageCarrier();
 
   if (results) {
@@ -55,7 +55,7 @@ const parseResults = function(results, debug) {
 };
 
 // setup: registers the oas2/oas3 formats, and attempts to load the ruleset file
-const setup = async function(spectral, rulesetFileOverride, configObject) {
+const setup = async function (spectral, rulesetFileOverride, configObject) {
   if (!spectral) {
     const message =
       'Error (spectral-validator): An instance of spectral has not been initialized.';
@@ -105,7 +105,7 @@ function setupStaticAssets(staticAssets, defaultSpectralRulesetURI) {
 
   // register custom functions
   const customFunctionsDirURI = path.join(parentDirectory, 'ibm-oas');
-  fs.readdirSync(customFunctionsDirURI).forEach(function(customFunctionFile) {
+  fs.readdirSync(customFunctionsDirURI).forEach(function (customFunctionFile) {
     const customFunctionURI = path.join(
       customFunctionsDirURI,
       customFunctionFile
@@ -120,5 +120,5 @@ function setupStaticAssets(staticAssets, defaultSpectralRulesetURI) {
 
 module.exports = {
   parseResults,
-  setup
+  setup,
 };

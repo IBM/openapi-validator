@@ -18,7 +18,7 @@
 
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec }, config) {
+module.exports.validate = function ({ resolvedSpec }, config) {
   const messages = new MessageCarrier();
 
   const checkStatus = config.pagination.pagination_style;
@@ -39,7 +39,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     }
 
     // Find first success response code
-    const resp = Object.keys(operation.responses || {}).find(code =>
+    const resp = Object.keys(operation.responses || {}).find((code) =>
       code.startsWith('2')
     );
     // Now get the json content of that response
@@ -58,7 +58,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     // If no array at top level of response, skip this path
     if (
       !Object.values(jsonResponse.schema.properties).some(
-        prop => prop.type === 'array'
+        (prop) => prop.type === 'array'
       )
     ) {
       continue;
@@ -68,7 +68,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     const params = operation.parameters;
     if (
       !params ||
-      !params.some(param => param.name === 'limit' && param.in === 'query')
+      !params.some((param) => param.name === 'limit' && param.in === 'query')
     ) {
       continue;
     }
@@ -78,7 +78,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     // - The `limit` query parameter be type integer, optional, and have default and maximum values.
 
     const limitParamIndex = params.findIndex(
-      param => param.name === 'limit' && param.in === 'query'
+      (param) => param.name === 'limit' && param.in === 'query'
     );
     const limitParam = params[limitParamIndex];
     if (
@@ -99,7 +99,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
     // - If the operation has an `offset` query parameter, it must be type integer and optional
 
     const offsetParamIndex = params.findIndex(
-      param => param.name === 'offset' && param.in === 'query'
+      (param) => param.name === 'offset' && param.in === 'query'
     );
     if (offsetParamIndex !== -1) {
       const offsetParam = params[offsetParamIndex];
@@ -121,7 +121,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
 
     const startParamNames = ['start', 'cursor', 'page_token'];
     const startParamIndex = params.findIndex(
-      param =>
+      (param) =>
         param.in === 'query' && startParamNames.indexOf(param.name) !== -1
     );
     if (startParamIndex !== -1) {
@@ -133,9 +133,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       ) {
         messages.addMessage(
           ['paths', path, 'get', 'parameters', startParamIndex],
-          `The ${
-            startParam.name
-          } parameter must be of type string and optional.`,
+          `The ${startParam.name} parameter must be of type string and optional.`,
           checkStatus,
           'pagination_style'
         );
@@ -153,7 +151,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       'content',
       'application/json',
       'schema',
-      'properties'
+      'properties',
     ];
 
     const limitProp = jsonResponse.schema.properties.limit;

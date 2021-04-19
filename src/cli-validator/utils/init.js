@@ -6,12 +6,12 @@ const printError = require('./printError');
 const { defaults } = require('../../.defaultsForValidator');
 const fileToCreate = process.cwd() + '/.validaterc';
 
-module.exports.printDefaults = async function(chalk) {
+module.exports.printDefaults = async function (chalk) {
   const successMessage = `'.validaterc' file created and set to defaults.`;
   return await writeConfigFile(defaults, successMessage, chalk);
 };
 
-module.exports.migrate = async function(chalk) {
+module.exports.migrate = async function (chalk) {
   let oldConfigFile;
   try {
     oldConfigFile = await readCurrentConfig();

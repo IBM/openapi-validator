@@ -9,7 +9,7 @@ const cachedCompose = memoize(YAML.compose); // TODO: build a custom cache based
 const MAP_TAG = 'tag:yaml.org,2002:map';
 const SEQ_TAG = 'tag:yaml.org,2002:seq';
 
-const getLineNumberForPath = function(yaml, path) {
+const getLineNumberForPath = function (yaml, path) {
   // Type check
   if (typeof yaml !== 'string') {
     throw new TypeError('yaml should be a string');
@@ -51,7 +51,7 @@ const getLineNumberForPath = function(yaml, path) {
           let nextVal;
           if (value.value.length === 1 && index !== 0 && !!index) {
             nextVal = lodashFind(value.value[0], {
-              value: index.toString()
+              value: index.toString(),
             });
           } else {
             nextVal = value.value[index];
@@ -87,7 +87,7 @@ const getLineNumberForPath = function(yaml, path) {
  * component of path is an item of the array intead of beinf seperated with
  * slash(/) in a string
  */
-const positionRangeForPath = function(yaml, path) {
+const positionRangeForPath = function (yaml, path) {
   // Type check
   if (typeof yaml !== 'string') {
     throw new TypeError('yaml should be a string');
@@ -98,7 +98,7 @@ const positionRangeForPath = function(yaml, path) {
 
   const invalidRange = {
     start: { line: -1, column: -1 },
-    end: { line: -1, column: -1 }
+    end: { line: -1, column: -1 },
   };
   let i = 0;
 
@@ -140,12 +140,12 @@ const positionRangeForPath = function(yaml, path) {
       /* jshint camelcase: false */
       start: {
         line: current.start_mark.line,
-        column: current.start_mark.column
+        column: current.start_mark.column,
       },
       end: {
         line: current.end_mark.line,
-        column: current.end_mark.column
-      }
+        column: current.end_mark.column,
+      },
     };
   }
 };
@@ -158,7 +158,7 @@ const positionRangeForPath = function(yaml, path) {
  * position in the YAML or JSON string with `line` and `column` properties.
  * `line` and `column` number are zero indexed
  */
-const pathForPosition = function(yaml, position) {
+const pathForPosition = function (yaml, position) {
   // Type check
   if (typeof yaml !== 'string') {
     throw new TypeError('yaml should be a string');
@@ -295,7 +295,7 @@ module.exports.getLineNumberForPathAsync = promisifySyncFn(
 );
 
 function promisifySyncFn(fn) {
-  return function(...args) {
-    return new Promise(resolve => resolve(fn(...args)));
+  return function (...args) {
+    return new Promise((resolve) => resolve(fn(...args)));
   };
 }

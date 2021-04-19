@@ -5,16 +5,16 @@ const isPlainObject = require('lodash/isPlainObject');
 const isObject = require('lodash/isObject');
 
 // and return them as problems if applicable
-const validate = function({ jsSpec, resolvedSpec }, config) {
+const validate = function ({ jsSpec, resolvedSpec }, config) {
   const result = { error: [], warning: [] };
   config = config.walker;
   const pathsInResolvedSpec = correctSpec(resolvedSpec);
   const actualPaths = convertPaths(jsSpec, pathsInResolvedSpec);
   const checkStatus = config.has_circular_references;
   if (checkStatus !== 'off') {
-    result[checkStatus] = actualPaths.map(path => ({
+    result[checkStatus] = actualPaths.map((path) => ({
       message: 'Swagger object should not contain circular references.',
-      path
+      path,
     }));
   }
   return { errors: result.error, warnings: result.warning };
@@ -22,7 +22,7 @@ const validate = function({ jsSpec, resolvedSpec }, config) {
 
 // this function finds circular references in the resolved spec and
 // cuts them off to allow recursive walks in the validators
-const correctSpec = function(resolvedSpec) {
+const correctSpec = function (resolvedSpec) {
   const paths = [];
 
   function walk(object, path, visitedObjects) {
@@ -41,7 +41,7 @@ const correctSpec = function(resolvedSpec) {
       return null;
     }
 
-    return keys.forEach(function(key) {
+    return keys.forEach(function (key) {
       if (isPlainObject(object[key])) {
         if (visitedObjects.includes(object[key])) {
           paths.push([...path, key]);
@@ -59,9 +59,9 @@ const correctSpec = function(resolvedSpec) {
 
 // this function takes the paths found while correcting the spec and
 // finds where the circular references are happening in the actual spec
-const convertPaths = function(jsSpec, resolvedPaths) {
+const convertPaths = function (jsSpec, resolvedPaths) {
   const realPaths = [];
-  resolvedPaths.forEach(path => {
+  resolvedPaths.forEach((path) => {
     let realPath = [];
     let previous = jsSpec;
     // path is an array of keys leading to the circular reference
@@ -84,7 +84,7 @@ const convertPaths = function(jsSpec, resolvedPaths) {
           // locationArray holds the keys to the references object in the spec
           const locationArray = current.$ref
             .split('/')
-            .filter(refKey => refKey !== '#');
+            .filter((refKey) => refKey !== '#');
           // since we are following a ref to the first object level,
           // realPath needs to be reset
           realPath = [...locationArray];

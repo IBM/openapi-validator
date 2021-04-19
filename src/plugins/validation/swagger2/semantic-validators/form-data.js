@@ -19,7 +19,7 @@ const isPlainObject = require('lodash/isPlainObject');
 const getIn = require('lodash/get');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec }) {
+module.exports.validate = function ({ resolvedSpec }) {
   const messages = new MessageCarrier();
 
   if (!isPlainObject(resolvedSpec)) {
@@ -65,7 +65,7 @@ module.exports.validate = function({ resolvedSpec }) {
     // Continue to walk the object tree
     const keys = Object.keys(obj);
     if (keys) {
-      return keys.map(k => walk(obj[k], [...path, k]));
+      return keys.map((k) => walk(obj[k], [...path, k]));
     } else {
       return null;
     }
@@ -76,14 +76,14 @@ module.exports.validate = function({ resolvedSpec }) {
     return (
       isPlainObject(operation) &&
       Array.isArray(operation.consumes) &&
-      operation.consumes.some(c => c === consumes)
+      operation.consumes.some((c) => c === consumes)
     );
   }
 
   // Warn about a typo, formdata => formData
   function assertationTypo(params, path) {
     const formDataWithTypos = params.filter(
-      p => isPlainObject(p) && p['in'] === 'formdata'
+      (p) => isPlainObject(p) && p['in'] === 'formdata'
     );
 
     if (formDataWithTypos.length) {
@@ -106,10 +106,10 @@ module.exports.validate = function({ resolvedSpec }) {
   function assertationOne(params, path) {
     // Assertion 1
     const inBodyIndex = params.findIndex(
-      p => isPlainObject(p) && p['in'] === 'body'
+      (p) => isPlainObject(p) && p['in'] === 'body'
     );
     const formData = params.filter(
-      p => isPlainObject(p) && p['in'] === 'formData'
+      (p) => isPlainObject(p) && p['in'] === 'formData'
     );
     const hasFormData = !!formData.length;
 
@@ -130,7 +130,7 @@ module.exports.validate = function({ resolvedSpec }) {
   // - b. The consumes property must have `multipart/form-data`
   function assertationTwo(params, path, operation) {
     const typeFileIndex = params.findIndex(
-      p => isPlainObject(p) && p.type === 'file'
+      (p) => isPlainObject(p) && p.type === 'file'
     );
     // No type: file?
     if (!~typeFileIndex) {

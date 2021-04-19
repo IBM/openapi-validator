@@ -46,7 +46,7 @@ function arrayOctetSequences(resolvedSchema, path) {
     } catch (err) {
       if (err instanceof TypeError) {
         const escapedPaths = [];
-        const strEscaper = function(strToEscape) {
+        const strEscaper = function (strToEscape) {
           let newStr = '';
           for (let i = 0; i < strToEscape.length; i++) {
             if (strToEscape.charAt(i) == '/') {
@@ -78,7 +78,7 @@ function objectOctetSequences(resolvedSchema, path) {
   const objectPathsToOctetSequence = [];
   const objectProperties = resolvedSchema.properties;
   if (objectProperties) {
-    Object.keys(objectProperties).forEach(function(prop) {
+    Object.keys(objectProperties).forEach(function (prop) {
       const propPath = Array.isArray(path)
         ? path.concat(['properties', prop])
         : `${path}.properties.${prop}`;

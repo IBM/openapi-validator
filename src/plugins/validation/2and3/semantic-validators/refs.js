@@ -7,7 +7,7 @@ const startsWith = require('lodash/startsWith');
 const each = require('lodash/each');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec, specStr, isOAS3 }) {
+module.exports.validate = function ({ jsSpec, specStr, isOAS3 }) {
   const messages = new MessageCarrier();
 
   if (isOAS3 && !jsSpec.components) {
@@ -26,7 +26,7 @@ module.exports.validate = function({ jsSpec, specStr, isOAS3 }) {
 
   const definitionSectionName = isOAS3 ? 'components' : 'definitions';
   // de-dupe the array, and filter out non-definition refs
-  const definitionsRefs = filter(uniq(refs), v =>
+  const definitionsRefs = filter(uniq(refs), (v) =>
     startsWith(v, `#/${definitionSectionName}`)
   );
 
@@ -42,9 +42,9 @@ module.exports.validate = function({ jsSpec, specStr, isOAS3 }) {
       'requestBodies',
       'headers',
       'links',
-      'callbacks'
+      'callbacks',
     ];
-    definitionTypeList.forEach(function(definitionType) {
+    definitionTypeList.forEach(function (definitionType) {
       if (jsSpec.components && jsSpec.components[definitionType]) {
         recordDefinitionsNotUsed(
           jsSpec.components[definitionType],

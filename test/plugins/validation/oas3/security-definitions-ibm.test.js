@@ -1,18 +1,18 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/security-definitions-ibm');
 
-describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', function() {
-  it('should have a type', function() {
+describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', function () {
+  it('should have a type', function () {
     const spec = {
       components: {
         securitySchemes: {
           SecuritySchemeModel: {
-            scheme: 'basic'
-          }
-        }
-      }
+            scheme: 'basic',
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -23,17 +23,17 @@ describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', f
       'security scheme is missing required field `type`'
     );
   });
-  it('type can only be `apiKey`, `http`, `oauth2`, `openIdConnect`', function() {
+  it('type can only be `apiKey`, `http`, `oauth2`, `openIdConnect`', function () {
     const spec = {
       components: {
         securitySchemes: {
           SecuritySchemeModel: {
             type: 'wrong type',
             scheme: 'basic',
-            description: 'example text'
-          }
-        }
-      }
+            description: 'example text',
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -48,8 +48,8 @@ describe('it should have a type of `apiKey`,`http`,`oauth2`, `openIdConnect`', f
   });
 });
 
-describe('if the type is `apiKey` then it should have `query`, `header` or `cookie` as well as `name`', function() {
-  it('if type is `apiKey`, then the `in` property should be defined and can only be `query`, `header` or `cookie`.', function() {
+describe('if the type is `apiKey` then it should have `query`, `header` or `cookie` as well as `name`', function () {
+  it('if type is `apiKey`, then the `in` property should be defined and can only be `query`, `header` or `cookie`.', function () {
     const spec = {
       components: {
         securitySchemes: {
@@ -57,10 +57,10 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
             type: 'apiKey',
             name: 'apiKey',
             scheme: 'basic',
-            descriptions: 'example text'
-          }
-        }
-      }
+            descriptions: 'example text',
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -73,7 +73,7 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
       "apiKey authorization must have required 'in' property, valid values are 'query' or 'header' or 'cookie'."
     );
   });
-  it('if type is `apiKey`, then the `name` property should be defined and should be the name of the header or query property', function() {
+  it('if type is `apiKey`, then the `name` property should be defined and should be the name of the header or query property', function () {
     const spec = {
       components: {
         securitySchemes: {
@@ -81,10 +81,10 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
             type: 'apiKey',
             in: 'cookie',
             scheme: 'basic',
-            descriptions: 'example text'
-          }
-        }
-      }
+            descriptions: 'example text',
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -97,20 +97,20 @@ describe('if the type is `apiKey` then it should have `query`, `header` or `cook
   });
 });
 
-describe('if the type is `oauth2` then it should have flows and flows should follow the spec requirements', function() {
-  it('should have flows property if type is oauth2', function() {
+describe('if the type is `oauth2` then it should have flows and flows should follow the spec requirements', function () {
+  it('should have flows property if type is oauth2', function () {
     const spec = {
       components: {
         securitySchemes: {
           SecuritySchemeModel: {
-            type: 'oauth2'
+            type: 'oauth2',
           },
           authorizationCode: {
             authorizationUrl: 'https://example.com/api/oauth/dialog',
-            tokenUrl: 'https://example.com/api/oauth/token'
-          }
-        }
-      }
+            tokenUrl: 'https://example.com/api/oauth/token',
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -121,7 +121,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
       "oauth2 authorization must have required 'flows' property" //////recieved
     );
   });
-  it('should have `authorizationUrl` if flows is `implicit`', function() {
+  it('should have `authorizationUrl` if flows is `implicit`', function () {
     const spec = {
       components: {
         securitySchemes: {
@@ -130,12 +130,12 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
             flows: {
               implicit: {
                 authurl: 'not real url',
-                scopes: {}
-              }
-            }
-          }
-        }
-      }
+                scopes: {},
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -148,7 +148,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
       "oauth2 implicit flow must have required 'authorizationUrl' property"
     );
   });
-  it('should have `authorizationUrl` and `tokenUrl` if type is `oauth2` and flow is `authorizationCode`', function() {
+  it('should have `authorizationUrl` and `tokenUrl` if type is `oauth2` and flow is `authorizationCode`', function () {
     const spec = {
       components: {
         securitySchemes: {
@@ -157,12 +157,12 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
             flows: {
               authorizationCode: {
                 authorizationUrl: 'https://example.com/api/oauth/dialog',
-                scopes: {}
-              }
-            }
-          }
-        }
-      }
+                scopes: {},
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -175,7 +175,7 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
       "flow must have required 'tokenUrl' property if type is `authorizationCode`"
     );
   });
-  it('should have `scopes` defined as an object if type is `oauth2`', function() {
+  it('should have `scopes` defined as an object if type is `oauth2`', function () {
     const spec = {
       components: {
         securitySchemes: {
@@ -186,12 +186,12 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
             scheme: 'Basic',
             flows: {
               implicit: {
-                authorizationUrl: 'https://example.com/api/oauth/dialog'
-              }
-            }
-          }
-        }
-      }
+                authorizationUrl: 'https://example.com/api/oauth/dialog',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -206,17 +206,17 @@ describe('if the type is `oauth2` then it should have flows and flows should fol
   });
 });
 
-describe('if `type` is `http`, then scheme property must be defined', function() {
-  it('should have a defined scheme if type is `http`', function() {
+describe('if `type` is `http`, then scheme property must be defined', function () {
+  it('should have a defined scheme if type is `http`', function () {
     const spec = {
       components: {
         securitySchemes: {
           SecuritySchemeModel: {
             type: 'http',
-            descriptions: 'example text'
-          }
-        }
-      }
+            descriptions: 'example text',
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });
@@ -229,8 +229,8 @@ describe('if `type` is `http`, then scheme property must be defined', function()
   });
 });
 
-describe('if `type` is `openIdConnect` then `openIdConnectUrl` must be defined and valid', function() {
-  it('should have `openIdConnectUrl` propery if the type is defined as `openIdConnect`', function() {
+describe('if `type` is `openIdConnect` then `openIdConnectUrl` must be defined and valid', function () {
+  it('should have `openIdConnectUrl` propery if the type is defined as `openIdConnect`', function () {
     const spec = {
       components: {
         securitySchemes: {
@@ -238,10 +238,10 @@ describe('if `type` is `openIdConnect` then `openIdConnectUrl` must be defined a
             type: 'openIdConnect',
             openIdConnectUrl: 2,
             scheme: 'basic',
-            descriptions: 'example text'
-          }
-        }
-      }
+            descriptions: 'example text',
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec });

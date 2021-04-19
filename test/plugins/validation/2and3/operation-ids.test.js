@@ -1,74 +1,74 @@
 const expect = require('expect');
 const resolver = require('json-schema-ref-parser');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/operation-ids');
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
-describe('validation plugin - semantic - operation-ids', function() {
-  it('should complain about operationId naming convention', async function() {
+describe('validation plugin - semantic - operation-ids', function () {
+  it('should complain about operationId naming convention', async function () {
     const spec = {
       paths: {
         '/books': {
           get: {
-            operationId: 'getBooks'
+            operationId: 'getBooks',
           },
           post: {
-            operationId: 'changeBooks'
-          }
+            operationId: 'changeBooks',
+          },
         },
         '/coffee': {
           get: {
-            operationId: 'get_books'
+            operationId: 'get_books',
           },
           post: {
-            operationId: 'change_books'
-          }
+            operationId: 'change_books',
+          },
         },
         '/books/{id}': {
           parameters: [
             {
               name: 'id',
-              in: 'path'
-            }
+              in: 'path',
+            },
           ],
           get: {
-            operationId: 'listBooks'
+            operationId: 'listBooks',
           },
           delete: {
-            operationId: 'removeBook'
+            operationId: 'removeBook',
           },
           post: {
-            operationId: 'updatesBook'
+            operationId: 'updatesBook',
           },
           put: {
-            operationId: 'changeBook'
+            operationId: 'changeBook',
           },
           patch: {
-            operationId: 'changeBook2'
-          }
+            operationId: 'changeBook2',
+          },
         },
         '/coffee/{id}': {
           parameters: [
             {
               name: 'id',
-              in: 'path'
-            }
+              in: 'path',
+            },
           ],
           get: {
-            operationId: 'listCoffee'
+            operationId: 'listCoffee',
           },
           delete: {
-            operationId: 'removeCoffee'
+            operationId: 'removeCoffee',
           },
           post: {
-            operationId: 'changeCoffee'
+            operationId: 'changeCoffee',
           },
           put: {
-            operationId: 'changeCoffee2'
-          }
-        }
-      }
+            operationId: 'changeCoffee2',
+          },
+        },
+      },
     };
 
     const resolvedSpec = await resolver.dereference(spec);
@@ -82,78 +82,78 @@ describe('validation plugin - semantic - operation-ids', function() {
     );
   });
 
-  it('should not complain about operationId naming convention', async function() {
+  it('should not complain about operationId naming convention', async function () {
     const spec = {
       paths: {
         '/books': {
           get: {
-            operationId: 'listBooks'
+            operationId: 'listBooks',
           },
           post: {
-            operationId: 'addBooks'
+            operationId: 'addBooks',
           },
           delete: {
-            operationId: 'deleteAllBooks'
-          }
+            operationId: 'deleteAllBooks',
+          },
         },
         '/coffee': {
           get: {
-            operationId: 'list_coffee'
+            operationId: 'list_coffee',
           },
           post: {
-            operationId: 'add_coffee'
-          }
+            operationId: 'add_coffee',
+          },
         },
         '/books/{id}': {
           parameters: [
             {
               name: 'id',
-              in: 'path'
-            }
+              in: 'path',
+            },
           ],
           get: {
-            operationId: 'getBook'
+            operationId: 'getBook',
           },
           delete: {
-            operationId: 'deleteBook'
+            operationId: 'deleteBook',
           },
           post: {
-            operationId: 'addBook'
+            operationId: 'addBook',
           },
           put: {
-            operationId: 'replaceBook'
+            operationId: 'replaceBook',
           },
           patch: {
-            operationId: 'updateBook'
+            operationId: 'updateBook',
           },
           head: {
-            operationId: 'headBook'
-          }
+            operationId: 'headBook',
+          },
         },
         '/coffee/{id}': {
           parameters: [
             {
               name: 'id',
-              in: 'path'
-            }
+              in: 'path',
+            },
           ],
           get: {
-            operationId: 'get_coffee'
+            operationId: 'get_coffee',
           },
           delete: {
-            operationId: 'delete_coffee'
+            operationId: 'delete_coffee',
           },
           post: {
-            operationId: 'create_coffee'
+            operationId: 'create_coffee',
           },
           put: {
-            operationId: 'replace_coffee'
+            operationId: 'replace_coffee',
           },
           patch: {
-            operationId: 'update_coffee'
-          }
-        }
-      }
+            operationId: 'update_coffee',
+          },
+        },
+      },
     };
 
     const resolvedSpec = await resolver.dereference(spec);

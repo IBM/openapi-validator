@@ -9,17 +9,17 @@ const apiSchema3 = require('../../plugins/validation/oas3/apis/oas3-schema')
   .default;
 
 const schemas = {
-  '2': {
-    apiSchema: apiSchema2
+  2: {
+    apiSchema: apiSchema2,
   },
-  '3': {
-    apiSchema: apiSchema3
-  }
+  3: {
+    apiSchema: apiSchema3,
+  },
 };
 
 // ### all validations expect an object with three properties: ###
 // ###          jsSpec, resolvedSpec, and specStr              ###
-module.exports = async function(input) {
+module.exports = async function (input) {
   // initialize an object to be passed through all the validators
   const swagger = {};
   const parser = new RefParser();
@@ -52,7 +52,7 @@ module.exports = async function(input) {
   //  describing which schemas to validate against
   swagger.settings = {
     schemas: [apiSchema],
-    testSchema: apiSchema
+    testSchema: apiSchema,
   };
 
   return swagger;

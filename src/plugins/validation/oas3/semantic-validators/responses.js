@@ -20,13 +20,13 @@ const MessageCarrier = require('../../../utils/messageCarrier');
 const findOctetSequencePaths = require('../../../utils/findOctetSequencePaths')
   .findOctetSequencePaths;
 
-module.exports.validate = function({ resolvedSpec }, config) {
+module.exports.validate = function ({ resolvedSpec }, config) {
   const messages = new MessageCarrier();
 
   const configSchemas = config.schemas;
   config = config.responses;
 
-  walk(resolvedSpec, [], function(obj, path) {
+  walk(resolvedSpec, [], function (obj, path) {
     // because we are using the resolved spec here,
     // and only want to validate the responses inside of operations,
     // check that we are within the `paths` object
@@ -118,10 +118,10 @@ module.exports.validate = function({ resolvedSpec }, config) {
 };
 
 function getResponseCodes(responseObj) {
-  const statusCodes = Object.keys(responseObj).filter(code =>
+  const statusCodes = Object.keys(responseObj).filter((code) =>
     isStatusCode(code)
   );
-  const successCodes = statusCodes.filter(code => code.slice(0, 1) === '2');
+  const successCodes = statusCodes.filter((code) => code.slice(0, 1) === '2');
   return [statusCodes, successCodes];
 }
 
@@ -136,16 +136,16 @@ function validateNoBinaryStringsInResponse(
   path,
   binaryStringStatus
 ) {
-  Object.keys(responseObj).forEach(function(responseCode) {
+  Object.keys(responseObj).forEach(function (responseCode) {
     const responseBodyContent = responseObj[responseCode].content;
     if (responseBodyContent) {
-      Object.keys(responseBodyContent).forEach(function(mimeType) {
+      Object.keys(responseBodyContent).forEach(function (mimeType) {
         if (mimeType === 'application/json') {
           const schemaPath = path.concat([
             responseCode,
             'content',
             mimeType,
-            'schema'
+            'schema',
           ]);
           const octetSequencePaths = findOctetSequencePaths(
             responseBodyContent[mimeType].schema,

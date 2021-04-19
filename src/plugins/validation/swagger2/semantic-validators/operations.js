@@ -8,7 +8,7 @@ const findIndex = require('lodash/findIndex');
 const findLastIndex = require('lodash/findLastIndex');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ resolvedSpec }) {
+module.exports.validate = function ({ resolvedSpec }) {
   const messages = new MessageCarrier();
 
   map(resolvedSpec.paths, (path, pathKey) => {
@@ -19,7 +19,7 @@ module.exports.validate = function({ resolvedSpec }) {
       'put',
       'patch',
       'delete',
-      'options'
+      'options',
     ]);
     each(pathOps, (op, opKey) => {
       if (!op) {

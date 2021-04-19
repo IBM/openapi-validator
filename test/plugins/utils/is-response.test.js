@@ -33,7 +33,7 @@ describe('is response object - util', () => {
         'schemas',
         'MySchema',
         'properties',
-        'responses'
+        'responses',
       ];
       expect(isResponseObject(path, isOas3)).toBe(false);
     });

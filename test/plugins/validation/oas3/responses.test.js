@@ -2,13 +2,13 @@ const expect = require('expect');
 const resolver = require('json-schema-ref-parser');
 
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/oas3/semantic-validators/responses');
 
 const config = require('../../../../src/.defaultsForValidator').defaults.oas3;
 
-describe('validation plugin - semantic - responses - oas3', function() {
-  it('should not complain for valid use of type:string, format: binary', function() {
+describe('validation plugin - semantic - responses - oas3', function () {
+  it('should not complain for valid use of type:string, format: binary', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -16,28 +16,28 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '200': {
+              200: {
                 description: '200 response',
                 content: {
                   'multipart/form-data': {
                     schema: {
                       type: 'string',
-                      format: 'binary'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                      format: 'binary',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain when response body uses json and schema type: string, format: binary', function() {
+  it('should complain when response body uses json and schema type: string, format: binary', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -45,7 +45,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '200': {
+              200: {
                 description: '200 response',
                 content: {
                   'application/json': {
@@ -53,16 +53,16 @@ describe('validation plugin - semantic - responses - oas3', function() {
                       type: 'array',
                       items: {
                         type: 'string',
-                        format: 'binary'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                        format: 'binary',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -76,14 +76,14 @@ describe('validation plugin - semantic - responses - oas3', function() {
       'content',
       'application/json',
       'schema',
-      'items'
+      'items',
     ]);
     expect(res.warnings[0].message).toEqual(
       'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
     );
   });
 
-  it('should complain when a response is missing a description', function() {
+  it('should complain when a response is missing a description', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -91,20 +91,20 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '200': {
+              200: {
                 content: {
                   'multipart/form-data': {
                     schema: {
                       type: 'string',
-                      format: 'binary'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                      format: 'binary',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -115,14 +115,14 @@ describe('validation plugin - semantic - responses - oas3', function() {
       '/pets',
       'get',
       'responses',
-      '200'
+      '200',
     ]);
     expect(res.errors[0].message).toEqual(
       'All responses must include a description.'
     );
   });
 
-  it('should complain when 422 response code used', function() {
+  it('should complain when 422 response code used', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -130,24 +130,24 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '200': {
+              200: {
                 description: '200 response',
                 content: {
                   'multipart/form-data': {
                     schema: {
                       type: 'string',
-                      format: 'binary'
-                    }
-                  }
-                }
+                      format: 'binary',
+                    },
+                  },
+                },
               },
-              '422': {
-                description: '422 response discouraged'
-              }
-            }
-          }
-        }
-      }
+              422: {
+                description: '422 response discouraged',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -157,7 +157,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     );
   });
 
-  it('should complain when 302 response code used', function() {
+  it('should complain when 302 response code used', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -165,24 +165,24 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '200': {
+              200: {
                 description: '200 response',
                 content: {
                   'multipart/form-data': {
                     schema: {
                       type: 'string',
-                      format: 'binary'
-                    }
-                  }
-                }
+                      format: 'binary',
+                    },
+                  },
+                },
               },
-              '302': {
-                description: '302 response discouraged'
-              }
-            }
-          }
-        }
-      }
+              302: {
+                description: '302 response discouraged',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -192,7 +192,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     );
   });
 
-  it('should complain when default response body uses json as second mime type and uses schema type: string, format: binary', function() {
+  it('should complain when default response body uses json as second mime type and uses schema type: string, format: binary', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -205,8 +205,8 @@ describe('validation plugin - semantic - responses - oas3', function() {
                 content: {
                   'text/plain': {
                     schema: {
-                      type: 'string'
-                    }
+                      type: 'string',
+                    },
                   },
                   'application/json': {
                     schema: {
@@ -214,17 +214,17 @@ describe('validation plugin - semantic - responses - oas3', function() {
                       properties: {
                         prop1: {
                           type: 'string',
-                          format: 'binary'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                          format: 'binary',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -239,14 +239,14 @@ describe('validation plugin - semantic - responses - oas3', function() {
       'application/json',
       'schema',
       'properties',
-      'prop1'
+      'prop1',
     ]);
     expect(res.warnings[0].message).toEqual(
       'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
     );
   });
 
-  it('should complain multiple times when multiple json response bodies use type: string, format: binary', function() {
+  it('should complain multiple times when multiple json response bodies use type: string, format: binary', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -254,7 +254,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '200': {
+              200: {
                 description: '200 response',
                 content: {
                   'application/json': {
@@ -262,13 +262,13 @@ describe('validation plugin - semantic - responses - oas3', function() {
                       type: 'array',
                       items: {
                         type: 'string',
-                        format: 'binary'
-                      }
-                    }
-                  }
-                }
+                        format: 'binary',
+                      },
+                    },
+                  },
+                },
               },
-              '201': {
+              201: {
                 description: '201 response',
                 content: {
                   'application/json': {
@@ -277,22 +277,22 @@ describe('validation plugin - semantic - responses - oas3', function() {
                       properties: {
                         prop1: {
                           type: 'string',
-                          format: 'binary'
+                          format: 'binary',
                         },
                         prop2: {
                           type: 'array',
                           items: {
                             type: 'string',
-                            format: 'binary'
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
+                            format: 'binary',
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
               },
-              '204': {
-                description: '204 response'
+              204: {
+                description: '204 response',
               },
               default: {
                 description: 'the default response',
@@ -303,17 +303,17 @@ describe('validation plugin - semantic - responses - oas3', function() {
                       properties: {
                         prop1: {
                           type: 'string',
-                          format: 'binary'
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                          format: 'binary',
+                        },
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -327,7 +327,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       'content',
       'application/json',
       'schema',
-      'items'
+      'items',
     ]);
     expect(res.warnings[0].message).toEqual(
       'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
@@ -342,7 +342,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       'application/json',
       'schema',
       'properties',
-      'prop1'
+      'prop1',
     ]);
     expect(res.warnings[1].message).toEqual(
       'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
@@ -358,7 +358,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       'schema',
       'properties',
       'prop2',
-      'items'
+      'items',
     ]);
     expect(res.warnings[2].message).toEqual(
       'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
@@ -373,14 +373,14 @@ describe('validation plugin - semantic - responses - oas3', function() {
       'application/json',
       'schema',
       'properties',
-      'prop1'
+      'prop1',
     ]);
     expect(res.warnings[3].message).toEqual(
       'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
     );
   });
 
-  it('should complain when response object only has a default', function() {
+  it('should complain when response object only has a default', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -389,12 +389,12 @@ describe('validation plugin - semantic - responses - oas3', function() {
             operationId: 'operationId',
             responses: {
               default: {
-                description: 'the default response'
-              }
-            }
-          }
-        }
-      }
+                description: 'the default response',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -406,7 +406,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain when no response codes are valid', function() {
+  it('should complain when no response codes are valid', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -414,13 +414,13 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '2007': {
-                description: 'an invalid response'
-              }
-            }
-          }
-        }
-      }
+              2007: {
+                description: 'an invalid response',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -432,7 +432,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should not complain when there are no problems', function() {
+  it('should not complain when there are no problems', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -440,13 +440,13 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '204': {
-                description: 'successful operation call with no response body'
-              }
-            }
-          }
-        }
-      }
+              204: {
+                description: 'successful operation call with no response body',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -454,7 +454,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain when a non-204 success does not have response body', function() {
+  it('should complain when a non-204 success does not have response body', function () {
     const spec = {
       paths: {
         '/example': {
@@ -462,13 +462,13 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '200': {
-                description: 'successful operation call with no response body'
-              }
-            }
-          }
-        }
-      }
+              200: {
+                description: 'successful operation call with no response body',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -478,14 +478,14 @@ describe('validation plugin - semantic - responses - oas3', function() {
       '/example',
       'get',
       'responses',
-      '200'
+      '200',
     ]);
     expect(res.warnings[0].message).toEqual(
       `A 200 response should include a response body. Use 204 for responses without content.`
     );
   });
 
-  it('should issue multiple warnings when multiple non-204 successes do not have response bodies', function() {
+  it('should issue multiple warnings when multiple non-204 successes do not have response bodies', function () {
     const spec = {
       paths: {
         '/example1': {
@@ -493,27 +493,27 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId_1',
             responses: {
-              '200': {
-                description: 'first successful response with no response body'
+              200: {
+                description: 'first successful response with no response body',
               },
-              '202': {
-                description: 'second successful response with no response body'
-              }
-            }
-          }
+              202: {
+                description: 'second successful response with no response body',
+              },
+            },
+          },
         },
         '/example2': {
           get: {
             summary: 'this is a summary',
             operationId: 'operationId_2',
             responses: {
-              '203': {
-                description: 'third successful response with no response body'
-              }
-            }
-          }
-        }
-      }
+              203: {
+                description: 'third successful response with no response body',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -523,7 +523,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       '/example1',
       'get',
       'responses',
-      '200'
+      '200',
     ]);
     expect(res.warnings[0].message).toEqual(
       `A 200 response should include a response body. Use 204 for responses without content.`
@@ -533,7 +533,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       '/example1',
       'get',
       'responses',
-      '202'
+      '202',
     ]);
     expect(res.warnings[1].message).toEqual(
       `A 202 response should include a response body. Use 204 for responses without content.`
@@ -543,14 +543,14 @@ describe('validation plugin - semantic - responses - oas3', function() {
       '/example2',
       'get',
       'responses',
-      '203'
+      '203',
     ]);
     expect(res.warnings[2].message).toEqual(
       `A 203 response should include a response body. Use 204 for responses without content.`
     );
   });
 
-  it('should not complain when a non-204 success has a ref to a response with content', async function() {
+  it('should not complain when a non-204 success has a ref to a response with content', async function () {
     const jsSpec = {
       paths: {
         '/comments': {
@@ -558,12 +558,12 @@ describe('validation plugin - semantic - responses - oas3', function() {
             operationId: 'add_comment',
             summary: 'adds a comment',
             responses: {
-              '201': {
-                $ref: '#/components/responses/success'
-              }
-            }
-          }
-        }
+              201: {
+                $ref: '#/components/responses/success',
+              },
+            },
+          },
+        },
       },
       components: {
         responses: {
@@ -572,13 +572,13 @@ describe('validation plugin - semantic - responses - oas3', function() {
             content: {
               'application/json': {
                 schema: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
-      }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const spec = await resolver.dereference(jsSpec);
@@ -587,7 +587,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should complain about having only error responses', function() {
+  it('should complain about having only error responses', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -595,22 +595,22 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '400': {
-                description: 'bad request'
+              400: {
+                description: 'bad request',
               },
-              '401': {
-                description: 'unauthorized'
+              401: {
+                description: 'unauthorized',
               },
-              '404': {
-                description: 'resource not found'
+              404: {
+                description: 'resource not found',
               },
               default: {
-                description: 'any other response'
-              }
-            }
-          }
-        }
-      }
+                description: 'any other response',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -619,7 +619,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       'paths',
       '/pets',
       'get',
-      'responses'
+      'responses',
     ]);
     expect(res.warnings[0].message).toEqual(
       'Each `responses` object SHOULD have at least one code for a successful response.'
@@ -627,7 +627,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     expect(res.errors.length).toEqual(0);
   });
 
-  it('should not complain about having only a 101 response', function() {
+  it('should not complain about having only a 101 response', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -635,13 +635,13 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '101': {
-                description: 'switching protocols'
-              }
-            }
-          }
-        }
-      }
+              101: {
+                description: 'switching protocols',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -649,7 +649,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     expect(res.errors.length).toEqual(0);
   });
 
-  it('should complain about having a 101 along with any 2xx code', function() {
+  it('should complain about having a 101 along with any 2xx code', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -657,16 +657,16 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '101': {
-                description: 'switching protocols'
+              101: {
+                description: 'switching protocols',
               },
-              '204': {
-                description: 'no content'
-              }
-            }
-          }
-        }
-      }
+              204: {
+                description: 'no content',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -678,7 +678,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
     );
   });
 
-  it('should complain about 204 response that defines a response body', function() {
+  it('should complain about 204 response that defines a response body', function () {
     const spec = {
       paths: {
         '/pets': {
@@ -686,24 +686,24 @@ describe('validation plugin - semantic - responses - oas3', function() {
             summary: 'this is a summary',
             operationId: 'operationId',
             responses: {
-              '204': {
+              204: {
                 description: 'bad request',
                 content: {
                   schema: {
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               },
-              '400': {
-                description: 'bad request'
+              400: {
+                description: 'bad request',
               },
               default: {
-                description: 'any other response'
-              }
-            }
-          }
-        }
-      }
+                description: 'any other response',
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = validate({ resolvedSpec: spec }, config);
@@ -715,7 +715,7 @@ describe('validation plugin - semantic - responses - oas3', function() {
       'delete',
       'responses',
       '204',
-      'content'
+      'content',
     ]);
     expect(res.errors[0].message).toEqual(
       'A 204 response MUST NOT include a message-body.'

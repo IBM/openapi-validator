@@ -7,12 +7,12 @@ module.exports = {
     title: 'Swagger Petstore',
     termsOfService: 'http://swagger.io/terms/',
     contact: {
-      email: 'apiteam@swagger.io'
+      email: 'apiteam@swagger.io',
     },
     license: {
       name: 'Apache 2.0',
-      url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
-    }
+      url: 'http://www.apache.org/licenses/LICENSE-2.0.html',
+    },
   },
   host: 'petstore.swagger.io',
   basePath: '/v2',
@@ -22,21 +22,21 @@ module.exports = {
       description: 'Everything about your Pets',
       externalDocs: {
         description: 'Find out more',
-        url: 'http://swagger.io'
-      }
+        url: 'http://swagger.io',
+      },
     },
     {
       name: 'store',
-      description: 'Access to Petstore orders'
+      description: 'Access to Petstore orders',
     },
     {
       name: 'user',
       description: 'Operations about user',
       externalDocs: {
         description: 'Find out more about our store',
-        url: 'http://swagger.io'
-      }
-    }
+        url: 'http://swagger.io',
+      },
+    },
   ],
   schemes: ['http'],
   paths: {
@@ -54,20 +54,20 @@ module.exports = {
             description: 'Pet object that needs to be added to the store',
             required: true,
             schema: {
-              $ref: '#/definitions/Pet'
-            }
-          }
+              $ref: '#/definitions/Pet',
+            },
+          },
         ],
         responses: {
-          '405': {
-            description: 'Invalid input'
-          }
+          405: {
+            description: 'Invalid input',
+          },
         },
         security: [
           {
-            petstore_auth: ['write:pets', 'read:pets']
-          }
-        ]
+            petstore_auth: ['write:pets', 'read:pets'],
+          },
+        ],
       },
       put: {
         tags: ['pet'],
@@ -82,27 +82,27 @@ module.exports = {
             description: 'Pet object that needs to be added to the store',
             required: true,
             schema: {
-              $ref: '#/definitions/Pet'
-            }
-          }
+              $ref: '#/definitions/Pet',
+            },
+          },
         ],
         responses: {
-          '400': {
-            description: 'Invalid ID supplied'
+          400: {
+            description: 'Invalid ID supplied',
           },
-          '404': {
-            description: 'Pet not found'
+          404: {
+            description: 'Pet not found',
           },
-          '405': {
-            description: 'Validation exception'
-          }
+          405: {
+            description: 'Validation exception',
+          },
         },
         security: [
           {
-            petstore_auth: ['write:pets', 'read:pets']
-          }
-        ]
-      }
+            petstore_auth: ['write:pets', 'read:pets'],
+          },
+        ],
+      },
     },
     '/pet/find_by_status': {
       get: {
@@ -122,32 +122,32 @@ module.exports = {
             items: {
               type: 'string',
               enum: ['available', 'pending', 'sold'],
-              default: 'available'
+              default: 'available',
             },
-            collectionFormat: 'multi'
-          }
+            collectionFormat: 'multi',
+          },
         ],
         responses: {
-          '200': {
+          200: {
             description: 'successful operation',
             schema: {
               type: 'array',
               items: {
-                $ref: '#/definitions/Pet'
-              }
-            }
+                $ref: '#/definitions/Pet',
+              },
+            },
           },
-          '400': {
-            description: 'Invalid status value'
-          }
+          400: {
+            description: 'Invalid status value',
+          },
         },
         security: [
           {
-            petstore_auth: ['write:pets', 'read:pets']
-          }
-        ]
-      }
-    }
+            petstore_auth: ['write:pets', 'read:pets'],
+          },
+        ],
+      },
+    },
   },
   securityDefinitions: {
     petstore_auth: {
@@ -156,14 +156,14 @@ module.exports = {
       flow: 'implicit',
       scopes: {
         'write:pets': 'modify pets in your account',
-        'read:pets': 'read your pets'
-      }
+        'read:pets': 'read your pets',
+      },
     },
     api_key: {
       type: 'apiKey',
       name: 'api_key',
-      in: 'header'
-    }
+      in: 'header',
+    },
   },
   definitions: {
     Category: {
@@ -171,16 +171,16 @@ module.exports = {
       properties: {
         id: {
           type: 'integer',
-          format: 'int64'
+          format: 'int64',
         },
         name: {
           type: 'string',
-          description: 'string'
-        }
+          description: 'string',
+        },
       },
       xml: {
-        name: 'Category'
-      }
+        name: 'Category',
+      },
     },
     Tag: {
       type: 'object',
@@ -188,16 +188,16 @@ module.exports = {
         id: {
           type: 'integer',
           format: 'int64',
-          description: 'string'
+          description: 'string',
         },
         name: {
           type: 'string',
-          description: 'string'
-        }
+          description: 'string',
+        },
       },
       xml: {
-        name: 'Tag'
-      }
+        name: 'Tag',
+      },
     },
     Pet: {
       type: 'object',
@@ -206,51 +206,51 @@ module.exports = {
         id: {
           type: 'integer',
           format: 'int64',
-          description: 'string'
+          description: 'string',
         },
         category: {
-          $ref: '#/definitions/Category'
+          $ref: '#/definitions/Category',
         },
         name: {
           type: 'string',
           example: 'doggie',
-          description: 'string'
+          description: 'string',
         },
         photoUrls: {
           type: 'array',
           description: 'string',
           xml: {
             name: 'photoUrl',
-            wrapped: true
+            wrapped: true,
           },
           items: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
         tags: {
           type: 'array',
           description: 'string',
           xml: {
             name: 'tag',
-            wrapped: true
+            wrapped: true,
           },
           items: {
-            $ref: '#/definitions/Tag'
-          }
+            $ref: '#/definitions/Tag',
+          },
         },
         status: {
           type: 'string',
           description: 'pet status in the store',
-          enum: ['available', 'pending', 'sold']
-        }
+          enum: ['available', 'pending', 'sold'],
+        },
       },
       xml: {
-        name: 'Pet'
-      }
-    }
+        name: 'Pet',
+      },
+    },
   },
   externalDocs: {
     description: 'Find out more about Swagger',
-    url: 'http://swagger.io'
-  }
+    url: 'http://swagger.io',
+  },
 };

@@ -1,6 +1,6 @@
 const inCodeValidator = require('../../../../src/lib');
 
-describe('spectral - test validation that schema provided in content object', function() {
+describe('spectral - test validation that schema provided in content object', function () {
   it('should not error when the content object contains a schema', async () => {
     const spec = {
       openapi: '3.0.0',
@@ -8,12 +8,12 @@ describe('spectral - test validation that schema provided in content object', fu
         path1: {
           get: {
             responses: {
-              '200': {
-                $ref: '#/components/responses/GenericResponse'
-              }
-            }
-          }
-        }
+              200: {
+                $ref: '#/components/responses/GenericResponse',
+              },
+            },
+          },
+        },
       },
       components: {
         responses: {
@@ -22,18 +22,18 @@ describe('spectral - test validation that schema provided in content object', fu
               'application/json': {
                 // schema provided
                 schema: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
-      }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Content entries in request and response bodies must specify a schema'
     );
@@ -47,10 +47,10 @@ describe('spectral - test validation that schema provided in content object', fu
         path1: {
           post: {
             requestBody: {
-              $ref: '#/components/requestBodies/GenericRequestBody'
-            }
-          }
-        }
+              $ref: '#/components/requestBodies/GenericRequestBody',
+            },
+          },
+        },
       },
       components: {
         requestBodies: {
@@ -58,16 +58,16 @@ describe('spectral - test validation that schema provided in content object', fu
             content: {
               'application/json': {
                 // schema not provided
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Content entries in request and response bodies must specify a schema'
     );
@@ -81,12 +81,12 @@ describe('spectral - test validation that schema provided in content object', fu
         path1: {
           post: {
             responses: {
-              '200': {
-                $ref: '#/components/responses/GenericResponse'
-              }
-            }
-          }
-        }
+              200: {
+                $ref: '#/components/responses/GenericResponse',
+              },
+            },
+          },
+        },
       },
       components: {
         responses: {
@@ -94,16 +94,16 @@ describe('spectral - test validation that schema provided in content object', fu
             content: {
               'application/json': {
                 // schema not provided
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Content entries in request and response bodies must specify a schema'
     );
@@ -122,25 +122,25 @@ describe('spectral - test validation that schema provided in content object', fu
                 content: {
                   '*/*': {
                     // schema not provided
-                  }
-                }
+                  },
+                },
               },
               default: {
                 content: {
                   'text/html': {
                     // schema not provided
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Content entries in request and response bodies must specify a schema'
     );
@@ -158,17 +158,17 @@ describe('spectral - test validation that schema provided in content object', fu
               content: {
                 'application/json': {
                   // no schema provided
-                }
-              }
-            }
-          }
-        }
-      }
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const res = await inCodeValidator(spec, true);
     const expectedWarnings = res.warnings.filter(
-      warn =>
+      (warn) =>
         warn.message ===
         'Content entries in request and response bodies must specify a schema'
     );

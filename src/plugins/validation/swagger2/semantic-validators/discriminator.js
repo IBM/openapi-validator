@@ -16,7 +16,7 @@ const get = require('lodash/get');
 const includes = require('lodash/includes');
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec }) {
+module.exports.validate = function ({ jsSpec }) {
   const messages = new MessageCarrier();
 
   const schemas = get(jsSpec, ['definitions'], []);

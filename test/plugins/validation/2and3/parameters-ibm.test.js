@@ -1,6 +1,6 @@
 const expect = require('expect');
 const {
-  validate
+  validate,
 } = require('../../../../src/plugins/validation/2and3/semantic-validators/parameters-ibm');
 
 const config = require('../../../../src/.defaultsForValidator').defaults.shared;
@@ -16,12 +16,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 {
                   name: 'name',
                   in: 'query',
-                  type: 'string'
-                }
-              ]
-            }
-          }
-        }
+                  type: 'string',
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -32,7 +32,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '0'
+        '0',
       ]);
       expect(res.errors[0].message).toEqual(
         'Parameter objects must have a `description` field.'
@@ -49,12 +49,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   name: 'camelCase',
                   in: 'query',
                   description: 'description',
-                  type: 'string'
-                }
-              ]
-            }
-          }
-        }
+                  type: 'string',
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -65,7 +65,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '0'
+        '0',
       ]);
       expect(res.errors[0].message).toEqual(
         'Parameter names must follow case convention: lower_snake_case'
@@ -82,12 +82,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   name: 'camelCase',
                   in: 'header',
                   description: 'description',
-                  type: 'string'
-                }
-              ]
-            }
-          }
-        }
+                  type: 'string',
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -106,12 +106,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   in: 'query',
                   description: 'description',
                   type: 'string',
-                  deprecated: true
-                }
-              ]
-            }
-          }
-        }
+                  deprecated: true,
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -132,14 +132,14 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                       description: '     ',
                       in: 'query',
                       type: 'number',
-                      format: 'int32'
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
+                      format: 'int32',
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -157,7 +157,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   name: 'name',
                   in: 'query',
                   type: 'string',
-                  description: 'good description'
+                  description: 'good description',
                 },
                 {
                   name: 'Accept',
@@ -166,19 +166,19 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                     'bad parameter because it specifies an accept type',
                   required: false,
                   type: 'string',
-                  enum: ['application/json', 'application/octet-stream']
+                  enum: ['application/json', 'application/octet-stream'],
                 },
                 {
                   name: 'content-Type',
                   in: 'header',
                   required: false,
                   type: 'string',
-                  description: 'another bad parameter'
-                }
-              ]
-            }
-          }
-        }
+                  description: 'another bad parameter',
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -189,7 +189,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '1'
+        '1',
       ]);
       expect(res.errors[0].message).toEqual(
         'Parameters must not explicitly define `Accept`. Rely on the `produces` field to specify accept-type.'
@@ -199,7 +199,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '2'
+        '2',
       ]);
       expect(res.errors[1].message).toEqual(
         'Parameters must not explicitly define `Content-Type`. Rely on the `consumes` field to specify content-type.'
@@ -218,12 +218,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   required: true,
                   description: 'tags to filter by',
                   type: 'string',
-                  default: 'reptile'
-                }
-              ]
-            }
-          }
-        }
+                  default: 'reptile',
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -233,7 +233,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '0'
+        '0',
       ]);
       expect(res.warnings[0].message).toEqual(
         'Required parameters should not specify default values.'
@@ -253,12 +253,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   required: false,
                   description: 'tags to filter by',
                   type: 'string',
-                  default: 'reptile'
-                }
-              ]
-            }
-          }
-        }
+                  default: 'reptile',
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec }, config);
@@ -277,12 +277,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   in: 'formData',
                   type: 'file',
                   required: true,
-                  description: 'A file passed in formData'
-                }
-              ]
-            }
-          }
-        }
+                  description: 'A file passed in formData',
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: false }, config);
@@ -297,9 +297,9 @@ describe('validation plugin - semantic - parameters-ibm', () => {
             name: 'someparam',
             in: 'header',
             type: 'string',
-            required: true
-          }
-        ]
+            required: true,
+          },
+        ],
       };
 
       const res = validate({ jsSpec: spec, isOAS3: false }, config);
@@ -326,15 +326,15 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                       parameters: {
                         type: 'string',
                         description: 'this is a description',
-                        additionalProperties: {}
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                        additionalProperties: {},
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
       expect(res.warnings.length).toEqual(0);
@@ -351,9 +351,9 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   name: 'name',
                   in: 'query',
                   schema: {
-                    type: 'string'
+                    type: 'string',
                   },
-                  description: 'good description'
+                  description: 'good description',
                 },
                 {
                   name: 'ACCEPT',
@@ -362,17 +362,17 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                     'bad parameter because it specifies an accept type',
                   required: false,
                   schema: {
-                    type: 'string'
-                  }
+                    type: 'string',
+                  },
                 },
                 {
                   name: 'content-type',
                   in: 'header',
                   required: false,
                   schema: {
-                    type: 'string'
+                    type: 'string',
                   },
-                  description: 'another bad parameter'
+                  description: 'another bad parameter',
                 },
                 {
                   name: 'Authorization',
@@ -380,13 +380,13 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   description: 'Identity Access Management (IAM) bearer token.',
                   required: false,
                   schema: {
-                    type: 'string'
-                  }
-                }
-              ]
-            }
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -397,7 +397,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '1'
+        '1',
       ]);
       expect(res.errors[0].message).toEqual(
         'Parameters must not explicitly define `Accept`. Rely on the `content` field of a response object to specify accept-type.'
@@ -407,7 +407,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '2'
+        '2',
       ]);
       expect(res.errors[1].message).toEqual(
         'Parameters must not explicitly define `Content-Type`. Rely on the `content` field of a request body or response object to specify content-type.'
@@ -417,7 +417,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '3'
+        '3',
       ]);
       expect(res.warnings[0].message).toEqual(
         'Parameters must not explicitly define `Authorization`. Rely on the `securitySchemes` and `security` fields to specify authorization methods. This check will be converted to an `error` in an upcoming release.'
@@ -432,11 +432,11 @@ describe('validation plugin - semantic - parameters-ibm', () => {
               in: 'query',
               name: 'bad_query_param',
               schema: {
-                type: 'string'
-              }
-            }
-          }
-        }
+                type: 'string',
+              },
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -445,7 +445,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.errors[0].path).toEqual([
         'components',
         'parameters',
-        'BadParam'
+        'BadParam',
       ]);
       expect(res.errors[0].message).toEqual(
         'Parameter objects must have a `description` field.'
@@ -465,13 +465,13 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   description: 'tags to filter by',
                   schema: {
                     type: 'string',
-                    default: 'reptile'
-                  }
-                }
-              ]
-            }
-          }
-        }
+                    default: 'reptile',
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -481,7 +481,7 @@ describe('validation plugin - semantic - parameters-ibm', () => {
         '/pets',
         'get',
         'parameters',
-        '0'
+        '0',
       ]);
       expect(res.warnings[0].message).toEqual(
         'Required parameters should not specify default values.'
@@ -500,13 +500,13 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                   in: 'query',
                   description: 'tags to filter by',
                   schema: {
-                    type: 'string'
-                  }
-                }
-              ]
-            }
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              ],
+            },
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
@@ -524,12 +524,12 @@ describe('validation plugin - semantic - parameters-ibm', () => {
                 in: 'query',
                 schema: {
                   type: 'string',
-                  format: 'byte'
-                }
-              }
-            ]
-          }
-        }
+                  format: 'byte',
+                },
+              },
+            ],
+          },
+        },
       };
 
       const res = validate({ jsSpec: spec, isOAS3: true }, config);

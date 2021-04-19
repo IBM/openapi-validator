@@ -7,7 +7,7 @@ const twoDays = 1000 * 60 * 60 * 24 * 2;
 const notifier = updateNotifier({
   pkg,
   shouldNotifyInNpmScript: true,
-  updateCheckInterval: twoDays
+  updateCheckInterval: twoDays,
 });
 
 notifier.notify();

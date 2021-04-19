@@ -5,8 +5,8 @@ describe('isPrimitiveType - util', () => {
   it('should return true when the schema uses a primitive type', () => {
     const exampleObject = {
       schema: {
-        type: 'string'
-      }
+        type: 'string',
+      },
     };
 
     expect(isPrimitiveType(exampleObject.schema)).toBe(true);
@@ -17,9 +17,9 @@ describe('isPrimitiveType - util', () => {
       schema: {
         type: 'array',
         items: {
-          type: 'boolean'
-        }
-      }
+          type: 'boolean',
+        },
+      },
     };
 
     expect(isPrimitiveType(exampleObject.schema.items)).toBe(true);
@@ -31,10 +31,10 @@ describe('isPrimitiveType - util', () => {
         type: 'object',
         properties: {
           exampleProp: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
 
     expect(isPrimitiveType(exampleObject.schema)).toBe(false);

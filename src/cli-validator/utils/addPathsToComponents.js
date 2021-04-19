@@ -17,9 +17,9 @@ const getPathAsArray = require('./getPathAsArray');
 //
 // adds path to the originating component if it exists
 // modifies the given results object
-module.exports = function(originalResults, unresolvedSpec) {
-  each(originalResults, function(validatorsDict) {
-    each(validatorsDict, function(errors) {
+module.exports = function (originalResults, unresolvedSpec) {
+  each(originalResults, function (validatorsDict) {
+    each(validatorsDict, function (errors) {
       pointToComponents(errors, unresolvedSpec);
     });
   });
@@ -37,14 +37,14 @@ module.exports = function(originalResults, unresolvedSpec) {
 // adds componentPath field to existing errors
 // modifies existing errors in place
 function pointToComponents(errors, unresolvedSpec) {
-  each(errors, function(err) {
+  each(errors, function (err) {
     const pathArray = getPathAsArray(err.path);
     let componentPath = null;
     let refObj = findRef(pathArray, unresolvedSpec);
     while (refObj.refString !== null) {
       componentPath = [
         ...parseRefString(refObj.refString),
-        ...refObj.remainingPath
+        ...refObj.remainingPath,
       ];
       refObj = findRef(componentPath, unresolvedSpec);
     }
@@ -90,7 +90,7 @@ function findRef(pathArray, unresolvedSpec) {
   return {
     refString: ref,
     remainingPath: pathArray.slice(indexOfRef, pathArray.length),
-    validPath: validPath
+    validPath: validPath,
   };
 }
 

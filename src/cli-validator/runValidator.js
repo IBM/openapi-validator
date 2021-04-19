@@ -25,7 +25,7 @@ const init = require('./utils/init.js');
 
 // this function processes the input, does the error handling,
 //  and acts as the main function for the program
-const processInput = async function(program) {
+const processInput = async function (program) {
   let args = program.args;
 
   // require that arguments are passed in
@@ -74,15 +74,15 @@ const processInput = async function(program) {
   // ignore files in .validateignore by comparing absolute paths
   const ignoredFiles = await config.ignore();
   const filteredArgs = args.filter(
-    file => !ignoredFiles.includes(path.resolve(file))
+    (file) => !ignoredFiles.includes(path.resolve(file))
   );
 
   // determine which files were removed from args because they were 'ignored'
   // then, print these for the user. this way, the user is alerted to why files
   // aren't validated
-  const filteredFiles = args.filter(file => !filteredArgs.includes(file));
+  const filteredFiles = args.filter((file) => !filteredArgs.includes(file));
   if (filteredFiles.length) console.log();
-  filteredFiles.forEach(filename => {
+  filteredFiles.forEach((filename) => {
     console.log(
       chalk.magenta('[Ignored] ') + path.relative(process.cwd(), filename)
     );
@@ -96,7 +96,7 @@ const processInput = async function(program) {
   const supportedFileTypes = ['json', 'yml', 'yaml'];
   const filesWithValidExtensions = [];
   let unsupportedExtensionsFound = false;
-  args.forEach(arg => {
+  args.forEach((arg) => {
     if (ext.supportedFileExtension(arg, supportedFileTypes)) {
       filesWithValidExtensions.push(arg);
     } else {
@@ -127,10 +127,10 @@ const processInput = async function(program) {
   // every file.
   const filesToValidate = await globby(filesWithValidExtensions);
   const nonExistentFiles = filesWithValidExtensions.filter(
-    file => !filesToValidate.includes(file)
+    (file) => !filesToValidate.includes(file)
   );
   if (nonExistentFiles.length) console.log();
-  nonExistentFiles.forEach(file => {
+  nonExistentFiles.forEach((file) => {
     console.log(
       chalk.yellow('[Warning]') + ` Skipping non-existent file: ${file}`
     );
@@ -171,7 +171,7 @@ const processInput = async function(program) {
   // create an instance of spectral & load the spectral ruleset, either a user's
   // or the default ruleset
   const spectral = new Spectral({
-    computeFingerprint: dedupFunction
+    computeFingerprint: dedupFunction,
   });
   try {
     await spectralValidator.setup(spectral, rulesetFileOverride, configObject);
@@ -307,10 +307,8 @@ const processInput = async function(program) {
         results.errors['warnings-limit'] = [
           {
             path: [],
-            message: `Number of warnings (${numWarnings}) exceeds warnings limit (${
-              limitsObject.warnings
-            }).`
-          }
+            message: `Number of warnings (${numWarnings}) exceeds warnings limit (${limitsObject.warnings}).`,
+          },
         ];
       }
     }

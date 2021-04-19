@@ -4,7 +4,7 @@
 // - Each path has a path segment of the form v followed by a number, and the number is
 //   the same for all paths
 
-module.exports = targetVal => {
+module.exports = (targetVal) => {
   if (targetVal === null || typeof targetVal !== 'object') {
     return;
   }
@@ -14,10 +14,10 @@ module.exports = targetVal => {
   if (oas3) {
     const servers = targetVal['servers'];
     if (servers && Array.isArray(servers)) {
-      const urls = servers.map(o => o['url']);
-      const versions = urls.map(url => getVersion(url));
+      const urls = servers.map((o) => o['url']);
+      const versions = urls.map((url) => getVersion(url));
 
-      if (versions.length > 1 && !versions.every(v => v === versions[0])) {
+      if (versions.length > 1 && !versions.every((v) => v === versions[0])) {
         const uniqueVersions = versions.filter(
           (val, i, self) => self.indexOf(val) === i
         );
@@ -26,8 +26,8 @@ module.exports = targetVal => {
             message:
               'Major version segments of urls in servers object do not match. Found ' +
               uniqueVersions.join(', '),
-            path: ['servers']
-          }
+            path: ['servers'],
+          },
         ];
       }
 
@@ -50,9 +50,9 @@ module.exports = targetVal => {
   const paths = targetVal['paths'];
   if (paths && typeof paths === 'object') {
     const urls = Object.keys(paths);
-    const versions = urls.map(url => getVersion(url));
+    const versions = urls.map((url) => getVersion(url));
 
-    if (versions.length > 1 && !versions.every(v => v === versions[0])) {
+    if (versions.length > 1 && !versions.every((v) => v === versions[0])) {
       const uniqueVersions = versions.filter(
         (val, i, self) => self.indexOf(val) === i
       );
@@ -61,8 +61,8 @@ module.exports = targetVal => {
           message:
             'Major version segments of paths object do not match. Found ' +
             uniqueVersions.join(', '),
-          path: ['paths']
-        }
+          path: ['paths'],
+        },
       ];
     }
 
@@ -76,14 +76,15 @@ module.exports = targetVal => {
     return [
       {
         message:
-          'Major version segment not present in either server URLs or paths'
-      }
+          'Major version segment not present in either server URLs or paths',
+      },
     ];
   } else {
     return [
       {
-        message: 'Major version segment not present in either basePath or paths'
-      }
+        message:
+          'Major version segment not present in either basePath or paths',
+      },
     ];
   }
 };
@@ -92,5 +93,5 @@ module.exports = targetVal => {
 function getVersion(path) {
   const url = new URL(path, 'https://foo.bar');
   const segments = url.pathname.split('/');
-  return segments.find(segment => segment.match(/v[0-9]+/));
+  return segments.find((segment) => segment.match(/v[0-9]+/));
 }

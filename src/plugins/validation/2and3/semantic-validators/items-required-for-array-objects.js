@@ -13,7 +13,7 @@ const MessageCarrier = require('../../../utils/messageCarrier');
 const at = require('lodash/at');
 const isPlainObject = require('lodash/isPlainObject');
 
-const reduceObj = function(jsSpec, obj) {
+const reduceObj = function (jsSpec, obj) {
   if (obj['$ref']) {
     const objPath = obj['$ref'].split('/');
     objPath.shift();
@@ -22,14 +22,14 @@ const reduceObj = function(jsSpec, obj) {
   return obj;
 };
 
-const checkReqProp = function(jsSpec, obj, requiredProp) {
+const checkReqProp = function (jsSpec, obj, requiredProp) {
   obj = reduceObj(jsSpec, obj);
   if (obj.properties && obj.properties[requiredProp]) {
     return true;
   } else if (Array.isArray(obj.anyOf) || Array.isArray(obj.oneOf)) {
     const childList = obj.anyOf || obj.oneOf;
     let reqPropDefined = true;
-    childList.forEach(childObj => {
+    childList.forEach((childObj) => {
       if (!checkReqProp(jsSpec, childObj, requiredProp)) {
         reqPropDefined = false;
       }
@@ -37,7 +37,7 @@ const checkReqProp = function(jsSpec, obj, requiredProp) {
     return reqPropDefined;
   } else if (Array.isArray(obj.allOf)) {
     let reqPropDefined = false;
-    obj.allOf.forEach(childObj => {
+    obj.allOf.forEach((childObj) => {
       if (checkReqProp(jsSpec, childObj, requiredProp)) {
         reqPropDefined = true;
       }
@@ -47,10 +47,10 @@ const checkReqProp = function(jsSpec, obj, requiredProp) {
   return false;
 };
 
-module.exports.validate = function({ jsSpec }, config) {
+module.exports.validate = function ({ jsSpec }, config) {
   const messages = new MessageCarrier();
 
-  walk(jsSpec, [], function(obj, path) {
+  walk(jsSpec, [], function (obj, path) {
     // `definitions` for Swagger 2, `schemas` for OAS 3
     // `properties` applies to both
     const modelLocations = ['definitions', 'schemas', 'properties'];

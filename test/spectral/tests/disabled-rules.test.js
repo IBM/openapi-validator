@@ -4,7 +4,7 @@ const { getCapturedText } = require('../../test-utils');
 const swaggerInMemory = require('../mockFiles/swagger/disabled-rules-in-memory');
 const oas3InMemory = require('../mockFiles/oas3/disabled-rules-in-memory');
 
-describe('spectral - test disabled rules - Swagger 2', function() {
+describe('spectral - test disabled rules - Swagger 2', function () {
   let allOutput;
 
   beforeAll(async () => {
@@ -25,7 +25,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     consoleSpy.mockRestore();
   });
 
-  it('test contact-properties rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test contact-properties rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -33,7 +33,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test info-contact rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test info-contact rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -41,7 +41,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test info-description rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test info-description rule using mockFiles/swagger/disabled-rules.yml', function () {
     // set up mock user input
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
@@ -50,7 +50,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test info-license rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test info-license rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -58,13 +58,13 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test license-url rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test license-url rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain('License object should include `url`.');
   });
 
-  it('test no-$ref-siblings rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test no-$ref-siblings rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -72,7 +72,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test openapi-tags-alphabetical rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test openapi-tags-alphabetical rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -80,7 +80,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test path-params rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test path-params rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -88,13 +88,13 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test operation-operationId rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test operation-operationId rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain('Operation should have an `operationId`');
   });
 
-  it('test operation-2xx-response rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test operation-2xx-response rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -102,7 +102,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test operation-parameters validator rule mockFiles/swagger/disabled-rules.yml', function() {
+  it('test operation-parameters validator rule mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -110,7 +110,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test operation-operationId-valid-in-url validator rule mockFiles/swagger/disabled-rules.yml', function() {
+  it('test operation-operationId-valid-in-url validator rule mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -118,27 +118,27 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test path-declarations-must-exist rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test path-declarations-must-exist rule using mockFiles/swagger/disabled-rules.yml', function () {
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
       'Path parameter declarations cannot be empty, ex.`/given/{}` is invalid'
     );
   });
 
-  it('test operation-default-response rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test operation-default-response rule using mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain('Operations must have a default response');
   });
 
-  it('test path-not-include-query rule using mockFiles/swagger/disabled-rules.yml', function() {
+  it('test path-not-include-query rule using mockFiles/swagger/disabled-rules.yml', function () {
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
       'given keys should not include a query string'
     );
   });
 
-  it('test oas2-unused-definition validator rule mockFiles/swagger/disabled-rules.yml', function() {
+  it('test oas2-unused-definition validator rule mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -146,7 +146,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test oas2-operation-formData-consume-check validator rule mockFiles/swagger/disabled-rules.yml', function() {
+  it('test oas2-operation-formData-consume-check validator rule mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -154,7 +154,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test oas2-operation-security-defined validator rule mockFiles/swagger/disabled-rules.yml', function() {
+  it('test oas2-operation-security-defined validator rule mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -162,7 +162,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
     );
   });
 
-  it('test oas2-parameter-description validator rule mockFiles/swagger/disabled-rules.yml', function() {
+  it('test oas2-parameter-description validator rule mockFiles/swagger/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -171,7 +171,7 @@ describe('spectral - test disabled rules - Swagger 2', function() {
   });
 });
 
-describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
+describe('spectral - test disabled rules - Swagger 2 In Memory', function () {
   let errors;
   let warnings;
 
@@ -188,13 +188,13 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     expect(validationResults.errors.length).toBeGreaterThan(0);
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
-    errors = validationResults.errors.map(error => error.message);
-    warnings = validationResults.warnings.map(warn => warn.message);
+    errors = validationResults.errors.map((error) => error.message);
+    warnings = validationResults.warnings.map((warn) => warn.message);
     expect(errors.length).toBeGreaterThan(0);
     expect(warnings.length).toBeGreaterThan(0);
   });
 
-  it('test contact-properties rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test contact-properties rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Contact object should have `name`, `url` and `email`.'
     );
@@ -203,14 +203,14 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test info-contact rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test info-contact rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain('Info object should contain `contact` object');
     expect(warnings).not.toContain(
       'Info object should contain `contact` object.'
     );
   });
 
-  it('test info-description rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test info-description rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'OpenAPI object info `description` must be present and non-empty string.'
     );
@@ -219,7 +219,7 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test info-license rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test info-license rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'OpenAPI object `info` should contain a `license` object.'
     );
@@ -228,12 +228,12 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test license-url rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test license-url rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain('License object should include `url`.');
     expect(warnings).not.toContain('License object should include `url`.');
   });
 
-  it('test no-$ref-siblings rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test no-$ref-siblings rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       '$ref cannot be placed next to any other properties'
     );
@@ -242,7 +242,7 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test openapi-tags-alphabetical rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test openapi-tags-alphabetical rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'OpenAPI object should have alphabetical `tags`.'
     );
@@ -251,7 +251,7 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test path-params rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test path-params rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Path parameter `pet_id` is defined multiple times. Path parameters must be unique.'
     );
@@ -260,12 +260,12 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test operation-operationId rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test operation-operationId rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain('Operation should have an `operationId`.');
     expect(warnings).not.toContain('Operation should have an `operationId`.');
   });
 
-  it('test operation-2xx-response rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test operation-2xx-response rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Operation must have at least one `2xx` response.'
     );
@@ -274,7 +274,7 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test operation-operationId-valid-in-url validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test operation-operationId-valid-in-url validator rule mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'operationId may only use characters that are valid when used in a URL.'
     );
@@ -283,7 +283,7 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test path-declarations-must-exist rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test path-declarations-must-exist rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Path parameter declarations cannot be empty, ex.`/given/{}` is invalid.'
     );
@@ -292,12 +292,12 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test operation-default-response rule using mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test operation-default-response rule using mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain('Operations must have a default response.');
     expect(warnings).not.toContain('Operations must have a default response.');
   });
 
-  it('test oas2-unused-definition validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test oas2-unused-definition validator rule mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Potentially unused definition has been detected.'
     );
@@ -306,7 +306,7 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test oas2-operation-security-defined validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test oas2-operation-security-defined validator rule mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Operation `security` values must match a scheme defined in the `securityDefinitions` object.'
     );
@@ -315,7 +315,7 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
     );
   });
 
-  it('test oas2-parameter-description validator rule mockFiles/swagger/disabled-rules-in-memory', function() {
+  it('test oas2-parameter-description validator rule mockFiles/swagger/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Parameter objects should have a `description`.'
     );
@@ -325,7 +325,7 @@ describe('spectral - test disabled rules - Swagger 2 In Memory', function() {
   });
 });
 
-describe(' spectral - test disabled rules - OAS3', function() {
+describe(' spectral - test disabled rules - OAS3', function () {
   let allOutput;
 
   beforeAll(async () => {
@@ -346,7 +346,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     consoleSpy.mockRestore();
   });
 
-  it('test contact-properties rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test contact-properties rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -354,7 +354,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test info-contact rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test info-contact rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -362,7 +362,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test info-description rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test info-description rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -370,7 +370,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test info-license rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test info-license rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -378,13 +378,13 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test license-url rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test license-url rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain('License object should include `url`.');
   });
 
-  it('test no-$ref-siblings rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test no-$ref-siblings rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -392,7 +392,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test openapi-tags-alphabetical rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test openapi-tags-alphabetical rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -400,13 +400,13 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test operation-default-response rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test operation-default-response rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain('Operations must have a default response');
   });
 
-  it('test path-params rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test path-params rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -414,13 +414,13 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test operation-operationId rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test operation-operationId rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain('Operation should have an `operationId`');
   });
 
-  it('test operation-2xx-response rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test operation-2xx-response rule using mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -428,7 +428,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test operation-parameters validator rule mockFiles/oas3/disabled-rules.yml', function() {
+  it('test operation-parameters validator rule mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -436,7 +436,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test operation-operationId-valid-in-url validator rule mockFiles/oas3/disabled-rules.yml', function() {
+  it('test operation-operationId-valid-in-url validator rule mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -444,21 +444,21 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test path-declarations-must-exist rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test path-declarations-must-exist rule using mockFiles/oas3/disabled-rules.yml', function () {
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
       'Path parameter declarations cannot be empty, ex.`/given/{}` is invalid'
     );
   });
 
-  it('test path-not-include-query rule using mockFiles/oas3/disabled-rules.yml', function() {
+  it('test path-not-include-query rule using mockFiles/oas3/disabled-rules.yml', function () {
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
       'given keys should not include a query string'
     );
   });
 
-  it('test oas3-unused-components-schema validator rule mockFiles/oas3/disabled-rules.yml', function() {
+  it('test oas3-unused-components-schema validator rule mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -466,7 +466,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test oas3-parameter-description validator rule mockFiles/oas3/disabled-rules.yml', function() {
+  it('test oas3-parameter-description validator rule mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -474,7 +474,7 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test oas3-operation-security-defined validator rule mockFiles/oas3/disabled-rules.yml', function() {
+  it('test oas3-operation-security-defined validator rule mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain(
@@ -482,14 +482,14 @@ describe(' spectral - test disabled rules - OAS3', function() {
     );
   });
 
-  it('test oas3-schema validator rule mockFiles/oas3/disabled-rules.yml', function() {
+  it('test oas3-schema validator rule mockFiles/oas3/disabled-rules.yml', function () {
     // rule is disabled, so spectral shouldn't produce a warning
     expect(allOutput).not.toContain('Validator: spectral');
     expect(allOutput).not.toContain('`type` property type should be string.');
   });
 });
 
-describe('spectral - test disabled rules - OAS3 In Memory', function() {
+describe('spectral - test disabled rules - OAS3 In Memory', function () {
   let errors;
   let warnings;
 
@@ -503,13 +503,13 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     expect(validationResults.errors.length).toBeGreaterThan(0);
     expect(validationResults.warnings.length).toBeGreaterThan(0);
 
-    errors = validationResults.errors.map(error => error.message);
-    warnings = validationResults.warnings.map(warn => warn.message);
+    errors = validationResults.errors.map((error) => error.message);
+    warnings = validationResults.warnings.map((warn) => warn.message);
     expect(errors.length).toBeGreaterThan(0);
     expect(warnings.length).toBeGreaterThan(0);
   });
 
-  it('test contact-properties rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test contact-properties rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Contact object should have `name`, `url` and `email`.'
     );
@@ -518,7 +518,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test info-contact rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test info-contact rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Info object should contain `contact` object.'
     );
@@ -527,7 +527,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test info-description rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test info-description rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'OpenAPI object info `description` must be present and non-empty string.'
     );
@@ -536,7 +536,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test info-license rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test info-license rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'OpenAPI object `info` should contain a `license` object.'
     );
@@ -545,12 +545,12 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test license-url rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test license-url rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain('License object should include `url`.');
     expect(warnings).not.toContain('License object should include `url`.');
   });
 
-  it('test no-$ref-siblings rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test no-$ref-siblings rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       '$ref cannot be placed next to any other properties'
     );
@@ -559,7 +559,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test openapi-tags-alphabetical rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test openapi-tags-alphabetical rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'OpenAPI object should have alphabetical `tags`.'
     );
@@ -568,12 +568,12 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test operation-default-response rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test operation-default-response rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain('Operations must have a default response.');
     expect(warnings).not.toContain('Operations must have a default response.');
   });
 
-  it('test path-params rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test path-params rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Path parameter `pet_id` is defined multiple times. Path parameters must be unique.'
     );
@@ -582,12 +582,12 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test operation-operationId rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test operation-operationId rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain('Operation should have an `operationId`.');
     expect(warnings).not.toContain('Operation should have an `operationId`.');
   });
 
-  it('test operation-2xx-response rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test operation-2xx-response rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Operation must have at least one `2xx` response.'
     );
@@ -596,7 +596,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test operation-operationId-valid-in-url validator rule mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test operation-operationId-valid-in-url validator rule mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'operationId may only use characters that are valid when used in a URL.'
     );
@@ -605,7 +605,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test path-declarations-must-exist rule using mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test path-declarations-must-exist rule using mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Path parameter declarations cannot be empty, ex.`/given/{}` is invalid.'
     );
@@ -614,7 +614,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test oas3-unused-components-schema validator rule mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test oas3-unused-components-schema validator rule mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Potentially unused components schema has been detected'
     );
@@ -623,7 +623,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test oas3-parameter-description validator rule mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test oas3-parameter-description validator rule mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Parameter objects should have a `description`'
     );
@@ -632,7 +632,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test oas3-operation-security-defined validator rule mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test oas3-operation-security-defined validator rule mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain(
       'Operation `security` values must match a scheme defined in the `components.securitySchemes` object`'
     );
@@ -641,7 +641,7 @@ describe('spectral - test disabled rules - OAS3 In Memory', function() {
     );
   });
 
-  it('test oas3-schema validator rule mockFiles/oas3/disabled-rules-in-memory', function() {
+  it('test oas3-schema validator rule mockFiles/oas3/disabled-rules-in-memory', function () {
     expect(errors).not.toContain('`type` property type should be string');
     expect(warnings).not.toContain('`type` property type should be string');
   });

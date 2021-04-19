@@ -77,11 +77,11 @@ program.parse(process.argv);
 
 // run the program
 cliValidator(program)
-  .then(exitCode => {
+  .then((exitCode) => {
     process.exitCode = exitCode;
     return exitCode;
   })
-  .catch(err => {
+  .catch((err) => {
     // if err is 2, it is because the message was caught
     // and printed already
     if (err !== 2) {

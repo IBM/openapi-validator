@@ -9,7 +9,7 @@
 
 const MessageCarrier = require('../../../utils/messageCarrier');
 
-module.exports.validate = function({ jsSpec }) {
+module.exports.validate = function ({ jsSpec }) {
   const messages = new MessageCarrier();
 
   // Regex taken from Semantic Versioning 2.0.0 documentation to check if string follows Semantic Versioning
