@@ -4,6 +4,7 @@ functions:
   - check-major-version
   - error-response-schema
   - response-example-provided
+  - schema-or-content-provided
 rules:
 
   # Original list created from Spectral with:
@@ -112,10 +113,10 @@ rules:
       function: truthy
   # custom Spectral rule to ensure content object contains schema
   content-entry-contains-schema:
-    description: Content entries in request and response bodies must specify a schema
+    description: Content entries must specify a schema
     given:
     - $.paths[*].[post,put,patch].requestBody.content[*]
-    - $.paths[*].[get,post,put,patch,delete].responses[*].content[*]
+    - $.paths[*].[get,post,put,patch,delete].[parameters,responses][*].content[*]
     severity: warn
     resolved: true
     then:
@@ -147,3 +148,13 @@ rules:
     severity: warn
     then:
       function: check-major-version
+  # ensure parameter contains schema
+  parameter-schema-or-content:
+    description: 'Parameter must provide either a schema or content'
+    message: "{{error}}"
+    severity: error
+    formats: ["oas3"]
+    resolved: true
+    given: $.paths[*][*].parameters[*]
+    then:
+      function: schema-or-content-provided
