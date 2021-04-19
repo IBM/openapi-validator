@@ -307,9 +307,7 @@ const processInput = async function(program) {
         results.errors['warnings-limit'] = [
           {
             path: [],
-            message: `Number of warnings (${numWarnings}) exceeds warnings limit (${
-              limitsObject.warnings
-            }).`
+            message: `Number of warnings (${numWarnings}) exceeds warnings limit (${limitsObject.warnings}).`
           }
         ];
       }

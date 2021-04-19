@@ -113,9 +113,7 @@ module.exports.validate = function({ resolvedSpec, isOAS3 }, config) {
   each(definedScopes, (info, name) => {
     if (info.used === false) {
       const path = isOAS3
-        ? `components.securitySchemes.${info.scheme}.flows.${
-            info.flow
-          }.scopes.${name}`
+        ? `components.securitySchemes.${info.scheme}.flows.${info.flow}.scopes.${name}`
         : `securityDefinitions.${info.scheme}.scopes.${name}`;
       messages.addMessage(
         path,
