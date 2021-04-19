@@ -112,9 +112,7 @@ module.exports.validate = function({ resolvedSpec }) {
       ) {
         messages.addMessage(
           parameterDefinition.$$path || `paths.${pathName}.parameters[${i}]`,
-          `Path parameter was defined but never used: ${
-            parameterDefinition.name
-          }`,
+          `Path parameter was defined but never used: ${parameterDefinition.name}`,
           'error'
         );
       }
@@ -139,9 +137,7 @@ module.exports.validate = function({ resolvedSpec }) {
         if (parameterDefinition.in === 'path') {
           messages.addMessage(
             `paths.${pathName}.parameters[${i}]`,
-            `Path parameter was defined but never used: ${
-              parameterDefinition.name
-            }`,
+            `Path parameter was defined but never used: ${parameterDefinition.name}`,
             'error'
           );
         }

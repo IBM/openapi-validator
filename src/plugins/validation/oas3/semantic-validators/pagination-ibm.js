@@ -133,9 +133,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       ) {
         messages.addMessage(
           ['paths', path, 'get', 'parameters', startParamIndex],
-          `The ${
-            startParam.name
-          } parameter must be of type string and optional.`,
+          `The ${startParam.name} parameter must be of type string and optional.`,
           checkStatus,
           'pagination_style'
         );
