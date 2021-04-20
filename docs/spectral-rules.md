@@ -83,6 +83,30 @@ responses:
 
 **Default Severity**: warn
 
+## ibm-error-content-type-is-json
+
+An error response likely returns `application/json` and this rule warns when `application/json` is not the content type. This rule should be ignored when the API actually returns an error response that is not `application/json`.
+
+**Bad Example**
+
+```yaml
+responses:
+  400:
+    content:
+      'application/octet-stream':
+```
+
+**Good Example**
+
+```yaml
+responses:
+  400:
+    content:
+      'application/json':
+```
+
+**Default Severity**: warn
+
 ## major-version-in-path
 
 Validates that every path contains a path segment for the API major version, of the form `v<n>`, and that all paths have the same major version segment. The major version can appear in either the server URL (oas3), the basePath (oas2), or in each path entry.

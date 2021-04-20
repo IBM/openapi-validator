@@ -135,6 +135,17 @@ rules:
     then:
       field: '*/*'
       function: falsy
+  # custom Spectral rule to warn for error response without application/json content
+  ibm-error-content-type-is-json:
+    description: 'error response should support application/json'
+    formats: ["oas3"]
+    severity: warn
+    resolved: true
+    message: "{{description}}"
+    given: $.paths[*][*].responses[?(@property >= 400 && @property < 600)].content
+    then:
+      field: 'application/json'
+      function: truthy
   # custom Spectral rule to ensure response example provided
   response-example-provided:
     message: "{{error}}"
