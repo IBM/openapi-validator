@@ -122,6 +122,19 @@ rules:
     then:
       field: schema
       function: truthy
+  # custom Spectral rule to warn for */*
+  ibm-content-type-is-specific:
+    description: '*/* should only be used when all content types are supported'
+    formats: ["oas3"]
+    severity: warn
+    resolved: true
+    message: "{{description}}"
+    given:
+    - $.paths[*][*][parameters,responses][*].content
+    - $.paths[*][*][requestBody].content
+    then:
+      field: '*/*'
+      function: falsy
   # custom Spectral rule to ensure response example provided
   response-example-provided:
     message: "{{error}}"

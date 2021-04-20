@@ -56,6 +56,33 @@ responses:
 
 **Default Severity**: warn
 
+## ibm-content-type-is-specific
+
+Should avoid the use of `*/*` content type unless the API actually supports all content types. When the API does support all content types, this warning should be ignored.
+
+**Bad Example**
+
+```yaml
+responses:
+  200:
+    content:
+      '*/*':
+```
+
+**Good Example**
+
+```yaml
+responses:
+  200:
+    content:
+      'application/json':
+        ...
+      'text/plain':
+        ...
+```
+
+**Default Severity**: warn
+
 ## major-version-in-path
 
 Validates that every path contains a path segment for the API major version, of the form `v<n>`, and that all paths have the same major version segment. The major version can appear in either the server URL (oas3), the basePath (oas2), or in each path entry.
