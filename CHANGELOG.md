@@ -1,3 +1,10 @@
+# [0.43.0](https://github.com/IBM/openapi-validator/compare/v0.42.0...v0.43.0) (2021-04-21)
+
+
+### Features
+
+* error for parameter without schema or content ([8b6e8bd](https://github.com/IBM/openapi-validator/commit/8b6e8bd7bb36aa70b97abc645db4178a0b9ecd42))
+
 # [0.42.0](https://github.com/IBM/openapi-validator/compare/v0.41.0...v0.42.0) (2021-04-14)
 
 
