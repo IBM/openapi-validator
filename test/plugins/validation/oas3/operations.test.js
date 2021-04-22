@@ -5,30 +5,6 @@ const {
 const config = require('../../../../src/.defaultsForValidator').defaults.oas3;
 
 describe('validation plugin - semantic - operations - oas3', function() {
-  it('should complain about a request body not having a content field', function() {
-    const spec = {
-      paths: {
-        '/pets': {
-          post: {
-            summary: 'this is a summary',
-            operationId: 'operationId',
-            requestBody: {
-              description: 'body for request'
-            }
-          }
-        }
-      }
-    };
-
-    const res = validate({ resolvedSpec: spec, jsSpec: spec }, config);
-    expect(res.errors.length).toEqual(1);
-    expect(res.errors[0].path).toEqual('paths./pets.post.requestBody');
-    expect(res.errors[0].message).toEqual(
-      'Request bodies MUST specify a `content` property'
-    );
-    expect(res.warnings.length).toEqual(0);
-  });
-
   it('should warn about an operation with a non-form, array schema request body that does not set a name', function() {
     const spec = {
       paths: {
