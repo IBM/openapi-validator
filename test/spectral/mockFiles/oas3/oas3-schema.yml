@@ -21,6 +21,8 @@ paths:
       operationId: get_pets
       tags:
         - pets
+      requestBody:
+        description: get request shouldn't have requestBody
       responses:
         '200':
           description: Expected response to a valid request
@@ -28,6 +30,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/Pets"
+    post:
+        summary: create a pet
+        description: create a pet
+        operationId: create_pets
+        tags:
+          - pets
+        requestBody:
+          description: request body should have content
+        responses:
+          '200':
+            description: Expected response to a valid request
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Pet"
 components:
   schemas:
     Pet:

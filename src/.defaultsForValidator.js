@@ -88,7 +88,6 @@ const defaults = {
   },
   'oas3': {
     'operations': {
-      'no_request_body_content': 'error',
       'no_request_body_name': 'warning'
     },
     'parameters': {

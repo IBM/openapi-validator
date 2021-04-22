@@ -1,5 +1,6 @@
 // Assertation 1. Request body objects must have a `content` property
 // https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#requestBodyObject
+// covered by Spectral's oas3-schema rule
 
 // Assertation 2. Operations with non-form request bodies should set the `x-codegen-request-body-name`
 // annotation (for code generation purposes)
@@ -32,19 +33,11 @@ module.exports.validate = function({ resolvedSpec, jsSpec }, config) {
       if (!op || op['x-sdk-exclude'] === true) {
         return;
       }
-      // Assertation 1
       if (op.requestBody) {
         const requestBodyContent = op.requestBody.content;
         const requestBodyMimeTypes =
           op.requestBody.content && Object.keys(requestBodyContent);
-        if (!requestBodyContent || !requestBodyMimeTypes.length) {
-          messages.addMessage(
-            `paths.${pathName}.${opName}.requestBody`,
-            'Request bodies MUST specify a `content` property',
-            config.no_request_body_content,
-            'no_request_body_content'
-          );
-        } else {
+        if (requestBodyContent && requestBodyMimeTypes.length) {
           // request body has content
           const firstMimeType = requestBodyMimeTypes[0]; // code generation uses the first mime type
           const oneContentType = requestBodyMimeTypes.length === 1;
