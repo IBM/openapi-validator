@@ -28,45 +28,6 @@ module.exports.validate = function({ jsSpec }, config) {
 
     // obj is a parameter object
     if (isContentsOfParameterObject && !isRef) {
-      const allowedInValues = ['query', 'header', 'path', 'cookie'];
-      if (!obj.in) {
-        // bad because in is required
-        messages.addMessage(
-          path,
-          'Parameters MUST have an `in` property.',
-          config.no_in_property,
-          'no_in_property'
-        );
-      } else if (!allowedInValues.includes(obj.in)) {
-        // bad because `in` must be one of a few values
-        messages.addMessage(
-          path.concat('in'),
-          `Unsupported value for \`in\`: '${
-            obj.in
-          }'. Allowed values are ${allowedInValues.join(', ')}`,
-          config.invalid_in_property,
-          'invalid_in_property'
-        );
-      }
-
-      if (!obj.schema && !obj.content) {
-        // bad because at least one is needed
-        messages.addMessage(
-          path,
-          'Parameters MUST have their data described by either `schema` or `content`.',
-          config.missing_schema_or_content,
-          'missing_schema_or_content'
-        );
-      } else if (obj.schema && obj.content) {
-        // bad because only one is allowed to be used at a time
-        messages.addMessage(
-          path,
-          'Parameters MUST NOT have both a `schema` and `content` property.',
-          config.has_schema_and_content,
-          'has_schema_and_content'
-        );
-      }
-
       const binaryStringStatus = configSchemas.json_or_param_binary_string;
       if (binaryStringStatus !== 'off') {
         const octetSequencePaths = [];
