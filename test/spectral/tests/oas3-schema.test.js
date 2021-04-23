@@ -61,4 +61,18 @@ describe('spectral - test oas3-schema errors', function() {
       expect(errorMessages).toContain('`1` property should not be valid.');
     });
   });
+
+  describe('spectral - test oas3-schema responses validation', function() {
+    it('should complain when responses object is empty', function() {
+      expect(errorMessages).toContain(
+        '`responses` property should not have fewer than 1 properties.'
+      );
+    });
+
+    it('should complain when response does not have a description', function() {
+      expect(errorMessages).toContain(
+        '`default` property should have required property `description`.'
+      );
+    });
+  });
 });

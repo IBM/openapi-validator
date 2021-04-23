@@ -37,13 +37,7 @@ paths:
           application/json:
             schema:
               type: string
-      responses:
-        '200':
-          description: Expected response to a valid request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Pets"
+      responses: {}
     post:
       summary: create a pet
       description: create a pet
@@ -54,7 +48,12 @@ paths:
         description: request body should have content
       responses:
         '200':
-          $ref: '#/components/responses/PetsResponse'
+          $ref: '#/components/responses/PetResponse'
+        default:
+          # no description
+          content:
+            application/json:
+              type: string
   /pets/{pet_id}:
     get:
       summary: List all pets
