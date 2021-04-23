@@ -9,10 +9,10 @@ info:
   contact:
     email: "apiteam@swagger.io"
 servers:
-  - url: http://petstore.swagger.io/v1
+- url: http://petstore.swagger.io/v1
 tags:
-  - name: pets
-    description: A pet
+- name: pets
+  description: A pet
 paths:
   /pets:
     get:
@@ -20,9 +20,23 @@ paths:
       description: List all pets
       operationId: get_pets
       tags:
-        - pets
-      requestBody:
-        description: get request shouldn't have requestBody
+      - pets
+      parameters:
+      - name: pet_name
+        description: return pets with given pet_name
+        in: invalid_in
+        required: true
+        schema:
+          type: string
+      - name: pet_tag
+        description: return pets with given pet_tag
+        in: query
+        schema:
+          type: string
+        content:
+          application/json:
+            schema:
+              type: string
       responses:
         '200':
           description: Expected response to a valid request
@@ -31,21 +45,46 @@ paths:
               schema:
                 $ref: "#/components/schemas/Pets"
     post:
-        summary: create a pet
-        description: create a pet
-        operationId: create_pets
-        tags:
-          - pets
-        requestBody:
-          description: request body should have content
-        responses:
-          '200':
-            description: Expected response to a valid request
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Pet"
+      summary: create a pet
+      description: create a pet
+      operationId: create_pets
+      tags:
+      - pets
+      requestBody:
+        description: request body should have content
+      responses:
+        '200':
+          $ref: '#/components/responses/PetsResponse'
+  /pets/{pet_id}:
+    get:
+      summary: List all pets
+      description: List all pets
+      operationId: get_pet
+      tags:
+      - pets
+      parameters:
+      - name: pet_id
+        description: pet id of pet to retrieve
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/PetResponse'
 components:
+  responses:
+    PetResponse:
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Pet"
+    PetsResponse:
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Pets"
   schemas:
     Pet:
       description: A pet
@@ -65,9 +104,12 @@ components:
         name: doggie
         tag: dog
     Pets:
-      type: array
-      items:
-        $ref: '#/components/schemas/Pet'
+      type: object
+      properties:
+        pets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Pet'
     DiscriminatorNotObject:
       discriminator: ''
     DiscriminatorMissingPropertyNameField:

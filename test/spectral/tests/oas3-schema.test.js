@@ -8,10 +8,12 @@ const oas3Schema = safeLoad(readFileSync(pathToOas3Schema));
 describe('spectral - test oas3-schema errors', function() {
   let res;
   let errorMessages;
+  let oas3SchemaErrors;
 
   beforeAll(async function() {
     res = await inCodeValidator(oas3Schema, true);
-    errorMessages = res.errors.map(err => err.message);
+    oas3SchemaErrors = res.errors.filter(err => err.rule === 'oas3-schema');
+    errorMessages = oas3SchemaErrors.map(err => err.message);
   });
 
   describe('spectral - test oas3-schema discriminator validation', function() {
@@ -39,6 +41,24 @@ describe('spectral - test oas3-schema errors', function() {
       expect(errorMessages).toContain(
         '`requestBody` property should have required property `content`.'
       );
+    });
+  });
+
+  describe('spectral - test oas3-schema parameters validation', function() {
+    it('should complain when `in` is missing from parameter', function() {
+      expect(errorMessages).toContain(
+        '`0` property should have required property `in`.'
+      );
+    });
+
+    it('should complain when `in` value is invalid', function() {
+      expect(errorMessages).toContain(
+        '`in` property should be equal to one of the allowed values: `path`. Did you mean `path`?.'
+      );
+    });
+
+    it('should complain when parameter has schema and content', function() {
+      expect(errorMessages).toContain('`1` property should not be valid.');
     });
   });
 });
