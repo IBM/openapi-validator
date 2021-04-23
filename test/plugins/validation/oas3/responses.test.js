@@ -83,45 +83,6 @@ describe('validation plugin - semantic - responses - oas3', function() {
     );
   });
 
-  it('should complain when a response is missing a description', function() {
-    const spec = {
-      paths: {
-        '/pets': {
-          get: {
-            summary: 'this is a summary',
-            operationId: 'operationId',
-            responses: {
-              '200': {
-                content: {
-                  'multipart/form-data': {
-                    schema: {
-                      type: 'string',
-                      format: 'binary'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    };
-
-    const res = validate({ resolvedSpec: spec }, config);
-    expect(res.warnings.length).toEqual(0);
-    expect(res.errors.length).toEqual(1);
-    expect(res.errors[0].path).toEqual([
-      'paths',
-      '/pets',
-      'get',
-      'responses',
-      '200'
-    ]);
-    expect(res.errors[0].message).toEqual(
-      'All responses must include a description.'
-    );
-  });
-
   it('should complain when 422 response code used', function() {
     const spec = {
       paths: {
@@ -378,58 +339,6 @@ describe('validation plugin - semantic - responses - oas3', function() {
     expect(res.warnings[3].message).toEqual(
       'JSON request/response bodies should not contain binary (type: string, format: binary) values.'
     );
-  });
-
-  it('should complain when response object only has a default', function() {
-    const spec = {
-      paths: {
-        '/pets': {
-          get: {
-            summary: 'this is a summary',
-            operationId: 'operationId',
-            responses: {
-              default: {
-                description: 'the default response'
-              }
-            }
-          }
-        }
-      }
-    };
-
-    const res = validate({ resolvedSpec: spec }, config);
-    expect(res.errors.length).toEqual(1);
-    expect(res.errors[0].path).toEqual(['paths', '/pets', 'get', 'responses']);
-    expect(res.errors[0].message).toEqual(
-      'Each `responses` object MUST have at least one response code.'
-    );
-    expect(res.warnings.length).toEqual(0);
-  });
-
-  it('should complain when no response codes are valid', function() {
-    const spec = {
-      paths: {
-        '/pets': {
-          get: {
-            summary: 'this is a summary',
-            operationId: 'operationId',
-            responses: {
-              '2007': {
-                description: 'an invalid response'
-              }
-            }
-          }
-        }
-      }
-    };
-
-    const res = validate({ resolvedSpec: spec }, config);
-    expect(res.errors.length).toEqual(1);
-    expect(res.errors[0].path).toEqual(['paths', '/pets', 'get', 'responses']);
-    expect(res.errors[0].message).toEqual(
-      'Each `responses` object MUST have at least one response code.'
-    );
-    expect(res.warnings.length).toEqual(0);
   });
 
   it('should not complain when there are no problems', function() {

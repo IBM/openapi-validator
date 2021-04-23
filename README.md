@@ -286,7 +286,6 @@ The supported rules are described below:
 | Rule                      | Description                                                  | Spec |
 | ------------------------- | ------------------------------------------------------------ | ---- |
 | inline_response_schema    | Flag any response object with a schema that doesn't reference a named model. Even if the model is only used once, naming it offers significant benefits for SDK generation. | shared |
-| no_response_codes         | Flag any response object that has no valid response codes.   | oas3 |
 | no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
 | no_response_body          | Flag any non-204 success responses without a response body.  | oas3 |
 | ibm_status_code_guidelines| Flag any violations of status code conventions per IBM API Handbook  | oas3 |
@@ -407,7 +406,6 @@ The default values for each rule are described below.
 ##### responses
 | Rule                      | Default |
 | ------------------------- | ------- |
-| no_response_codes         | error   |
 | no_success_response_codes | warning |
 | no_response_body          | warning |
 | ibm_status_code_guidelines| warning |
