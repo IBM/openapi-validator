@@ -303,7 +303,7 @@ describe('test expected output - OpenAPI 3', function() {
 
     expect(exitCode).toEqual(1);
     expect(allOutput).toContain('errors');
-    expect(allOutput).toContain('API definition must have an `info` object');
+    expect(allOutput).toContain('Object should have required property `info`.');
     expect(allOutput).toContain('warnings');
     expect(allOutput).toContain(
       'Operations must have a non-empty `operationId`.'
