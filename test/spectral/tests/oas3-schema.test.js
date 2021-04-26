@@ -94,6 +94,12 @@ describe('spectral - test oas3-schema errors', function() {
       );
     });
   });
+
+  describe('spectral - test oas3-schema schema object validation', function() {
+    it('should return an error for allOf schema that is not an array', async function() {
+      expect(errorMessages).toContain('`allOf` property type should be array.');
+    });
+  });
 });
 
 describe('spectral - additional oas3-schema tests that require an additional spec', function() {
