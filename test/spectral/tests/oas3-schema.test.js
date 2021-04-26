@@ -2,7 +2,10 @@ const inCodeValidator = require('../../../src/lib');
 const { readFileSync } = require('fs');
 const { safeLoad } = require('js-yaml');
 const { join } = require('path');
-const pathToOas3Schema = join(__dirname, '../mockFiles/oas3/oas3-schema.yml');
+const pathToOas3Schema = join(
+  __dirname,
+  '../mockFiles/oas3/oas3-schema-errors.yml'
+);
 const oas3Schema = safeLoad(readFileSync(pathToOas3Schema));
 
 describe('spectral - test oas3-schema errors', function() {
@@ -82,17 +85,71 @@ describe('spectral - test oas3-schema errors', function() {
         '`openapi` property type should be string.'
       );
     });
+  });
 
+  describe('spectral - test oas3-schema info object validation', function() {
+    it('should return an error when the info object does not have a version', async function() {
+      expect(errorMessages).toContain(
+        '`info` property should have required property `version`.'
+      );
+    });
+  });
+});
+
+describe('spectral - additional oas3-schema tests that require an additional spec', function() {
+  let res;
+  let errorMessages;
+  let oas3SchemaErrors;
+
+  beforeAll(async function() {
+    const spec = {
+      openapi: '3.0'
+    };
+
+    res = await inCodeValidator(spec, true);
+    oas3SchemaErrors = res.errors.filter(err => err.rule === 'oas3-schema');
+    errorMessages = oas3SchemaErrors.map(err => err.message);
+  });
+
+  describe('spectral - test oas3-schema openapi object validation', function() {
     it('should return an error when an openapi field is not a string', async function() {
-      const spec = {
-        openapi: '3.0'
-      };
-
-      const results = await inCodeValidator(spec, true);
-      const errors = results.errors.map(err => err.message);
-
-      expect(errors).toContain(
+      expect(errorMessages).toContain(
         '`openapi` property should match pattern `^3\\.0\\.\\d(-.+)?$`.'
+      );
+    });
+  });
+
+  describe('spectral - test oas3-schema info object validation', function() {
+    it('should return an error when the info object is not provided', async function() {
+      expect(errorMessages).toContain(
+        'Object should have required property `info`.'
+      );
+    });
+  });
+});
+
+describe('spectral - additional oas3-schema tests that require an additional spec', function() {
+  let res;
+  let errorMessages;
+  let oas3SchemaErrors;
+
+  beforeAll(async function() {
+    const spec = {
+      openapi: '3.0.0',
+      info: {
+        version: '1.0.0'
+      }
+    };
+
+    res = await inCodeValidator(spec, true);
+    oas3SchemaErrors = res.errors.filter(err => err.rule === 'oas3-schema');
+    errorMessages = oas3SchemaErrors.map(err => err.message);
+  });
+
+  describe('spectral - test oas3-schema info object validation', function() {
+    it('should return an error when the info object does not have a title', async function() {
+      expect(errorMessages).toContain(
+        '`info` property should have required property `title`.'
       );
     });
   });

@@ -1,7 +1,6 @@
 openapi: 3.0
 info:
   description: Sample API definition
-  version: 1.0.0
   title: Swagger Petstore
   license:
     name: MIT
