@@ -52,7 +52,8 @@ paths:
           # no description
           content:
             application/json:
-              type: string
+              schema:
+                $ref: '#/components/schemas/InvalidAllOfSchema'
   /pets/{pet_id}:
     get:
       summary: List all pets
@@ -115,3 +116,8 @@ components:
     DiscriminatorPropertyNameFieldNotAString:
       discriminator:
         propertyName: 1
+    InvalidAllOfSchema:
+      allOf:
+        # allOf should be an array not an object
+        schema1:
+          type: string

@@ -520,6 +520,7 @@ oas2-operation-formData-consume-check: true
 oas3-api-servers: true
 oas3-examples-value-or-externalValue: true
 oas3-server-trailing-slash: true
+oas3-schema: true
 oas3-valid-example: true
 oas3-valid-schema-example: true
 ```

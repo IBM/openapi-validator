@@ -62,25 +62,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
       modelLocations.includes(path[path.length - 2])
     ) {
       const pushLeafSchemas = (obj, path) => {
-        if (obj.allOf && !Array.isArray(obj.allOf)) {
-          messages.addMessage(
-            path.concat(['allOf']),
-            'allOf value should be an array',
-            'error'
-          );
-        } else if (isOAS3 && obj.oneOf && !Array.isArray(obj.oneOf)) {
-          messages.addMessage(
-            path.concat(['oneOf']),
-            'oneOf value should be an array',
-            'error'
-          );
-        } else if (isOAS3 && obj.anyOf && !Array.isArray(obj.anyOf)) {
-          messages.addMessage(
-            path.concat(['anyOf']),
-            'anyOf value should be an array',
-            'error'
-          );
-        } else if (obj.allOf && Array.isArray(obj.allOf)) {
+        if (obj.allOf && Array.isArray(obj.allOf)) {
           obj.allOf.forEach((e, i) =>
             pushLeafSchemas(e, [...path, 'allOf', i])
           );
