@@ -31,7 +31,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
 
   config = config.paths;
 
-  const pathNames = Object.keys(resolvedSpec.paths);
+  const pathNames = resolvedSpec.paths ? Object.keys(resolvedSpec.paths) : [];
 
   pathNames.forEach(pathName => {
     // get all path parameters contained in curly brackets

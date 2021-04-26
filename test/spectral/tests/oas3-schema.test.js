@@ -75,4 +75,25 @@ describe('spectral - test oas3-schema errors', function() {
       );
     });
   });
+
+  describe('spectral - test oas3-schema openapi object validation', function() {
+    it('should return an error when an openapi field is not a string', () => {
+      expect(errorMessages).toContain(
+        '`openapi` property type should be string.'
+      );
+    });
+
+    it('should return an error when an openapi field is not a string', async function() {
+      const spec = {
+        openapi: '3.0'
+      };
+
+      const results = await inCodeValidator(spec, true);
+      const errors = results.errors.map(err => err.message);
+
+      expect(errors).toContain(
+        '`openapi` property should match pattern `^3\\.0\\.\\d(-.+)?$`.'
+      );
+    });
+  });
 });
