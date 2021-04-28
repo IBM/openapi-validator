@@ -1,3 +1,11 @@
+# [0.44.0](https://github.com/IBM/openapi-validator/compare/v0.43.1...v0.44.0) (2021-04-28)
+
+
+### Features
+
+* warn for */* content types ([733b534](https://github.com/IBM/openapi-validator/commit/733b534b9d716508f070d36bab055cf3020e5869))
+* warn when error response content type is not application/json ([82f6398](https://github.com/IBM/openapi-validator/commit/82f63983a8c75ccbe0c57b0dad999fe826eccabf))
+
 ## [0.43.1](https://github.com/IBM/openapi-validator/compare/v0.43.0...v0.43.1) (2021-04-28)
 
 
