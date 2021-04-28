@@ -1,3 +1,10 @@
+## [0.43.1](https://github.com/IBM/openapi-validator/compare/v0.43.0...v0.43.1) (2021-04-28)
+
+
+### Bug Fixes
+
+* false positive when `limit` and `offset` properties included in `allOf` ([#284](https://github.com/IBM/openapi-validator/issues/284)) ([33f8a1c](https://github.com/IBM/openapi-validator/commit/33f8a1c4fc71d1ab90848060c17c03f7330ae1ed))
+
 # [0.43.0](https://github.com/IBM/openapi-validator/compare/v0.42.0...v0.43.0) (2021-04-21)
 
 
