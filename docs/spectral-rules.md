@@ -145,6 +145,35 @@ parameters:
 
 **Default Severity**: error
 
+## request-body-object
+
+Request bodies should be objects.
+
+**Bad Example**
+
+```yaml
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: string
+```
+
+**Good Example**
+
+```yaml
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          prop1:
+            type: string
+```
+
+**Default Severity**: warn
+
 ## response-example-provided
 
 Response examples are used to generate documentation. To improve the generated documentation, response examples should be provided in the schema object or "next to" the schema object.

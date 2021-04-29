@@ -163,6 +163,17 @@ rules:
     resolved: true
     then:
       function: error-response-schema
+  # ensure requestBody is an object
+  request-body-object:
+    description: "All request bodies MUST be structured as an object"
+    given: $.paths[*][*].requestBody.content[*].schema
+    severity: error
+    then:
+      field: type
+      function: enumeration
+      functionOptions:
+        values:
+        - object
   # ensure major version is in path
   major-version-in-path:
     description: 'All paths must contain the API major version as a distinct path segment'
