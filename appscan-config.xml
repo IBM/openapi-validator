@@ -3,6 +3,7 @@
     <Target path=".">
       <Exclude>test/</Exclude>
       <Exclude>README.md</Exclude>
+      <Exclude>node_modules/</Exclude>
     </Target>
   </Targets>
 </Configuration>
