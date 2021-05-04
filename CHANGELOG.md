@@ -1,3 +1,10 @@
+# [0.45.0](https://github.com/IBM/openapi-validator/compare/v0.44.0...v0.45.0) (2021-05-04)
+
+
+### Features
+
+* error for non-object request bodies ([#288](https://github.com/IBM/openapi-validator/issues/288)) ([ba00a8d](https://github.com/IBM/openapi-validator/commit/ba00a8dfffb202e131bb51ecb95b7eabfc77cc96))
+
 # [0.44.0](https://github.com/IBM/openapi-validator/compare/v0.43.1...v0.44.0) (2021-04-28)
 
 
