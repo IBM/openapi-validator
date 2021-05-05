@@ -107,6 +107,12 @@ responses:
 
 **Default Severity**: warn
 
+## ibm-sdk-operations
+
+Validates the structure of the `x-sdk-operations` object using [this JSON Schema document](/src/spectral/schemas/x-sdk-operations.json).
+
+**Default Severity**: warn
+
 ## major-version-in-path
 
 Validates that every path contains a path segment for the API major version, of the form `v<n>`, and that all paths have the same major version segment. The major version can appear in either the server URL (oas3), the basePath (oas2), or in each path entry.
