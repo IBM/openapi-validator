@@ -1,3 +1,10 @@
+# [0.46.0](https://github.com/IBM/openapi-validator/compare/v0.45.0...v0.46.0) (2021-05-05)
+
+
+### Features
+
+* validate `x-sdk-operations` extension ([#290](https://github.com/IBM/openapi-validator/issues/290)) ([019c06f](https://github.com/IBM/openapi-validator/commit/019c06ffc6975962de6d851e59a6df1840d25128))
+
 # [0.45.0](https://github.com/IBM/openapi-validator/compare/v0.44.0...v0.45.0) (2021-05-04)
 
 
