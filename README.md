@@ -567,6 +567,10 @@ You could also set the severity of `info-contact` explicitly to `error`, `warn`,
 New custom rules can be specified using a simple but powerful yaml syntax or with custom Javascript functions.
 Use the documentation on [Spectral custom rules](https://meta.stoplight.io/docs/spectral/docs/guides/4-custom-rulesets.md) in order to add these to your __.spectral.yaml__ file.
 
+#### Spectral exceptions
+
+Rather than turning off a Spectral rule entirely, Spectral exceptions allow you to exclude some directories/files from being validated against a rule.
+Use the documentation on [Spectral exceptions](https://meta.stoplight.io/docs/spectral/docs/guides/6-exceptions.md) to add exceptions to your __.spectral.yaml__ file.
 
 
 ## Warnings Limit
