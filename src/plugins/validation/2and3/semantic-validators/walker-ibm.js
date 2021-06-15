@@ -52,7 +52,7 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
 
     // check for and flag null values - they are not allowed by the spec and are likely mistakes
     Object.keys(obj).forEach(key => {
-      if (key !== 'default' && obj[key] === null) {
+      if (key !== 'default' && obj[key] === null && path[path.length - 1] !== 'enum') {
         messages.addMessage(
           [...path, key],
           'Null values are not allowed for any property.',
