@@ -1,3 +1,10 @@
+## [0.46.1](https://github.com/IBM/openapi-validator/compare/v0.46.0...v0.46.1) (2021-06-16)
+
+
+### Bug Fixes
+
+* allow null values inside enum property ([#306](https://github.com/IBM/openapi-validator/issues/306)) ([cbe6269](https://github.com/IBM/openapi-validator/commit/cbe62694dc6a64186de6bf3d22a1b95ca7590cb9))
+
 # [0.46.0](https://github.com/IBM/openapi-validator/compare/v0.45.0...v0.46.0) (2021-05-05)
 
 
