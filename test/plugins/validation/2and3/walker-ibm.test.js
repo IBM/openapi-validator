@@ -154,6 +154,30 @@ describe('validation plugin - semantic - walker-ibm', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
+  it('should not return an error when the enum property contains a null value', () => {
+    const spec = {
+      paths: {
+        '/pets': {
+          get: {
+            parameters: [
+              {
+                name: 'tags',
+                in: 'query',
+                nullable: true,
+                type: 'string',
+                enum: ['FOO', 'BAR', null]
+              }
+            ]
+          }
+        }
+      }
+    };
+
+    const res = validate({ jsSpec: spec }, config);
+    expect(res.errors.length).toEqual(0);
+    expect(res.warnings.length).toEqual(0);
+  });
+
   it('should complain if a description sibling to a $ref matches the referenced schema description', async () => {
     const spec = {
       paths: {
