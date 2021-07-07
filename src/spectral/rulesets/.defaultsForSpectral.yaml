@@ -72,8 +72,8 @@ rules:
   oas2-oneOf: true
   # Turn off
   oas2-schema: off
-  # Turn off - duplicates non-configurable validation in base validator
-  oas2-unused-definition: off
+  # Enable with same severity as Spectral
+  oas2-unused-definition: true
   # Enable with same severity as Spectral
   oas3-api-servers: true
   # Enable with same severity as Spectral
@@ -96,9 +96,9 @@ rules:
   oas3-valid-schema-example: warn
   # Enable with same severity as Spectral
   oas3-schema: true
-  # Turn off - duplicates non-configurable validation in base validator
-  oas3-unused-components-schema: off
-
+  # Enable with same severity as Spectral
+  oas3-unused-components-schema: true
+  
   # custom Spectral rule to ensure request bodies and non-204 responses provide content object
   content-entry-provided:
     description: Request bodies and non-204 responses should define a content object

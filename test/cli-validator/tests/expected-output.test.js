@@ -176,11 +176,11 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[20].match(/\S+/g)[2]).toEqual('172');
 
     // warnings
-    expect(capturedText[25].match(/\S+/g)[2]).toEqual('36');
-    expect(capturedText[29].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[33].match(/\S+/g)[2]).toEqual('15');
+    expect(capturedText[25].match(/\S+/g)[2]).toEqual('197');
+    expect(capturedText[29].match(/\S+/g)[2]).toEqual('36');
+    expect(capturedText[33].match(/\S+/g)[2]).toEqual('59');
     expect(capturedText[37].match(/\S+/g)[2]).toEqual('15');
-    expect(capturedText[41].match(/\S+/g)[2]).toEqual('197');
+    expect(capturedText[41].match(/\S+/g)[2]).toEqual('15');
     expect(capturedText[45].match(/\S+/g)[2]).toEqual('131');
     expect(capturedText[49].match(/\S+/g)[2]).toEqual('134');
     expect(capturedText[53].match(/\S+/g)[2]).toEqual('126');

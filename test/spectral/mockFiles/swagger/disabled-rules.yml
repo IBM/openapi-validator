@@ -239,11 +239,6 @@ definitions:
         description: "string"
     xml:
       name: "Tag"
-  Sibling:
-    $ref: "#/definitions/Category"
-    examples:
-    an_example:
-      name: something
   Pet:
     type: "object"
     description: "string"
