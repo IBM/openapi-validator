@@ -3,6 +3,7 @@ functionsDir: './ibm-oas'
 functions:
   - check-major-version
   - error-response-schema
+  - global-params
   - response-example-provided
   - schema-or-content-provided
 rules:
@@ -146,6 +147,15 @@ rules:
     then:
       field: 'application/json'
       function: truthy
+  # rule to locate candidates to be x-sdk-global-params
+  ibm-global-params:
+    description: 'parameter defined on every method, add `x-sdk-global-param` with value `true`'
+    severity: warn
+    resolved: true
+    message: "{{error}}"
+    given: $.paths
+    then:
+      function: global-params
   # custom Spectral rule to ensure valid x-sdk-operations schema
   ibm-sdk-operations:
     message: "{{error}}"

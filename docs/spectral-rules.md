@@ -107,11 +107,59 @@ responses:
 
 **Default Severity**: warn
 
+## ibm-global-params
+
+When a parameter is used in every operation, the parameter should have a field, `x-sdk-global-param: true`.
+
+**Bad Example**
+
+```yaml
+/path1:
+  get:
+    parameters:
+    - name: globalParam
+      in: query
+      description: this parameter is used in every operation
+      schema:
+        type: string
+/path2:
+  get:
+    parameters:
+    - name: globalParam
+      in: query
+      description: this parameter is used in every operation
+      schema:
+        type: string
+```
+
+**Good Example**
+
+```yaml
+/path1:
+  get:
+    parameters:
+    - name: globalParam
+      in: query
+      description: this parameter is used in every operation
+      x-sdk-global-param: true
+      schema:
+        type: string
+/path2:
+  get:
+    parameters:
+    - name: globalParam
+      in: query
+      description: this parameter is used in every operation
+      x-sdk-global-param: true
+      schema:
+        type: string
+```
+
+**Default Severity**: warn
+
 ## ibm-sdk-operations
 
 Validates the structure of the `x-sdk-operations` object using [this JSON Schema document](/src/spectral/schemas/x-sdk-operations.json).
-
-**Default Severity**: warn
 
 ## major-version-in-path
 
