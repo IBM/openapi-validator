@@ -55,7 +55,7 @@ module.exports.validate = function({ resolvedSpec }, config) {
       let globalParameters = [];
       if (path.parameters) {
         globalParameters = path.parameters
-          .filter(param => param.in.toLowerCase() === 'path')
+          .filter(param => param.in && param.in.toLowerCase() === 'path')
           .map(param => param.name);
       }
 
