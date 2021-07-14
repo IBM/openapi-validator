@@ -1,3 +1,10 @@
+## [0.46.2](https://github.com/IBM/openapi-validator/compare/v0.46.1...v0.46.2) (2021-07-14)
+
+
+### Bug Fixes
+
+* don't crash when parameter is missing required "in" property ([#308](https://github.com/IBM/openapi-validator/issues/308)) ([8bf7df5](https://github.com/IBM/openapi-validator/commit/8bf7df55464f5df5c62badadbacec3be99576659))
+
 ## [0.46.1](https://github.com/IBM/openapi-validator/compare/v0.46.0...v0.46.1) (2021-06-16)
 
 
