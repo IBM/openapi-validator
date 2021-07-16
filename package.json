@@ -24,7 +24,7 @@
     "commander": "^2.20.3",
     "deepmerge": "^2.2.1",
     "find-up": "^3.0.0",
-    "globby": "^8.0.2",
+    "globby": "^11.0.4",
     "js-yaml": "^3.14.1",
     "json-dup-key-validator": "^1.0.3",
     "json-schema-ref-parser": "^5.1.3",
