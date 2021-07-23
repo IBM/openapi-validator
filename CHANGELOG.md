@@ -1,3 +1,10 @@
+## [0.46.3](https://github.com/IBM/openapi-validator/compare/v0.46.2...v0.46.3) (2021-07-23)
+
+
+### Bug Fixes
+
+* vulnerability fix updating package ([#309](https://github.com/IBM/openapi-validator/issues/309)) ([2418feb](https://github.com/IBM/openapi-validator/commit/2418febf54ac8b9d3f296a9262eaefca0bf332ed))
+
 ## [0.46.2](https://github.com/IBM/openapi-validator/compare/v0.46.1...v0.46.2) (2021-07-14)
 
 
