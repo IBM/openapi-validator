@@ -110,15 +110,17 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
       } else {
         // check operationId for case convention
         const checkStatus = config.operation_id_case_convention[0];
-        const caseConvention = config.operation_id_case_convention[1];
-        const isCorrectCase = checkCase(op.operationId, caseConvention);
-        if (!isCorrectCase) {
-          messages.addMessage(
-            `paths.${pathKey}.${opKey}.operationId`,
-            `operationIds must follow case convention: ${caseConvention}`,
-            checkStatus,
-            'operation_id_case_convention'
-          );
+        if (checkStatus !== 'off') {
+          const caseConvention = config.operation_id_case_convention[1];
+          const isCorrectCase = checkCase(op.operationId, caseConvention);
+          if (!isCorrectCase) {
+            messages.addMessage(
+              `paths.${pathKey}.${opKey}.operationId`,
+              `operationIds must follow case convention: ${caseConvention}`,
+              checkStatus,
+              'operation_id_case_convention'
+            );
+          }
         }
       }
       const hasOperationTags = op.tags && op.tags.length > 0;
