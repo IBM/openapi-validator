@@ -1,3 +1,10 @@
+## [0.46.4](https://github.com/IBM/openapi-validator/compare/v0.46.3...v0.46.4) (2021-07-26)
+
+
+### Bug Fixes
+
+* enable disabling of `operation_id_case_convention` ([#313](https://github.com/IBM/openapi-validator/issues/313)) ([5ffb9fb](https://github.com/IBM/openapi-validator/commit/5ffb9fb847d48c5fab1b93b0e01b0be73cee0d7d))
+
 ## [0.46.3](https://github.com/IBM/openapi-validator/compare/v0.46.2...v0.46.3) (2021-07-23)
 
 
