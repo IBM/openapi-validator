@@ -3,6 +3,7 @@ functionsDir: './ibm-oas'
 functions:
   - check-major-version
   - error-response-schema
+  - required-property
   - response-example-provided
   - schema-or-content-provided
 rules:
@@ -167,6 +168,18 @@ rules:
     severity: warn
     then:
       function: check-major-version
+  # ensure required properties are in the schema
+  missing-required-property:
+    description: 'A required property is not in the schema'
+    message: "{{error}}"
+    formats: ["oas2", "oas3"]
+    given:
+    - $.paths[*][*][parameters][*].schema
+    - $.paths[*][*][parameters,responses][*].content[*].schema
+    - $.paths[*][*][requestBody].content[*].schema
+    severity: error
+    then:
+      function: required-property
   # ensure parameter contains schema
   parameter-schema-or-content:
     description: 'Parameter must provide either a schema or content'
