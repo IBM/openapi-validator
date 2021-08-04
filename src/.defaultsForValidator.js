@@ -69,7 +69,6 @@ const defaults = {
       'property_case_convention': [ 'error', 'lower_snake_case'],
       'property_case_collision': 'error',
       'enum_case_convention': [ 'warning', 'lower_snake_case'],
-      'undefined_required_properties': 'warning'
     },
     'walker': {
       'no_empty_descriptions': 'error',
@@ -136,7 +135,8 @@ const defaults = {
 */
 const deprecated = {
   'no_produces_for_get': 'no_produces',
-  'parameters.snake_case_only': 'param_name_case_convention'
+  'parameters.snake_case_only': 'param_name_case_convention',
+  'undefined_required_properties': 'missing-required-property',
 };
 
 const configOptions = {
