@@ -27,7 +27,6 @@ function traverseSchema(schema, path) {
     const composedSchemas = schema[whichComposedSchemaType];
     if (Array.isArray(composedSchemas)) {
       composedSchemas.forEach(function(composedSchema, index) {
-        // TODO: is this the right way to get the index?
         errors.push(
           ...traverseSchema(composedSchema, [
             ...path,

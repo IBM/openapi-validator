@@ -44,7 +44,9 @@ describe('spectral - test validation that required properties are in the schema'
                         properties: {
                           date_prop1: {
                             type: 'string',
-                            format: 'date'
+                            format: 'date',
+                            minLength: 1,
+                            maxLength: 10
                           },
                           string_prop2: {
                             type: 'string' // missing pattern, minLength, maxLength
