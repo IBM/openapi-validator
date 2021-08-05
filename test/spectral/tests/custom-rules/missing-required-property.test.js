@@ -1,3 +1,4 @@
+const { lastIndexOf } = require('lodash');
 const inCodeValidator = require('../../../../src/lib');
 
 describe('spectral - test validation that required properties are in the schema', function() {
@@ -176,113 +177,97 @@ describe('spectral - test validation that required properties are in the schema'
       err => err.rule === 'missing-required-property'
     );
     expect(expectedErrors.length).toBe(8);
-    expect(expectedErrors[0].message).toBe(
-      'Required property, param_prop1, not in the schema'
-    );
-    expect(expectedErrors[0].path).toEqual([
-      'paths',
-      '/createPet',
-      'post',
-      'parameters',
-      '0',
-      'schema'
-    ]);
-    expect(expectedErrors[1].message).toBe(
-      'Required property, prop3, not in the schema'
-    );
-    expect(expectedErrors[1].path).toEqual([
-      'paths',
-      '/createPet',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema'
-    ]);
-    expect(expectedErrors[2].message).toBe(
-      'Required property, prop4, not in the schema'
-    );
-    expect(expectedErrors[2].path).toEqual([
-      'paths',
-      '/createPet',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema'
-    ]);
-    expect(expectedErrors[3].message).toBe(
-      'Required property, internal_prop2, not in the schema'
-    );
-    expect(expectedErrors[3].path).toEqual([
-      'paths',
-      '/createPet',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'prop1',
-      'properties',
-      'p'
-    ]);
-    expect(expectedErrors[4].message).toBe(
-      'Required property, items_prop2, not in the schema'
-    );
-    expect(expectedErrors[4].path).toEqual([
-      'paths',
-      '/createPet',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'prop2',
-      'items'
-    ]);
-    expect(expectedErrors[5].message).toBe(
-      'Required property, all_of_prop2, must be defined in at least one of the allOf schemas'
-    );
-    expect(expectedErrors[5].path).toEqual([
-      'paths',
-      '/createPet',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'all_of_test_prop'
-    ]);
-    expect(expectedErrors[6].message).toBe(
-      'Required property, any_of_prop2, must be defined in all of the anyOf/oneOf schemas'
-    );
-    expect(expectedErrors[6].path).toEqual([
-      'paths',
-      '/createPet',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'any_of_test_prop'
-    ]);
-    expect(expectedErrors[7].message).toBe(
-      'Required property, one_of_prop2, not in the schema'
-    );
-    expect(expectedErrors[7].path).toEqual([
-      'paths',
-      '/createPet',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'one_of_test_prop'
-    ]);
+    const expectedPathsDict = {
+      param_prop1: [
+        'paths',
+        '/createPet',
+        'post',
+        'parameters',
+        '0',
+        'schema'
+      ],
+      prop3: [
+        'paths',
+        '/createPet',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema'
+      ],
+      prop4: [
+        'paths',
+        '/createPet',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema'
+      ],
+      internal_prop2: [
+        'paths',
+        '/createPet',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'prop1',
+        'properties',
+        'p'
+      ],
+      items_prop2: [
+        'paths',
+        '/createPet',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'prop2',
+        'items'
+      ],
+      all_of_prop2: [
+        'paths',
+        '/createPet',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'all_of_test_prop'
+      ],
+      any_of_prop2: [
+        'paths',
+        '/createPet',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'any_of_test_prop'
+      ],
+      one_of_prop2: [
+        'paths',
+        '/createPet',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'one_of_test_prop'
+      ],
+    }
+
+    expectedErrors.forEach(function(expectedError) {
+      expect(expectedError.message).toMatch(('Required property, '));
+      const propName = expectedError.message.substring(19, lastIndexOf(expectedError.message, ','));
+      expect(expectedError.path).toEqual(expectedPathsDict[propName]);
+    });
   });
 });
