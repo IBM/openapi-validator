@@ -136,7 +136,7 @@ const defaults = {
 const deprecated = {
   'no_produces_for_get': 'no_produces',
   'parameters.snake_case_only': 'param_name_case_convention',
-  'undefined_required_properties': 'missing-required-property',
+  'undefined_required_properties': 'missing-required-property (Spectral rule)',
 };
 
 const configOptions = {

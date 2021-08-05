@@ -178,14 +178,7 @@ describe('spectral - test validation that required properties are in the schema'
     );
     expect(expectedErrors.length).toBe(8);
     const expectedPathsDict = {
-      param_prop1: [
-        'paths',
-        '/createPet',
-        'post',
-        'parameters',
-        '0',
-        'schema'
-      ],
+      param_prop1: ['paths', '/createPet', 'post', 'parameters', '0', 'schema'],
       prop3: [
         'paths',
         '/createPet',
@@ -261,12 +254,15 @@ describe('spectral - test validation that required properties are in the schema'
         'schema',
         'properties',
         'one_of_test_prop'
-      ],
-    }
+      ]
+    };
 
     expectedErrors.forEach(function(expectedError) {
-      expect(expectedError.message).toMatch(('Required property, '));
-      const propName = expectedError.message.substring(19, lastIndexOf(expectedError.message, ','));
+      expect(expectedError.message).toMatch('Required property, ');
+      const propName = expectedError.message.substring(
+        19,
+        lastIndexOf(expectedError.message, ',')
+      );
       expect(expectedError.path).toEqual(expectedPathsDict[propName]);
     });
   });
