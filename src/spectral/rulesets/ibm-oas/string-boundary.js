@@ -44,7 +44,7 @@ function traverseSchema(schema, path) {
 function stringBoundaryErrors(stringSchema, path) {
   const errors = [];
   if (!stringSchema.enum) {
-    if (!stringSchema.pattern) {
+    if (!stringSchema.pattern && !['binary', 'date', 'date-time'].includes(stringSchema.format)) {
       errors.push({
         message: 'Should define a pattern for a valid string',
         path

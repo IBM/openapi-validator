@@ -42,11 +42,9 @@ describe('spectral - test validation that required properties are in the schema'
                       prop1: {
                         type: 'object',
                         properties: {
-                          string_prop1: {
+                          date_prop1: {
                             type: 'string',
-                            pattern: '[a-zA-Z0-9]+',
-                            minLength: 1,
-                            maxLength: 30
+                            format: 'date'
                           },
                           string_prop2: {
                             type: 'string' // missing pattern, minLength, maxLength
