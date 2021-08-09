@@ -10,44 +10,9 @@
 
 const { walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/messageCarrier');
-const at = require('lodash/at');
 const isPlainObject = require('lodash/isPlainObject');
 
-const reduceObj = function(jsSpec, obj) {
-  if (obj['$ref']) {
-    const objPath = obj['$ref'].split('/');
-    objPath.shift();
-    return reduceObj(jsSpec, at(jsSpec, [objPath])[0]);
-  }
-  return obj;
-};
-
-const checkReqProp = function(jsSpec, obj, requiredProp) {
-  obj = reduceObj(jsSpec, obj);
-  if (obj.properties && obj.properties[requiredProp]) {
-    return true;
-  } else if (Array.isArray(obj.anyOf) || Array.isArray(obj.oneOf)) {
-    const childList = obj.anyOf || obj.oneOf;
-    let reqPropDefined = true;
-    childList.forEach(childObj => {
-      if (!checkReqProp(jsSpec, childObj, requiredProp)) {
-        reqPropDefined = false;
-      }
-    });
-    return reqPropDefined;
-  } else if (Array.isArray(obj.allOf)) {
-    let reqPropDefined = false;
-    obj.allOf.forEach(childObj => {
-      if (checkReqProp(jsSpec, childObj, requiredProp)) {
-        reqPropDefined = true;
-      }
-    });
-    return reqPropDefined;
-  }
-  return false;
-};
-
-module.exports.validate = function({ jsSpec }, config) {
+module.exports.validate = function({ jsSpec }) {
   const messages = new MessageCarrier();
 
   walk(jsSpec, [], function(obj, path) {
@@ -69,22 +34,6 @@ module.exports.validate = function({ jsSpec }, config) {
           "Schema objects with 'array' type require an 'items' property",
           'error'
         );
-      }
-
-      // Assertation 2
-      const undefinedRequiredProperties =
-        config.schemas.undefined_required_properties;
-      if (Array.isArray(obj.required)) {
-        obj.required.forEach((requiredProp, i) => {
-          if (!checkReqProp(jsSpec, obj, requiredProp)) {
-            messages.addMessage(
-              path.concat([`required[${i}]`]).join('.'),
-              "Schema properties specified as 'required' should be defined",
-              undefinedRequiredProperties,
-              'schemas.undefined_required_properties'
-            );
-          }
-        });
       }
     }
 

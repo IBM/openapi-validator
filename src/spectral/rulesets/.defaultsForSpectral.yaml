@@ -3,6 +3,7 @@ functionsDir: './ibm-oas'
 functions:
   - check-major-version
   - error-response-schema
+  - required-property
   - response-example-provided
   - schema-or-content-provided
 rules:
@@ -158,14 +159,37 @@ rules:
       functionOptions:
         schema:
           $ref: './schemas/x-sdk-operations.json'
-  # custom Spectral rule to ensure response example provided
-  response-example-provided:
+  # ensure major version is in path
+  major-version-in-path:
+    description: 'All paths must contain the API major version as a distinct path segment'
     message: "{{error}}"
-    given: $.paths[*][*].responses[?(@property >= 200 && @property < 300)].content.application/json
+    formats: ["oas2", "oas3"]
+    given: $
     severity: warn
-    resolved: true
     then:
-      function: response-example-provided
+      function: check-major-version
+  # ensure required properties are in the schema
+  missing-required-property:
+    description: 'A required property is not in the schema'
+    message: "{{error}}"
+    formats: ["oas2", "oas3"]
+    given:
+    - $.paths[*][*][parameters][*].schema
+    - $.paths[*][*][parameters,responses][*].content[*].schema
+    - $.paths[*][*][requestBody].content[*].schema
+    severity: error
+    then:
+      function: required-property
+  # ensure parameter contains schema
+  parameter-schema-or-content:
+    description: 'Parameter must provide either a schema or content'
+    message: "{{error}}"
+    severity: error
+    formats: ["oas3"]
+    resolved: true
+    given: $.paths[*][*].parameters[*]
+    then:
+      function: schema-or-content-provided
   # ensure error response has content
   response-error-response-schema:
     message: "{{error}}"
@@ -175,6 +199,14 @@ rules:
     resolved: true
     then:
       function: error-response-schema
+  # custom Spectral rule to ensure response example provided
+  response-example-provided:
+    message: "{{error}}"
+    given: $.paths[*][*].responses[?(@property >= 200 && @property < 300)].content.application/json
+    severity: warn
+    resolved: true
+    then:
+      function: response-example-provided
   # ensure requestBody is an object
   request-body-object:
     description: "All request bodies MUST be structured as an object"
@@ -186,22 +218,3 @@ rules:
       functionOptions:
         values:
         - object
-  # ensure major version is in path
-  major-version-in-path:
-    description: 'All paths must contain the API major version as a distinct path segment'
-    message: "{{error}}"
-    formats: ["oas2", "oas3"]
-    given: $
-    severity: warn
-    then:
-      function: check-major-version
-  # ensure parameter contains schema
-  parameter-schema-or-content:
-    description: 'Parameter must provide either a schema or content'
-    message: "{{error}}"
-    severity: error
-    formats: ["oas3"]
-    resolved: true
-    given: $.paths[*][*].parameters[*]
-    then:
-      function: schema-or-content-provided
