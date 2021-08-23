@@ -11,6 +11,9 @@ components:
     A:
       description: a string
       type: string
+      pattern: '[a-zA-Z0-9]'
+      minLength: 1
+      maxLength: 40
     B:
       description: a boolean
       type: boolean
@@ -29,6 +32,9 @@ components:
           - type: string
             format: url
             description: 'url string'
+            pattern: 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+            minLength: 0
+            maxLength: 100
     Ok:
       description: ok object
       type: object

@@ -363,7 +363,7 @@ describe('test expected output - OpenAPI 3', function() {
     const validationResults = await inCodeValidator(oas3Object, defaultMode);
 
     expect(validationResults.errors.length).toBe(4);
-    expect(validationResults.warnings.length).toBe(16);
+    expect(validationResults.warnings.length).toBe(40);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 

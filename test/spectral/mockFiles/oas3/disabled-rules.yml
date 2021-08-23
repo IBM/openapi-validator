@@ -134,6 +134,9 @@ paths:
           description: The id of the pet to retrieve
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]*$'
+            minLength: 1
+            maxLength: 50
       security:
         - apikey: []
       responses:
@@ -163,6 +166,9 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '^[a-zA-Z0-9]*$'
+            minLength: 1
+            maxLength: 50
       responses:
         405:
           description: "Invalid input"
@@ -197,9 +203,15 @@ components:
         name:
           type: string
           description: "name property"
+          pattern: '^[a-zA-Z0-9]*$'
+          minLength: 1
+          maxLength: 50
         tag:
           type: string
           description: "tag property"
+          pattern: '^[a-zA-Z0-9]*$'
+          minLength: 1
+          maxLength: 50
       example:
         id: 1
         name: doggie
