@@ -1,3 +1,11 @@
+# [0.47.0](https://github.com/IBM/openapi-validator/compare/v0.46.4...v0.47.0) (2021-09-03)
+
+
+### Features
+
+* check for missing required properties ([#314](https://github.com/IBM/openapi-validator/issues/314)) ([c6ebc28](https://github.com/IBM/openapi-validator/commit/c6ebc282447e6a1419b5af0baf977458d0641277))
+* string schema should define enum or pattern, minLength, maxLength ([#315](https://github.com/IBM/openapi-validator/issues/315)) ([27b7c7d](https://github.com/IBM/openapi-validator/commit/27b7c7dd733bcca84b55bc3b0f825499ad9961e8))
+
 ## [0.46.4](https://github.com/IBM/openapi-validator/compare/v0.46.3...v0.46.4) (2021-07-26)
 
 
