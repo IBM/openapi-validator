@@ -1,3 +1,10 @@
+## [0.47.1](https://github.com/IBM/openapi-validator/compare/v0.47.0...v0.47.1) (2021-09-13)
+
+
+### Bug Fixes
+
+* add 101 and 202 responses as exceptions for `content-entry-provided` rule ([#320](https://github.com/IBM/openapi-validator/issues/320)) ([cdb0e47](https://github.com/IBM/openapi-validator/commit/cdb0e47d29f1bcdd8400b928b05de349882e453a))
+
 # [0.47.0](https://github.com/IBM/openapi-validator/compare/v0.46.4...v0.47.0) (2021-09-03)
 
 
