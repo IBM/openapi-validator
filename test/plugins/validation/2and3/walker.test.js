@@ -583,6 +583,37 @@ describe('validation plugin - semantic - spec walker', () => {
         expect(res.errors.length).toEqual(0);
         expect(res.warnings.length).toEqual(0);
       });
+
+      it('should not return a problem for a ref to another file', function() {
+        const spec = {
+          paths: {
+            '/foobar': {
+              get: {
+                responses: {
+                  '200': {
+                    content: {
+                      'application/json': {
+                        schema: {
+                          allOf: [
+                            {
+                              $ref:
+                                'schemas/foobar.yml#/components/schemas/FoobarResourcesDocument'
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const res = validate({ jsSpec: spec, isOAS3: true }, config);
+        expect(res.errors.length).toEqual(0);
+        expect(res.warnings.length).toEqual(0);
+      });
     });
 
     describe('Ref siblings', () => {
