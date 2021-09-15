@@ -11,21 +11,21 @@ describe('spectral - test whether servers variables have default value', () => {
       servers: [
         {
           url: 'https://example.com',
-          description: 'Description'
+          description: 'This server does not have variable'
         },
         {
           url: 'http://example2.com/{variable1}',
-          description: 'Description 2',
+          description: 'This server does have variable, but it has value.',
           variables: {
             variable1: {
               default: 'default value',
-              description: 'some description'
+              description: 'Warning will not be displayed'
             }
           }
         },
         {
           url: 'http://example2.com/{variable1}/{variable2}',
-          description: 'Description 3',
+          description: 'This server has multiple variable with default values',
           variables: {
             variable1: {
               default: 'default value',
@@ -52,12 +52,13 @@ describe('spectral - test whether servers variables have default value', () => {
       openapi: '3.0.0',
       info: {
         version: '1.0.0',
-        title: 'Server variables have default value'
+        title: 'Server variable does not have default value'
       },
       servers: [
         {
           url: 'https://example.com',
-          description: 'Description',
+          description:
+            'Since the variable does not have value a warning will be displayed',
           variables: {
             name: {
               default: ''
