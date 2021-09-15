@@ -232,3 +232,15 @@ rules:
     - $.paths[*][*].requestBody.content[*].schema
     then:
       function: string-boundary
+
+  # ensure server variable has default value
+  server-variable-default-value:
+    description: 'Server variable should have default value'
+    message: "{{error}}"
+    severity: warn
+    resolved: false
+    formats: ["oas3"]
+    given:
+      - $.servers[*][variables][*][default]
+    then:
+      function: truthy
