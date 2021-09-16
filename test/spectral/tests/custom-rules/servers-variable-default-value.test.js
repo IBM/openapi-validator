@@ -109,26 +109,19 @@ describe('spectral - test whether servers variables have default value', () => {
       elem => elem.message === 'Server variable should have default value'
     );
     expect(errorMessageFilter.length).toBe(2);
-
-    let pathHits = 0;
-    const expectedPathName = ['servers', '0', 'variables', 'name', 'default']
-      .sort()
-      .join('');
-    const expectedPathAddress = [
+    expect(errorMessageFilter[0].path).toEqual([
+      'servers',
+      '0',
+      'variables',
+      'name',
+      'default'
+    ]);
+    expect(errorMessageFilter[1].path).toEqual([
       'servers',
       '0',
       'variables',
       'address',
       'default'
-    ]
-      .sort()
-      .join('');
-    for (let i = 0; i < errorMessageFilter.length; i++) {
-      const path = errorMessageFilter[i].path.sort().join('');
-      if (path === expectedPathName || path === expectedPathAddress) {
-        pathHits++;
-      }
-    }
-    expect(pathHits).toBe(2);
+    ]);
   });
 });
