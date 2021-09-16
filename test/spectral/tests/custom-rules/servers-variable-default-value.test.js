@@ -47,7 +47,7 @@ describe('spectral - test whether servers variables have default value', () => {
     expect(result).toBeUndefined();
   });
 
-  it('should show warning when server default does not have default value', async () => {
+  it('should show warning when server variable does not have default value', async () => {
     const spec = {
       openapi: '3.0.0',
       info: {
@@ -69,9 +69,66 @@ describe('spectral - test whether servers variables have default value', () => {
       paths: {}
     };
     const res = await inCodeValidator(spec, true);
-    const result = res.warnings.find(
-      elem => elem.rule === 'server-variable-default-value'
+    const errorMessageFind = res.warnings.find(
+      elem => elem.message === 'Server variable should have default value'
     );
-    expect(result).not.toBeUndefined();
+    expect(errorMessageFind).not.toBeUndefined();
+
+    const expectedPath = ['servers', '0', 'variables', 'name', 'default'];
+    expect(errorMessageFind.path.sort().join('')).toBe(
+      expectedPath.sort().join('')
+    );
+  });
+
+  it('should show warning when multiple server variable default value does not have default value', async () => {
+    const spec = {
+      openapi: '3.0.0',
+      info: {
+        version: '1.0.0',
+        title: 'Server variable does not have default value'
+      },
+      servers: [
+        {
+          url: 'https://example.com',
+          description:
+            'Since the variable does not have value a warning will be displayed',
+          variables: {
+            name: {
+              default: ''
+            },
+            address: {
+              default: ''
+            }
+          }
+        }
+      ],
+      paths: {}
+    };
+    const res = await inCodeValidator(spec, true);
+    const errorMessageFilter = res.warnings.filter(
+      elem => elem.message === 'Server variable should have default value'
+    );
+    expect(errorMessageFilter.length).toBe(2);
+
+    let pathHits = 0;
+    const expectedPathName = ['servers', '0', 'variables', 'name', 'default']
+      .sort()
+      .join('');
+    const expectedPathAddress = [
+      'servers',
+      '0',
+      'variables',
+      'address',
+      'default'
+    ]
+      .sort()
+      .join('');
+    for (let i = 0; i < errorMessageFilter.length; i++) {
+      const path = errorMessageFilter[i].path.sort().join('');
+      if (path === expectedPathName || path === expectedPathAddress) {
+        pathHits++;
+      }
+    }
+    expect(pathHits).toBe(2);
   });
 });

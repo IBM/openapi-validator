@@ -236,7 +236,7 @@ rules:
   # ensure server variable has default value
   server-variable-default-value:
     description: 'Server variable should have default value'
-    message: "{{error}}"
+    message: "{{description}}"
     severity: warn
     resolved: false
     formats: ["oas3"]
