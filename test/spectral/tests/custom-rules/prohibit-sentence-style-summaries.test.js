@@ -90,28 +90,13 @@ describe('spectral - summaries do not have trailing period', () => {
       v => v.rule === 'prohibit-summary-sentence-style'
     );
     expect(errors.length).toBe(2);
-    const createTrailingPeriodErrorPath = [
+
+    expect(errors[0].path).toEqual([
       'paths',
       'createTrailingPeriod',
       'post',
       'summary'
-    ]
-      .sort()
-      .join('');
-    const createUserErrorPath = ['paths', 'createUser', 'post', 'summary']
-      .sort()
-      .join('');
-
-    let counter = 0;
-    for (let i = 0; i < errors.length; i++) {
-      const errorPath = errors[i].path.sort().join('');
-      if (
-        errorPath === createTrailingPeriodErrorPath ||
-        errorPath === createUserErrorPath
-      ) {
-        counter++;
-      }
-    }
-    expect(counter).toBe(2);
+    ]);
+    expect(errors[1].path).toEqual(['paths', 'createUser', 'post', 'summary']);
   });
 });
