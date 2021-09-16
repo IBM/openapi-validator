@@ -7,7 +7,7 @@ const spectralValidator = require('../spectral/utils/spectral-validator');
 const dedupFunction = require('../cli-validator/utils/noDeduplication');
 const { Spectral } = require('@stoplight/spectral');
 
-module.exports = async function(input, defaultMode = false) {
+module.exports = async function(input, defaultMode = false, configFileOverride = null) {
   // process the config file for the validations &
   // create an instance of spectral & load the spectral ruleset, either a user's
   // or the default ruleset
@@ -18,7 +18,7 @@ module.exports = async function(input, defaultMode = false) {
   });
 
   try {
-    configObject = await config.get(defaultMode, chalk);
+    configObject = await config.get(defaultMode, chalk, configFileOverride);
     await spectralValidator.setup(spectral, null, configObject);
   } catch (err) {
     return Promise.reject(err);
