@@ -1,3 +1,10 @@
+# [0.48.0](https://github.com/IBM/openapi-validator/compare/v0.47.1...v0.48.0) (2021-09-16)
+
+
+### Features
+
+* server variables must have default value ([#322](https://github.com/IBM/openapi-validator/issues/322)) ([483f4bf](https://github.com/IBM/openapi-validator/commit/483f4bf122f7f4222735c4ce74d3502b0bfce363))
+
 ## [0.47.1](https://github.com/IBM/openapi-validator/compare/v0.47.0...v0.47.1) (2021-09-13)
 
 
