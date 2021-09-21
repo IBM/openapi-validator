@@ -244,3 +244,14 @@ rules:
       - $.servers[*][variables][*][default]
     then:
       function: truthy
+  # ensure HEAD request does not have response body
+  head-request-should-not-have-response-body:
+    description: 'HEAD request response should not have body'
+    message: "{{description}}"
+    severity: warn
+    resolved: true
+    formats: ["oas3"]
+    given:
+      - $.paths[*].head.responses[*].content
+    then:
+      function: falsy
