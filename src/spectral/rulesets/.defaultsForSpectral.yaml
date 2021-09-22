@@ -244,3 +244,17 @@ rules:
       - $.servers[*][variables][*][default]
     then:
       function: truthy
+
+  # ensure that examples name does not contain space
+  examples-name-should-not-contain-space:
+    description: 'Examples name should not contain space'
+    message: "{{description}}"
+    severity: warn
+    resolved: true
+    formats: ["oas3"]
+    given:
+      - $.paths[*][*].responses[*][*][*].examples
+    then:
+      function: pattern
+      notMatch: '*\\ *'
+
