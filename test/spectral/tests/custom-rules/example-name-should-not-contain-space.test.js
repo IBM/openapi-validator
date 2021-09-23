@@ -1,12 +1,10 @@
 const commandLineValidator = require('../../../../src/cli-validator/runValidator');
-const inCodeValidator = require('../../../../src/lib');
 const { getCapturedText } = require('../../../test-utils');
-const re = /^Validator: spectral/;
+const { getMessageAndPathFromCapturedText } = require('../../../test-utils');
 
-describe('spectral - examples name should not contain space', function() {
-
-  it('should not display error when examples name does not have space', async () => {
-    // const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+describe('spectral - examples name should not contain space', () => {
+  it('should not display error when examples name does not contain space', async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     const program = {};
     program.args = [
       './test/spectral/mockFiles/examples-name-should-not-contain-space/positive-case.yaml'
@@ -15,34 +13,42 @@ describe('spectral - examples name should not contain space', function() {
     program.print_validator_modules = true;
 
     const exitCode = await commandLineValidator(program);
-    // const capturedText = getCapturedText(consoleSpy.mock.calls);
-    // const allOutput = capturedText.join('');
-    //
-    // const validatorsText = allOutput.match(/Validator:\s\w.+/g) || [];
-    // // const foundOtherValidator = false;
-    //
-    // expect(validatorsText.length).toBeGreaterThan(0);
-    // expect(exitCode).toEqual(0);
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+
+    const messages = getMessageAndPathFromCapturedText(
+      'Examples name should not contain space',
+      capturedText
+    );
+
+    expect(messages.length).toEqual(0);
+
+    expect(exitCode).toEqual(0);
   });
 
-  // it('should display error when examples name contains space', async () => {
-  //   const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
-  //   const program = {};
-  //   program.args = [
-  //     './test/mockFiles/examples-name-should-not-contain-space/negative-case.yaml'
-  //   ];
-  //   program.defaul_mode = true;
-  //   program.print_validatior_modules = true;
-  //
-  //   const exitCode = await commandLineValidator(program);
-  //   const capturedText = getCapturedText(consoleSpy.mock.calls);
-  //   const allOutput = capturedText.join('');
-  //
-  //   const validatorsText = allOutput.match(/Validator:\s\w.+/g) || [];
-  //   // const foundOtherValidator = false;
-  //
-  //   expect(validatorsText.length).toBeGreaterThan(0);
-  //   expect(exitCode).toEqual(0);
-  // });
+  it('should display error when multiple examples names contain space', async () => {
+    const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    const program = {};
+    program.args = [
+      './test/spectral/mockFiles/examples-name-should-not-contain-space/negative-case.yaml'
+    ];
+    program.default_mode = true;
+    program.print_validator_modules = true;
 
+    const exitCode = await commandLineValidator(program);
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+
+    const messages = getMessageAndPathFromCapturedText(
+      'Examples name should not contain space',
+      capturedText
+    );
+
+    expect(messages[0][1].get('Path')).toEqual(
+      'paths./v1/users.get.responses.200.content.application/json.examples.success example'
+    );
+    expect(messages[1][1].get('Path')).toEqual(
+      'paths./v1/users.get.responses.200.content.application/json.examples.failed example'
+    );
+
+    expect(exitCode).toEqual(0);
+  });
 });
