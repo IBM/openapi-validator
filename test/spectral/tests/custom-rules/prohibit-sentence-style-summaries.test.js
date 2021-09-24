@@ -21,7 +21,7 @@ describe('spectral - summaries do not have trailing period', () => {
     };
 
     const result = await inCodeValidator(spec, true);
-    const relevantError = result.errors.find(
+    const relevantError = result.warnings.find(
       v => v.rule === 'prohibit-summary-sentence-style'
     );
     expect(relevantError).toBeUndefined();
@@ -48,7 +48,7 @@ describe('spectral - summaries do not have trailing period', () => {
 
     const validationResult = await inCodeValidator(spec, true);
     expect(validationResult.errors).not.toBeUndefined();
-    const error = validationResult.errors.find(
+    const error = validationResult.warnings.find(
       v => v.rule === 'prohibit-summary-sentence-style'
     );
     expect(error).not.toBeUndefined();
@@ -86,7 +86,7 @@ describe('spectral - summaries do not have trailing period', () => {
 
     const validationResult = await inCodeValidator(spec, true);
     expect(validationResult.errors).not.toBeUndefined();
-    const errors = validationResult.errors.filter(
+    const errors = validationResult.warnings.filter(
       v => v.rule === 'prohibit-summary-sentence-style'
     );
     expect(errors.length).toBe(2);

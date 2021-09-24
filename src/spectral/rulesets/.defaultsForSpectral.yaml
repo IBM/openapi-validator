@@ -247,7 +247,7 @@ rules:
   prohibit-summary-sentence-style:
     description: 'Summary should not have a trailing period'
     message: "{{description}}"
-    severity: error
+    severity: warn
     formats: ["oas3"]
     resolved: false
     given:
