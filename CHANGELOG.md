@@ -1,3 +1,10 @@
+# [0.49.0](https://github.com/IBM/openapi-validator/compare/v0.48.0...v0.49.0) (2021-09-27)
+
+
+### Features
+
+* prohibit sentence style summaries ([20bf923](https://github.com/IBM/openapi-validator/commit/20bf9237ef87e66e9141ccc61e6dbffd1515c38e))
+
 # [0.48.0](https://github.com/IBM/openapi-validator/compare/v0.47.1...v0.48.0) (2021-09-16)
 
 
