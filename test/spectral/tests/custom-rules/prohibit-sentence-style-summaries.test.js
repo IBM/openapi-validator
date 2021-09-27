@@ -48,14 +48,17 @@ describe('spectral - summaries do not have trailing period', () => {
 
     const validationResult = await inCodeValidator(spec, true);
     expect(validationResult.errors).not.toBeUndefined();
-    const error = validationResult.warnings.find(
+    const errors = validationResult.warnings.filter(
       v => v.rule === 'prohibit-summary-sentence-style'
     );
-    expect(error).not.toBeUndefined();
-    const errorPath = ['paths', 'createTrailingPeriod', 'post', 'summary']
-      .sort()
-      .join('');
-    expect(errorPath).toBe(error.path.sort().join(''));
+    expect(errors).not.toBeUndefined();
+    expect(errors.length).toBe(1);
+    expect(errors[0].path).toEqual([
+      'paths',
+      'createTrailingPeriod',
+      'post',
+      'summary'
+    ]);
   });
 
   it('should display errors when multiple summaries have trailing periods', async () => {
