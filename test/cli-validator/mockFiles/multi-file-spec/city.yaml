@@ -1,0 +1,7 @@
+schema:
+  properties:
+    name:
+      type: string
+    primary_team:
+      type: object
+      $ref: ./sports-team.yaml#/schema

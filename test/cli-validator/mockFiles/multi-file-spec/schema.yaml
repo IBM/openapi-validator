@@ -4,3 +4,10 @@ components:
   schemas:
     SchemaDef:
       type: object
+    CircularSchema:
+      type: object
+      properties:
+        id:
+          type: string
+        city:
+          $ref: ./city.yaml#/schema
