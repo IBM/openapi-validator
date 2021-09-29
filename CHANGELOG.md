@@ -1,3 +1,10 @@
+# [0.50.0](https://github.com/IBM/openapi-validator/compare/v0.49.0...v0.50.0) (2021-09-29)
+
+
+### Features
+
+* examples' name should not contain space ([#332](https://github.com/IBM/openapi-validator/issues/332)) ([053d9da](https://github.com/IBM/openapi-validator/commit/053d9da387624e56006197354be2fcc82ae3ef70))
+
 # [0.49.0](https://github.com/IBM/openapi-validator/compare/v0.48.0...v0.49.0) (2021-09-27)
 
 
