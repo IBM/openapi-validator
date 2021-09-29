@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: Examples name should not contain space
+  description: Examples name should not contain space
+  version: 1.0.0
+servers:
+  - url: 'https://example.com'
+paths:
+  /v1/users:
+    get:
+      operationId: get_users
+      summary: returns user list
+      responses:
+        200:
+          description: returns list of users
+          content:
+            'application/json':
+              schema:
+                properties:
+                  id:
+                    type: string
+              examples:
+                success:
+                  summary: 'successful example'
+                  value: 'success value'
+                fail:
+                  summary: 'failed request'
+                  value: 'failed request value'
+

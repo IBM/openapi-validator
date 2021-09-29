@@ -243,6 +243,19 @@ rules:
       - $.servers[*][variables][*][default]
     then:
       function: truthy
+  # ensure that examples name does not contain space
+  examples-name-contains-space:
+    description: 'Examples name should not contain space'
+    message: "{{description}}"
+    severity: warn
+    resolved: false
+    formats: ["oas3"]
+    given:
+      - $.paths[*][*].responses[*][*][*].examples[*]~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: '^(.*\s+.*)+$'
   # ensure summary field does not have trailing comma
   prohibit-summary-sentence-style:
     description: 'Summary should not have a trailing period'
