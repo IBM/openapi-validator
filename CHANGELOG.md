@@ -1,3 +1,10 @@
+## [0.50.1](https://github.com/IBM/openapi-validator/compare/v0.50.0...v0.50.1) (2021-09-29)
+
+
+### Bug Fixes
+
+* handle multi-file spec circular reference edge case ([#333](https://github.com/IBM/openapi-validator/issues/333)) ([172c027](https://github.com/IBM/openapi-validator/commit/172c027f32a8831b6100c4e7fac9ef38de2c940c))
+
 # [0.50.0](https://github.com/IBM/openapi-validator/compare/v0.49.0...v0.50.0) (2021-09-29)
 
 
