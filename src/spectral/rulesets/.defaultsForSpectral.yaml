@@ -256,5 +256,5 @@ rules:
     then:
       function: pattern
       functionOptions:
-        notMatch: '[a-zA-Z0-9]\ +[a-zA-Z0-9]'
+        notMatch: '^(.*\s+.*)+$'
 
