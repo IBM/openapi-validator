@@ -245,7 +245,7 @@ rules:
     then:
       function: truthy
   # ensure that examples name does not contain space
-  examples-name-should-not-contain-space:
+  examples-name-contains-space:
     description: 'Examples name should not contain space'
     message: "{{description}}"
     severity: warn
