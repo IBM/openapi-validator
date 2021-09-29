@@ -232,7 +232,6 @@ rules:
     - $.paths[*][*].requestBody.content[*].schema
     then:
       function: string-boundary
-
   # ensure server variable has default value
   server-variable-default-value:
     description: 'Server variable should have default value'
@@ -257,4 +256,16 @@ rules:
       function: pattern
       functionOptions:
         notMatch: '[a-zA-Z0-9]\ +[a-zA-Z0-9]'
-
+  # ensure summary field does not have trailing comma
+  prohibit-summary-sentence-style:
+    description: 'Summary should not have a trailing period'
+    message: "{{description}}"
+    severity: warn
+    formats: ["oas3"]
+    resolved: false
+    given:
+    - $.paths[*][*].summary
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: "\\.$"
