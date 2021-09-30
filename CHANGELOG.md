@@ -1,3 +1,10 @@
+# [0.51.0](https://github.com/IBM/openapi-validator/compare/v0.50.1...v0.51.0) (2021-09-30)
+
+
+### Features
+
+* add configFileOverride to in-code validator ([#331](https://github.com/IBM/openapi-validator/issues/331)) ([9a259d1](https://github.com/IBM/openapi-validator/commit/9a259d19486aec0e370c9ac8a4bc87894a3c483d))
+
 ## [0.50.1](https://github.com/IBM/openapi-validator/compare/v0.50.0...v0.50.1) (2021-09-29)
 
 
