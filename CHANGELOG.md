@@ -1,3 +1,10 @@
+## [0.51.1](https://github.com/IBM/openapi-validator/compare/v0.51.0...v0.51.1) (2021-10-01)
+
+
+### Bug Fixes
+
+* false positive when minLength, maxLength are 0 ([#334](https://github.com/IBM/openapi-validator/issues/334)) ([e8c5220](https://github.com/IBM/openapi-validator/commit/e8c5220aa51e6779216db53cdba2616d5b9f7c52))
+
 # [0.51.0](https://github.com/IBM/openapi-validator/compare/v0.50.1...v0.51.0) (2021-09-30)
 
 
