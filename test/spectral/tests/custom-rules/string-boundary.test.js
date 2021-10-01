@@ -45,11 +45,17 @@ describe('spectral - test validation that required properties are in the schema'
                           date_prop1: {
                             type: 'string',
                             format: 'date',
-                            minLength: 1,
+                            minLength: 0, // minLength 0 should not cause error
                             maxLength: 10
                           },
                           string_prop2: {
                             type: 'string' // missing pattern, minLength, maxLength
+                          },
+                          string_prop3: {
+                            type: 'string',
+                            pattern: '[a-zA-Z0-9]+',
+                            minLength: 1, // minLength greater than maxLength
+                            maxLength: 0
                           },
                           array_prop: {
                             type: 'array',
@@ -96,7 +102,7 @@ describe('spectral - test validation that required properties are in the schema'
       err => err.rule === 'string-boundary'
     );
 
-    expect(expectedWarnings.length).toBe(12); // 4 props x 3 warnings per prop
+    expect(expectedWarnings.length).toBe(13); // 4 props x 3 warnings per prop
 
     expect(expectedWarnings[0].message).toBe(
       'Should define a pattern for a valid string'
@@ -180,9 +186,8 @@ describe('spectral - test validation that required properties are in the schema'
       'properties',
       'string_prop2'
     ]);
-
     expect(expectedWarnings[6].message).toBe(
-      'Should define a pattern for a valid string'
+      'minLength must be less than maxLength'
     );
     expect(expectedWarnings[6].path).toEqual([
       'paths',
@@ -195,15 +200,10 @@ describe('spectral - test validation that required properties are in the schema'
       'properties',
       'prop1',
       'properties',
-      'array_prop',
-      'items',
-      'anyOf',
-      '0',
-      'properties',
-      'any_of_prop2'
+      'string_prop3'
     ]);
     expect(expectedWarnings[7].message).toBe(
-      'Should define a minLength for a valid string'
+      'Should define a pattern for a valid string'
     );
     expect(expectedWarnings[7].path).toEqual([
       'paths',
@@ -224,7 +224,7 @@ describe('spectral - test validation that required properties are in the schema'
       'any_of_prop2'
     ]);
     expect(expectedWarnings[8].message).toBe(
-      'Should define a maxLength for a valid string'
+      'Should define a minLength for a valid string'
     );
     expect(expectedWarnings[8].path).toEqual([
       'paths',
@@ -244,9 +244,8 @@ describe('spectral - test validation that required properties are in the schema'
       'properties',
       'any_of_prop2'
     ]);
-
     expect(expectedWarnings[9].message).toBe(
-      'Should define a pattern for a valid string'
+      'Should define a maxLength for a valid string'
     );
     expect(expectedWarnings[9].path).toEqual([
       'paths',
@@ -262,10 +261,13 @@ describe('spectral - test validation that required properties are in the schema'
       'array_prop',
       'items',
       'anyOf',
-      '1'
+      '0',
+      'properties',
+      'any_of_prop2'
     ]);
+
     expect(expectedWarnings[10].message).toBe(
-      'Should define a minLength for a valid string'
+      'Should define a pattern for a valid string'
     );
     expect(expectedWarnings[10].path).toEqual([
       'paths',
@@ -284,9 +286,28 @@ describe('spectral - test validation that required properties are in the schema'
       '1'
     ]);
     expect(expectedWarnings[11].message).toBe(
-      'Should define a maxLength for a valid string'
+      'Should define a minLength for a valid string'
     );
     expect(expectedWarnings[11].path).toEqual([
+      'paths',
+      '/createPet',
+      'post',
+      'requestBody',
+      'content',
+      'application/json',
+      'schema',
+      'properties',
+      'prop1',
+      'properties',
+      'array_prop',
+      'items',
+      'anyOf',
+      '1'
+    ]);
+    expect(expectedWarnings[12].message).toBe(
+      'Should define a maxLength for a valid string'
+    );
+    expect(expectedWarnings[12].path).toEqual([
       'paths',
       '/createPet',
       'post',

@@ -42,9 +42,9 @@ function traverseSchema(schema, path) {
 
 function stringBoundaryErrors(stringSchema, path) {
   const errors = [];
-  if (!stringSchema.enum) {
+  if (isUndefinedOrNull(stringSchema.enum)) {
     if (
-      !stringSchema.pattern &&
+      isUndefinedOrNull(stringSchema.pattern) &&
       !['binary', 'date', 'date-time'].includes(stringSchema.format)
     ) {
       errors.push({
@@ -52,18 +52,32 @@ function stringBoundaryErrors(stringSchema, path) {
         path
       });
     }
-    if (!stringSchema.minLength) {
+    if (isUndefinedOrNull(stringSchema.minLength)) {
       errors.push({
         message: 'Should define a minLength for a valid string',
         path
       });
     }
-    if (!stringSchema.maxLength) {
+    if (isUndefinedOrNull(stringSchema.maxLength)) {
       errors.push({
         message: 'Should define a maxLength for a valid string',
         path
       });
     }
+    if (
+      !isUndefinedOrNull(stringSchema.minLength) &&
+      !isUndefinedOrNull(stringSchema.maxLength) &&
+      stringSchema.minLength > stringSchema.maxLength
+    ) {
+      errors.push({
+        message: 'minLength must be less than maxLength',
+        path
+      });
+    }
   }
   return errors;
+}
+
+function isUndefinedOrNull(obj) {
+  return obj === undefined || obj === null;
 }
