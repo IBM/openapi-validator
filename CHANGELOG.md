@@ -1,3 +1,10 @@
+## [0.51.2](https://github.com/IBM/openapi-validator/compare/v0.51.1...v0.51.2) (2021-10-08)
+
+
+### Bug Fixes
+
+* pac-resolver force dependency to 5.0.0 ([#335](https://github.com/IBM/openapi-validator/issues/335)) ([03154e3](https://github.com/IBM/openapi-validator/commit/03154e341eafb0b56199131ccb3359367a01359e))
+
 ## [0.51.1](https://github.com/IBM/openapi-validator/compare/v0.51.0...v0.51.1) (2021-10-01)
 
 
