@@ -6,6 +6,7 @@
   "repository": "https://github.com/IBM/openapi-validator",
   "license": "Apache-2.0",
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "link": "npm install -g",
     "unlink": "npm uninstall -g",
     "test": "jest test/",
@@ -48,6 +49,7 @@
     "eslint-config-prettier": "^3.6.0",
     "eslint-plugin-prettier": "^2.7.0",
     "jest": "^26.6.3",
+    "npm-force-resolutions": "0.0.10",
     "pkg": "^4.5.1",
     "prettier": "^1.19.1",
     "semantic-release": "^17.4.2",
@@ -71,5 +73,8 @@
     "collectCoverage": true,
     "coverageDirectory": "./coverage/",
     "testEnvironment": "node"
+  },
+  "resolutions": {
+    "pac-resolver": "5.0.0"
   }
 }
