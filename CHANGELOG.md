@@ -1,3 +1,10 @@
+## [0.51.3](https://github.com/IBM/openapi-validator/compare/v0.51.2...v0.51.3) (2021-10-11)
+
+
+### Bug Fixes
+
+* remove npm_force_resolutions from pre-install step to fix user package install ([#337](https://github.com/IBM/openapi-validator/issues/337)) ([0a02977](https://github.com/IBM/openapi-validator/commit/0a02977760716fc42afa5eb6e5bf09be2e7835de))
+
 ## [0.51.2](https://github.com/IBM/openapi-validator/compare/v0.51.1...v0.51.2) (2021-10-08)
 
 
