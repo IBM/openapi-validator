@@ -6,7 +6,7 @@
   "repository": "https://github.com/IBM/openapi-validator",
   "license": "Apache-2.0",
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
+    "force-deps": "npx npm-force-resolutions",
     "link": "npm install -g",
     "unlink": "npm uninstall -g",
     "test": "jest test/",
