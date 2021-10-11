@@ -270,7 +270,7 @@ rules:
       functionOptions:
         notMatch: "\\.$"
   # ensure HEAD request does not have response body
-  head-request-should-not-have-response-body:
+  response-head-response-with-content:
     description: 'HEAD request response should not have body'
     message: "{{description}}"
     severity: warn
