@@ -1,0 +1,7 @@
+schema:
+  properties:
+    name:
+      type: string
+    location:
+      type: object
+      $ref: ./city.yaml#/schema

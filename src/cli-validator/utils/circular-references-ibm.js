@@ -64,6 +64,7 @@ const convertPaths = function(jsSpec, resolvedPaths) {
   resolvedPaths.forEach(path => {
     let realPath = [];
     let previous = jsSpec;
+
     // path is an array of keys leading to the circular reference
     for (let i = 0; i < path.length; i++) {
       const key = path[i];
@@ -79,12 +80,14 @@ const convertPaths = function(jsSpec, resolvedPaths) {
       const lastKey = i === path.length - 1;
       if (!lastKey) {
         const nextKey = path[i + 1];
+
         // Only follow $ref if the next key is not present
         if (!current[nextKey] && current.$ref) {
           // locationArray holds the keys to the references object in the spec
           const locationArray = current.$ref
             .split('/')
             .filter(refKey => refKey !== '#');
+
           // since we are following a ref to the first object level,
           // realPath needs to be reset
           realPath = [...locationArray];
@@ -95,7 +98,25 @@ const convertPaths = function(jsSpec, resolvedPaths) {
           for (const refKey of locationArray) {
             const refCurrent = refPrevious[refKey];
             refPrevious = refCurrent;
+
+            // this should only happen in a specific multi-file spec scenario - schemas across
+            // files that reference one another (creating a circular reference)
+            // the bundler doesn't handle this situation well, so there isn't a lot we can do other than
+            // break out of the loop to avoid any runtime errors
+            if (!refPrevious) {
+              break;
+            }
           }
+
+          // as mentioned above, this should only happen in rare, multi-file spec scenarios.
+          // break from the loop, then go ahead and return the resolved path to the user,
+          // who will have to manually trace it to the source
+          // there is not really a better way to handle it without major changes
+          if (!refPrevious) {
+            realPath = path;
+            break;
+          }
+
           // set the parent current object to the object found at the
           // referenced path to continue using the keys in the parent loop
           current = refPrevious;

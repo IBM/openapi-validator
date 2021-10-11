@@ -1,3 +1,45 @@
+## [0.51.2](https://github.com/IBM/openapi-validator/compare/v0.51.1...v0.51.2) (2021-10-08)
+
+
+### Bug Fixes
+
+* pac-resolver force dependency to 5.0.0 ([#335](https://github.com/IBM/openapi-validator/issues/335)) ([03154e3](https://github.com/IBM/openapi-validator/commit/03154e341eafb0b56199131ccb3359367a01359e))
+
+## [0.51.1](https://github.com/IBM/openapi-validator/compare/v0.51.0...v0.51.1) (2021-10-01)
+
+
+### Bug Fixes
+
+* false positive when minLength, maxLength are 0 ([#334](https://github.com/IBM/openapi-validator/issues/334)) ([e8c5220](https://github.com/IBM/openapi-validator/commit/e8c5220aa51e6779216db53cdba2616d5b9f7c52))
+
+# [0.51.0](https://github.com/IBM/openapi-validator/compare/v0.50.1...v0.51.0) (2021-09-30)
+
+
+### Features
+
+* add configFileOverride to in-code validator ([#331](https://github.com/IBM/openapi-validator/issues/331)) ([9a259d1](https://github.com/IBM/openapi-validator/commit/9a259d19486aec0e370c9ac8a4bc87894a3c483d))
+
+## [0.50.1](https://github.com/IBM/openapi-validator/compare/v0.50.0...v0.50.1) (2021-09-29)
+
+
+### Bug Fixes
+
+* handle multi-file spec circular reference edge case ([#333](https://github.com/IBM/openapi-validator/issues/333)) ([172c027](https://github.com/IBM/openapi-validator/commit/172c027f32a8831b6100c4e7fac9ef38de2c940c))
+
+# [0.50.0](https://github.com/IBM/openapi-validator/compare/v0.49.0...v0.50.0) (2021-09-29)
+
+
+### Features
+
+* examples' name should not contain space ([#332](https://github.com/IBM/openapi-validator/issues/332)) ([053d9da](https://github.com/IBM/openapi-validator/commit/053d9da387624e56006197354be2fcc82ae3ef70))
+
+# [0.49.0](https://github.com/IBM/openapi-validator/compare/v0.48.0...v0.49.0) (2021-09-27)
+
+
+### Features
+
+* prohibit sentence style summaries ([20bf923](https://github.com/IBM/openapi-validator/commit/20bf9237ef87e66e9141ccc61e6dbffd1515c38e))
+
 # [0.48.0](https://github.com/IBM/openapi-validator/compare/v0.47.1...v0.48.0) (2021-09-16)
 
 
