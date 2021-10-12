@@ -1,12 +1,12 @@
 {
   "name": "ibm-openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
-  "version": "0.51.2",
+  "version": "0.51.3",
   "main": "src/lib/index.js",
   "repository": "https://github.com/IBM/openapi-validator",
   "license": "Apache-2.0",
   "scripts": {
-    "preinstall": "npx npm-force-resolutions",
+    "force-deps": "npx npm-force-resolutions",
     "link": "npm install -g",
     "unlink": "npm uninstall -g",
     "test": "jest test/",
