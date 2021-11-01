@@ -35,21 +35,41 @@ const printConfigErrors = function(problems, chalk, fileName) {
   }
 };
 
+const validateExclusionsConfig = (configObject,configErrors) => {
+  //TODO more validation 
+  if(configObject.exclude)
+  {
+    const paths = Object.keys(configObject.exclude)
+    paths.forEach((path) => {
+      if(!Array.isArray(configObject.exclude[path]))
+      {
+        configErrors.push({
+          message: `Excluded path:${path} must specify an array of excluded rules`,
+          correction: `Change "${configObject.exclude[path]}" to be an array of named rules`
+        });
+      }
+    })
+  }
+}
+
 const validateConfigObject = function(configObject, chalk) {
   const configErrors = [];
-  let validObject = true;
 
   const deprecatedRules = Object.keys(deprecatedRuleObject);
 
   const allowedSpecs = Object.keys(defaultObject);
-  const userSpecs = Object.keys(configObject);
+
+  // Validate path exclusions first as they are a different format to rule configurations
+  validateExclusionsConfig(configObject,configErrors)
+
+  //Get remaining config keys but not the excluded paths
+  const userSpecs = Object.keys(configObject).filter((value)=>{return value!=='exclude'});
   userSpecs.forEach(spec => {
     // Do not check "spectral" spec rules
     if (spec === 'spectral') {
       return;
     }
     if (!allowedSpecs.includes(spec)) {
-      validObject = false;
       configErrors.push({
         message: `'${spec}' is not a valid spec.`,
         correction: `Valid specs are: ${allowedSpecs.join(', ')}`
@@ -62,7 +82,6 @@ const validateConfigObject = function(configObject, chalk) {
     const userCategories = Object.keys(configObject[spec]);
     userCategories.forEach(category => {
       if (!allowedCategories.includes(category)) {
-        validObject = false;
         configErrors.push({
           message: `'${category}' is not a valid category.`,
           correction: `Valid categories are: ${allowedCategories.join(', ')}`
@@ -92,7 +111,6 @@ const validateConfigObject = function(configObject, chalk) {
           delete configObject[spec][category][rule];
           return;
         } else if (!allowedRules.includes(rule)) {
-          validObject = false;
           configErrors.push({
             message: `'${rule}' is not a valid rule for the ${category} category`,
             correction: `Valid rules are: ${allowedRules.join(', ')}`
@@ -121,13 +139,11 @@ const validateConfigObject = function(configObject, chalk) {
                 message: `'${configOption}' is not a valid option for the ${rule} rule in the ${category} category.`,
                 correction: `Valid options are: ${result.options.join(', ')}`
               });
-              validObject = false;
             }
           }
           configObject[spec][category][rule] = [userStatus, configOption];
         } else if (userGaveArray) {
           // user should not have given an array
-          validObject = false;
           // dont throw two errors
           userStatus = 'off';
           configErrors.push({
@@ -136,7 +152,6 @@ const validateConfigObject = function(configObject, chalk) {
           });
         }
         if (!allowedStatusValues.includes(userStatus)) {
-          validObject = false;
           configErrors.push({
             message: `'${userStatus}' is not a valid status for the ${rule} rule in the ${category} category.`,
             correction: `Valid statuses are: ${allowedStatusValues.join(', ')}`
@@ -148,7 +163,7 @@ const validateConfigObject = function(configObject, chalk) {
 
   // if the object is valid, resolve any missing features
   //   and set all missing statuses to their default value
-  if (validObject) {
+  if (!configErrors.length) {
     const requiredSpecs = allowedSpecs;
     requiredSpecs.forEach(spec => {
       if (!userSpecs.includes(spec)) {

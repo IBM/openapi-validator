@@ -51,6 +51,8 @@ module.exports = function validateSwagger(
     hint: false
   };
 
+  //exclusions apply to all document versions
+  config.shared.exclude = config.exclude;
   // use version specific and shared validations
   // they need to be at the top level of the config object
   const configSpecToUse = allSpecs.isOAS3 ? 'oas3' : 'swagger2';
@@ -162,5 +164,38 @@ module.exports = function validateSwagger(
     );
   }
 
+  removeExcludedFailures(validationResults,config);
   return validationResults;
 };
+
+
+const removeExcludedFailures = (results, config) => {
+  results.error = removeExcludedTypeFailures(results.errors,config)
+  results.warning = removeExcludedTypeFailures(results.warnings,config)
+  results.info = removeExcludedTypeFailures(results.infos,config)
+  results.hint = removeExcludedTypeFailures(results.hints,config)
+}
+
+const removeExcludedTypeFailures = (typeResults,config) => {
+  const typeKeys = Object.keys(typeResults)
+  //Assume no errors before we find one that isn't excluded
+  let returnValue = false;
+  typeKeys.forEach((rule) => {
+    typeResults[rule] = typeResults[rule].filter((failure) => {
+      //Some rules return the path as an array so flatten into a dotted string
+      const path = Array.isArray(failure.path) ? failure.path.join('.') : failure.path;
+      if (config.exclude && config.exclude[path]) {
+        if (config.exclude[path].includes(rule)) {
+          console.log(`Rule ${rule} excluded for path ${path}`);
+          return false;
+        }
+        else {
+          console.log(`Rule ${rule} NOT excluded for path ${path}`);
+          returnValue = true;
+          return true;
+        }
+      }
+    })
+  })
+  return returnValue;
+}
