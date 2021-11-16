@@ -14,7 +14,6 @@
     "test-validators": "jest test/plugins",
     "test-cli-tool": "jest test/cli-validator/tests",
     "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test/",
-    "report-coverage": "codecov",
     "lint": "eslint --cache --quiet --ext '.js' src test",
     "fix": "eslint --fix --ext '.js' src test",
     "pkg": "./node_modules/.bin/pkg --out-path=./bin ./package.json; cd bin; rename -f 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
@@ -43,7 +42,6 @@
     "@semantic-release/changelog": "^5.0.1",
     "@semantic-release/git": "^9.0.0",
     "babel-eslint": "^10.1.0",
-    "codecov": "^3.8.1",
     "cz-conventional-changelog": "^2.1.0",
     "eslint": "^6.8.0",
     "eslint-config-prettier": "^3.6.0",
