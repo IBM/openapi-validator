@@ -7,8 +7,6 @@ cache:
 script:
 - npm run test-travis
 - npm run lint
-after_success:
-- npm run report-coverage
 deploy:
 - provider: script
   skip_cleanup: true
