@@ -12,8 +12,8 @@ This command line tool lets you validate OpenAPI documents according to their sp
 as well as IBM-defined best practices.
 
 #### Prerequisites
-- Node 10.x
-- NPM 5.x
+- Node 12.x
+- NPM 7.x
 
 ## Table of contents
 
@@ -82,13 +82,13 @@ When the validator issues a message as the result of a Spectral rule, the rule n
 To get started configuring the validator, [set up](#setup) a [configuration file](#configuration-file).  See the [Spectral configuration](#spectral-configuration) section for more details on customization with Spectral.
 
 ## Installation
-There are two main ways to install the validator, either using NPM or building from source. Installing with NPM is reccomended.
+There are two main ways to install the validator, either using NPM or building from source. Installing with NPM is recommended.
 
 ### Install with NPM (recommended)
 
 `npm install -g ibm-openapi-validator`
 
-The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass no flag or the `--save-dev` flag to add the validator as a dependency to your project and run it from your NPM scripts.
+The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass no flag or the `--save-dev` flag to add the validator as a dependency to your project and run it from your NPM scripts or JavaScript code.
 
 ### Build from source
 1. Clone or download this repository
@@ -524,21 +524,21 @@ oas3-valid-example: true
 oas3-valid-schema-example: true
 ```
 
-This ruleset has the alias `ibm:oas`, and you can "extend" this ruleset or specify your own custom ruleset
+This ruleset has the name `@ibm-cloud/openapi-ruleset`, and you can "extend" this ruleset or specify your own custom ruleset
 with a [Spectral ruleset file](https://meta.stoplight.io/docs/spectral/docs/getting-started/3-rulesets.md).
-Note that all of the rules in the `spectral:oas` ruleset are defined in `ibm:oas` but only the rules listed above are enabled by default.
+Note that all of the rules in the `spectral:oas` ruleset are defined in `@ibm-cloud/openapi-ruleset` but only the rules listed above are enabled by default.
 
-The `ibm:oas` ruleset also includes custom Spectral rules, [documented here](docs/spectral-rules.md). These are configurable rules in the `ibm:oas` ruleset that are not part of the `spectral:oas` ruleset.
+The `@ibm-cloud/openapi-ruleset` ruleset also includes custom Spectral rules, [documented here](docs/spectral-rules.md). These are configurable rules in the `@ibm-cloud/openapi-ruleset` ruleset that are not part of the `spectral:oas` ruleset.
 
 You can provide a Spectral ruleset file to the IBM OpenAPI validator in a file named `.spectral.yaml`
 in the current directory or with the `--ruleset` command line option of the validator.
 
 #### Changing Spectral rule severity
 
-Any rule in the `ibm:oas` ruleset can be configured to trigger an error, warning, info, or hint message in the validator output.
+Any rule in the `@ibm-cloud/openapi-ruleset` ruleset can be configured to trigger an error, warning, info, or hint message in the validator output.
 For example, to configure the `openapi-tags` rule to trigger an `info` message instead of a `warning`, specify the following in your Spectral ruleset file:
 ```
-extends: ibm:oas
+extends: @ibm-cloud/openapi-ruleset
 rules:
   openapi-tags: warn
 ```
@@ -546,20 +546,32 @@ rules:
 To completely disable a rule, use the severity of `off`.
 For example, to disable the `operation-tags` rule, specify the following in your Spectral ruleset file:
 ```
-extends: ibm:oas
+extends: @ibm-cloud/openapi-ruleset
 rules:
   operation-tags: off
 ```
 
-Since the `ibm:oas` ruleset includes all the rules in `spectral:oas`, you can also enable rules from that ruleset that are disabled by default in `ibm:oas`.
+Since the `@ibm-cloud/openapi-ruleset` ruleset includes all the rules in `spectral:oas`, you can also enable rules from that ruleset that are disabled by default in `@ibm-cloud/openapi-ruleset`.
 For example, to enable the `info-contact` rule with it's default severity (`warning`), specify the following in your Spectral ruleset file:
 ```
-extends: ibm:oas
+extends: '@ibm-cloud/openapi-ruleset'
 rules:
   info-contact: true
 ```
 
 You could also set the severity of `info-contact` explicitly to `error`, `warn`, `info`, or `hint`.
+
+Note: if you are writing your Spectral config file in JavaScript, you must install and import the `@ibm-cloud/openapi-ruleset` ruleset as a dependency:
+```
+const ibmOpenapiRuleset = require('@ibm-cloud/openapi-ruleset');
+
+module.exports = {
+  extends: ibmOpenapiRuleset,
+  rules: {
+    'info-contact': true,
+  }
+};
+```
 
 #### Custom Spectral rules
 

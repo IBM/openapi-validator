@@ -1,6 +1,0 @@
-openapi: 3.0.0
-paths: {}
-components:
-  schemas:
-    SchemaDef:
-      type: object

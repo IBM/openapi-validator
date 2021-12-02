@@ -1,7 +1,0 @@
----
-swagger: '2.0'
-paths: {}
-definitions:
-  SchemaDef:
-    type: object
-x-components: {}

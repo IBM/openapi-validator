@@ -4,13 +4,15 @@ node_js:
 - 14
 cache:
   npm: false
+before_install:
+  - npm i -g npm@8
 script:
 - npm run test-travis
 - npm run lint
 deploy:
 - provider: script
   skip_cleanup: true
-  script: npx semantic-release
+  script: npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
   on:
     node: 12
     branch: main

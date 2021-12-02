@@ -1,0 +1,86 @@
+openapi: 3.0.0
+servers:
+  - url: https://oneoftester.com/api
+components:
+  responses:
+    Ok:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Ok'
+      description: Ok response.
+  schemas:
+    A:
+      description: a string
+      type: string
+      pattern: '[a-zA-Z0-9]'
+      minLength: 1
+      maxLength: 40
+    B:
+      description: a boolean
+      type: boolean
+    AorB:
+      description: either string or boolean
+      oneOf:
+      - $ref: '#/components/schemas/A'
+      - $ref: '#/components/schemas/B'
+    C:
+      description: one of two allOf schemas
+      oneOf:
+        - allOf:
+          - type: foo
+          - description: 'foo type'
+        - anyOf:
+          - type: string
+            format: url
+            description: 'url string'
+            pattern: 'https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)'
+            minLength: 0
+            maxLength: 100
+    Ok:
+      description: ok object
+      type: object
+      properties:
+        ok:
+          description: ok
+          type: boolean
+paths:
+  /ref:
+    post:
+      description: accept an A or B (ref)
+      operationId: createRef
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: body with a test property
+              properties:
+                test:
+                  $ref: '#/components/schemas/AorB'
+              type: object
+          description: A body.
+      responses:
+        '200':
+          $ref: '#/components/responses/Ok'
+      summary: test ref
+  /inline:
+    post:
+      description: accept an A or B (inline)
+      operationId: createInline
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: body with a test property
+              properties:
+                test:
+                  oneOf:
+                  - $ref: '#/components/schemas/A'
+                  - $ref: '#/components/schemas/B'
+                  - $ref: '#/components/schemas/C'
+              type: object
+          description: A body.
+      responses:
+        '200':
+          $ref: '#/components/responses/Ok'
+      summary: test inline

@@ -1,0 +1,71 @@
+{
+  "name": "ibm-openapi-validator",
+  "description": "Configurable and extensible validator/linter for OpenAPI documents",
+  "version": "0.51.3",
+  "main": "src/lib/index.js",
+  "private": false,
+  "repository": "https://github.com/IBM/openapi-validator",
+  "license": "Apache-2.0",
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "link": "npm install -g",
+    "unlink": "npm uninstall -g",
+    "test": "jest test",
+    "jest": "jest",
+    "test-validators": "jest test/plugins",
+    "test-cli-tool": "jest test/cli-validator/tests",
+    "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test/",
+    "lint": "eslint --cache --quiet --ext '.js' src test",
+    "fix": "eslint --fix --ext '.js' src test",
+    "pkg": "./node_modules/.bin/pkg --out-path=./bin ./package.json; cd bin; rename -f 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
+  },
+  "dependencies": {
+    "@ibm-cloud/openapi-ruleset": "0.0.1",
+    "@stoplight/spectral-cli": "^6.1.0",
+    "@stoplight/spectral-core": "^1.6.1",
+    "@stoplight/spectral-parsers": "^1.0.1",
+    "chalk": "^4.1.1",
+    "commander": "^2.20.3",
+    "deepmerge": "^2.2.1",
+    "find-up": "^3.0.0",
+    "globby": "^11.0.4",
+    "js-yaml": "^3.14.1",
+    "json-dup-key-validator": "^1.0.3",
+    "json-schema-ref-parser": "^5.1.3",
+    "jsonschema": "^1.4.0",
+    "lodash": "^4.17.21",
+    "matcher": "^1.1.1",
+    "pad": "^2.3.0",
+    "require-all": "^3.0.0",
+    "semver": "^5.7.1",
+    "update-notifier": "^4.1.3",
+    "validator": "^13.7.0",
+    "yaml-js": "^0.2.3"
+  },
+  "devDependencies": {
+    "jest": "^27.4.5",
+    "pkg": "^5.5.1",
+    "strip-ansi": "^4.0.0"
+  },
+  "bin": {
+    "lint-openapi": "src/cli-validator/index.js"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "pkg": {
+    "scripts": "src/**/*.js"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "nimma/legacy": "<rootDir>/../../node_modules/nimma/dist/legacy/cjs",
+      "nimma/fallbacks": "<rootDir>/../../node_modules/nimma/dist/cjs/fallbacks/",
+      "@stoplight/spectral-ruleset-bundler/presets/node": "<rootDir>/../../node_modules/@stoplight/spectral-ruleset-bundler/dist/presets/node",
+      "@stoplight/spectral-ruleset-bundler/plugins/stdin": "<rootDir>/../../node_modules/@stoplight/spectral-ruleset-bundler/dist/plugins/stdin",
+      "@stoplight/spectral-ruleset-bundler/plugins/builtins": "<rootDir>/../../node_modules/@stoplight/spectral-ruleset-bundler/dist/plugins/builtins"
+    }
+  }
+}
