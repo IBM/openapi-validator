@@ -73,6 +73,7 @@
     "testEnvironment": "node"
   },
   "resolutions": {
-    "pac-resolver": "5.0.0"
+    "pac-resolver": "5.0.0",
+    "jsonpointer": "5.0.0"
   }
 }
