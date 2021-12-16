@@ -14,5 +14,5 @@ deploy:
   skip_cleanup: true
   script: npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
   on:
-    node: 12
+    node: 14
     branch: main
