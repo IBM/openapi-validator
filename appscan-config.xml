@@ -4,6 +4,8 @@
       <Exclude>test/</Exclude>
       <Exclude>README.md</Exclude>
       <Exclude>node_modules/</Exclude>
+      <Exclude>packages/ruleset/node_modules/</Exclude>
+      <Exclude>packages/validator/node_modules/</Exclude>
     </Target>
   </Targets>
 </Configuration>

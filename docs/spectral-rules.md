@@ -1,6 +1,6 @@
 # Custom Spectral Rules
 
-This document outlines the custom Spectral rules implemented in `ibm:oas` ruleset.
+This document outlines the custom Spectral rules implemented in `@ibm-cloud/openapi-ruleset` ruleset.
 
 ## content-entry-provided
 

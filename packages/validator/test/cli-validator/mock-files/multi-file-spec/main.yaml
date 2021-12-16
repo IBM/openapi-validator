@@ -1,0 +1,24 @@
+openapi: 3.0.0
+servers:
+  - url: https://my-service.com/api
+paths:
+  /example:
+    get:
+      summary: Summary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "./schema.yaml#/components/schemas/SchemaDef"
+  /circular_example:
+    get:
+      summary: Summary
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "./schema.yaml#/components/schemas/CircularSchema"

@@ -12,3 +12,4 @@ coverage/
 .spectral.json
 .spectral.yaml
 .spectral.yml
+.spectral.js

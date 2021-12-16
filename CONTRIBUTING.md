@@ -17,6 +17,6 @@ If you want to contribute to the repository, follow these steps:
 6. Push to your fork and open a pull request. Describe your changes and the motivation for them.
 
 [1] If submitting a new validation, the following files must be updated:
-- src/.defaultsForValidator.js
+- packages/validator/src/.defaultsForValidator.js
 - README.md (description of validation **and** documentation of default value)
 

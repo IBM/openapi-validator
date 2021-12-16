@@ -1,0 +1,37 @@
+{
+  "name": "@ibm-cloud/openapi-ruleset",
+  "description": "Spectral ruleset for validating IBM Cloud services",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "private": false,
+  "main": "./src/ibm-oas.js",
+  "repository": "https://github.com/IBM/openapi-validator",
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "test": "jest test",
+    "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test",
+    "lint": "eslint --cache --quiet --ext '.js' src test",
+    "fix": "eslint --fix --ext '.js' src test"
+  },
+  "dependencies": {
+    "@stoplight/spectral-formats": "^1.0.1",
+    "@stoplight/spectral-functions": "^1.4.0",
+    "@stoplight/spectral-rulesets": "^1.3.0"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-core": "^1.6.1",
+    "jest": "^27.4.5"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "nimma/legacy": "<rootDir>/../../node_modules/nimma/dist/legacy/cjs",
+      "nimma/fallbacks": "<rootDir>/../../node_modules/nimma/dist/cjs/fallbacks/"
+    }
+  }
+}
