@@ -21,6 +21,9 @@ const { printJson } = require('./utils/json-results');
 const spectralValidator = require('../spectral/spectral-validator');
 const validator = require('./utils/validator');
 
+const { Document } = require('@stoplight/spectral-core');
+const Parsers = require('@stoplight/spectral-parsers');
+
 // this function processes the input, does the error handling,
 //  and acts as the main function for the program
 const processInput = async function(program) {
@@ -246,9 +249,17 @@ const processInput = async function(program) {
         chalk
       );
 
+      const fileExtension = ext.getFileExtension(validFile);
+      let parser = Parsers.Json;
+      if (['yaml', 'yml'].includes(fileExtension)) {
+        parser = Parsers.Yaml;
+      }
+
+      const document = new Document(originalFile, parser, validFile);
+
       process.chdir(path.dirname(validFile));
       // let spectral handle the parsing of the original swagger/oa3 document
-      spectralResults = await spectral.run(originalFile);
+      spectralResults = await spectral.run(document);
     } catch (err) {
       printError(chalk, 'There was a problem with spectral.', getError(err));
       if (debug) {
