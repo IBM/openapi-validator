@@ -69,7 +69,7 @@ module.exports = {
     // Turn off
     'oas2-schema': 'off',
     // Turn off - duplicates non-configurable validation in base validator
-    'oas2-unused-definition': 'off',
+    'oas2-unused-definition': true,
     // Enable with same severity as Spectral
     'oas3-api-servers': true,
     // Enable with same severity as Spectral
@@ -85,7 +85,7 @@ module.exports = {
     // Enable with same severity as Spectral
     'oas3-schema': true,
     // Turn off - duplicates non-configurable validation in base validator
-    'oas3-unused-component': 'off',
+    'oas3-unused-component': true,
 
     // IBM Custom Rules
 
