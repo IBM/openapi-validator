@@ -538,7 +538,7 @@ in the current directory or with the `--ruleset` command line option of the vali
 Any rule in the `@ibm-cloud/openapi-ruleset` ruleset can be configured to trigger an error, warning, info, or hint message in the validator output.
 For example, to configure the `openapi-tags` rule to trigger an `info` message instead of a `warning`, specify the following in your Spectral ruleset file:
 ```
-extends: @ibm-cloud/openapi-ruleset
+extends: '@ibm-cloud/openapi-ruleset'
 rules:
   openapi-tags: warn
 ```
@@ -546,7 +546,7 @@ rules:
 To completely disable a rule, use the severity of `off`.
 For example, to disable the `operation-tags` rule, specify the following in your Spectral ruleset file:
 ```
-extends: @ibm-cloud/openapi-ruleset
+extends: '@ibm-cloud/openapi-ruleset'
 rules:
   operation-tags: off
 ```
