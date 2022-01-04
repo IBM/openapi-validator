@@ -29,7 +29,7 @@ describe('cli tool - test circular reference module', function() {
     ).toEqual(true);
 
     expect(
-      allOutput.includes('Definition was declared but never used in document')
+      allOutput.includes('Potentially unused definition has been detected.')
     ).toEqual(true);
   });
 

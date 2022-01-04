@@ -119,6 +119,25 @@ describe('cli tool - test option handling', function() {
 
     const statsSection = capturedText.findIndex(x => x.includes('statistics'));
 
+    /*
+      Total number of errors   : 5
+      Total number of warnings : 8
+
+      errors
+       1  (20%) : Every operation must have unique "operationId".
+       2  (40%) : PUT and POST operations with a body parameter must have a non-empty `consumes` field.
+       1  (20%) : Arrays MUST NOT be returned as the top-level structure in a response body.
+       1  (20%) : Property names must follow case convention
+
+      warnings
+       1  (13%) : Potentially unused definition has been detected.
+       2  (25%) : Operations must have a non-empty `operationId`.
+       2  (25%) : A tag is defined but never used
+       1  (13%) : Schema must have a non-empty description.
+       1  (13%) : Schema properties must have a description with content in it.
+       1  (13%) : A security scheme is defined but never used
+    */
+
     // totals
     expect(capturedText[statsSection + 1].match(/\S+/g)[5]).toEqual('5');
     expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('8');
@@ -137,14 +156,14 @@ describe('cli tool - test option handling', function() {
     expect(capturedText[statsSection + 8].match(/\S+/g)[1]).toEqual('(20%)');
 
     // warnings
-    expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(25%)');
+    expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(13%)');
 
     expect(capturedText[statsSection + 12].match(/\S+/g)[0]).toEqual('2');
     expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(25%)');
 
-    expect(capturedText[statsSection + 13].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 13].match(/\S+/g)[1]).toEqual('(13%)');
+    expect(capturedText[statsSection + 13].match(/\S+/g)[0]).toEqual('2');
+    expect(capturedText[statsSection + 13].match(/\S+/g)[1]).toEqual('(25%)');
 
     expect(capturedText[statsSection + 14].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 14].match(/\S+/g)[1]).toEqual('(13%)');
@@ -188,8 +207,8 @@ describe('cli tool - test option handling', function() {
     );
 
     // {"operations-shared": [{"line": 36, "message": "Operations must have a non-empty `operationId`.", "path": "paths./pet.post.operationId"},
-    expect(outputObject['warnings'][0]['line']).toEqual(36);
-    expect(outputObject['warnings'][0]['message']).toEqual(
+    expect(outputObject['warnings'][1]['line']).toEqual(36);
+    expect(outputObject['warnings'][1]['message']).toEqual(
       'Operations must have a non-empty `operationId`.'
     );
   });
