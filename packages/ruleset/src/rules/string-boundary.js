@@ -8,6 +8,8 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   given: [
+    '$.paths[*][parameters][*].schema',
+    '$.paths[*][parameters][*].content[*].schema',
     '$.paths[*][*][parameters][*].schema',
     '$.paths[*][*][parameters][*].content[*].schema',
     '$.paths[*][*].requestBody.content[*].schema'
