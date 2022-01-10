@@ -287,4 +287,37 @@ describe('Spectral rule: string-boundary', () => {
       '0'
     ]);
   });
+
+  it('should error if faulty string schema is defined at path level', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].parameters = [
+      {
+        name: 'filter',
+        in: 'query',
+        schema: {
+          type: 'string',
+          minLength: 1,
+          maxLength: 15
+        }
+      }
+    ];
+
+    const results = await testRule(name, stringBoundary, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(name);
+    expect(validation.message).toBe(
+      'Should define a pattern for a valid string'
+    );
+    expect(validation.path).toStrictEqual([
+      'paths',
+      '/v1/movies',
+      'parameters',
+      '0',
+      'schema'
+    ]);
+    expect(validation.severity).toBe(severityCodes.warning);
+  });
 });
