@@ -377,12 +377,14 @@ describe('test expected output - OpenAPI 3', function() {
 
   it('should include the path to the component (if it exists) when in verbose mode', async function() {
     const program = {};
-    program.args = ['./test/cli-validator/mock-files/oas3/testoneof.yaml'];
+    program.args = [
+      './test/cli-validator/mock-files/oas3/component-path-example.yaml'
+    ];
     program.default_mode = true;
     program.verbose = 1;
 
     const exitCode = await commandLineValidator(program);
-    expect(exitCode).toEqual(1);
+    expect(exitCode).toEqual(0);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     const allText = capturedText.join();
@@ -392,26 +394,27 @@ describe('test expected output - OpenAPI 3', function() {
 
   it('should include the path to the component (if it exists) when in verbose mode and json mode', async function() {
     const program = {};
-    program.args = ['./test/cli-validator/mock-files/oas3/testoneof.yaml'];
+    program.args = [
+      './test/cli-validator/mock-files/oas3/component-path-example.yaml'
+    ];
     program.default_mode = true;
     program.verbose = 1;
     program.json = true;
 
     const exitCode = await commandLineValidator(program);
-    expect(exitCode).toEqual(1);
+    expect(exitCode).toEqual(0);
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     const jsonOutput = JSON.parse(capturedText);
-    const warningToCheck = jsonOutput.warnings[3];
+    const warningToCheck = jsonOutput.warnings[0];
 
-    expect(warningToCheck.rule).toEqual('response-example-provided');
+    expect(warningToCheck.rule).toEqual('pagination_style');
     expect(warningToCheck.componentPath).toEqual([
       'components',
-      'responses',
-      'Ok',
-      'content',
-      'application/json'
+      'schemas',
+      'ListOfCharacters',
+      'properties'
     ]);
-    expect(warningToCheck.componentLine).toEqual(8);
+    expect(warningToCheck.componentLine).toEqual(101);
   });
 });

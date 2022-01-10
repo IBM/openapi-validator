@@ -9,6 +9,9 @@ const path = require('path');
 const readYaml = require('js-yaml');
 const util = require('util');
 
+const { Document } = require('@stoplight/spectral-core');
+const Parsers = require('@stoplight/spectral-parsers');
+
 const addPathsToComponents = require('./utils/add-paths-to-components');
 const buildSwaggerObject = require('./utils/build-swagger-object');
 const config = require('./utils/process-configuration');
@@ -246,9 +249,14 @@ const processInput = async function(program) {
         chalk
       );
 
-      process.chdir(path.dirname(validFile));
-      // let spectral handle the parsing of the original swagger/oa3 document
-      spectralResults = await spectral.run(originalFile);
+      const fileExtension = ext.getFileExtension(validFile);
+      let parser = Parsers.Json;
+      if (['yaml', 'yml'].includes(fileExtension)) {
+        parser = Parsers.Yaml;
+      }
+
+      const doc = new Document(originalFile, parser, validFile);
+      spectralResults = await spectral.run(doc);
     } catch (err) {
       printError(chalk, 'There was a problem with spectral.', getError(err));
       if (debug) {
@@ -271,9 +279,6 @@ const processInput = async function(program) {
       }
       exitCode = 1;
       continue;
-    } finally {
-      // return the working directory to its original location
-      process.chdir(originalWorkingDirectory);
     }
 
     // run validator, print the results, and determine if validator passed
