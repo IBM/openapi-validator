@@ -1,3 +1,10 @@
+# ibm-openapi-validator [0.53.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.52.2...ibm-openapi-validator@0.53.0) (2022-01-13)
+
+
+### Features
+
+* enable spectral overrides ([#358](https://github.com/IBM/openapi-validator/issues/358)) ([2e04e38](https://github.com/IBM/openapi-validator/commit/2e04e38de5e0c319cdbbd02992e3ff4a86a0ee0b))
+
 ## ibm-openapi-validator [0.52.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.52.1...ibm-openapi-validator@0.52.2) (2022-01-10)
 
 
