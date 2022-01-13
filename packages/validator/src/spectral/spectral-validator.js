@@ -5,7 +5,7 @@ const {
 const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const MessageCarrier = require('../plugins/utils/message-carrier');
 const config = require('../cli-validator/utils/process-configuration');
-const dedupFunction = require('../cli-validator/utils/no-deduplication');
+const dedupFunction = require('../cli-validator/utils/custom-deduplication');
 
 const parseResults = function(results, debug) {
   const messages = new MessageCarrier();

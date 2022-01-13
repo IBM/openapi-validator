@@ -1,0 +1,139 @@
+openapi: "3.0.0"
+info:
+  description: Sample API definition with one problem in two instances
+  version: 1.0.0
+  title: Character Supply
+  license:
+    name: MIT
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+  contact:
+    email: "apiteam@swagger.io"
+servers:
+  - url: http://chars.swagger.io/v1
+tags:
+  - name: letters
+    description: A letter
+  - name: special_characters
+    description: A special character
+paths:
+  /letters:
+    get:
+      summary: List all letters
+      description: List all letters
+      operationId: list_letters
+      tags:
+        - letters
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            maximum: 100
+        - name: offset
+          in: query
+          description: Offset of first element to return in results.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          $ref: "#/components/responses/StringsResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /special_characters:
+    get:
+      summary: List all special characters
+      description: List all special characters
+      operationId: list_special_characters
+      tags:
+        - special_characters
+      parameters:
+        - name: limit
+          in: query
+          description: How many items to return at one time (max 100)
+          required: false
+          schema:
+            type: integer
+            format: int32
+            default: 10
+            maximum: 100
+        - name: offset
+          in: query
+          description: Offset of first element to return in results.
+          required: false
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          $ref: "#/components/responses/StringsResponse"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+components:
+  responses:
+    StringsResponse:
+      description: not very good
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ListOfCharacters"
+  schemas:
+    ListOfCharacters:
+      description: object holding a list of strings
+      type: object
+      required:
+        - chars
+        - limit
+        - offset
+      properties:
+        chars:
+          type: array
+          description: all the characters
+          items:
+            type: string
+        limit:
+          type: integer
+          description: for pagination
+        offset:
+          type: integer
+          description: for pagination
+      example:
+        chars:
+          - a
+          - b
+          - c
+        limit: 100
+        offset: 10
+    Error:
+      description:
+        An error in processing a service request
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+          description: "code property"
+        message:
+          type: string
+          description: "message property"
+          pattern: '^[a-zA-Z0-9_ ]*$'
+          minLength: 1
+          maxLength: 300
+      example:
+        code: 123
+        message: "error occurred"
