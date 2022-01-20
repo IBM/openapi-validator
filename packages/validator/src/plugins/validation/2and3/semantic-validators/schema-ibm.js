@@ -194,11 +194,16 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
   const validIntegerFormats = ['int32', 'int64'];
   const validNumberFormats = ['float', 'double'];
   const validStringFormats = [
-    'byte',
     'binary',
+    'byte',
+    'crn',
     'date',
     'date-time',
-    'password'
+    'email',
+    'identifier',
+    'password',
+    'url',
+    'uuid'
   ];
   const validTypes = [
     'integer',
