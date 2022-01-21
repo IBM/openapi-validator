@@ -1,3 +1,10 @@
+## ibm-openapi-validator [0.53.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.53.0...ibm-openapi-validator@0.53.1) (2022-01-21)
+
+
+### Bug Fixes
+
+* add supported formats to invalid_type_format_pair rule ([#363](https://github.com/IBM/openapi-validator/issues/363)) ([8b1ba0d](https://github.com/IBM/openapi-validator/commit/8b1ba0da8754f44cec51e4725f6edfb088b1aa2f))
+
 # ibm-openapi-validator [0.53.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.52.2...ibm-openapi-validator@0.53.0) (2022-01-13)
 
 
