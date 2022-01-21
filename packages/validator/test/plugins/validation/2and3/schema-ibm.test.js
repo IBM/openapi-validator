@@ -1163,7 +1163,25 @@ describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
       'Invalid type. Valid types are: integer, number, string, boolean, object, array.'
     );
     expect(res.errors[1].message).toEqual(
-      'Schema of type string should use one of the following formats: byte, binary, date, date-time, password.'
+      'Schema of type string should use one of the following formats: binary, byte, crn, date, date-time, email, identifier, password, url, uuid.'
+    );
+  });
+
+  it('should return an error for invalid format values', () => {
+    const spec = yaml.safeLoad(
+      fs.readFileSync('test/cli-validator/mock-files/oas3/test-formats.yaml')
+    );
+
+    const res = validate({ jsSpec: spec, isOAS3: true }, config);
+    expect(res.errors.length).toEqual(3);
+    expect(res.errors[0].message).toEqual(
+      'Schema of type string should use one of the following formats: binary, byte, crn, date, date-time, email, identifier, password, url, uuid.'
+    );
+    expect(res.errors[1].message).toEqual(
+      'Schema of type integer should use one of the following formats: int32, int64.'
+    );
+    expect(res.errors[2].message).toEqual(
+      'Schema of type number should use one of the following formats: float, double.'
     );
   });
 

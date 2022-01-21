@@ -1,0 +1,70 @@
+openapi: 3.0.0
+servers:
+  - url: https://typeformats.com/api
+paths:
+  /formats:
+    post:
+      summary: test formats
+      description: exercise different format values
+      operationId: test_formats
+      requestBody:
+        content:
+          application/json:
+            schema:
+              description: body with some properties that use various formats
+              type: object
+              properties:
+                s_binary:
+                  type: string
+                  format: binary
+                s_byte:
+                  type: string
+                  format: byte
+                s_crn:
+                  type: string
+                  format: crn
+                s_date:
+                  type: string
+                  format: date
+                s_datetime:
+                  type: string
+                  format: date-time
+                s_email:
+                  type: string
+                  format: email
+                s_identifier:
+                  type: string
+                  format: identifier
+                s_password:
+                  type: string
+                  format: password
+                s_url:
+                  type: string
+                  format: url
+                s_uuid:
+                  type: string
+                  format: uuid
+                s_invalid:
+                  type: string
+                  format: bad-one
+                i_int32:
+                  type: integer
+                  format: int32
+                i_int64:
+                  type: integer
+                  format: int64
+                i_invalid:
+                  type: integer
+                  format: bad-one
+                n_float:
+                  type: number
+                  format: float
+                n_double:
+                  type: number
+                  format: double
+                n_invalid:
+                  type: number
+                  format: bad-one
+      responses:
+        '204':
+          description: response ok
