@@ -64,7 +64,7 @@ as well as IBM-defined best practices.
 ## Getting Started
 The validator analyzes your API definition and reports any problems within. The validator is highly customizable, and supports both OpenAPI 3.0 and OpenAPI 2.0 (Swagger 2.0) formats. The tool also supports a number of rules from [Spectral](https://stoplight.io/open-source/spectral/). You can easily extend the tool with custom rules to meet your specific needs and ensure compliance to your standards.
 
-The default configuration uses both OpenAPI 3.0 rules as well as Spectral rules. The [default mode](#default-mode) section decscribes these rules. Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.  
+The default configuration uses both OpenAPI 3.0 rules as well as Spectral rules. The [default mode](#default-mode) section describes these rules. Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.  
 
 ### Customization
 
@@ -496,32 +496,32 @@ The default values for each rule are described below.
 Currently the validator configures Spectral to check the following rules from its
 [“oas" ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md):
 ```
+oas2-operation-formData-consume-check: true
+operation-operationId-unique: true
+operation-parameters: true
+operation-tag-defined: true
 no-eval-in-markdown: true
 no-script-tags-in-markdown: true
 openapi-tags: true
 operation-description: true
-operation-operationId-unique: true
-operation-parameters: true
 operation-tags: true
-operation-tag-defined: true
 path-keys-no-trailing-slash: true
 path-not-include-query: true
-request-body-object: true
 typed-enum: true
 oas2-api-host: true
 oas2-api-schemes: true
 oas2-host-trailing-slash: true
-oas2-valid-example: true
-oas2-valid-definition-example: true
+oas2-valid-schema-example: 'warn'
 oas2-anyOf: true
 oas2-oneOf: true
-oas2-operation-formData-consume-check: true
+oas2-unused-definition: true
 oas3-api-servers: true
 oas3-examples-value-or-externalValue: true
 oas3-server-trailing-slash: true
+oas3-valid-media-example: 'warn'
+oas3-valid-schema-example: 'warn'
 oas3-schema: true
-oas3-valid-example: true
-oas3-valid-schema-example: true
+oas3-unused-component: true
 ```
 
 This ruleset has the name `@ibm-cloud/openapi-ruleset`, and you can "extend" this ruleset or specify your own custom ruleset
