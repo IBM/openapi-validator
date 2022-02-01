@@ -1,72 +1,40 @@
+const { validateSubschemas } = require('../utils');
+
 module.exports = function(schema, _opts, { path }) {
-  return traverseSchema(schema, path);
+  return validateSubschemas(schema, path, stringBoundaryErrors);
 };
 
-function traverseSchema(schema, path) {
-  if (schema.type === 'string') {
-    return stringBoundaryErrors(schema, path);
-  }
+function stringBoundaryErrors(schema, path) {
   const errors = [];
-  if (schema.properties) {
-    Object.entries(schema.properties).forEach(function(prop) {
-      const propName = prop[0];
-      const propSchema = prop[1];
-      errors.push(
-        ...traverseSchema(propSchema, [...path, 'properties', propName])
-      );
-    });
-  } else if (schema.items) {
-    errors.push(...traverseSchema(schema.items, [...path, 'items']));
-  } else if (schema.allOf || schema.anyOf || schema.oneOf) {
-    const whichComposedSchemaType = schema.allOf
-      ? 'allOf'
-      : schema.anyOf
-      ? 'anyOf'
-      : 'oneOf';
-    const composedSchemas = schema[whichComposedSchemaType];
-    if (Array.isArray(composedSchemas)) {
-      composedSchemas.forEach(function(composedSchema, index) {
-        errors.push(
-          ...traverseSchema(composedSchema, [
-            ...path,
-            whichComposedSchemaType,
-            index
-          ])
-        );
-      });
-    }
+  if (schema.type !== 'string') {
+    return errors;
   }
-  return errors;
-}
-
-function stringBoundaryErrors(stringSchema, path) {
-  const errors = [];
-  if (isUndefinedOrNull(stringSchema.enum)) {
+  if (isUndefinedOrNull(schema.enum)) {
     if (
-      isUndefinedOrNull(stringSchema.pattern) &&
-      !['binary', 'date', 'date-time'].includes(stringSchema.format)
+      isUndefinedOrNull(schema.pattern) &&
+      !['binary', 'date', 'date-time'].includes(schema.format)
     ) {
       errors.push({
         message: 'Should define a pattern for a valid string',
         path
       });
     }
-    if (isUndefinedOrNull(stringSchema.minLength)) {
+    if (isUndefinedOrNull(schema.minLength)) {
       errors.push({
         message: 'Should define a minLength for a valid string',
         path
       });
     }
-    if (isUndefinedOrNull(stringSchema.maxLength)) {
+    if (isUndefinedOrNull(schema.maxLength)) {
       errors.push({
         message: 'Should define a maxLength for a valid string',
         path
       });
     }
     if (
-      !isUndefinedOrNull(stringSchema.minLength) &&
-      !isUndefinedOrNull(stringSchema.maxLength) &&
-      stringSchema.minLength > stringSchema.maxLength
+      !isUndefinedOrNull(schema.minLength) &&
+      !isUndefinedOrNull(schema.maxLength) &&
+      schema.minLength > schema.maxLength
     ) {
       errors.push({
         message: 'minLength must be less than maxLength',

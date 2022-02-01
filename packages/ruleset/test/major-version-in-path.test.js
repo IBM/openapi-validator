@@ -53,8 +53,10 @@ describe('Spectral rule: major-version-in-path', () => {
 
   it('should error when no version is indicated anywhere', async () => {
     const testDocument = makeCopy(rootDocument);
-    delete testDocument.paths['/v1/movies'];
-    testDocument.paths['/movies'] = {};
+    delete testDocument.paths;
+    testDocument.paths = {
+      '/movies': {}
+    };
 
     const results = await testRule(name, majorVersionInPath, testDocument);
 

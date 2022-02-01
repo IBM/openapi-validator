@@ -11,6 +11,52 @@ module.exports = {
     }
   ],
   paths: {
+    '/v1/drinks': {
+      post: {
+        operationId: 'createDrink',
+        summary: 'Create a drink',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Drink'
+              }
+            }
+          }
+        },
+        responses: {
+          '201': {
+            description: 'Success!',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Drink'
+                }
+              }
+            }
+          },
+          '400': {
+            description: 'Error!',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  properties: {
+                    trace: {
+                      type: 'string',
+                      format: 'uuid'
+                    },
+                    error: {
+                      $ref: '#/components/schemas/RequestError'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     '/v1/movies': {
       post: {
         operationId: 'createMovie',
@@ -94,29 +140,75 @@ module.exports = {
         required: ['id', 'name'],
         properties: {
           id: {
-            type: 'string',
-            readOnly: true,
-            pattern: '[a-zA-Z0-9]+',
-            minLength: 1,
-            maxLength: 30
+            $ref: '#/components/schemas/IdString'
           },
           name: {
-            type: 'string',
-            pattern: '[a-zA-Z0-9]+',
-            minLength: 1,
-            maxLength: 30
+            $ref: '#/components/schemas/NormalString'
           },
           director: {
-            type: 'string',
-            pattern: '[a-zA-Z0-9]+',
-            minLength: 1,
-            maxLength: 30
+            $ref: '#/components/schemas/NormalString'
           }
         },
         example: {
           name: 'The Two Towers',
           director: 'Peter Jackson'
         }
+      },
+      Drink: {
+        oneOf: [
+          {
+            $ref: '#/components/schemas/Juice'
+          },
+          {
+            $ref: '#/components/schemas/Soda'
+          }
+        ],
+        discriminator: {
+          propertyName: 'type'
+        },
+        example: {
+          type: 'soda',
+          name: 'Root Beer'
+        }
+      },
+      Soda: {
+        type: 'object',
+        required: ['type', 'name'],
+        properties: {
+          type: {
+            type: 'string',
+            enum: ['soda']
+          },
+          name: {
+            $ref: '#/components/schemas/NormalString'
+          }
+        }
+      },
+      Juice: {
+        type: 'object',
+        required: ['type', 'fruit'],
+        properties: {
+          type: {
+            type: 'string',
+            enum: ['juice']
+          },
+          fruit: {
+            $ref: '#/components/schemas/NormalString'
+          }
+        }
+      },
+      NormalString: {
+        type: 'string',
+        pattern: '[a-zA-Z0-9 ]+',
+        minLength: 1,
+        maxLength: 30
+      },
+      IdString: {
+        type: 'string',
+        readOnly: true,
+        pattern: '[a-zA-Z0-9]+',
+        minLength: 1,
+        maxLength: 10
       },
       RequestError: {
         type: 'object',

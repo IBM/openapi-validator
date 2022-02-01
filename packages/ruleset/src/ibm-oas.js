@@ -90,6 +90,7 @@ module.exports = {
     // IBM Custom Rules
 
     'content-entry-provided': ibmRules.contentEntryProvided,
+    discriminator: ibmRules.discriminator,
     'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'ibm-content-type-is-specific': ibmRules.ibmContentTypeIsSpecific,
     'ibm-error-content-type-is-json': ibmRules.ibmErrorContentTypeIsJson,

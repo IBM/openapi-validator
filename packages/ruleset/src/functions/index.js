@@ -1,4 +1,5 @@
 const checkMajorVersion = require('./check-major-version');
+const discriminator = require('./discriminator');
 const errorResponseSchema = require('./error-response-schema');
 const requiredProperty = require('./required-property');
 const responseExampleProvided = require('./response-example-provided');
@@ -7,6 +8,7 @@ const stringBoundary = require('./string-boundary');
 
 module.exports = {
   checkMajorVersion,
+  discriminator,
   errorResponseSchema,
   requiredProperty,
   responseExampleProvided,
