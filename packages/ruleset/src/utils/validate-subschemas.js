@@ -39,31 +39,14 @@ const validateSubschemas = (schema, path, validate) => {
     );
   }
 
-  // partial to reduce code duplication between applicator schemas
-  function processComposedSchemas(schemas, whichType) {
-    if (Array.isArray(schemas)) {
-      schemas.forEach((s, i) => {
+  for (const applicatorType of ['allOf', 'oneOf', 'anyOf', 'not']) {
+    if (Array.isArray(schema[applicatorType])) {
+      schema[applicatorType].forEach((s, i) => {
         errors.push(
-          ...validateSubschemas(s, [...path, whichType, i], validate)
+          ...validateSubschemas(s, [...path, applicatorType, i], validate)
         );
       });
     }
-  }
-
-  if (schema.allOf) {
-    processComposedSchemas(schema.allOf, 'allOf');
-  }
-
-  if (schema.oneOf) {
-    processComposedSchemas(schema.oneOf, 'oneOf');
-  }
-
-  if (schema.anyOf) {
-    processComposedSchemas(schema.anyOf, 'anyOf');
-  }
-
-  if (schema.not) {
-    processComposedSchemas(schema.not, 'not');
   }
 
   return errors;
