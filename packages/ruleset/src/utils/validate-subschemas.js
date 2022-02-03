@@ -26,7 +26,10 @@ const validateSubschemas = (schema, path, validate) => {
     );
   }
 
-  if (schema.additionalProperties && typeof schema.additionalProperties === 'object') {
+  if (
+    schema.additionalProperties &&
+    typeof schema.additionalProperties === 'object'
+  ) {
     errors.push(
       ...validateSubschemas(
         schema.additionalProperties,
