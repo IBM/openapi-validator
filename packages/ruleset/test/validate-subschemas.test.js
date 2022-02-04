@@ -26,6 +26,8 @@ describe('Utility: validateSubschemas', () => {
   it('should find all subschemas', async () => {
     await testRule('rule-name', ruleForTesting, allSchemasDocument);
 
+    expect(visitedSchemas.length).toBe(24);
+
     expect(visitedSchemas[0]).toBe(
       'paths./schema.get.responses.200.content.application/json.schema'
     );
