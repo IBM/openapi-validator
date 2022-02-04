@@ -1,4 +1,5 @@
 const contentEntryContainsSchema = require('./content-entry-contains-schema');
+const discriminator = require('./discriminator');
 const ibmErrorContentTypeIsJson = require('./ibm-error-content-type-is-json');
 const missingRequiredProperty = require('./missing-required-property');
 const responseErrorResponseSchema = require('./response-error-response-schema');
@@ -16,6 +17,7 @@ const stringBoundary = require('./string-boundary');
 
 module.exports = {
   contentEntryContainsSchema,
+  discriminator,
   ibmErrorContentTypeIsJson,
   missingRequiredProperty,
   responseErrorResponseSchema,
