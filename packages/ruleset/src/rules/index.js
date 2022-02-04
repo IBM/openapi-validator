@@ -14,6 +14,8 @@ const ibmContentTypeIsSpecific = require('./ibm-content-type-is-specific');
 const majorVersionInPath = require('./major-version-in-path');
 const requestBodyObject = require('./request-body-object');
 const stringBoundary = require('./string-boundary');
+const validTypeFormat = require('./valid-type-format');
+const arrayOfArrays = require('./array-of-arrays');
 
 module.exports = {
   contentEntryContainsSchema,
@@ -31,5 +33,7 @@ module.exports = {
   ibmContentTypeIsSpecific,
   majorVersionInPath,
   requestBodyObject,
-  stringBoundary
+  stringBoundary,
+  validTypeFormat,
+  arrayOfArrays
 };

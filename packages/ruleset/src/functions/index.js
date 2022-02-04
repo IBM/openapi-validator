@@ -5,6 +5,8 @@ const requiredProperty = require('./required-property');
 const responseExampleProvided = require('./response-example-provided');
 const schemaOrContentProvided = require('./schema-or-content-provided');
 const stringBoundary = require('./string-boundary');
+const validTypeFormat = require('./valid-type-format');
+const arrayOfArrays = require('./array-of-arrays');
 
 module.exports = {
   checkMajorVersion,
@@ -13,5 +15,7 @@ module.exports = {
   requiredProperty,
   responseExampleProvided,
   schemaOrContentProvided,
-  stringBoundary
+  stringBoundary,
+  validTypeFormat,
+  arrayOfArrays
 };

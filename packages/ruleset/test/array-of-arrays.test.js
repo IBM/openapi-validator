@@ -1,0 +1,242 @@
+const { arrayOfArrays } = require('../src/rules');
+const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
+
+const rule = arrayOfArrays;
+const ruleId = 'array-of-arrays';
+const expectedMessage =
+  'Array schemas should avoid having items of type array.';
+
+// Create a few array schemas for test data.
+const arrayOfString = {
+  type: 'array',
+  items: {
+    type: 'string'
+  }
+};
+
+const arrayOfInt = {
+  type: 'array',
+  items: {
+    type: 'integer'
+  }
+};
+
+const arrayOfArrayOfString = {
+  type: 'array',
+  items: {
+    type: 'array',
+    items: {
+      type: 'string'
+    }
+  }
+};
+
+const arrayOfArrayOfInt = {
+  type: 'array',
+  items: {
+    type: 'array',
+    items: {
+      type: 'integer'
+    }
+  }
+};
+
+describe('Spectral rule: array-of-arrays', () => {
+  describe('Should not yield errors', () => {
+    it('Clean spec', async () => {
+      const results = await testRule(ruleId, rule, rootDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Array of strings referenced from schema property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['Foo'] = arrayOfString;
+      testDocument.components.schemas['Movie'].properties['array_prop'] = {
+        $ref: '#/components/schemas/Foo'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Array of strings used in schema property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['Foo'] = arrayOfString;
+      testDocument.components.schemas['Movie'].properties[
+        'array_prop'
+      ] = arrayOfString;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Array of ints referenced from oneOf element', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['Foo'] = arrayOfInt;
+      testDocument.components.schemas['Juice'].properties['array_prop'] = {
+        $ref: '#/components/schemas/Foo'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Array of ints used in inline requestBody schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['Foo'] = arrayOfString;
+      testDocument.paths['/v1/drinks'].post.requestBody.content[
+        'application/json'
+      ].schema = arrayOfInt;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+  });
+
+  describe('Should yield errors', () => {
+    it('Array of array of strings used in inline requestBody schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['Foo'] = arrayOfArrayOfString;
+      testDocument.paths['/v1/drinks'].post.requestBody.content[
+        'application/json'
+      ].schema = arrayOfArrayOfString;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMessage);
+      expect(results[0].severity).toBe(severityCodes.warning);
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema'
+      ]);
+    });
+
+    it('Array of array of strings referenced from schema property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['Foo'] = arrayOfArrayOfString;
+      testDocument.components.schemas['Movie'].properties['array_prop'] = {
+        $ref: '#/components/schemas/Foo'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(3);
+      for (const result of results) {
+        expect(result.code).toBe(ruleId);
+        expect(result.message).toBe(expectedMessage);
+        expect(result.severity).toBe(severityCodes.warning);
+      }
+
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/movies',
+        'post',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'array_prop'
+      ]);
+
+      expect(results[1].path).toStrictEqual([
+        'paths',
+        '/v1/movies',
+        'post',
+        'responses',
+        '201',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'array_prop'
+      ]);
+
+      expect(results[2].path).toStrictEqual([
+        'paths',
+        '/v1/movies',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'movies',
+        'items',
+        'properties',
+        'array_prop'
+      ]);
+    });
+
+    it('Array of array of ints referenced from path-level parameter', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['Foo'] = arrayOfArrayOfInt;
+      testDocument.paths['/v1/drinks'].parameters = [
+        {
+          name: 'array_param',
+          in: 'query',
+          schema: {
+            $ref: '#/components/schemas/Foo'
+          }
+        }
+      ];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMessage);
+      expect(results[0].severity).toBe(severityCodes.warning);
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'parameters',
+        '0',
+        'schema'
+      ]);
+    });
+
+    it('Array of array of ints used within operation-level referenced parameter', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.parameters = {
+        ArrayParam: {
+          name: 'array_param',
+          in: 'header',
+          schema: arrayOfArrayOfInt
+        }
+      };
+      testDocument.paths['/v1/drinks'].post.parameters = [
+        {
+          $ref: '#/components/parameters/ArrayParam'
+        }
+      ];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMessage);
+      expect(results[0].severity).toBe(severityCodes.warning);
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'post',
+        'parameters',
+        '0',
+        'schema'
+      ]);
+    });
+  });
+});

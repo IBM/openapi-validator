@@ -104,6 +104,8 @@ module.exports = {
     'string-boundary': ibmRules.stringBoundary,
     'server-variable-default-value': ibmRules.serverVariableDefaultValue,
     'examples-name-contains-space': ibmRules.examplesNameContainsSpace,
-    'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle
+    'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
+    'valid-type-format': ibmRules.validTypeFormat,
+    'array-of-arrays': ibmRules.arrayOfArrays
   }
 };
