@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.2.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.1.2...@ibm-cloud/openapi-ruleset@0.2.0) (2022-02-04)
+
+
+### Features
+
+* add new spectral `discriminator` rule and remove old rule ([#367](https://github.com/IBM/openapi-validator/issues/367)) ([390afc9](https://github.com/IBM/openapi-validator/commit/390afc91e745c4ac73bf7fcd6a027107a5bc8021))
+
 ## @ibm-cloud/openapi-ruleset [0.1.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.1.1...@ibm-cloud/openapi-ruleset@0.1.2) (2022-01-10)
 
 
