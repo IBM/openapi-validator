@@ -39,7 +39,11 @@ const validateSubschemas = (schema, path, validate) => {
     );
   }
 
-  for (const applicatorType of ['allOf', 'oneOf', 'anyOf', 'not']) {
+  if (schema.not) {
+    errors.push(...validateSubschemas(schema.not, [...path, 'not'], validate));
+  }
+
+  for (const applicatorType of ['allOf', 'oneOf', 'anyOf']) {
     if (Array.isArray(schema[applicatorType])) {
       schema[applicatorType].forEach((s, i) => {
         errors.push(
