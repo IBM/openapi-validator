@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.2.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.2.0...@ibm-cloud/openapi-ruleset@0.2.1) (2022-02-08)
+
+
+### Bug Fixes
+
+* convert type/format rule to spectral style ([#371](https://github.com/IBM/openapi-validator/issues/371)) ([0263e7a](https://github.com/IBM/openapi-validator/commit/0263e7a2c9e0805bfc8897fb78844a08a0d1d4fd))
+
 # @ibm-cloud/openapi-ruleset [0.2.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.1.2...@ibm-cloud/openapi-ruleset@0.2.0) (2022-02-04)
 
 
