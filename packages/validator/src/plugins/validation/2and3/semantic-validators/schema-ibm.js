@@ -155,56 +155,19 @@ function generateFormatErrors(schema, contextPath, config, isOAS3, messages) {
     return;
   }
 
-  // Special case: check for arrays of arrays
-  let checkStatus = config.array_of_arrays;
-  if (checkStatus !== 'off' && schema.type === 'array' && schema.items) {
-    if (schema.items.type === 'array') {
-      messages.addMessage(
-        contextPath.concat(['items', 'type']),
-        'Array properties should avoid having items of type array.',
-        checkStatus,
-        'array_of_arrays'
-      );
-    }
-  }
-
-  checkStatus = config.invalid_type_format_pair;
+  const checkStatus = config.invalid_type_format_pair;
   if (checkStatus !== 'off') {
     typeFormatErrors(schema, contextPath, isOAS3, messages, checkStatus);
   }
 }
 
 function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
-  // error if format defined but not type
-  if (!obj.type && obj.format) {
-    messages.addMessage(
-      path.concat(['format']),
-      'Format defined without a type.',
-      checkStatus,
-      'invalid_type_format_pair'
-    );
-  }
-
   // we will check ref in defintions section
   // only proceed if type defined
   if (obj.$ref || !obj.type) {
     return;
   }
 
-  const validIntegerFormats = ['int32', 'int64'];
-  const validNumberFormats = ['float', 'double'];
-  const validStringFormats = [
-    'binary',
-    'byte',
-    'crn',
-    'date',
-    'date-time',
-    'email',
-    'identifier',
-    'password',
-    'url',
-    'uuid'
-  ];
   const validTypes = [
     'integer',
     'number',
@@ -218,82 +181,12 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
   }
   switch (obj.type) {
     case 'integer':
-      if (
-        obj.format &&
-        !includes(validIntegerFormats, obj.format.toLowerCase())
-      ) {
-        messages.addMessage(
-          path.concat(['type']),
-          `Schema of type integer should use one of the following formats: ${validIntegerFormats.join(
-            ', '
-          )}.`,
-          checkStatus,
-          'invalid_type_format_pair'
-        );
-      }
-      break;
     case 'number':
-      if (
-        obj.format &&
-        !includes(validNumberFormats, obj.format.toLowerCase())
-      ) {
-        messages.addMessage(
-          path.concat(['type']),
-          `Schema of type number should use one of the following formats: ${validNumberFormats.join(
-            ', '
-          )}.`,
-          checkStatus,
-          'invalid_type_format_pair'
-        );
-      }
-      break;
     case 'string':
-      if (
-        obj.format &&
-        !includes(validStringFormats, obj.format.toLowerCase())
-      ) {
-        messages.addMessage(
-          path.concat(['type']),
-          `Schema of type string should use one of the following formats: ${validStringFormats.join(
-            ', '
-          )}.`,
-          checkStatus,
-          'invalid_type_format_pair'
-        );
-      }
-      break;
     case 'boolean':
-      // No valid formats for boolean, format should be undefined
-      if (obj.format !== undefined) {
-        messages.addMessage(
-          path.concat(['type']),
-          `Schema of type boolean should not have a format.`,
-          checkStatus,
-          'invalid_type_format_pair'
-        );
-      }
-      break;
     case 'object':
-      // No valid format pairings for object, format should be undefined
-      if (obj.format !== undefined) {
-        messages.addMessage(
-          path.concat(['type']),
-          'Schema of type object should not have a format.',
-          checkStatus,
-          'invalid_type_format_pair'
-        );
-      }
-      break;
     case 'array':
-      // No valid format pairings for array, format should be undefined
-      if (obj.format !== undefined) {
-        messages.addMessage(
-          path.concat(['type']),
-          'Schema of type array should not have a format.',
-          checkStatus,
-          'invalid_type_format_pair'
-        );
-      }
+      // ignoring all these types in favor of the new valid-type-format rule.
       break;
     case 'file':
       // schemas of type file are allowed in swagger2 for responses and parameters
@@ -326,14 +219,6 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
         );
       }
       break;
-    default:
-      // invalid type
-      messages.addMessage(
-        path.concat(['type']),
-        `Invalid type. Valid types are: ${validTypes.join(', ')}.`,
-        checkStatus,
-        'invalid_type_format_pair'
-      );
   }
 }
 
