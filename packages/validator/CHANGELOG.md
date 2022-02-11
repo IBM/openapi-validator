@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.55.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.54.1...ibm-openapi-validator@0.55.0) (2022-02-11)
+
+
+### Features
+
+* add 'schema-description' spectral rule and remove old rules ([#372](https://github.com/IBM/openapi-validator/issues/372)) ([9bfdc81](https://github.com/IBM/openapi-validator/commit/9bfdc81bdb436badd9e44d0d21de440d108a0f21))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.3.0
+
 ## ibm-openapi-validator [0.54.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.54.0...ibm-openapi-validator@0.54.1) (2022-02-08)
 
 
