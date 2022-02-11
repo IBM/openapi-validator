@@ -119,25 +119,6 @@ describe('cli tool - test option handling', function() {
 
     const statsSection = capturedText.findIndex(x => x.includes('statistics'));
 
-    /*
-      Total number of errors   : 5
-      Total number of warnings : 8
-
-      errors
-       1  (20%) : Every operation must have unique "operationId".
-       2  (40%) : PUT and POST operations with a body parameter must have a non-empty `consumes` field.
-       1  (20%) : Arrays MUST NOT be returned as the top-level structure in a response body.
-       1  (20%) : Property names must follow case convention
-
-      warnings
-       1  (13%) : Potentially unused definition has been detected.
-       2  (25%) : Operations must have a non-empty `operationId`.
-       2  (25%) : A tag is defined but never used
-       1  (13%) : Schema must have a non-empty description.
-       1  (13%) : Schema properties must have a description with content in it.
-       1  (13%) : A security scheme is defined but never used
-    */
-
     // This can be uncommented to display the output when adjustments to
     // the expect statements below are needed.
     // let textOutput = "";
@@ -154,11 +135,11 @@ describe('cli tool - test option handling', function() {
     expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(20%)');
 
-    expect(capturedText[statsSection + 6].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 6].match(/\S+/g)[1]).toEqual('(40%)');
+    expect(capturedText[statsSection + 6].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 6].match(/\S+/g)[1]).toEqual('(20%)');
 
-    expect(capturedText[statsSection + 7].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 7].match(/\S+/g)[1]).toEqual('(20%)');
+    expect(capturedText[statsSection + 7].match(/\S+/g)[0]).toEqual('2');
+    expect(capturedText[statsSection + 7].match(/\S+/g)[1]).toEqual('(40%)');
 
     expect(capturedText[statsSection + 8].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 8].match(/\S+/g)[1]).toEqual('(20%)');
