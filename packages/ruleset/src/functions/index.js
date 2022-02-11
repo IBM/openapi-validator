@@ -3,6 +3,7 @@ const checkMajorVersion = require('./check-major-version');
 const descriptionMentionsJSON = require('./description-mentions-json');
 const discriminator = require('./discriminator');
 const errorResponseSchema = require('./error-response-schema');
+const propertyCaseConvention = require('./property-case-convention');
 const requiredProperty = require('./required-property');
 const responseExampleProvided = require('./response-example-provided');
 const schemaDescription = require('./schema-description.js');
@@ -16,6 +17,7 @@ module.exports = {
   descriptionMentionsJSON,
   discriminator,
   errorResponseSchema,
+  propertyCaseConvention,
   requiredProperty,
   responseExampleProvided,
   schemaDescription,

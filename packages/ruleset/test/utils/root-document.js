@@ -171,11 +171,17 @@ module.exports = {
           },
           director: {
             $ref: '#/components/schemas/NormalString'
+          },
+          running_time: {
+            type: 'integer',
+            format: 'int32',
+            description: 'The length of the movie, in minutes.'
           }
         },
         example: {
           name: 'The Two Towers',
-          director: 'Peter Jackson'
+          director: 'Peter Jackson',
+          running_time: 179
         }
       },
       Drink: {
