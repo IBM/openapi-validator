@@ -11,6 +11,7 @@ const majorVersionInPath = require('./major-version-in-path');
 const missingRequiredProperty = require('./missing-required-property');
 const parameterSchemaOrContent = require('./parameter-schema-or-content');
 const prohibitSummarySentenceStyle = require('./prohibit-summary-sentence-style');
+const propertyCaseConvention = require('./property-case-convention');
 const requestBodyObject = require('./request-body-object');
 const responseErrorResponseSchema = require('./response-error-response-schema');
 const responseExampleProvided = require('./response-example-provided');
@@ -33,6 +34,7 @@ module.exports = {
   missingRequiredProperty,
   parameterSchemaOrContent,
   prohibitSummarySentenceStyle,
+  propertyCaseConvention,
   requestBodyObject,
   responseErrorResponseSchema,
   responseExampleProvided,
