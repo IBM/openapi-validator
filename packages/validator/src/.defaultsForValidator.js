@@ -62,7 +62,6 @@ const defaults = {
       'invalid_type_format_pair': 'error',
       'snake_case_only': 'off',
       'inconsistent_property_type': ['warning', ['code', 'default', 'type', 'value']],
-      'property_case_convention': ['error', 'lower_snake_case'],
       'property_case_collision': 'error',
       'enum_case_convention': ['warning', 'lower_snake_case'],
     },
@@ -103,7 +102,7 @@ const defaults = {
 /*
 {
   'replaced_rule': 'new_rule',
-  'unreplaced_rule': '
+  'unreplaced_rule': ''
 }
 */
 const deprecated = {
@@ -113,7 +112,8 @@ const deprecated = {
   'array_of_arrays': 'array-of-arrays (Spectral rule)',
   'no_schema_description': 'schema-description (Spectral rule)',
   'no_property_description': 'schema-description (Spectral rule)',
-  'description_mentions_json': 'description-mentions-json (Spectral rule)'
+  'description_mentions_json': 'description-mentions-json (Spectral rule)',
+  'property_case_convention': 'property_case_convention (Spectral rule)'
 };
 
 const configOptions = {
