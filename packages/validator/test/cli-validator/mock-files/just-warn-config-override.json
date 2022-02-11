@@ -3,8 +3,8 @@
     "operations": {
       "no_operation_id": "off"
     },
-    "schemas": {
-      "no_schema_description": "error"
+    "responses": {
+      "inline_response_schema": "error"
     }
   }
 }

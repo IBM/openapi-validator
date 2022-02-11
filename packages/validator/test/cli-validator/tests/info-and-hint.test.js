@@ -8,7 +8,7 @@ describe('test info and hint rules - OAS3', function() {
   it('test info and hint rules', async function() {
     // Create custom config with some info and hint settings
     const customConfig = JSON.parse(JSON.stringify(defaultConfig));
-    customConfig['shared']['schemas']['no_schema_description'] = 'info';
+    customConfig['oas3']['responses']['no_success_response_codes'] = 'info';
     customConfig['shared']['operations']['unused_tag'] = 'hint';
     const mockConfig = jest.spyOn(config, 'get').mockReturnValue(customConfig);
 
@@ -35,12 +35,12 @@ describe('test info and hint rules - OAS3', function() {
     expect(jsonOutput['errors'].length).toBe(4);
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(16);
+    expect(jsonOutput['warnings'].length).toBe(17);
 
     // Verify infos
-    expect(jsonOutput['infos'].length).toBe(1);
+    expect(jsonOutput['infos'].length).toBe(2);
     expect(jsonOutput['infos'][0]['message']).toEqual(
-      'Schema must have a non-empty description.'
+      'Each `responses` object SHOULD have at least one code for a successful response.'
     );
 
     // Verify hints

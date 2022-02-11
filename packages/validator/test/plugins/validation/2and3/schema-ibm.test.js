@@ -434,83 +434,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should return an error when a schema has no description', () => {
-    const spec = {
-      definitions: {
-        Pet: {
-          required: ['id', 'name'],
-          properties: {
-            id: {
-              type: 'integer',
-              format: 'int64',
-              description: 'string'
-            },
-            name: {
-              type: 'string',
-              description: 'string'
-            },
-            tag: {
-              type: 'string',
-              description: 'string'
-            }
-          }
-        }
-      }
-    };
-
-    const res = validate({ jsSpec: spec }, config);
-    expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(1);
-    expect(res.warnings[0].path).toEqual(['definitions', 'Pet']);
-    expect(res.warnings[0].message).toEqual(
-      'Schema must have a non-empty description.'
-    );
-  });
-
-  it('should return an error when a schema property has no description', () => {
-    const spec = {
-      paths: {
-        '/pets': {
-          get: {
-            parameters: [
-              {
-                name: 'good_name',
-                in: 'body',
-                description: 'Not a bad description',
-                schema: {
-                  type: 'object',
-                  properties: {
-                    bad_property: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
-    };
-
-    const res = validate({ jsSpec: spec }, config);
-    expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(1);
-    expect(res.warnings[0].path).toEqual([
-      'paths',
-      '/pets',
-      'get',
-      'parameters',
-      '0',
-      'schema',
-      'properties',
-      'bad_property',
-      'description'
-    ]);
-    expect(res.warnings[0].message).toEqual(
-      'Schema properties must have a description with content in it.'
-    );
-  });
-
   it('should return an error when JSON is in the description', () => {
     const spec = {
       paths: {
@@ -617,41 +540,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
 });
 
 describe('validation plugin - semantic - schema-ibm - OpenAPI 3', () => {
-  it('should return an error when an OASv3 schema has no description', () => {
-    const spec = {
-      components: {
-        schemas: {
-          Pet: {
-            required: ['id', 'name'],
-            properties: {
-              id: {
-                type: 'integer',
-                format: 'int64',
-                description: 'string'
-              },
-              name: {
-                type: 'string',
-                description: 'string'
-              },
-              tag: {
-                type: 'string',
-                description: 'string'
-              }
-            }
-          }
-        }
-      }
-    };
-
-    const res = validate({ jsSpec: spec, isOAS3: true }, config);
-    expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(1);
-    expect(res.warnings[0].path).toEqual(['components', 'schemas', 'Pet']);
-    expect(res.warnings[0].message).toEqual(
-      'Schema must have a non-empty description.'
-    );
-  });
-
   it('should return an error for a response schema of type file', () => {
     const spec = {
       paths: {

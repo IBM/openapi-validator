@@ -61,14 +61,11 @@ const defaults = {
     'schemas': {
       'invalid_type_format_pair': 'error',
       'snake_case_only': 'off',
-      'no_schema_description': 'warning',
-      'no_property_description': 'warning',
       'description_mentions_json': 'warning',
-      'array_of_arrays': 'warning',
       'inconsistent_property_type': ['warning', ['code', 'default', 'type', 'value']],
-      'property_case_convention': [ 'error', 'lower_snake_case'],
+      'property_case_convention': ['error', 'lower_snake_case'],
       'property_case_collision': 'error',
-      'enum_case_convention': [ 'warning', 'lower_snake_case'],
+      'enum_case_convention': ['warning', 'lower_snake_case'],
     },
     'walker': {
       'no_empty_descriptions': 'error',
@@ -114,6 +111,9 @@ const deprecated = {
   'no_produces_for_get': 'no_produces',
   'parameters.snake_case_only': 'param_name_case_convention',
   'undefined_required_properties': 'missing-required-property (Spectral rule)',
+  'array_of_arrays': 'array-of-arrays (Spectral rule)',
+  'no_schema_description': 'schema-description (Spectral rule)',
+  'no_property_description': 'schema-description (Spectral rule)'
 };
 
 const configOptions = {

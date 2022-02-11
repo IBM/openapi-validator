@@ -15,6 +15,7 @@ module.exports = {
       post: {
         operationId: 'createDrink',
         summary: 'Create a drink',
+        description: 'Create a new Drink instance.',
         requestBody: {
           content: {
             'application/json': {
@@ -40,9 +41,11 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
+                  description: 'An error response.',
                   type: 'object',
                   properties: {
                     trace: {
+                      description: 'The error trace information.',
                       type: 'string',
                       format: 'uuid'
                     },
@@ -61,6 +64,7 @@ module.exports = {
       post: {
         operationId: 'createMovie',
         summary: 'Create a movie',
+        description: 'Create a new Movie instance.',
         requestBody: {
           content: {
             'application/json': {
@@ -86,9 +90,11 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
+                  description: 'An error response.',
                   type: 'object',
                   properties: {
                     trace: {
+                      description: 'The trace information',
                       type: 'string',
                       format: 'uuid'
                     },
@@ -104,15 +110,32 @@ module.exports = {
       },
       get: {
         operationId: 'listMovies',
+        summary: 'List movies',
+        description:
+          'Retrieve a list of movies using an optional genre qualifier.',
+        parameters: [
+          {
+            description: 'An optional genre to filter on.',
+            name: 'genre',
+            required: false,
+            in: 'query',
+            schema: {
+              type: 'string',
+              enum: ['comedy', 'drama', 'action', 'musical', 'documentary']
+            }
+          }
+        ],
         responses: {
           '200': {
             description: 'Success!',
             content: {
               'application/json': {
                 schema: {
+                  description: 'A response containing a list of movies.',
                   type: 'object',
                   properties: {
                     movies: {
+                      description: 'The movie list.',
                       type: 'array',
                       items: {
                         $ref: '#/components/schemas/Movie'
@@ -136,6 +159,7 @@ module.exports = {
   components: {
     schemas: {
       Movie: {
+        description: 'This is the Movie schema.',
         type: 'object',
         required: ['id', 'name'],
         properties: {
@@ -155,6 +179,8 @@ module.exports = {
         }
       },
       Drink: {
+        description:
+          'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
         oneOf: [
           {
             $ref: '#/components/schemas/Juice'
@@ -172,10 +198,12 @@ module.exports = {
         }
       },
       Soda: {
+        description: 'Do you really not know what a Soda is?',
         type: 'object',
         required: ['type', 'name'],
         properties: {
           type: {
+            description: 'The drink type - should be "soda".',
             type: 'string',
             enum: ['soda']
           },
@@ -185,10 +213,12 @@ module.exports = {
         }
       },
       Juice: {
+        description: 'Juice box!',
         type: 'object',
         required: ['type', 'fruit'],
         properties: {
           type: {
+            description: 'The drink type - should be "juice".',
             type: 'string',
             enum: ['juice']
           },
@@ -198,12 +228,14 @@ module.exports = {
         }
       },
       NormalString: {
+        description: 'This is a normal string.',
         type: 'string',
         pattern: '[a-zA-Z0-9 ]+',
         minLength: 1,
         maxLength: 30
       },
       IdString: {
+        description: 'An identifier of some sort.',
         type: 'string',
         readOnly: true,
         pattern: '[a-zA-Z0-9]+',
@@ -211,15 +243,19 @@ module.exports = {
         maxLength: 10
       },
       RequestError: {
+        description: 'This schema describes an error response.',
         type: 'object',
         properties: {
           code: {
+            description: 'The error code.',
             type: 'string'
           },
           message: {
+            description: 'The error message.',
             type: 'string'
           },
           more_info: {
+            description: 'Additional info about the error.',
             type: 'string'
           }
         }

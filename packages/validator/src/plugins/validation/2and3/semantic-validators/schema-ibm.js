@@ -5,16 +5,16 @@
 // Property names and enum values MUST be lower snake case.
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting
 
-// no_schema_description:
+// no_schema_description: [REMOVED]
 // Schema objects should have a description
 
-// no_property_description:
+// no_property_description: [REMOVED]
 // Properties within schema objects should have descriptions
 
 // description_mentions_json:
 // Schema property descriptions should not state that model will be a JSON object
 
-// array_of_arrays:
+// array_of_arrays: [REMOVED]
 // Schema properties that are arrays should avoid having items that are also arrays
 
 const forIn = require('lodash/forIn');
@@ -241,12 +241,12 @@ function generateDescriptionWarnings(
   const hasDescription =
     schema.description && schema.description.toString().trim().length;
   if (isTopLevelSchema && !hasDescription) {
-    messages.addMessage(
-      contextPath,
-      'Schema must have a non-empty description.',
-      config.no_schema_description,
-      'no_schema_description'
-    );
+    // messages.addMessage(
+    //   contextPath,
+    //   'Schema must have a non-empty description.',
+    //   config.no_schema_description,
+    //   'no_schema_description'
+    // );
   }
 
   if (!schema.properties) {
@@ -266,12 +266,12 @@ function generateDescriptionWarnings(
     const hasDescription =
       property.description && property.description.toString().trim().length;
     if (!hasDescription) {
-      messages.addMessage(
-        path,
-        'Schema properties must have a description with content in it.',
-        config.no_property_description,
-        'no_property_description'
-      );
+      // messages.addMessage(
+      //   path,
+      //   'Schema properties must have a description with content in it.',
+      //   config.no_property_description,
+      //   'no_property_description'
+      // );
     } else {
       // if the property does have a description, "Avoid describing a model as a 'JSON object' since this will be incorrect for some SDKs."
       const mentionsJSON = includes(property.description.toLowerCase(), 'json');

@@ -144,8 +144,10 @@ describe('cli tool - test expected output - Swagger 2', function() {
     const defaultMode = true;
     const validationResults = await inCodeValidator(oas2Object, defaultMode);
 
+    //    console.warn(JSON.stringify(validationResults, null, 2));
+
     expect(validationResults.errors.length).toBe(5);
-    expect(validationResults.warnings.length).toBe(8);
+    expect(validationResults.warnings.length).toBe(10);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 
@@ -163,6 +165,14 @@ describe('cli tool - test expected output - Swagger 2', function() {
     const exitCode = await commandLineValidator(program);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
+    // This can be uncommented to display the output when adjustments to
+    // the expect statements below are needed.
+    // let textOutput = "";
+    // capturedText.forEach((elem, index) => {
+    //   textOutput += `[${index}]: ${elem}\n`;
+    // });
+    // console.warn(textOutput);
+
     expect(exitCode).toEqual(1);
 
     // .match(/\S+/g) returns an array of all non-whitespace strings
@@ -176,14 +186,13 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[20].match(/\S+/g)[2]).toEqual('172');
 
     // warnings
-    expect(capturedText[25].match(/\S+/g)[2]).toEqual('197');
-    expect(capturedText[29].match(/\S+/g)[2]).toEqual('36');
-    expect(capturedText[33].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[37].match(/\S+/g)[2]).toEqual('15');
+    expect(capturedText[25].match(/\S+/g)[2]).toEqual('166');
+    expect(capturedText[29].match(/\S+/g)[2]).toEqual('197');
+    expect(capturedText[33].match(/\S+/g)[2]).toEqual('36');
+    expect(capturedText[37].match(/\S+/g)[2]).toEqual('59');
     expect(capturedText[41].match(/\S+/g)[2]).toEqual('15');
-    expect(capturedText[45].match(/\S+/g)[2]).toEqual('131');
-    expect(capturedText[49].match(/\S+/g)[2]).toEqual('134');
-    expect(capturedText[53].match(/\S+/g)[2]).toEqual('126');
+    expect(capturedText[45].match(/\S+/g)[2]).toEqual('15');
+    expect(capturedText[49].match(/\S+/g)[2]).toEqual('126');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
@@ -365,7 +374,7 @@ describe('test expected output - OpenAPI 3', function() {
     const validationResults = await inCodeValidator(oas3Object, defaultMode);
 
     expect(validationResults.errors.length).toBe(4);
-    expect(validationResults.warnings.length).toBe(40);
+    expect(validationResults.warnings.length).toBe(48);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 

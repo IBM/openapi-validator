@@ -13,6 +13,7 @@ const prohibitSummarySentenceStyle = require('./prohibit-summary-sentence-style'
 const requestBodyObject = require('./request-body-object');
 const responseErrorResponseSchema = require('./response-error-response-schema');
 const responseExampleProvided = require('./response-example-provided');
+const schemaDescription = require('./schema-description');
 const serverVariableDefaultValue = require('./server-variable-default-value');
 const stringBoundary = require('./string-boundary');
 const validTypeFormat = require('./valid-type-format');
@@ -33,6 +34,7 @@ module.exports = {
   requestBodyObject,
   responseErrorResponseSchema,
   responseExampleProvided,
+  schemaDescription,
   serverVariableDefaultValue,
   stringBoundary,
   validTypeFormat

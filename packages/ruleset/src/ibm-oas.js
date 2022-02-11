@@ -89,23 +89,24 @@ module.exports = {
 
     // IBM Custom Rules
 
+    'array-of-arrays': ibmRules.arrayOfArrays,
+    'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'content-entry-provided': ibmRules.contentEntryProvided,
     discriminator: ibmRules.discriminator,
-    'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
+    'examples-name-contains-space': ibmRules.examplesNameContainsSpace,
     'ibm-content-type-is-specific': ibmRules.ibmContentTypeIsSpecific,
     'ibm-error-content-type-is-json': ibmRules.ibmErrorContentTypeIsJson,
     'ibm-sdk-operations': ibmRules.ibmSdkOperations,
     'major-version-in-path': ibmRules.majorVersionInPath,
     'missing-required-property': ibmRules.missingRequiredProperty,
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
+    'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
+    'request-body-object': ibmRules.requestBodyObject,
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,
     'response-example-provided': ibmRules.responseExampleProvided,
-    'request-body-object': ibmRules.requestBodyObject,
-    'string-boundary': ibmRules.stringBoundary,
+    'schema-description': ibmRules.schemaDescription,
     'server-variable-default-value': ibmRules.serverVariableDefaultValue,
-    'examples-name-contains-space': ibmRules.examplesNameContainsSpace,
-    'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
-    'valid-type-format': ibmRules.validTypeFormat,
-    'array-of-arrays': ibmRules.arrayOfArrays
+    'string-boundary': ibmRules.stringBoundary,
+    'valid-type-format': ibmRules.validTypeFormat
   }
 };
