@@ -1,5 +1,6 @@
 const arrayOfArrays = require('./array-of-arrays');
 const checkMajorVersion = require('./check-major-version');
+const descriptionMentionsJSON = require('./description-mentions-json');
 const discriminator = require('./discriminator');
 const errorResponseSchema = require('./error-response-schema');
 const requiredProperty = require('./required-property');
@@ -12,6 +13,7 @@ const validTypeFormat = require('./valid-type-format');
 module.exports = {
   arrayOfArrays,
   checkMajorVersion,
+  descriptionMentionsJSON,
   discriminator,
   errorResponseSchema,
   requiredProperty,

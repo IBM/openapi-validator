@@ -1,6 +1,7 @@
 const arrayOfArrays = require('./array-of-arrays');
 const contentEntryContainsSchema = require('./content-entry-contains-schema');
 const contentEntryProvided = require('./content-entry-provided');
+const descriptionMentionsJSON = require('./description-mentions-json');
 const discriminator = require('./discriminator');
 const examplesNameContainsSpace = require('./examples-name-contains-space');
 const ibmContentTypeIsSpecific = require('./ibm-content-type-is-specific');
@@ -22,6 +23,7 @@ module.exports = {
   arrayOfArrays,
   contentEntryContainsSchema,
   contentEntryProvided,
+  descriptionMentionsJSON,
   discriminator,
   examplesNameContainsSpace,
   ibmContentTypeIsSpecific,
