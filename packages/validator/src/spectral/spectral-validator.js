@@ -5,7 +5,6 @@ const {
 const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const MessageCarrier = require('../plugins/utils/message-carrier');
 const config = require('../cli-validator/utils/process-configuration');
-const dedupFunction = require('../cli-validator/utils/custom-deduplication');
 
 const parseResults = function(results, debug) {
   const messages = new MessageCarrier();
@@ -57,7 +56,6 @@ const parseResults = function(results, debug) {
 // `debug` is a boolean - it indicates that debug information should be printed
 const setup = async function(rulesetFileOverride, debug, chalk) {
   const spectral = new Spectral();
-  spectral._computeFingerprint = dedupFunction;
 
   // spectral only supports reading a config file in the working directory
   // but we support looking up the file path for the nearest file (if one exists)
