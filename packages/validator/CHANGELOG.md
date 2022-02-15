@@ -1,3 +1,18 @@
+## ibm-openapi-validator [0.56.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.56.0...ibm-openapi-validator@0.56.1) (2022-02-15)
+
+
+### Bug Fixes
+
+* remove property-case-convention rule in favor of new Spectral rule ([2915b20](https://github.com/IBM/openapi-validator/commit/2915b20597d285a8439ffa20aa453de61cff1a1d))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.5.0
+
 # ibm-openapi-validator [0.56.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.55.0...ibm-openapi-validator@0.56.0) (2022-02-15)
 
 
