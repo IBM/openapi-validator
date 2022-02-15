@@ -11,14 +11,13 @@
 // no_property_description: [REMOVED]
 // Properties within schema objects should have descriptions
 
-// description_mentions_json:
+// description_mentions_json: [REMOVED]
 // Schema property descriptions should not state that model will be a JSON object
 
 // array_of_arrays: [REMOVED]
 // Schema properties that are arrays should avoid having items that are also arrays
 
 const forIn = require('lodash/forIn');
-const includes = require('lodash/includes');
 const { checkCase, walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/message-carrier');
 
@@ -88,8 +87,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
   schemas.forEach(({ schema, path }) => {
     generateFormatErrors(schema, path, config, isOAS3, messages);
-
-    generateDescriptionWarnings(schema, path, config, isOAS3, messages);
 
     const checkStatus = config.snake_case_only;
     if (checkStatus !== 'off') {
@@ -209,71 +206,6 @@ function typeFormatErrors(obj, path, isOAS3, messages, checkStatus) {
       }
       break;
   }
-}
-
-// http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#models
-function generateDescriptionWarnings(
-  schema,
-  contextPath,
-  config,
-  isOAS3,
-  messages
-) {
-  // determine if this is a top-level schema
-  const isTopLevelSchema = isOAS3
-    ? contextPath.length === 3 &&
-      contextPath[0] === 'components' &&
-      contextPath[1] === 'schemas'
-    : contextPath.length === 2 && contextPath[0] === 'definitions';
-
-  // Check description in schema only for "top level" schema
-  const hasDescription =
-    schema.description && schema.description.toString().trim().length;
-  if (isTopLevelSchema && !hasDescription) {
-    // messages.addMessage(
-    //   contextPath,
-    //   'Schema must have a non-empty description.',
-    //   config.no_schema_description,
-    //   'no_schema_description'
-    // );
-  }
-
-  if (!schema.properties) {
-    return;
-  }
-
-  // verify that every property of the model has a description
-  forIn(schema.properties, (property, propName) => {
-    // if property is defined by a ref, it does not need a description
-    if (!property || property.$ref || propName.slice(0, 2) === 'x-') return;
-
-    // if property has a allOf, anyOf, or oneOf schema, it does not needs a description
-    if (property.allOf || property.anyOf || property.oneOf) return;
-
-    const path = contextPath.concat(['properties', propName, 'description']);
-
-    const hasDescription =
-      property.description && property.description.toString().trim().length;
-    if (!hasDescription) {
-      // messages.addMessage(
-      //   path,
-      //   'Schema properties must have a description with content in it.',
-      //   config.no_property_description,
-      //   'no_property_description'
-      // );
-    } else {
-      // if the property does have a description, "Avoid describing a model as a 'JSON object' since this will be incorrect for some SDKs."
-      const mentionsJSON = includes(property.description.toLowerCase(), 'json');
-      if (mentionsJSON) {
-        messages.addMessage(
-          path,
-          'Not all languages use JSON, so descriptions should not state that the model is a JSON object.',
-          config.description_mentions_json,
-          'description_mentions_json'
-        );
-      }
-    }
-  });
 }
 
 // https://pages.github.ibm.com/CloudEngineering/api_handbook/design/terminology.html#formatting

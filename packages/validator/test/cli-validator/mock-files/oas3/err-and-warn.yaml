@@ -163,7 +163,7 @@ components:
       description: string
       required:
         - name
-        - photoUrls
+        - photo_urls
       properties:
         id:
           type: integer
@@ -175,7 +175,7 @@ components:
           type: string
           example: doggie
           description: string
-        photoUrls:
+        photo_urls:
           type: array
           description: string
           xml:

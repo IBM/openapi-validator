@@ -144,9 +144,9 @@ describe('cli tool - test expected output - Swagger 2', function() {
     const defaultMode = true;
     const validationResults = await inCodeValidator(oas2Object, defaultMode);
 
-    //    console.warn(JSON.stringify(validationResults, null, 2));
+    // console.warn(JSON.stringify(validationResults, null, 2));
 
-    expect(validationResults.errors.length).toBe(5);
+    expect(validationResults.errors.length).toBe(6);
     expect(validationResults.warnings.length).toBe(10);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
@@ -180,10 +180,10 @@ describe('cli tool - test expected output - Swagger 2', function() {
 
     // errors
     expect(capturedText[4].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[8].match(/\S+/g)[2]).toEqual('31');
-    expect(capturedText[12].match(/\S+/g)[2]).toEqual('54');
-    expect(capturedText[16].match(/\S+/g)[2]).toEqual('108');
-    expect(capturedText[20].match(/\S+/g)[2]).toEqual('172');
+    expect(capturedText[8].match(/\S+/g)[2]).toEqual('172');
+    expect(capturedText[12].match(/\S+/g)[2]).toEqual('31');
+    expect(capturedText[16].match(/\S+/g)[2]).toEqual('54');
+    expect(capturedText[20].match(/\S+/g)[2]).toEqual('108');
 
     // warnings
     expect(capturedText[25].match(/\S+/g)[2]).toEqual('166');
@@ -373,7 +373,7 @@ describe('test expected output - OpenAPI 3', function() {
     const defaultMode = true;
     const validationResults = await inCodeValidator(oas3Object, defaultMode);
 
-    expect(validationResults.errors.length).toBe(4);
+    expect(validationResults.errors.length).toBe(3);
     expect(validationResults.warnings.length).toBe(48);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();

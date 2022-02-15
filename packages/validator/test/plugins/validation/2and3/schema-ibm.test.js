@@ -392,51 +392,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
-  it('should return an error when JSON is in the description', () => {
-    const spec = {
-      paths: {
-        '/pets': {
-          get: {
-            parameters: [
-              {
-                name: 'good_name',
-                in: 'body',
-                description: 'Not a bad description',
-                schema: {
-                  type: 'object',
-                  properties: {
-                    any_object: {
-                      type: 'object',
-                      description: 'it is not always a JSON object'
-                    }
-                  }
-                }
-              }
-            ]
-          }
-        }
-      }
-    };
-
-    const res = validate({ jsSpec: spec }, config);
-    expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(1);
-    expect(res.warnings[0].path).toEqual([
-      'paths',
-      '/pets',
-      'get',
-      'parameters',
-      '0',
-      'schema',
-      'properties',
-      'any_object',
-      'description'
-    ]);
-    expect(res.warnings[0].message).toEqual(
-      'Not all languages use JSON, so descriptions should not state that the model is a JSON object.'
-    );
-  });
-
   it('should not die when a schema contains a description property', () => {
     const spec = {
       definitions: {
@@ -455,37 +410,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
               readOnly: true,
               description: 'The description of the notice'
             }
-          }
-        }
-      }
-    };
-
-    const res = validate({ jsSpec: spec }, config);
-    expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(0);
-  });
-
-  it('should not return an error when JSON is in the description of a vendor extension', () => {
-    const spec = {
-      paths: {
-        '/pets': {
-          get: {
-            parameters: [
-              {
-                name: 'good_name',
-                in: 'body',
-                description: 'Not a bad description',
-                schema: {
-                  type: 'object',
-                  properties: {
-                    'x-vendor-anyObject': {
-                      type: 'object',
-                      description: 'it is not always a JSON object'
-                    }
-                  }
-                }
-              }
-            ]
           }
         }
       }

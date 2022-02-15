@@ -92,6 +92,7 @@ module.exports = {
     'array-of-arrays': ibmRules.arrayOfArrays,
     'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'content-entry-provided': ibmRules.contentEntryProvided,
+    'description-mentions-json': ibmRules.descriptionMentionsJSON,
     discriminator: ibmRules.discriminator,
     'examples-name-contains-space': ibmRules.examplesNameContainsSpace,
     'ibm-content-type-is-specific': ibmRules.ibmContentTypeIsSpecific,
