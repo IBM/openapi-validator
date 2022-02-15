@@ -7,15 +7,12 @@ module.exports = function(schema, _opts, { path }) {
 const errorMsg = 'Property names should not be identical';
 
 function propertyCaseCollision(schema, path) {
-  // TODO: check `checkCaseStatus !== 'off'` ?
   const errors = [];
 
   if (schema.properties) {
     const prevProps = [];
 
-    for (const [propName, prop] of schema.properties) {
-      if (propName.slice(0, 2) === 'x-') continue;
-
+    for (const [propName, prop] of Object.entries(schema.properties)) {
       // Skip check for deprecated properties.
       if (prop.deprecated === true) continue;
 

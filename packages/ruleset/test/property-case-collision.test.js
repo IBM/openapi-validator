@@ -10,11 +10,12 @@ describe('Spectral rule: property-case-collision', () => {
     expect(results).toHaveLength(0);
   });
 
-  it('should return an error when two property names of different case conventions are identical if converted to a single case', async () => {
+  it('should not error if invalid properties are deprecated', async () => {
     const testDocument = makeCopy(rootDocument);
 
     testDocument.components.schemas.Movie.properties.IMDBRating = {
-      type: 'string'
+      type: 'string',
+      deprecated: true
     };
     testDocument.components.schemas.Movie.properties.IDMB_rating = {
       type: 'string'
@@ -22,21 +23,35 @@ describe('Spectral rule: property-case-collision', () => {
 
     const results = await testRule(name, propertyCaseCollision, testDocument);
 
-    expect(results).toHaveLength(1);
+    expect(results).toHaveLength(0);
+  });
+
+  it('should return an error when two property names of different case conventions are identical if converted to a single case', async () => {
+    const testDocument = makeCopy(rootDocument);
+
+    testDocument.components.schemas.Movie.properties.IMDBRating = {
+      type: 'string'
+    };
+    testDocument.components.schemas.Movie.properties.IMDB_rating = {
+      type: 'string'
+    };
+
+    const results = await testRule(name, propertyCaseCollision, testDocument);
+
+    expect(results).toHaveLength(3);
 
     const validation = results[0];
     expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Property name is identical to another property except for the naming convention: IMDB_rating'
-    );
+    expect(validation.message).toBe('Property names should not be identical');
     expect(validation.path).toStrictEqual([
       'paths',
-      'components',
-      'schemas',
-      'Movie',
-      'properties',
-      'IMDB_rating'
+      '/v1/movies',
+      'post',
+      'requestBody',
+      'content',
+      'application/json',
+      'schema'
     ]);
-    expect(validation.severity).toBe(severityCodes.warning);
+    expect(validation.severity).toBe(severityCodes.error);
   });
 });
