@@ -61,7 +61,6 @@ const defaults = {
     'schemas': {
       'invalid_type_format_pair': 'error',
       'snake_case_only': 'off',
-      'description_mentions_json': 'warning',
       'inconsistent_property_type': ['warning', ['code', 'default', 'type', 'value']],
       'property_case_convention': ['error', 'lower_snake_case'],
       'property_case_collision': 'error',
@@ -113,7 +112,8 @@ const deprecated = {
   'undefined_required_properties': 'missing-required-property (Spectral rule)',
   'array_of_arrays': 'array-of-arrays (Spectral rule)',
   'no_schema_description': 'schema-description (Spectral rule)',
-  'no_property_description': 'schema-description (Spectral rule)'
+  'no_property_description': 'schema-description (Spectral rule)',
+  'description_mentions_json': 'description-mentions-json (Spectral rule)'
 };
 
 const configOptions = {
