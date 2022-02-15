@@ -101,6 +101,7 @@ module.exports = {
     'missing-required-property': ibmRules.missingRequiredProperty,
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
+    'property-case-collision': ibmRules.propertyCaseCollision,
     'request-body-object': ibmRules.requestBodyObject,
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,
     'response-example-provided': ibmRules.responseExampleProvided,

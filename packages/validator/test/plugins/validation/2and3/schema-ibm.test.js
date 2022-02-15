@@ -370,48 +370,6 @@ describe('validation plugin - semantic - schema-ibm - Swagger 2', () => {
     expect(res.warnings.length).toEqual(0);
   });
 
-  // tests for explicit name collisions
-  it('should return a warning when two property names of different case conventions are identical if converted to a single case', () => {
-    const customConfig = {
-      schemas: {
-        snake_case_only: 'off',
-        property_case_collision: 'warning'
-      }
-    };
-
-    const spec = {
-      definitions: {
-        Thing: {
-          type: 'object',
-          description: 'thing',
-          properties: {
-            thingString: {
-              type: 'string',
-              description: 'thing string'
-            },
-            thing_string: {
-              type: 'string',
-              description: 'thing string'
-            }
-          }
-        }
-      }
-    };
-
-    const res = validate({ jsSpec: spec }, customConfig);
-    expect(res.errors.length).toEqual(0);
-    expect(res.warnings.length).toEqual(1);
-    expect(res.warnings[0].path).toEqual([
-      'definitions',
-      'Thing',
-      'properties',
-      'thing_string'
-    ]);
-    expect(res.warnings[0].message).toEqual(
-      'Property name is identical to another property except for the naming convention: thing_string'
-    );
-  });
-
   it('should not return a case_convention error when property is deprecated', () => {
     const spec = {
       definitions: {

@@ -2,6 +2,7 @@ const arrayOfArrays = require('./array-of-arrays');
 const checkMajorVersion = require('./check-major-version');
 const discriminator = require('./discriminator');
 const errorResponseSchema = require('./error-response-schema');
+const propertyCaseCollision = require('./property-case-collision');
 const requiredProperty = require('./required-property');
 const responseExampleProvided = require('./response-example-provided');
 const schemaDescription = require('./schema-description.js');
@@ -14,6 +15,7 @@ module.exports = {
   checkMajorVersion,
   discriminator,
   errorResponseSchema,
+  propertyCaseCollision,
   requiredProperty,
   responseExampleProvided,
   schemaDescription,

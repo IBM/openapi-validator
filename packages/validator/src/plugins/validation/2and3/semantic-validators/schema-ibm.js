@@ -97,7 +97,7 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
       checkEnumValues(schema, path, config, messages);
     } else {
-      // optional support for property_case_convention, property_case_collision, and enum_case_convention
+      // optional support for property_case_convention, and enum_case_convention
       // in config.  In the else block because support should be mutually exclusive
       // with config.snake_case_only since it is overlapping functionality
       if (config.property_case_convention) {
@@ -107,17 +107,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
             schema,
             path,
             config.property_case_convention,
-            messages
-          );
-        }
-      }
-      if (config.property_case_collision) {
-        const checkCaseStatus = config.property_case_collision;
-        if (checkCaseStatus !== 'off') {
-          checkPropNamesCaseCollision(
-            schema,
-            path,
-            config.property_case_collision,
             messages
           );
         }
@@ -310,45 +299,6 @@ function checkPropNames(schema, contextPath, config, messages) {
           'snake_case_only'
         );
       }
-    }
-  });
-}
-
-/**
- * Check that property names follow the specified case convention
- * @param schema
- * @param contextPath
- * @param checkStatus a string, 'off' | 'warning' | 'error'
- * @param messages
- */
-function checkPropNamesCaseCollision(
-  schema,
-  contextPath,
-  checkStatus,
-  messages
-) {
-  if (!schema.properties) {
-    return;
-  }
-
-  // flag any property whose name is identical to another property in a different case
-  const prevProps = [];
-  forIn(schema.properties, (property, propName) => {
-    if (propName.slice(0, 2) === 'x-') return;
-
-    // Skip case_convention checks for deprecated properties
-    if (propName.deprecated === true) return;
-
-    const caselessPropName = propName.replace(/[_-]/g, '').toLowerCase();
-    if (prevProps.includes(caselessPropName)) {
-      messages.addMessage(
-        contextPath.concat(['properties', propName]),
-        `Property name is identical to another property except for the naming convention: ${propName}`,
-        checkStatus,
-        'property_case_collision'
-      );
-    } else {
-      prevProps.push(caselessPropName);
     }
   });
 }
