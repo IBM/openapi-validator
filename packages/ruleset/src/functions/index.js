@@ -4,6 +4,7 @@ const descriptionMentionsJSON = require('./description-mentions-json');
 const discriminator = require('./discriminator');
 const errorResponseSchema = require('./error-response-schema');
 const propertyCaseCollision = require('./property-case-collision');
+const propertyCaseConvention = require('./property-case-convention');
 const requiredProperty = require('./required-property');
 const responseExampleProvided = require('./response-example-provided');
 const schemaDescription = require('./schema-description.js');
@@ -18,6 +19,7 @@ module.exports = {
   discriminator,
   errorResponseSchema,
   propertyCaseCollision,
+  propertyCaseConvention,
   requiredProperty,
   responseExampleProvided,
   schemaDescription,

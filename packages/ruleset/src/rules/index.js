@@ -12,6 +12,7 @@ const missingRequiredProperty = require('./missing-required-property');
 const parameterSchemaOrContent = require('./parameter-schema-or-content');
 const prohibitSummarySentenceStyle = require('./prohibit-summary-sentence-style');
 const propertyCaseCollision = require('./property-case-collision');
+const propertyCaseConvention = require('./property-case-convention');
 const requestBodyObject = require('./request-body-object');
 const responseErrorResponseSchema = require('./response-error-response-schema');
 const responseExampleProvided = require('./response-example-provided');
@@ -35,6 +36,7 @@ module.exports = {
   parameterSchemaOrContent,
   prohibitSummarySentenceStyle,
   propertyCaseCollision,
+  propertyCaseConvention,
   requestBodyObject,
   responseErrorResponseSchema,
   responseExampleProvided,

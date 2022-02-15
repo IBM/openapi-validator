@@ -94,20 +94,9 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
 
       checkEnumValues(schema, path, config, messages);
     } else {
-      // optional support for property_case_convention, and enum_case_convention
-      // in config.  In the else block because support should be mutually exclusive
+      // Optional support for enum_case_convention in config.
+      // In the else block because support should be mutually exclusive
       // with config.snake_case_only since it is overlapping functionality
-      if (config.property_case_convention) {
-        const checkCaseStatus = config.property_case_convention[0];
-        if (checkCaseStatus !== 'off') {
-          checkPropNamesCaseConvention(
-            schema,
-            path,
-            config.property_case_convention,
-            messages
-          );
-        }
-      }
       if (config.enum_case_convention) {
         const checkCaseStatus = config.enum_case_convention[0];
         if (checkCaseStatus !== 'off') {
@@ -229,47 +218,6 @@ function checkPropNames(schema, contextPath, config, messages) {
           'Property names must be lower snake case.',
           checkStatus,
           'snake_case_only'
-        );
-      }
-    }
-  });
-}
-
-/**
- * Check that property names follow the specified case convention
- * @param schema
- * @param contextPath
- * @param caseConvention an array, [0]='off' | 'warning' | 'error'. [1]='lower_snake_case' etc.
- * @param messages
- */
-function checkPropNamesCaseConvention(
-  schema,
-  contextPath,
-  caseConvention,
-  messages
-) {
-  if (!schema.properties || !caseConvention) {
-    return;
-  }
-
-  // flag any property whose name does not follow the case convention
-  forIn(schema.properties, (property, propName) => {
-    if (propName.slice(0, 2) === 'x-') return;
-
-    // Skip case_convention checks for deprecated properties
-    if (property.deprecated === true) return;
-
-    const checkStatus = caseConvention[0] || 'off';
-    if (checkStatus.match('error|warning')) {
-      const caseConventionValue = caseConvention[1];
-
-      const isCorrectCase = checkCase(propName, caseConventionValue);
-      if (!isCorrectCase) {
-        messages.addMessage(
-          contextPath.concat(['properties', propName]),
-          `Property names must follow case convention: ${caseConventionValue}`,
-          checkStatus,
-          'property_case_convention'
         );
       }
     }
