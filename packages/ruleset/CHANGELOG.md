@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.5.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.5.0...@ibm-cloud/openapi-ruleset@0.5.1) (2022-02-15)
+
+
+### Bug Fixes
+
+* pin spectral dependencies to avoid configuration bugs ([#376](https://github.com/IBM/openapi-validator/issues/376)) ([92a927b](https://github.com/IBM/openapi-validator/commit/92a927bd4d67c5bfa3d5da0dd565ed0ccea2a9c2))
+
 # @ibm-cloud/openapi-ruleset [0.5.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.4.0...@ibm-cloud/openapi-ruleset@0.5.0) (2022-02-15)
 
 
