@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.5.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.4.0...@ibm-cloud/openapi-ruleset@0.5.0) (2022-02-15)
+
+
+### Features
+
+* **new rule:** property names must be snake case (property-case-convention) ([364ef90](https://github.com/IBM/openapi-validator/commit/364ef90ac588d36cde8a54e44c610d0a3f74ca95))
+
 # @ibm-cloud/openapi-ruleset [0.4.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.3.0...@ibm-cloud/openapi-ruleset@0.4.0) (2022-02-15)
 
 
