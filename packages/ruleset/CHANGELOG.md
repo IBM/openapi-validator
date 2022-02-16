@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.6.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.5.1...@ibm-cloud/openapi-ruleset@0.6.0) (2022-02-16)
+
+
+### Features
+
+* convert 'property-case-collision' rule to spectral style ([#377](https://github.com/IBM/openapi-validator/issues/377)) ([fbfda97](https://github.com/IBM/openapi-validator/commit/fbfda97fff5b85654bac0baf265ad58e924701ed))
+
 ## @ibm-cloud/openapi-ruleset [0.5.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.5.0...@ibm-cloud/openapi-ruleset@0.5.1) (2022-02-15)
 
 
