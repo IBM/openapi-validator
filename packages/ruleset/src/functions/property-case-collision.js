@@ -4,7 +4,7 @@ module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, propertyCaseCollision);
 };
 
-const errorMsg = 'Property names should not be identical';
+const errorMsg = 'Property names should not be identical, even if different naming conventions are used';
 
 function propertyCaseCollision(schema, path) {
   const errors = [];
