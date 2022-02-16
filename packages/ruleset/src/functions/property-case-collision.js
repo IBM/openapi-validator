@@ -4,7 +4,8 @@ module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, propertyCaseCollision);
 };
 
-const errorMsg = 'Property names should not be identical, even if different naming conventions are used';
+const errorMsg =
+  'Avoid duplicate property names within a schema, even if different case conventions are used';
 
 function propertyCaseCollision(schema, path) {
   const errors = [];
@@ -20,7 +21,7 @@ function propertyCaseCollision(schema, path) {
       if (prevProps.includes(caselessPropName)) {
         errors.push({
           message: errorMsg,
-          path
+          path: [...path, 'properties', propName]
         });
       } else {
         prevProps.push(caselessPropName);

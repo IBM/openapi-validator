@@ -3,7 +3,8 @@ const { propertyCaseCollision } = require('../functions');
 const { schemas } = require('../collections');
 
 module.exports = {
-  description: 'Property names should not be identical after being converted to a common case convention',
+  description:
+    'Avoid duplicate property names within a schema, even if they differ by case convention',
   message: '{{error}}',
   formats: [oas2, oas3],
   given: schemas,

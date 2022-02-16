@@ -42,7 +42,9 @@ describe('Spectral rule: property-case-collision', () => {
 
     const validation = results[0];
     expect(validation.code).toBe(name);
-    expect(validation.message).toBe('Property names should not be identical');
+    expect(validation.message).toBe(
+      'Avoid duplicate property names within a schema, even if different case conventions are used'
+    );
     expect(validation.path).toStrictEqual([
       'paths',
       '/v1/movies',
@@ -50,7 +52,9 @@ describe('Spectral rule: property-case-collision', () => {
       'requestBody',
       'content',
       'application/json',
-      'schema'
+      'schema',
+      'properties',
+      'IMDB_rating'
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });
