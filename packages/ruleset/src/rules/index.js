@@ -6,6 +6,7 @@ const contentEntryProvided = require('./content-entry-provided');
 const contentTypeParameter = require('./content-type-parameter');
 const descriptionMentionsJSON = require('./description-mentions-json');
 const discriminator = require('./discriminator');
+const enumCaseConvention = require('./enum-case-convention');
 const examplesNameContainsSpace = require('./examples-name-contains-space');
 const ibmContentTypeIsSpecific = require('./ibm-content-type-is-specific');
 const ibmErrorContentTypeIsJson = require('./ibm-error-content-type-is-json');
@@ -36,6 +37,7 @@ module.exports = {
   contentTypeParameter,
   descriptionMentionsJSON,
   discriminator,
+  enumCaseConvention,
   examplesNameContainsSpace,
   ibmContentTypeIsSpecific,
   ibmErrorContentTypeIsJson,

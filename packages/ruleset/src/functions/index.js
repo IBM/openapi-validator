@@ -3,6 +3,7 @@ const checkMajorVersion = require('./check-major-version');
 const descriptionMentionsJSON = require('./description-mentions-json');
 const disallowedHeaderParameter = require('./disallowed-header-parameter');
 const discriminator = require('./discriminator');
+const enumCaseConvention = require('./enum-case-convention');
 const errorResponseSchema = require('./error-response-schema');
 const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
@@ -22,6 +23,7 @@ module.exports = {
   checkMajorVersion,
   descriptionMentionsJSON,
   discriminator,
+  enumCaseConvention,
   errorResponseSchema,
   parameterDefault,
   parameterDescription,

@@ -91,23 +91,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     const checkStatus = config.snake_case_only;
     if (checkStatus !== 'off') {
       checkPropNames(schema, path, config, messages);
-
-      checkEnumValues(schema, path, config, messages);
-    } else {
-      // Optional support for enum_case_convention in config.
-      // In the else block because support should be mutually exclusive
-      // with config.snake_case_only since it is overlapping functionality
-      if (config.enum_case_convention) {
-        const checkCaseStatus = config.enum_case_convention[0];
-        if (checkCaseStatus !== 'off') {
-          checkEnumCaseConvention(
-            schema,
-            path,
-            config.enum_case_convention,
-            messages
-          );
-        }
-      }
     }
     if (config.inconsistent_property_type !== 'off') {
       checkProperties(
@@ -222,66 +205,6 @@ function checkPropNames(schema, contextPath, config, messages) {
       }
     }
   });
-}
-
-function checkEnumValues(schema, contextPath, config, messages) {
-  if (!schema.enum) {
-    return;
-  }
-
-  for (let i = 0; i < schema.enum.length; i++) {
-    const enumValue = schema.enum[i];
-    if (typeof enumValue === 'string') {
-      const checkStatus = config.snake_case_only || 'off';
-      if (checkStatus.match('error|warning')) {
-        if (!checkCase(enumValue, 'lower_snake_case')) {
-          messages.addMessage(
-            contextPath.concat(['enum', i.toString()]),
-            'Enum values must be lower snake case.',
-            checkStatus,
-            'snake_case_only'
-          );
-        }
-      }
-    }
-  }
-}
-
-/**
- * Check that enum values follow the specified case convention
- * @param schema
- * @param contextPath
- * @param caseConvention an array, [0]='off' | 'warning' | 'error'. [1]='lower_snake_case' etc.
- * @param messages
- */
-function checkEnumCaseConvention(
-  schema,
-  contextPath,
-  caseConvention,
-  messages
-) {
-  if (!schema.enum || !caseConvention) {
-    return;
-  }
-
-  for (let i = 0; i < schema.enum.length; i++) {
-    const enumValue = schema.enum[i];
-    if (typeof enumValue === 'string') {
-      const checkStatus = caseConvention[0] || 'off';
-      if (checkStatus.match('error|warning')) {
-        const caseConventionValue = caseConvention[1];
-        const isCorrectCase = checkCase(enumValue, caseConventionValue);
-        if (!isCorrectCase) {
-          messages.addMessage(
-            contextPath.concat(['enum', i.toString()]),
-            `Enum values must follow case convention: ${caseConventionValue}`,
-            checkStatus,
-            'enum_case_convention'
-          );
-        }
-      }
-    }
-  }
 }
 
 // NOTE: this function is Swagger 2 specific and would need to be adapted to be used with OAS

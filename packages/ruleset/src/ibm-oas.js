@@ -97,6 +97,7 @@ module.exports = {
     'content-type-parameter': ibmRules.contentTypeParameter,
     'description-mentions-json': ibmRules.descriptionMentionsJSON,
     discriminator: ibmRules.discriminator,
+    'enum-case-convention': ibmRules.enumCaseConvention,
     'examples-name-contains-space': ibmRules.examplesNameContainsSpace,
     'ibm-content-type-is-specific': ibmRules.ibmContentTypeIsSpecific,
     'ibm-error-content-type-is-json': ibmRules.ibmErrorContentTypeIsJson,
