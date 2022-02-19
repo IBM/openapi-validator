@@ -53,8 +53,7 @@ const defaults = {
       'invalid_type_format_pair': 'error',
       'snake_case_only': 'off',
       'inconsistent_property_type': ['warning', ['code', 'default', 'type', 'value']],
-      'property_case_collision': 'error',
-      'enum_case_convention': ['warning', 'lower_snake_case'],
+      'property_case_collision': 'error'
     },
     'walker': {
       'no_empty_descriptions': 'error',
@@ -104,13 +103,14 @@ const deprecated = {
   'no_schema_description': 'schema-description (Spectral rule)',
   'no_property_description': 'property-description (Spectral rule)',
   'description_mentions_json': 'description-mentions-json (Spectral rule)',
-  'property_case_convention': 'property_case_convention (Spectral rule)',
   'no_parameter_description': 'parameter-description (Spectral rule)',
   'required_param_has_default': 'parameter-default (Spectral rule)',
   'param_name_case_convention': 'parameter-case-convention (Spectral rule)',
   'authorization_parameter': 'authorization-parameter (Spectral rule)',
   'accept_type_parameter': 'accept-parameter (Spectral rule)',
   'content_type_parameter': 'content-type-parameter (Spectral rule)',
+  'property_case_convention': 'property-case-convention (Spectral rule)',
+  'enum_case_convention': 'enum-case-convention (Sectral rule)'
 };
 
 const configOptions = {

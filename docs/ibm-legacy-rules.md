@@ -117,7 +117,6 @@ The supported rules are described below:
 | invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | shared   |
 | snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | shared   |
 | inconsistent_property_type  | Flag any properties that have the same name but an inconsistent type.         | shared   |
-| enum_case_convention        | Flag any enum with a `value` that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
 | json_or_param_binary_string | Flag parameters or application/json request/response bodies with schema type: string, format: binary. | oas3 |
 
 ##### security_definitions
@@ -273,7 +272,6 @@ The default values for each rule are described below.
 | invalid_type_format_pair    | error   |
 | snake_case_only             | off     |
 | inconsistent_property_type  | warning, [code, default, type, value]]<br>(list of property names to exclude) |
-| enum_case_convention        | warning, lower_snake_case |
 
 ###### walker
 | Rule                          | Default |
