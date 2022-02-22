@@ -1,3 +1,10 @@
+## ibm-openapi-validator [0.57.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.57.0...ibm-openapi-validator@0.57.1) (2022-02-22)
+
+
+### Bug Fixes
+
+* display details for 'Error running Nimma' errors ([#381](https://github.com/IBM/openapi-validator/issues/381)) ([397d1d2](https://github.com/IBM/openapi-validator/commit/397d1d22dc1fe6f4cce78468a75dad71cf1c7b10))
+
 # ibm-openapi-validator [0.57.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.56.2...ibm-openapi-validator@0.57.0) (2022-02-16)
 
 
