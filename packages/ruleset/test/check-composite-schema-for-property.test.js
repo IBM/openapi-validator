@@ -1,43 +1,45 @@
-const { checkSubschemasForProperty } = require('../src/utils');
+const { checkCompositeSchemaForProperty } = require('../src/utils');
 
-describe('Utility function: checkSubschemasForProperty()', () => {
+describe('Utility function: checkCompositeSchemaForProperty()', () => {
   it('should return `false` for `undefined`', async () => {
-    expect(checkSubschemasForProperty(undefined, 'my_property')).toBe(false);
+    expect(checkCompositeSchemaForProperty(undefined, 'my_property')).toBe(
+      false
+    );
   });
 
   it('should return `false` for `null`', async () => {
-    expect(checkSubschemasForProperty(null, 'my_property')).toBe(false);
+    expect(checkCompositeSchemaForProperty(null, 'my_property')).toBe(false);
   });
 
   it('should return `false` for empty schema', async () => {
-    expect(checkSubschemasForProperty({}, 'my_property')).toBe(false);
+    expect(checkCompositeSchemaForProperty({}, 'my_property')).toBe(false);
   });
 
   it('should return `true` for a compliant simple schema', async () => {
     const compliantSimpleSchema = { properties: { my_property: {} } };
     expect(
-      checkSubschemasForProperty(compliantSimpleSchema, 'my_property')
+      checkCompositeSchemaForProperty(compliantSimpleSchema, 'my_property')
     ).toBe(true);
   });
 
   it('should return `false` for a schema with empty `oneOf`', async () => {
     const schemaWithEmptyOneOf = { oneOf: [] };
     expect(
-      checkSubschemasForProperty(schemaWithEmptyOneOf, 'my_property')
+      checkCompositeSchemaForProperty(schemaWithEmptyOneOf, 'my_property')
     ).toBe(false);
   });
 
   it('should return `false` for a schema with empty `anyOf`', async () => {
     const schemaWithEmptyOneOf = { anyOf: [] };
     expect(
-      checkSubschemasForProperty(schemaWithEmptyOneOf, 'my_property')
+      checkCompositeSchemaForProperty(schemaWithEmptyOneOf, 'my_property')
     ).toBe(false);
   });
 
   it('should return `false` for a schema with empty `allOf`', async () => {
     const schemaWithEmptyOneOf = { allOf: [] };
     expect(
-      checkSubschemasForProperty(schemaWithEmptyOneOf, 'my_property')
+      checkCompositeSchemaForProperty(schemaWithEmptyOneOf, 'my_property')
     ).toBe(false);
   });
 
@@ -50,7 +52,10 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       ]
     };
     expect(
-      checkSubschemasForProperty(schemaWithAllCompliantOneOfs, 'my_property')
+      checkCompositeSchemaForProperty(
+        schemaWithAllCompliantOneOfs,
+        'my_property'
+      )
     ).toBe(true);
   });
 
@@ -63,7 +68,10 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       ]
     };
     expect(
-      checkSubschemasForProperty(schemaWithAllCompliantAnyOfs, 'my_property')
+      checkCompositeSchemaForProperty(
+        schemaWithAllCompliantAnyOfs,
+        'my_property'
+      )
     ).toBe(true);
   });
 
@@ -72,7 +80,10 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       allOf: [{}, { properties: { my_property: {} } }, {}]
     };
     expect(
-      checkSubschemasForProperty(schemaWithOneCompliantAllOf, 'my_property')
+      checkCompositeSchemaForProperty(
+        schemaWithOneCompliantAllOf,
+        'my_property'
+      )
     ).toBe(true);
   });
 
@@ -81,7 +92,10 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       anyOf: [{}, { properties: { my_property: {} } }, {}]
     };
     expect(
-      checkSubschemasForProperty(schemaWithOneCompliantOneOf, 'my_property')
+      checkCompositeSchemaForProperty(
+        schemaWithOneCompliantOneOf,
+        'my_property'
+      )
     ).toBe(false);
   });
 
@@ -90,7 +104,10 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       anyOf: [{}, { properties: { my_property: {} } }, {}]
     };
     expect(
-      checkSubschemasForProperty(schemaWithOneCompliantAnyOf, 'my_property')
+      checkCompositeSchemaForProperty(
+        schemaWithOneCompliantAnyOf,
+        'my_property'
+      )
     ).toBe(false);
   });
 
@@ -104,7 +121,10 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       allOf: [{}, {}]
     };
     expect(
-      checkSubschemasForProperty(schemaWithOnlyOneOfCompliance, 'my_property')
+      checkCompositeSchemaForProperty(
+        schemaWithOnlyOneOfCompliance,
+        'my_property'
+      )
     ).toBe(true);
   });
 
@@ -118,7 +138,10 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       allOf: [{}, {}]
     };
     expect(
-      checkSubschemasForProperty(schemaWithOnlyAnyOfCompliance, 'my_property')
+      checkCompositeSchemaForProperty(
+        schemaWithOnlyAnyOfCompliance,
+        'my_property'
+      )
     ).toBe(true);
   });
 
@@ -129,7 +152,10 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       anyOf: [{ properties: { my_property: {} } }, {}]
     };
     expect(
-      checkSubschemasForProperty(schemaWithOnlyAllOfCompliance, 'my_property')
+      checkCompositeSchemaForProperty(
+        schemaWithOnlyAllOfCompliance,
+        'my_property'
+      )
     ).toBe(true);
   });
 
@@ -143,7 +169,7 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       ]
     };
     expect(
-      checkSubschemasForProperty(schemaWithAllOfInOneOf, 'my_property')
+      checkCompositeSchemaForProperty(schemaWithAllOfInOneOf, 'my_property')
     ).toBe(true);
   });
 
@@ -160,7 +186,7 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       ]
     };
     expect(
-      checkSubschemasForProperty(schemaWithAnyOfInAllOf, 'my_property')
+      checkCompositeSchemaForProperty(schemaWithAnyOfInAllOf, 'my_property')
     ).toBe(true);
   });
 
@@ -177,7 +203,7 @@ describe('Utility function: checkSubschemasForProperty()', () => {
       ]
     };
     expect(
-      checkSubschemasForProperty(schemaWithAnyOfInAllOf, 'my_property')
+      checkCompositeSchemaForProperty(schemaWithAnyOfInAllOf, 'my_property')
     ).toBe(true);
   });
 });

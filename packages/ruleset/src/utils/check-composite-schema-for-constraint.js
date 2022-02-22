@@ -1,7 +1,7 @@
 const isObject = require('./is-object');
 
 /**
- * This function will return `true` if all possible variations of a (possibly) composite schema are
+ * This function will return `true` if all possible variations of a (possibly composite) schema are
  * required to have a constraint, as checked by a lambda function which checks for the constraint on
  * a simple (non-composite) schema. It does this by recursively checking if:
  *
