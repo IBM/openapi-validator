@@ -259,8 +259,9 @@ const processInput = async function(program) {
       spectralResults = await spectral.run(doc);
     } catch (err) {
       printError(chalk, 'There was a problem with spectral.', getError(err));
-      if (debug) {
-        console.log(err.stack);
+      if (debug || err.message === 'Error running Nimma') {
+        printError(chalk, 'Additional error details:');
+        console.log(err);
       }
       // this check can be removed once we support spectral overrides
       if (err.message.startsWith('Document must have some source assigned.')) {
