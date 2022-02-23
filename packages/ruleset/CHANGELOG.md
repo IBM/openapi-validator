@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.6.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.6.0...@ibm-cloud/openapi-ruleset@0.6.1) (2022-02-23)
+
+
+### Bug Fixes
+
+* bugs in checkSubschemasForProperty (now checkCompositeSchemaForProperty) ([46a61cb](https://github.com/IBM/openapi-validator/commit/46a61cbd08e7f15ea777050338bf6eb2e2f3d2d7))
+
 # @ibm-cloud/openapi-ruleset [0.6.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.5.1...@ibm-cloud/openapi-ruleset@0.6.0) (2022-02-16)
 
 
