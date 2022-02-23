@@ -1,4 +1,8 @@
-const { validateSubschemas, pathMatchesRegexp } = require('../utils');
+const {
+  validateSubschemas,
+  pathMatchesRegexp,
+  checkCompositeSchemaForConstraint
+} = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, schemaDescription);
@@ -19,13 +23,12 @@ function schemaDescription(schema, path) {
   // but there are specific types of schemas for which we do not want to
   // return a warning. For example, a oneOf/anyOf list element schema, or
   // a schema associated with a parameter object.
-  // We're mainly interested in a "primary" schemas and schema properties.
+  // We're mainly interested in "primary" schemas and schema properties.
   // A "primary" schema is (loosely termed) a schema associated with a
-  // requestBody or response or other locations where the path ends in "schema".
+  // requestBody/response or other location where the path ends in "schema".
   //
-  // Note: for you English speakers (and Dustin :) ), the regexp used below to
-  // capture "isPrimarySchema" uses a "lookbehind assertion"
-  // (the "(?<!,parameters,\d+)" part) to match paths that end with the "schema" part,
+  // Note: the regexp used below to capture "isPrimarySchema" uses a "lookbehind assertion"
+  // (i.e. the "(?<!,parameters,\d+)" part) to match paths that end with the "schema" part,
   // but not paths where "schema" is preceded by "parameters" and "<digits>".
   // So a primary schema is one with a path like:
   // ["paths", "/v1/drinks", "requestBody", "content", "application/json", "schema"]
@@ -57,6 +60,14 @@ function schemaDescription(schema, path) {
   return results;
 }
 
+// This function will return true if one of the following is true:
+// 1. 'schema' has a non-empty description.
+// 2. 'schema' has an allOf list and AT LEAST ONE list element schema has a non-empty description.
+// 3. 'schema' has a oneOf or anyOf list and ALL of the list element schemas
+//    have a non-empty description.
 function schemaHasDescription(schema) {
-  return schema.description && schema.description.toString().trim().length;
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => s && s.description && s.description.toString().trim().length
+  );
 }
