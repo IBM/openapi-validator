@@ -211,15 +211,6 @@ const getConfigObject = async function(defaultMode, chalk, configFileOverride) {
   // if the user does not have a config file, run in default mode and warn them
   // (findUp returns null if it does not find a file)
   if (configFile === null && !defaultMode) {
-    console.log(
-      '\n' +
-        chalk.yellow('[Warning]') +
-        ` No ${chalk.underline(
-          '.validaterc'
-        )} file found. The validator will run in ` +
-        chalk.bold.cyan('default mode.')
-    );
-    console.log(`To configure the validator, create a .validaterc file.`);
     defaultMode = true;
   }
 

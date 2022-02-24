@@ -11,7 +11,8 @@ const validator = require('../cli-validator/utils/validator');
 module.exports = async function(
   input,
   defaultMode = false,
-  configFileOverride = null
+  configFileOverride = null,
+  debug = false
 ) {
   // process the config file for the validations &
   // create an instance of spectral & load the spectral ruleset, either a user's
@@ -28,7 +29,7 @@ module.exports = async function(
   const swagger = await buildSwaggerObject(input);
 
   try {
-    const spectral = await spectralValidator.setup();
+    const spectral = await spectralValidator.setup(null, debug, chalk);
     spectralResults = await spectral.run(input);
   } catch (err) {
     return Promise.reject(err);

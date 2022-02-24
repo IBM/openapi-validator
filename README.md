@@ -173,6 +173,16 @@ Type: `boolean`
 Default: `false`
 If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
 
+###### configFileOverride
+Type: `string`
+Default: `null`
+A path to a custom `.validaterc` file. Note that we are in the process of moving all of our configuration to Spectral. Once the transition is complete, this option will instead provide a path to a custom Spectral config file.
+
+###### debug
+Type: `boolean`
+Default: `false`
+If set to true, the validator will log additional debug information during execution.
+
 #### Validation results
 The Promise returned from the validator resolves into a JSON object. The structure of the object is:
 ```
