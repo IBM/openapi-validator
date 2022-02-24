@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.6.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.6.1...@ibm-cloud/openapi-ruleset@0.6.2) (2022-02-24)
+
+
+### Bug Fixes
+
+* **schema-description:** consider descriptions within allOf/anyOf/oneOf ([#385](https://github.com/IBM/openapi-validator/issues/385)) ([a5469a3](https://github.com/IBM/openapi-validator/commit/a5469a30403051317a4c6bff12427b7eafcb7997))
+
 ## @ibm-cloud/openapi-ruleset [0.6.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.6.0...@ibm-cloud/openapi-ruleset@0.6.1) (2022-02-23)
 
 
