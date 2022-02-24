@@ -24,6 +24,44 @@ describe('Spectral rule: schema-description', () => {
       expect(results).toHaveLength(0);
     });
 
+    it('Schema with description in oneOf schemas', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // This should pass because the oneOf list elements each have a description.
+      testDocument.components.schemas['Drink'] = {
+        oneOf: [
+          {
+            $ref: '#/components/schemas/Juice'
+          },
+          {
+            $ref: '#/components/schemas/Soda'
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Schema with description in anyOf schemas', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // This should pass because the anyOf list elements each have a description.
+      testDocument.components.schemas['Drink'] = {
+        anyOf: [
+          {
+            $ref: '#/components/schemas/Juice'
+          },
+          {
+            $ref: '#/components/schemas/Soda'
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     it('Array items schema with no description', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -45,6 +83,93 @@ describe('Spectral rule: schema-description', () => {
         'application/json'
       ].schema = {
         $ref: '#/components/schemas/MovieNameList'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Schema property w/ description in allOf', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        description: 'Drink response schema',
+        properties: {
+          main_prop: {
+            allOf: [
+              {
+                description: 'a description',
+                properties: {
+                  prop1: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              },
+              {
+                properties: {
+                  prop2: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Schema property uses nested allOf/oneOf w/descriptions', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        description: 'Drink response schema',
+        properties: {
+          main_prop: {
+            // At least one of the allOf schemas should have a description.
+            allOf: [
+              {
+                // Each of the oneOf schemas should have a description.
+                oneOf: [
+                  {
+                    description: 'a description',
+                    properties: {
+                      prop1: {
+                        description: 'a description',
+                        type: 'string'
+                      }
+                    }
+                  },
+                  {
+                    description: 'a description',
+                    properties: {
+                      prop2: {
+                        description: 'a description',
+                        type: 'string'
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                properties: {
+                  prop3: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -76,39 +201,6 @@ describe('Spectral rule: schema-description', () => {
         'requestBody',
         'content',
         'text/html',
-        'schema'
-      ]);
-    });
-
-    it('Named schema with no description', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.components.schemas['Drink'].description = undefined;
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(2);
-      for (const result of results) {
-        expect(result.code).toBe(ruleId);
-        expect(result.message).toBe(expectedMsgSchema);
-        expect(result.severity).toBe(expectedSeverity);
-      }
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema'
-      ]);
-      expect(results[1].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'responses',
-        '201',
-        'content',
-        'application/json',
         'schema'
       ]);
     });
@@ -278,6 +370,284 @@ describe('Spectral rule: schema-description', () => {
         'content',
         'application/json',
         'schema'
+      ]);
+    });
+
+    it('Schema property uses allOf w/no descriptions', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        description: 'a description',
+        properties: {
+          main_prop: {
+            allOf: [
+              {
+                properties: {
+                  prop1: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              },
+              {
+                properties: {
+                  prop2: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsgProp);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'post',
+        'responses',
+        '201',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'main_prop'
+      ]);
+    });
+
+    it('Schema property uses oneOf w/missing descriptions', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        description: 'a description',
+        properties: {
+          main_prop: {
+            oneOf: [
+              {
+                properties: {
+                  prop1: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              },
+              {
+                description: 'a description',
+                properties: {
+                  prop2: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsgProp);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'post',
+        'responses',
+        '201',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'main_prop'
+      ]);
+    });
+
+    it('Schema property uses anyOf w/missing descriptions', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        description: 'a description',
+        properties: {
+          main_prop: {
+            anyOf: [
+              {
+                properties: {
+                  prop1: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              },
+              {
+                description: 'a description',
+                properties: {
+                  prop2: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsgProp);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'post',
+        'responses',
+        '201',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'main_prop'
+      ]);
+    });
+
+    it('Schema property uses nested allOf/oneOf w/missing descriptions', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        description: 'a description',
+        properties: {
+          main_prop: {
+            oneOf: [
+              {
+                allOf: [
+                  {
+                    properties: {
+                      prop1a: {
+                        description: 'a description',
+                        type: 'string'
+                      }
+                    }
+                  },
+                  {
+                    properties: {
+                      prop1b: {
+                        description: 'a description',
+                        type: 'string'
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                description: 'a description',
+                properties: {
+                  prop2: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsgProp);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'post',
+        'responses',
+        '201',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'main_prop'
+      ]);
+    });
+
+    it('Schema property uses nested allOf/anyOf w/missing descriptions', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        description: 'a description',
+        properties: {
+          main_prop: {
+            anyOf: [
+              {
+                allOf: [
+                  {
+                    properties: {
+                      prop1a: {
+                        description: 'a description',
+                        type: 'string'
+                      }
+                    }
+                  },
+                  {
+                    properties: {
+                      prop1b: {
+                        description: 'a description',
+                        type: 'string'
+                      }
+                    }
+                  }
+                ]
+              },
+              {
+                description: 'a description',
+                properties: {
+                  prop2: {
+                    description: 'a description',
+                    type: 'string'
+                  }
+                }
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsgProp);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'post',
+        'responses',
+        '201',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'main_prop'
       ]);
     });
   });
