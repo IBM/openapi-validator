@@ -1,3 +1,10 @@
+## ibm-openapi-validator [0.57.4](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.57.3...ibm-openapi-validator@0.57.4) (2022-02-24)
+
+
+### Bug Fixes
+
+* add debug option to programmatic validator api ([b64a666](https://github.com/IBM/openapi-validator/commit/b64a666ad570fd6e50ddec8e06a1582f39eea9ad))
+
 ## ibm-openapi-validator [0.57.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.57.2...ibm-openapi-validator@0.57.3) (2022-02-24)
 
 
