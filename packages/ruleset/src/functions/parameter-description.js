@@ -1,9 +1,11 @@
+const { isSdkExcluded } = require('../utils');
+
 module.exports = function(param, _opts, { path }) {
   return parameterDescription(param, path);
 };
 
 function parameterDescription(param, path) {
-  if (!shouldSkip(param) && !paramHasDescription(param)) {
+  if (!isSdkExcluded(param) && !paramHasDescription(param)) {
     return [
       {
         message: 'Parameter should have a non-empty description',
@@ -17,8 +19,4 @@ function parameterDescription(param, path) {
 
 function paramHasDescription(param) {
   return param.description && param.description.toString().trim().length;
-}
-
-function shouldSkip(param) {
-  return param['x-sdk-exclude'] === true;
 }

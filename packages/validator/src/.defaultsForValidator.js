@@ -38,8 +38,7 @@ const defaults = {
       'invalid_type_format_pair': 'error',
       'content_type_parameter': 'error',
       'accept_type_parameter': 'error',
-      'authorization_parameter': 'warning',
-      'required_param_has_default': 'warning'
+      'authorization_parameter': 'warning'
     },
     'paths': {
       'missing_path_parameter': 'error',
@@ -113,7 +112,8 @@ const deprecated = {
   'no_property_description': 'property-description (Spectral rule)',
   'description_mentions_json': 'description-mentions-json (Spectral rule)',
   'property_case_convention': 'property_case_convention (Spectral rule)',
-  'no_parameter_description': 'parameter-description (Spectral rule)'
+  'no_parameter_description': 'parameter-description (Spectral rule)',
+  'required_param_has_default': 'parameter-default (Spectral rule)'
 };
 
 const configOptions = {
