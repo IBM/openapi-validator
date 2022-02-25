@@ -9,6 +9,7 @@ const ibmErrorContentTypeIsJson = require('./ibm-error-content-type-is-json');
 const ibmSdkOperations = require('./ibm-sdk-operations');
 const majorVersionInPath = require('./major-version-in-path');
 const missingRequiredProperty = require('./missing-required-property');
+const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
 const parameterSchemaOrContent = require('./parameter-schema-or-content');
 const prohibitSummarySentenceStyle = require('./prohibit-summary-sentence-style');
@@ -35,6 +36,7 @@ module.exports = {
   ibmSdkOperations,
   majorVersionInPath,
   missingRequiredProperty,
+  parameterDefault,
   parameterDescription,
   parameterSchemaOrContent,
   prohibitSummarySentenceStyle,
