@@ -174,66 +174,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       );
     });
 
-    it('should flag a required parameter that specifies a default value', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  name: 'tags',
-                  in: 'query',
-                  required: true,
-                  description: 'tags to filter by',
-                  type: 'string',
-                  default: 'reptile'
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec }, config);
-      expect(res.warnings.length).toEqual(1);
-      expect(res.warnings[0].path).toEqual([
-        'paths',
-        '/pets',
-        'get',
-        'parameters',
-        '0'
-      ]);
-      expect(res.warnings[0].message).toEqual(
-        'Required parameters should not specify default values.'
-      );
-      expect(res.errors.length).toEqual(0);
-    });
-
-    it('should not flag an optional parameter that specifies a default value', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  name: 'tags',
-                  in: 'query',
-                  required: false,
-                  description: 'tags to filter by',
-                  type: 'string',
-                  default: 'reptile'
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec }, config);
-      expect(res.warnings.length).toEqual(0);
-      expect(res.errors.length).toEqual(0);
-    });
-
     it('should not return an error for formData parameters of type file', () => {
       const spec = {
         paths: {
@@ -370,43 +310,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.warnings[0].message).toEqual(
         'Parameters must not explicitly define `Authorization`. Rely on the `securitySchemes` and `security` fields to specify authorization methods. This check will be converted to an `error` in an upcoming release.'
       );
-    });
-
-    it('should flag a required parameter that specifies a default value', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  name: 'tags',
-                  in: 'query',
-                  required: true,
-                  description: 'tags to filter by',
-                  schema: {
-                    type: 'string',
-                    default: 'reptile'
-                  }
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(1);
-      expect(res.warnings[0].path).toEqual([
-        'paths',
-        '/pets',
-        'get',
-        'parameters',
-        '0'
-      ]);
-      expect(res.warnings[0].message).toEqual(
-        'Required parameters should not specify default values.'
-      );
-      expect(res.errors.length).toEqual(0);
     });
 
     it('should not flag an optional parameter that does not specify a default value', () => {

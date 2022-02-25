@@ -111,23 +111,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
           );
         }
       }
-
-      const isParameterRequired = obj.required;
-      let isDefaultDefined;
-      if (isOAS3) {
-        isDefaultDefined = obj.schema && obj.schema.default !== undefined;
-      } else {
-        isDefaultDefined = obj.default !== undefined;
-      }
-
-      if (isParameterRequired && isDefaultDefined) {
-        messages.addMessage(
-          path,
-          'Required parameters should not specify default values.',
-          config.required_param_has_default,
-          'required_param_has_default'
-        );
-      }
     }
   });
 

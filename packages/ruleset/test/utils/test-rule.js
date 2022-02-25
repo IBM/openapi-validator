@@ -16,5 +16,11 @@ module.exports = async (ruleName, rule, doc) => {
     }
   });
 
-  return spectral.run(doc);
+  try {
+    const results = await spectral.run(doc);
+    return results;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
 };
