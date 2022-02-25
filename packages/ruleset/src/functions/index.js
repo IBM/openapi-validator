@@ -3,6 +3,7 @@ const checkMajorVersion = require('./check-major-version');
 const descriptionMentionsJSON = require('./description-mentions-json');
 const discriminator = require('./discriminator');
 const errorResponseSchema = require('./error-response-schema');
+const parameterDescription = require('./parameter-description');
 const propertyCaseCollision = require('./property-case-collision');
 const propertyCaseConvention = require('./property-case-convention');
 const propertyDescription = require('./property-description');
@@ -19,6 +20,7 @@ module.exports = {
   descriptionMentionsJSON,
   discriminator,
   errorResponseSchema,
+  parameterDescription,
   propertyCaseCollision,
   propertyCaseConvention,
   propertyDescription,

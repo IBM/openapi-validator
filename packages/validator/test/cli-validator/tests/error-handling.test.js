@@ -200,13 +200,14 @@ describe('cli tool - test error handling', function() {
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(29);
+    expect(capturedText.length).toEqual(28);
+
     expect(capturedText[0].trim()).toEqual(
       '[Error] Trailing comma on line 36 of file ./test/cli-validator/mock-files/trailing-comma.json.'
     );
-    expect(capturedText[4]).toContain(
-      'Parameter objects must have a `description` field.'
+    expect(capturedText[12]).toContain(
+      'Operation "description" must be present and non-empty string.'
     );
-    expect(capturedText[5]).toContain('paths./v1/thing.post.parameters.0');
+    expect(capturedText[13]).toContain('paths./v1/thing.post');
   });
 });
