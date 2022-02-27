@@ -1,6 +1,7 @@
 const arrayOfArrays = require('./array-of-arrays');
 const checkMajorVersion = require('./check-major-version');
 const descriptionMentionsJSON = require('./description-mentions-json');
+const disallowedHeaderParameter = require('./disallowed-header-parameter');
 const discriminator = require('./discriminator');
 const errorResponseSchema = require('./error-response-schema');
 const parameterDefault = require('./parameter-default');
@@ -17,6 +18,7 @@ const validTypeFormat = require('./valid-type-format');
 
 module.exports = {
   arrayOfArrays,
+  disallowedHeaderParameter,
   checkMajorVersion,
   descriptionMentionsJSON,
   discriminator,

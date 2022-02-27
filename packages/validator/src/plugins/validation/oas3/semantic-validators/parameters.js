@@ -20,7 +20,6 @@ module.exports.validate = function({ jsSpec }, config) {
   const messages = new MessageCarrier();
 
   const configSchemas = config.schemas;
-  config = config.parameters;
 
   walk(jsSpec, [], function(obj, path) {
     const isContentsOfParameterObject = isParameterObject(path, true); // 2nd arg is isOAS3

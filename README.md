@@ -237,7 +237,6 @@ The supported categories are described below:
 | Category   | Description                                                                                                                       |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | operations | Rules pertaining to [Operation Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operationObject) |
-| parameters | Rules pertaining to [Parameter Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#parameterObject) |
 | paths      | Rules pertaining to [Paths Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#pathsObject)         |
 | schemas    | Rules pertaining to [Schema Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject)       |
 | security_definitions | Rules pertaining to [Security Definition Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject) |
@@ -272,16 +271,6 @@ The supported rules are described below:
 | --------------------------- | ------------------------------------------------------------------------ | ------ |
 | pagination_style            | Flag any parameter or response schema that does not follow pagination requirements. | oas3 |
 
-
-##### parameters
-| Rule                        | Description                                                              | Spec   |
-| --------------------------- | ------------------------------------------------------------------------ | ------ |
-| no_parameter_description    | Flag any parameter that does not contain a `description` field.          | shared |
-| param_name_case_convention  | Flag any parameter with a `name` field that does not follow a given case convention. | shared |
-| invalid_type_format_pair    | Flag any parameter that does not follow the [data type/format rules.][2] | shared |
-| content_type_parameter      | [Flag any parameter that explicitly defines a `Content-Type`. That should be defined by the `consumes` field.][2] | shared |
-| accept_type_parameter       | [Flag any parameter that explicitly defines an `Accept` type. That should be defined by the `produces` field.][2] | shared |
-| authorization_parameter     | [Flag any parameter that explicitly defines an `Authorization` type. That should be defined by the `securityDefinitions`/`security` fields.][2] | shared |
 
 ##### paths
 | Rule                        | Description                                                                                                  | Spec   |
@@ -400,11 +389,6 @@ The default values for each rule are described below.
 | --------------------------- | ------- |
 | no_request_body_name        | warning |
 
-###### parameters
-| Rule                        | Default |
-| --------------------------- | ------- |
-| has_schema_and_content      | error   |
-
 ##### responses
 | Rule                      | Default |
 | ------------------------- | ------- |
@@ -436,16 +420,6 @@ The default values for each rule are described below.
 | Rule                        | Default |
 | --------------------------- | --------|
 | pagination_style            | warning |
-
-###### parameters
-| Rule                        | Default |
-| --------------------------- | --------|
-| no_parameter_description    | error   |
-| param_name_case_convention  | error, lower_snake_case |
-| invalid_type_format_pair    | error   |
-| content_type_parameter      | error   |
-| accept_type_parameter       | error   |
-| authorization_parameter     | warning |
 
 ###### paths
 | Rule                        | Default |
