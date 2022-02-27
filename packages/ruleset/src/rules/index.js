@@ -1,6 +1,9 @@
+const acceptParameter = require('./accept-parameter');
 const arrayOfArrays = require('./array-of-arrays');
+const authorizationParameter = require('./authorization-parameter');
 const contentEntryContainsSchema = require('./content-entry-contains-schema');
 const contentEntryProvided = require('./content-entry-provided');
+const contentTypeParameter = require('./content-type-parameter');
 const descriptionMentionsJSON = require('./description-mentions-json');
 const discriminator = require('./discriminator');
 const examplesNameContainsSpace = require('./examples-name-contains-space');
@@ -25,9 +28,12 @@ const stringBoundary = require('./string-boundary');
 const validTypeFormat = require('./valid-type-format');
 
 module.exports = {
+  acceptParameter,
   arrayOfArrays,
+  authorizationParameter,
   contentEntryContainsSchema,
   contentEntryProvided,
+  contentTypeParameter,
   descriptionMentionsJSON,
   discriminator,
   examplesNameContainsSpace,

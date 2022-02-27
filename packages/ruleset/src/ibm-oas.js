@@ -89,9 +89,12 @@ module.exports = {
 
     // IBM Custom Rules
 
+    'accept-parameter': ibmRules.acceptParameter,
     'array-of-arrays': ibmRules.arrayOfArrays,
+    'authorization-parameter': ibmRules.authorizationParameter,
     'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'content-entry-provided': ibmRules.contentEntryProvided,
+    'content-type-parameter': ibmRules.contentTypeParameter,
     'description-mentions-json': ibmRules.descriptionMentionsJSON,
     discriminator: ibmRules.discriminator,
     'examples-name-contains-space': ibmRules.examplesNameContainsSpace,
