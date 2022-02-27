@@ -141,7 +141,7 @@ The supported rules are described below:
 
 Each rule can be assigned a status. The supported statuses are `error`, `warning`, `info`, `hint` and `off`.
 Some rules can be configured further with configuration options. The format of this configuration is to provide an array, rather than just a string. e.g.
-`"param_name_case_convention": ["error", "lower_camel_case"]`
+`"paths_case_convention": ["error", "lower_camel_case"]`
 If just a string is provided for these rule, the default configuration option will be used. If only one value is provided in the array, it **MUST** be a status. The default configuration option will be used in this case as well. The rules that support configuration options will have **two** values in the [defaults](#default-values) table.
 
 #### Configuration Options
@@ -150,7 +150,7 @@ For rules that accept additional configuration, there will be a limited set of a
 
 ##### Case Convention Options
 - Some rules check strings for adherence to a specific case convention. In some cases, the case convention checked is configurable.
-- Rules with configurable case conventions will end in `_case_convention`, such as `param_name_case_convention`.
+- Rules with configurable case conventions will end in `_case_convention`, such as `paths_case_convention`.
 
 | Option           | Description                                              | Example           |
 | ---------------- | -------------------------------------------------------- | ----------------- |

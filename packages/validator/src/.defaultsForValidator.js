@@ -94,7 +94,7 @@ const defaults = {
 */
 const deprecated = {
   'no_produces_for_get': 'no_produces',
-  'parameters.snake_case_only': 'param_name_case_convention',
+  'parameters.snake_case_only': 'parameter-case-convention (Spectral rule)',
   'undefined_required_properties': 'missing-required-property (Spectral rule)',
   'array_of_arrays': 'array-of-arrays (Spectral rule)',
   'no_schema_description': 'schema-description (Spectral rule)',
