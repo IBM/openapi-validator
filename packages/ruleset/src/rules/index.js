@@ -14,6 +14,7 @@ const ibmSdkOperations = require('./ibm-sdk-operations');
 const majorVersionInPath = require('./major-version-in-path');
 const missingRequiredProperty = require('./missing-required-property');
 const paginationStyle = require('./pagination-style');
+const parameterCaseConvention = require('./parameter-case-convention');
 const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
 const parameterSchemaOrContent = require('./parameter-schema-or-content');
@@ -46,6 +47,7 @@ module.exports = {
   majorVersionInPath,
   missingRequiredProperty,
   paginationStyle,
+  parameterCaseConvention,
   parameterDefault,
   parameterDescription,
   parameterSchemaOrContent,
