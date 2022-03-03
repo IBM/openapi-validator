@@ -34,7 +34,6 @@ const defaults = {
       'pagination_style': 'warning'
     },
     'parameters': {
-      'no_parameter_description': 'error',
       'param_name_case_convention': ['error', 'lower_snake_case'],
       'invalid_type_format_pair': 'error',
       'content_type_parameter': 'error',
@@ -113,7 +112,8 @@ const deprecated = {
   'no_schema_description': 'schema-description (Spectral rule)',
   'no_property_description': 'property-description (Spectral rule)',
   'description_mentions_json': 'description-mentions-json (Spectral rule)',
-  'property_case_convention': 'property_case_convention (Spectral rule)'
+  'property_case_convention': 'property_case_convention (Spectral rule)',
+  'no_parameter_description': 'parameter-description (Spectral rule)'
 };
 
 const configOptions = {

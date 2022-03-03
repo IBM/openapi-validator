@@ -60,6 +60,56 @@ module.exports = {
         }
       }
     },
+    '/v1/drinks/{drink_id}': {
+      parameters: [
+        {
+          $ref: '#/components/parameters/DrinkIdParam'
+        }
+      ],
+      get: {
+        operationId: 'getDrink',
+        summary: 'Have a drink',
+        description: 'Retrieve and consume a refreshing beverage.',
+        parameters: [
+          {
+            $ref: '#/components/parameters/VerboseParam'
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Success, we had a drink!',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Drink'
+                }
+              }
+            }
+          },
+          '400': {
+            description: 'Error, no drinks to be had!',
+            content: {
+              'application/json': {
+                schema: {
+                  description: 'An error response.',
+                  type: 'object',
+                  properties: {
+                    trace: {
+                      description: 'The error trace information.',
+                      type: 'string',
+                      format: 'uuid'
+                    },
+                    error: {
+                      $ref: '#/components/schemas/RequestError'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     '/v1/movies': {
       post: {
         operationId: 'createMovie',
@@ -157,6 +207,29 @@ module.exports = {
     }
   },
   components: {
+    parameters: {
+      DrinkIdParam: {
+        name: 'drink_id',
+        description: 'The id of the drink resource.',
+        in: 'path',
+        required: true,
+        schema: {
+          type: 'string',
+          pattern: '[a-zA-Z0-9 ]+',
+          minLength: 1,
+          maxLength: 30
+        }
+      },
+      VerboseParam: {
+        description: 'An optional verbose parameter.',
+        name: 'verbose',
+        required: false,
+        in: 'query',
+        schema: {
+          type: 'boolean'
+        }
+      }
+    },
     schemas: {
       Movie: {
         description: 'This is the Movie schema.',

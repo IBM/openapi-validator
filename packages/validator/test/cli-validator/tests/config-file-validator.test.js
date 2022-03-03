@@ -117,9 +117,12 @@ describe('cli tool - test config file validator', function() {
 
     expect(res.invalid).toEqual(true);
     expect(capturedText[0].trim()).toEqual(
+      "[Warning] The rule 'no_parameter_description' has been deprecated. It will not be checked. Use 'parameter-description (Spectral rule)' instead."
+    );
+    expect(capturedText[1].trim()).toEqual(
       '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
-    expect(capturedText[1].trim().split('\n')[0]).toEqual(
+    expect(capturedText[2].trim().split('\n')[0]).toEqual(
       "- 'nonValidRule' is not a valid rule for the operations category"
     );
   });
@@ -325,8 +328,8 @@ describe('cli tool - test config file validator', function() {
   it('should error when given an array for rules without config options', function() {
     const config = {
       shared: {
-        parameters: {
-          no_parameter_description: ['error', 'camel_case']
+        operations: {
+          no_array_responses: ['error', 'camel_case']
         }
       }
     };
@@ -339,7 +342,7 @@ describe('cli tool - test config file validator', function() {
       '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
-      '- Array-value configuration options are not supported for the no_parameter_description rule in the parameters category.\n   Valid statuses are: error, warning, info, hint, off'
+      '- Array-value configuration options are not supported for the no_array_responses rule in the operations category.\n   Valid statuses are: error, warning, info, hint, off'
     );
   });
 

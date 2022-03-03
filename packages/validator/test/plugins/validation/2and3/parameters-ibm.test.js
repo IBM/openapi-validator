@@ -7,38 +7,6 @@ const config = require('../../../../src/.defaultsForValidator').defaults.shared;
 
 describe('validation plugin - semantic - parameters-ibm', () => {
   describe('Swagger 2', () => {
-    it('should return an error when a parameter does not have a description', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            get: {
-              parameters: [
-                {
-                  name: 'name',
-                  in: 'query',
-                  type: 'string'
-                }
-              ]
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec }, config);
-      expect(res.warnings.length).toEqual(0);
-      expect(res.errors.length).toEqual(1);
-      expect(res.errors[0].path).toEqual([
-        'paths',
-        '/pets',
-        'get',
-        'parameters',
-        '0'
-      ]);
-      expect(res.errors[0].message).toEqual(
-        'Parameter objects must have a `description` field.'
-      );
-    });
-
     it('should return an error when snake case is not used', () => {
       const spec = {
         paths: {
@@ -289,26 +257,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       expect(res.errors.length).toEqual(0);
       expect(res.warnings.length).toEqual(0);
     });
-
-    it('should return an error for bad parameters that live in the top level', () => {
-      const spec = {
-        parameters: [
-          {
-            name: 'someparam',
-            in: 'header',
-            type: 'string',
-            required: true
-          }
-        ]
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: false }, config);
-      expect(res.errors.length).toEqual(1);
-      expect(res.errors[0].message).toEqual(
-        'Parameter objects must have a `description` field.'
-      );
-      expect(res.warnings.length).toEqual(0);
-    });
   });
 
   describe('OpenAPI 3', () => {
@@ -424,34 +372,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       );
     });
 
-    it('should return an error when a parameter does not have a description', () => {
-      const spec = {
-        components: {
-          parameters: {
-            BadParam: {
-              in: 'query',
-              name: 'bad_query_param',
-              schema: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(0);
-      expect(res.errors.length).toEqual(1);
-      expect(res.errors[0].path).toEqual([
-        'components',
-        'parameters',
-        'BadParam'
-      ]);
-      expect(res.errors[0].message).toEqual(
-        'Parameter objects must have a `description` field.'
-      );
-    });
-
     it('should flag a required parameter that specifies a default value', () => {
       const spec = {
         paths: {
@@ -512,32 +432,6 @@ describe('validation plugin - semantic - parameters-ibm', () => {
       const res = validate({ jsSpec: spec, isOAS3: true }, config);
       expect(res.warnings.length).toEqual(0);
       expect(res.errors.length).toEqual(0);
-    });
-
-    it('should complain about parameters not defined properly in a path item ', () => {
-      const spec = {
-        paths: {
-          '/pets': {
-            parameters: [
-              {
-                name: 'tags',
-                in: 'query',
-                schema: {
-                  type: 'string',
-                  format: 'byte'
-                }
-              }
-            ]
-          }
-        }
-      };
-
-      const res = validate({ jsSpec: spec, isOAS3: true }, config);
-      expect(res.warnings.length).toEqual(0);
-      expect(res.errors.length).toEqual(1);
-      expect(res.errors[0].message).toEqual(
-        'Parameter objects must have a `description` field.'
-      );
     });
   });
 });
