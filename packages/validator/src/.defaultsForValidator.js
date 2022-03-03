@@ -111,7 +111,7 @@ const deprecated = {
   'undefined_required_properties': 'missing-required-property (Spectral rule)',
   'array_of_arrays': 'array-of-arrays (Spectral rule)',
   'no_schema_description': 'schema-description (Spectral rule)',
-  'no_property_description': 'schema-description (Spectral rule)',
+  'no_property_description': 'property-description (Spectral rule)',
   'description_mentions_json': 'description-mentions-json (Spectral rule)',
   'property_case_convention': 'property_case_convention (Spectral rule)'
 };
