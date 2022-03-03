@@ -104,6 +104,7 @@ module.exports = {
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
     'property-case-collision': ibmRules.propertyCaseCollision,
     'property-case-convention': ibmRules.propertyCaseConvention,
+    'property-description': ibmRules.propertyDescription,
     'request-body-object': ibmRules.requestBodyObject,
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,
     'response-example-provided': ibmRules.responseExampleProvided,
