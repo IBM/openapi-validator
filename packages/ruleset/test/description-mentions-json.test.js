@@ -50,7 +50,7 @@ describe('Spectral rule: description-mentions-json', () => {
         'This is a JSON object.';
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(2);
+      expect(results).toHaveLength(3);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
@@ -71,6 +71,16 @@ describe('Spectral rule: description-mentions-json', () => {
         'post',
         'responses',
         '201',
+        'content',
+        'application/json',
+        'schema'
+      ]);
+      expect(results[2].path).toStrictEqual([
+        'paths',
+        '/v1/drinks/{drink_id}',
+        'get',
+        'responses',
+        '200',
         'content',
         'application/json',
         'schema'
@@ -117,7 +127,7 @@ describe('Spectral rule: description-mentions-json', () => {
 
       // We should get back a warning ONLY due to the Soda reference in the response (not the oneOf).
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(2);
+      expect(results).toHaveLength(3);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
@@ -143,6 +153,18 @@ describe('Spectral rule: description-mentions-json', () => {
         'content',
         'application/json',
         'schema'
+      ]);
+      expect(results[2].path).toStrictEqual([
+        'paths',
+        '/v1/drinks/{drink_id}',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'oneOf',
+        '1'
       ]);
     });
 

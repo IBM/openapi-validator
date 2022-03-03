@@ -132,7 +132,7 @@ describe('Spectral rule: discriminator', () => {
 
     // the spectral path resolution logic is ignored for these tests so the
     // request and response instance are both reported
-    expect(results).toHaveLength(2);
+    expect(results).toHaveLength(3);
 
     const validation = results[0];
     expect(validation.code).toBe(name);
@@ -181,7 +181,7 @@ describe('Spectral rule: discriminator', () => {
 
     const results = await testRule(name, discriminator, testDocument);
 
-    expect(results).toHaveLength(2);
+    expect(results).toHaveLength(3);
 
     const validation = results[0];
     expect(validation.code).toBe(name);
@@ -227,7 +227,7 @@ describe('Spectral rule: discriminator', () => {
 
     const results = await testRule(name, discriminator, testDocument);
 
-    expect(results).toHaveLength(2);
+    expect(results).toHaveLength(3);
 
     const validation = results[0];
     expect(validation.code).toBe(name);
@@ -273,7 +273,7 @@ describe('Spectral rule: discriminator', () => {
 
     const results = await testRule(name, discriminator, testDocument);
 
-    expect(results).toHaveLength(2);
+    expect(results).toHaveLength(3);
 
     const validation = results[0];
     expect(validation.code).toBe(name);
@@ -319,7 +319,7 @@ describe('Spectral rule: discriminator', () => {
 
     const results = await testRule(name, discriminator, testDocument);
 
-    expect(results).toHaveLength(2);
+    expect(results).toHaveLength(3);
 
     const validation = results[0];
     expect(validation.code).toBe(name);

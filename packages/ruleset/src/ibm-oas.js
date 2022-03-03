@@ -100,6 +100,7 @@ module.exports = {
     'ibm-sdk-operations': ibmRules.ibmSdkOperations,
     'major-version-in-path': ibmRules.majorVersionInPath,
     'missing-required-property': ibmRules.missingRequiredProperty,
+    'parameter-description': ibmRules.parameterDescription,
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
     'property-case-collision': ibmRules.propertyCaseCollision,

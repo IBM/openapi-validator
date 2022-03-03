@@ -27,16 +27,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
     if (contentsOfParameterObject) {
       // obj is a parameter object
       const isRef = !!obj.$ref;
-      const hasDescription = !!obj.description;
-
-      if (!hasDescription && !isRef) {
-        messages.addMessage(
-          path,
-          'Parameter objects must have a `description` field.',
-          config.no_parameter_description,
-          'no_parameter_description'
-        );
-      }
 
       const isParameter = obj.in; // the `in` property is required by OpenAPI for parameters - this should be true (unless obj is a ref)
       const isHeaderParameter = obj.in && obj.in.toLowerCase() === 'header'; // header params need not be checked for case

@@ -211,12 +211,11 @@ describe('Spectral rule: array-of-arrays', () => {
     it('Array of array of ints used within operation-level referenced parameter', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.components.parameters = {
-        ArrayParam: {
-          name: 'array_param',
-          in: 'header',
-          schema: arrayOfArrayOfInt
-        }
+      testDocument.components.parameters['ArrayParam'] = {
+        name: 'array_param',
+        description: 'the array parameter',
+        in: 'header',
+        schema: arrayOfArrayOfInt
       };
       testDocument.paths['/v1/drinks'].post.parameters = [
         {
@@ -243,15 +242,13 @@ describe('Spectral rule: array-of-arrays', () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas['ArrayOfString'] = arrayOfString;
-      testDocument.components.parameters = {
-        ArrayParam: {
-          name: 'array_param',
-          in: 'header',
-          schema: {
-            type: 'array',
-            items: {
-              $ref: '#/components/schemas/ArrayOfString'
-            }
+      testDocument.components.parameters['ArrayParam'] = {
+        name: 'array_param',
+        in: 'header',
+        schema: {
+          type: 'array',
+          items: {
+            $ref: '#/components/schemas/ArrayOfString'
           }
         }
       };
