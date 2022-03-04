@@ -64,7 +64,7 @@ describe('Spectral rule: enum-case-convention', () => {
 
       // We should receive 2 errors because the Juice schema is used within the Drink schema,
       // which is referenced in two places.
-      expect(results).toHaveLength(6);
+      expect(results).toHaveLength(8);
 
       for (const result of results) {
         expect(result.code).toBe(ruleId);
@@ -84,9 +84,15 @@ describe('Spectral rule: enum-case-convention', () => {
         'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.0.properties.type.enum.2'
       );
       expect(results[4].path.join('.')).toBe(
-        'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.properties.type.enum.0'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.properties.type.enum.0'
       );
       expect(results[5].path.join('.')).toBe(
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.properties.type.enum.2'
+      );
+      expect(results[6].path.join('.')).toBe(
+        'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.properties.type.enum.0'
+      );
+      expect(results[7].path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.properties.type.enum.2'
       );
     });
