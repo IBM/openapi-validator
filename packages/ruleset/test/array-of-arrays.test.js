@@ -172,6 +172,8 @@ describe('Spectral rule: array-of-arrays', () => {
         'content',
         'application/json',
         'schema',
+        'allOf',
+        '1',
         'properties',
         'movies',
         'items',

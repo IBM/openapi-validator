@@ -13,7 +13,7 @@ module.exports = {
   paths: {
     '/v1/drinks': {
       post: {
-        operationId: 'createDrink',
+        operationId: 'create_drink',
         summary: 'Create a drink',
         description: 'Create a new Drink instance.',
         requestBody: {
@@ -58,6 +58,70 @@ module.exports = {
             }
           }
         }
+      },
+      get: {
+        operationId: 'list_drinks',
+        summary: 'List drinks',
+        description: 'Retrieve all the drinks.',
+        parameters: [
+          {
+            name: 'offset',
+            in: 'query',
+            description: 'The offset (origin 0) of the first item to return.',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 0
+            }
+          },
+          {
+            name: 'limit',
+            in: 'query',
+            description: 'The number of items to return per page.',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 0,
+              maximum: 100,
+              default: 10
+            }
+          }
+        ],
+        responses: {
+          '200': {
+            description: 'Success!',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/DrinkCollection'
+                }
+              }
+            }
+          },
+          '400': {
+            description: 'Error!',
+            content: {
+              'application/json': {
+                schema: {
+                  description: 'An error response.',
+                  type: 'object',
+                  properties: {
+                    trace: {
+                      description: 'The error trace information.',
+                      type: 'string',
+                      format: 'uuid'
+                    },
+                    error: {
+                      $ref: '#/components/schemas/RequestError'
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     },
     '/v1/drinks/{drink_id}': {
@@ -67,7 +131,7 @@ module.exports = {
         }
       ],
       get: {
-        operationId: 'getDrink',
+        operationId: 'get_drink',
         summary: 'Have a drink',
         description: 'Retrieve and consume a refreshing beverage.',
         parameters: [
@@ -112,7 +176,7 @@ module.exports = {
     },
     '/v1/movies': {
       post: {
-        operationId: 'createMovie',
+        operationId: 'create_movie',
         summary: 'Create a movie',
         description: 'Create a new Movie instance.',
         requestBody: {
@@ -159,7 +223,7 @@ module.exports = {
         }
       },
       get: {
-        operationId: 'listMovies',
+        operationId: 'list_movies',
         summary: 'List movies',
         description:
           'Retrieve a list of movies using an optional genre qualifier.',
@@ -173,6 +237,31 @@ module.exports = {
               type: 'string',
               enum: ['comedy', 'drama', 'action', 'musical', 'documentary']
             }
+          },
+          {
+            name: 'start',
+            in: 'query',
+            description: 'A token which indicates the first item to return.',
+            required: false,
+            schema: {
+              type: 'string',
+              pattern: '[a-zA-Z0-9 ]+',
+              minLength: 1,
+              maxLength: 128
+            }
+          },
+          {
+            name: 'limit',
+            in: 'query',
+            description: 'The number of items to return per page.',
+            required: false,
+            schema: {
+              type: 'integer',
+              format: 'int32',
+              minimum: 0,
+              maximum: 100,
+              default: 10
+            }
           }
         ],
         responses: {
@@ -181,19 +270,18 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  description: 'A response containing a list of movies.',
-                  type: 'object',
-                  properties: {
-                    movies: {
-                      description: 'The movie list.',
-                      type: 'array',
-                      items: {
-                        $ref: '#/components/schemas/Movie'
-                      }
-                    }
-                  }
+                  $ref: '#/components/schemas/MovieCollection'
                 },
                 example: {
+                  offset: 0,
+                  limit: 2,
+                  total_count: 2,
+                  first: {
+                    href: 'first page'
+                  },
+                  last: {
+                    href: 'last page'
+                  },
                   movies: [
                     { id: '1234', name: 'The Fellowship of the Ring' },
                     { id: '5678', name: 'The Two Towers' }
@@ -320,6 +408,177 @@ module.exports = {
         pattern: '[a-zA-Z0-9]+',
         minLength: 1,
         maxLength: 10
+      },
+      DrinkCollection: {
+        description: 'A single page of results containing Drink instances.',
+        allOf: [
+          {
+            $ref: '#/components/schemas/OffsetPaginationBase'
+          },
+          {
+            type: 'object',
+            required: ['drinks'],
+            properties: {
+              drinks: {
+                description:
+                  'The set of Drink instances in this page of results.',
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/Drink'
+                }
+              }
+            }
+          }
+        ],
+        example: {
+          offset: 0,
+          limit: 1,
+          total_count: 1,
+          first: {
+            href: 'first page'
+          },
+          next: {
+            href: 'next page'
+          },
+          previous: {
+            href: 'previous page'
+          },
+          last: {
+            href: 'last page'
+          },
+          drinks: [
+            {
+              type: 'soda',
+              name: 'Root Beer'
+            }
+          ]
+        }
+      },
+      MovieCollection: {
+        description: 'A single page of results containing Movie instances.',
+        allOf: [
+          {
+            $ref: '#/components/schemas/TokenPaginationBase'
+          },
+          {
+            type: 'object',
+            required: ['movies'],
+            properties: {
+              movies: {
+                description:
+                  'The set of Movie instances in this page of results.',
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/Movie'
+                }
+              }
+            }
+          }
+        ],
+        example: {
+          offset: 0,
+          limit: 1,
+          total_count: 1,
+          first: {
+            href: 'first page'
+          },
+          next: {
+            href: 'next page'
+          },
+          previous: {
+            href: 'previous page'
+          },
+          last: {
+            href: 'last page'
+          },
+          movies: [
+            {
+              name: 'The Two Towers',
+              director: 'Peter Jackson',
+              running_time: 179
+            }
+          ]
+        }
+      },
+      OffsetPaginationBase: {
+        description:
+          'A base schema containing properties that support offset-limit pagination.',
+        type: 'object',
+        required: ['offset', 'limit', 'total_count'],
+        properties: {
+          offset: {
+            description:
+              'The offset (origin 0) of the first item returned in the result page.',
+            type: 'integer',
+            format: 'int32'
+          },
+          limit: {
+            description: 'The number of items returned in the result page.',
+            type: 'integer',
+            format: 'int32'
+          },
+          total_count: {
+            description: 'The total number of items across all result pages.',
+            type: 'integer',
+            format: 'int32'
+          },
+          first: {
+            $ref: '#/components/schemas/PageLink'
+          },
+          next: {
+            $ref: '#/components/schemas/PageLink'
+          },
+          previous: {
+            $ref: '#/components/schemas/PageLink'
+          },
+          last: {
+            $ref: '#/components/schemas/PageLink'
+          }
+        }
+      },
+      TokenPaginationBase: {
+        description:
+          'A base schema containing properties that support token-based pagination.',
+        type: 'object',
+        required: ['limit', 'total_count'],
+        properties: {
+          limit: {
+            description:
+              'The number of items returned in this page of results.',
+            type: 'integer',
+            format: 'int32'
+          },
+          total_count: {
+            description: 'The total number of items across all result pages.',
+            type: 'integer',
+            format: 'int32'
+          },
+          first: {
+            $ref: '#/components/schemas/PageLink'
+          },
+          next: {
+            $ref: '#/components/schemas/PageLink'
+          },
+          previous: {
+            $ref: '#/components/schemas/PageLink'
+          },
+          last: {
+            $ref: '#/components/schemas/PageLink'
+          }
+        }
+      },
+      PageLink: {
+        description: 'Contains a link to a page of paginated results',
+        type: 'object',
+        properties: {
+          href: {
+            description: 'The link value',
+            type: 'string',
+            pattern: '[a-zA-Z0-9 ]+',
+            minLength: 1,
+            maxLength: 30
+          }
+        }
       },
       RequestError: {
         description: 'This schema describes an error response.',

@@ -13,6 +13,7 @@ const ibmErrorContentTypeIsJson = require('./ibm-error-content-type-is-json');
 const ibmSdkOperations = require('./ibm-sdk-operations');
 const majorVersionInPath = require('./major-version-in-path');
 const missingRequiredProperty = require('./missing-required-property');
+const paginationStyle = require('./pagination-style');
 const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
 const parameterSchemaOrContent = require('./parameter-schema-or-content');
@@ -44,6 +45,7 @@ module.exports = {
   ibmSdkOperations,
   majorVersionInPath,
   missingRequiredProperty,
+  paginationStyle,
   parameterDefault,
   parameterDescription,
   parameterSchemaOrContent,

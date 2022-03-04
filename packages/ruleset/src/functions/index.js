@@ -5,6 +5,7 @@ const disallowedHeaderParameter = require('./disallowed-header-parameter');
 const discriminator = require('./discriminator');
 const enumCaseConvention = require('./enum-case-convention');
 const errorResponseSchema = require('./error-response-schema');
+const paginationStyle = require('./pagination-style');
 const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
 const propertyCaseCollision = require('./property-case-collision');
@@ -25,6 +26,7 @@ module.exports = {
   discriminator,
   enumCaseConvention,
   errorResponseSchema,
+  paginationStyle,
   parameterDefault,
   parameterDescription,
   propertyCaseCollision,

@@ -510,6 +510,8 @@ describe('Spectral rule: valid-type-format', () => {
         'content',
         'application/json',
         'schema',
+        'allOf',
+        '1',
         'properties',
         'movies',
         'items',

@@ -30,9 +30,6 @@ const defaults = {
       'unused_tag': 'warning',
       'operation_id_naming_convention': 'warning'
     },
-    'pagination': {
-      'pagination_style': 'warning'
-    },
     'paths': {
       'missing_path_parameter': 'error',
       'duplicate_path_parameter': 'warning',
@@ -110,7 +107,8 @@ const deprecated = {
   'accept_type_parameter': 'accept-parameter (Spectral rule)',
   'content_type_parameter': 'content-type-parameter (Spectral rule)',
   'property_case_convention': 'property-case-convention (Spectral rule)',
-  'enum_case_convention': 'enum-case-convention (Sectral rule)'
+  'enum_case_convention': 'enum-case-convention (Sectral rule)',
+  'pagination_style': 'pagination-style (Spectral rule)'
 };
 
 const configOptions = {
