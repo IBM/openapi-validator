@@ -135,7 +135,6 @@ components:
         A list of pets
       required:
         - pets
-        - next_url
         - limit
         - offset
       properties:
@@ -144,9 +143,6 @@ components:
           description: "object containing a list of pets"
           items:
             $ref: "#/components/schemas/Pet"
-        next_url:
-          type: string
-          description: this is the url to next page
         limit:
           type: integer
           format: int32
@@ -158,6 +154,30 @@ components:
         next_token:
           type: string
           description: next token
+        first:
+          description: Link to first page of results
+          properties:
+            href:
+              description: Request URL string
+              type: string
+        last:
+          description: Link to last page of results
+          properties:
+            href:
+              description: Request URL string
+              type: string
+        previous:
+          description: Link to previous page of results
+          properties:
+            href:
+              description: Request URL string
+              type: string
+        next:
+          description: Link to next page of results
+          properties:
+            href:
+              description: Request URL string
+              type: string
       example:
         pets:
         - id: 1
@@ -167,7 +187,6 @@ components:
         limit: 50
         offset: 20
         next_token: TOKEN_STRING
-
     Error:
       description:
         An error in processing a service request

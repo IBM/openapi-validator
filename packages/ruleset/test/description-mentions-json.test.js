@@ -50,7 +50,7 @@ describe('Spectral rule: description-mentions-json', () => {
         'This is a JSON object.';
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(3);
+      expect(results).toHaveLength(4);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
@@ -76,6 +76,21 @@ describe('Spectral rule: description-mentions-json', () => {
         'schema'
       ]);
       expect(results[2].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'allOf',
+        '1',
+        'properties',
+        'drinks',
+        'items'
+      ]);
+      expect(results[3].path).toStrictEqual([
         'paths',
         '/v1/drinks/{drink_id}',
         'get',
@@ -127,7 +142,7 @@ describe('Spectral rule: description-mentions-json', () => {
 
       // We should get back a warning ONLY due to the Soda reference in the response (not the oneOf).
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(3);
+      expect(results).toHaveLength(4);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
@@ -155,6 +170,23 @@ describe('Spectral rule: description-mentions-json', () => {
         'schema'
       ]);
       expect(results[2].path).toStrictEqual([
+        'paths',
+        '/v1/drinks',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'allOf',
+        '1',
+        'properties',
+        'drinks',
+        'items',
+        'oneOf',
+        '1'
+      ]);
+      expect(results[3].path).toStrictEqual([
         'paths',
         '/v1/drinks/{drink_id}',
         'get',
@@ -213,6 +245,8 @@ describe('Spectral rule: description-mentions-json', () => {
         'content',
         'application/json',
         'schema',
+        'allOf',
+        '1',
         'properties',
         'movies',
         'items',
@@ -276,6 +310,8 @@ describe('Spectral rule: description-mentions-json', () => {
         'content',
         'application/json',
         'schema',
+        'allOf',
+        '1',
         'properties',
         'movies',
         'items',

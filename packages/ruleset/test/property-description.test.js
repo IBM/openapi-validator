@@ -164,7 +164,7 @@ describe('Spectral rule: property-description', () => {
         'paths./v1/movies.post.responses.201.content.application/json.schema.properties.id'
       );
       expect(results[2].path.join('.')).toBe(
-        'paths./v1/movies.get.responses.200.content.application/json.schema.properties.movies.items.properties.id'
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.id'
       );
     });
 

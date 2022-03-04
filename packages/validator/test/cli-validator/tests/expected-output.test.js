@@ -397,8 +397,8 @@ describe('test expected output - OpenAPI 3', function() {
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     const allText = capturedText.join();
-    expect(allText).toContain('Component Path');
-    expect(allText).toContain('Component Line');
+    expect(allText).toContain('Path');
+    expect(allText).toContain('Line');
   });
 
   it('should include the path to the component (if it exists) when in verbose mode and json mode', async function() {
@@ -417,13 +417,10 @@ describe('test expected output - OpenAPI 3', function() {
     const jsonOutput = JSON.parse(capturedText);
     const warningToCheck = jsonOutput.warnings[0];
 
-    expect(warningToCheck.rule).toEqual('pagination_style');
-    expect(warningToCheck.componentPath).toEqual([
-      'components',
-      'schemas',
-      'ListOfCharacters',
-      'properties'
-    ]);
-    expect(warningToCheck.componentLine).toEqual(101);
+    expect(warningToCheck.rule).toEqual('pagination-style');
+    expect(warningToCheck.path.join('.')).toBe(
+      'components.responses.StringsResponse.content.application/json.schema'
+    );
+    expect(warningToCheck.line).toEqual(91);
   });
 });

@@ -64,7 +64,6 @@ The supported categories are described below:
 | security_definitions | Rules pertaining to [Security Definition Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject) |
 | security   | Rules pertaining to [Security Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject) |
 | walker     | Rules pertaining to the entire document.                                                                                              |
-| pagination | Rules pertaining to pagination   |
 
 #### Rules
 
@@ -87,12 +86,6 @@ The supported rules are described below:
 | parameter_order              | Flag any operations with optional parameters before a required param.               | shared   |
 | operation_id_naming_convention | Flag any `operationId` that does not follow naming convention.                    | shared   |
 | no_request_body_name         | Flag any operations with a non-form `requestBody` that does not have a name set with `x-codegen-request-body-name`. | oas3|
-
-
-##### pagination
-| Rule                        | Description                                                              | Spec   |
-| --------------------------- | ------------------------------------------------------------------------ | ------ |
-| pagination_style            | Flag any parameter or response schema that does not follow pagination requirements. | oas3 |
 
 
 ##### paths
@@ -237,11 +230,6 @@ The default values for each rule are described below.
 | no_array_responses           | error   |
 | parameter_order              | warning |
 | operation_id_naming_convention | warning |
-
-###### pagination
-| Rule                        | Default |
-| --------------------------- | --------|
-| pagination_style            | warning |
 
 ###### paths
 | Rule                        | Default |

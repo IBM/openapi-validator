@@ -21,7 +21,10 @@ const parameters = [
   '$.paths[*][*].parameters.[*]'
 ];
 
+const paths = ['$.paths[*]'];
+
 module.exports = {
   schemas,
-  parameters
+  parameters,
+  paths
 };
