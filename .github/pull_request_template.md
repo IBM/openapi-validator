@@ -17,11 +17,11 @@ Please make sure that your PR fulfills the following requirements:
 - [ ] If necessary, added new validation rule implementation (packages/ruleset/src/functions/*.js, updated index.js)
 - [ ] Added new rule to default configuration (packages/ruleset/src/ibm-oas.js)
 - [ ] Added tests for new rule (packages/ruleset/test/*.test.js)
-- [ ] Added docs for new rule (TBD)
+- [ ] Added docs for new rule (docs/ibm-cloud-rules.md)
 
 #### Checklist for removing an old validation rule:
 - [ ] Removed old rule implementation (packages/validator/src/plugins/validation/*.js)
 - [ ] Removed or adjusted testcases (packages/validator/test)
 - [ ] Updated default configuration to deprecate old rule (packages/validator/src/.defaultsForValidator.js)
-- [ ] Removed docs of old rule (TBD)
+- [ ] Removed docs of old rule (docs/ibm-legacy-rules.md)
 
