@@ -17,13 +17,17 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
 
 <!-- toc -->
 
-- [Configuration](#configuration)
-  * [Customizing the IBM Cloud Validation Ruleset](#customizing-the-ibm-cloud-validation-ruleset)
-    + [Configuring individual rules](#configuring-individual-rules)
-  * [Custom Rules](#custom-rules)
+- [Ruleset Contents](#ruleset-contents)
+  * [Overview of IBM Cloud validation rules](#overview-of-ibm-cloud-validation-rules)
+  * [Overview of `spectral:oas` rules](#overview-of-spectraloas-rules)
+- [Customization](#customization)
+  * [Modify a rule's severity](#modify-a-rules-severity)
+  * [Advanced rule customization](#advanced-rule-customization)
+  * [Define custom rules](#define-custom-rules)
+    + [Replace a rule from `@ibm-cloud/openapi-ruleset`](#replace-a-rule-from-ibm-cloudopenapi-ruleset)
+    + [Define a new rule](#define-a-new-rule)
   * [Spectral Overrides](#spectral-overrides)
-- [IBM Cloud Validation rules documentation](#ibm-cloud-validation-rules-documentation)
-  * [Overview](#overview)
+- [Reference](#reference)
   * [Rule: accept-parameter](#rule-accept-parameter)
   * [Rule: array-of-arrays](#rule-array-of-arrays)
   * [Rule: authorization-parameter](#rule-authorization-parameter)
@@ -58,114 +62,18 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
 
 <!-- tocstop -->
 
-## Configuration
-
-The IBM Cloud Validation Ruleset extends Spectral's
-[“oas" ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md).
-While all of the `spectral:oas` rules are included in the IBM Cloud Validation Ruleset,
-only the following are enabled by default:
-```
-oas2-operation-formData-consume-check: true
-operation-operationId-unique: true
-operation-parameters: true
-operation-tag-defined: true
-no-eval-in-markdown: true
-no-script-tags-in-markdown: true
-openapi-tags: true
-operation-description: true
-operation-tags: true
-path-keys-no-trailing-slash: true
-path-not-include-query: true
-typed-enum: true
-oas2-api-host: true
-oas2-api-schemes: true
-oas2-host-trailing-slash: true
-oas2-valid-schema-example: 'warn'
-oas2-anyOf: true
-oas2-oneOf: true
-oas2-unused-definition: true
-oas3-api-servers: true
-oas3-examples-value-or-externalValue: true
-oas3-server-trailing-slash: true
-oas3-valid-media-example: 'warn'
-oas3-valid-schema-example: 'warn'
-oas3-schema: true
-oas3-unused-component: true
-```
-
-In addition to the `spectral:oas` rules mentioned above, the IBM Cloud Validation Ruleset also
-includes an additional set of IBM Cloud validation rules that implement the best practices found
+## Ruleset Contents
+The IBM Cloud Validation Ruleset consists of:
+- IBM Cloud validation rules: a collection of rules that implement and enforce the best practices found
 in the [IBM Cloud API Handbook](https://cloud.ibm.com/docs/api-handbook).
+- Spectral's [“oas" ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md): 
+the IBM Cloud Validation Ruleset extends the `spectral:oas` ruleset, so all of the rules contained in
+that ruleset are also available to users of the `@ibm-cloud/openapi-ruleset` package as well. 
 
-### Customizing the IBM Cloud Validation Ruleset
+### Overview of IBM Cloud validation rules
+This table provides an overview of the IBM Cloud validation rules.  More detailed information for each rule
+is provided in the [Reference](#reference) section below.
 
-You can extend the IBM Cloud Validation Ruleset (`@ibm-cloud/openapi-ruleset`) or specify
-your own custom ruleset with a [Spectral ruleset file](https://meta.stoplight.io/docs/spectral/docs/getting-started/3-rulesets.md).
-
-You can provide a Spectral ruleset file to the IBM OpenAPI validator in a file named `.spectral.yaml`, `.spectral.json`, or `.spectral.js`
-in the current directory or with the `--ruleset` command line option of the validator.
-
-#### Configuring individual rules
-
-Any rule in the `@ibm-cloud/openapi-ruleset` package can be configured to trigger an error, warning, info,
-or hint message in the validator output.
-For example, to configure the `openapi-tags` rule to trigger an `info` message instead of a `warning`,
-specify the following in your Spectral ruleset file:
-```
-extends: '@ibm-cloud/openapi-ruleset'
-rules:
-  openapi-tags: info
-```
-
-To completely disable a rule, use the severity of `off`.
-For example, to disable the `operation-tags` rule, specify the following in your Spectral ruleset file:
-```
-extends: '@ibm-cloud/openapi-ruleset'
-rules:
-  operation-tags: off
-```
-
-Since the `@ibm-cloud/openapi-ruleset` package includes all the rules in `spectral:oas`, you can also enable rules from that
-ruleset that are disabled by default.
-For example, to enable the `info-contact` rule with it's default severity (`warning`), specify the following in your Spectral ruleset file:
-```
-extends: '@ibm-cloud/openapi-ruleset'
-rules:
-  info-contact: true
-```
-
-You could also set the severity of `info-contact` explicitly to `error`, `warn`, `info`, or `hint`.
-
-Note: if you are writing your Spectral config file in JavaScript, you must install and import the `@ibm-cloud/openapi-ruleset`
-NPM package as a dependency:
-```
-const ibmOpenapiRuleset = require('@ibm-cloud/openapi-ruleset');
-
-module.exports = {
-  extends: ibmOpenapiRuleset,
-  rules: {
-    'info-contact': true,
-  }
-};
-```
-
-### Custom Rules
-
-You can define your own custom rules using a simple but powerful yaml syntax or with custom Javascript functions.
-Use the documentation on [Spectral custom rules](https://meta.stoplight.io/docs/spectral/docs/guides/4-custom-rulesets.md) in order to add these to your __.spectral.yaml__ file.
-
-### Spectral Overrides
-
-Rather than turning off a Spectral rule entirely, Spectral overrides allow you to customize ruleset usage for different
-files and projects without having to duplicate any rules.
-Use the documentation on [Spectral overrides](https://meta.stoplight.io/docs/spectral/ZG9jOjI1MTg5-custom-rulesets#overrides) to add overrides to your __.spectral.yaml__ file.
-
-
-## IBM Cloud Validation rules documentation
-This section provides information about the IBM Cloud validation rules contained
-in the `@ibm-cloud/openapi-ruleset` package.
-
-### Overview
 <table>
 <tr>
 <th>Rule Id</th><th>Severity</th><th>Description</th><th>OpenAPI Versions</th>
@@ -358,6 +266,184 @@ in the `@ibm-cloud/openapi-ruleset` package.
 </tr>
 </table>
 
+
+### Overview of `spectral:oas` rules
+As mentioned above, the IBM Cloud Validation Ruleset (`@ibm-cloud/openapi-ruleset`) extends
+the `spectral:oas` ruleset.  
+While all of the `spectral:oas` rules are included, only the following rules are enabled by default:
+```
+oas2-operation-formData-consume-check: true
+operation-operationId-unique: true
+operation-parameters: true
+operation-tag-defined: true
+no-eval-in-markdown: true
+no-script-tags-in-markdown: true
+openapi-tags: true
+operation-description: true
+operation-tags: true
+path-keys-no-trailing-slash: true
+path-not-include-query: true
+typed-enum: true
+oas2-api-host: true
+oas2-api-schemes: true
+oas2-host-trailing-slash: true
+oas2-valid-schema-example: 'warn'
+oas2-anyOf: true
+oas2-oneOf: true
+oas2-unused-definition: true
+oas3-api-servers: true
+oas3-examples-value-or-externalValue: true
+oas3-server-trailing-slash: true
+oas3-valid-media-example: 'warn'
+oas3-valid-schema-example: 'warn'
+oas3-schema: true
+oas3-unused-component: true
+```
+
+## Customization
+You can customize any of the rules contained in the `@ibm-cloud/openapi-ruleset`
+(including the rules in the `spectral:oas` ruleset) by creating a custom ruleset.
+For detailed information on creating your own ruleset and how to extend other rulesets, please read
+the [Spectral Rulesets](https://meta.stoplight.io/docs/spectral/ZG9jOjYyMDc0NA-rulesets) documentation.
+
+There are two different ways that you can supply your custom ruleset file to the IBM OpenAPI Validator:
+1. Name your custom ruleset file with one of the names (`.spectral.yaml`, `.spectral.yml`, `.spectral.json` or `.spectral.js`)
+and place it in the current directory where you will be running the validator.
+2. Use an arbitrary filename for your custom ruleset file (e.g. `/User/myuser/rules/my-rules.yaml`) and use
+the `--ruleset` command line option to specify the name when running the validator.
+Example:
+```
+    lint-openapi --ruleset /User/myuser/rules/my-rules.yaml my-service-api.yaml
+```
+
+In this document, we'll focus on how to customize and extend the rules found in the IBM Cloud Validation Ruleset.
+
+There are a few different ways in which you can customize and extend rules.  The customization options available to you
+will depend on the type of customization that you need to do.  This is described in the following sections.
+
+**Note:** If you extend the `@ibm-cloud/openapi-ruleset` package in your custom ruleset file,
+you MUST install the npm package first, using a command like this:
+```
+npm install @ibm-cloud/openapi-ruleset
+```
+
+### Modify a rule's severity
+
+If you would simply like to modify a rule's severity or disable a rule altogether,
+follow the instructions in this section.
+
+Any rule in the `@ibm-cloud/openapi-ruleset` package can be configured to trigger an error, warning, info,
+or hint message in the validator output.  
+For example, to configure the `schema-description` rule to trigger an `info` message instead of a `warning`,
+specify the following in your custom ruleset file (this example uses the yaml format):
+```yaml
+extends: '@ibm-cloud/openapi-ruleset'
+rules:
+  schema-description: info
+```
+
+To completely disable a rule, use the severity of `off`.
+For example, to disable the `schema-description` rule, specify the following in your custom ruleset file:
+```yaml
+extends: '@ibm-cloud/openapi-ruleset'
+rules:
+  schema-description: off
+```
+
+Since the `@ibm-cloud/openapi-ruleset` package includes all the rules in `spectral:oas`, you can also enable rules from that
+ruleset that are disabled by default.
+For example, to enable the `info-contact` rule with its default severity (`warning`), specify the following in your custom ruleset file:
+```yaml
+extends: '@ibm-cloud/openapi-ruleset'
+rules:
+  info-contact: true
+```
+
+You could also set the severity of `info-contact` explicitly to `error`, `warn`, `info`, or `hint`.
+
+### Advanced rule customization
+
+You can customize more than just a rule's severity.  You can also customize a rule's configuration to select non-default
+options, etc.  Not all rules support a configuration, but some do (for details about which rules support a configuration object,
+please see the [Reference](#reference) section below).
+
+In order to customize the configuration of a rule, you will need to re-define the entire rule within your custom ruleset.
+For these types of customizations, please follow the instructions in the [Custom Rules](#custom-rules) section below.
+
+### Define custom rules
+
+If you would like to modify the configuration of an existing rule or define your own new rule, you can define custom rules
+within your own ruleset. 
+
+For reference information on how to define your own custom rules, please read the
+[Spectral custom rulesets](https://meta.stoplight.io/docs/spectral/ZG9jOjI1MTg5-custom-rulesets) documentation.
+
+#### Replace a rule from `@ibm-cloud/openapi-ruleset`
+In this section, we'll focus on the goal of defining a new custom rule that replaces the `property-case-convention` rule
+within the `@ibm-cloud/openapi-ruleset` package.
+Specifically, we'll configure our custom rule to enforce camel case within schema property names rather than the default snake case.
+
+In this scenario, we will re-define the `property-case-convention` rule within our custom ruleset, but we will re-use the
+`propertyCaseConvention` custom function within the `@ibm-cloud/openapi-ruleset` package that implements the logic of this rule.
+For this reason, we must implement our custom ruleset using javascript instead of yaml.
+
+Here is our custom ruleset file (`.spectral.js`):
+
+```javascript
+const ibmCloudValidationRules = require('@ibm-cloud/openapi-ruleset');                           // Note 1
+const { propertyCaseConvention } = require('@ibm-cloud/openapi-ruleset/src/functions');
+const { schemas } = require('@ibm-cloud/openapi-ruleset/src/collections');
+
+module.exports = {
+  extends: ibmCloudValidationRules,
+  rules: {
+    'property-case-convention': {                                                                // Note 2
+      description: 'Property names must follow camel case',
+      message: '{{error}}',
+      resolved: true,                                                                            // Note 3
+      given: schemas,                                                                            // Note 4
+      severity: 'warn',
+      then: {
+        function: propertyCaseConvention,                                                        // Note 5
+        functionOptions: {                                                                       // Note 6
+          type: 'camel'
+        }
+      }
+    }
+  }
+};
+```
+Notes:
+1. This custom ruleset extends `@ibm-cloud/openapi-ruleset` and also references the `propertyCaseConvention` function and the
+`schemas` JSONPath collection, so we need to import each of these with `require` statements.  In addition, be sure to install
+the `@ibm-cloud/openapi-ruleset` package: `npm install @ibm-cloud/openapi-ruleset`.
+2. This custom rule is re-defining (overriding) the `property-case-convention` rule from the `@ibm-cloud/openapi-ruleset` package
+so we need to use the same rule id (`property-case-convention`).  Alternatively, we could have used a different rule id of our choosing,
+but we would then need to separately disable the existing `property-case-convention` rule so that we don't end up using both rules which would result in
+the simultaneous enforcement of two competing case conventions.
+3. The `resolved=true` setting means that the rule will be invoked on the _resolved_ version of the API definition (i.e. each `$ref`
+will be resolved by replacing with the referenced entity).
+4. The use of the `schemas` collection for the value of the `given` field is a convenient way to express that the rule should be invoked
+on each location within the _resolved_ API definition where a schema might appear.
+5. Our custom rule uses the same function (`propertyCaseConvention`) that is used by the original `property-case-convention` rule
+within the `@ibm-cloud/openapi-ruleset` package.
+6. We set the `functionOptions` field to configure the rule to enforce camel case instead of the default snake case.
+
+#### Define a new rule
+To define a new rule as part of your custom ruleset, please read the [Spectral Custom Rulesets](https://meta.stoplight.io/docs/spectral/ZG9jOjI1MTg5-custom-rulesets) documentation.
+
+
+### Spectral Overrides
+
+Rather than turning off a Spectral rule entirely, Spectral overrides allow you to customize ruleset usage for different
+files and projects without having to duplicate any rules.
+For details on how to add overrides to your custom ruleset, please read the
+[Spectral overrides](https://meta.stoplight.io/docs/spectral/ZG9jOjI1MTg5-custom-rulesets#overrides) documentation.
+
+
+## Reference
+This section provides reference documentation about the IBM Cloud Validation Rules contained
+in the `@ibm-cloud/openapi-ruleset` package.
 
 ### Rule: accept-parameter
 <table>
@@ -884,8 +970,9 @@ to enforce the desired case convention for enum values.
   type: 'snake'
 }
 </pre>
-<p>To enforce a different case convention for enum values, you'll need to define a new rule within your
-custom ruleset and modify the configuration such that the value of the <code>type</code> field 
+<p>To enforce a different case convention for enum values, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for enum values, the configuration object would look like this:
 <pre>
@@ -1386,8 +1473,9 @@ This enforces:
 <p>To disable the case convention checks for a particular parameter type, simply remove
 the entry for that parameter type from the configuration object.  
 <p>If you want to use a different configuration for this rule other than the default configuration
-mentioned above, you'll need to define a new rule within your
-custom ruleset and modify the configuration appropriately for your needs.
+mentioned above, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration appropriately for your needs.
 For example, to disable the case convention checks on header parameter names, while enforcing camel case conventions
 on query and path parameter names, the configuration object would look like this:
 <pre>
@@ -1744,8 +1832,9 @@ to enforce the desired case convention for property names.
   type: 'snake'
 }
 </pre>
-<p>To enforce a different case convention for property names, you'll need to define a new rule within your
-custom ruleset and modify the configuration such that the value of the <code>type</code> field 
+<p>To enforce a different case convention for property names, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for property names, the configuration object would look like this:
 <pre>
