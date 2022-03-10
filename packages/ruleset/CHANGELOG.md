@@ -1,3 +1,16 @@
+# @ibm-cloud/openapi-ruleset [0.7.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.6.2...@ibm-cloud/openapi-ruleset@0.7.0) (2022-03-10)
+
+
+### Features
+
+* add new header-related rules and remove old rules ([444924a](https://github.com/IBM/openapi-validator/commit/444924a94e21093fc1721888a8a381ea3061bff7))
+* **enum-case-convention:** add new enum-case-convention spectral rule, remove old rule ([ac286ff](https://github.com/IBM/openapi-validator/commit/ac286ff4b4d4828fcf08480ce0f3a93989c88371))
+* **pagination-style:** add new 'pagination-style' rule and remove old rule ([3ad7a35](https://github.com/IBM/openapi-validator/commit/3ad7a3531bee3ec779d6cd8b4daeb6742ff42e1f))
+* **parameter-case-convention:** add new 'parameter-case-convention' rule and remove old rule ([5eed197](https://github.com/IBM/openapi-validator/commit/5eed197e7653e3822c6864ce523fb99a2215eaf1))
+* **parameter-default:** add new 'parameter-default' rule and remove old rule ([ae95925](https://github.com/IBM/openapi-validator/commit/ae95925fa99d3367eba3dc9b454a6aeb60faa861))
+* **parameter-description:** add new 'parameter-description' rule and remove old rule ([#387](https://github.com/IBM/openapi-validator/issues/387)) ([ee51ef6](https://github.com/IBM/openapi-validator/commit/ee51ef6a5312601dc6cf4d45b7693655f62d475f))
+* **property-description:** add new 'property-description' rule ([#392](https://github.com/IBM/openapi-validator/issues/392)) ([21f8536](https://github.com/IBM/openapi-validator/commit/21f853612ac02c4fe4e645f64c55301df3eb16b8))
+
 ## @ibm-cloud/openapi-ruleset [0.6.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.6.1...@ibm-cloud/openapi-ruleset@0.6.2) (2022-02-24)
 
 
