@@ -107,7 +107,7 @@ const deprecated = {
   'accept_type_parameter': 'accept-parameter (Spectral rule)',
   'content_type_parameter': 'content-type-parameter (Spectral rule)',
   'property_case_convention': 'property-case-convention (Spectral rule)',
-  'enum_case_convention': 'enum-case-convention (Sectral rule)',
+  'enum_case_convention': 'enum-case-convention (Spectral rule)',
   'pagination_style': 'pagination-style (Spectral rule)'
 };
 
