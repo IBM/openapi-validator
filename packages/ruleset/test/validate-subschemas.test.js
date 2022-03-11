@@ -28,76 +28,76 @@ describe('Utility: validateSubschemas', () => {
 
     expect(visitedSchemas.length).toBe(24);
 
-    expect(visitedSchemas[0]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema'
     );
-    expect(visitedSchemas[1]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_property_schema'
     );
-    expect(visitedSchemas[2]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_property_schema.properties.property_schema'
     );
-    expect(visitedSchemas[3]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_additional_properties_schema'
     );
-    expect(visitedSchemas[4]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_additional_properties_schema.additionalProperties'
     );
-    expect(visitedSchemas[5]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_items_schema'
     );
-    expect(visitedSchemas[6]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_items_schema.items'
     );
-    expect(visitedSchemas[7]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_all_of_schema'
     );
-    expect(visitedSchemas[8]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_all_of_schema.allOf.0'
     );
-    expect(visitedSchemas[9]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_one_of_schema'
     );
-    expect(visitedSchemas[10]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_one_of_schema.oneOf.0'
     );
-    expect(visitedSchemas[11]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_any_of_schema'
     );
-    expect(visitedSchemas[12]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_any_of_schema.anyOf.0'
     );
-    expect(visitedSchemas[13]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_not_schema'
     );
-    expect(visitedSchemas[14]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./schema.get.responses.200.content.application/json.schema.properties.schema_with_not_schema.not'
     );
-    expect(visitedSchemas[15]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema'
     );
-    expect(visitedSchemas[16]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema.properties.property_schema'
     );
-    expect(visitedSchemas[17]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema.properties.property_schema.properties.property_schema'
     );
-    expect(visitedSchemas[18]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema.items'
     );
-    expect(visitedSchemas[19]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema.additionalProperties'
     );
-    expect(visitedSchemas[20]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema.not'
     );
-    expect(visitedSchemas[21]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema.allOf.0'
     );
-    expect(visitedSchemas[22]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema.oneOf.0'
     );
-    expect(visitedSchemas[23]).toBe(
+    expect(visitedSchemas).toContain(
       'paths./every_flavor.get.responses.200.content.application/json.schema.anyOf.0'
     );
   });

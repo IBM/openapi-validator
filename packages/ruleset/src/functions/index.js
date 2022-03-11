@@ -12,6 +12,7 @@ const parameterDescription = require('./parameter-description');
 const propertyCaseCollision = require('./property-case-collision');
 const propertyCaseConvention = require('./property-case-convention');
 const propertyDescription = require('./property-description');
+const responseArrayRequired = require('./response-array-required');
 const requiredProperty = require('./required-property');
 const responseExampleProvided = require('./response-example-provided');
 const schemaDescription = require('./schema-description.js');
@@ -35,6 +36,7 @@ module.exports = {
   propertyCaseConvention,
   propertyDescription,
   requiredProperty,
+  responseArrayRequired,
   responseExampleProvided,
   schemaDescription,
   schemaOrContentProvided,

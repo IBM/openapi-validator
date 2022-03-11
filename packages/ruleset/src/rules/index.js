@@ -23,6 +23,7 @@ const propertyCaseCollision = require('./property-case-collision');
 const propertyCaseConvention = require('./property-case-convention');
 const propertyDescription = require('./property-description');
 const requestBodyObject = require('./request-body-object');
+const responseArrayRequired = require('./response-array-required');
 const responseErrorResponseSchema = require('./response-error-response-schema');
 const responseExampleProvided = require('./response-example-provided');
 const schemaDescription = require('./schema-description');
@@ -57,6 +58,7 @@ module.exports = {
   propertyDescription,
   requestBodyObject,
   responseErrorResponseSchema,
+  responseArrayRequired,
   responseExampleProvided,
   schemaDescription,
   serverVariableDefaultValue,

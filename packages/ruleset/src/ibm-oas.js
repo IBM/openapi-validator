@@ -114,6 +114,7 @@ module.exports = {
     'property-case-convention': ibmRules.propertyCaseConvention,
     'property-description': ibmRules.propertyDescription,
     'request-body-object': ibmRules.requestBodyObject,
+    'response-array-required': ibmRules.responseArrayRequired,
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,
     'response-example-provided': ibmRules.responseExampleProvided,
     'schema-description': ibmRules.schemaDescription,
