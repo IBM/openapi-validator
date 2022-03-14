@@ -193,6 +193,15 @@ describe('Spectral rule: pagination-style', () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+    it('Response indicates pagination, but operation has no parameters', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // Remove the operation's entire parameters field.
+      delete testDocument.paths['/v1/drinks'].get.parameters;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
   describe('Should yield errors', () => {
     // Within this section, the nested 'describe' blocks will indicate which check
