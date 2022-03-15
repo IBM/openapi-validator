@@ -46,7 +46,7 @@ function paginationStyle(pathItem, path) {
   // 2. If the path item doesn't have a 'get' operation.
   // 3. The 'get' operation is excluded via the 'x-sdk-exclude' extension.
   if (/}$/.test(pathStr) || !operation || isSdkExcluded(operation)) {
-    debug('"get" operation doesnt exist or is excluded');
+    debug('"get" operation doesn\'t exist or is excluded');
     return [];
   }
 
@@ -86,8 +86,12 @@ function paginationStyle(pathItem, path) {
     return [];
   }
 
-  // Grab the operation's parameters list for easy access below.
+  // Next, make sure this operation has parameters.
   const params = operation.parameters;
+  if (!params) {
+    debug('Operation has no parameters');
+    return [];
+  }
 
   // Check to see if the operation defines a page token-type query param.
   // This could have any of the names below.
@@ -116,10 +120,9 @@ function paginationStyle(pathItem, path) {
   }
 
   //
-  // If we made it this far, we know we that the operation is at least attempting to
+  // If we made it this far, we know that the operation is at least attempting to
   // support pagination, so we'll perform the various checks below.
   //
-
   const results = [];
 
   // Check #1: If the operation has a 'limit' query param, it must be type integer, optional,
