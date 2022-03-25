@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.7.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.7.1...@ibm-cloud/openapi-ruleset@0.7.2) (2022-03-25)
+
+
+### Bug Fixes
+
+* **major-version-in-path:** tolerate invalid server.url value ([#404](https://github.com/IBM/openapi-validator/issues/404)) ([43539c0](https://github.com/IBM/openapi-validator/commit/43539c0bf8715aeb8eee95d7c7e4820a421f86d6))
+
 ## @ibm-cloud/openapi-ruleset [0.7.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.7.0...@ibm-cloud/openapi-ruleset@0.7.1) (2022-03-15)
 
 
