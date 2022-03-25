@@ -10,6 +10,51 @@ describe('Spectral rule: major-version-in-path', () => {
     expect(results).toHaveLength(0);
   });
 
+  it('should not error when servers object contains parameterized urls', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.servers = [
+      {
+        url: 'https://some-madeup-url.com:{port}/api/{apiVersion}',
+        variables: {
+          port: {
+            default: '443'
+          },
+          apiVersion: {
+            default: 'v1'
+          }
+        }
+      },
+      {
+        url: 'https://some-madeup-url.com:443/api/v1'
+      }
+    ];
+
+    const results = await testRule(name, majorVersionInPath, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
+  it('should not error when server.url is unparseable', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.servers = [
+      {
+        url: 'https://some-madeup-url.com:{port}/api/{apiVersion}',
+        variables: {
+          port: {
+            description: 'No default value for this one'
+          },
+          apiVersion: {
+            default: 'v1'
+          }
+        }
+      }
+    ];
+
+    const results = await testRule(name, majorVersionInPath, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
   it('should error when servers have urls with different versions', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.servers = [
