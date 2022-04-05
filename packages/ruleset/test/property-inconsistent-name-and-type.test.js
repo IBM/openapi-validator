@@ -306,7 +306,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
       expect(validation.severity).toBe(expectedSeverity);
     });
 
-    // due to the nature of the rule initializing the "visitedProperties" object one time, this rule MUST
+    // due to the nature of the rule initializing the "visitedProperties" object one time, this test MUST
     // use a different property to flag than the previous test, or the first instance won't be reported
     it('should only flag first inconsistent property once and should flag all that follow', async () => {
       const testDocument = makeCopy(rootDocument);
