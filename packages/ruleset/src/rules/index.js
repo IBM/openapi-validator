@@ -22,6 +22,7 @@ const prohibitSummarySentenceStyle = require('./prohibit-summary-sentence-style'
 const propertyCaseCollision = require('./property-case-collision');
 const propertyCaseConvention = require('./property-case-convention');
 const propertyDescription = require('./property-description');
+const propertyInconsistentNameAndType = require('./property-inconsistent-name-and-type');
 const requestBodyObject = require('./request-body-object');
 const responseErrorResponseSchema = require('./response-error-response-schema');
 const responseExampleProvided = require('./response-example-provided');
@@ -55,6 +56,7 @@ module.exports = {
   propertyCaseCollision,
   propertyCaseConvention,
   propertyDescription,
+  propertyInconsistentNameAndType,
   requestBodyObject,
   responseErrorResponseSchema,
   responseExampleProvided,

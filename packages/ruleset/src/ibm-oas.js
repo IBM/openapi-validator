@@ -113,6 +113,8 @@ module.exports = {
     'property-case-collision': ibmRules.propertyCaseCollision,
     'property-case-convention': ibmRules.propertyCaseConvention,
     'property-description': ibmRules.propertyDescription,
+    'property-inconsistent-name-and-type':
+      ibmRules.propertyInconsistentNameAndType,
     'request-body-object': ibmRules.requestBodyObject,
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,
     'response-example-provided': ibmRules.responseExampleProvided,

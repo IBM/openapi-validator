@@ -52,6 +52,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: property-case-collision](#rule-property-case-collision)
   * [Rule: property-case-convention](#rule-property-case-convention)
   * [Rule: property-description](#rule-property-description)
+  * [Rule: property-inconsistent-name-and-type](#rule-property-inconsistent-name-and-type)
   * [Rule: request-body-object](#rule-request-body-object)
   * [Rule: response-error-response-schema](#rule-response-error-response-schema)
   * [Rule: response-example-provided](#rule-response-example-provided)
@@ -220,6 +221,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-property-description">property-description</a></td>
 <td>warn</td>
 <td>Schema properties should have a non-empty description</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-property-inconsistent-name-and-type">property-inconsistent-name-and-type</a></td>
+<td>warn</td>
+<td>Avoid using the same property name for properties of different types.</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -1927,6 +1934,69 @@ components:
           type: string
         thing_type:
           description: The type associated with the Thing instance.
+          type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: property-inconsistent-name-and-type
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>property-inconsistent-name-and-type</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Avoid using the same property name for properties of different types.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        name:
+          description: The name of the Thing.
+          type: string
+    OtherThing:
+      type: object
+      properties:
+        name:
+          description: The name of the OtherThing.
+          type: integer # The property 'name' should use consistent types throughout the API
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        name:
+          description: The name of the Thing.
+          type: string
+    OtherThing:
+      type: object
+      properties:
+        name:
+          description: The name of the OtherThing.
           type: string
 </pre>
 </td>
