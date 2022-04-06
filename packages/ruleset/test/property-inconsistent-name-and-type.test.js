@@ -1,10 +1,20 @@
-const { propertyInconsistentNameAndType } = require('../src/rules');
+let { propertyInconsistentNameAndType } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const name = 'property-inconsistent-name-and-type';
 const expectedSeverity = severityCodes.warning;
 
 describe('Spectral rule: property-inconsistent-name-and-type', () => {
+  // this is required because of the "global" variable we are using in the file
+  // that holds the implementation for this rule. By default, it will maintain
+  // its list of "visited properties" between tests, which prevents proper
+  // isolation between the tests. this will reset that variable after each test
+  afterEach(() => {
+    jest.resetModules();
+    propertyInconsistentNameAndType = require('../src/rules')
+      .propertyInconsistentNameAndType;
+  });
+
   describe('Should not yield errors', () => {
     it('should not error with clean spec', async () => {
       const results = await testRule(
@@ -306,8 +316,6 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
       expect(validation.severity).toBe(expectedSeverity);
     });
 
-    // due to the nature of the rule initializing the "visitedProperties" object one time, this test MUST
-    // use a different property to flag than the previous test, or the first instance won't be reported
     it('should only flag first inconsistent property once and should flag all that follow', async () => {
       const testDocument = makeCopy(rootDocument);
       testDocument.paths['/v1/books'] = {
@@ -319,9 +327,9 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
                   type: 'object',
                   description: 'book schema',
                   properties: {
-                    director: {
-                      type: 'integer',
-                      description: 'Director of the book.'
+                    running_time: {
+                      type: 'string',
+                      description: 'Running time of the audiobook form.'
                     }
                   }
                 }
@@ -340,9 +348,9 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
                   type: 'object',
                   description: 'song schema',
                   properties: {
-                    director: {
+                    running_time: {
                       type: 'boolean',
-                      description: 'Director of the song.'
+                      description: 'Running time of the song.'
                     }
                   }
                 }
@@ -363,30 +371,30 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
       let validation = results[0];
       expect(validation.code).toBe(name);
       expect(validation.message).toBe(
-        'Properties with the same name have inconsistent types: director.'
+        'Properties with the same name have inconsistent types: running_time.'
       );
       expect(validation.path.join('.')).toBe(
-        'paths./v1/movies.post.requestBody.content.application/json.schema.properties.director'
+        'paths./v1/movies.post.requestBody.content.application/json.schema.properties.running_time'
       );
       expect(validation.severity).toBe(expectedSeverity);
 
       validation = results[1];
       expect(validation.code).toBe(name);
       expect(validation.message).toBe(
-        'Properties with the same name have inconsistent types: director.'
+        'Properties with the same name have inconsistent types: running_time.'
       );
       expect(validation.path.join('.')).toBe(
-        'paths./v1/books.post.requestBody.content.application/json.schema.properties.director'
+        'paths./v1/books.post.requestBody.content.application/json.schema.properties.running_time'
       );
       expect(validation.severity).toBe(expectedSeverity);
 
       validation = results[2];
       expect(validation.code).toBe(name);
       expect(validation.message).toBe(
-        'Properties with the same name have inconsistent types: director.'
+        'Properties with the same name have inconsistent types: running_time.'
       );
       expect(validation.path.join('.')).toBe(
-        'paths./v1/songs.post.requestBody.content.application/json.schema.properties.director'
+        'paths./v1/songs.post.requestBody.content.application/json.schema.properties.running_time'
       );
       expect(validation.severity).toBe(expectedSeverity);
     });

@@ -1,10 +1,13 @@
 const { validateSubschemas } = require('../utils');
 
-let visitedProperties;
+// We need to look at properties across the entire API definition.
+// This will act as a global variable to hold all of the properties
+// as we visit elements in the "given" list. This is only initialized
+// once, when the ruleset is loaded.
+const visitedProperties = {};
 let excludedProperties;
 
 module.exports = function(schema, options, { path }) {
-  visitedProperties = options.visitedProperties;
   excludedProperties = options.excludedProperties;
   return validateSubschemas(schema, path, propertyInconsistentNameAndType);
 };
