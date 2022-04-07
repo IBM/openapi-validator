@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.59.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.58.2...ibm-openapi-validator@0.59.0) (2022-04-07)
+
+
+### Features
+
+* add new `property-inconsistent-name-and-type` rule and remove old rule ([#408](https://github.com/IBM/openapi-validator/issues/408)) ([a3462e0](https://github.com/IBM/openapi-validator/commit/a3462e006318e4b925059ec20b4f7b674f3365d8))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.8.0
+
 ## ibm-openapi-validator [0.58.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.58.1...ibm-openapi-validator@0.58.2) (2022-03-25)
 
 
