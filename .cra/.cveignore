@@ -1,18 +1,6 @@
 [
-    {
-        "cve": "CVE-2021-3807",
-        "alwaysOmit": true
-    },
-    {
-        "cve": "SNYK-JS-JSONPOINTER-1577288",
-        "alwaysOmit": true
-    },
-    {
-        "cve": "SNYK-JS-JSONSCHEMA-1920922",
-        "alwaysOmit": true
-    },
-    {
-        "cve": "SNYK-JS-LODASHSET-1320032",
-        "alwaysOmit": true
-    }
+  {
+    "cve": "SNYK-JS-LODASHSET-1320032",
+    "alwaysOmit": true
+  }
 ]
