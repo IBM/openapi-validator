@@ -23,8 +23,11 @@ const parameters = [
 
 const paths = ['$.paths[*]'];
 
+const operations = ['$.paths[*][get,put,post,delete,options,head,patch,trace]'];
+
 module.exports = {
   schemas,
+  operations,
   parameters,
   paths
 };

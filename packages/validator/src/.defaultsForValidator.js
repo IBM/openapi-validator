@@ -21,9 +21,7 @@
 const defaults = {
   'shared': {
     'operations': {
-      'no_operation_id': 'warning',
       'operation_id_case_convention': ['warning', 'lower_snake_case'],
-      'no_summary': 'warning',
       'no_array_responses': 'error',
       'parameter_order': 'warning',
       'undefined_tag': 'warning',
@@ -104,6 +102,8 @@ const deprecated = {
   'unused_security_schemes': 'security-schemes (Spectral rule)',
   'unused_security_scopes': 'security-schemes (Spectral rule)',
   'invalid_non_empty_security_array': 'security-schemes (Spectral rule)',
+  'no_summary': 'operation-summary (Spectral rule)',
+  'no_operation_id': 'operation-operationId (spectral:oas rule)'
 };
 
 const configOptions = {

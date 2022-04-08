@@ -36,7 +36,6 @@ describe('cli tool - test config file validator', function() {
       openApi4: {
         operations: {
           no_operation_id: 'warning',
-          no_summary: 'warning',
           no_array_responses: 'error'
         },
         nonValidCategory: {
@@ -66,8 +65,6 @@ describe('cli tool - test config file validator', function() {
     const config = {
       shared: {
         operations: {
-          no_operation_id: 'warning',
-          no_summary: 'warning',
           no_array_responses: 'error'
         },
         nonValidCategory: {
@@ -98,8 +95,6 @@ describe('cli tool - test config file validator', function() {
       shared: {
         operations: {
           nonValidRule: 'error',
-          no_operation_id: 'warning',
-          no_summary: 'warning',
           no_array_responses: 'error'
         },
         parameters: {
@@ -151,8 +146,6 @@ describe('cli tool - test config file validator', function() {
     const config = {
       shared: {
         operations: {
-          no_operation_id: 'warning',
-          no_summary: 'warning',
           no_array_responses: 'error'
         }
       }

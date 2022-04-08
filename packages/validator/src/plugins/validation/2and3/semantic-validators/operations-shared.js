@@ -2,11 +2,7 @@
 
 // Operations must have unique (name + in combination) parameters.
 
-// Operations must have a non-empty `operationId`
-
 // `operationId` should adhere to a given case convention
-
-// Operations must have a non-empty `summary` field.
 
 // Arrays MUST NOT be returned as the top-level structure in a response body.
 // ref: https://pages.github.ibm.com/CloudEngineering/api_handbook/fundamentals/format.html#object-encapsulation
@@ -100,14 +96,7 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
         op.operationId &&
         op.operationId.length > 0 &&
         !!op.operationId.toString().trim();
-      if (!hasOperationId) {
-        messages.addMessage(
-          `paths.${pathKey}.${opKey}.operationId`,
-          'Operations must have a non-empty `operationId`.',
-          config.no_operation_id,
-          'no_operation_id'
-        );
-      } else {
+      if (hasOperationId) {
         // check operationId for case convention
         const checkStatus = config.operation_id_case_convention[0];
         if (checkStatus !== 'off') {
@@ -137,17 +126,6 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
             unusedTags.delete(op.tags[i]);
           }
         }
-      }
-
-      const hasSummary =
-        op.summary && op.summary.length > 0 && !!op.summary.toString().trim();
-      if (!hasSummary) {
-        messages.addMessage(
-          `paths.${pathKey}.${opKey}.summary`,
-          'Operations must have a non-empty `summary` field.',
-          config.no_summary,
-          'no_summary'
-        );
       }
 
       // this should be good with resolved spec, but double check
