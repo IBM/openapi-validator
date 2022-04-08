@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.9.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.8.0...@ibm-cloud/openapi-ruleset@0.9.0) (2022-04-08)
+
+
+### Features
+
+* **security-schemes:** add new 'security-schemes' rule ([#415](https://github.com/IBM/openapi-validator/issues/415)) ([15a2332](https://github.com/IBM/openapi-validator/commit/15a2332fc8751a0f8f0f011069b1ccf134443fa1))
+
 # @ibm-cloud/openapi-ruleset [0.8.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.7.2...@ibm-cloud/openapi-ruleset@0.8.0) (2022-04-07)
 
 
