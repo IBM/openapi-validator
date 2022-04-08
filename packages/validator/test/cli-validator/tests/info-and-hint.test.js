@@ -28,6 +28,8 @@ describe('test info and hint rules - OAS3', function() {
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     const jsonOutput = JSON.parse(capturedText);
+    // Let's leave this here for easier debugging.
+    // console.warn("jsonOutput: " + JSON.stringify(jsonOutput, null, 2));
 
     consoleSpy.mockRestore();
 

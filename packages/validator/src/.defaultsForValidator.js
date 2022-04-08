@@ -39,13 +39,6 @@ const defaults = {
     'responses': {
       'inline_response_schema': 'warning'
     },
-    'security_definitions': {
-      'unused_security_schemes': 'warning',
-      'unused_security_scopes': 'warning'
-    },
-    'security': {
-      'invalid_non_empty_security_array': 'error'
-    },
     'schemas': {
       'invalid_type_format_pair': 'error'
     },
@@ -107,7 +100,10 @@ const deprecated = {
   'enum_case_convention': 'enum-case-convention (Spectral rule)',
   'pagination_style': 'pagination-style (Spectral rule)',
   'property_case_collision': 'property-case-collision (Spectral rule)',
-  'inconsistent_property_type': 'property-inconsistent-name-and-type (Spectral rule)'
+  'inconsistent_property_type': 'property-inconsistent-name-and-type (Spectral rule)',
+  'unused_security_schemes': 'security-schemes (Spectral rule)',
+  'unused_security_scopes': 'security-schemes (Spectral rule)',
+  'invalid_non_empty_security_array': 'security-schemes (Spectral rule)',
 };
 
 const configOptions = {
