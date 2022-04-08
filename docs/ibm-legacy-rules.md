@@ -111,17 +111,6 @@ The supported rules are described below:
 | snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | shared   |
 | json_or_param_binary_string | Flag parameters or application/json request/response bodies with schema type: string, format: binary. | oas3 |
 
-##### security_definitions
-| Rule                        | Description                                                                           | Spec   |
-| --------------------------- | ------------------------------------------------------------------------------------- | ------ |
-| unused_security_schemes     | Flag any security scheme defined in securityDefinitions that is not used in the spec. | shared |
-| unused_security_scopes      | Flag any security scope defined in securityDefinitions that is not used in the spec.  | shared |
-
-##### security
-| Rule                             | Description                                                  | Spec   |
-| -------------------------------- | ------------------------------------------------------------ | ------ |
-| invalid_non_empty_security_array | Flag any non-empty security array this is not of type OAuth2 | shared |
-
 ##### walker
 | Rule                          | Description                                                                  | Spec   |
 | ----------------------------- | ---------------------------------------------------------------------------- | ------ |
@@ -241,17 +230,6 @@ The default values for each rule are described below.
 | Rule                      | Default |
 | ------------------------- | ------- |
 | inline_response_schema    | warning |
-
-###### security_definitions
-| Rule                        | Default |
-| --------------------------- | ------- |
-| unused_security_schemes     | warning |
-| unused_security_scopes      | warning |
-
-###### security
-| Rule                             | Default |
-| -------------------------------- | ------- |
-| invalid_non_empty_security_array | error   |
 
 ###### schemas
 | Rule                        | Default |

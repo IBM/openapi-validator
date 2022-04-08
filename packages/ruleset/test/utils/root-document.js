@@ -10,12 +10,25 @@ module.exports = {
       url: 'https://some-madeup-url.com/api'
     }
   ],
+  security: [
+    {
+      IAM: []
+    },
+    {
+      OpenIdScheme: ['openid:admin']
+    }
+  ],
   paths: {
     '/v1/drinks': {
       post: {
         operationId: 'create_drink',
         summary: 'Create a drink',
         description: 'Create a new Drink instance.',
+        security: [
+          {
+            DrinkScheme: ['mixologist']
+          }
+        ],
         requestBody: {
           content: {
             'application/json': {
@@ -63,6 +76,12 @@ module.exports = {
         operationId: 'list_drinks',
         summary: 'List drinks',
         description: 'Retrieve all the drinks.',
+        security: [
+          {
+            Basic: [],
+            DrinkScheme: ['drinker']
+          }
+        ],
         parameters: [
           {
             name: 'offset',
@@ -134,6 +153,11 @@ module.exports = {
         operationId: 'get_drink',
         summary: 'Have a drink',
         description: 'Retrieve and consume a refreshing beverage.',
+        security: [
+          {
+            DrinkScheme: []
+          }
+        ],
         parameters: [
           {
             $ref: '#/components/parameters/VerboseParam'
@@ -179,6 +203,11 @@ module.exports = {
         operationId: 'create_movie',
         summary: 'Create a movie',
         description: 'Create a new Movie instance.',
+        security: [
+          {
+            MovieScheme: ['director']
+          }
+        ],
         requestBody: {
           content: {
             'application/json': {
@@ -227,6 +256,11 @@ module.exports = {
         summary: 'List movies',
         description:
           'Retrieve a list of movies using an optional genre qualifier.',
+        security: [
+          {
+            MovieScheme: ['moviegoer']
+          }
+        ],
         parameters: [
           {
             description: 'An optional genre to filter on.',
@@ -597,6 +631,64 @@ module.exports = {
             type: 'string'
           }
         }
+      }
+    },
+    securitySchemes: {
+      IAM: {
+        in: 'header',
+        name: 'Authorization',
+        type: 'apiKey',
+        scheme: 'Bearer'
+      },
+      Basic: {
+        in: 'header',
+        name: 'Authorization',
+        type: 'http',
+        scheme: 'Basic'
+      },
+      DrinkScheme: {
+        in: 'header',
+        name: 'Authorization',
+        type: 'oauth2',
+        scheme: 'Bearer',
+        flows: {
+          implicit: {
+            scopes: {
+              mixologist: 'Can create Drinks',
+              drinker: 'Can consume beverages'
+            }
+          },
+          authorizationCode: {
+            scopes: {
+              mixologist: 'Can create Drinks'
+            }
+          }
+        }
+      },
+      MovieScheme: {
+        in: 'header',
+        name: 'Authorization',
+        type: 'oauth2',
+        scheme: 'Bearer',
+        flows: {
+          implicit: {
+            scopes: {
+              director: 'Can create Movies',
+              moviegoer: 'Can view Movies'
+            }
+          },
+          authorizationCode: {
+            scopes: {
+              director: 'Can create Movies'
+            }
+          }
+        }
+      },
+      OpenIdScheme: {
+        in: 'header',
+        name: 'Authorization',
+        type: 'openIdConnect',
+        openIdConnectUrl: 'https://oauth2.com'
       }
     }
   }

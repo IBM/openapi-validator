@@ -119,6 +119,7 @@ module.exports = {
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,
     'response-example-provided': ibmRules.responseExampleProvided,
     'schema-description': ibmRules.schemaDescription,
+    'security-schemes': ibmRules.securitySchemes,
     'server-variable-default-value': ibmRules.serverVariableDefaultValue,
     'string-boundary': ibmRules.stringBoundary,
     'valid-type-format': ibmRules.validTypeFormat

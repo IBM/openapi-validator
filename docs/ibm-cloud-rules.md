@@ -57,6 +57,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: response-error-response-schema](#rule-response-error-response-schema)
   * [Rule: response-example-provided](#rule-response-example-provided)
   * [Rule: schema-description](#rule-schema-description)
+  * [Rule: security-schemes](#rule-security-schemes)
   * [Rule: server-variable-default-value](#rule-server-variable-default-value)
   * [Rule: string-boundary](#rule-string-boundary)
   * [Rule: valid-type-format](#rule-valid-type-format)
@@ -252,6 +253,12 @@ is provided in the [Reference](#reference) section below.
 <td>warn</td>
 <td>Schemas should have a non-empty description</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-security-schemes">security-schemes</a></td>
+<td>warn</td>
+<td>Verifies the security schemes and security requirement objects</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-server-variable-default-value">server-variable-default-value</a></td>
@@ -2196,6 +2203,83 @@ components:
       type: object
       properties:
         ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: security-schemes
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>security-schemes</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Verifies the security schemes and security requirement objects.
+<p>Specifically, the rule will perform these checks:
+<ol>
+<li>The name used within a security requirement object must correspond to a
+security scheme that is properly defined in "components.securitySchemes".
+</li>
+<li>Each security scheme defined in "components.securitySchemes" should be referenced
+by at least one security requirement object.
+</li>
+<li>Each scope referenced within a security requirement object for an oauth2-type security scheme
+must be defined within that security scheme.
+</li>
+<li>Each scope that is defined within an oath2-type security scheme should be
+referenced by at least one security requirement object.
+</li>
+<li>If a security requirement object is associated with a security scheme that does not support
+scopes, then its scopes array MUST be empty.
+</li>
+</ol>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      security:
+        - IAM: []   # refers to undefined security scheme "IAM"
+components:
+  securitySchemes:
+    Basic:
+      type: http
+      scheme: basic
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      security:
+        - IAM: []
+components:
+  securitySchemes:
+    IAM:
+      in: header
+      name: Authorization
+      type: apiKey
 </pre>
 </td>
 </tr>
