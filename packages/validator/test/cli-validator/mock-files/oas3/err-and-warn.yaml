@@ -32,7 +32,7 @@ paths:
       tags:
         - pet
       summary: Add a new pet to the store
-      description: post a pet to store
+      description: " "
       operationId: " "
       requestBody:
         $ref: "#/components/requestBodies/Pet"

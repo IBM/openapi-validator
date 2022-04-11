@@ -79,9 +79,7 @@ The supported rules are described below:
 | no_consumes_for_put_or_post  | Flag `put` or `post` operations that do not have a `consumes` field.                | swagger2 |
 | get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
 | no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
-| no_operation_id              | Flag any operations that do not have an `operationId` field.                        | shared   |
 | operation_id_case_convention | Flag any `operationId` that does not follow a given case convention.                | shared   |
-| no_summary                   | Flag any operations that do not have a `summary` field.                             | shared   |
 | no_array_responses           | Flag any operations with a top-level array response.                                | shared   |
 | parameter_order              | Flag any operations with optional parameters before a required param.               | shared   |
 | operation_id_naming_convention | Flag any `operationId` that does not follow naming convention.                    | shared   |
@@ -212,9 +210,7 @@ The default values for each rule are described below.
 | ---------------------------- | ------- |
 | undefined_tag                | warning |
 | unused_tag                   | warning |
-| no_operation_id              | warning |
 | operation_id_case_convention | warning, lower_snake_case |
-| no_summary                   | warning |
 | no_array_responses           | error   |
 | parameter_order              | warning |
 | operation_id_naming_convention | warning |

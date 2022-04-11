@@ -34,8 +34,8 @@ module.exports = {
     'openapi-tags': true,
     // Enable with same severity as Spectral
     'operation-description': true,
-    // Turn off - duplicates operation_id_case_convention, operation_id_naming_convention
-    'operation-operationId': 'off',
+    // Enable with same severity as Spectral
+    'operation-operationId': true,
     // Turn off - duplicates operation_id_case_convention
     'operation-operationId-valid-in-url': 'off',
     // Enable with same severity as Spectral
@@ -104,6 +104,7 @@ module.exports = {
     'ibm-sdk-operations': ibmRules.ibmSdkOperations,
     'major-version-in-path': ibmRules.majorVersionInPath,
     'missing-required-property': ibmRules.missingRequiredProperty,
+    'operation-summary': ibmRules.operationSummary,
     'pagination-style': ibmRules.paginationStyle,
     'parameter-case-convention': ibmRules.parameterCaseConvention,
     'parameter-default': ibmRules.parameterDefault,

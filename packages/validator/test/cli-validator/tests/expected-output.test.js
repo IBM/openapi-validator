@@ -147,7 +147,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     // console.warn(JSON.stringify(validationResults, null, 2));
 
     expect(validationResults.errors.length).toBe(6);
-    expect(validationResults.warnings.length).toBe(9);
+    expect(validationResults.warnings.length).toBe(7);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 
@@ -188,10 +188,8 @@ describe('cli tool - test expected output - Swagger 2', function() {
     // warnings
     expect(capturedText[25].match(/\S+/g)[2]).toEqual('166');
     expect(capturedText[29].match(/\S+/g)[2]).toEqual('197');
-    expect(capturedText[33].match(/\S+/g)[2]).toEqual('36');
-    expect(capturedText[37].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[41].match(/\S+/g)[2]).toEqual('15');
-    expect(capturedText[45].match(/\S+/g)[2]).toEqual('15');
+    expect(capturedText[33].match(/\S+/g)[2]).toEqual('15');
+    expect(capturedText[37].match(/\S+/g)[2]).toEqual('15');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
@@ -315,8 +313,9 @@ describe('test expected output - OpenAPI 3', function() {
     expect(allOutput).toContain('errors');
     expect(allOutput).toContain('Object must have required property "info"');
     expect(allOutput).toContain('warnings');
+    expect(allOutput).toContain('Operation must have "operationId"');
     expect(allOutput).toContain(
-      'Operations must have a non-empty `operationId`.'
+      'Operation "description" must be present and non-empty string'
     );
   });
 
@@ -372,8 +371,8 @@ describe('test expected output - OpenAPI 3', function() {
     const defaultMode = true;
     const validationResults = await inCodeValidator(oas3Object, defaultMode);
 
-    expect(validationResults.errors.length).toBe(3);
-    expect(validationResults.warnings.length).toBe(48);
+    expect(validationResults.errors.length).toBe(4);
+    expect(validationResults.warnings.length).toBe(46);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 

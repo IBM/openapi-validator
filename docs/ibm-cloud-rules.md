@@ -43,6 +43,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: ibm-sdk-operations](#rule-ibm-sdk-operations)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
   * [Rule: missing-required-property](#rule-missing-required-property)
+  * [Rule: operation-summary](#rule-operation-summary)
   * [Rule: pagination-style](#rule-pagination-style)
   * [Rule: parameter-case-convention](#rule-parameter-case-convention)
   * [Rule: parameter-default](#rule-parameter-default)
@@ -169,6 +170,12 @@ is provided in the [Reference](#reference) section below.
 <td>error</td>
 <td>A schema property defined as <code>required</code> must be defined within the schema</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-operation-summary">operation-summary</a></td>
+<td>warn</td>
+<td>Operation <code>summary</code> must be present and non-empty string.</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-pagination-style">pagination-style</a></td>
@@ -1338,6 +1345,53 @@ components:
       required:
         - thing_id
         - thing_version
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: operation-summary
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>operation-summary</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule verifies that each operation has a non-empty summary.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      summary: Create a Thing
 </pre>
 </td>
 </tr>

@@ -34,10 +34,10 @@ describe('test info and hint rules - OAS3', function() {
     consoleSpy.mockRestore();
 
     // errors for non-unique operation ids
-    expect(jsonOutput['errors'].length).toBe(3);
+    expect(jsonOutput['errors'].length).toBe(4);
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(17);
+    expect(jsonOutput['warnings'].length).toBe(15);
 
     // Verify infos
     expect(jsonOutput['infos'].length).toBe(2);
