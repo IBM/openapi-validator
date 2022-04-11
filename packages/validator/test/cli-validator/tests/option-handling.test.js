@@ -129,7 +129,7 @@ describe('cli tool - test option handling', function() {
 
     // totals
     expect(capturedText[statsSection + 1].match(/\S+/g)[5]).toEqual('5');
-    expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('4');
+    expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('2');
 
     // errors
     expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('1');
@@ -146,13 +146,10 @@ describe('cli tool - test option handling', function() {
 
     // warnings
     expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(25%)');
+    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(50%)');
 
     expect(capturedText[statsSection + 12].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(25%)');
-
-    expect(capturedText[statsSection + 13].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 13].match(/\S+/g)[1]).toEqual('(50%)');
+    expect(capturedText[statsSection + 12].match(/\S+/g)[1]).toEqual('(50%)');
   });
 
   it('should not print statistics report by default', async function() {
@@ -184,12 +181,6 @@ describe('cli tool - test option handling', function() {
     expect(outputObject['errors'][0]['line']).toEqual(59);
     expect(outputObject['errors'][0]['message']).toEqual(
       'Every operation must have unique "operationId".'
-    );
-
-    // {"operations-shared": [{"line": 36, "message": "Operations must have a non-empty `operationId`.", "path": "paths./pet.post.operationId"},
-    expect(outputObject['warnings'][2]['line']).toEqual(15);
-    expect(outputObject['warnings'][2]['message']).toEqual(
-      'A tag is defined but never used: store'
     );
   });
 
@@ -248,7 +239,7 @@ describe('cli tool - test option handling', function() {
         }
       }
     });
-    expect(warningCount).toEqual(3); // without the config this value is 4
+    expect(warningCount).toEqual(1); // without the config this value is 4
     expect(errorCount).toEqual(1); // without the config this value is 0
   });
 

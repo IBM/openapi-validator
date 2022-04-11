@@ -20,6 +20,7 @@ const schemaDescription = require('./schema-description.js');
 const schemaOrContentProvided = require('./schema-or-content-provided');
 const { securitySchemes } = require('./security-schemes');
 const stringBoundary = require('./string-boundary');
+const { unusedTag } = require('./unused-tag');
 const validTypeFormat = require('./valid-type-format');
 
 module.exports = {
@@ -45,5 +46,6 @@ module.exports = {
   schemaOrContentProvided,
   stringBoundary,
   securitySchemes,
+  unusedTag,
   validTypeFormat
 };

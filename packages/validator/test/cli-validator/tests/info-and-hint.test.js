@@ -9,7 +9,6 @@ describe('test info and hint rules - OAS3', function() {
     // Create custom config with some info and hint settings
     const customConfig = JSON.parse(JSON.stringify(defaultConfig));
     customConfig['oas3']['responses']['no_success_response_codes'] = 'info';
-    customConfig['shared']['operations']['unused_tag'] = 'hint';
     const mockConfig = jest.spyOn(config, 'get').mockReturnValue(customConfig);
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -37,18 +36,12 @@ describe('test info and hint rules - OAS3', function() {
     expect(jsonOutput['errors'].length).toBe(4);
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(15);
+    expect(jsonOutput['warnings'].length).toBe(17);
 
     // Verify infos
     expect(jsonOutput['infos'].length).toBe(2);
     expect(jsonOutput['infos'][0]['message']).toEqual(
       'Each `responses` object SHOULD have at least one code for a successful response.'
-    );
-
-    // Verify hints
-    expect(jsonOutput['hints'].length).toBe(2);
-    expect(jsonOutput['hints'][0]['message']).toEqual(
-      'A tag is defined but never used: store'
     );
   });
 });
