@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.10.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.9.0...@ibm-cloud/openapi-ruleset@0.10.0) (2022-04-11)
+
+
+### Features
+
+* **operation-summary:** add new 'operation-summary' rule ([#416](https://github.com/IBM/openapi-validator/issues/416)) ([f0e0908](https://github.com/IBM/openapi-validator/commit/f0e09086542d9c66608dcbca22d7a95d04a93c0c))
+
 # @ibm-cloud/openapi-ruleset [0.9.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.8.0...@ibm-cloud/openapi-ruleset@0.9.0) (2022-04-08)
 
 
