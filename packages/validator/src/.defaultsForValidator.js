@@ -24,8 +24,6 @@ const defaults = {
       'operation_id_case_convention': ['warning', 'lower_snake_case'],
       'no_array_responses': 'error',
       'parameter_order': 'warning',
-      'undefined_tag': 'warning',
-      'unused_tag': 'warning',
       'operation_id_naming_convention': 'warning'
     },
     'paths': {
@@ -103,7 +101,9 @@ const deprecated = {
   'unused_security_scopes': 'security-schemes (Spectral rule)',
   'invalid_non_empty_security_array': 'security-schemes (Spectral rule)',
   'no_summary': 'operation-summary (Spectral rule)',
-  'no_operation_id': 'operation-operationId (spectral:oas rule)'
+  'no_operation_id': 'operation-operationId (spectral:oas rule)',
+  'undefined_tag': 'operation-tag-defined (spectral:oas rule)',
+  'unused_tag': 'unused-tag (Spectral rule)',
 };
 
 const configOptions = {

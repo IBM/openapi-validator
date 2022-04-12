@@ -31,6 +31,7 @@ const schemaDescription = require('./schema-description');
 const securitySchemes = require('./security-schemes');
 const serverVariableDefaultValue = require('./server-variable-default-value');
 const stringBoundary = require('./string-boundary');
+const unusedTag = require('./unused-tag');
 const validTypeFormat = require('./valid-type-format');
 
 module.exports = {
@@ -67,5 +68,6 @@ module.exports = {
   securitySchemes,
   serverVariableDefaultValue,
   stringBoundary,
+  unusedTag,
   validTypeFormat
 };

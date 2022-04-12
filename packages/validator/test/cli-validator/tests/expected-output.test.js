@@ -147,7 +147,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     // console.warn(JSON.stringify(validationResults, null, 2));
 
     expect(validationResults.errors.length).toBe(6);
-    expect(validationResults.warnings.length).toBe(7);
+    expect(validationResults.warnings.length).toBe(5);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 
@@ -188,8 +188,6 @@ describe('cli tool - test expected output - Swagger 2', function() {
     // warnings
     expect(capturedText[25].match(/\S+/g)[2]).toEqual('166');
     expect(capturedText[29].match(/\S+/g)[2]).toEqual('197');
-    expect(capturedText[33].match(/\S+/g)[2]).toEqual('15');
-    expect(capturedText[37].match(/\S+/g)[2]).toEqual('15');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {

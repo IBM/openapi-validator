@@ -18,12 +18,19 @@ module.exports = {
       OpenIdScheme: ['openid:admin']
     }
   ],
+  tags: [
+    {
+      name: 'TestTag',
+      description: 'A tag used for testing.'
+    }
+  ],
   paths: {
     '/v1/drinks': {
       post: {
         operationId: 'create_drink',
         summary: 'Create a drink',
         description: 'Create a new Drink instance.',
+        tags: ['TestTag'],
         security: [
           {
             DrinkScheme: ['mixologist']
@@ -76,6 +83,7 @@ module.exports = {
         operationId: 'list_drinks',
         summary: 'List drinks',
         description: 'Retrieve all the drinks.',
+        tags: ['TestTag'],
         security: [
           {
             Basic: [],
@@ -153,6 +161,7 @@ module.exports = {
         operationId: 'get_drink',
         summary: 'Have a drink',
         description: 'Retrieve and consume a refreshing beverage.',
+        tags: ['TestTag'],
         security: [
           {
             DrinkScheme: []
@@ -203,6 +212,7 @@ module.exports = {
         operationId: 'create_movie',
         summary: 'Create a movie',
         description: 'Create a new Movie instance.',
+        tags: ['TestTag'],
         security: [
           {
             MovieScheme: ['director']
@@ -256,6 +266,7 @@ module.exports = {
         summary: 'List movies',
         description:
           'Retrieve a list of movies using an optional genre qualifier.',
+        tags: ['TestTag'],
         security: [
           {
             MovieScheme: ['moviegoer']

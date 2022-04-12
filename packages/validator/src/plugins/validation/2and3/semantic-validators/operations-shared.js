@@ -21,11 +21,6 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
 
   config = config.operations;
 
-  const globalTags = resolvedSpec.tags || [];
-  const hasGlobalTags = !!globalTags.length;
-  const resolvedTags = globalTags.map(({ name }) => name);
-  const unusedTags = new Set(resolvedTags);
-
   map(resolvedSpec.paths, (path, pathKey) => {
     if (pathKey.slice(0, 2) === 'x-') {
       return;
@@ -112,21 +107,6 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
           }
         }
       }
-      const hasOperationTags = op.tags && op.tags.length > 0;
-      if (hasOperationTags && hasGlobalTags) {
-        for (let i = 0, len = op.tags.length; i < len; i++) {
-          if (!resolvedTags.includes(op.tags[i])) {
-            messages.addMessage(
-              `paths.${pathKey}.${opKey}.tags`,
-              'tag is not defined at the global level: ' + op.tags[i],
-              config.undefined_tag,
-              'undefined_tag'
-            );
-          } else {
-            unusedTags.delete(op.tags[i]);
-          }
-        }
-      }
 
       // this should be good with resolved spec, but double check
       // All required parameters of an operation are listed before any optional parameters.
@@ -154,15 +134,6 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
         }
       }
     });
-  });
-
-  unusedTags.forEach(tagName => {
-    messages.addMessage(
-      `tags`,
-      `A tag is defined but never used: ${tagName}`,
-      config.unused_tag,
-      'unused_tag'
-    );
   });
 
   return messages;

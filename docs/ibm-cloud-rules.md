@@ -61,6 +61,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: security-schemes](#rule-security-schemes)
   * [Rule: server-variable-default-value](#rule-server-variable-default-value)
   * [Rule: string-boundary](#rule-string-boundary)
+  * [Rule: unused-tag](#rule-unused-tag)
   * [Rule: valid-type-format](#rule-valid-type-format)
 
 <!-- tocstop -->
@@ -277,6 +278,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-string-boundary">string-boundary</a></td>
 <td>warn</td>
 <td>String schema properties should define the <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-unused-tag">unused-tag</a></td>
+<td>warn</td>
+<td>Verifies that each defined tag is referenced by at least one operation</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -2444,6 +2451,67 @@ components:
           minLength: 8
           maxLength: 64
           example: 'ab38dd26z'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: unused-tag
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>unused-tag</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule verifies that each tag (defined in the <code>tags</code> field) is referenced by one or more operations.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+tags:
+  - name: Things
+    description: Operations related to Things.
+  - name: UnusedTag
+    description: This tag is not used.
+
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      summary: Create a Thing
+      tags:
+        - Things
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+tags:
+  - name: Things
+    description: Operations related to Things.
+
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      summary: Create a Thing
+      tags:
+        - Things
 </pre>
 </td>
 </tr>
