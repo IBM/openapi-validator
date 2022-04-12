@@ -54,6 +54,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: property-case-convention](#rule-property-case-convention)
   * [Rule: property-description](#rule-property-description)
   * [Rule: property-inconsistent-name-and-type](#rule-property-inconsistent-name-and-type)
+  * [Rule: request-body-name](#rule-request-body-name)
   * [Rule: request-body-object](#rule-request-body-object)
   * [Rule: response-error-response-schema](#rule-response-error-response-schema)
   * [Rule: response-example-provided](#rule-response-example-provided)
@@ -237,6 +238,13 @@ is provided in the [Reference](#reference) section below.
 <td>warn</td>
 <td>Avoid using the same property name for properties of different types.</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-request-body-name">request-body-name</a></td>
+<td>warn</td>
+<td>An operation should specify a request body name (with the <code>x-codegen-request-body-name</code> extension) if its requestBody
+has non-form content.</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-request-body-object">request-body-object</a></td>
@@ -2066,6 +2074,71 @@ components:
         name:
           description: The name of the OtherThing.
           type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: request-body-name
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>request-body-name</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The <code>x-codegen-request-body-name</code> extension can be set on an operation to provide a language-agnostic
+name for any body parameter that might appear within generated SDK code.
+For operations that support multipart-form-based request body content, this isn't necessary since the
+names of the form parameters are inferred from the property names within the request body schema.
+However, for operations that support other non-form-based request body content (json-based and non-json-based content alike),
+it is a good practice to provide the request body name via the extension, especially in situations where there is no other
+way to infer a logical name for the operation's body parameter.
+<p>This rule analyzes each operation to determine if a request body name is needed, and if so, checks to make sure 
+that the <code>x-codegen-request-body-name</code> extension is set on the operation.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/logs':
+    post:
+      operationId: upload_logfile
+      requestBody:
+        content:
+          'application/octet-stream':
+            schema:
+              type: string
+              format: binary
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/logs':
+    post:
+      operationId: upload_logfile
+      x-code-gen-request-body-name: log_file   &lt;&lt;&lt;
+      requestBody:
+        content:
+          'application/octet-stream':
+            schema:
+              type: string
+              format: binary
 </pre>
 </td>
 </tr>
