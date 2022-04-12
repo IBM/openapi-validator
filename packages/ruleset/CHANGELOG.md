@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.11.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.10.0...@ibm-cloud/openapi-ruleset@0.11.0) (2022-04-12)
+
+
+### Features
+
+* **unused-tag:** add unused-tag rule ([#418](https://github.com/IBM/openapi-validator/issues/418)) ([a065b61](https://github.com/IBM/openapi-validator/commit/a065b61e9300a169bb64c5747d66ff34ac88d41a))
+
 # @ibm-cloud/openapi-ruleset [0.10.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.9.0...@ibm-cloud/openapi-ruleset@0.10.0) (2022-04-11)
 
 
