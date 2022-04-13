@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.63.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.62.1...ibm-openapi-validator@0.63.0) (2022-04-13)
+
+
+### Features
+
+* **request-body-name:** add new request-body-name rule ([#419](https://github.com/IBM/openapi-validator/issues/419)) ([4494537](https://github.com/IBM/openapi-validator/commit/44945375d208dca023161610a260e9b6d668320a))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.12.0
+
 ## ibm-openapi-validator [0.62.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.62.0...ibm-openapi-validator@0.62.1) (2022-04-13)
 
 
