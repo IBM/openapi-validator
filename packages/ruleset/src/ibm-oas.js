@@ -105,6 +105,7 @@ module.exports = {
     'major-version-in-path': ibmRules.majorVersionInPath,
     'missing-required-property': ibmRules.missingRequiredProperty,
     'operation-id-case-convention': ibmRules.operationIdCaseConvention,
+    'operation-id-naming-convention': ibmRules.operationIdNamingConvention,
     'operation-summary': ibmRules.operationSummary,
     'pagination-style': ibmRules.paginationStyle,
     'parameter-case-convention': ibmRules.parameterCaseConvention,

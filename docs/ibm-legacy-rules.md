@@ -79,7 +79,6 @@ The supported rules are described below:
 | no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
 | no_array_responses           | Flag any operations with a top-level array response.                                | shared   |
 | parameter_order              | Flag any operations with optional parameters before a required param.               | shared   |
-| operation_id_naming_convention | Flag any `operationId` that does not follow naming convention.                    | shared   |
 
 
 ##### paths
@@ -205,7 +204,6 @@ The default values for each rule are described below.
 | ---------------------------- | ------- |
 | no_array_responses           | error   |
 | parameter_order              | warning |
-| operation_id_naming_convention | warning |
 
 ###### paths
 | Rule                        | Default |
