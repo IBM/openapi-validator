@@ -36,6 +36,7 @@ module.exports = {
             DrinkScheme: ['mixologist']
           }
         ],
+        'x-codegen-request-body-name': 'drink',
         requestBody: {
           content: {
             'application/json': {

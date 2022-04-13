@@ -24,6 +24,7 @@ const propertyCaseCollision = require('./property-case-collision');
 const propertyCaseConvention = require('./property-case-convention');
 const propertyDescription = require('./property-description');
 const propertyInconsistentNameAndType = require('./property-inconsistent-name-and-type');
+const requestBodyName = require('./request-body-name');
 const requestBodyObject = require('./request-body-object');
 const responseErrorResponseSchema = require('./response-error-response-schema');
 const responseExampleProvided = require('./response-example-provided');
@@ -61,6 +62,7 @@ module.exports = {
   propertyCaseConvention,
   propertyDescription,
   propertyInconsistentNameAndType,
+  requestBodyName,
   requestBodyObject,
   responseErrorResponseSchema,
   responseExampleProvided,

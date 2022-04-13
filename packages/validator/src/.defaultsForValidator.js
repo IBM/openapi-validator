@@ -54,9 +54,6 @@ const defaults = {
     }
   },
   'oas3': {
-    'operations': {
-      'no_request_body_name': 'warning'
-    },
     'responses': {
       'no_success_response_codes': 'warning',
       'protocol_switching_and_success_code': 'error',
@@ -104,6 +101,7 @@ const deprecated = {
   'no_operation_id': 'operation-operationId (spectral:oas rule)',
   'undefined_tag': 'operation-tag-defined (spectral:oas rule)',
   'unused_tag': 'unused-tag (Spectral rule)',
+  'no_request_body_name': 'request-body-name (Spectral rule)',
 };
 
 const configOptions = {
