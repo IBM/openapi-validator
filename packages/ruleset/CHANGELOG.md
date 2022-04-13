@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.11.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.11.0...@ibm-cloud/openapi-ruleset@0.11.1) (2022-04-13)
+
+
+### Bug Fixes
+
+* **string-boundary:** update string-boundary rule with new formats ([#417](https://github.com/IBM/openapi-validator/issues/417)) ([cf6bb3a](https://github.com/IBM/openapi-validator/commit/cf6bb3a5440f5152bf8b8f269773c63c17cadec2))
+
 # @ibm-cloud/openapi-ruleset [0.11.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.10.0...@ibm-cloud/openapi-ruleset@0.11.0) (2022-04-12)
 
 
