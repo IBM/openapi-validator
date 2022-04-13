@@ -13,7 +13,7 @@
 const pick = require('lodash/pick');
 const map = require('lodash/map');
 const each = require('lodash/each');
-const { checkCase, hasRefProperty } = require('../../../utils');
+const { hasRefProperty } = require('../../../utils');
 const MessageCarrier = require('../../../utils/message-carrier');
 
 module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
@@ -85,27 +85,6 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
             }
           }
         });
-      }
-
-      const hasOperationId =
-        op.operationId &&
-        op.operationId.length > 0 &&
-        !!op.operationId.toString().trim();
-      if (hasOperationId) {
-        // check operationId for case convention
-        const checkStatus = config.operation_id_case_convention[0];
-        if (checkStatus !== 'off') {
-          const caseConvention = config.operation_id_case_convention[1];
-          const isCorrectCase = checkCase(op.operationId, caseConvention);
-          if (!isCorrectCase) {
-            messages.addMessage(
-              `paths.${pathKey}.${opKey}.operationId`,
-              `operationIds must follow case convention: ${caseConvention}`,
-              checkStatus,
-              'operation_id_case_convention'
-            );
-          }
-        }
       }
 
       // this should be good with resolved spec, but double check

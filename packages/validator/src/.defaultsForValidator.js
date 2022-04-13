@@ -21,7 +21,6 @@
 const defaults = {
   'shared': {
     'operations': {
-      'operation_id_case_convention': ['warning', 'lower_snake_case'],
       'no_array_responses': 'error',
       'parameter_order': 'warning',
       'operation_id_naming_convention': 'warning'
@@ -77,31 +76,32 @@ const defaults = {
 */
 const deprecated = {
   'no_produces_for_get': 'no_produces',
-  'parameters.snake_case_only': 'parameter-case-convention (Spectral rule)',
-  'undefined_required_properties': 'missing-required-property (Spectral rule)',
-  'array_of_arrays': 'array-of-arrays (Spectral rule)',
-  'no_schema_description': 'schema-description (Spectral rule)',
-  'no_property_description': 'property-description (Spectral rule)',
-  'description_mentions_json': 'description-mentions-json (Spectral rule)',
-  'no_parameter_description': 'parameter-description (Spectral rule)',
-  'required_param_has_default': 'parameter-default (Spectral rule)',
-  'param_name_case_convention': 'parameter-case-convention (Spectral rule)',
-  'authorization_parameter': 'authorization-parameter (Spectral rule)',
-  'accept_type_parameter': 'accept-parameter (Spectral rule)',
-  'content_type_parameter': 'content-type-parameter (Spectral rule)',
-  'property_case_convention': 'property-case-convention (Spectral rule)',
-  'enum_case_convention': 'enum-case-convention (Spectral rule)',
-  'pagination_style': 'pagination-style (Spectral rule)',
-  'property_case_collision': 'property-case-collision (Spectral rule)',
-  'inconsistent_property_type': 'property-inconsistent-name-and-type (Spectral rule)',
-  'unused_security_schemes': 'security-schemes (Spectral rule)',
-  'unused_security_scopes': 'security-schemes (Spectral rule)',
-  'invalid_non_empty_security_array': 'security-schemes (Spectral rule)',
-  'no_summary': 'operation-summary (Spectral rule)',
-  'no_operation_id': 'operation-operationId (spectral:oas rule)',
-  'undefined_tag': 'operation-tag-defined (spectral:oas rule)',
-  'unused_tag': 'unused-tag (Spectral rule)',
-  'no_request_body_name': 'request-body-name (Spectral rule)',
+  'parameters.snake_case_only': 'parameter-case-convention (spectral rule)',
+  'undefined_required_properties': 'missing-required-property (spectral rule)',
+  'array_of_arrays': 'array-of-arrays (spectral rule)',
+  'no_schema_description': 'schema-description (spectral rule)',
+  'no_property_description': 'property-description (spectral rule)',
+  'description_mentions_json': 'description-mentions-json (spectral rule)',
+  'no_parameter_description': 'parameter-description (spectral rule)',
+  'required_param_has_default': 'parameter-default (spectral rule)',
+  'param_name_case_convention': 'parameter-case-convention (spectral rule)',
+  'authorization_parameter': 'authorization-parameter (spectral rule)',
+  'accept_type_parameter': 'accept-parameter (spectral rule)',
+  'content_type_parameter': 'content-type-parameter (spectral rule)',
+  'property_case_convention': 'property-case-convention (spectral rule)',
+  'enum_case_convention': 'enum-case-convention (spectral rule)',
+  'pagination_style': 'pagination-style (spectral rule)',
+  'property_case_collision': 'property-case-collision (spectral rule)',
+  'inconsistent_property_type': 'property-inconsistent-name-and-type (spectral rule)',
+  'unused_security_schemes': 'security-schemes (spectral rule)',
+  'unused_security_scopes': 'security-schemes (spectral rule)',
+  'invalid_non_empty_security_array': 'security-schemes (spectral rule)',
+  'no_summary': 'operation-summary (spectral rule)',
+  'no_operation_id': 'operation-operationId (spectral rule)',
+  'undefined_tag': 'operation-tag-defined (spectral rule)',
+  'unused_tag': 'unused-tag (spectral rule)',
+  'no_request_body_name': 'request-body-name (spectral rule)',
+  'operation_id_case_convention': 'operation-id-case-convention (spectral rule)',
 };
 
 const configOptions = {
@@ -112,8 +112,7 @@ const configOptions = {
     'lower_camel_case',
     'k8s_camel_case',
     'lower_dash_case',
-    'upper_dash_case',
-    'operation_id_case'
+    'upper_dash_case'
   ]
 };
 
