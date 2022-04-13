@@ -2,7 +2,7 @@ const { oas3 } = require('@stoplight/spectral-formats');
 const { stringBoundary } = require('../functions');
 
 module.exports = {
-  description: 'string schemas should have explicit boundaries defined',
+  description: 'String schemas should have explicit boundaries defined',
   message: '{{error}}',
   severity: 'warn',
   formats: [oas3],

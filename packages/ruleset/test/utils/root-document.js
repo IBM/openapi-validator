@@ -382,6 +382,16 @@ module.exports = {
             type: 'integer',
             format: 'int32',
             description: 'The length of the movie, in minutes.'
+          },
+          imdb_url: {
+            $ref: '#/components/schemas/UrlString'
+          },
+          trailer: {
+            type: 'string',
+            format: 'byte',
+            description: 'A short trailer for the movie.',
+            minLength: 0,
+            maxLength: 1024
           }
         },
         example: {
@@ -453,6 +463,12 @@ module.exports = {
         pattern: '[a-zA-Z0-9]+',
         minLength: 1,
         maxLength: 10
+      },
+      UrlString: {
+        description: 'A URL of some sort.',
+        type: 'string',
+        format: 'url',
+        maxLength: 1024
       },
       DrinkCollection: {
         description: 'A single page of results containing Drink instances.',

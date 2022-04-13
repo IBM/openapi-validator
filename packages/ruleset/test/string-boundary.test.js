@@ -28,7 +28,7 @@ describe('Spectral rule: string-boundary', () => {
     expect(results).toHaveLength(0);
   });
 
-  it('should not error for missing pattern when format is binary, date, or date-time', async () => {
+  it('should not error for missing pattern when format is binary, byte, date, date-time, or url', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post.parameters = [
       {
@@ -42,13 +42,21 @@ describe('Spectral rule: string-boundary', () => {
         }
       },
       {
+        name: 'trailer',
+        in: 'query',
+        schema: {
+          type: 'string',
+          format: 'byte',
+          minLength: 0,
+          maxLength: 1024
+        }
+      },
+      {
         name: 'before_date',
         in: 'query',
         schema: {
           type: 'string',
-          format: 'date',
-          minLength: 1,
-          maxLength: 15
+          format: 'date'
         }
       },
       {
@@ -60,11 +68,19 @@ describe('Spectral rule: string-boundary', () => {
           minLength: 1,
           maxLength: 15
         }
+      },
+      {
+        name: 'imdb_url',
+        in: 'query',
+        schema: {
+          type: 'string',
+          format: 'url',
+          maxLength: 1024
+        }
       }
     ];
 
     const results = await testRule(name, stringBoundary, testDocument);
-
     expect(results).toHaveLength(0);
   });
 
