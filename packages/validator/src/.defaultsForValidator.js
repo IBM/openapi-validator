@@ -23,7 +23,6 @@ const defaults = {
     'operations': {
       'no_array_responses': 'error',
       'parameter_order': 'warning',
-      'operation_id_naming_convention': 'warning'
     },
     'paths': {
       'missing_path_parameter': 'error',
@@ -102,6 +101,7 @@ const deprecated = {
   'unused_tag': 'unused-tag (spectral rule)',
   'no_request_body_name': 'request-body-name (spectral rule)',
   'operation_id_case_convention': 'operation-id-case-convention (spectral rule)',
+  'operation_id_naming_convention': 'operation-id-naming-convention (spectral rule)',
 };
 
 const configOptions = {

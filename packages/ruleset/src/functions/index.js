@@ -6,6 +6,7 @@ const discriminator = require('./discriminator');
 const enumCaseConvention = require('./enum-case-convention');
 const errorResponseSchema = require('./error-response-schema');
 const operationIdCaseConvention = require('./operation-id-case-convention');
+const operationIdNamingConvention = require('./operation-id-naming-convention');
 const operationSummary = require('./operation-summary');
 const paginationStyle = require('./pagination-style');
 const parameterCaseConvention = require('./parameter-case-convention');
@@ -34,6 +35,7 @@ module.exports = {
   enumCaseConvention,
   errorResponseSchema,
   operationIdCaseConvention,
+  operationIdNamingConvention,
   operationSummary,
   paginationStyle,
   parameterCaseConvention,

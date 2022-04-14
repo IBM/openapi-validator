@@ -44,6 +44,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: major-version-in-path](#rule-major-version-in-path)
   * [Rule: missing-required-property](#rule-missing-required-property)
   * [Rule: operation-id-case-convention](#rule-operation-id-case-convention)
+  * [Rule: operation-id-naming-convention](#rule-operation-id-naming-convention)
   * [Rule: operation-summary](#rule-operation-summary)
   * [Rule: pagination-style](#rule-pagination-style)
   * [Rule: parameter-case-convention](#rule-parameter-case-convention)
@@ -175,9 +176,15 @@ is provided in the [Reference](#reference) section below.
 <td>oas2, oas3</td>
 </tr>
 <tr>
+<<<<<<< HEAD
 <td><a href="#rule-operation-id-case-convention">operation-id-case-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a specific case convention</td>
+=======
+<td><a href="#rule-operation-id-naming-convention">operation-id-naming-convention</a></td>
+<td>warn</td>
+<td>Operation ids should follow a naming convention</td>
+>>>>>>> 9e1fb2d (feat(operation-id-naming-convention): add new operation-id-naming-convention rule)
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -1435,6 +1442,68 @@ paths:
   '/v1/things':
     post:
       operationId: create_thing
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: operation-id-naming-convention
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Operation ids should follow a naming convention using standard, predictable verbs.
+For example, <code>create_thing</code> would be preferred over <code>manufacture_thing</code>
+when deciding on an operationId for the <code>POST /v1/things</code> operation.
+Likewise, for the <code>GET /v1/things/{thing_id}</code> operation, we might prefer
+<code>get_thing</code> over <code>retrieve_thing</code> for the operationId.
+<p>This rule will analyze the operations, looking for operationId values that are not using the recommended verbs.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: manufacture_thing
+      description: Create a new Thing instance.
+      summary: Create a Thing
+  '/v1/things/{thing_id}':
+    get:
+      operationId: retrieve_thing
+      description: Get a Thing instance.
+      summary: Get a Thing
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      summary: Create a Thing
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      description: Get a Thing instance.
+      summary: Get a Thing
 </pre>
 </td>
 </tr>
