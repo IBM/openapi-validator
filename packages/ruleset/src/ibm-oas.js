@@ -104,6 +104,7 @@ module.exports = {
     'ibm-sdk-operations': ibmRules.ibmSdkOperations,
     'major-version-in-path': ibmRules.majorVersionInPath,
     'missing-required-property': ibmRules.missingRequiredProperty,
+    'operation-id-case-convention': ibmRules.operationIdCaseConvention,
     'operation-summary': ibmRules.operationSummary,
     'pagination-style': ibmRules.paginationStyle,
     'parameter-case-convention': ibmRules.parameterCaseConvention,

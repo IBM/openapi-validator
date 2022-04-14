@@ -43,6 +43,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: ibm-sdk-operations](#rule-ibm-sdk-operations)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
   * [Rule: missing-required-property](#rule-missing-required-property)
+  * [Rule: operation-id-case-convention](#rule-operation-id-case-convention)
   * [Rule: operation-summary](#rule-operation-summary)
   * [Rule: pagination-style](#rule-pagination-style)
   * [Rule: parameter-case-convention](#rule-parameter-case-convention)
@@ -171,6 +172,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-missing-required-property">missing-required-property</a></td>
 <td>error</td>
 <td>A schema property defined as <code>required</code> must be defined within the schema</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-operation-id-case-convention">operation-id-case-convention</a></td>
+<td>warn</td>
+<td>Operation ids should follow a specific case convention</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -1360,6 +1367,74 @@ components:
       required:
         - thing_id
         - thing_version
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: operation-id-case-convention
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>operation-id-case-convention</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Operation ids should follow a specific case convention, with the default being snake case.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Configuration:</b></td>
+<td>This rule can be configured to enforce a specific case convention for <code>operationId</code> values.
+To configure the rule, set the <code>functionOptions</code> field within the rule definition to be an object
+that is the appropriate configuration to be used by Spectral's <code>casing()</code> function
+[<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
+to enforce the desired case convention for <code>operationId</code> values.
+<p>The default configuration object provided in the rule definition is:
+<pre>
+{
+  type: 'snake'
+}
+</pre>
+<p>To enforce a different case convention for <code>operationId</code> values, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
+specifies the desired case convention.
+For example, to enforce camel case for operation ids, the configuration object would look like this:
+<pre>
+{
+  type: 'camel'
+}
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: createThing
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
 </pre>
 </td>
 </tr>
