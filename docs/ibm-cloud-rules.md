@@ -51,6 +51,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: parameter-case-convention](#rule-parameter-case-convention)
   * [Rule: parameter-default](#rule-parameter-default)
   * [Rule: parameter-description](#rule-parameter-description)
+  * [Rule: parameter-order](#rule-parameter-order)
   * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
   * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
   * [Rule: property-case-collision](#rule-property-case-collision)
@@ -222,6 +223,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-parameter-description">parameter-description</a></td>
 <td>warn</td>
 <td>Parameters should have a non-empty description</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-parameter-order">parameter-order</a></td>
+<td>warn</td>
+<td>All required operation parameters should be listed before optional parameters.</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -1951,6 +1958,87 @@ components:
           - asc
           - desc
         default: asc
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: parameter-order
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>parameter-order</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>It is a good practice to list the parameters within an operation such that all required parameters are
+listed first, then any optional parameters.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: list_things
+      description: List the set of Things.
+      summary: List Things
+      parameters:
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: integer
+        - name: filter
+          required: true
+          in: query
+          schema:
+            type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: list_things
+      description: List the set of Things.
+      summary: List Things
+      parameters:
+        - name: filter
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: integer
 </pre>
 </td>
 </tr>

@@ -13,6 +13,7 @@ const paginationStyle = require('./pagination-style');
 const parameterCaseConvention = require('./parameter-case-convention');
 const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
+const parameterOrder = require('./parameter-order');
 const propertyCaseCollision = require('./property-case-collision');
 const propertyCaseConvention = require('./property-case-convention');
 const propertyDescription = require('./property-description');
@@ -43,6 +44,7 @@ module.exports = {
   parameterCaseConvention,
   parameterDefault,
   parameterDescription,
+  parameterOrder,
   propertyCaseCollision,
   propertyCaseConvention,
   propertyDescription,
