@@ -16,7 +16,7 @@ const each = require('lodash/each');
 const { hasRefProperty } = require('../../../utils');
 const MessageCarrier = require('../../../utils/message-carrier');
 
-module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
+module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
   const messages = new MessageCarrier();
 
   config = config.operations;
@@ -49,42 +49,6 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
           '$ref found in illegal location',
           'error'
         );
-      }
-
-      // Arrays MUST NOT be returned as the top-level structure in a response body.
-      const checkStatusArrRes = config.no_array_responses;
-      if (checkStatusArrRes !== 'off') {
-        each(op.responses, (response, name) => {
-          if (isOAS3) {
-            each(response.content, (content, contentType) => {
-              const isArray =
-                content.schema &&
-                (content.schema.type === 'array' || content.schema.items);
-
-              if (isArray) {
-                messages.addMessage(
-                  `paths.${pathKey}.${opKey}.responses.${name}.content.${contentType}.schema`,
-                  'Arrays MUST NOT be returned as the top-level structure in a response body.',
-                  checkStatusArrRes,
-                  'no_array_responses'
-                );
-              }
-            });
-          } else {
-            const isArray =
-              response.schema &&
-              (response.schema.type === 'array' || response.schema.items);
-
-            if (isArray) {
-              messages.addMessage(
-                `paths.${pathKey}.${opKey}.responses.${name}.schema`,
-                'Arrays MUST NOT be returned as the top-level structure in a response body.',
-                checkStatusArrRes,
-                'no_array_responses'
-              );
-            }
-          }
-        });
       }
 
       // this should be good with resolved spec, but double check

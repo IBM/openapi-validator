@@ -30,6 +30,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
 - [Reference](#reference)
   * [Rule: accept-parameter](#rule-accept-parameter)
   * [Rule: array-of-arrays](#rule-array-of-arrays)
+  * [Rule: array-responses](#rule-array-responses)
   * [Rule: authorization-parameter](#rule-authorization-parameter)
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
@@ -95,6 +96,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-array-of-arrays">array-of-arrays</a></td>
 <td>warn</td>
 <td>Array schemas with <code>items</code> of type array should be avoided</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-array-responses">array-responses</a></td>
+<td>warn</td>
+<td>Operations should not return an array as the top-level structure of a response.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -605,6 +612,76 @@ requestBody:
         type: array
         items:
           type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: array-responses
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>array-responses</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks to make sure that operations do not define an array as the top-level structure within a response.
+The recommendation is to instead use an object with a property that contains the array.
+This will allow you to expand the definition of the response body (e.g. add new properties) in a compatible way
+in the future if needed.
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: list_things
+      responses:
+        '200':
+          content:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Thing'
+
+sample response body:
+[ {"name": "thing-1"}, {"name": "thing-2"} ]
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: list_things
+      responses:
+        '200':
+          content:
+            schema:
+              type: object
+              properties:
+                things:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Thing'
+
+sample response body:
+{"things": [ {"name": "thing-1"}, {"name": "thing-2"} ]}
+</pre>
 </pre>
 </td>
 </tr>
