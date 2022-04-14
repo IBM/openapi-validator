@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.13.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.12.0...@ibm-cloud/openapi-ruleset@0.13.0) (2022-04-14)
+
+
+### Features
+
+* **operation-id-case-convention:** add new operation-id-case-convention rule ([#420](https://github.com/IBM/openapi-validator/issues/420)) ([c9e25f8](https://github.com/IBM/openapi-validator/commit/c9e25f8f629e17e2f77aaa7872a2a2a63f427b2b))
+
 # @ibm-cloud/openapi-ruleset [0.12.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.11.1...@ibm-cloud/openapi-ruleset@0.12.0) (2022-04-13)
 
 
