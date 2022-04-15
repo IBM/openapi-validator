@@ -345,6 +345,8 @@ no-script-tags-in-markdown: true
 openapi-tags: true
 operation-description: true
 operation-tags: true
+path-params
+path-declarations-must-exist
 path-keys-no-trailing-slash: true
 path-not-include-query: true
 typed-enum: true

@@ -23,7 +23,6 @@ const defaults = {
     'operations': {
     },
     'paths': {
-      'missing_path_parameter': 'error',
       'duplicate_path_parameter': 'warning',
       'snake_case_only': 'off',
       'paths_case_convention': ['error', 'lower_snake_case']
@@ -102,6 +101,7 @@ const deprecated = {
   'operation_id_naming_convention': 'operation-id-naming-convention (spectral rule)',
   'no_array_responses': 'array-responses (spectral rule)',
   'parameter_order': 'parameter-order (spectral rule)',
+  'missing_path_parameter': 'path-params and path-declarations-must-exist (spectral rule)',
 };
 
 const configOptions = {
