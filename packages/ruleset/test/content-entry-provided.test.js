@@ -55,6 +55,21 @@ describe('Spectral rule: content-entry-provided', () => {
     expect(results).toHaveLength(0);
   });
 
+  it('should not error if 304 response is missing content', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].delete = {
+      responses: {
+        '304': {
+          description: 'No content'
+        }
+      }
+    };
+
+    const results = await testRule(name, contentEntryProvided, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
   it('should error if 201 response is missing content', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post = {
