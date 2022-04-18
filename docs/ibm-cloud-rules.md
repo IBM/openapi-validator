@@ -176,15 +176,15 @@ is provided in the [Reference](#reference) section below.
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<<<<<<< HEAD
 <td><a href="#rule-operation-id-case-convention">operation-id-case-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a specific case convention</td>
-=======
+<td>oas2, oas3</td>
+</tr>
+<tr>
 <td><a href="#rule-operation-id-naming-convention">operation-id-naming-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a naming convention</td>
->>>>>>> 9e1fb2d (feat(operation-id-naming-convention): add new operation-id-naming-convention rule)
 <td>oas2, oas3</td>
 </tr>
 <tr>
