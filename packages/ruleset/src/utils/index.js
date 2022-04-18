@@ -6,6 +6,7 @@ const isJsonMimeType = require('./is-json-mimetype');
 const isObject = require('./is-object');
 const isSdkExcluded = require('./is-sdk-excluded');
 const mergeAllOfSchemaProperties = require('./merge-allof-schema-properties');
+const operationMethods = require('./constants');
 const pathMatchesRegexp = require('./path-matches-regexp');
 const validateSubschemas = require('./validate-subschemas');
 
@@ -18,6 +19,7 @@ module.exports = {
   isObject,
   isSdkExcluded,
   mergeAllOfSchemaProperties,
+  operationMethods,
   pathMatchesRegexp,
   validateSubschemas
 };

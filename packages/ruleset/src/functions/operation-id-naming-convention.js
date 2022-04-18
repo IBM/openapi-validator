@@ -2,22 +2,11 @@ const pickBy = require('lodash/pickBy');
 const reduce = require('lodash/reduce');
 const merge = require('lodash/merge');
 const each = require('lodash/each');
+const { operationMethods } = require('../utils');
 
 module.exports = function(rootDocument) {
   return operationIdNamingConvention(rootDocument);
 };
-
-// Set of fields within a "path item" that we expect to hold an operation object.
-const operationMethods = [
-  'get',
-  'head',
-  'post',
-  'put',
-  'patch',
-  'delete',
-  'options',
-  'trace'
-];
 
 function operationIdNamingConvention(resolvedSpec) {
   const operations = reduce(

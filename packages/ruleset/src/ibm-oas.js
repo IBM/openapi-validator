@@ -100,6 +100,7 @@ module.exports = {
     'content-type-parameter': ibmRules.contentTypeParameter,
     'description-mentions-json': ibmRules.descriptionMentionsJSON,
     discriminator: ibmRules.discriminator,
+    'duplicate-path-parameter': ibmRules.duplicatePathParameter,
     'enum-case-convention': ibmRules.enumCaseConvention,
     'examples-name-contains-space': ibmRules.examplesNameContainsSpace,
     'ibm-content-type-is-specific': ibmRules.ibmContentTypeIsSpecific,
