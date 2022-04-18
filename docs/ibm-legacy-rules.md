@@ -78,13 +78,6 @@ The supported rules are described below:
 | get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
 | no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
 
-
-##### paths
-| Rule                        | Description                                                                                                  | Spec   |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
-| snake_case_only             | Flag any path segment that does not use snake case.                                                          | shared |
-| paths_case_convention       | Flag any path segment that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
-
 ##### [responses][4]
 | Rule                      | Description                                                  | Spec |
 | ------------------------- | ------------------------------------------------------------ | ---- |
@@ -117,27 +110,6 @@ The supported rules are described below:
 #### Statuses
 
 Each rule can be assigned a status. The supported statuses are `error`, `warning`, `info`, `hint` and `off`.
-Some rules can be configured further with configuration options. The format of this configuration is to provide an array, rather than just a string. e.g.
-`"paths_case_convention": ["error", "lower_camel_case"]`
-If just a string is provided for these rule, the default configuration option will be used. If only one value is provided in the array, it **MUST** be a status. The default configuration option will be used in this case as well. The rules that support configuration options will have **two** values in the [defaults](#default-values) table.
-
-#### Configuration Options
-
-For rules that accept additional configuration, there will be a limited set of available options.
-
-##### Case Convention Options
-- Some rules check strings for adherence to a specific case convention. In some cases, the case convention checked is configurable.
-- Rules with configurable case conventions will end in `_case_convention`, such as `paths_case_convention`.
-
-| Option           | Description                                              | Example           |
-| ---------------- | -------------------------------------------------------- | ----------------- |
-| lower_snake_case | Words must follow standard lower snake case conventions. | learning_opt_out  |
-| upper_snake_case | Words must follow standard upper snake case conventions. | LEARNING_OPT_OUT  |
-| upper_camel_case | Words must follow standard upper camel case conventions. | LearningOptOut    |
-| lower_camel_case | Words must follow standard lower camel case conventions. | learningOptOut    |
-| k8s_camel_case   | Words must follow Kubernetes API camel case conventions. | learningOptOutAPI |
-| lower_dash_case  | Words must follow standard lower dash case conventions.  | learning-opt-out  |
-| upper_dash_case  | Words must follow standard upper dash case conventions.  | LEARNING-OPT-OUT  |
 
 ### Configuration file
 
@@ -198,8 +170,6 @@ The default values for each rule are described below.
 ###### paths
 | Rule                        | Default |
 | --------------------------- | ------- |
-| snake_case_only             | off     |
-| paths_case_convention       | error, lower_snake_case |
 
 ##### responses
 | Rule                      | Default |
