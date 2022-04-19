@@ -1,4 +1,5 @@
 const arrayOfArrays = require('./array-of-arrays');
+const arrayResponses = require('./array-responses');
 const checkMajorVersion = require('./check-major-version');
 const descriptionMentionsJSON = require('./description-mentions-json');
 const disallowedHeaderParameter = require('./disallowed-header-parameter');
@@ -28,6 +29,7 @@ const validTypeFormat = require('./valid-type-format');
 
 module.exports = {
   arrayOfArrays,
+  arrayResponses,
   disallowedHeaderParameter,
   checkMajorVersion,
   descriptionMentionsJSON,

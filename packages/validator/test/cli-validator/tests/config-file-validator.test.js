@@ -35,8 +35,7 @@ describe('cli tool - test config file validator', function() {
     const config = {
       openApi4: {
         operations: {
-          no_operation_id: 'warning',
-          no_array_responses: 'error'
+          no_operation_id: 'warning'
         },
         nonValidCategory: {
           no_parameter_description: 'error',
@@ -64,9 +63,6 @@ describe('cli tool - test config file validator', function() {
   it('should print an error for an unsupported category', function() {
     const config = {
       shared: {
-        operations: {
-          no_array_responses: 'error'
-        },
         nonValidCategory: {
           no_parameter_description: 'error',
           snake_case_only: 'warning',
@@ -94,8 +90,7 @@ describe('cli tool - test config file validator', function() {
     const config = {
       shared: {
         operations: {
-          nonValidRule: 'error',
-          no_array_responses: 'error'
+          nonValidRule: 'error'
         },
         parameters: {
           no_parameter_description: 'error',
@@ -145,8 +140,8 @@ describe('cli tool - test config file validator', function() {
   it('should fill in default values for rules that are not included', function() {
     const config = {
       shared: {
-        operations: {
-          no_array_responses: 'error'
+        walker: {
+          no_empty_descriptions: 'error'
         }
       }
     };
@@ -187,8 +182,8 @@ describe('cli tool - test config file validator', function() {
   it('should error when given an array for rules without config options', function() {
     const config = {
       shared: {
-        operations: {
-          no_array_responses: ['error', 'camel_case']
+        walker: {
+          no_empty_descriptions: ['error', 'camel_case']
         }
       }
     };
@@ -201,7 +196,7 @@ describe('cli tool - test config file validator', function() {
       '[Error] Invalid configuration in .validaterc file. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
-      '- Array-value configuration options are not supported for the no_array_responses rule in the operations category.\n   Valid statuses are: error, warning, info, hint, off'
+      '- Array-value configuration options are not supported for the no_empty_descriptions rule in the walker category.\n   Valid statuses are: error, warning, info, hint, off'
     );
   });
 });
