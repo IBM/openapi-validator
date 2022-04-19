@@ -18,16 +18,24 @@ const schemas = [
 // should be used with resolved=true and we want to avoid duplication.
 const parameters = [
   '$.paths[*].parameters.[*]',
-  '$.paths[*][*].parameters.[*]'
+  '$.paths[*][get,put,post,delete,options,head,patch,trace].parameters.[*]'
 ];
 
 const paths = ['$.paths[*]'];
 
 const operations = ['$.paths[*][get,put,post,delete,options,head,patch,trace]'];
 
+// A collection of locations where a response schema could be defined
+// within an unresolved API definition.
+const unresolvedResponseSchemas = [
+  '$.paths[*][*].responses[*].content[*].schema',
+  '$.components.responses[*].content[*].schema'
+];
+
 module.exports = {
-  schemas,
   operations,
   parameters,
-  paths
+  paths,
+  unresolvedResponseSchemas,
+  schemas
 };

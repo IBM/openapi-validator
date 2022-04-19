@@ -213,7 +213,7 @@ describe('cli tool - test option handling', function() {
     // });
     // console.warn(textOutput);
 
-    expect(exitCode).toEqual(1);
+    expect(exitCode).toEqual(0);
 
     // simple state machine to count the number of warnings and errors.
     let errorCount = 0;
@@ -237,7 +237,7 @@ describe('cli tool - test option handling', function() {
       }
     });
     expect(warningCount).toEqual(1); // without the config this value is 4
-    expect(errorCount).toEqual(1); // without the config this value is 0
+    expect(errorCount).toEqual(0);
   });
 
   it('should return an error and usage menu when there is an unknown option', async function() {

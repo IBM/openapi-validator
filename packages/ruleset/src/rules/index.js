@@ -13,6 +13,7 @@ const examplesNameContainsSpace = require('./examples-name-contains-space');
 const ibmContentTypeIsSpecific = require('./ibm-content-type-is-specific');
 const ibmErrorContentTypeIsJson = require('./ibm-error-content-type-is-json');
 const ibmSdkOperations = require('./ibm-sdk-operations');
+const inlineResponseSchema = require('./inline-response-schema');
 const majorVersionInPath = require('./major-version-in-path');
 const missingRequiredProperty = require('./missing-required-property');
 const operationIdCaseConvention = require('./operation-id-case-convention');
@@ -57,6 +58,7 @@ module.exports = {
   ibmContentTypeIsSpecific,
   ibmErrorContentTypeIsJson,
   ibmSdkOperations,
+  inlineResponseSchema,
   majorVersionInPath,
   missingRequiredProperty,
   operationIdCaseConvention,

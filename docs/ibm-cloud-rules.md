@@ -42,6 +42,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: ibm-content-type-is-specific](#rule-ibm-content-type-is-specific)
   * [Rule: ibm-error-content-type-is-json](#rule-ibm-error-content-type-is-json)
   * [Rule: ibm-sdk-operations](#rule-ibm-sdk-operations)
+  * [Rule: inline-response-schema](#rule-inline-response-schema)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
   * [Rule: missing-required-property](#rule-missing-required-property)
   * [Rule: operation-id-case-convention](#rule-operation-id-case-convention)
@@ -176,6 +177,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-ibm-sdk-operations">ibm-sdk-operations</a></td>
 <td>warn</td>
 <td>Validates the structure of the <code>x-sdk-operations</code> object </td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-inline-response-schema">inline-response-schema</a></td>
+<td>warn</td>
+<td>Response schemas should be defined as a $ref to a named schema</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -1426,6 +1433,85 @@ n/a
 <td valign=top><b>Compliant example:</b></td>
 <td>
 n/a
+</td>
+</tr>
+</table>
+
+
+### Rule: inline-response-schema
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>inline-response-schema</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>A response schema should be defined as a reference to a named schema instead of defined as an inline schema.
+This is a best practice because the SDK generator will use the schema reference when determining the operation's return type
+within the generated SDK code.
+The SDK generator will refactor any inline response schemas that it finds by moving them to the <code>components.schemas</code>
+section of the API definition and then replacing them with a reference.  However, the names computed by the SDK generator are
+not optimal, so the recommendation is for API authors to define the response schema as a $ref.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      description: Retrieve a Thing instance by id.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A Thing instance.
+                properties:
+                  thing_id:
+                    type: string
+                  thing_style:
+                    type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      description: A Thing instance.
+      properties:
+        thing_id:
+          type: string
+        thing_style:
+          type: string
+paths:
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      description: Retrieve a Thing instance by id.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+</pre>
 </td>
 </tr>
 </table>
