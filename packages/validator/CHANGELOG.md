@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.68.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.67.0...ibm-openapi-validator@0.68.0) (2022-04-19)
+
+
+### Features
+
+* **missing_path_parameter:** replace rule with spectral:oas rules ([#428](https://github.com/IBM/openapi-validator/issues/428)) ([4b7719f](https://github.com/IBM/openapi-validator/commit/4b7719f51489b80474e6ae4c8d5a56d139ec9f0b))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.17.0
+
 # ibm-openapi-validator [0.67.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.66.0...ibm-openapi-validator@0.67.0) (2022-04-19)
 
 
