@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.14.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.14.0...@ibm-cloud/openapi-ruleset@0.14.1) (2022-04-19)
+
+
+### Bug Fixes
+
+* **content-entry-provided:** dont require content entry for 304 responses ([82c0c0a](https://github.com/IBM/openapi-validator/commit/82c0c0af2b2d41e8fc1ebdaf6ff2740a39d4ac06))
+
 # @ibm-cloud/openapi-ruleset [0.14.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.13.0...@ibm-cloud/openapi-ruleset@0.14.0) (2022-04-14)
 
 
