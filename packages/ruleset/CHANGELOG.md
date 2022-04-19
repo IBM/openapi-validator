@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.16.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.15.0...@ibm-cloud/openapi-ruleset@0.16.0) (2022-04-19)
+
+
+### Features
+
+* **parameter-order:** add new 'parameter-order' rule ([#423](https://github.com/IBM/openapi-validator/issues/423)) ([3304225](https://github.com/IBM/openapi-validator/commit/33042257cab50dda1aa602cd3c3bd8ee33749b12))
+
 # @ibm-cloud/openapi-ruleset [0.15.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.14.1...@ibm-cloud/openapi-ruleset@0.15.0) (2022-04-19)
 
 
