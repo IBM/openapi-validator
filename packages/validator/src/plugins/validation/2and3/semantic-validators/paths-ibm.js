@@ -75,7 +75,6 @@ module.exports.validate = function({ resolvedSpec }, config) {
             .map(param => param.name);
         }
 
-        let accountsForAllParameters = true;
         const missingParameters = [];
 
         parameters.forEach(name => {
@@ -83,48 +82,18 @@ module.exports.validate = function({ resolvedSpec }, config) {
             !givenParameters.includes(name) &&
             !globalParameters.includes(name)
           ) {
-            accountsForAllParameters = false;
             missingParameters.push(name);
           }
         });
-
-        if (!accountsForAllParameters) {
-          const checkStatus = config.missing_path_parameter;
-          if (checkStatus != 'off') {
-            missingParameters.forEach(name => {
-              messages.addMessage(
-                ['paths', pathName, opName, 'parameters'],
-                `Operation must include a path parameter with name: ${name}.`,
-                checkStatus,
-                'missing_path_parameter'
-              );
-            });
-          }
-        }
       });
 
       if (!operations.length) {
-        let accountsForAllParameters = true;
         const missingParameters = [];
         parameters.forEach(name => {
           if (!globalParameters.includes(name)) {
-            accountsForAllParameters = false;
             missingParameters.push(name);
           }
         });
-        if (!accountsForAllParameters) {
-          const checkStatus = config.missing_path_parameter;
-          if (checkStatus != 'off') {
-            missingParameters.forEach(name => {
-              messages.addMessage(
-                ['paths', pathName],
-                `Path parameter must be defined at the path or the operation level: ${name}.`,
-                checkStatus,
-                'missing_path_parameter'
-              );
-            });
-          }
-        }
       }
     }
 

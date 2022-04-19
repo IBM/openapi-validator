@@ -103,21 +103,6 @@ module.exports.validate = function({ resolvedSpec }) {
       str.replace('{', '').replace('}', '')
     );
 
-    // Assertation 1
-    each(availableParameters, (parameterDefinition, i) => {
-      if (
-        isPlainObject(parameterDefinition) &&
-        parameterDefinition.in === 'path' &&
-        pathTemplates.indexOf(parameterDefinition.name) === -1
-      ) {
-        messages.addMessage(
-          parameterDefinition.$$path || `paths.${pathName}.parameters[${i}]`,
-          `Path parameter was defined but never used: ${parameterDefinition.name}`,
-          'error'
-        );
-      }
-    });
-
     if (pathTemplates) {
       pathTemplates.forEach(parameter => {
         // Assertation 2
@@ -127,17 +112,6 @@ module.exports.validate = function({ resolvedSpec }) {
           messages.addMessage(
             `paths.${pathName}`,
             'Empty path parameter declarations are not valid',
-            'error'
-          );
-        }
-      });
-    } else {
-      each(availableParameters, (parameterDefinition, i) => {
-        // Assertation 1, for cases when no templating is present on the path
-        if (parameterDefinition.in === 'path') {
-          messages.addMessage(
-            `paths.${pathName}.parameters[${i}]`,
-            `Path parameter was defined but never used: ${parameterDefinition.name}`,
             'error'
           );
         }
