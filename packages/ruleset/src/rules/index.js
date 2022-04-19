@@ -35,6 +35,7 @@ const requestBodyName = require('./request-body-name');
 const requestBodyObject = require('./request-body-object');
 const responseErrorResponseSchema = require('./response-error-response-schema');
 const responseExampleProvided = require('./response-example-provided');
+const responseStatusCodes = require('./response-status-codes');
 const schemaDescription = require('./schema-description');
 const securitySchemes = require('./security-schemes');
 const serverVariableDefaultValue = require('./server-variable-default-value');
@@ -80,6 +81,7 @@ module.exports = {
   requestBodyObject,
   responseErrorResponseSchema,
   responseExampleProvided,
+  responseStatusCodes,
   schemaDescription,
   securitySchemes,
   serverVariableDefaultValue,

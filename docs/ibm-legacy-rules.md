@@ -59,10 +59,7 @@ The supported categories are described below:
 | Category   | Description                                                                                                                       |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | operations | Rules pertaining to [Operation Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operationObject) |
-| paths      | Rules pertaining to [Paths Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#pathsObject)         |
 | schemas    | Rules pertaining to [Schema Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject)       |
-| security_definitions | Rules pertaining to [Security Definition Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject) |
-| security   | Rules pertaining to [Security Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject) |
 | walker     | Rules pertaining to the entire document.                                                                                              |
 
 #### Rules
@@ -78,18 +75,9 @@ The supported rules are described below:
 | get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
 | no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
 
-##### [responses][4]
-| Rule                      | Description                                                  | Spec |
-| ------------------------- | ------------------------------------------------------------ | ---- |
-| no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
-| no_response_body          | Flag any non-204 success responses without a response body.  | oas3 |
-| ibm_status_code_guidelines| Flag any violations of status code conventions per IBM API Handbook  | oas3 |
-
 ##### schemas
 | Rule                        | Description                                                                   | Spec     |
 | --------------------------- | ----------------------------------------------------------------------------- | -------- |
-| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | shared   |
-| snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | shared   |
 | json_or_param_binary_string | Flag parameters or application/json request/response bodies with schema type: string, format: binary. | oas3 |
 
 ##### walker
@@ -147,17 +135,6 @@ The default values for each rule are described below.
 
 ##### oas3
 
-###### operations
-| Rule                        | Default |
-| --------------------------- | ------- |
-
-##### responses
-| Rule                      | Default |
-| ------------------------- | ------- |
-| no_success_response_codes | warning |
-| no_response_body          | warning |
-| ibm_status_code_guidelines| warning |
-
 ##### schemas
 
 | Rule                        | Default |
@@ -165,16 +142,6 @@ The default values for each rule are described below.
 | json_or_param_binary_string | warning |
 
 ##### shared
-
-###### paths
-| Rule                        | Default |
-| --------------------------- | ------- |
-
-###### schemas
-| Rule                        | Default |
-| --------------------------- | ------- |
-| invalid_type_format_pair    | error   |
-| snake_case_only             | off     |
 
 ###### walker
 | Rule                          | Default |
