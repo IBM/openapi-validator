@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.15.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.14.1...@ibm-cloud/openapi-ruleset@0.15.0) (2022-04-19)
+
+
+### Features
+
+* **array-responses:** add new 'array-responses' rule ([#422](https://github.com/IBM/openapi-validator/issues/422)) ([88cf48c](https://github.com/IBM/openapi-validator/commit/88cf48c1c9da04f49da6d82528b3c97be01ba356))
+
 ## @ibm-cloud/openapi-ruleset [0.14.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.14.0...@ibm-cloud/openapi-ruleset@0.14.1) (2022-04-19)
 
 
