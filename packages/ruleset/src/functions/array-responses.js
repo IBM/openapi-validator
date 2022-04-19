@@ -1,5 +1,3 @@
-const { isSdkExcluded } = require('../utils');
-
 module.exports = function(operation, _opts, { path }) {
   return checkForArrayResponses(operation, path);
 };
@@ -14,10 +12,6 @@ module.exports = function(operation, _opts, { path }) {
  * @returns an array containing the violations found or [] if no violations
  */
 function checkForArrayResponses(op, path) {
-  if (!op || isSdkExcluded(op)) {
-    return [];
-  }
-
   const errors = [];
 
   // Check for an array schema within each response.

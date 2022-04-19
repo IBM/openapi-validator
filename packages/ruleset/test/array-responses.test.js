@@ -13,50 +13,6 @@ describe('Spectral rule: array-responses', () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
-    it('Excluded operation', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.paths['/v1/drinks'].get['x-sdk-exclude'] = true;
-      testDocument.paths['/v1/drinks'].get.responses = {
-        '200': {
-          description: 'Good response',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'array',
-                items: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            },
-            'someother/type': {
-              schema: {
-                type: 'array',
-                items: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            }
-          }
-        },
-        '400': {
-          description: 'Error response',
-          content: {
-            'application/json': {
-              schema: {
-                type: 'array',
-                items: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
-      };
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
   });
 
   describe('Should yield errors', () => {
@@ -181,6 +137,54 @@ describe('Spectral rule: array-responses', () => {
       expect(r.severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
         'paths./v1/drinks.get.responses.200.content.application/json.schema'
+      );
+    });
+
+    it('Excluded operation', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].get['x-sdk-exclude'] = true;
+      testDocument.paths['/v1/drinks'].get.responses = {
+        '200': {
+          description: 'Good response',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/Drink'
+                }
+              }
+            }
+          }
+        },
+        '400': {
+          description: 'Error response',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: {
+                  type: 'string'
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(2);
+      for (const r of results) {
+        expect(r.code).toBe(ruleId);
+        expect(r.message).toBe(expectedMsg);
+        expect(r.severity).toBe(expectedSeverity);
+      }
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.get.responses.200.content.application/json.schema'
+      );
+      expect(results[1].path.join('.')).toBe(
+        'paths./v1/drinks.get.responses.400.content.application/json.schema'
       );
     });
   });
