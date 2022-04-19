@@ -16,10 +16,8 @@ const each = require('lodash/each');
 const { hasRefProperty } = require('../../../utils');
 const MessageCarrier = require('../../../utils/message-carrier');
 
-module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
+module.exports.validate = function({ jsSpec, resolvedSpec }) {
   const messages = new MessageCarrier();
-
-  config = config.operations;
 
   map(resolvedSpec.paths, (path, pathKey) => {
     if (pathKey.slice(0, 2) === 'x-') {
@@ -49,32 +47,6 @@ module.exports.validate = function({ jsSpec, resolvedSpec }, config) {
           '$ref found in illegal location',
           'error'
         );
-      }
-
-      // this should be good with resolved spec, but double check
-      // All required parameters of an operation are listed before any optional parameters.
-      const checkStatusParamOrder = config.parameter_order;
-      if (checkStatusParamOrder !== 'off') {
-        if (op.parameters && op.parameters.length > 0) {
-          let firstOptional = -1;
-          for (let indx = 0; indx < op.parameters.length; indx++) {
-            const param = op.parameters[indx];
-            if (firstOptional < 0) {
-              if (!param.required) {
-                firstOptional = indx;
-              }
-            } else {
-              if (param.required) {
-                messages.addMessage(
-                  `paths.${pathKey}.${opKey}.parameters[${indx}]`,
-                  'Required parameters should appear before optional parameters.',
-                  checkStatusParamOrder,
-                  'parameter_order'
-                );
-              }
-            }
-          }
-        }
       }
     });
   });

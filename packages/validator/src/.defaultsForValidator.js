@@ -21,7 +21,6 @@
 const defaults = {
   'shared': {
     'operations': {
-      'parameter_order': 'warning',
     },
     'paths': {
       'missing_path_parameter': 'error',
@@ -102,6 +101,7 @@ const deprecated = {
   'operation_id_case_convention': 'operation-id-case-convention (spectral rule)',
   'operation_id_naming_convention': 'operation-id-naming-convention (spectral rule)',
   'no_array_responses': 'array-responses (spectral rule)',
+  'parameter_order': 'parameter-order (spectral rule)',
 };
 
 const configOptions = {

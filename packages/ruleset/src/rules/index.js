@@ -21,6 +21,7 @@ const paginationStyle = require('./pagination-style');
 const parameterCaseConvention = require('./parameter-case-convention');
 const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
+const parameterOrder = require('./parameter-order');
 const parameterSchemaOrContent = require('./parameter-schema-or-content');
 const prohibitSummarySentenceStyle = require('./prohibit-summary-sentence-style');
 const propertyCaseCollision = require('./property-case-collision');
@@ -62,6 +63,7 @@ module.exports = {
   parameterCaseConvention,
   parameterDefault,
   parameterDescription,
+  parameterOrder,
   parameterSchemaOrContent,
   prohibitSummarySentenceStyle,
   propertyCaseCollision,

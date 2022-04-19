@@ -112,6 +112,7 @@ module.exports = {
     'parameter-case-convention': ibmRules.parameterCaseConvention,
     'parameter-default': ibmRules.parameterDefault,
     'parameter-description': ibmRules.parameterDescription,
+    'parameter-order': ibmRules.parameterOrder,
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
     'property-case-collision': ibmRules.propertyCaseCollision,
