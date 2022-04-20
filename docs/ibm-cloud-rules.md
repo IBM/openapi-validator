@@ -30,6 +30,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
 - [Reference](#reference)
   * [Rule: accept-parameter](#rule-accept-parameter)
   * [Rule: array-of-arrays](#rule-array-of-arrays)
+  * [Rule: array-responses](#rule-array-responses)
   * [Rule: authorization-parameter](#rule-authorization-parameter)
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
@@ -50,6 +51,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: parameter-case-convention](#rule-parameter-case-convention)
   * [Rule: parameter-default](#rule-parameter-default)
   * [Rule: parameter-description](#rule-parameter-description)
+  * [Rule: parameter-order](#rule-parameter-order)
   * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
   * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
   * [Rule: property-case-collision](#rule-property-case-collision)
@@ -95,6 +97,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-array-of-arrays">array-of-arrays</a></td>
 <td>warn</td>
 <td>Array schemas with <code>items</code> of type array should be avoided</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-array-responses">array-responses</a></td>
+<td>warn</td>
+<td>Operations should not return an array as the top-level structure of a response.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -176,15 +184,15 @@ is provided in the [Reference](#reference) section below.
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<<<<<<< HEAD
 <td><a href="#rule-operation-id-case-convention">operation-id-case-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a specific case convention</td>
-=======
+<td>oas2, oas3</td>
+</tr>
+<tr>
 <td><a href="#rule-operation-id-naming-convention">operation-id-naming-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a naming convention</td>
->>>>>>> 9e1fb2d (feat(operation-id-naming-convention): add new operation-id-naming-convention rule)
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -215,6 +223,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-parameter-description">parameter-description</a></td>
 <td>warn</td>
 <td>Parameters should have a non-empty description</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-parameter-order">parameter-order</a></td>
+<td>warn</td>
+<td>All required operation parameters should be listed before optional parameters.</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -331,6 +345,8 @@ no-script-tags-in-markdown: true
 openapi-tags: true
 operation-description: true
 operation-tags: true
+path-params
+path-declarations-must-exist
 path-keys-no-trailing-slash: true
 path-not-include-query: true
 typed-enum: true
@@ -605,6 +621,76 @@ requestBody:
         type: array
         items:
           type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: array-responses
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>array-responses</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks to make sure that operations do not define an array as the top-level structure within a response.
+The recommendation is to instead use an object with a property that contains the array.
+This will allow you to expand the definition of the response body (e.g. add new properties) in a compatible way
+in the future if needed.
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: list_things
+      responses:
+        '200':
+          content:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/Thing'
+
+sample response body:
+[ {"name": "thing-1"}, {"name": "thing-2"} ]
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: list_things
+      responses:
+        '200':
+          content:
+            schema:
+              type: object
+              properties:
+                things:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Thing'
+
+sample response body:
+{"things": [ {"name": "thing-1"}, {"name": "thing-2"} ]}
+</pre>
 </pre>
 </td>
 </tr>
@@ -1874,6 +1960,87 @@ components:
           - asc
           - desc
         default: asc
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: parameter-order
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>parameter-order</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>It is a good practice to list the parameters within an operation such that all required parameters are
+listed first, then any optional parameters.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: list_things
+      description: List the set of Things.
+      summary: List Things
+      parameters:
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: integer
+        - name: filter
+          required: true
+          in: query
+          schema:
+            type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: list_things
+      description: List the set of Things.
+      summary: List Things
+      parameters:
+        - name: filter
+          required: true
+          in: query
+          schema:
+            type: string
+        - name: offset
+          required: false
+          in: query
+          schema:
+            type: integer
+        - name: limit
+          required: false
+          in: query
+          schema:
+            type: integer
 </pre>
 </td>
 </tr>

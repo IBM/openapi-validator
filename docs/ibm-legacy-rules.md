@@ -11,7 +11,7 @@ This document outlines how to configure and use the IBM Cloud Legacy Validation 
 
   You should regenerate the TOC after making changes to this file.
 
-      markdown-toc --maxdepth 4 -i ibm-legacy-rules.md
+      markdown-toc --maxdepth 4 -i docs/ibm-legacy-rules.md
   -->
 
 <!-- toc -->
@@ -77,14 +77,11 @@ The supported rules are described below:
 | no_consumes_for_put_or_post  | Flag `put` or `post` operations that do not have a `consumes` field.                | swagger2 |
 | get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
 | no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
-| no_array_responses           | Flag any operations with a top-level array response.                                | shared   |
-| parameter_order              | Flag any operations with optional parameters before a required param.               | shared   |
 
 
 ##### paths
 | Rule                        | Description                                                                                                  | Spec   |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
-| missing_path_parameter      | For a path that contains path parameters, flag any operations that do not correctly define those parameters. | shared |
 | snake_case_only             | Flag any path segment that does not use snake case.                                                          | shared |
 | paths_case_convention       | Flag any path segment that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
 | duplicate_path_parameter    | Flag any path parameters that have identical definitions in all operations. | shared |
@@ -199,16 +196,9 @@ The default values for each rule are described below.
 
 ##### shared
 
-###### operations
-| Rule                         | Default |
-| ---------------------------- | ------- |
-| no_array_responses           | error   |
-| parameter_order              | warning |
-
 ###### paths
 | Rule                        | Default |
 | --------------------------- | ------- |
-| missing_path_parameter      | error   |
 | snake_case_only             | off     |
 | paths_case_convention       | error, lower_snake_case |
 

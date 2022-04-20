@@ -3,6 +3,8 @@ const { oas } = require('@stoplight/spectral-rulesets');
 const ibmRules = require('./rules');
 module.exports = {
   extends: oas,
+  documentationUrl:
+    'https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md',
   formats: [oas3],
   rules: {
     // Original list created from Spectral with:
@@ -20,8 +22,6 @@ module.exports = {
     'operation-parameters': true,
     // Enable with same severity as Spectral
     'operation-tag-defined': true,
-    // Turn off - duplicates missing_path_parameter
-    'path-params': 'off',
     // Turn off - exclude from ibm:oas
     'info-contact': 'off',
     // Turn off - exclude from ibm:oas
@@ -40,8 +40,10 @@ module.exports = {
     'operation-operationId-valid-in-url': 'off',
     // Enable with same severity as Spectral
     'operation-tags': true,
-    // Turn off - duplicates missing_path_parameter
-    'path-declarations-must-exist': 'off',
+    // Enable with same severity as Spectral
+    'path-params': true,
+    // Enable with same severity as Spectral
+    'path-declarations-must-exist': true,
     // Enable with same severity as Spectral
     'path-keys-no-trailing-slash': true,
     // Enable with same severity as Spectral
@@ -91,6 +93,7 @@ module.exports = {
 
     'accept-parameter': ibmRules.acceptParameter,
     'array-of-arrays': ibmRules.arrayOfArrays,
+    'array-responses': ibmRules.arrayResponses,
     'authorization-parameter': ibmRules.authorizationParameter,
     'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'content-entry-provided': ibmRules.contentEntryProvided,
@@ -111,6 +114,7 @@ module.exports = {
     'parameter-case-convention': ibmRules.parameterCaseConvention,
     'parameter-default': ibmRules.parameterDefault,
     'parameter-description': ibmRules.parameterDescription,
+    'parameter-order': ibmRules.parameterOrder,
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
     'property-case-collision': ibmRules.propertyCaseCollision,

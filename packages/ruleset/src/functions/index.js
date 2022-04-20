@@ -1,4 +1,5 @@
 const arrayOfArrays = require('./array-of-arrays');
+const arrayResponses = require('./array-responses');
 const checkMajorVersion = require('./check-major-version');
 const descriptionMentionsJSON = require('./description-mentions-json');
 const disallowedHeaderParameter = require('./disallowed-header-parameter');
@@ -12,6 +13,7 @@ const paginationStyle = require('./pagination-style');
 const parameterCaseConvention = require('./parameter-case-convention');
 const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
+const parameterOrder = require('./parameter-order');
 const propertyCaseCollision = require('./property-case-collision');
 const propertyCaseConvention = require('./property-case-convention');
 const propertyDescription = require('./property-description');
@@ -28,6 +30,7 @@ const validTypeFormat = require('./valid-type-format');
 
 module.exports = {
   arrayOfArrays,
+  arrayResponses,
   disallowedHeaderParameter,
   checkMajorVersion,
   descriptionMentionsJSON,
@@ -41,6 +44,7 @@ module.exports = {
   parameterCaseConvention,
   parameterDefault,
   parameterDescription,
+  parameterOrder,
   propertyCaseCollision,
   propertyCaseConvention,
   propertyDescription,

@@ -1,5 +1,6 @@
 const acceptParameter = require('./accept-parameter');
 const arrayOfArrays = require('./array-of-arrays');
+const arrayResponses = require('./array-responses');
 const authorizationParameter = require('./authorization-parameter');
 const contentEntryContainsSchema = require('./content-entry-contains-schema');
 const contentEntryProvided = require('./content-entry-provided');
@@ -20,6 +21,7 @@ const paginationStyle = require('./pagination-style');
 const parameterCaseConvention = require('./parameter-case-convention');
 const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
+const parameterOrder = require('./parameter-order');
 const parameterSchemaOrContent = require('./parameter-schema-or-content');
 const prohibitSummarySentenceStyle = require('./prohibit-summary-sentence-style');
 const propertyCaseCollision = require('./property-case-collision');
@@ -40,6 +42,7 @@ const validTypeFormat = require('./valid-type-format');
 module.exports = {
   acceptParameter,
   arrayOfArrays,
+  arrayResponses,
   authorizationParameter,
   contentEntryContainsSchema,
   contentEntryProvided,
@@ -60,6 +63,7 @@ module.exports = {
   parameterCaseConvention,
   parameterDefault,
   parameterDescription,
+  parameterOrder,
   parameterSchemaOrContent,
   prohibitSummarySentenceStyle,
   propertyCaseCollision,

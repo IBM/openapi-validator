@@ -16,10 +16,8 @@ const each = require('lodash/each');
 const { hasRefProperty } = require('../../../utils');
 const MessageCarrier = require('../../../utils/message-carrier');
 
-module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
+module.exports.validate = function({ jsSpec, resolvedSpec }) {
   const messages = new MessageCarrier();
-
-  config = config.operations;
 
   map(resolvedSpec.paths, (path, pathKey) => {
     if (pathKey.slice(0, 2) === 'x-') {
@@ -49,68 +47,6 @@ module.exports.validate = function({ jsSpec, resolvedSpec, isOAS3 }, config) {
           '$ref found in illegal location',
           'error'
         );
-      }
-
-      // Arrays MUST NOT be returned as the top-level structure in a response body.
-      const checkStatusArrRes = config.no_array_responses;
-      if (checkStatusArrRes !== 'off') {
-        each(op.responses, (response, name) => {
-          if (isOAS3) {
-            each(response.content, (content, contentType) => {
-              const isArray =
-                content.schema &&
-                (content.schema.type === 'array' || content.schema.items);
-
-              if (isArray) {
-                messages.addMessage(
-                  `paths.${pathKey}.${opKey}.responses.${name}.content.${contentType}.schema`,
-                  'Arrays MUST NOT be returned as the top-level structure in a response body.',
-                  checkStatusArrRes,
-                  'no_array_responses'
-                );
-              }
-            });
-          } else {
-            const isArray =
-              response.schema &&
-              (response.schema.type === 'array' || response.schema.items);
-
-            if (isArray) {
-              messages.addMessage(
-                `paths.${pathKey}.${opKey}.responses.${name}.schema`,
-                'Arrays MUST NOT be returned as the top-level structure in a response body.',
-                checkStatusArrRes,
-                'no_array_responses'
-              );
-            }
-          }
-        });
-      }
-
-      // this should be good with resolved spec, but double check
-      // All required parameters of an operation are listed before any optional parameters.
-      const checkStatusParamOrder = config.parameter_order;
-      if (checkStatusParamOrder !== 'off') {
-        if (op.parameters && op.parameters.length > 0) {
-          let firstOptional = -1;
-          for (let indx = 0; indx < op.parameters.length; indx++) {
-            const param = op.parameters[indx];
-            if (firstOptional < 0) {
-              if (!param.required) {
-                firstOptional = indx;
-              }
-            } else {
-              if (param.required) {
-                messages.addMessage(
-                  `paths.${pathKey}.${opKey}.parameters[${indx}]`,
-                  'Required parameters should appear before optional parameters.',
-                  checkStatusParamOrder,
-                  'parameter_order'
-                );
-              }
-            }
-          }
-        }
       }
     });
   });
