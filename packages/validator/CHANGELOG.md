@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.72.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.71.0...ibm-openapi-validator@0.72.0) (2022-04-21)
+
+
+### Features
+
+* **response-status-codes:** add new 'response-status-codes' rule ([#433](https://github.com/IBM/openapi-validator/issues/433)) ([1dc6cb4](https://github.com/IBM/openapi-validator/commit/1dc6cb4eeb92a75c1b37529ff4f62d3a6c567442))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.21.0
+
 # ibm-openapi-validator [0.71.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.70.0...ibm-openapi-validator@0.71.0) (2022-04-21)
 
 
