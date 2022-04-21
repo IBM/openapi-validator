@@ -20,12 +20,15 @@
 
 const defaults = {
   'shared': {
-    'operations': {
-    },
-    'paths': {
-    },
-    'responses': {
-    },
+    // we need to leave the categories in the structure for
+    // the deprecation logic to behave in a helpful way
+    'operations': {},
+    'parameters': {},
+    'pagination': {},
+    'security_definitions': {},
+    'security': {},
+    'paths': {},
+    'responses': {},
     'schemas': {
       'invalid_type_format_pair': 'error'
     },
@@ -45,8 +48,8 @@ const defaults = {
     }
   },
   'oas3': {
-    'responses': {
-    },
+    'operations': {},
+    'responses': {},
     'schemas': {
       'json_or_param_binary_string': 'warning'
     }
@@ -102,6 +105,8 @@ const deprecated = {
   'protocol_switching_and_success_code': 'response-status-codes (spectral rule)',
   'no_response_body': 'response-status-codes (spectral rule)',
   'ibm_status_code_guidelines': 'response-status-codes (spectral rule)',
+  'parameters.invalid_type_format_pair': 'valid-type-format (spectral rule)',
+  'schemas.snake_case_only': 'property-case-convention (spectral rule)'
 };
 
 const configOptions = {

@@ -92,10 +92,6 @@ describe('cli tool - test config file validator', function() {
         operations: {
           nonValidRule: 'error'
         },
-        parameters: {
-          no_parameter_description: 'error',
-          invalid_type_format_pair: 'error'
-        },
         walker: {
           no_empty_descriptions: 'error'
         }

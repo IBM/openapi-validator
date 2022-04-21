@@ -110,16 +110,6 @@ Once pulled, the container can be run directly, but mount a volume containing th
 
 _These options only apply to running the validator on a file, not to any commands._
 
-##### [command]
-`$ lint-openapi init`
-- init : The `init` command initializes a `.validaterc` file, used to [configure](#configuration) the validator. It can also be used to reset the configurable rules to their default values.
-
-##### [command]
-`$ lint-openapi migrate`
-- migrate : The `migrate` command migrates a `.validaterc` file from the legacy format to the current format, retaining all custom rules. The new format is required - this command provides an option to keep custom rules without manually updating the file or initializing a new configuration file with all rules set to the defaults using `lint-openapi init`.
-
-_None of the above options pertain to these commands._
-
 ##### \<files>
 - The OpenAPI document(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
 - Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-openapi files/*` will run the validator on all files in `files/`)

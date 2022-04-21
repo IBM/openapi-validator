@@ -63,16 +63,6 @@ function increaseVerbosity(dummyValue, previous) {
   return previous + 1;
 }
 
-/* prettier-ignore */
-program
-  .command('init')
-  .description('Initialize/reset the .validaterc file');
-
-/* prettier-ignore */
-program
-  .command('migrate')
-  .description('Migrate a .validaterc file from v1 to v2 format.');
-
 program.parse(process.argv);
 
 // run the program
