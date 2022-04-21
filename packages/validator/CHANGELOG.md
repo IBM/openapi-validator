@@ -1,3 +1,10 @@
+## ibm-openapi-validator [0.72.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.72.0...ibm-openapi-validator@0.72.1) (2022-04-21)
+
+
+### Bug Fixes
+
+* fix rule deprecation support ([#434](https://github.com/IBM/openapi-validator/issues/434)) ([4958719](https://github.com/IBM/openapi-validator/commit/4958719b1ef3befd2634db1e272ba66ba467f8fa))
+
 # ibm-openapi-validator [0.72.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.71.0...ibm-openapi-validator@0.72.0) (2022-04-21)
 
 
