@@ -129,6 +129,7 @@ module.exports = {
     'request-body-object': ibmRules.requestBodyObject,
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,
     'response-example-provided': ibmRules.responseExampleProvided,
+    'response-status-codes': ibmRules.responseStatusCodes,
     'schema-description': ibmRules.schemaDescription,
     'security-schemes': ibmRules.securitySchemes,
     'server-variable-default-value': ibmRules.serverVariableDefaultValue,

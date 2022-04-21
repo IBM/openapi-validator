@@ -46,10 +46,6 @@ const defaults = {
   },
   'oas3': {
     'responses': {
-      'no_success_response_codes': 'warning',
-      'protocol_switching_and_success_code': 'error',
-      'no_response_body': 'warning',
-      'ibm_status_code_guidelines': 'warning'
     },
     'schemas': {
       'json_or_param_binary_string': 'warning'
@@ -102,6 +98,10 @@ const deprecated = {
   'paths.snake_case_only': 'path-segment-case-convention (spectral rule)',
   'paths_case_convention': 'path-segment-case-convention (spectral rule)',
   'inline_response_schema': 'inline-response-schema (spectral rule)',
+  'no_success_response_codes': 'response-status-codes (spectral rule)',
+  'protocol_switching_and_success_code': 'response-status-codes (spectral rule)',
+  'no_response_body': 'response-status-codes (spectral rule)',
+  'ibm_status_code_guidelines': 'response-status-codes (spectral rule)',
 };
 
 const configOptions = {

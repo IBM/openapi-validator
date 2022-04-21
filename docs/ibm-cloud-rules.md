@@ -64,6 +64,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: request-body-object](#rule-request-body-object)
   * [Rule: response-error-response-schema](#rule-response-error-response-schema)
   * [Rule: response-example-provided](#rule-response-example-provided)
+  * [Rule: response-status-codes](#rule-response-status-codes)
   * [Rule: schema-description](#rule-schema-description)
   * [Rule: security-schemes](#rule-security-schemes)
   * [Rule: server-variable-default-value](#rule-server-variable-default-value)
@@ -310,6 +311,12 @@ has non-form content.</td>
 <td><a href="#rule-response-example-provided">response-example-provided</a></td>
 <td>warn</td>
 <td>Response should provide an example</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-response-status-codes">response-status-codes</a></td>
+<td>warn</td>
+<td>Performs multiple checks on the status codes used in operation responses.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -2822,6 +2829,91 @@ responses:
           type: string
         example: 'example string'
 <pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: response-status-codes
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>response-status-codes</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule performs a few different checks on the status codes used in operation responses:
+<ul>
+<li>The use of the <code>422 - Unprocessable Entity</code> status code is discouraged. Use <code>400 - Bad Request</code> instead.</li>
+<li>The use of the <code>302 - Found</code> status code is discouraged. Use <code>303 - See Other</code> or 
+<code>307 - Temporary Redirect</code> instead.</li>
+<li>The <code>101 - Switching Protocols</code> status code should not be used if any success status codes (2xx) are also present.</li>
+<li>Each operation should include at least one success status code (2xx).  An exception to this is when the 
+<code>101 - Switching Protocols</code> status code is used, which should be extremely rare (it's normally used with websockets).</li>
+<li>A <code>204 - No Content</code> response should not include content.</li>
+<li>A non-204 success status code (e.g. <code>200 - OK</code>, <code>201 - Created</code>, etc.) should include content.</li>
+</ul>
+<p>References: 
+<ul>
+<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook</a></li>
+<li><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-6">RFC7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a></li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: 'Create a Thing instance.'
+      responses:
+      204:
+        description: 'should not have content'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      101:
+        description: 'invalid use of status code 101'
+      422:
+        description: 'should use status code 400 instead'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: 'Create a Thing instance.'
+      responses:
+      201:
+        description: 'Successfully created a new Thing instance.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      400:
+        description: 'Thing instance was invalid'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+</pre>
 </td>
 </tr>
 </table>

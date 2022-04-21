@@ -24,6 +24,7 @@ const propertyInconsistentNameAndType = require('./property-inconsistent-name-an
 const requestBodyName = require('./request-body-name');
 const requiredProperty = require('./required-property');
 const responseExampleProvided = require('./response-example-provided');
+const responseStatusCodes = require('./response-status-codes');
 const schemaDescription = require('./schema-description.js');
 const schemaOrContentProvided = require('./schema-or-content-provided');
 const { securitySchemes } = require('./security-schemes');
@@ -58,6 +59,7 @@ module.exports = {
   requestBodyName,
   requiredProperty,
   responseExampleProvided,
+  responseStatusCodes,
   schemaDescription,
   schemaOrContentProvided,
   stringBoundary,

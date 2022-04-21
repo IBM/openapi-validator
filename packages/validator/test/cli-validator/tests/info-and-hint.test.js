@@ -8,7 +8,7 @@ describe('test info and hint rules - OAS3', function() {
   it('test info and hint rules', async function() {
     // Create custom config with some info and hint settings
     const customConfig = JSON.parse(JSON.stringify(defaultConfig));
-    customConfig['oas3']['responses']['no_success_response_codes'] = 'info';
+    customConfig['shared']['walker']['no_empty_descriptions'] = 'info';
     const mockConfig = jest.spyOn(config, 'get').mockReturnValue(customConfig);
 
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -34,15 +34,16 @@ describe('test info and hint rules - OAS3', function() {
     consoleSpy.mockRestore();
 
     // errors for non-unique operation ids
-    expect(jsonOutput['errors'].length).toBe(4);
+    expect(jsonOutput['errors'].length).toBe(3);
 
     // Verify warnings
-    expect(jsonOutput['warnings'].length).toBe(17);
+    expect(jsonOutput['warnings'].length).toBe(19);
 
     // Verify infos
-    expect(jsonOutput['infos'].length).toBe(2);
+    expect(jsonOutput['infos'].length).toBe(1);
     expect(jsonOutput['infos'][0]['message']).toEqual(
-      'Each `responses` object SHOULD have at least one code for a successful response.'
+      'Items with a description must have content in it.'
     );
+    expect(jsonOutput['infos'][0]['rule']).toEqual('no_empty_descriptions');
   });
 });
