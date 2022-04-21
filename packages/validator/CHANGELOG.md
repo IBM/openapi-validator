@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.70.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.69.0...ibm-openapi-validator@0.70.0) (2022-04-21)
+
+
+### Features
+
+* **path-segment-case-convention:** add new 'path-segment-case-convention' rule ([#430](https://github.com/IBM/openapi-validator/issues/430)) ([af52002](https://github.com/IBM/openapi-validator/commit/af5200268e38dfbed2ad06f0c330433d2117104a))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.19.0
+
 # ibm-openapi-validator [0.69.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.68.0...ibm-openapi-validator@0.69.0) (2022-04-21)
 
 
