@@ -16,7 +16,6 @@ const addPathsToComponents = require('./utils/add-paths-to-components');
 const buildSwaggerObject = require('./utils/build-swagger-object');
 const config = require('./utils/process-configuration');
 const ext = require('./utils/file-extension-validator');
-const init = require('./utils/init.js');
 const preprocessFile = require('./utils/preprocess-file');
 const print = require('./utils/print-results');
 const printError = require('./utils/print-error');
@@ -57,19 +56,7 @@ const processInput = async function(program) {
     chalk.level = 0;
   }
 
-  // if the 'init' command is given, run the module
-  // and exit the program
-  if (args[0] === 'init') {
-    return await init.printDefaults(chalk);
-  }
-
-  // if the 'migrate' command is given, run the module
-  // and exit the program
-  if (args[0] === 'migrate') {
-    return await init.migrate(chalk);
-  }
-
-  // otherwise, run the validator on the passed in files
+  // run the validator on the passed in files
   // first, process the given files to handle bad input
 
   // ignore files in .validateignore by comparing absolute paths
