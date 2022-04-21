@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.69.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.68.0...ibm-openapi-validator@0.69.0) (2022-04-21)
+
+
+### Features
+
+* **duplicate-path-parameter:** add new 'duplicate-path-parameter' rule ([#429](https://github.com/IBM/openapi-validator/issues/429)) ([bc8bcb2](https://github.com/IBM/openapi-validator/commit/bc8bcb2fb131133e7b326c49c57cd3fdf97790d7))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.18.0
+
 # ibm-openapi-validator [0.68.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.67.0...ibm-openapi-validator@0.68.0) (2022-04-19)
 
 
