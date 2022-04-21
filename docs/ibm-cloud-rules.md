@@ -142,6 +142,12 @@ is provided in the [Reference](#reference) section below.
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#rule-duplicate-path-parameter">discriminator</a></td>
+<td>error</td>
+<td>Common path parameters should be defined on the path object.</td>
+<td>oas3</td>
+</tr>
+<tr>
 <td><a href="#rule-enum-case-convention">enum-case-convention</a></td>
 <td>error</td>
 <td>Enum values should follow a specific case convention</td>
@@ -1068,6 +1074,75 @@ components:
           type: string
       discriminator:
         propertyName: thing_type
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: duplicate-path-parameter
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>duplicate-path-parameter</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>When defining a path parameter, it's a good practice to define it once in the path object's `parameters` field rather than
+defining it separately within each of the operations that exist for that path.
+<p>This rule checks for situations in which a path parameter is defined identically within multiple operations under a given path,
+and returns a warning to alert the user that the path parameter should be defined on the path object instead.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      parameters:
+        - name: thing_id
+          in: path
+          description: The id of the thing instance.
+          schema:
+            type: string
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: thing_id
+          in: path
+          description: The id of the thing instance.
+          schema:
+            type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - name: thing_id
+        in: path
+        description: The id of the thing instance.
+        schema:
+          type: string
+    get:
+      operationId: get_thing
+    delete:
+      operationId: delete_thing
 </pre>
 </td>
 </tr>

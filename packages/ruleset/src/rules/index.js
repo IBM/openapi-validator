@@ -7,6 +7,7 @@ const contentEntryProvided = require('./content-entry-provided');
 const contentTypeParameter = require('./content-type-parameter');
 const descriptionMentionsJSON = require('./description-mentions-json');
 const discriminator = require('./discriminator');
+const duplicatePathParameter = require('./duplicate-path-parameter');
 const enumCaseConvention = require('./enum-case-convention');
 const examplesNameContainsSpace = require('./examples-name-contains-space');
 const ibmContentTypeIsSpecific = require('./ibm-content-type-is-specific');
@@ -49,6 +50,7 @@ module.exports = {
   contentTypeParameter,
   descriptionMentionsJSON,
   discriminator,
+  duplicatePathParameter,
   enumCaseConvention,
   examplesNameContainsSpace,
   ibmContentTypeIsSpecific,

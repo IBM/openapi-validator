@@ -84,7 +84,6 @@ The supported rules are described below:
 | --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
 | snake_case_only             | Flag any path segment that does not use snake case.                                                          | shared |
 | paths_case_convention       | Flag any path segment that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
-| duplicate_path_parameter    | Flag any path parameters that have identical definitions in all operations. | shared |
 
 ##### [responses][4]
 | Rule                      | Description                                                  | Spec |
