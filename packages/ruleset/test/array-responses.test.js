@@ -78,17 +78,15 @@ describe('Spectral rule: array-responses', () => {
       const testDocument = makeCopy(rootDocument);
 
       // Create a named response with an array schema.
-      testDocument.components.responses = {
-        DrinksResponse: {
-          '200': {
-            description: 'Good response',
-            content: {
-              'application/json': {
-                schema: {
-                  type: 'array',
-                  items: {
-                    $ref: '#/components/schemas/Drink'
-                  }
+      testDocument.components.responses.DrinksResponse = {
+        '200': {
+          description: 'Good response',
+          content: {
+            'application/json': {
+              schema: {
+                type: 'array',
+                items: {
+                  $ref: '#/components/schemas/Drink'
                 }
               }
             }
@@ -102,11 +100,10 @@ describe('Spectral rule: array-responses', () => {
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
-      const r = results[0];
-      expect(r.code).toBe(ruleId);
-      expect(r.message).toBe(expectedMsg);
-      expect(r.severity).toBe(expectedSeverity);
-      expect(r.path.join('.')).toBe(
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
         'paths./v1/drinks.get.responses.200.content.application/json.schema'
       );
     });

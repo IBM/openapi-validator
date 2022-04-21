@@ -7,6 +7,7 @@ const discriminator = require('./discriminator');
 const duplicatePathParameter = require('./duplicate-path-parameter');
 const enumCaseConvention = require('./enum-case-convention');
 const errorResponseSchema = require('./error-response-schema');
+const inlineResponseSchema = require('./inline-response-schema');
 const operationIdCaseConvention = require('./operation-id-case-convention');
 const operationIdNamingConvention = require('./operation-id-naming-convention');
 const operationSummary = require('./operation-summary');
@@ -40,6 +41,7 @@ module.exports = {
   duplicatePathParameter,
   enumCaseConvention,
   errorResponseSchema,
+  inlineResponseSchema,
   operationIdCaseConvention,
   operationIdNamingConvention,
   operationSummary,

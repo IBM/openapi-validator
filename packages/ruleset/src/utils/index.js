@@ -4,6 +4,7 @@ const isDeprecated = require('./is-deprecated');
 const isFormMimeType = require('./is-form-mimetype');
 const isJsonMimeType = require('./is-json-mimetype');
 const isObject = require('./is-object');
+const isPrimitiveType = require('./is-primitive-type');
 const isSdkExcluded = require('./is-sdk-excluded');
 const mergeAllOfSchemaProperties = require('./merge-allof-schema-properties');
 const operationMethods = require('./constants');
@@ -17,6 +18,7 @@ module.exports = {
   isFormMimeType,
   isJsonMimeType,
   isObject,
+  isPrimitiveType,
   isSdkExcluded,
   mergeAllOfSchemaProperties,
   operationMethods,

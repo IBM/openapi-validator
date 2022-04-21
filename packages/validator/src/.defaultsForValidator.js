@@ -25,7 +25,6 @@ const defaults = {
     'paths': {
     },
     'responses': {
-      'inline_response_schema': 'warning'
     },
     'schemas': {
       'invalid_type_format_pair': 'error'
@@ -102,6 +101,7 @@ const deprecated = {
   'duplicate_path_parameter': 'duplicate-path-parameter (spectral rule)',
   'paths.snake_case_only': 'path-segment-case-convention (spectral rule)',
   'paths_case_convention': 'path-segment-case-convention (spectral rule)',
+  'inline_response_schema': 'inline-response-schema (spectral rule)',
 };
 
 const configOptions = {

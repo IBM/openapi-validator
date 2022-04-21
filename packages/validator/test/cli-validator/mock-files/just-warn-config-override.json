@@ -2,9 +2,6 @@
   "shared": {
     "operations": {
       "no_operation_id": "off"
-    },
-    "responses": {
-      "inline_response_schema": "error"
     }
   }
 }
