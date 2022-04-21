@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.71.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.70.0...ibm-openapi-validator@0.71.0) (2022-04-21)
+
+
+### Features
+
+* **inline-response-schema:** add new 'inline-response-schema' rule ([#431](https://github.com/IBM/openapi-validator/issues/431)) ([7fd31c7](https://github.com/IBM/openapi-validator/commit/7fd31c78e2edd5ceeb98557939ac63ee18dd446b))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.20.0
+
 # ibm-openapi-validator [0.70.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.69.0...ibm-openapi-validator@0.70.0) (2022-04-21)
 
 
