@@ -117,6 +117,7 @@ module.exports = {
     'parameter-description': ibmRules.parameterDescription,
     'parameter-order': ibmRules.parameterOrder,
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
+    'path-segment-case-convention': ibmRules.pathSegmentCaseConvention,
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
     'property-case-collision': ibmRules.propertyCaseCollision,
     'property-case-convention': ibmRules.propertyCaseConvention,

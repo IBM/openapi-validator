@@ -24,6 +24,7 @@ const parameterDefault = require('./parameter-default');
 const parameterDescription = require('./parameter-description');
 const parameterOrder = require('./parameter-order');
 const parameterSchemaOrContent = require('./parameter-schema-or-content');
+const pathSegmentCaseConvention = require('./path-segment-case-convention');
 const prohibitSummarySentenceStyle = require('./prohibit-summary-sentence-style');
 const propertyCaseCollision = require('./property-case-collision');
 const propertyCaseConvention = require('./property-case-convention');
@@ -67,6 +68,7 @@ module.exports = {
   parameterDescription,
   parameterOrder,
   parameterSchemaOrContent,
+  pathSegmentCaseConvention,
   prohibitSummarySentenceStyle,
   propertyCaseCollision,
   propertyCaseConvention,

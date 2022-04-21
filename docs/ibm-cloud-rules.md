@@ -12,7 +12,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
 
   You should regenerate the TOC after making changes to this file.
 
-      markdown-toc --maxdepth 4 -i ibm-cloud-rules.md
+      markdown-toc --maxdepth 4 -i docs/ibm-cloud-rules.md
   -->
 
 <!-- toc -->
@@ -53,6 +53,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: parameter-description](#rule-parameter-description)
   * [Rule: parameter-order](#rule-parameter-order)
   * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
+  * [Rule: path-segment-case-convention](#rule-path-segment-case-convention)
   * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
   * [Rule: property-case-collision](#rule-property-case-collision)
   * [Rule: property-case-convention](#rule-property-case-convention)
@@ -242,6 +243,12 @@ is provided in the [Reference](#reference) section below.
 <td>error</td>
 <td>Parameters must provide either a schema or content</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-path-segment-case-convention">parameter-schema-or-content</a></td>
+<td>error</td>
+<td>Path segments must follow a specific case convention</td>
+<td>oas2, oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-prohibit-summary-sentence-style">prohibit-summary-sentence-style</a></td>
@@ -2161,6 +2168,61 @@ parameters:
   description: query param
   schema:
     type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: path-segment-case-convention
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>path-segment-case-convention</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Path segments must follow a specific case convention, with the default being snake case.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Configuration:</b></td>
+<td>This rule's default configuration will enforce snake case for path segments, but the rule can be configured
+to enforce a different case convention if desired.
+<p>To enforce a different case convention for path segments, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
+specifies the desired case convention.
+For example, to enforce camel case for path segments, the configuration object would look like this:
+<pre>
+{
+  type: 'camel'
+}
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/someThings/{thing_id}':
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/some_things/{thing_id}':
 </pre>
 </td>
 </tr>
