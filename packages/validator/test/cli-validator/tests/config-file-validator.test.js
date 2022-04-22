@@ -110,29 +110,6 @@ describe('cli tool - test config file validator', function() {
     );
   });
 
-  it('should print an error for an unsupported rule status', function() {
-    const config = {
-      swagger2: {
-        operations: {
-          no_consumes_for_put_or_post: 'error',
-          get_op_has_consumes: 'warning',
-          no_produces: 'nonValidStatus'
-        }
-      }
-    };
-
-    const res = configFileValidator(config, chalk);
-    const capturedText = getCapturedText(consoleSpy.mock.calls);
-
-    expect(res.invalid).toEqual(true);
-    expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid configuration in .validaterc file. See below for details.'
-    );
-    expect(capturedText[1].trim()).toEqual(
-      "- 'nonValidStatus' is not a valid status for the no_produces rule in the operations category.\n   Valid statuses are: error, warning, info, hint, off"
-    );
-  });
-
   it('should fill in default values for rules that are not included', function() {
     const config = {
       shared: {
@@ -156,22 +133,21 @@ describe('cli tool - test config file validator', function() {
 
   it('should print no errors with a config object that includes a deprecated rule', function() {
     const config = {
-      swagger2: {
+      shared: {
         operations: {
-          no_consumes_for_put_or_post: 'error',
-          get_op_has_consumes: 'warning',
-          no_produces_for_get: 'warning'
+          inline_response_schema: 'error'
         }
       }
     };
 
     const res = configFileValidator(config, chalk);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // console.warn(`Captured text: ${capturedText}`);
 
     expect(res.invalid).toEqual(false);
     expect(capturedText.length).toEqual(1);
     expect(capturedText[0].trim()).toEqual(
-      "[Warning] The rule 'no_produces_for_get' has been deprecated. It will not be checked. Use 'no_produces' instead."
+      "[Warning] The rule 'inline_response_schema' has been deprecated. It will not be checked. Use 'inline-response-schema (spectral rule)' instead."
     );
   });
 

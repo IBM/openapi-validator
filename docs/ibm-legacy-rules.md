@@ -22,7 +22,6 @@ This document outlines how to configure and use the IBM Cloud Legacy Validation 
   * [Categories](#categories)
   * [Rules](#rules)
   * [Statuses](#statuses)
-  * [Configuration Options](#configuration-options)
 - [Configuration file](#configuration-file)
 - [Default mode](#default-mode)
   * [Default values](#default-values)
@@ -122,15 +121,6 @@ If a `.validaterc` file does not exist at the root directory of your project, th
 The default values for each rule are described below.
 
 #### Default values
-
-##### swagger2
-
-###### operations
-| Rule                        | Default |
-| --------------------------- | ------- |
-| no_consumes_for_put_or_post | error   |
-| get_op_has_consumes         | warning |
-| no_produces                 | error   |
 
 
 ##### oas3

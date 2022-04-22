@@ -30,7 +30,6 @@ const defaults = {
     'paths': {},
     'responses': {},
     'schemas': {
-      'invalid_type_format_pair': 'error'
     },
     'walker': {
       'no_empty_descriptions': 'error',
@@ -42,9 +41,6 @@ const defaults = {
   },
   'swagger2': {
     'operations': {
-      'no_consumes_for_put_or_post': 'error',
-      'get_op_has_consumes': 'warning',
-      'no_produces': 'warning'
     }
   },
   'oas3': {
@@ -66,7 +62,7 @@ const defaults = {
 }
 */
 const deprecated = {
-  'no_produces_for_get': 'no_produces',
+  'no_produces_for_get': '',
   'parameters.snake_case_only': 'parameter-case-convention (spectral rule)',
   'undefined_required_properties': 'missing-required-property (spectral rule)',
   'array_of_arrays': 'array-of-arrays (spectral rule)',
@@ -105,8 +101,11 @@ const deprecated = {
   'protocol_switching_and_success_code': 'response-status-codes (spectral rule)',
   'no_response_body': 'response-status-codes (spectral rule)',
   'ibm_status_code_guidelines': 'response-status-codes (spectral rule)',
-  'parameters.invalid_type_format_pair': 'valid-type-format (spectral rule)',
-  'schemas.snake_case_only': 'property-case-convention (spectral rule)'
+  'invalid_type_format_pair': 'valid-type-format (spectral rule)',
+  'schemas.snake_case_only': 'property-case-convention (spectral rule)',
+  'no_consumes_for_put_or_post': '',
+  'get_op_has_consumes': '',
+  'no_produces': ''
 };
 
 const configOptions = {
@@ -120,7 +119,6 @@ const configOptions = {
     'upper_dash_case'
   ]
 };
-
 
 module.exports.defaults = defaults;
 module.exports.deprecated = deprecated;
