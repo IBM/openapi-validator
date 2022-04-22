@@ -94,6 +94,7 @@ module.exports = {
     'accept-parameter': ibmRules.acceptParameter,
     'array-of-arrays': ibmRules.arrayOfArrays,
     'array-responses': ibmRules.arrayResponses,
+    'binary-schemas': ibmRules.binarySchemas,
     'authorization-parameter': ibmRules.authorizationParameter,
     'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'content-entry-provided': ibmRules.contentEntryProvided,

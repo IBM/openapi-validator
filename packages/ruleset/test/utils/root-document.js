@@ -161,6 +161,92 @@ module.exports = {
         }
       }
     },
+    '/v1/drinks/menu': {
+      get: {
+        operationId: 'download_menu',
+        summary: 'Download Drinks Menu',
+        description: 'Retrieve a document containing the drinks menu.',
+        tags: ['TestTag'],
+        responses: {
+          '200': {
+            content: {
+              'application/octet-stream': {
+                schema: {
+                  description: 'Document file contents',
+                  type: 'string',
+                  format: 'binary',
+                  minLength: 0,
+                  maxLength: 1024000
+                }
+              }
+            }
+          }
+        }
+      },
+      put: {
+        operationId: 'upload_menu',
+        summary: 'Upload Drinks Menu',
+        description: 'Publish a new Drinks Menu for public viewing.',
+        tags: ['TestTag'],
+        'x-codegen-request-body-name': 'document',
+        parameters: [
+          {
+            in: 'query',
+            name: 'document_name',
+            description: 'The document name as a string.',
+            schema: {
+              description: 'Name of the file as a string',
+              type: 'string',
+              pattern: '[a-z0-9]*.pdf',
+              minLength: 0,
+              maxLength: 1024000
+            }
+          },
+          {
+            in: 'query',
+            name: 'document_type',
+            description: 'The document type as a string.',
+            content: {
+              'application/json': {
+                schema: {
+                  description: 'valid document types',
+                  type: 'string',
+                  enum: ['pdf', 'odt', 'doc']
+                }
+              }
+            }
+          }
+        ],
+        requestBody: {
+          content: {
+            'application/octet-stream': {
+              schema: {
+                description: 'The document contents.',
+                type: 'string',
+                format: 'binary',
+                minLength: 0,
+                maxLength: 1024000
+              }
+            }
+          }
+        },
+        responses: {
+          '200': {
+            description: 'Upload confirmed!',
+            content: {
+              'text/plain': {
+                schema: {
+                  description: 'String response for upload request.',
+                  type: 'string',
+                  minLength: 0,
+                  maxLength: 512
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     '/v1/movies': {
       post: {
         operationId: 'create_movie',

@@ -74,11 +74,6 @@ The supported rules are described below:
 | get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
 | no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
 
-##### schemas
-| Rule                        | Description                                                                   | Spec     |
-| --------------------------- | ----------------------------------------------------------------------------- | -------- |
-| json_or_param_binary_string | Flag parameters or application/json request/response bodies with schema type: string, format: binary. | oas3 |
-
 ##### walker
 | Rule                          | Description                                                                  | Spec   |
 | ----------------------------- | ---------------------------------------------------------------------------- | ------ |
@@ -121,15 +116,6 @@ If a `.validaterc` file does not exist at the root directory of your project, th
 The default values for each rule are described below.
 
 #### Default values
-
-
-##### oas3
-
-##### schemas
-
-| Rule                        | Default |
-| --------------------------- | ------- |
-| json_or_param_binary_string | warning |
 
 ##### shared
 

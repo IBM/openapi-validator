@@ -32,11 +32,13 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: array-of-arrays](#rule-array-of-arrays)
   * [Rule: array-responses](#rule-array-responses)
   * [Rule: authorization-parameter](#rule-authorization-parameter)
+  * [Rule: binary-schemas](#rule-binary-schemas)
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
   * [Rule: content-type-parameter](#rule-content-type-parameter)
   * [Rule: description-mentions-json](#rule-description-mentions-json)
   * [Rule: discriminator](#rule-discriminator)
+  * [Rule: duplicate-path-parameter](#rule-duplicate-path-parameter)
   * [Rule: enum-case-convention](#rule-enum-case-convention)
   * [Rule: examples-name-contains-space](#rule-examples-name-contains-space)
   * [Rule: ibm-content-type-is-specific](#rule-ibm-content-type-is-specific)
@@ -113,6 +115,12 @@ is provided in the [Reference](#reference) section below.
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Authorization</code> header parameter</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-binary-schemas">binary-schemas</a></td>
+<td>warn</td>
+<td>Makes sure that binary schemas are used only in proper locations within the API definition</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-content-entry-contains-schema">content-entry-contains-schema</a></td>
@@ -802,6 +810,72 @@ paths:
               schema:
                 $ref: '#/components/schemas/ThingCollection'
 
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: binary-schemas
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>binary-schemas</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks to make sure that binary schemas are used only in proper locations within the API definition.
+Specifically, the rule will check to make sure a binary schema is NOT used in the following locations:
+<ul>
+<li>A schema associated with an operation parameter.</li>
+<li>A schema associated with a requestBody with JSON content.</li>
+<li>A schema associated with a response with JSON content.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/logfile':
+    get:
+      operationId: download_logfile
+      responses:
+        '200':
+          description: 'Download confirmed!'
+          content:
+            application/json:
+              schema:
+                type: string
+                format: binary
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/logfile':
+    get:
+      operationId: download_logfile
+      responses:
+        '200':
+          description: 'Download confirmed!'
+          content:
+            application/octet-stream:
+              schema:
+                type: string
+                format: binary
 </pre>
 </td>
 </tr>

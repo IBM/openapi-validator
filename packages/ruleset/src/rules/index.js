@@ -2,6 +2,7 @@ const acceptParameter = require('./accept-parameter');
 const arrayOfArrays = require('./array-of-arrays');
 const arrayResponses = require('./array-responses');
 const authorizationParameter = require('./authorization-parameter');
+const binarySchemas = require('./binary-schemas');
 const contentEntryContainsSchema = require('./content-entry-contains-schema');
 const contentEntryProvided = require('./content-entry-provided');
 const contentTypeParameter = require('./content-type-parameter');
@@ -47,6 +48,7 @@ module.exports = {
   acceptParameter,
   arrayOfArrays,
   arrayResponses,
+  binarySchemas,
   authorizationParameter,
   contentEntryContainsSchema,
   contentEntryProvided,

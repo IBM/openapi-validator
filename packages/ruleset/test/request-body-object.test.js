@@ -30,11 +30,13 @@ describe('Spectral rule: request-body-object', () => {
 
   it('should error if a request body is not an object', async () => {
     const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].post.requestBody.content[
-      'application/json'
-    ].schema = {
-      type: 'array',
-      description: 'this should be an object'
+    testDocument.paths['/v1/movies'].post.requestBody.content = {
+      'application/json; charset=utf-8': {
+        schema: {
+          type: 'array',
+          description: 'this should be an object'
+        }
+      }
     };
 
     const results = await testRule(name, requestBodyObject, testDocument);
@@ -52,7 +54,7 @@ describe('Spectral rule: request-body-object', () => {
       'post',
       'requestBody',
       'content',
-      'application/json',
+      'application/json; charset=utf-8',
       'schema',
       'type'
     ]);
