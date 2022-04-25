@@ -1,3 +1,10 @@
+## ibm-openapi-validator [0.72.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.72.1...ibm-openapi-validator@0.72.2) (2022-04-25)
+
+
+### Bug Fixes
+
+* remove swagger2 legacy rules ([#435](https://github.com/IBM/openapi-validator/issues/435)) ([03c8a77](https://github.com/IBM/openapi-validator/commit/03c8a77d9bd5ccd5db1b9a0f5a931c6877dafa43))
+
 ## ibm-openapi-validator [0.72.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.72.0...ibm-openapi-validator@0.72.1) (2022-04-21)
 
 
