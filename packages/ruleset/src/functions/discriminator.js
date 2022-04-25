@@ -11,7 +11,8 @@
 // enforced by Spectral's oas3-schema rule
 
 // Assertation 4:
-// properties inside a schema object must include propertyName from discriminator object
+// The discriminator property (whose name is specified by the discriminator.propertyName field)
+// must be defined in the schema.
 
 const {
   checkCompositeSchemaForProperty,

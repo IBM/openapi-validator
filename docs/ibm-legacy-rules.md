@@ -77,10 +77,7 @@ The supported rules are described below:
 ##### walker
 | Rule                          | Description                                                                  | Spec   |
 | ----------------------------- | ---------------------------------------------------------------------------- | ------ |
-| no_empty_descriptions         | Flag any `description` field in the spec with an empty or whitespace string. | shared |
 | has_circular_references       | Flag any circular references found in the API document.                      | shared |
-| $ref_siblings                 | Flag any properties that are siblings of a `$ref` property.                  | shared |
-| duplicate_sibling_description | Flag descriptions sibling to `$ref` if identical to referenced description.  | shared |
 | incorrect_ref_pattern        | Flag internal `$ref` values that do not point to the section they should (e.g. referencing `parameters` from a `schema` field). | shared |
 
 [1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
@@ -122,8 +119,5 @@ The default values for each rule are described below.
 ###### walker
 | Rule                          | Default |
 | ----------------------------- | ------- |
-| no_empty_descriptions         | error   |
 | has_circular_references       | warning |
-| $ref_siblings                 | off     |
-| duplicate_sibling_description | warning |
-| incorrect_ref_pattern        | warning |
+| incorrect_ref_pattern         | warning |

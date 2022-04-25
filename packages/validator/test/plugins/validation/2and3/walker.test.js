@@ -586,54 +586,6 @@ describe('validation plugin - semantic - spec walker', () => {
     });
 
     describe('Ref siblings', () => {
-      it('should not return a warning when another property is a sibling of a $ref', () => {
-        const spec = {
-          paths: {
-            '/CoolPath/{id}': {
-              schema: {
-                $ref: '#/definitions/abc',
-                description: 'My very cool schema'
-              }
-            }
-          }
-        };
-
-        const res = validate({ jsSpec: spec }, config);
-        expect(res.errors.length).toEqual(0);
-        expect(res.warnings.length).toEqual(0);
-      });
-
-      it('should return a warning for a $ref sibling if configured to', () => {
-        const spec = {
-          paths: {
-            '/CoolPath/{id}': {
-              schema: {
-                $ref: '#/definitions/abc',
-                description: 'My very cool schema'
-              }
-            }
-          }
-        };
-
-        // temporarily configure $ref_siblings to be a warning
-        const originalValue = config.walker.$ref_siblings;
-        config.walker.$ref_siblings = 'warning';
-
-        const res = validate({ jsSpec: spec }, config);
-
-        // revert changes to config to avoid affecting other tests
-        config.walker.$ref_siblings = originalValue;
-
-        expect(res.errors.length).toEqual(0);
-        expect(res.warnings.length).toEqual(1);
-        expect(res.warnings[0].path).toEqual([
-          'paths',
-          '/CoolPath/{id}',
-          'schema',
-          'description'
-        ]);
-      });
-
       it('should return a problem for a links $ref that does not have the correct format', function() {
         const spec = {
           paths: {
