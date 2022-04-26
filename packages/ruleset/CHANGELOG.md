@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.23.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.22.0...@ibm-cloud/openapi-ruleset@0.23.0) (2022-04-26)
+
+
+### Features
+
+* enable spectral:oas 'no-$ref-siblings' rule ([#437](https://github.com/IBM/openapi-validator/issues/437)) ([aa93294](https://github.com/IBM/openapi-validator/commit/aa93294013379a6527ab6b9e161da18cd5d0958f))
+
 # @ibm-cloud/openapi-ruleset [0.22.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.21.0...@ibm-cloud/openapi-ruleset@0.22.0) (2022-04-26)
 
 
