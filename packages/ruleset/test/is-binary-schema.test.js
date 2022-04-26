@@ -1,57 +1,57 @@
-const { isByteSchema } = require('../src/utils');
+const { isBinarySchema } = require('../src/utils');
 
-describe('Utility function: isByteSchema()', () => {
+describe('Utility function: isBinarySchema()', () => {
   it('should return `false` for `undefined`', async () => {
-    expect(isByteSchema(undefined)).toBe(false);
+    expect(isBinarySchema(undefined)).toBe(false);
   });
 
   it('should return `false` for `null`', async () => {
-    expect(isByteSchema(null)).toBe(false);
+    expect(isBinarySchema(null)).toBe(false);
   });
 
   it('should return `false` for an array', async () => {
-    expect(isByteSchema([])).toBe(false);
+    expect(isBinarySchema([])).toBe(false);
   });
 
   it('should return `false` for an empty object', async () => {
-    expect(isByteSchema({})).toBe(false);
+    expect(isBinarySchema({})).toBe(false);
   });
 
   it('should return `false` for an object with `type` of `string` and no `format` value', async () => {
-    expect(isByteSchema({ type: 'string' })).toBe(false);
+    expect(isBinarySchema({ type: 'string' })).toBe(false);
   });
 
-  it('should return `true` for an object with `type` of `string` and `format` of `byte`', async () => {
-    expect(isByteSchema({ type: 'string', format: 'byte' })).toBe(true);
+  it('should return `true` for an object with `type` of `string` and `format` of `binary`', async () => {
+    expect(isBinarySchema({ type: 'string', format: 'binary' })).toBe(true);
   });
 
   // Skipped: debatable whether this test ought to pass, but maybe for OAS 3.1 support
-  it.skip('should return `true` for an object with `type` of ["string"] and `format` of `byte`', async () => {
-    expect(isByteSchema({ type: ['string'], format: 'byte' })).toBe(true);
+  it.skip('should return `true` for an object with `type` of ["string"] and `format` of `binary`', async () => {
+    expect(isBinarySchema({ type: ['string'], format: 'binary' })).toBe(true);
   });
 
   it('should return `false` for a composed schema with `type` and `format` defined separately', async () => {
     expect(
-      isByteSchema({ allOf: [{ type: 'string' }, { format: 'byte' }] })
+      isBinarySchema({ allOf: [{ type: 'string' }, { format: 'binary' }] })
     ).toBe(false);
   });
 
   it('should recurse through `oneOf` and `allOf` and `anyOf`', async () => {
     expect(
-      isByteSchema({
+      isBinarySchema({
         oneOf: [
           {
             allOf: [
               {
                 anyOf: [
-                  { type: 'string', format: 'byte' },
-                  { type: 'string', format: 'byte' }
+                  { type: 'string', format: 'binary' },
+                  { type: 'string', format: 'binary' }
                 ]
               },
               {}
             ]
           },
-          { type: 'string', format: 'byte' }
+          { type: 'string', format: 'binary' }
         ]
       })
     ).toBe(true);
