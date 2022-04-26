@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.73.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.72.2...ibm-openapi-validator@0.73.0) (2022-04-26)
+
+
+### Features
+
+* **binary-schemas:** add new 'binary-schemas' rule ([#436](https://github.com/IBM/openapi-validator/issues/436)) ([9480fa0](https://github.com/IBM/openapi-validator/commit/9480fa04481f1dfbbe9c4b10d488804b2b2ba8d5))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.22.0
+
 ## ibm-openapi-validator [0.72.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.72.1...ibm-openapi-validator@0.72.2) (2022-04-25)
 
 
