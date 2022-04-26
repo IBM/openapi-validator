@@ -1,11 +1,18 @@
 /*
- * validateNestedSchemas() performs validation on a schema and all of its nested schemas.
+ * Performs validation on a schema and all of its nested schemas.
  *
  * Nested schemas include property schemas (for an object schema), items schemas (for an array
  * schema), plus all nested schemas of those schemas.
  *
  * Nested schemas included via `allOf`, `oneOf`, and `anyOf` are validated, but composed schemas
  * are not themselves validated. Nested schemas included via `not` are not validated.
+ *
+ * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {array} path - Path array for the provided schema.
+ * @param {function} validate - Validate function.
+ * @param {boolean} includeSelf - Whether to validate the provided schema (or just its nested schemas).
+ * @param {boolean} includeNot - Whether to validate schemas composed with `not`.
+ * @returns {array} - Array of validation errors.
  */
 const validateNestedSchemas = (
   schema,

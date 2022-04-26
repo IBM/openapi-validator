@@ -1,10 +1,18 @@
 const validateComposedSchemas = require('./validate-composed-schemas');
 const validateNestedSchemas = require('./validate-nested-schemas');
 
-// Subschemas include property schemas (for an object schema), item schemas
-// (for an array schema), and applicator schemas (such as those in an allOf,
-// anyOf, or oneOf property), plus all subschemas of those schemas.
-
+/*
+ * Performs validation on a schema and all of its subschemas.
+ *
+ * Subschemas include property schemas (for an object schema), item schemas (for an array schema),
+ * and applicator schemas (such as those in an `allOf` or `oneOf` property), plus all subschemas
+ * of those schemas.
+ *
+ * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {array} path - Path array for the provided schema.
+ * @param {function} validate - Validate function.
+ * @returns {array} - Array of validation errors.
+ */
 const validateSubschemas = (schema, path, validate) => {
   return validateNestedSchemas(
     schema,

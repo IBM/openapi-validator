@@ -101,6 +101,7 @@ const getSchemaType = schema => {
 
 /**
  * Returns `true` for an array schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -116,6 +117,7 @@ const isArraySchema = schema => {
 
 /**
  * Returns `true` for an arbitrary octet sequence binary schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -128,6 +130,7 @@ const isBinarySchema = schema => {
 
 /**
  * Returns `true` for a boolean schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -137,6 +140,7 @@ const isBooleanSchema = schema => {
 
 /**
  * Returns `true` for a base64-encoded byte string schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -149,6 +153,7 @@ const isByteSchema = schema => {
 
 /**
  * Returns `true` for a date schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -161,6 +166,7 @@ const isDateSchema = schema => {
 
 /**
  * Returns `true` for a date-time schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -173,6 +179,7 @@ const isDateTimeSchema = schema => {
 
 /**
  * Returns `true` for a double (IEEE 754 64-bit floating point value) schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -186,6 +193,7 @@ const isDoubleSchema = schema => {
 
 /**
  * Returns `true` for a string enumeration schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -198,6 +206,7 @@ const isEnumerationSchema = schema => {
 
 /**
  * Returns `true` for a double (IEEE 754 32-bit floating point value) schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -211,6 +220,7 @@ const isFloatSchema = schema => {
 
 /**
  * Returns `true` for an int32 (32-bit signed "short") schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -223,6 +233,7 @@ const isInt32Schema = schema => {
 
 /**
  * Returns `true` for an int64 (64-bit signed "long") schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -235,6 +246,7 @@ const isInt64Schema = schema => {
 
 /**
  * Returns `true` for an integer (32-bit, 64-bit, or ambiguous format) schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -244,6 +256,7 @@ const isIntegerSchema = schema => {
 
 /**
  * Returns `true` for a number (32-bit, 64-bit, or ambiguous format floating point) schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -253,6 +266,7 @@ const isNumberSchema = schema => {
 
 /**
  * Returns `true` for an object schema.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
@@ -272,6 +286,7 @@ const isObjectSchema = schema => {
 
 /**
  * Returns `true` for a string schema of any format.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
  */
