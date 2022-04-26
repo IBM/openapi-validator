@@ -425,14 +425,12 @@ describe('Spectral rule: valid-type-format', () => {
     it('String schema with invalid format - referenced requestBody', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.components.requestBodies = {
-        FooRequestBody: {
-          content: {
-            'application/json': {
-              schema: {
-                type: 'string',
-                format: 'notastring'
-              }
+      testDocument.components.requestBodies.FooRequestBody = {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'string',
+              format: 'notastring'
             }
           }
         }

@@ -28,6 +28,8 @@ describe('Spectral rule: security-schemes', () => {
       delete testDocument.paths['/v1/drinks/{drink_id}'].get.security;
       delete testDocument.paths['/v1/movies'].post.security;
       delete testDocument.paths['/v1/movies'].get.security;
+      delete testDocument.paths['/v1/cars'].post.security;
+      delete testDocument.paths['/v1/cars/{car_id}'].get.security;
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
@@ -43,7 +45,7 @@ describe('Spectral rule: security-schemes', () => {
 
       // All references to security schemes should now be flagged as undefined.
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(8);
+      expect(results).toHaveLength(10);
       for (const r of results) {
         expect(r.code).toBe(ruleId);
         expect(r.message).toBe(expectedMsgUndefinedScheme);
@@ -69,6 +71,12 @@ describe('Spectral rule: security-schemes', () => {
       );
       expect(results[7].path.join('.')).toBe(
         'paths./v1/movies.get.security.0.MovieScheme'
+      );
+      expect(results[8].path.join('.')).toBe(
+        'paths./v1/cars.post.security.0.IAM'
+      );
+      expect(results[9].path.join('.')).toBe(
+        'paths./v1/cars/{car_id}.get.security.0.IAM'
       );
     });
 

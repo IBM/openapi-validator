@@ -67,18 +67,10 @@ Each category contains a group of rules. The spec that each rule applies to is m
 You can use the `-v` option of the CLI validator to display the rule for each reported result.
 The supported rules are described below:
 
-##### operations
-| Rule                         | Description                                                                         | Spec     |
-| ---------------------------- | ----------------------------------------------------------------------------------- | -------- |
-| no_consumes_for_put_or_post  | Flag `put` or `post` operations that do not have a `consumes` field.                | swagger2 |
-| get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
-| no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
-
 ##### walker
 | Rule                          | Description                                                                  | Spec   |
 | ----------------------------- | ---------------------------------------------------------------------------- | ------ |
 | has_circular_references       | Flag any circular references found in the API document.                      | shared |
-| incorrect_ref_pattern        | Flag internal `$ref` values that do not point to the section they should (e.g. referencing `parameters` from a `schema` field). | shared |
 
 [1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
 [2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
@@ -120,4 +112,3 @@ The default values for each rule are described below.
 | Rule                          | Default |
 | ----------------------------- | ------- |
 | has_circular_references       | warning |
-| incorrect_ref_pattern         | warning |

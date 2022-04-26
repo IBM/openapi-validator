@@ -366,6 +366,79 @@ module.exports = {
           }
         }
       }
+    },
+    '/v1/cars': {
+      post: {
+        operationId: 'create_car',
+        summary: 'Create a car',
+        description: 'Create a new Car instance.',
+        tags: ['TestTag'],
+        parameters: [
+          {
+            $ref: '#/components/parameters/ExpediteParam'
+          }
+        ],
+        security: [
+          {
+            IAM: []
+          }
+        ],
+        'x-codegen-request-body-name': 'car',
+        requestBody: {
+          $ref: '#/components/requestBodies/CarRequest'
+        },
+        responses: {
+          '201': {
+            description: 'The car instance was returned in the response.',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Car'
+                },
+                examples: {
+                  ResponseExample: {
+                    $ref: '#/components/examples/CarExample'
+                  }
+                }
+              }
+            },
+            links: {
+              CarId: {
+                $ref: '#/components/links/CarIdLink'
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/ErrorResponse'
+          }
+        }
+      }
+    },
+    '/v1/cars/{car_id}': {
+      parameters: [
+        {
+          $ref: '#/components/parameters/CarIdParam'
+        }
+      ],
+      get: {
+        operationId: 'get_car',
+        summary: 'Get Car',
+        description: 'Retrieve a Car instance by its id.',
+        tags: ['TestTag'],
+        security: [
+          {
+            IAM: []
+          }
+        ],
+        responses: {
+          '200': {
+            $ref: '#/components/responses/CarResponse'
+          },
+          '400': {
+            $ref: '#/components/responses/ErrorResponse'
+          }
+        }
+      }
     }
   },
   components: {
@@ -389,6 +462,28 @@ module.exports = {
         in: 'query',
         schema: {
           type: 'boolean'
+        }
+      },
+      ExpediteParam: {
+        description:
+          'An optional parameter to speed up the car manufacturing process.',
+        name: 'hurry_up',
+        required: false,
+        in: 'query',
+        schema: {
+          type: 'boolean'
+        }
+      },
+      CarIdParam: {
+        description: 'A car id.',
+        name: 'car_id',
+        required: true,
+        in: 'path',
+        schema: {
+          type: 'string',
+          pattern: '[a-zA-Z0-9 ]+',
+          minLength: 1,
+          maxLength: 30
         }
       }
     },
@@ -566,7 +661,6 @@ module.exports = {
           }
         ],
         example: {
-          offset: 0,
           limit: 1,
           total_count: 1,
           first: {
@@ -589,6 +683,37 @@ module.exports = {
             }
           ]
         }
+      },
+      Car: {
+        description: 'Information about a car.',
+        type: 'object',
+        required: ['id', 'make', 'model'],
+        properties: {
+          id: {
+            description: 'The car id.',
+            type: 'string',
+            minLength: 1,
+            maxLength: 64,
+            pattern: '[0-9]+'
+          },
+          make: {
+            description: 'The car make.',
+            type: 'string',
+            minLength: 1,
+            maxLength: 32,
+            pattern: '.*'
+          },
+          model: {
+            $ref: '#/components/schemas/CarModelType'
+          }
+        }
+      },
+      CarModelType: {
+        description: 'The car model.',
+        type: 'string',
+        minLength: 1,
+        maxLength: 32,
+        pattern: '.*'
       },
       OffsetPaginationBase: {
         description:
@@ -781,7 +906,70 @@ module.exports = {
             }
           }
         }
+      },
+      CarResponse: {
+        description: 'The car instance was returned in the response.',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Car'
+            },
+            examples: {
+              ResponseExample: {
+                $ref: '#/components/examples/CarExample'
+              }
+            }
+          }
+        }
+      },
+      ErrorResponse: {
+        description: 'An error occurred.',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Error'
+            }
+          }
+        }
       }
-    }
+    },
+    requestBodies: {
+      CarRequest: {
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Car'
+            },
+            examples: {
+              RequestExample: {
+                $ref: '#/components/examples/CarExample'
+              }
+            }
+          }
+        }
+      }
+    },
+    examples: {
+      CarExample: {
+        description: 'An example of a Car instance.',
+        value: {
+          id: '1',
+          make: 'Ford',
+          model: 'F150 Lariat'
+        }
+      }
+    },
+    links: {
+      CarIdLink: {
+        description:
+          'Link the `create_car` response `id` property to the `get_car` path parameter named `car_id`.',
+        operationId: 'get_car',
+        parameters: {
+          car_id: '$response.body#/id'
+        }
+      }
+    },
+    callbacks: {},
+    headers: {}
   }
 };
