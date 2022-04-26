@@ -103,18 +103,6 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         );
       }
     }
-
-    const keys = Object.keys(obj);
-    keys.forEach(k => {
-      if (keys.indexOf('$ref') > -1 && k !== '$ref') {
-        messages.addMessage(
-          path.concat([k]),
-          'Values alongside a $ref will be ignored.',
-          config.$ref_siblings,
-          '$ref_siblings'
-        );
-      }
-    });
   });
 
   return messages;

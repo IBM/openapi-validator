@@ -67,9 +67,6 @@ describe('cli tool - test config file validator', function() {
           no_parameter_description: 'error',
           snake_case_only: 'warning',
           invalid_type_format_pair: 'error'
-        },
-        walker: {
-          no_empty_descriptions: 'error'
         }
       }
     };
@@ -91,9 +88,6 @@ describe('cli tool - test config file validator', function() {
       shared: {
         operations: {
           nonValidRule: 'error'
-        },
-        walker: {
-          no_empty_descriptions: 'error'
         }
       }
     };
@@ -108,27 +102,6 @@ describe('cli tool - test config file validator', function() {
     expect(capturedText[1].trim().split('\n')[0]).toEqual(
       "- 'nonValidRule' is not a valid rule for the operations category"
     );
-  });
-
-  it('should fill in default values for rules that are not included', function() {
-    const config = {
-      shared: {
-        walker: {
-          no_empty_descriptions: 'error'
-        }
-      }
-    };
-
-    const res = configFileValidator(config, chalk);
-    const capturedText = getCapturedText(consoleSpy.mock.calls);
-
-    const defaultSchemas = JSON.stringify(defaults.shared.schemas, null, 2);
-    const configSchemas = JSON.stringify(res.shared.schemas, null, 2);
-
-    expect(typeof configSchemas).toEqual('string');
-    expect(res.invalid).toEqual(false);
-    expect(capturedText.length).toEqual(0);
-    expect(defaultSchemas).toEqual(configSchemas);
   });
 
   it('should print no errors with a config object that includes a deprecated rule', function() {
@@ -148,27 +121,6 @@ describe('cli tool - test config file validator', function() {
     expect(capturedText.length).toEqual(1);
     expect(capturedText[0].trim()).toEqual(
       "[Warning] The rule 'inline_response_schema' has been deprecated. It will not be checked. Use 'inline-response-schema (spectral rule)' instead."
-    );
-  });
-
-  it('should error when given an array for rules without config options', function() {
-    const config = {
-      shared: {
-        walker: {
-          no_empty_descriptions: ['error', 'camel_case']
-        }
-      }
-    };
-
-    const res = configFileValidator(config, chalk);
-    const capturedText = getCapturedText(consoleSpy.mock.calls);
-
-    expect(res.invalid).toEqual(true);
-    expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid configuration in .validaterc file. See below for details.'
-    );
-    expect(capturedText[1].trim()).toEqual(
-      '- Array-value configuration options are not supported for the no_empty_descriptions rule in the walker category.\n   Valid statuses are: error, warning, info, hint, off'
     );
   });
 });

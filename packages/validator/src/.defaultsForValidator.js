@@ -29,25 +29,19 @@ const defaults = {
     'security': {},
     'paths': {},
     'responses': {},
-    'schemas': {
-    },
+    'schemas': {},
     'walker': {
-      'no_empty_descriptions': 'error',
       'has_circular_references': 'warning',
-      '$ref_siblings': 'off',
-      'duplicate_sibling_description': 'warning',
       'incorrect_ref_pattern': 'warning'
     }
   },
   'swagger2': {
-    'operations': {
-    }
+    'operations': {}
   },
   'oas3': {
     'operations': {},
     'responses': {},
-    'schemas': {
-    }
+    'schemas': {}
   }
 };
 
@@ -108,6 +102,9 @@ const deprecated = {
   'parameters.invalid_type_format_pair': 'valid-type-format (spectral rule)',
   'schemas.snake_case_only': 'property-case-convention (spectral rule)',
   'json_or_param_binary_string': 'binary-schemas (spectral rule)',
+  'no_empty_descriptions': 'schema-description, property-description, operation-description or parameter-description (spectral rules)',
+  '$ref_siblings': 'no-$ref-siblings (spectral rule)',
+  'duplicate_sibling_description': '',
 };
 
 const configOptions = {

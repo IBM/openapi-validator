@@ -48,8 +48,8 @@ module.exports = {
     'path-keys-no-trailing-slash': true,
     // Enable with same severity as Spectral
     'path-not-include-query': true,
-    // Turn off - duplicates $ref_siblings (off by default)
-    'no-$ref-siblings': 'off',
+    // Enable with same severity as Spectral
+    'no-$ref-siblings': true,
     // Enable with same severity as Spectral
     'typed-enum': true,
     // Enable with same severity as Spectral
