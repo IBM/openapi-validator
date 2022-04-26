@@ -30,7 +30,7 @@ describe('Utility function: isInt32Schema()', () => {
     expect(isInt32Schema({ type: ['integer'], format: 'int32' })).toBe(true);
   });
 
-  it('should return `false` for a composed schema with `type` and `int32` defined separately', async () => {
+  it('should return `false` for a composed schema with `type` and `format` defined separately', async () => {
     expect(
       isInt32Schema({ allOf: [{ type: 'integer' }, { format: 'int32' }] })
     ).toBe(false);

@@ -31,8 +31,8 @@ describe('Utility function: getSchemaType()', () => {
     );
   });
 
-  it('should return `SchemaType.ENUMERATION` for a schema with an `enum` of strings', async () => {
-    expect(getSchemaType({ enum: ['one', 'two'] })).toBe(
+  it('should return `SchemaType.ENUMERATION` for `type` of `string` and an `enum` array of strings', async () => {
+    expect(getSchemaType({ type: 'string', enum: ['one', 'two'] })).toBe(
       SchemaType.ENUMERATION
     );
   });

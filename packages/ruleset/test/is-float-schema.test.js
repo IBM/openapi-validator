@@ -30,7 +30,7 @@ describe('Utility function: isFloatSchema()', () => {
     expect(isFloatSchema({ type: ['number'], format: 'float' })).toBe(true);
   });
 
-  it('should return `false` for a composed schema with `type` and `float` defined separately', async () => {
+  it('should return `false` for a composed schema with `type` and `format` defined separately', async () => {
     expect(
       isFloatSchema({ allOf: [{ type: 'number' }, { format: 'float' }] })
     ).toBe(false);

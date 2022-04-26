@@ -30,7 +30,7 @@ describe('Utility function: isDoubleSchema()', () => {
     expect(isDoubleSchema({ type: ['number'], format: 'double' })).toBe(true);
   });
 
-  it('should return `false` for a composed schema with `type` and `double` defined separately', async () => {
+  it('should return `false` for a composed schema with `type` and `format` defined separately', async () => {
     expect(
       isDoubleSchema({ allOf: [{ type: 'number' }, { format: 'double' }] })
     ).toBe(false);

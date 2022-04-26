@@ -11,7 +11,9 @@ const checkCompositeSchemaForConstraint = require('./check-composite-schema-for-
  */
 const SchemaType = {
   ARRAY: Symbol(),
+  BINARY: Symbol(),
   BOOLEAN: Symbol(),
+  BYTE: Symbol(),
   DATE: Symbol(),
   DATE_TIME: Symbol(),
   DOUBLE: Symbol(),
@@ -43,15 +45,18 @@ const getSchemaType = schema => {
     return SchemaType.OBJECT;
   } else if (isBooleanSchema(schema)) {
     return SchemaType.BOOLEAN;
-  }
-  if (isEnumerationSchema(schema)) {
-    // Intentionally checked before string
-    return SchemaType.ENUMERATION;
   } else if (isStringSchema(schema)) {
-    if (isDateSchema(schema)) {
+    if (isBinarySchema(schema)) {
+      return SchemaType.BINARY;
+    } else if (isByteSchema(schema)) {
+      return SchemaType.BYTE;
+    } else if (isDateSchema(schema)) {
       return SchemaType.DATE;
     } else if (isDateTimeSchema(schema)) {
       return SchemaType.DATE_TIME;
+    } else if (isEnumerationSchema(schema)) {
+      // Intentionally checked before a generic string, but after explicit string formats
+      return SchemaType.ENUMERATION;
     } else {
       return SchemaType.STRING;
     }
@@ -110,6 +115,18 @@ const isArraySchema = schema => {
 };
 
 /**
+ * Returns `true` for an arbitrary octet sequence binary schema.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @returns {boolean}
+ */
+const isBinarySchema = schema => {
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => s.type === 'string' && s.format === 'binary'
+  );
+};
+
+/**
  * Returns `true` for a boolean schema.
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @returns {boolean}
@@ -117,6 +134,18 @@ const isArraySchema = schema => {
 const isBooleanSchema = schema => {
   // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(schema, s => s.type === 'boolean');
+};
+
+/**
+ * Returns `true` for a base64-encoded byte string schema.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @returns {boolean}
+ */
+const isByteSchema = schema => {
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => s.type === 'string' && s.format === 'byte'
+  );
 };
 
 /**
@@ -165,9 +194,10 @@ const isDoubleSchema = schema => {
  * @returns {boolean}
  */
 const isEnumerationSchema = schema => {
-  return checkCompositeSchemaForConstraint(schema, s => {
-    return Array.isArray(s.enum) && s.enum.every(e => typeof e === 'string');
-  });
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => s.type === 'string' && Array.isArray(s.enum)
+  );
 };
 
 /**
@@ -263,7 +293,9 @@ module.exports = {
   SchemaType,
   getSchemaType,
   isArraySchema,
+  isBinarySchema,
   isBooleanSchema,
+  isByteSchema,
   isDateSchema,
   isDateTimeSchema,
   isDoubleSchema,

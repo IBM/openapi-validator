@@ -32,7 +32,7 @@ describe('Utility function: isDateTimeSchema()', () => {
     expect(isDateTimeSchema({ type: ['string'], format: 'date' })).toBe(true);
   });
 
-  it('should return `false` for a composed schema with `type` and `date-time` defined separately', async () => {
+  it('should return `false` for a composed schema with `type` and `format` defined separately', async () => {
     expect(
       isDateTimeSchema({ allOf: [{ type: 'string' }, { format: 'date' }] })
     ).toBe(false);

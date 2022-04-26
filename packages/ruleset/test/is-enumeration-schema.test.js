@@ -17,24 +17,14 @@ describe('Utility function: isEnumerationSchema()', () => {
     expect(isEnumerationSchema({})).toBe(false);
   });
 
-  it('should return `true` for an object with an `enum` array of strings', async () => {
-    expect(isEnumerationSchema({ enum: ['foo', 'bar'] })).toBe(true);
+  it('should return `true` for an object with `type` of `string` and an `enum` array of strings', async () => {
+    expect(isEnumerationSchema({ type: 'string', enum: ['foo', 'bar'] })).toBe(
+      true
+    );
   });
 
-  it('should return `false` for an object with an `enum` array of numbers', async () => {
-    expect(isEnumerationSchema({ enum: [1, 2, 3] })).toBe(false);
-  });
-
-  it('should return `false` for an object with an `enum` array of booleans', async () => {
-    expect(isEnumerationSchema({ enum: [true, false] })).toBe(false);
-  });
-
-  it('should return `false` for an object with an `enum` array of objects', async () => {
-    expect(isEnumerationSchema({ enum: [{}, {}] })).toBe(false);
-  });
-
-  it('should return `false` for an object with an `enum` array of mixed types', async () => {
-    expect(isEnumerationSchema({ enum: ['foo', 3] })).toBe(false);
+  it('should return `false` for an object with no `type` and an `enum` array of strings', async () => {
+    expect(isEnumerationSchema({ enum: ['foo', 'bar'] })).toBe(false);
   });
 
   it('should recurse through `oneOf` and `allOf` and `anyOf`', async () => {
@@ -42,9 +32,17 @@ describe('Utility function: isEnumerationSchema()', () => {
       isEnumerationSchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ enum: ['one'] }, { enum: ['two'] }] }, {}]
+            allOf: [
+              {
+                anyOf: [
+                  { type: 'string', enum: ['one'] },
+                  { type: 'string', enum: ['two'] }
+                ]
+              },
+              {}
+            ]
           },
-          { enum: ['three'] }
+          { type: 'string', enum: ['three'] }
         ]
       })
     ).toBe(true);
