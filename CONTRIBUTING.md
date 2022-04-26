@@ -1,6 +1,7 @@
 # Code
 * Our style is based on [prettier](https://prettier.io/) and the [ESLint](https://eslint.org/) recommended rules, with some minor customizations. This is auto-enforced and can usually be applied by running `npm run fix`.
 * Commits _must_ follow the [Angular commit message guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines). We use [semantic-release](https://github.com/semantic-release/semantic-release) to release versions to `npm`, update the changelog, etc. Following these guidelines is simplified by using the [Commitizen CLI](https://github.com/commitizen/cz-cli) with the `cz-conventional-changelog` adapter.
+* Exported functions _should_ include [JSDoc](https://jsdoc.app) comment headers defining [@param](https://jsdoc.app/tags-param.html) and [@returns](https://jsdoc.app/tags-returns.html) values.
 
 # Issues
 * You are welcome to [submit an issue](https://github.com/IBM/openapi-validator/issues) with a bug report or a feature request.
@@ -19,4 +20,3 @@ If you want to contribute to the repository, follow these steps:
 [1] If submitting a new validation, the following files must be updated:
 - packages/validator/src/.defaultsForValidator.js
 - README.md (description of validation **and** documentation of default value)
-

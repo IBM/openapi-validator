@@ -1,6 +1,9 @@
 // A group of predefined "collections" of OpenAPI locations to validate,
 // to be re-used by multiple rules.
 
+// A collection of locations of top-level response schemas
+const responseSchemas = ['$.paths[*][*][responses][*].content[*].schema'];
+
 // A collection of locations where a JSON Schema object can be *used*.
 // Note that this does not include "components.schemas" to avoid duplication.
 // this collection should be used in a rule that has "resolved" set to "true".
@@ -33,6 +36,7 @@ const unresolvedResponseSchemas = [
 ];
 
 module.exports = {
+  responseSchemas,
   operations,
   parameters,
   paths,
