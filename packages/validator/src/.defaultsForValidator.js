@@ -47,7 +47,6 @@ const defaults = {
     'operations': {},
     'responses': {},
     'schemas': {
-      'json_or_param_binary_string': 'warning'
     }
   }
 };
@@ -105,7 +104,10 @@ const deprecated = {
   'schemas.snake_case_only': 'property-case-convention (spectral rule)',
   'no_consumes_for_put_or_post': '',
   'get_op_has_consumes': '',
-  'no_produces': ''
+  'no_produces': '',
+  'parameters.invalid_type_format_pair': 'valid-type-format (spectral rule)',
+  'schemas.snake_case_only': 'property-case-convention (spectral rule)',
+  'json_or_param_binary_string': 'binary-schemas (spectral rule)',
 };
 
 const configOptions = {
