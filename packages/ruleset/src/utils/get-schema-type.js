@@ -132,7 +132,6 @@ const isBinarySchema = schema => {
  * @returns {boolean}
  */
 const isBooleanSchema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(schema, s => s.type === 'boolean');
 };
 
@@ -154,7 +153,6 @@ const isByteSchema = schema => {
  * @returns {boolean}
  */
 const isDateSchema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(
     schema,
     s => s.type === 'string' && s.format === 'date'
@@ -167,7 +165,6 @@ const isDateSchema = schema => {
  * @returns {boolean}
  */
 const isDateTimeSchema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(
     schema,
     s => s.type === 'string' && s.format === 'date-time'
@@ -180,7 +177,6 @@ const isDateTimeSchema = schema => {
  * @returns {boolean}
  */
 const isDoubleSchema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   // also ignores `type` and `format` defined in separately composited schemas
   return checkCompositeSchemaForConstraint(
     schema,
@@ -206,7 +202,6 @@ const isEnumerationSchema = schema => {
  * @returns {boolean}
  */
 const isFloatSchema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   // also ignores `type` and `format` defined in separately composited schemas
   return checkCompositeSchemaForConstraint(
     schema,
@@ -220,7 +215,6 @@ const isFloatSchema = schema => {
  * @returns {boolean}
  */
 const isInt32Schema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(
     schema,
     s => s.type === 'integer' && s.format === 'int32'
@@ -233,7 +227,6 @@ const isInt32Schema = schema => {
  * @returns {boolean}
  */
 const isInt64Schema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(
     schema,
     s => s.type === 'integer' && s.format === 'int64'
@@ -246,7 +239,6 @@ const isInt64Schema = schema => {
  * @returns {boolean}
  */
 const isIntegerSchema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(schema, s => s.type === 'integer');
 };
 
@@ -256,7 +248,6 @@ const isIntegerSchema = schema => {
  * @returns {boolean}
  */
 const isNumberSchema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(schema, s => s.type === 'number');
 };
 
@@ -285,7 +276,6 @@ const isObjectSchema = schema => {
  * @returns {boolean}
  */
 const isStringSchema = schema => {
-  // ignores the possibility of type arrays in OAS 3.1
   return checkCompositeSchemaForConstraint(schema, s => s.type === 'string');
 };
 
