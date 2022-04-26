@@ -5,8 +5,10 @@ const isDeprecated = require('./is-deprecated');
 const isFormMimeType = require('./is-form-mimetype');
 const isJsonMimeType = require('./is-json-mimetype');
 const isObject = require('./is-object');
+const isPrimitiveType = require('./is-primitive-type');
 const isSdkExcluded = require('./is-sdk-excluded');
 const mergeAllOfSchemaProperties = require('./merge-allof-schema-properties');
+const operationMethods = require('./constants');
 const pathMatchesRegexp = require('./path-matches-regexp');
 const schemaRequiresProperty = require('./schema-requires-property');
 const validateComposedSchemas = require('./validate-composed-schemas');
@@ -55,9 +57,11 @@ module.exports = {
   isNumberSchema,
   isObject,
   isObjectSchema,
+  isPrimitiveType,
   isSdkExcluded,
   isStringSchema,
   mergeAllOfSchemaProperties,
+  operationMethods,
   pathMatchesRegexp,
   schemaRequiresProperty,
   validateComposedSchemas,

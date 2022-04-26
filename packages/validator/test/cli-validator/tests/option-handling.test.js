@@ -128,25 +128,22 @@ describe('cli tool - test option handling', function() {
     // console.warn(textOutput);
 
     // totals
-    expect(capturedText[statsSection + 1].match(/\S+/g)[5]).toEqual('4');
+    expect(capturedText[statsSection + 1].match(/\S+/g)[5]).toEqual('2');
     expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('2');
 
     // errors
     expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(25%)');
+    expect(capturedText[statsSection + 5].match(/\S+/g)[1]).toEqual('(50%)');
 
     expect(capturedText[statsSection + 6].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 6].match(/\S+/g)[1]).toEqual('(25%)');
-
-    expect(capturedText[statsSection + 7].match(/\S+/g)[0]).toEqual('2');
-    expect(capturedText[statsSection + 7].match(/\S+/g)[1]).toEqual('(50%)');
+    expect(capturedText[statsSection + 6].match(/\S+/g)[1]).toEqual('(50%)');
 
     // warnings
+    expect(capturedText[statsSection + 9].match(/\S+/g)[0]).toEqual('1');
+    expect(capturedText[statsSection + 9].match(/\S+/g)[1]).toEqual('(50%)');
+
     expect(capturedText[statsSection + 10].match(/\S+/g)[0]).toEqual('1');
     expect(capturedText[statsSection + 10].match(/\S+/g)[1]).toEqual('(50%)');
-
-    expect(capturedText[statsSection + 11].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 11].match(/\S+/g)[1]).toEqual('(50%)');
   });
 
   it('should not print statistics report by default', async function() {
@@ -213,7 +210,7 @@ describe('cli tool - test option handling', function() {
     // });
     // console.warn(textOutput);
 
-    expect(exitCode).toEqual(1);
+    expect(exitCode).toEqual(0);
 
     // simple state machine to count the number of warnings and errors.
     let errorCount = 0;
@@ -237,7 +234,7 @@ describe('cli tool - test option handling', function() {
       }
     });
     expect(warningCount).toEqual(1); // without the config this value is 4
-    expect(errorCount).toEqual(1); // without the config this value is 0
+    expect(errorCount).toEqual(0);
   });
 
   it('should return an error and usage menu when there is an unknown option', async function() {

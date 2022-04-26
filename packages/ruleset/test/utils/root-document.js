@@ -62,18 +62,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  description: 'An error response.',
-                  type: 'object',
-                  properties: {
-                    trace: {
-                      description: 'The error trace information.',
-                      type: 'string',
-                      format: 'uuid'
-                    },
-                    error: {
-                      $ref: '#/components/schemas/RequestError'
-                    }
-                  }
+                  $ref: '#/components/schemas/Error'
                 }
               }
             }
@@ -133,18 +122,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  description: 'An error response.',
-                  type: 'object',
-                  properties: {
-                    trace: {
-                      description: 'The error trace information.',
-                      type: 'string',
-                      format: 'uuid'
-                    },
-                    error: {
-                      $ref: '#/components/schemas/RequestError'
-                    }
-                  }
+                  $ref: '#/components/schemas/Error'
                 }
               }
             }
@@ -175,35 +153,10 @@ module.exports = {
         ],
         responses: {
           '200': {
-            description: 'Success, we had a drink!',
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            }
+            $ref: '#/components/responses/ConsumedDrink'
           },
           '400': {
-            description: 'Error, no drinks to be had!',
-            content: {
-              'application/json': {
-                schema: {
-                  description: 'An error response.',
-                  type: 'object',
-                  properties: {
-                    trace: {
-                      description: 'The error trace information.',
-                      type: 'string',
-                      format: 'uuid'
-                    },
-                    error: {
-                      $ref: '#/components/schemas/RequestError'
-                    }
-                  }
-                }
-              }
-            }
+            $ref: '#/components/responses/BarIsClosed'
           }
         }
       }
@@ -244,18 +197,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  description: 'An error response.',
-                  type: 'object',
-                  properties: {
-                    trace: {
-                      description: 'The trace information',
-                      type: 'string',
-                      format: 'uuid'
-                    },
-                    error: {
-                      $ref: '#/components/schemas/RequestError'
-                    }
-                  }
+                  $ref: '#/components/schemas/Error'
                 }
               }
             }
@@ -659,6 +601,20 @@ module.exports = {
             type: 'string'
           }
         }
+      },
+      Error: {
+        description: 'An error response.',
+        type: 'object',
+        properties: {
+          trace: {
+            description: 'The error trace information.',
+            type: 'string',
+            format: 'uuid'
+          },
+          error: {
+            $ref: '#/components/schemas/RequestError'
+          }
+        }
       }
     },
     securitySchemes: {
@@ -717,6 +673,28 @@ module.exports = {
         name: 'Authorization',
         type: 'openIdConnect',
         openIdConnectUrl: 'https://oauth2.com'
+      }
+    },
+    responses: {
+      ConsumedDrink: {
+        description: 'Success, we consumed a drink!',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Drink'
+            }
+          }
+        }
+      },
+      BarIsClosed: {
+        description: 'Error, no drinks to be had!',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Error'
+            }
+          }
+        }
       }
     }
   }

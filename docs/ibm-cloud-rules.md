@@ -12,7 +12,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
 
   You should regenerate the TOC after making changes to this file.
 
-      markdown-toc --maxdepth 4 -i ibm-cloud-rules.md
+      markdown-toc --maxdepth 4 -i docs/ibm-cloud-rules.md
   -->
 
 <!-- toc -->
@@ -42,6 +42,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: ibm-content-type-is-specific](#rule-ibm-content-type-is-specific)
   * [Rule: ibm-error-content-type-is-json](#rule-ibm-error-content-type-is-json)
   * [Rule: ibm-sdk-operations](#rule-ibm-sdk-operations)
+  * [Rule: inline-response-schema](#rule-inline-response-schema)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
   * [Rule: missing-required-property](#rule-missing-required-property)
   * [Rule: operation-id-case-convention](#rule-operation-id-case-convention)
@@ -53,6 +54,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: parameter-description](#rule-parameter-description)
   * [Rule: parameter-order](#rule-parameter-order)
   * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
+  * [Rule: path-segment-case-convention](#rule-path-segment-case-convention)
   * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
   * [Rule: property-case-collision](#rule-property-case-collision)
   * [Rule: property-case-convention](#rule-property-case-convention)
@@ -62,6 +64,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: request-body-object](#rule-request-body-object)
   * [Rule: response-error-response-schema](#rule-response-error-response-schema)
   * [Rule: response-example-provided](#rule-response-example-provided)
+  * [Rule: response-status-codes](#rule-response-status-codes)
   * [Rule: schema-description](#rule-schema-description)
   * [Rule: security-schemes](#rule-security-schemes)
   * [Rule: server-variable-default-value](#rule-server-variable-default-value)
@@ -142,6 +145,12 @@ is provided in the [Reference](#reference) section below.
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#rule-duplicate-path-parameter">discriminator</a></td>
+<td>error</td>
+<td>Common path parameters should be defined on the path object.</td>
+<td>oas3</td>
+</tr>
+<tr>
 <td><a href="#rule-enum-case-convention">enum-case-convention</a></td>
 <td>error</td>
 <td>Enum values should follow a specific case convention</td>
@@ -169,6 +178,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-ibm-sdk-operations">ibm-sdk-operations</a></td>
 <td>warn</td>
 <td>Validates the structure of the <code>x-sdk-operations</code> object </td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-inline-response-schema">inline-response-schema</a></td>
+<td>warn</td>
+<td>Response schemas should be defined as a $ref to a named schema</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -238,6 +253,12 @@ is provided in the [Reference](#reference) section below.
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#rule-path-segment-case-convention">parameter-schema-or-content</a></td>
+<td>error</td>
+<td>Path segments must follow a specific case convention</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
 <td><a href="#rule-prohibit-summary-sentence-style">prohibit-summary-sentence-style</a></td>
 <td>warn</td>
 <td>An operation's <code>summary</code> field should not have a trailing period</td>
@@ -290,6 +311,12 @@ has non-form content.</td>
 <td><a href="#rule-response-example-provided">response-example-provided</a></td>
 <td>warn</td>
 <td>Response should provide an example</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-response-status-codes">response-status-codes</a></td>
+<td>warn</td>
+<td>Performs multiple checks on the status codes used in operation responses.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -1074,6 +1101,75 @@ components:
 </table>
 
 
+### Rule: duplicate-path-parameter
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>duplicate-path-parameter</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>When defining a path parameter, it's a good practice to define it once in the path object's `parameters` field rather than
+defining it separately within each of the operations that exist for that path.
+<p>This rule checks for situations in which a path parameter is defined identically within multiple operations under a given path,
+and returns a warning to alert the user that the path parameter should be defined on the path object instead.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      parameters:
+        - name: thing_id
+          in: path
+          description: The id of the thing instance.
+          schema:
+            type: string
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: thing_id
+          in: path
+          description: The id of the thing instance.
+          schema:
+            type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - name: thing_id
+        in: path
+        description: The id of the thing instance.
+        schema:
+          type: string
+    get:
+      operationId: get_thing
+    delete:
+      operationId: delete_thing
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### Rule: enum-case-convention
 <table>
 <tr>
@@ -1344,6 +1440,85 @@ n/a
 <td valign=top><b>Compliant example:</b></td>
 <td>
 n/a
+</td>
+</tr>
+</table>
+
+
+### Rule: inline-response-schema
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>inline-response-schema</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>A response schema should be defined as a reference to a named schema instead of defined as an inline schema.
+This is a best practice because the SDK generator will use the schema reference when determining the operation's return type
+within the generated SDK code.
+The SDK generator will refactor any inline response schemas that it finds by moving them to the <code>components.schemas</code>
+section of the API definition and then replacing them with a reference.  However, the names computed by the SDK generator are
+not optimal, so the recommendation is for API authors to define the response schema as a $ref.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      description: Retrieve a Thing instance by id.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A Thing instance.
+                properties:
+                  thing_id:
+                    type: string
+                  thing_style:
+                    type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      description: A Thing instance.
+      properties:
+        thing_id:
+          type: string
+        thing_style:
+          type: string
+paths:
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      description: Retrieve a Thing instance by id.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+</pre>
 </td>
 </tr>
 </table>
@@ -2092,6 +2267,61 @@ parameters:
 </table>
 
 
+### Rule: path-segment-case-convention
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>path-segment-case-convention</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Path segments must follow a specific case convention, with the default being snake case.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Configuration:</b></td>
+<td>This rule's default configuration will enforce snake case for path segments, but the rule can be configured
+to enforce a different case convention if desired.
+<p>To enforce a different case convention for path segments, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
+specifies the desired case convention.
+For example, to enforce camel case for path segments, the configuration object would look like this:
+<pre>
+{
+  type: 'camel'
+}
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/someThings/{thing_id}':
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/some_things/{thing_id}':
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### Rule: prohibit-summary-sentence-style
 <table>
 <tr>
@@ -2599,6 +2829,91 @@ responses:
           type: string
         example: 'example string'
 <pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: response-status-codes
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>response-status-codes</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule performs a few different checks on the status codes used in operation responses:
+<ul>
+<li>The use of the <code>422 - Unprocessable Entity</code> status code is discouraged. Use <code>400 - Bad Request</code> instead.</li>
+<li>The use of the <code>302 - Found</code> status code is discouraged. Use <code>303 - See Other</code> or 
+<code>307 - Temporary Redirect</code> instead.</li>
+<li>The <code>101 - Switching Protocols</code> status code should not be used if any success status codes (2xx) are also present.</li>
+<li>Each operation should include at least one success status code (2xx).  An exception to this is when the 
+<code>101 - Switching Protocols</code> status code is used, which should be extremely rare (it's normally used with websockets).</li>
+<li>A <code>204 - No Content</code> response should not include content.</li>
+<li>A non-204 success status code (e.g. <code>200 - OK</code>, <code>201 - Created</code>, etc.) should include content.</li>
+</ul>
+<p>References: 
+<ul>
+<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook</a></li>
+<li><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-6">RFC7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a></li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: 'Create a Thing instance.'
+      responses:
+      204:
+        description: 'should not have content'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      101:
+        description: 'invalid use of status code 101'
+      422:
+        description: 'should use status code 400 instead'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: 'Create a Thing instance.'
+      responses:
+      201:
+        description: 'Successfully created a new Thing instance.'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      400:
+        description: 'Thing instance was invalid'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorResponse'
+</pre>
 </td>
 </tr>
 </table>

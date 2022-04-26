@@ -394,11 +394,9 @@ describe('Spectral rule: valid-type-format', () => {
       testDocument.components.schemas['Foo'] = {
         format: 'date'
       };
-      testDocument.components.responses = {
-        FooResponse: {
-          schema: {
-            $ref: '#/components/schemas/Foo'
-          }
+      testDocument.components.responses.FooResponse = {
+        schema: {
+          $ref: '#/components/schemas/Foo'
         }
       };
       testDocument.paths['/v1/drinks'].post.responses['201'].content[

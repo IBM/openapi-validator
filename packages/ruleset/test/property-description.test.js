@@ -133,7 +133,20 @@ describe('Spectral rule: property-description', () => {
 
       testDocument.paths['/v1/movies'].post.responses['400'].content[
         'application/json'
-      ].schema.properties['trace'].description = '     ';
+      ].schema = {
+        description: 'An error response.',
+        type: 'object',
+        properties: {
+          trace: {
+            description: '        ',
+            type: 'string',
+            format: 'uuid'
+          },
+          error: {
+            $ref: '#/components/schemas/RequestError'
+          }
+        }
+      };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);

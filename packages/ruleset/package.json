@@ -1,7 +1,7 @@
 {
   "name": "@ibm-cloud/openapi-ruleset",
   "description": "Spectral ruleset for validating IBM Cloud services",
-  "version": "0.17.0",
+  "version": "0.21.0",
   "license": "Apache-2.0",
   "private": false,
   "main": "./src/ibm-oas.js",
@@ -16,7 +16,8 @@
   "dependencies": {
     "@stoplight/spectral-formats": "^1.1.0",
     "@stoplight/spectral-functions": "^1.6.1",
-    "@stoplight/spectral-rulesets": "^1.6.0"
+    "@stoplight/spectral-rulesets": "^1.6.0",
+    "lodash": "^4.17.21"
   },
   "devDependencies": {
     "@stoplight/spectral-core": "^1.11.0",

@@ -1,3 +1,77 @@
+## ibm-openapi-validator [0.72.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.72.1...ibm-openapi-validator@0.72.2) (2022-04-25)
+
+
+### Bug Fixes
+
+* remove swagger2 legacy rules ([#435](https://github.com/IBM/openapi-validator/issues/435)) ([03c8a77](https://github.com/IBM/openapi-validator/commit/03c8a77d9bd5ccd5db1b9a0f5a931c6877dafa43))
+
+## ibm-openapi-validator [0.72.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.72.0...ibm-openapi-validator@0.72.1) (2022-04-21)
+
+
+### Bug Fixes
+
+* fix rule deprecation support ([#434](https://github.com/IBM/openapi-validator/issues/434)) ([4958719](https://github.com/IBM/openapi-validator/commit/4958719b1ef3befd2634db1e272ba66ba467f8fa))
+
+# ibm-openapi-validator [0.72.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.71.0...ibm-openapi-validator@0.72.0) (2022-04-21)
+
+
+### Features
+
+* **response-status-codes:** add new 'response-status-codes' rule ([#433](https://github.com/IBM/openapi-validator/issues/433)) ([1dc6cb4](https://github.com/IBM/openapi-validator/commit/1dc6cb4eeb92a75c1b37529ff4f62d3a6c567442))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.21.0
+
+# ibm-openapi-validator [0.71.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.70.0...ibm-openapi-validator@0.71.0) (2022-04-21)
+
+
+### Features
+
+* **inline-response-schema:** add new 'inline-response-schema' rule ([#431](https://github.com/IBM/openapi-validator/issues/431)) ([7fd31c7](https://github.com/IBM/openapi-validator/commit/7fd31c78e2edd5ceeb98557939ac63ee18dd446b))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.20.0
+
+# ibm-openapi-validator [0.70.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.69.0...ibm-openapi-validator@0.70.0) (2022-04-21)
+
+
+### Features
+
+* **path-segment-case-convention:** add new 'path-segment-case-convention' rule ([#430](https://github.com/IBM/openapi-validator/issues/430)) ([af52002](https://github.com/IBM/openapi-validator/commit/af5200268e38dfbed2ad06f0c330433d2117104a))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.19.0
+
+# ibm-openapi-validator [0.69.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.68.0...ibm-openapi-validator@0.69.0) (2022-04-21)
+
+
+### Features
+
+* **duplicate-path-parameter:** add new 'duplicate-path-parameter' rule ([#429](https://github.com/IBM/openapi-validator/issues/429)) ([bc8bcb2](https://github.com/IBM/openapi-validator/commit/bc8bcb2fb131133e7b326c49c57cd3fdf97790d7))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.18.0
+
 # ibm-openapi-validator [0.68.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.67.0...ibm-openapi-validator@0.68.0) (2022-04-19)
 
 

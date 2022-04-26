@@ -1,3 +1,31 @@
+# @ibm-cloud/openapi-ruleset [0.21.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.20.0...@ibm-cloud/openapi-ruleset@0.21.0) (2022-04-21)
+
+
+### Features
+
+* **response-status-codes:** add new 'response-status-codes' rule ([#433](https://github.com/IBM/openapi-validator/issues/433)) ([1dc6cb4](https://github.com/IBM/openapi-validator/commit/1dc6cb4eeb92a75c1b37529ff4f62d3a6c567442))
+
+# @ibm-cloud/openapi-ruleset [0.20.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.19.0...@ibm-cloud/openapi-ruleset@0.20.0) (2022-04-21)
+
+
+### Features
+
+* **inline-response-schema:** add new 'inline-response-schema' rule ([#431](https://github.com/IBM/openapi-validator/issues/431)) ([7fd31c7](https://github.com/IBM/openapi-validator/commit/7fd31c78e2edd5ceeb98557939ac63ee18dd446b))
+
+# @ibm-cloud/openapi-ruleset [0.19.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.18.0...@ibm-cloud/openapi-ruleset@0.19.0) (2022-04-21)
+
+
+### Features
+
+* **path-segment-case-convention:** add new 'path-segment-case-convention' rule ([#430](https://github.com/IBM/openapi-validator/issues/430)) ([af52002](https://github.com/IBM/openapi-validator/commit/af5200268e38dfbed2ad06f0c330433d2117104a))
+
+# @ibm-cloud/openapi-ruleset [0.18.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.17.0...@ibm-cloud/openapi-ruleset@0.18.0) (2022-04-21)
+
+
+### Features
+
+* **duplicate-path-parameter:** add new 'duplicate-path-parameter' rule ([#429](https://github.com/IBM/openapi-validator/issues/429)) ([bc8bcb2](https://github.com/IBM/openapi-validator/commit/bc8bcb2fb131133e7b326c49c57cd3fdf97790d7))
+
 # @ibm-cloud/openapi-ruleset [0.17.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.16.0...@ibm-cloud/openapi-ruleset@0.17.0) (2022-04-19)
 
 

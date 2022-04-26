@@ -22,7 +22,6 @@ This document outlines how to configure and use the IBM Cloud Legacy Validation 
   * [Categories](#categories)
   * [Rules](#rules)
   * [Statuses](#statuses)
-  * [Configuration Options](#configuration-options)
 - [Configuration file](#configuration-file)
 - [Default mode](#default-mode)
   * [Default values](#default-values)
@@ -59,10 +58,7 @@ The supported categories are described below:
 | Category   | Description                                                                                                                       |
 | ---------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | operations | Rules pertaining to [Operation Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#operationObject) |
-| paths      | Rules pertaining to [Paths Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#pathsObject)         |
 | schemas    | Rules pertaining to [Schema Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#schemaObject)       |
-| security_definitions | Rules pertaining to [Security Definition Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityDefinitionsObject) |
-| security   | Rules pertaining to [Security Objects](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#securityRequirementObject) |
 | walker     | Rules pertaining to the entire document.                                                                                              |
 
 #### Rules
@@ -78,27 +74,9 @@ The supported rules are described below:
 | get_op_has_consumes          | Flag `get` operations that contain a `consumes` field.                              | swagger2 |
 | no_produces                  | Flag operations that do not have a `produces` field (except for `head` and operations that return a 204). | swagger2 |
 
-
-##### paths
-| Rule                        | Description                                                                                                  | Spec   |
-| --------------------------- | ------------------------------------------------------------------------------------------------------------ | ------ |
-| snake_case_only             | Flag any path segment that does not use snake case.                                                          | shared |
-| paths_case_convention       | Flag any path segment that does not follow a given case convention. snake_case_only must be 'off' to use.    | shared |
-| duplicate_path_parameter    | Flag any path parameters that have identical definitions in all operations. | shared |
-
-##### [responses][4]
-| Rule                      | Description                                                  | Spec |
-| ------------------------- | ------------------------------------------------------------ | ---- |
-| inline_response_schema    | Flag any response object with a schema that doesn't reference a named model. Even if the model is only used once, naming it offers significant benefits for SDK generation. | shared |
-| no_success_response_codes | Flag any response object that has no success response codes. | oas3 |
-| no_response_body          | Flag any non-204 success responses without a response body.  | oas3 |
-| ibm_status_code_guidelines| Flag any violations of status code conventions per IBM API Handbook  | oas3 |
-
 ##### schemas
 | Rule                        | Description                                                                   | Spec     |
 | --------------------------- | ----------------------------------------------------------------------------- | -------- |
-| invalid_type_format_pair    | Flag any schema that does not follow the [data type/format rules.][2]         | shared   |
-| snake_case_only             | Flag any property with a `name` that is not lower snake case.                 | shared   |
 | json_or_param_binary_string | Flag parameters or application/json request/response bodies with schema type: string, format: binary. | oas3 |
 
 ##### walker
@@ -118,27 +96,6 @@ The supported rules are described below:
 #### Statuses
 
 Each rule can be assigned a status. The supported statuses are `error`, `warning`, `info`, `hint` and `off`.
-Some rules can be configured further with configuration options. The format of this configuration is to provide an array, rather than just a string. e.g.
-`"paths_case_convention": ["error", "lower_camel_case"]`
-If just a string is provided for these rule, the default configuration option will be used. If only one value is provided in the array, it **MUST** be a status. The default configuration option will be used in this case as well. The rules that support configuration options will have **two** values in the [defaults](#default-values) table.
-
-#### Configuration Options
-
-For rules that accept additional configuration, there will be a limited set of available options.
-
-##### Case Convention Options
-- Some rules check strings for adherence to a specific case convention. In some cases, the case convention checked is configurable.
-- Rules with configurable case conventions will end in `_case_convention`, such as `paths_case_convention`.
-
-| Option           | Description                                              | Example           |
-| ---------------- | -------------------------------------------------------- | ----------------- |
-| lower_snake_case | Words must follow standard lower snake case conventions. | learning_opt_out  |
-| upper_snake_case | Words must follow standard upper snake case conventions. | LEARNING_OPT_OUT  |
-| upper_camel_case | Words must follow standard upper camel case conventions. | LearningOptOut    |
-| lower_camel_case | Words must follow standard lower camel case conventions. | learningOptOut    |
-| k8s_camel_case   | Words must follow Kubernetes API camel case conventions. | learningOptOutAPI |
-| lower_dash_case  | Words must follow standard lower dash case conventions.  | learning-opt-out  |
-| upper_dash_case  | Words must follow standard upper dash case conventions.  | LEARNING-OPT-OUT  |
 
 ### Configuration file
 
@@ -165,28 +122,8 @@ The default values for each rule are described below.
 
 #### Default values
 
-##### swagger2
-
-###### operations
-| Rule                        | Default |
-| --------------------------- | ------- |
-| no_consumes_for_put_or_post | error   |
-| get_op_has_consumes         | warning |
-| no_produces                 | error   |
-
 
 ##### oas3
-
-###### operations
-| Rule                        | Default |
-| --------------------------- | ------- |
-
-##### responses
-| Rule                      | Default |
-| ------------------------- | ------- |
-| no_success_response_codes | warning |
-| no_response_body          | warning |
-| ibm_status_code_guidelines| warning |
 
 ##### schemas
 
@@ -195,23 +132,6 @@ The default values for each rule are described below.
 | json_or_param_binary_string | warning |
 
 ##### shared
-
-###### paths
-| Rule                        | Default |
-| --------------------------- | ------- |
-| snake_case_only             | off     |
-| paths_case_convention       | error, lower_snake_case |
-
-##### responses
-| Rule                      | Default |
-| ------------------------- | ------- |
-| inline_response_schema    | warning |
-
-###### schemas
-| Rule                        | Default |
-| --------------------------- | ------- |
-| invalid_type_format_pair    | error   |
-| snake_case_only             | off     |
 
 ###### walker
 | Rule                          | Default |

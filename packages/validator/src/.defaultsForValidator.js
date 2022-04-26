@@ -20,18 +20,16 @@
 
 const defaults = {
   'shared': {
-    'operations': {
-    },
-    'paths': {
-      'duplicate_path_parameter': 'warning',
-      'snake_case_only': 'off',
-      'paths_case_convention': ['error', 'lower_snake_case']
-    },
-    'responses': {
-      'inline_response_schema': 'warning'
-    },
+    // we need to leave the categories in the structure for
+    // the deprecation logic to behave in a helpful way
+    'operations': {},
+    'parameters': {},
+    'pagination': {},
+    'security_definitions': {},
+    'security': {},
+    'paths': {},
+    'responses': {},
     'schemas': {
-      'invalid_type_format_pair': 'error'
     },
     'walker': {
       'no_empty_descriptions': 'error',
@@ -43,18 +41,11 @@ const defaults = {
   },
   'swagger2': {
     'operations': {
-      'no_consumes_for_put_or_post': 'error',
-      'get_op_has_consumes': 'warning',
-      'no_produces': 'warning'
     }
   },
   'oas3': {
-    'responses': {
-      'no_success_response_codes': 'warning',
-      'protocol_switching_and_success_code': 'error',
-      'no_response_body': 'warning',
-      'ibm_status_code_guidelines': 'warning'
-    },
+    'operations': {},
+    'responses': {},
     'schemas': {
       'json_or_param_binary_string': 'warning'
     }
@@ -71,7 +62,7 @@ const defaults = {
 }
 */
 const deprecated = {
-  'no_produces_for_get': 'no_produces',
+  'no_produces_for_get': '',
   'parameters.snake_case_only': 'parameter-case-convention (spectral rule)',
   'undefined_required_properties': 'missing-required-property (spectral rule)',
   'array_of_arrays': 'array-of-arrays (spectral rule)',
@@ -102,6 +93,19 @@ const deprecated = {
   'no_array_responses': 'array-responses (spectral rule)',
   'parameter_order': 'parameter-order (spectral rule)',
   'missing_path_parameter': 'path-params and path-declarations-must-exist (spectral rule)',
+  'duplicate_path_parameter': 'duplicate-path-parameter (spectral rule)',
+  'paths.snake_case_only': 'path-segment-case-convention (spectral rule)',
+  'paths_case_convention': 'path-segment-case-convention (spectral rule)',
+  'inline_response_schema': 'inline-response-schema (spectral rule)',
+  'no_success_response_codes': 'response-status-codes (spectral rule)',
+  'protocol_switching_and_success_code': 'response-status-codes (spectral rule)',
+  'no_response_body': 'response-status-codes (spectral rule)',
+  'ibm_status_code_guidelines': 'response-status-codes (spectral rule)',
+  'invalid_type_format_pair': 'valid-type-format (spectral rule)',
+  'schemas.snake_case_only': 'property-case-convention (spectral rule)',
+  'no_consumes_for_put_or_post': '',
+  'get_op_has_consumes': '',
+  'no_produces': ''
 };
 
 const configOptions = {
@@ -115,7 +119,6 @@ const configOptions = {
     'upper_dash_case'
   ]
 };
-
 
 module.exports.defaults = defaults;
 module.exports.deprecated = deprecated;
