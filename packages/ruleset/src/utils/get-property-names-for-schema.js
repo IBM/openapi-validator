@@ -9,7 +9,6 @@ const isObject = require('./is-object');
  * @param {function} validate - Validate function.
  * @returns {array} - Array of validation errors.
  */
- */
 const getPropertyNamesForSchema = (schema, propertyFilter = () => true) => {
   const propertyNames = [];
 
