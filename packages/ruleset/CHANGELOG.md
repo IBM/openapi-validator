@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.24.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.23.0...@ibm-cloud/openapi-ruleset@0.24.0) (2022-04-28)
+
+
+### Features
+
+* **ref-pattern:** add new 'ref-pattern' rule ([#439](https://github.com/IBM/openapi-validator/issues/439)) ([bdacf51](https://github.com/IBM/openapi-validator/commit/bdacf510941d808ee7ec4abcda2248b71d06dbdf))
+
 # @ibm-cloud/openapi-ruleset [0.23.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.22.0...@ibm-cloud/openapi-ruleset@0.23.0) (2022-04-26)
 
 
