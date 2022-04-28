@@ -1,0 +1,83 @@
+module.exports = function($ref, _opts, { path }) {
+  return checkRefPattern($ref, path);
+};
+
+// This object is used to categorize a $ref value, based on its path (location within the API document).
+// Each entry corresponds to a particular type of object to which we support references,
+// and coincidentally they also correspond to the various sections within the "components" field of the API definition.
+// If a $ref property's path matches against an entry's refPathRegex value, then that entry is used to
+// validate the $ref value (i.e. the $ref value must start with that entry's prefix value).
+// The entries of this object are ordered in descending order of presumed prevalence.
+const validRefPrefixes = {
+  schemas: {
+    refPathRegex: /,(schema)|(properties,[^,]+)|(items)|(additionalProperties)|((allOf|anyOf|oneOf),\d+)$/,
+    prefix: '#/components/schemas/'
+  },
+  parameters: {
+    refPathRegex: /,parameters,\d+$/,
+    prefix: '#/components/parameters/'
+  },
+  responses: {
+    refPathRegex: /,responses,[^,]+$/,
+    prefix: '#/components/responses/'
+  },
+  requestBodies: {
+    refPathRegex: /,requestBody$/,
+    prefix: '#/components/requestBodies/'
+  },
+  links: {
+    refPathRegex: /,links,[^,]+$/,
+    prefix: '#/components/links/'
+  },
+  examples: {
+    refPathRegex: /,examples,[^,]+$/,
+    prefix: '#/components/examples/'
+  },
+  headers: {
+    refPathRegex: /,headers,[^,]+$/,
+    prefix: '#/components/headers/'
+  },
+  securitySchemes: {
+    refPathRegex: /,securitySchemes,[^,]+$/,
+    prefix: '#/components/securitySchemes/'
+  },
+  callbacks: {
+    refPathRegex: /,callbacks,[^,]+$/,
+    prefix: '#/components/callbacks/'
+  }
+};
+
+function checkRefPattern($ref, path) {
+  // We're interested only in local refs (e.g. #/components/schemas/MyModel).
+  if (!$ref.startsWith('#')) {
+    return [];
+  }
+
+  // Compute the path of the $ref property's parent object
+  // by just removing the last element of "path" (which will be '$ref').
+  const parentPath = path.slice(0, path.length - 1);
+
+  const pathStr = parentPath.join(',');
+
+  // Walk through the entries of "validRefPrefixes" until we find the entry
+  // that applies to the location where the $ref property was found.
+  for (const [refType, entry] of Object.entries(validRefPrefixes)) {
+    if (pathStr.match(entry.refPathRegex)) {
+      if (!$ref.startsWith(entry.prefix)) {
+        return [
+          {
+            message: `$refs to ${refType} should start with '${entry.prefix}'`,
+            path
+          }
+        ];
+      }
+
+      // We want to do the check using only the first (and presumably only) "validRefPrefixes"
+      // entry that matches the current $ref property value being checked.
+      // So if the above check succeeds, then just bail out now.
+      return [];
+    }
+  }
+
+  return [];
+}

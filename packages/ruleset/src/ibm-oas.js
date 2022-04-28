@@ -126,6 +126,7 @@ module.exports = {
     'property-description': ibmRules.propertyDescription,
     'property-inconsistent-name-and-type':
       ibmRules.propertyInconsistentNameAndType,
+    'ref-pattern': ibmRules.refPattern,
     'request-body-name': ibmRules.requestBodyName,
     'request-body-object': ibmRules.requestBodyObject,
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,

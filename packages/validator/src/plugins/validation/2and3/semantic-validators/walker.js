@@ -6,19 +6,17 @@
 
 // Assertation 2:
 // In specific areas of a spec, allowed $ref values are restricted.
+// [Removed]
 
 // Assertation 3:
 // Sibling keys with $refs are not allowed - default set to `off`
 // http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#sibling-elements-for-refs
 
-const match = require('matcher');
 const { walk } = require('../../../utils');
 const MessageCarrier = require('../../../utils/message-carrier');
 
-module.exports.validate = function({ jsSpec, isOAS3 }, config) {
+module.exports.validate = function({ jsSpec, isOAS3 }) {
   const messages = new MessageCarrier();
-
-  config = config.walker;
 
   walk(jsSpec, [], function(obj, path) {
     // parent keys that allow non-string "type" properties. for example,
@@ -83,71 +81,10 @@ module.exports.validate = function({ jsSpec, isOAS3 }, config) {
         );
       }
     }
-
-    ///// Restricted $refs -- only check internal refs
-    if (obj.$ref && typeof obj.$ref === 'string' && obj.$ref.startsWith('#')) {
-      const blacklistPayload = getRefPatternBlacklist(path, isOAS3);
-      const refBlacklist = blacklistPayload.blacklist || [];
-      const matches = match([obj.$ref], refBlacklist);
-
-      if (refBlacklist && refBlacklist.length && matches.length) {
-        // Assertation 2
-        // use the slice(1) to remove the `!` negator from the string
-        messages.addMessage(
-          [...path, '$ref'],
-          `${
-            blacklistPayload.location
-          } $refs must follow this format: ${refBlacklist[0].slice(1)}`,
-          config.incorrect_ref_pattern,
-          'incorrect_ref_pattern'
-        );
-      }
-    }
   });
 
   return messages;
 };
-
-// values are globs!
-const unacceptableRefPatternsS2 = {
-  responses: ['!*#/responses*'],
-  schema: ['!*#/definitions*'],
-  parameters: ['!*#/parameters*']
-};
-
-const unacceptableRefPatternsOAS3 = {
-  responses: ['!*#/components/responses*'],
-  schema: ['!*#/components/schemas*'],
-  parameters: ['!*#/components/parameters*'],
-  requestBody: ['!*#/components/requestBodies*'],
-  security: ['!*#/components/securitySchemes*'],
-  callbacks: ['!*#/components/callbacks*'],
-  examples: ['!*#/components/examples*'],
-  headers: ['!*#/components/headers*'],
-  links: ['!*#/components/links*']
-};
-
-const exceptionedParents = ['properties'];
-
-function getRefPatternBlacklist(path, isOAS3) {
-  const unacceptableRefPatterns = isOAS3
-    ? unacceptableRefPatternsOAS3
-    : unacceptableRefPatternsS2;
-  let location = '';
-  const blacklist = path.reduce((prev, curr, i) => {
-    const parent = path[i - 1];
-    if (
-      unacceptableRefPatterns[curr] &&
-      exceptionedParents.indexOf(parent) === -1
-    ) {
-      location = curr;
-      return unacceptableRefPatterns[curr];
-    } else {
-      return prev;
-    }
-  }, null);
-  return { blacklist, location };
-}
 
 function greater(a, b) {
   // is a greater than b?

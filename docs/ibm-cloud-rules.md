@@ -62,6 +62,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: property-case-convention](#rule-property-case-convention)
   * [Rule: property-description](#rule-property-description)
   * [Rule: property-inconsistent-name-and-type](#rule-property-inconsistent-name-and-type)
+  * [Rule: ref-pattern](#rule-ref-pattern)
   * [Rule: request-body-name](#rule-request-body-name)
   * [Rule: request-body-object](#rule-request-body-object)
   * [Rule: response-error-response-schema](#rule-response-error-response-schema)
@@ -297,6 +298,12 @@ is provided in the [Reference](#reference) section below.
 <td>oas2, oas3</td>
 </tr>
 <tr>
+<td><a href="#rule-ref-pattern">ref-pattern</a></td>
+<td>warn</td>
+<td>Ensures that <code>$ref</code> values follow the correct patterns.</td>
+<td>oas3</td>
+</tr>
+<tr>
 <td><a href="#rule-request-body-name">request-body-name</a></td>
 <td>warn</td>
 <td>An operation should specify a request body name (with the <code>x-codegen-request-body-name</code> extension) if its requestBody
@@ -371,34 +378,36 @@ As mentioned above, the IBM Cloud Validation Ruleset (`@ibm-cloud/openapi-rulese
 the `spectral:oas` ruleset.  
 While all of the `spectral:oas` rules are included, only the following rules are enabled by default:
 ```
-oas2-operation-formData-consume-check: true
-operation-operationId-unique: true
-operation-parameters: true
-operation-tag-defined: true
-no-eval-in-markdown: true
-no-script-tags-in-markdown: true
-openapi-tags: true
-operation-description: true
-operation-tags: true
-path-params
-path-declarations-must-exist
-path-keys-no-trailing-slash: true
-path-not-include-query: true
-typed-enum: true
-oas2-api-host: true
-oas2-api-schemes: true
-oas2-host-trailing-slash: true
-oas2-valid-schema-example: 'warn'
-oas2-anyOf: true
-oas2-oneOf: true
-oas2-unused-definition: true
-oas3-api-servers: true
-oas3-examples-value-or-externalValue: true
-oas3-server-trailing-slash: true
-oas3-valid-media-example: 'warn'
-oas3-valid-schema-example: 'warn'
-oas3-schema: true
-oas3-unused-component: true
+'operation-operationId-unique': true,
+'operation-parameters': true,
+'operation-tag-defined': true,
+'info-description': 'off',
+'no-script-tags-in-markdown': true,
+'openapi-tags': true,
+'operation-description': true,
+'operation-operationId': true,
+'operation-tags': true,
+'path-params': true,
+'path-declarations-must-exist': true,
+'path-keys-no-trailing-slash': true,
+'path-not-include-query': true,
+'no-$ref-siblings': true,
+'typed-enum': true,
+'oas2-operation-formData-consume-check': true,
+'oas2-api-host': true,
+'oas2-api-schemes': true,
+'oas2-host-trailing-slash': true,
+'oas2-valid-schema-example': 'warn',
+'oas2-anyOf': true,
+'oas2-oneOf': true,
+'oas2-unused-definition': true,
+'oas3-api-servers': true,
+'oas3-examples-value-or-externalValue': true,
+'oas3-server-trailing-slash': true,
+'oas3-valid-media-example': 'warn',
+'oas3-valid-schema-example': 'warn',
+'oas3-schema': true,
+'oas3-unused-component': true
 ```
 
 ## Customization
@@ -2688,6 +2697,88 @@ components:
       properties:
         name:
           description: The name of the OtherThing.
+          type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: ref-pattern
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ref-pattern</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks each <code>$ref</code> value to make sure it follows the correct pattern based on
+the type of object it references.  For example, a reference to a schema should follow the pattern 
+<code>#/components/schemas/&lt;schema-name&gt;</code>.
+<p>Here is the full set of valid patterns for <code>$ref</code> values:
+<ul>
+<li><code>#/components/callbacks/&lt;name&gt;</code></li>
+<li><code>#/components/examples/&lt;name&gt;</code></li>
+<li><code>#/components/headers/&lt;name&gt;</code></li>
+<li><code>#/components/links/&lt;name&gt;</code></li>
+<li><code>#/components/parameters/&lt;name&gt;</code></li>
+<li><code>#/components/requestBodies/&lt;name&gt;</code></li>
+<li><code>#/components/responses/&lt;name&gt;</code></li>
+<li><code>#/components/schemas/&lt;name&gt;</code></li>
+<li><code>#/components/securitySchemes/&lt;name&gt;</code></li>
+</ul>
+The validator uses the <code>$ref</code> property's location within the API definition
+to determine the type of object being referenced.  For example, if the
+<code>$ref</code> property is found where a parameter object is expected, then the validator assumes
+that the <code>$ref</code> is referencing a parameter object, and that the reference should follow
+the pattern <code>#/components/parameters/&lt;param-name&gt;</code>.
+Incidentally, this rule also has the effect of ensuring that various types of objects are defined in their
+proper locations within the API definition's <code>components</code>field. 
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/definitions/Bar'
+definitions:
+  Bar:
+    type: object
+    properties:
+      bar:
+        type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: object
+      properties:
+        bar:
           type: string
 </pre>
 </td>
