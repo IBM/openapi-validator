@@ -1,73 +1,37 @@
-const arrayOfArrays = require('./array-of-arrays');
-const arrayResponses = require('./array-responses');
-const binarySchemas = require('./binary-schemas');
-const checkMajorVersion = require('./check-major-version');
-const descriptionMentionsJSON = require('./description-mentions-json');
-const disallowedHeaderParameter = require('./disallowed-header-parameter');
-const discriminator = require('./discriminator');
-const duplicatePathParameter = require('./duplicate-path-parameter');
-const enumCaseConvention = require('./enum-case-convention');
-const errorResponseSchema = require('./error-response-schema');
-const inlineResponseSchema = require('./inline-response-schema');
-const operationIdCaseConvention = require('./operation-id-case-convention');
-const operationIdNamingConvention = require('./operation-id-naming-convention');
-const operationSummary = require('./operation-summary');
-const paginationStyle = require('./pagination-style');
-const parameterCaseConvention = require('./parameter-case-convention');
-const parameterDefault = require('./parameter-default');
-const parameterDescription = require('./parameter-description');
-const parameterOrder = require('./parameter-order');
-const pathSegmentCaseConvention = require('./path-segment-case-convention');
-const propertyCaseCollision = require('./property-case-collision');
-const propertyCaseConvention = require('./property-case-convention');
-const propertyDescription = require('./property-description');
-const propertyInconsistentNameAndType = require('./property-inconsistent-name-and-type');
-const refPattern = require('./ref-pattern');
-const requestBodyName = require('./request-body-name');
-const requiredProperty = require('./required-property');
-const responseExampleProvided = require('./response-example-provided');
-const responseStatusCodes = require('./response-status-codes');
-const schemaDescription = require('./schema-description.js');
-const schemaOrContentProvided = require('./schema-or-content-provided');
-const { securitySchemes } = require('./security-schemes');
-const stringBoundary = require('./string-boundary');
-const { unusedTag } = require('./unused-tag');
-const validTypeFormat = require('./valid-type-format');
-
 module.exports = {
-  arrayOfArrays,
-  arrayResponses,
-  binarySchemas,
-  disallowedHeaderParameter,
-  checkMajorVersion,
-  descriptionMentionsJSON,
-  discriminator,
-  duplicatePathParameter,
-  enumCaseConvention,
-  errorResponseSchema,
-  inlineResponseSchema,
-  operationIdCaseConvention,
-  operationIdNamingConvention,
-  operationSummary,
-  paginationStyle,
-  parameterCaseConvention,
-  parameterDefault,
-  parameterDescription,
-  parameterOrder,
-  pathSegmentCaseConvention,
-  propertyCaseCollision,
-  propertyCaseConvention,
-  propertyDescription,
-  propertyInconsistentNameAndType,
-  refPattern,
-  requestBodyName,
-  requiredProperty,
-  responseExampleProvided,
-  responseStatusCodes,
-  schemaDescription,
-  schemaOrContentProvided,
-  stringBoundary,
-  securitySchemes,
-  unusedTag,
-  validTypeFormat
+  arrayOfArrays: require('./array-of-arrays'),
+  arrayResponses: require('./array-responses'),
+  binarySchemas: require('./binary-schemas'),
+  checkMajorVersion: require('./check-major-version'),
+  descriptionMentionsJSON: require('./description-mentions-json'),
+  disallowedHeaderParameter: require('./disallowed-header-parameter'),
+  discriminator: require('./discriminator'),
+  duplicatePathParameter: require('./duplicate-path-parameter'),
+  enumCaseConvention: require('./enum-case-convention'),
+  errorResponseSchema: require('./error-response-schema'),
+  inlineResponseSchema: require('./inline-response-schema'),
+  operationIdCaseConvention: require('./operation-id-case-convention'),
+  operationIdNamingConvention: require('./operation-id-naming-convention'),
+  operationSummary: require('./operation-summary'),
+  paginationStyle: require('./pagination-style'),
+  parameterCaseConvention: require('./parameter-case-convention'),
+  parameterDefault: require('./parameter-default'),
+  parameterDescription: require('./parameter-description'),
+  parameterOrder: require('./parameter-order'),
+  pathSegmentCaseConvention: require('./path-segment-case-convention'),
+  propertyCaseCollision: require('./property-case-collision'),
+  propertyCaseConvention: require('./property-case-convention'),
+  propertyDescription: require('./property-description'),
+  propertyInconsistentNameAndType: require('./property-inconsistent-name-and-type'),
+  refPattern: require('./ref-pattern'),
+  requestBodyName: require('./request-body-name'),
+  requiredProperty: require('./required-property'),
+  responseExampleProvided: require('./response-example-provided'),
+  responseStatusCodes: require('./response-status-codes'),
+  schemaDescription: require('./schema-description.js'),
+  schemaOrContentProvided: require('./schema-or-content-provided'),
+  securitySchemes: require('./security-schemes').securitySchemes,
+  stringBoundary: require('./string-boundary'),
+  unusedTag: require('./unused-tag').unusedTag,
+  validTypeFormat: require('./valid-type-format')
 };

@@ -1,71 +1,37 @@
-const checkCompositeSchemaForConstraint = require('./check-composite-schema-for-constraint');
-const checkCompositeSchemaForProperty = require('./check-composite-schema-for-property');
-const getPropertyNamesForSchema = require('./get-property-names-for-schema');
-const isDeprecated = require('./is-deprecated');
-const isFormMimeType = require('./is-form-mimetype');
-const isJsonMimeType = require('./is-json-mimetype');
-const isObject = require('./is-object');
-const isPrimitiveType = require('./is-primitive-type');
-const isSdkExcluded = require('./is-sdk-excluded');
-const mergeAllOfSchemaProperties = require('./merge-allof-schema-properties');
-const operationMethods = require('./constants');
-const pathMatchesRegexp = require('./path-matches-regexp');
-const schemaRequiresProperty = require('./schema-requires-property');
-const validateComposedSchemas = require('./validate-composed-schemas');
-const validateNestedSchemas = require('./validate-nested-schemas');
-const validateSubschemas = require('./validate-subschemas');
-const {
-  SchemaType,
-  getSchemaType,
-  isArraySchema,
-  isBinarySchema,
-  isByteSchema,
-  isBooleanSchema,
-  isDateSchema,
-  isDateTimeSchema,
-  isDoubleSchema,
-  isEnumerationSchema,
-  isFloatSchema,
-  isInt32Schema,
-  isInt64Schema,
-  isIntegerSchema,
-  isNumberSchema,
-  isObjectSchema,
-  isStringSchema
-} = require('./get-schema-type');
+const schemaTypeUtils = require('./get-schema-type');
 
 module.exports = {
-  checkCompositeSchemaForConstraint,
-  checkCompositeSchemaForProperty,
-  getPropertyNamesForSchema,
-  getSchemaType,
-  isArraySchema,
-  isBinarySchema,
-  isByteSchema,
-  isBooleanSchema,
-  isDateSchema,
-  isDateTimeSchema,
-  isDeprecated,
-  isDoubleSchema,
-  isEnumerationSchema,
-  isFloatSchema,
-  isFormMimeType,
-  isInt32Schema,
-  isInt64Schema,
-  isIntegerSchema,
-  isJsonMimeType,
-  isNumberSchema,
-  isObject,
-  isObjectSchema,
-  isPrimitiveType,
-  isSdkExcluded,
-  isStringSchema,
-  mergeAllOfSchemaProperties,
-  operationMethods,
-  pathMatchesRegexp,
-  schemaRequiresProperty,
-  validateComposedSchemas,
-  validateNestedSchemas,
-  validateSubschemas,
-  SchemaType
+  checkCompositeSchemaForConstraint: require('./check-composite-schema-for-constraint'),
+  checkCompositeSchemaForProperty: require('./check-composite-schema-for-property'),
+  getPropertyNamesForSchema: require('./get-property-names-for-schema'),
+  getSchemaType: schemaTypeUtils.getSchemaType,
+  isArraySchema: schemaTypeUtils.isArraySchema,
+  isBinarySchema: schemaTypeUtils.isBinarySchema,
+  isByteSchema: schemaTypeUtils.isByteSchema,
+  isBooleanSchema: schemaTypeUtils.isBooleanSchema,
+  isDateSchema: schemaTypeUtils.isDateSchema,
+  isDateTimeSchema: schemaTypeUtils.isDateTimeSchema,
+  isDeprecated: require('./is-deprecated'),
+  isDoubleSchema: schemaTypeUtils.isDoubleSchema,
+  isEnumerationSchema: schemaTypeUtils.isEnumerationSchema,
+  isFloatSchema: schemaTypeUtils.isFloatSchema,
+  isFormMimeType: require('./is-form-mimetype'),
+  isInt32Schema: schemaTypeUtils.isInt32Schema,
+  isInt64Schema: schemaTypeUtils.isInt64Schema,
+  isIntegerSchema: schemaTypeUtils.isIntegerSchema,
+  isJsonMimeType: require('./is-json-mimetype'),
+  isNumberSchema: schemaTypeUtils.isNumberSchema,
+  isObject: require('./is-object'),
+  isObjectSchema: schemaTypeUtils.isObjectSchema,
+  isPrimitiveType: require('./is-primitive-type'),
+  isSdkExcluded: require('./is-sdk-excluded'),
+  isStringSchema: schemaTypeUtils.isStringSchema,
+  mergeAllOfSchemaProperties: require('./merge-allof-schema-properties'),
+  operationMethods: require('./constants'),
+  pathMatchesRegexp: require('./path-matches-regexp'),
+  schemaRequiresProperty: require('./schema-requires-property'),
+  validateComposedSchemas: require('./validate-composed-schemas'),
+  validateNestedSchemas: require('./validate-nested-schemas'),
+  validateSubschemas: require('./validate-subschemas'),
+  SchemaType: schemaTypeUtils.SchemaType
 };
