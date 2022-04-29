@@ -31,7 +31,6 @@ const defaults = {
     'responses': {},
     'schemas': {},
     'walker': {
-      'has_circular_references': 'warning',
     }
   },
   'swagger2': {
@@ -104,7 +103,8 @@ const deprecated = {
   'no_empty_descriptions': 'schema-description, property-description, operation-description or parameter-description (spectral rules)',
   '$ref_siblings': 'no-$ref-siblings (spectral rule)',
   'duplicate_sibling_description': '',
-  'incorrect_ref_pattern': 'ref-pattern (spectral rule)'
+  'incorrect_ref_pattern': 'ref-pattern (spectral rule)',
+  'has_circular_references': 'circular-refs (spectral rule)',
 };
 
 const configOptions = {

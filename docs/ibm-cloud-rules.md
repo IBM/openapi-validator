@@ -33,6 +33,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: array-responses](#rule-array-responses)
   * [Rule: authorization-parameter](#rule-authorization-parameter)
   * [Rule: binary-schemas](#rule-binary-schemas)
+  * [Rule: circular-refs](#rule-circular-refs)
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
   * [Rule: content-type-parameter](#rule-content-type-parameter)
@@ -121,6 +122,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-binary-schemas">binary-schemas</a></td>
 <td>warn</td>
 <td>Makes sure that binary schemas are used only in proper locations within the API definition</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-circular-refs">circular-refs</a></td>
+<td>warn</td>
+<td>Makes sure that the API definition doesn't contain any circular references</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -885,6 +892,74 @@ paths:
               schema:
                 type: string
                 format: binary
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: circular-refs
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>circular-refs</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks to make sure that the API definition doesn't contain circular references.
+A circular reference (or cycle) would be a <code>$ref</code> to some sort of object (e.g. a schema) 
+where traversing the referenced object's various sub-objects (e.g. schema properties, allOf/anyOf/oneOf lists, 
+"additionalProperties", "items", etc.) leads us to a <code>$ref</code> that is a reference to the original referenced object.
+One example of a circular reference would be a schema "Foo" that contains a property "foo" that is
+an instance of "Foo" itself.  Another example would be a "Foo" schema that contains property
+"bar" that is an instance of the "Bar" schema, and "Bar" contains a property "foo" that is an instance of the "Foo" schema.
+Any reference to either "Foo" or "Bar" will be a circular reference.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: object
+      properties:
+        foo:
+          $ref: '#/components/schemas/Foo'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      type: object
+      properties:
+        bar:
+          $ref: '#/components/schemas/Bar'
+    Bar:
+      type: object
+      properties:
+        foo_id:               # include only the Foo instance's id,
+          type: string        # not the entire Foo instance
+
 </pre>
 </td>
 </tr>

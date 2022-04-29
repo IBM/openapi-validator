@@ -29,6 +29,9 @@ This document outlines how to configure and use the IBM Cloud Legacy Validation 
 <!-- tocstop -->
 
 ### Setup
+Note: At this point in time, all of the rules within the IBM Cloud Legacy Validation ruleset have either been removed or
+replaced with equivalent spectral-style rules in the IBM Cloud Validation Ruleset (`@ibm-cloud/openapi-ruleset`).
+
 To prepare for creating a customized configuration of the legacy validation rules, simply run the command `lint-openapi init`.
 This will create (or overwrite) a `.validaterc` file with all rules set to their [default value](#default-values).
 This command does not create a `.validateignore`. That file must be created manually. These rules can then be changed to configure the validator. Continue reading for more details.
@@ -67,11 +70,6 @@ Each category contains a group of rules. The spec that each rule applies to is m
 You can use the `-v` option of the CLI validator to display the rule for each reported result.
 The supported rules are described below:
 
-##### walker
-| Rule                          | Description                                                                  | Spec   |
-| ----------------------------- | ---------------------------------------------------------------------------- | ------ |
-| has_circular_references       | Flag any circular references found in the API document.                      | shared |
-
 [1]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md#dataTypeFormat
 [2]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#parameter-object
 [3]: https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md#requestBodyObject
@@ -109,6 +107,3 @@ The default values for each rule are described below.
 ##### shared
 
 ###### walker
-| Rule                          | Default |
-| ----------------------------- | ------- |
-| has_circular_references       | warning |
