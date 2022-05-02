@@ -43,7 +43,6 @@ as well as IBM-defined best practices.
     + [Validation results](#validation-results)
 - [Configuration](#configuration)
   * [IBM Cloud Validation Ruleset](#ibm-cloud-validation-ruleset)
-  * [IBM Cloud Legacy Ruleset](#ibm-cloud-legacy-ruleset)
 - [Warnings Limit](#warnings-limit)
 - [Turning off `update-notifier`](#turning-off-update-notifier)
 - [License](#license)
@@ -53,7 +52,7 @@ as well as IBM-defined best practices.
 ## Getting Started
 The validator analyzes your API definition and reports any problems within. The validator is highly customizable, and supports both OpenAPI 3.0 and OpenAPI 2.0 (Swagger 2.0) formats. The tool also supports a number of rules from [Spectral](https://stoplight.io/open-source/spectral/). You can easily extend the tool with custom rules to meet your specific needs and ensure compliance to your standards.
 
-The default configuration uses both OpenAPI 3.0 rules as well as Spectral rules. The [default mode](#default-mode) section describes these rules. Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.  
+Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.
 
 ### Customization
 
@@ -79,7 +78,7 @@ _If you installed the validator using `npm install -g ibm-openapi-validator`, yo
 ### Platform specific binaries
 It is possible to build platform specific binaries for Linux, MacOS, and Windows that do not depend on having node.js installed.
 
-To build these, run `npm run pkg` in the root.  The binaries (lint-openapi-linux, lint-openapi-macos, lint-openapi-windows.exe respectively) are built in the 'bin' directory in the root.
+To build these, run `npm run pkg` in the project root directory.  The binaries (lint-openapi-linux, lint-openapi-macos, lint-openapi-windows.exe respectively) are built in the project's 'bin' directory.
 
 ### Docker container
 A community Docker image is [publicly available on Docker hub](https://hub.docker.com/r/jamescooke/openapi-validator).
@@ -95,7 +94,6 @@ Once pulled, the container can be run directly, but mount a volume containing th
 `lint-openapi [options] [command] [<files>]`
 
 ##### [options]
--  -c (--config) <path/to/your/config> : Path to a validator configuration file.  If provided, this is used instead of .validaterc.
 -  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
 -  -e (--errors_only) : Only print the errors, ignore the warnings.
 -  -j (--json) : Output results as a JSON object
@@ -141,11 +139,6 @@ Type: `boolean`
 Default: `false`
 If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
 
-###### configFileOverride
-Type: `string`
-Default: `null`
-A path to a custom `.validaterc` file. Note that we are in the process of moving all of our configuration to Spectral. Once the transition is complete, this option will instead provide a path to a custom Spectral config file.
-
 ###### debug
 Type: `boolean`
 Default: `false`
@@ -174,18 +167,11 @@ The Promise returned from the validator resolves into a JSON object. The structu
 The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the OpenAPI document.
 
 ## Configuration
-Within the openapi-validator project, we are currently transitioning our legacy rules
-to the new IBM Cloud Validation ruleset (npm package `@ibm-cloud/openapi-ruleset`).
-Until we finish this transition, we'll have two rulesets - the IBM Cloud Validation ruleset (`@ibm-cloud/openapi-ruleset`) and the
-IBM Cloud Legacy ruleset (included as part of the validator itself).
-Once we finish transitioning the legacy rules to the new IBM Cloud Validation ruleset, we will
-remove the IBM Cloud Legacy ruleset.
+Within the openapi-validator project, we have transitioned our legacy rules
+to the new IBM Cloud Validation Ruleset (npm package `@ibm-cloud/openapi-ruleset`).
 
 ### IBM Cloud Validation Ruleset
 For information on how to configure and use the IBM Cloud Validation Ruleset, [click here](docs/ibm-cloud-rules.md).
-
-### IBM Cloud Legacy Ruleset
-For information on how to configure and use the IBM Cloud Legacy Ruleset, [click here](docs/ibm-legacy-rules.md).
 
 ## Warnings Limit
 
