@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.25.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.24.0...@ibm-cloud/openapi-ruleset@0.25.0) (2022-05-02)
+
+
+### Features
+
+* **circular-refs:** add new 'circular-refs' rule ([#441](https://github.com/IBM/openapi-validator/issues/441)) ([71d3c74](https://github.com/IBM/openapi-validator/commit/71d3c744f4f4666bd35dcfa1032834f62119db51))
+
 # @ibm-cloud/openapi-ruleset [0.24.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.23.0...@ibm-cloud/openapi-ruleset@0.24.0) (2022-04-28)
 
 
