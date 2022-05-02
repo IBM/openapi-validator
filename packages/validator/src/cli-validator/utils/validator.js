@@ -17,8 +17,6 @@ const sharedSemanticValidators = require('require-all')(
   __dirname + '/../../plugins/validation/2and3/semantic-validators'
 );
 
-const circularRefsValidator = require('./circular-references-ibm');
-
 const spectralValidator = require('../../spectral/spectral-validator');
 
 const validators = {
@@ -77,20 +75,6 @@ module.exports = function validateSwagger(
   if (parsedSpectralResults.hints.length) {
     validationResults.hints[key] = [...parsedSpectralResults.hints];
     validationResults.hint = true;
-  }
-
-  // run circular reference validator
-  if (allSpecs.circular) {
-    const problem = circularRefsValidator.validate(allSpecs, config);
-    const key = 'circular-references-ibm';
-    if (problem.errors.length) {
-      validationResults.errors[key] = [...problem.errors];
-      validationResults.error = true;
-    }
-    if (problem.warnings.length) {
-      validationResults.warnings[key] = [...problem.warnings];
-      validationResults.warning = true;
-    }
   }
 
   // run semantic validators

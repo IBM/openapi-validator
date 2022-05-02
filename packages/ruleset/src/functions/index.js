@@ -3,6 +3,7 @@ module.exports = {
   arrayResponses: require('./array-responses'),
   binarySchemas: require('./binary-schemas'),
   checkMajorVersion: require('./check-major-version'),
+  circularRefs: require('./circular-refs'),
   descriptionMentionsJSON: require('./description-mentions-json'),
   disallowedHeaderParameter: require('./disallowed-header-parameter'),
   discriminator: require('./discriminator'),

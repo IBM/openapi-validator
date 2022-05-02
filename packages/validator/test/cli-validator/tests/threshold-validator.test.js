@@ -17,7 +17,7 @@ describe('test the .thresholdrc limits', function() {
 
   it('should show error and set exit code to 1 when warning limit exceeded', async function() {
     const program = {};
-    program.args = ['./test/cli-validator/mock-files/circular-refs.yml'];
+    program.args = ['./test/cli-validator/mock-files/warn-threshold.yml'];
     program.limits =
       './test/cli-validator/mock-files/thresholds/five-warnings.json';
     program.default_mode = true;
