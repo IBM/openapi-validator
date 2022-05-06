@@ -13,7 +13,7 @@ const expectedMsgResponse =
 
 describe('Spectral rule: binary-schemas', () => {
   describe('Should not yield errors', () => {
-    it.only('Clean spec', async () => {
+    it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });

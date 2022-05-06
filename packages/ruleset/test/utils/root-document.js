@@ -184,7 +184,7 @@ module.exports = {
         }
       },
       put: {
-        operationId: 'upload_menu',
+        operationId: 'replace_menu',
         summary: 'Upload Drinks Menu',
         description: 'Publish a new Drinks Menu for public viewing.',
         tags: ['TestTag'],
