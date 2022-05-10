@@ -4,7 +4,7 @@ const {
 } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, checkRequiredProperties);
+  return validateSubschemas(schema, path, checkRequiredProperties, true, false);
 };
 
 function checkRequiredProperties(schema, path) {

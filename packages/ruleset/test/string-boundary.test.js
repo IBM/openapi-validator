@@ -28,6 +28,26 @@ describe('Spectral rule: string-boundary', () => {
     expect(results).toHaveLength(0);
   });
 
+  it('should not error when string schema is in a not', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].post.parameters = [
+      {
+        name: 'filter',
+        in: 'query',
+        schema: {
+          type: 'integer',
+          not: {
+            type: 'string'
+          }
+        }
+      }
+    ];
+
+    const results = await testRule(name, stringBoundary, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
   it('should not error for missing pattern when format is binary, byte, date, date-time, or url', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post.parameters = [
