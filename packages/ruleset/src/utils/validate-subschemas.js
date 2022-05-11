@@ -11,15 +11,23 @@ const validateNestedSchemas = require('./validate-nested-schemas');
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @param {array} path - Path array for the provided schema.
  * @param {function} validate - Validate function.
+ * @param {boolean} includeSelf - Whether to validate the provided schema (or just its composed schemas).
+ * @param {boolean} includeNot - Whether to validate schemas composed with `not`.
  * @returns {array} - Array of validation errors.
  */
-const validateSubschemas = (schema, path, validate) => {
+const validateSubschemas = (
+  schema,
+  path,
+  validate,
+  includeSelf = true,
+  includeNot = true
+) => {
   return validateNestedSchemas(
     schema,
     path,
-    (s, p) => validateComposedSchemas(s, p, validate, true, true),
-    true,
-    true
+    (s, p) => validateComposedSchemas(s, p, validate, true, includeNot),
+    includeSelf,
+    includeNot
   );
 };
 

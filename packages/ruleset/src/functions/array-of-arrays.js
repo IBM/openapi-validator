@@ -1,7 +1,7 @@
 const { validateSubschemas } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, arrayOfArrays);
+  return validateSubschemas(schema, path, arrayOfArrays, true, false);
 };
 
 function arrayOfArrays(schema, path) {

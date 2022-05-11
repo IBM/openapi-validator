@@ -124,6 +124,40 @@ describe('Spectral rule: missing-required-property', () => {
     expect(results).toHaveLength(0);
   });
 
+  it('should not error if not schema is missing a required property', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['v1/books'] = {
+      post: {
+        parameters: [
+          {
+            name: 'metadata',
+            in: 'header',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  not: {
+                    type: 'object',
+                    required: ['foo'],
+                    properties: {
+                      baz: {
+                        type: 'string'
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    };
+
+    const results = await testRule(name, missingRequiredProperty, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
   it('should error if allOf schema is missing a required property', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['v1/books'] = {

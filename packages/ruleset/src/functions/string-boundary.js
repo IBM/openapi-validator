@@ -1,7 +1,7 @@
 const { validateSubschemas } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, stringBoundaryErrors);
+  return validateSubschemas(schema, path, stringBoundaryErrors, true, false);
 };
 
 // Rudimentary debug logging that is useful in debugging this rule.

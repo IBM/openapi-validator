@@ -96,6 +96,15 @@ describe('Spectral rule: array-of-arrays', () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Array of array of strings used in not for schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Drink.not = arrayOfArrayOfString;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
