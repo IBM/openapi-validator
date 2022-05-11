@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.25.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.25.0...@ibm-cloud/openapi-ruleset@0.25.1) (2022-05-11)
+
+
+### Bug Fixes
+
+* Exclude inapplicable validation from not schemas ([#443](https://github.com/IBM/openapi-validator/issues/443)) ([9ea589e](https://github.com/IBM/openapi-validator/commit/9ea589ef41c9e6b1fd98f5bb122c560c55d9ff6c))
+
 # @ibm-cloud/openapi-ruleset [0.25.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.24.0...@ibm-cloud/openapi-ruleset@0.25.0) (2022-05-02)
 
 
