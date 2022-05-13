@@ -1,3 +1,18 @@
+## ibm-openapi-validator [0.76.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.76.1...ibm-openapi-validator@0.76.2) (2022-05-13)
+
+
+### Bug Fixes
+
+* **operation-id-naming-convention:** update rule with latest guidance ([#442](https://github.com/IBM/openapi-validator/issues/442)) ([cd42eaf](https://github.com/IBM/openapi-validator/commit/cd42eafaffa6c130dbb59a11d4845f5a6aa0ffe9))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.25.2
+
 ## ibm-openapi-validator [0.76.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.76.0...ibm-openapi-validator@0.76.1) (2022-05-11)
 
 
