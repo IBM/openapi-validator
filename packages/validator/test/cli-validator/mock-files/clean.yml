@@ -50,9 +50,9 @@ paths:
     put:
       tags:
       - "pet"
-      summary: "Update an existing pet"
+      summary: "Replace an existing pet"
       description: "put new data for existing pet"
-      operationId: "update_pet"
+      operationId: "replace_pet"
       consumes:
       - "application/json"
       - "application/xml"

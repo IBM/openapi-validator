@@ -129,7 +129,7 @@ describe('cli tool - test option handling', function() {
 
     // totals
     expect(capturedText[statsSection + 1].match(/\S+/g)[5]).toEqual('2');
-    expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('2');
+    expect(capturedText[statsSection + 2].match(/\S+/g)[5]).toEqual('3');
 
     // errors
     expect(capturedText[statsSection + 5].match(/\S+/g)[0]).toEqual('1');
@@ -140,10 +140,10 @@ describe('cli tool - test option handling', function() {
 
     // warnings
     expect(capturedText[statsSection + 9].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 9].match(/\S+/g)[1]).toEqual('(50%)');
+    expect(capturedText[statsSection + 9].match(/\S+/g)[1]).toEqual('(33%)');
 
     expect(capturedText[statsSection + 10].match(/\S+/g)[0]).toEqual('1');
-    expect(capturedText[statsSection + 10].match(/\S+/g)[1]).toEqual('(50%)');
+    expect(capturedText[statsSection + 10].match(/\S+/g)[1]).toEqual('(33%)');
   });
 
   it('should not print statistics report by default', async function() {
@@ -233,7 +233,7 @@ describe('cli tool - test option handling', function() {
         }
       }
     });
-    expect(warningCount).toEqual(1); // without the config this value is 4
+    expect(warningCount).toEqual(2); // without the config this value is 4
     expect(errorCount).toEqual(0);
   });
 

@@ -147,7 +147,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
     // console.warn(JSON.stringify(validationResults, null, 2));
 
     expect(validationResults.errors.length).toBe(3);
-    expect(validationResults.warnings.length).toBe(5);
+    expect(validationResults.warnings.length).toBe(6);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 
@@ -167,11 +167,11 @@ describe('cli tool - test expected output - Swagger 2', function() {
 
     // This can be uncommented to display the output when adjustments to
     // the expect statements below are needed.
-    // let textOutput = "";
-    // capturedText.forEach((elem, index) => {
-    //   textOutput += `[${index}]: ${elem}\n`;
-    // });
-    // console.warn(textOutput);
+    let textOutput = '';
+    capturedText.forEach((elem, index) => {
+      textOutput += `[${index}]: ${elem}\n`;
+    });
+    console.warn(textOutput);
 
     expect(exitCode).toEqual(1);
 
@@ -182,8 +182,9 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[4].match(/\S+/g)[2]).toEqual('59');
     expect(capturedText[8].match(/\S+/g)[2]).toEqual('172');
     // warnings
-    expect(capturedText[13].match(/\S+/g)[2]).toEqual('166');
-    expect(capturedText[17].match(/\S+/g)[2]).toEqual('197');
+    expect(capturedText[13].match(/\S+/g)[2]).toEqual('59');
+    expect(capturedText[17].match(/\S+/g)[2]).toEqual('166');
+    expect(capturedText[21].match(/\S+/g)[2]).toEqual('197');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
@@ -366,7 +367,7 @@ describe('test expected output - OpenAPI 3', function() {
     const validationResults = await inCodeValidator(oas3Object, defaultMode);
 
     expect(validationResults.errors.length).toBe(3);
-    expect(validationResults.warnings.length).toBe(46);
+    expect(validationResults.warnings.length).toBe(47);
     expect(validationResults.infos).not.toBeDefined();
     expect(validationResults.hints).not.toBeDefined();
 
