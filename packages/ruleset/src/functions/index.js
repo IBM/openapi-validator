@@ -1,4 +1,5 @@
 module.exports = {
+  arrayItems: require('./array-items'),
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
   binarySchemas: require('./binary-schemas'),

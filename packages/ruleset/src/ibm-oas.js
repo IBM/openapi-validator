@@ -92,6 +92,7 @@ module.exports = {
     // IBM Custom Rules
 
     'accept-parameter': ibmRules.acceptParameter,
+    'array-items': ibmRules.arrayItems,
     'array-of-arrays': ibmRules.arrayOfArrays,
     'array-responses': ibmRules.arrayResponses,
     'authorization-parameter': ibmRules.authorizationParameter,
