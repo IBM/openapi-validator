@@ -209,6 +209,99 @@ describe('Spectral rule: string-boundary', () => {
     expect(validation.severity).toBe(severityCodes.warning);
   });
 
+  it('should error if non-string schema defines a `pattern` field', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] = {
+      schema: {
+        type: 'integer',
+        pattern: '.*'
+      }
+    };
+
+    const results = await testRule(name, stringBoundary, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(name);
+    expect(validation.message).toBe(
+      'pattern should not be defined for a non-string schema'
+    );
+    expect(validation.path).toStrictEqual([
+      'paths',
+      '/v1/movies',
+      'post',
+      'requestBody',
+      'content',
+      'text/plain',
+      'schema',
+      'pattern'
+    ]);
+    expect(validation.severity).toBe(severityCodes.warning);
+  });
+
+  it('should error if non-string schema defines a `minLength` field', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] = {
+      schema: {
+        type: 'integer',
+        minLength: 15
+      }
+    };
+
+    const results = await testRule(name, stringBoundary, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(name);
+    expect(validation.message).toBe(
+      'minLength should not be defined for a non-string schema'
+    );
+    expect(validation.path).toStrictEqual([
+      'paths',
+      '/v1/movies',
+      'post',
+      'requestBody',
+      'content',
+      'text/plain',
+      'schema',
+      'minLength'
+    ]);
+    expect(validation.severity).toBe(severityCodes.warning);
+  });
+
+  it('should error if non-string schema defines a `maxLength` field', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] = {
+      schema: {
+        type: 'integer',
+        maxLength: 15
+      }
+    };
+
+    const results = await testRule(name, stringBoundary, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(name);
+    expect(validation.message).toBe(
+      'maxLength should not be defined for a non-string schema'
+    );
+    expect(validation.path).toStrictEqual([
+      'paths',
+      '/v1/movies',
+      'post',
+      'requestBody',
+      'content',
+      'text/plain',
+      'schema',
+      'maxLength'
+    ]);
+    expect(validation.severity).toBe(severityCodes.warning);
+  });
+
   it('should error if string schema has a `minLength` value greater than the `maxLength` value', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] = {
@@ -226,7 +319,9 @@ describe('Spectral rule: string-boundary', () => {
 
     const validation = results[0];
     expect(validation.code).toBe(name);
-    expect(validation.message).toBe('minLength must be less than maxLength');
+    expect(validation.message).toBe(
+      'minLength cannot be greater than maxLength'
+    );
     expect(validation.path).toStrictEqual([
       'paths',
       '/v1/movies',

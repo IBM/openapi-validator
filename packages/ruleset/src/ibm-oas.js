@@ -123,6 +123,7 @@ module.exports = {
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
     'path-segment-case-convention': ibmRules.pathSegmentCaseConvention,
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
+    'property-attributes': ibmRules.propertyAttributes,
     'property-case-collision': ibmRules.propertyCaseCollision,
     'property-case-convention': ibmRules.propertyCaseConvention,
     'property-description': ibmRules.propertyDescription,

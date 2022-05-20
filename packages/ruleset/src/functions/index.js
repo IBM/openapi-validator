@@ -21,6 +21,7 @@ module.exports = {
   parameterDescription: require('./parameter-description'),
   parameterOrder: require('./parameter-order'),
   pathSegmentCaseConvention: require('./path-segment-case-convention'),
+  propertyAttributes: require('./property-attributes'),
   propertyCaseCollision: require('./property-case-collision'),
   propertyCaseConvention: require('./property-case-convention'),
   propertyDescription: require('./property-description'),

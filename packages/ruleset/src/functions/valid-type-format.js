@@ -57,8 +57,12 @@ function typeFormatErrors(schema, path) {
         path
       });
     }
-  } else {
-    // Type is defined, so let's first make sure that it is a valid type.
+  } else if (typeof schema.type === 'string') {
+    // Make sure that 'type' is a string before we start using it as such.
+    // If it isn't, we'll simply ignore this schema because a different rule
+    // will detect the incorrect 'type' property.
+
+    // Type is defined and is a string, so let's first make sure that it is a valid type.
     if (!validTypes.includes(schema.type.toLowerCase())) {
       errors.push({
         message: invalidTypeErrorMsg,

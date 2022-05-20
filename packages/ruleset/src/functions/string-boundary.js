@@ -21,53 +21,71 @@ const bypassFormats = {
 };
 
 function stringBoundaryErrors(schema, path) {
-  // We're only interested in checking string properties.
-  if (schema.type !== 'string') {
-    return [];
-  }
-
   const errors = [];
-  if (isUndefinedOrNull(schema.enum)) {
-    if (
-      isUndefinedOrNull(schema.pattern) &&
-      !bypassFormats.pattern.includes(schema.format)
-    ) {
-      errors.push({
-        message: 'Should define a pattern for a valid string',
-        path
-      });
-      debug('>>> pattern field missing for: ' + path.join('.'));
+
+  if (schema.type === 'string') {
+    if (isUndefinedOrNull(schema.enum)) {
+      if (
+        isUndefinedOrNull(schema.pattern) &&
+        !bypassFormats.pattern.includes(schema.format)
+      ) {
+        errors.push({
+          message: 'Should define a pattern for a valid string',
+          path
+        });
+        debug('>>> pattern field missing for: ' + path.join('.'));
+      }
+      if (
+        isUndefinedOrNull(schema.minLength) &&
+        !bypassFormats.minLength.includes(schema.format)
+      ) {
+        errors.push({
+          message: 'Should define a minLength for a valid string',
+          path
+        });
+        debug('>>> minLength field missing for: ' + path.join('.'));
+      }
+      if (
+        isUndefinedOrNull(schema.maxLength) &&
+        !bypassFormats.maxLength.includes(schema.format)
+      ) {
+        errors.push({
+          message: 'Should define a maxLength for a valid string',
+          path
+        });
+        debug('>>> maxLength field missing for: ' + path.join('.'));
+      }
+      if (
+        !isUndefinedOrNull(schema.minLength) &&
+        !isUndefinedOrNull(schema.maxLength) &&
+        schema.minLength > schema.maxLength
+      ) {
+        errors.push({
+          message: 'minLength cannot be greater than maxLength',
+          path
+        });
+        debug('>>> minLength >= maxLength for: ' + path.join('.'));
+      }
     }
-    if (
-      isUndefinedOrNull(schema.minLength) &&
-      !bypassFormats.minLength.includes(schema.format)
-    ) {
+  } else {
+    // Make sure that string-related fields are not present in a non-string schema.
+    if (schema.pattern) {
       errors.push({
-        message: 'Should define a minLength for a valid string',
-        path
+        message: 'pattern should not be defined for a non-string schema',
+        path: [...path, 'pattern']
       });
-      debug('>>> minLength field missing for: ' + path.join('.'));
     }
-    if (
-      isUndefinedOrNull(schema.maxLength) &&
-      !bypassFormats.maxLength.includes(schema.format)
-    ) {
+    if (schema.minLength) {
       errors.push({
-        message: 'Should define a maxLength for a valid string',
-        path
+        message: 'minLength should not be defined for a non-string schema',
+        path: [...path, 'minLength']
       });
-      debug('>>> maxLength field missing for: ' + path.join('.'));
     }
-    if (
-      !isUndefinedOrNull(schema.minLength) &&
-      !isUndefinedOrNull(schema.maxLength) &&
-      schema.minLength > schema.maxLength
-    ) {
+    if (schema.maxLength) {
       errors.push({
-        message: 'minLength must be less than maxLength',
-        path
+        message: 'maxLength should not be defined for a non-string schema',
+        path: [...path, 'maxLength']
       });
-      debug('>>> minLength >= maxLength for: ' + path.join('.'));
     }
   }
   return errors;

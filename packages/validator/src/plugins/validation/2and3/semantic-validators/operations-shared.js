@@ -1,8 +1,10 @@
 // Assertations
 
 // Operations must have unique (name + in combination) parameters.
+// Covered by spectral:oas 'operation-parameters' rule
 
 // `operationId` should adhere to a given case convention
+// Replaced by new rule
 
 // Arrays MUST NOT be returned as the top-level structure in a response body.
 // ref: https://pages.github.ibm.com/CloudEngineering/api_handbook/fundamentals/format.html#object-encapsulation
