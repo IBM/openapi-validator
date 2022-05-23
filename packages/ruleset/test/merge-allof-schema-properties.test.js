@@ -69,7 +69,7 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
     const expectedResult = {
       description: 'the description',
       type: 'object',
-      required: ['prop1', 'prop2'],
+      required: ['prop2', 'prop1'],
       properties: {
         prop1: {
           type: 'string'
@@ -86,9 +86,48 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);
   });
 
+  it('should return correct page-link schema', async () => {
+    const schema = {
+      allOf: [
+        {
+          type: 'object',
+          description: 'pagelink schema',
+          required: ['href'],
+          properties: {
+            href: {
+              type: 'string',
+              description: 'the href property',
+              example: 'the wrong href example'
+            }
+          }
+        }
+      ],
+      description: 'a link to the first page of results',
+      properties: {
+        href: {
+          example: 'the correct href example'
+        }
+      }
+    };
+
+    const expectedResult = {
+      description: 'a link to the first page of results',
+      type: 'object',
+      required: ['href'],
+      properties: {
+        href: {
+          type: 'string',
+          description: 'the href property',
+          example: 'the correct href example'
+        }
+      }
+    };
+
+    expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);
+  });
+
   it('should return correct merged paginated response schema', async () => {
     const schema = {
-      description: 'A paginated response schema',
       allOf: [
         {
           description: 'Pagination base properties',
@@ -113,6 +152,7 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
         {
           type: 'object',
           required: ['resources'],
+          description: 'A paginated response schema',
           properties: {
             resources: {
               description: 'The resources contained in a page of list results.',

@@ -334,18 +334,24 @@ function paginationStyle(pathItem, path) {
   // Reference: https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-pagination#pagination-links
 
   // Check #9: The response body should contain a "first" property which links to the first page of results.
-  results.push(...checkPageLink(responseSchemaPath, responseSchema, 'first'));
+  results.push(
+    ...checkPageLink(responseSchemaPath, responseSchema, 'first', true)
+  );
 
   // Check #10: The response body should contain a "last" property which links to the last page of results.
-  results.push(...checkPageLink(responseSchemaPath, responseSchema, 'last'));
+  results.push(
+    ...checkPageLink(responseSchemaPath, responseSchema, 'last', false)
+  );
 
   // Check #11: The response body should contain a "previous" property which links to the previous page of results.
   results.push(
-    ...checkPageLink(responseSchemaPath, responseSchema, 'previous')
+    ...checkPageLink(responseSchemaPath, responseSchema, 'previous', false)
   );
 
   // Check #12: The response body should contain a "next" property which links to the next page of results.
-  results.push(...checkPageLink(responseSchemaPath, responseSchema, 'next'));
+  results.push(
+    ...checkPageLink(responseSchemaPath, responseSchema, 'next', true)
+  );
 
   if (results.length > 0) {
     debug('Results: ' + JSON.stringify(results, null, 2));
@@ -358,16 +364,13 @@ function paginationStyle(pathItem, path) {
 
 // Verify that the '<name>' property exists within 'responseSchema'
 // and represents a valid "page link" value (an object with an "href" field).
-function checkPageLink(path, responseSchema, name) {
+// The 'isRequired' flag indicates whether the specified property is required
+// to be present or not.
+function checkPageLink(path, responseSchema, name, isRequired) {
   const results = [];
 
   const pageLinkProp = responseSchema.properties[name];
-  if (!pageLinkProp) {
-    results.push({
-      message: `A paginated list operation should include a "${name}" property in the response body schema`,
-      path
-    });
-  } else {
+  if (pageLinkProp) {
     const pageLinkSchema = mergeAllOfSchemaProperties(pageLinkProp);
     if (
       !pageLinkSchema ||
@@ -380,6 +383,11 @@ function checkPageLink(path, responseSchema, name) {
         path: [...path, 'properties', name]
       });
     }
+  } else if (isRequired) {
+    results.push({
+      message: `A paginated list operation should include a "${name}" property in the response body schema`,
+      path
+    });
   }
 
   return results;

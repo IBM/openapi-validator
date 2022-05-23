@@ -11,6 +11,22 @@ describe('Spectral rule: pagination-style', () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
+    it('Valid pagination with no "previous" or "last" properties', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // Delete the "previous" and "last" properties from our two pagination base schemas.
+      delete testDocument.components.schemas.OffsetPaginationBase.properties
+        .previous;
+      delete testDocument.components.schemas.OffsetPaginationBase.properties
+        .last;
+      delete testDocument.components.schemas.TokenPaginationBase.properties
+        .previous;
+      delete testDocument.components.schemas.TokenPaginationBase.properties
+        .last;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
     it('Invalid pagination on non-get operation', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -582,7 +598,7 @@ describe('Spectral rule: pagination-style', () => {
           .properties.next;
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(4);
+        expect(results).toHaveLength(2);
         for (const r of results) {
           expect(r.code).toBe(ruleId);
           expect(r.message).toMatch(expectedMsgPagelinkRE);
