@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.77.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.76.2...ibm-openapi-validator@0.77.0) (2022-05-23)
+
+
+### Features
+
+* **array-items:** add new 'array-items' spectral-style rule ([#445](https://github.com/IBM/openapi-validator/issues/445)) ([defa1d6](https://github.com/IBM/openapi-validator/commit/defa1d6752c2da35d08653012fb88cf13f2e8e55))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.26.0
+
 ## ibm-openapi-validator [0.76.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.76.1...ibm-openapi-validator@0.76.2) (2022-05-13)
 
 
