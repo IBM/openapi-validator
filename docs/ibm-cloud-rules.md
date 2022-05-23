@@ -29,6 +29,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
   * [Rule: accept-parameter](#rule-accept-parameter)
+  * [Rule: array-items](#rule-array-items)
   * [Rule: array-of-arrays](#rule-array-of-arrays)
   * [Rule: array-responses](#rule-array-responses)
   * [Rule: authorization-parameter](#rule-authorization-parameter)
@@ -99,6 +100,12 @@ is provided in the [Reference](#reference) section below.
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Accept</code> header parameter</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-array-items">array-items</a></td>
+<td>warn</td>
+<td>Array schemas must specify the <code>items</code> property</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-array-of-arrays">array-of-arrays</a></td>
@@ -621,6 +628,67 @@ paths:
               schema:
                 $ref: '#/components/schemas/ThingCollection'
 
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: array-items
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>array-items</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks to make sure that array schemas properly specify the <code>items</code> property
+to define the type of elements contained in the array.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          field1:
+            type: array
+          field2:
+            type: array
+            items: 'not a schema'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+requestBody:
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          field1:
+            type: array
+            items:
+              type: string
+          field2:
+            type: array
+            items: 
+              $ref: '#/components/schemas/SomeSchema'
 </pre>
 </td>
 </tr>

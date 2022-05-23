@@ -1,5 +1,6 @@
 module.exports = {
   acceptParameter: require('./accept-parameter'),
+  arrayItems: require('./array-items'),
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
   authorizationParameter: require('./authorization-parameter'),
