@@ -167,11 +167,11 @@ describe('cli tool - test expected output - Swagger 2', function() {
 
     // This can be uncommented to display the output when adjustments to
     // the expect statements below are needed.
-    let textOutput = '';
-    capturedText.forEach((elem, index) => {
-      textOutput += `[${index}]: ${elem}\n`;
-    });
-    console.warn(textOutput);
+    // let textOutput = '';
+    // capturedText.forEach((elem, index) => {
+    //   textOutput += `[${index}]: ${elem}\n`;
+    // });
+    // console.warn(textOutput);
 
     expect(exitCode).toEqual(1);
 
