@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.26.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.26.0...@ibm-cloud/openapi-ruleset@0.26.1) (2022-05-24)
+
+
+### Bug Fixes
+
+* **pagination-style:** fix issues in 'pagination-style' rule ([#447](https://github.com/IBM/openapi-validator/issues/447)) ([f3b2483](https://github.com/IBM/openapi-validator/commit/f3b2483d08700ffc134e8c1afa97f749e3ad9a1f))
+
 # @ibm-cloud/openapi-ruleset [0.26.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.25.2...@ibm-cloud/openapi-ruleset@0.26.0) (2022-05-23)
 
 
