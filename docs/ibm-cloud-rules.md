@@ -60,6 +60,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
   * [Rule: path-segment-case-convention](#rule-path-segment-case-convention)
   * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
+  * [Rule: property-attributes](#rule-property-attributes)
   * [Rule: property-case-collision](#rule-property-case-collision)
   * [Rule: property-case-convention](#rule-property-case-convention)
   * [Rule: property-description](#rule-property-description)
@@ -285,6 +286,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-prohibit-summary-sentence-style">prohibit-summary-sentence-style</a></td>
 <td>warn</td>
 <td>An operation's <code>summary</code> field should not have a trailing period</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-property-attributes">property-attributes</a></td>
+<td>error</td>
+<td>Performs a series of checks on the attributes defined for various schema types</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -2589,6 +2596,98 @@ paths:
       operationId: list_things
       summary: List Things
       description: Retrieve a paginated collection of Thing instances.
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: property-attributes
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>property-attributes</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule performs the following checks on schemas and schema properties:
+<dl>
+<dt>Numeric schemas (type=integer, type=number):</dt>
+<dd>
+<ul>
+<li><code>minimum</code> must not be greater than <code>maximum</code>.</li>
+<li><code>minimum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
+<li><code>maximum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
+</ul>
+</dd>
+<dt>Array schemas (type=array):</dt>
+<dd>
+<ul>
+<li><code>minItems</code> must not be greater than <code>maxItems</code>.</li>
+<li><code>minItems</code> must not be defined for a schema type other than <code>array</code>.</li>
+<li><code>maxItems</code> must not be defined for a schema type other than <code>array</code>.</li>
+</ul>
+</dd>
+<dt>Object schemas (type=object):</dt>
+<dd>
+<ul>
+<li><code>minProperties</code> must not be greater than <code>maxProperties</code>.</li>
+<li><code>minProperties</code> must not be defined for a schema type other than <code>object</code>.</li>
+<li><code>maxProperties</code> must not be defined for a schema type other than <code>object</code>.</li>
+</ul>
+</dd>
+</dl>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_names:
+          type: array
+          items:
+            type: string
+          minItems: 10
+          maxItems: 5
+        thing_size:
+          type: integer,
+          minimum: 5
+          maximum: 4
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_names:
+          type: array
+          items:
+            type: string
+          minItems: 5
+          maxItems: 10
+        thing_size:
+          type: integer,
+          minimum: 4
+          maximum: 5
 </pre>
 </td>
 </tr>

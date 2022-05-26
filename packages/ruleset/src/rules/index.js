@@ -31,6 +31,7 @@ module.exports = {
   parameterSchemaOrContent: require('./parameter-schema-or-content'),
   pathSegmentCaseConvention: require('./path-segment-case-convention'),
   prohibitSummarySentenceStyle: require('./prohibit-summary-sentence-style'),
+  propertyAttributes: require('./property-attributes'),
   propertyCaseCollision: require('./property-case-collision'),
   propertyCaseConvention: require('./property-case-convention'),
   propertyDescription: require('./property-description'),
