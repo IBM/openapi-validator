@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.27.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.26.1...@ibm-cloud/openapi-ruleset@0.27.0) (2022-05-26)
+
+
+### Features
+
+* **property-attributes:** add new 'property-attributes' spectral-style rule ([#446](https://github.com/IBM/openapi-validator/issues/446)) ([dbc9980](https://github.com/IBM/openapi-validator/commit/dbc998095afe09481f547a9d7e290408529fa025))
+
 ## @ibm-cloud/openapi-ruleset [0.26.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.26.0...@ibm-cloud/openapi-ruleset@0.26.1) (2022-05-24)
 
 
