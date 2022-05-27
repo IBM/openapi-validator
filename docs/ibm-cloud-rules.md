@@ -72,6 +72,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: response-example-provided](#rule-response-example-provided)
   * [Rule: response-status-codes](#rule-response-status-codes)
   * [Rule: schema-description](#rule-schema-description)
+  * [Rule: schema-type](#rule-schema-type)
   * [Rule: security-scheme-attributes](#rule-security-scheme-attributes)
   * [Rule: security-schemes](#rule-security-schemes)
   * [Rule: server-variable-default-value](#rule-server-variable-default-value)
@@ -360,6 +361,12 @@ has non-form content.</td>
 <td><a href="#rule-schema-description">schema-description</a></td>
 <td>warn</td>
 <td>Schemas should have a non-empty description</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-schema-type">schema-type</a></td>
+<td>off</td>
+<td>Schemas and schema properties should have a non-empty <code>type</code> field. <b>This rule is disabled by default.</b></td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -3376,6 +3383,56 @@ components:
         validation rules may be applied to an API definition.
       type: object
       properties:
+        ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: schema-type
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>schema-type</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+Schemas should have a non-empty <code>type</code> field.
+<br><br>
+<b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>off</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      description: An underspecified schema
+        ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: string
+      description: An string schema
         ...
 </pre>
 </td>
