@@ -72,6 +72,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: response-example-provided](#rule-response-example-provided)
   * [Rule: response-status-codes](#rule-response-status-codes)
   * [Rule: schema-description](#rule-schema-description)
+  * [Rule: security-scheme-attributes](#rule-security-scheme-attributes)
   * [Rule: security-schemes](#rule-security-schemes)
   * [Rule: server-variable-default-value](#rule-server-variable-default-value)
   * [Rule: string-boundary](#rule-string-boundary)
@@ -360,6 +361,12 @@ has non-form content.</td>
 <td>warn</td>
 <td>Schemas should have a non-empty description</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-security-scheme-attributes">security-schemes</a></td>
+<td>warn</td>
+<td>Performs a series of validations on the content within security schemes</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-security-schemes">security-schemes</a></td>
@@ -3370,6 +3377,112 @@ components:
       type: object
       properties:
         ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: security-scheme-attributes
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>security-scheme-attributes</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Performs a series of validations on the content within security schemes to ensure they comply
+with the constraints outlined in the <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#security-scheme-object">OpenAPI Specification</a>.
+<p>Specifically, the rule will perform these checks:
+<ol>
+<li>Each security scheme must specify the <code>type</code> property. Valid values for the <code>type</code> property are:
+<ul>
+<li><code>apiKey</code></li>
+<li><code>http</code></li>
+<li><code>oauth2</code></li>
+<li><code>openIdConnect</code></li>
+</ul>
+</li>
+<li>A security scheme with type <code>apiKey</code> must specify the <code>name</code> and <code>in</code> properties.
+Valid values for the <code>in</code> property are:
+<ul>
+<li><code>cookie</code></li>
+<li><code>header</code></li>
+<li><code>query</code></li>
+</ul>
+</li>
+<li>A security scheme with type <code>http</code> must specify the <code>scheme</code> property.
+</li>
+<li>A security scheme with type <code>oauth2</code> must specify the <code>flows</code> property.
+<p>Furthermore, the <code>flows</code> property must be an object that defines at least one of the following keys:
+<ul>
+<li><code>implicit</code></li>
+<li><code>authorizationcode</code></li>
+<li><code>clientCredentials</code></li>
+<li><code>password</code></li>
+</ul>
+</p>
+<p>An <code>implicit</code> oauth2 flow must specify the <code>scopes</code> and <code>authorizationUrl</code> properties.</p>
+<p>A <code>password</code> or <code>clientCredentials</code> oauth2 flow must specify the <code>scopes</code> and <code>tokenUrl</code> properties.</p>
+<p>An <code>authorizationCode</code> oauth2 flow must specify the <code>scopes</code>, <code>authorizationUrl</code>, and <code>tokenUrl</code> properties.</p>
+</li>
+<li>A security scheme with type <code>openIdConnect</code> must specify the <code>openIdConnectUrl</code> property.
+</li>
+</ol>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  securitySchemes:
+    BasicAuthScheme:
+      type: http
+    IAMAuthScheme:
+      type: apiKey
+    OAuth2Scheme:
+      type: oauth2
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  securitySchemes:
+    BasicAuthScheme:
+      type: http
+      description: Basic authentication via the Authorization header
+      scheme: Basic
+      bearerFormat: bearer
+    IAMAuthScheme:
+      type: apiKey,
+      description: An IAM access token provided via the Authorization header
+      in: header
+      name: Authorization
+    OAuth2Scheme:
+      type: oauth2
+      description: Supported oauth2 authorizaton flows
+      flows:
+        implicit:
+          authorizationUrl: https://myoauthserver.com/auth
+          scopes:
+            writer: User can create resources
+        authorizationCode:
+          authorizationUrl: https://myoauthserver.com/auth
+          tokenUrl: https://myoauthserver.com/token
+          scopes:
+            reader: User can retrieve resources
 </pre>
 </td>
 </tr>

@@ -136,6 +136,7 @@ module.exports = {
     'response-example-provided': ibmRules.responseExampleProvided,
     'response-status-codes': ibmRules.responseStatusCodes,
     'schema-description': ibmRules.schemaDescription,
+    'security-scheme-attributes': ibmRules.securitySchemeAttributes,
     'security-schemes': ibmRules.securitySchemes,
     'server-variable-default-value': ibmRules.serverVariableDefaultValue,
     'string-boundary': ibmRules.stringBoundary,
