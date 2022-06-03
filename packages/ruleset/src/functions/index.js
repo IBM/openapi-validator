@@ -33,6 +33,7 @@ module.exports = {
   responseStatusCodes: require('./response-status-codes'),
   schemaDescription: require('./schema-description.js'),
   schemaOrContentProvided: require('./schema-or-content-provided'),
+  securitySchemeAttributes: require('./security-scheme-attributes'),
   securitySchemes: require('./security-schemes').securitySchemes,
   stringBoundary: require('./string-boundary'),
   unusedTag: require('./unused-tag').unusedTag,

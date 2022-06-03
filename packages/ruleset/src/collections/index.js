@@ -35,11 +35,14 @@ const unresolvedResponseSchemas = [
   '$.components.responses[*].content[*].schema'
 ];
 
+const securitySchemes = ['$.components.securitySchemes[*]'];
+
 module.exports = {
   responseSchemas,
   operations,
   parameters,
   paths,
   unresolvedResponseSchemas,
-  schemas
+  schemas,
+  securitySchemes
 };

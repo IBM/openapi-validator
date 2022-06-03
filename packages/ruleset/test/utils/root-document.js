@@ -830,30 +830,33 @@ module.exports = {
     },
     securitySchemes: {
       IAM: {
-        in: 'header',
-        name: 'Authorization',
         type: 'apiKey',
-        scheme: 'Bearer'
+        description:
+          'An IAM access token provided via the Authorization header',
+        in: 'header',
+        name: 'Authorization'
       },
       Basic: {
-        in: 'header',
-        name: 'Authorization',
         type: 'http',
-        scheme: 'Basic'
+        description: 'A basic-auth type Authorization header',
+        scheme: 'Basic',
+        bearerFormat: 'bearer'
       },
       DrinkScheme: {
-        in: 'header',
-        name: 'Authorization',
         type: 'oauth2',
-        scheme: 'Bearer',
+        description: 'An oauth2 authorizaton flow',
         flows: {
           implicit: {
+            authorizationUrl: 'https://myoauthserver.com/auth',
+            tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
               mixologist: 'Can create Drinks',
               drinker: 'Can consume beverages'
             }
           },
           authorizationCode: {
+            authorizationUrl: 'https://myoauthserver.com/auth',
+            tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
               mixologist: 'Can create Drinks'
             }
@@ -861,29 +864,42 @@ module.exports = {
         }
       },
       MovieScheme: {
-        in: 'header',
-        name: 'Authorization',
         type: 'oauth2',
-        scheme: 'Bearer',
+        description: 'An oauth2 authorizaton flow',
         flows: {
           implicit: {
+            authorizationUrl: 'https://myoauthserver.com/auth',
+            tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
               director: 'Can create Movies',
               moviegoer: 'Can view Movies'
             }
           },
           authorizationCode: {
+            authorizationUrl: 'https://myoauthserver.com/auth',
+            tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
               director: 'Can create Movies'
+            }
+          },
+          clientCredentials: {
+            tokenUrl: 'https://myoauthserver.com/token',
+            scopes: {
+              moviegoer: 'Can view Movies'
+            }
+          },
+          password: {
+            tokenUrl: 'https://myoauthserver.com/token',
+            scopes: {
+              moviegoer: 'Can view Movies'
             }
           }
         }
       },
       OpenIdScheme: {
-        in: 'header',
-        name: 'Authorization',
         type: 'openIdConnect',
-        openIdConnectUrl: 'https://oauth2.com'
+        description: 'An openid-connect authorization scheme',
+        openIdConnectUrl: 'https://myopenidserver.com/auth'
       }
     },
     responses: {
