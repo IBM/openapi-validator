@@ -525,6 +525,7 @@ module.exports = {
         }
       },
       Drink: {
+        type: 'object',
         description:
           'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
         oneOf: [
@@ -595,6 +596,7 @@ module.exports = {
         maxLength: 1024
       },
       DrinkCollection: {
+        type: 'object',
         description: 'A single page of results containing Drink instances.',
         allOf: [
           {
@@ -640,6 +642,7 @@ module.exports = {
         }
       },
       MovieCollection: {
+        type: 'object',
         description: 'A single page of results containing Movie instances.',
         allOf: [
           {

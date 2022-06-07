@@ -43,6 +43,7 @@ module.exports = {
   responseExampleProvided: require('./response-example-provided'),
   responseStatusCodes: require('./response-status-codes'),
   schemaDescription: require('./schema-description'),
+  schemaType: require('./schema-type'),
   securitySchemeAttributes: require('./security-scheme-attributes'),
   securitySchemes: require('./security-schemes'),
   serverVariableDefaultValue: require('./server-variable-default-value'),

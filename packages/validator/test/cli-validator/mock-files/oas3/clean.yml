@@ -104,6 +104,7 @@ paths:
 components:
   schemas:
     Pet:
+      type: object
       description:
         A pet
       required:
@@ -131,6 +132,7 @@ components:
         name: doggie
         tag: dog
     Pets:
+      type: object
       description:
         A list of pets
       required:
@@ -155,24 +157,28 @@ components:
           type: string
           description: next token
         first:
+          type: object
           description: Link to first page of results
           properties:
             href:
               description: Request URL string
               type: string
         last:
+          type: object
           description: Link to last page of results
           properties:
             href:
               description: Request URL string
               type: string
         previous:
+          type: object
           description: Link to previous page of results
           properties:
             href:
               description: Request URL string
               type: string
         next:
+          type: object
           description: Link to next page of results
           properties:
             href:
@@ -188,6 +194,7 @@ components:
         offset: 20
         next_token: TOKEN_STRING
     Error:
+      type: object
       description:
         An error in processing a service request
       required:
