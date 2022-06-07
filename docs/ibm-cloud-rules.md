@@ -117,7 +117,7 @@ is provided in the [Reference](#reference) section below.
 </tr>
 <tr>
 <td><a href="#rule-array-responses">array-responses</a></td>
-<td>warn</td>
+<td>error</td>
 <td>Operations should not return an array as the top-level structure of a response.</td>
 <td>oas3</td>
 </tr>
