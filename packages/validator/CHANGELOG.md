@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.80.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.79.0...ibm-openapi-validator@0.80.0) (2022-06-07)
+
+
+### Features
+
+* **schema-type:** add new 'schema-type' rule (disabled by default) ([#448](https://github.com/IBM/openapi-validator/issues/448)) ([4af3e9a](https://github.com/IBM/openapi-validator/commit/4af3e9a3522862c7540e6daba8e0cf4b7ba30874))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.29.0
+
 # ibm-openapi-validator [0.79.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.78.0...ibm-openapi-validator@0.79.0) (2022-06-03)
 
 
