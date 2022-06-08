@@ -1,4 +1,4 @@
-const { validateSubschemas } = require('../utils');
+const { getSchemaType, validateSubschemas, SchemaType } = require('../utils');
 
 // We need to look at properties across the entire API definition.
 // This will act as a global variable to hold all of the properties
@@ -20,8 +20,10 @@ function propertyInconsistentNameAndType(schema, path) {
       // Skip check for deprecated properties.
       if (prop.deprecated === true) continue;
 
+      const propertyType = getSchemaType(prop).toString();
+
       if (visitedProperties[propName]) {
-        if (visitedProperties[propName].type !== prop.type) {
+        if (visitedProperties[propName].type !== propertyType) {
           // First property that appeared in API def, should only flag once.
           if (!visitedProperties[propName].flagged) {
             visitedProperties[propName].flagged = true;
@@ -38,11 +40,14 @@ function propertyInconsistentNameAndType(schema, path) {
           });
         }
       } else {
-        if (prop.type && !excludedProperties.includes(propName)) {
+        if (
+          propertyType !== SchemaType.UNKNOWN &&
+          !excludedProperties.includes(propName)
+        ) {
           // add property if the name is not excluded
           // and skip properties with an undefined type
           visitedProperties[propName] = {
-            type: prop.type,
+            type: propertyType,
             path: [...path, 'properties', propName],
             flagged: false
           };

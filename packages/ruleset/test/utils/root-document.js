@@ -781,7 +781,14 @@ module.exports = {
             $ref: '#/components/schemas/PageLink'
           },
           last: {
-            $ref: '#/components/schemas/PageLink'
+            allOf: [
+              {
+                $ref: '#/components/schemas/PageLink'
+              },
+              {
+                description: 'Link to the last page of results.'
+              }
+            ]
           }
         }
       },

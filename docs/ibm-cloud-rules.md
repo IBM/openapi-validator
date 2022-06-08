@@ -66,6 +66,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: property-description](#rule-property-description)
   * [Rule: property-inconsistent-name-and-type](#rule-property-inconsistent-name-and-type)
   * [Rule: ref-pattern](#rule-ref-pattern)
+  * [Rule: ref-sibling-duplicate-description](#rule-ref-sibling-duplicate-description)
   * [Rule: request-body-name](#rule-request-body-name)
   * [Rule: request-body-object](#rule-request-body-object)
   * [Rule: response-error-response-schema](#rule-response-error-response-schema)
@@ -324,6 +325,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#rule-ref-pattern">ref-pattern</a></td>
 <td>warn</td>
 <td>Ensures that <code>$ref</code> values follow the correct patterns.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-ref-sibling-duplicate-description">ref-sibling-duplicate-description</a></td>
+<td>warn</td>
+<td>Ensures that the "ref-sibling" <code>allOf</code> pattern is not used unnecessarily to define a duplicate description.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -3036,6 +3043,156 @@ components:
       properties:
         bar:
           type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: ref-sibling-duplicate-description
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ref-sibling-duplicate-description</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks for instances where the "ref sibling" allOf pattern is used to override
+the description of a referenced schema, but yet the overridden description is the same as that defined inside
+the referenced schema.
+
+Prior to OpenAPI 3.0, when defining a schema one could use a <code>$ref</code> along with additional attributes in order to
+reference a named schema and also override those attributes defined within the referenced schema.
+A common use of this pattern was to override a referenced schema's description with a more
+specific description. Here is an example (a swagger 2.0 fragment):
+<pre>
+definitions:
+  PageLink:
+    description: 'A link to a page of results'        <<< general description
+    type: object
+    properties:
+      href:
+        description: 'The URL string pointing to a specific page of results'
+        type: string
+  ResourceCollection:
+    description: 'A collection of resources returned by the list_resources operation'
+    type: object
+    properties:
+      first:
+        $ref: '#/definitions/PageLink'
+        description: 'A link to the first page of results'     <<< more specific description
+      next:
+        $ref: '#/definitions/PageLink'
+        description: 'A link to the next page of results'      <<< more specific description
+</pre>
+In this example, the "first" and "next" properties are given specific descriptions that indicate they point to
+the first and next page of results, respectively.
+<p>Starting with OpenAPI 3.0, one can no longer use this pattern.  If a schema definition contains the <code>$ref</code> attribute,
+then no other attributes are allowed to be defined alongsize it.   So to work around this restriction, 
+API authors typically use the "ref sibling" allOf pattern.   The above example might look like this:
+<pre>
+components:
+  schemas:
+    PageLink:
+      description: 'A link to a page of results'        <<< general description
+      type: object
+      properties:
+        href:
+          description: 'The URL string pointing to a specific page of results'
+          type: string
+    ResourceCollection:
+      description: 'A collection of resources returned by the list_resources operation'
+      type: object
+      properties:
+        first:
+          allOf:
+            - $ref: '#/components/schemas/PageLink'
+            - description: 'A link to the first page of results'     <<< more specific description
+        next:
+          description: 'A link to the next page of results'      <<< more specific description
+          allOf:
+            - $ref: '#/components/schemas/PageLink'
+</pre>
+In this example the "first" property uses an allOf with two list elements, where the second list element schema overrides
+the description of the PageLink schema.   The "next" property is defined using a variation of the "ref sibling" allOf pattern
+where the overridden description is defined directly as an attribute of the "next" schema itself rather than in the 
+second allOf list element.  Both are considered to be examples of the "ref sibling" allOf pattern.
+
+<p>This rule specifically looks for instances of this pattern where the overridden description is the same as the
+description defined within the reference schema, thus rending the use of the "ref sibling" pattern unnecessary.
+Here is an example of this:
+<pre>
+components:
+  schemas:
+    PageLink:
+      description: 'A link to a page of results'        <<< general description
+      type: object
+      properties:
+        href:
+          description: 'The URL string pointing to a specific page of results'
+          type: string
+    ResourceCollection:
+      description: 'A collection of resources returned by the list_resources operation'
+      type: object
+      properties:
+        page_link:
+          allOf:
+            - $ref: '#/components/schemas/PageLink'
+            - description: 'A link to a page of results'     <<< duplicate description
+</pre>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    PageLink:
+      description: 'A link to a page of results'
+      type: object
+      properties:
+        href:
+          description: 'The URL string pointing to a specific page of results'
+          type: string
+    ResourceCollection:
+      description: 'A collection of resources returned by the list_resources operation'
+      type: object
+      properties:
+        page_link:
+          allOf:
+            - $ref: '#/components/schemas/PageLink'
+            - description: 'A link to a page of results'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    PageLink:
+      description: 'A link to a page of results'
+      type: object
+      properties:
+        href:
+          description: 'The URL string pointing to a specific page of results'
+          type: string
+    ResourceCollection:
+      description: 'A collection of resources returned by the list_resources operation'
+      type: object
+      properties:
+        page_link:
+          $ref: '#/components/schemas/PageLink'
 </pre>
 </td>
 </tr>

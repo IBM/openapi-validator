@@ -196,4 +196,94 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
 
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);
   });
+
+  it('should return correct merged schema if nested allOf', async () => {
+    const schema = {
+      description: 'the description',
+      type: 'object',
+      required: ['prop1'],
+      properties: {
+        prop1: {
+          type: 'string'
+        }
+      },
+      allOf: [
+        {
+          type: 'object',
+          description: 'allOf[0]',
+          required: ['prop2'],
+          properties: {
+            prop2: {
+              type: 'integer'
+            }
+          },
+          allOf: [
+            {
+              description: 'allOf[0][0]',
+              properties: {
+                prop2a: {
+                  type: 'string'
+                }
+              },
+              allOf: [
+                {
+                  description: 'allOf[0][0][0]',
+                  properties: {
+                    prop2aa: {
+                      type: 'string'
+                    }
+                  }
+                }
+              ]
+            },
+            {
+              description: 'allOf[0][1]',
+              properties: {
+                prop2b: {
+                  type: 'integer'
+                }
+              }
+            }
+          ]
+        },
+        {
+          type: 'object',
+          description: 'allOf[1]',
+          properties: {
+            prop3: {
+              type: 'boolean'
+            }
+          }
+        }
+      ]
+    };
+
+    const expectedResult = {
+      description: 'the description',
+      type: 'object',
+      required: ['prop2', 'prop1'],
+      properties: {
+        prop1: {
+          type: 'string'
+        },
+        prop2: {
+          type: 'integer'
+        },
+        prop2a: {
+          type: 'string'
+        },
+        prop2aa: {
+          type: 'string'
+        },
+        prop2b: {
+          type: 'integer'
+        },
+        prop3: {
+          type: 'boolean'
+        }
+      }
+    };
+
+    expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);
+  });
 });

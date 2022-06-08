@@ -21,6 +21,38 @@ describe('Spectral rule: schema-type', () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Response schema, property defined correctly with nested allOf', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].post.responses['400'].content[
+        'application/json'
+      ].schema = {
+        type: 'object',
+        properties: {
+          no_type: {
+            allOf: [
+              {
+                allOf: [
+                  {
+                    description: 'nested allOf definition'
+                  },
+                  {
+                    type: 'string'
+                  }
+                ]
+              },
+              {
+                description: 'overridden description, but no type'
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
@@ -98,6 +130,75 @@ describe('Spectral rule: schema-type', () => {
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
         'paths./v1/drinks.post.requestBody.content.application/json.schema.properties.important_property'
+      );
+    });
+    it('Response schema, property defined with allOf no type', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].post.responses['400'].content[
+        'application/json'
+      ].schema = {
+        type: 'object',
+        properties: {
+          no_type: {
+            allOf: [
+              {
+                description: 'no type in allOf element',
+                properties: {
+                  has_a_type: {
+                    type: 'string'
+                  }
+                }
+              },
+              {
+                description: 'overridden description, but no type'
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies.post.responses.400.content.application/json.schema.properties.no_type'
+      );
+    });
+    it('Response schema, property defined with nested allOf no type', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].post.responses['400'].content[
+        'application/json'
+      ].schema = {
+        type: 'object',
+        properties: {
+          no_type: {
+            allOf: [
+              {
+                allOf: [
+                  {
+                    description: 'nested allOf definition'
+                  }
+                ]
+              },
+              {
+                description: 'overridden description, but no type'
+              }
+            ]
+          }
+        }
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies.post.responses.400.content.application/json.schema.properties.no_type'
       );
     });
   });

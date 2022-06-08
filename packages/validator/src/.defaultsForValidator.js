@@ -102,7 +102,7 @@ const deprecated = {
   'json_or_param_binary_string': 'binary-schemas (spectral rule)',
   'no_empty_descriptions': 'schema-description, property-description, operation-description or parameter-description (spectral rules)',
   '$ref_siblings': 'no-$ref-siblings (spectral rule)',
-  'duplicate_sibling_description': '',
+  'duplicate_sibling_description': 'ref-sibling-duplicate-description (spectral rule)',
   'incorrect_ref_pattern': 'ref-pattern (spectral rule)',
   'has_circular_references': 'circular-refs (spectral rule)',
 };
