@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.81.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.80.0...ibm-openapi-validator@0.81.0) (2022-06-13)
+
+
+### Features
+
+* **ref-sibling-duplicate-description:** add new spectral-style rule ([#454](https://github.com/IBM/openapi-validator/issues/454)) ([1adfa60](https://github.com/IBM/openapi-validator/commit/1adfa600799689b708416fb84d2ff9045fec91ef))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.30.0
+
 # ibm-openapi-validator [0.80.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.79.0...ibm-openapi-validator@0.80.0) (2022-06-07)
 
 
