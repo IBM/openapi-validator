@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.30.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.29.0...@ibm-cloud/openapi-ruleset@0.30.0) (2022-06-13)
+
+
+### Features
+
+* **ref-sibling-duplicate-description:** add new spectral-style rule ([#454](https://github.com/IBM/openapi-validator/issues/454)) ([1adfa60](https://github.com/IBM/openapi-validator/commit/1adfa600799689b708416fb84d2ff9045fec91ef))
+
 # @ibm-cloud/openapi-ruleset [0.29.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.28.0...@ibm-cloud/openapi-ruleset@0.29.0) (2022-06-07)
 
 
