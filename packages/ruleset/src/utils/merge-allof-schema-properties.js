@@ -2,9 +2,14 @@ const { isObject, mergeWith } = require('lodash');
 
 // Takes a schema, and if an allOf field is provided,
 // merges all allOf schema properties to create one schema
-module.exports = function(schema) {
+function mergeAllOfSchemaProperties(schema) {
+  // Bail out immediately if 'schema' has no "allOf" field.
+  if (!('allOf' in schema)) {
+    return schema;
+  }
+
   // Our merge target is initially an empty object.
-  const targetSchema = {};
+  let targetSchema = {};
 
   // Make a copy of the source schema so that we can delete
   // the allOf field later.
@@ -29,8 +34,14 @@ module.exports = function(schema) {
   // Finally, merge the remaining fields from our source schema into the target.
   mergeWith(targetSchema, sourceSchema, customizer);
 
+  // If the result of the merge still has an allOf field (i.e. a nested allOf),
+  // then do the merge recursively to handle it.
+  if ('allOf' in targetSchema) {
+    targetSchema = mergeAllOfSchemaProperties(targetSchema);
+  }
+
   return targetSchema;
-};
+}
 
 /**
  * This function is used as the customizer function passed to the mergeWith()
@@ -52,3 +63,5 @@ function customizer(targetValue, sourceValue) {
     ? targetValue.concat(sourceValue)
     : undefined;
 }
+
+module.exports = mergeAllOfSchemaProperties;

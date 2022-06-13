@@ -10,22 +10,22 @@ const checkCompositeSchemaForConstraint = require('./check-composite-schema-for-
  * to a specific language type or data structure in an SDK).
  */
 const SchemaType = {
-  ARRAY: Symbol(),
-  BINARY: Symbol(),
-  BOOLEAN: Symbol(),
-  BYTE: Symbol(),
-  DATE: Symbol(),
-  DATE_TIME: Symbol(),
-  DOUBLE: Symbol(),
-  ENUMERATION: Symbol(),
-  FLOAT: Symbol(),
-  INT32: Symbol(),
-  INT64: Symbol(),
-  INTEGER: Symbol(),
-  NUMBER: Symbol(),
-  OBJECT: Symbol(),
-  STRING: Symbol(),
-  UNKNOWN: Symbol()
+  ARRAY: Symbol('array'),
+  BINARY: Symbol('binary'),
+  BOOLEAN: Symbol('boolean'),
+  BYTE: Symbol('byte'),
+  DATE: Symbol('date'),
+  DATE_TIME: Symbol('date-time'),
+  DOUBLE: Symbol('double'),
+  ENUMERATION: Symbol('enumeration'),
+  FLOAT: Symbol('float'),
+  INT32: Symbol('int32'),
+  INT64: Symbol('int64'),
+  INTEGER: Symbol('integer'),
+  NUMBER: Symbol('number'),
+  OBJECT: Symbol('object'),
+  STRING: Symbol('string'),
+  UNKNOWN: Symbol('unknown')
 };
 
 /**

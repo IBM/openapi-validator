@@ -130,6 +130,8 @@ module.exports = {
     'property-inconsistent-name-and-type':
       ibmRules.propertyInconsistentNameAndType,
     'ref-pattern': ibmRules.refPattern,
+    'ref-sibling-duplicate-description':
+      ibmRules.refSiblingDuplicateDescription,
     'request-body-name': ibmRules.requestBodyName,
     'request-body-object': ibmRules.requestBodyObject,
     'response-error-response-schema': ibmRules.responseErrorResponseSchema,

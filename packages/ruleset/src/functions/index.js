@@ -27,6 +27,7 @@ module.exports = {
   propertyDescription: require('./property-description'),
   propertyInconsistentNameAndType: require('./property-inconsistent-name-and-type'),
   refPattern: require('./ref-pattern'),
+  refSiblingDuplicateDescription: require('./ref-sibling-duplicate-description'),
   requestBodyName: require('./request-body-name'),
   requiredProperty: require('./required-property'),
   responseExampleProvided: require('./response-example-provided'),
