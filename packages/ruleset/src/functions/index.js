@@ -39,6 +39,7 @@ module.exports = {
   securitySchemeAttributes: require('./security-scheme-attributes'),
   securitySchemes: require('./security-schemes').securitySchemes,
   stringBoundary: require('./string-boundary'),
+  stringPattern: require('./string-pattern'),
   unusedTag: require('./unused-tag').unusedTag,
   validTypeFormat: require('./valid-type-format')
 };

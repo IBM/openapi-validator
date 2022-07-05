@@ -143,6 +143,7 @@ module.exports = {
     'security-schemes': ibmRules.securitySchemes,
     'server-variable-default-value': ibmRules.serverVariableDefaultValue,
     'string-boundary': ibmRules.stringBoundary,
+    'string-pattern': ibmRules.stringPattern,
     'unused-tag': ibmRules.unusedTag,
     'valid-type-format': ibmRules.validTypeFormat
   }

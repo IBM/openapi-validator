@@ -15,7 +15,6 @@ function debug(msg) {
 // An object holding a list of "format" values to be bypassed when checking
 // for the "pattern", "minLength" and "maxLength" fields of a string property, respectively.
 const bypassFormats = {
-  pattern: ['binary', 'byte', 'date', 'date-time', 'url'],
   minLength: ['date', 'identifier', 'url'],
   maxLength: ['date']
 };
@@ -25,16 +24,6 @@ function stringBoundaryErrors(schema, path) {
 
   if (schema.type === 'string') {
     if (isUndefinedOrNull(schema.enum)) {
-      if (
-        isUndefinedOrNull(schema.pattern) &&
-        !bypassFormats.pattern.includes(schema.format)
-      ) {
-        errors.push({
-          message: 'Should define a pattern for a valid string',
-          path
-        });
-        debug('>>> pattern field missing for: ' + path.join('.'));
-      }
       if (
         isUndefinedOrNull(schema.minLength) &&
         !bypassFormats.minLength.includes(schema.format)
@@ -69,12 +58,6 @@ function stringBoundaryErrors(schema, path) {
     }
   } else {
     // Make sure that string-related fields are not present in a non-string schema.
-    if (schema.pattern) {
-      errors.push({
-        message: 'pattern should not be defined for a non-string schema',
-        path: [...path, 'pattern']
-      });
-    }
     if (schema.minLength) {
       errors.push({
         message: 'minLength should not be defined for a non-string schema',
