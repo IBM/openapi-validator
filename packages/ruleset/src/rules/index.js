@@ -50,7 +50,6 @@ module.exports = {
   securitySchemes: require('./security-schemes'),
   serverVariableDefaultValue: require('./server-variable-default-value'),
   stringBoundary: require('./string-boundary'),
-  stringPattern: require('./string-pattern'),
   unusedTag: require('./unused-tag'),
   validTypeFormat: require('./valid-type-format')
 };
