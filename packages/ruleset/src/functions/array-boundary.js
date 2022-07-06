@@ -1,4 +1,6 @@
 const { validateSubschemas } = require('../utils');
+const { getSchemaType } = require('../utils');
+const { SchemaType } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, arrayBoundaryErrors, true, false);
@@ -11,45 +13,23 @@ function debug(msg) {
   }
 }
 
-const bypassFormats = {
-  minItems: [],
-  maxItems: []
-};
-
 function arrayBoundaryErrors(schema, path) {
   const errors = [];
 
-  if (schema.type === 'array') {
-    if (
-      isUndefinedOrNull(schema.minItems) &&
-      !bypassFormats.minItems.includes(schema.format)
-    ) {
+  if (getSchemaType(schema) === SchemaType.ARRAY) {
+    if (isUndefinedOrNull(schema.minItems)) {
       errors.push({
         message: 'Should define a minItems for a valid array',
         path
       });
       debug('>>> minItems field missing for: ' + path.join('.'));
     }
-    if (
-      isUndefinedOrNull(schema.maxItems) &&
-      !bypassFormats.maxItems.includes(schema.format)
-    ) {
+    if (isUndefinedOrNull(schema.maxItems)) {
       errors.push({
         message: 'Should define a maxItems for a valid array',
         path
       });
       debug('>>> maxItems field missing for: ' + path.join('.'));
-    }
-    if (
-      !isUndefinedOrNull(schema.minItems) &&
-      !isUndefinedOrNull(schema.maxItems) &&
-      schema.minItems > schema.maxItems
-    ) {
-      errors.push({
-        message: 'minItems cannot be greater than maxItems',
-        path
-      });
-      debug('>>> minItems >= maxItems for: ' + path.join('.'));
     }
   } else {
     if (schema.minItems) {

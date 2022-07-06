@@ -1,5 +1,6 @@
 const { oas3 } = require('@stoplight/spectral-formats');
 const { arrayBoundary } = require('../functions');
+const { schemas } = require('../collections');
 
 module.exports = {
   description: 'Array schemas should have explicit boundaries defined',
@@ -7,13 +8,7 @@ module.exports = {
   severity: 'warn',
   formats: [oas3],
   resolved: true,
-  given: [
-    '$.paths[*][parameters][*].schema',
-    '$.paths[*][parameters][*].content[*].schema',
-    '$.paths[*][*][parameters][*].schema',
-    '$.paths[*][*][parameters][*].content[*].schema',
-    '$.paths[*][*].requestBody.content[*].schema',
-  ],
+  given: schemas,
   then: {
     function: arrayBoundary
   }
