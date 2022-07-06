@@ -4,7 +4,6 @@
 // of Node by exiting the process if the version is less than
 // the passed in argument (currently 10.0.0)
 require('./utils/check-version')('10.0.0');
-require('./utils/update-notifier');
 
 const program = require('./utils/modified-commander');
 const cliValidator = require('./run-validator');

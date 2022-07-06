@@ -44,7 +44,6 @@ as well as IBM-defined best practices.
 - [Configuration](#configuration)
   * [IBM Cloud Validation Ruleset](#ibm-cloud-validation-ruleset)
 - [Warnings Limit](#warnings-limit)
-- [Turning off `update-notifier`](#turning-off-update-notifier)
 - [License](#license)
 
 <!-- tocstop -->
@@ -189,9 +188,6 @@ The format for the `.thresholdrc` file is a top-level JSON object with a `"warni
 | Limit                   | Default   |
 | ----------------------- | --------- |
 | warnings                | MAX_VALUE |
-
-## Turning off `update-notifier`
-This package uses [`update-notifier`](https://github.com/yeoman/update-notifier) to alert users when new versions of the tool are available. To turn this feature _off_, follow [these instructions](https://github.com/yeoman/update-notifier/tree/8df01b35fbb8093e91d79fdf9900c344c2236f08#user-settings) from the package authors. It is recommended to keep this feature _on_ to help stay up to date with the latest changes.
 
 ## License
 
