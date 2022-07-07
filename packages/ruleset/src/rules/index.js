@@ -1,4 +1,5 @@
 module.exports = {
+  arrayBoundary: require('./array-boundary'),
   acceptParameter: require('./accept-parameter'),
   arrayItems: require('./array-items'),
   arrayOfArrays: require('./array-of-arrays'),

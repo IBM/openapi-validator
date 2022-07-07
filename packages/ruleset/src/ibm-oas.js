@@ -90,7 +90,7 @@ module.exports = {
     'oas3-unused-component': true,
 
     // IBM Custom Rules
-
+    'array-boundary': ibmRules.arrayBoundary,
     'accept-parameter': ibmRules.acceptParameter,
     'array-items': ibmRules.arrayItems,
     'array-of-arrays': ibmRules.arrayOfArrays,
