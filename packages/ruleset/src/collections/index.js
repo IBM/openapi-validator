@@ -20,8 +20,8 @@ const schemas = [
 // This does not include components.parameters because this collection
 // should be used with resolved=true and we want to avoid duplication.
 const parameters = [
-  '$.paths[*].parameters.[*]',
-  '$.paths[*][get,put,post,delete,options,head,patch,trace].parameters.[*]'
+  '$.paths[*].parameters[*]',
+  '$.paths[*][get,put,post,delete,options,head,patch,trace].parameters[*]'
 ];
 
 const paths = ['$.paths[*]'];
