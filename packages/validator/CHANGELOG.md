@@ -1,3 +1,10 @@
+## ibm-openapi-validator [0.81.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.81.0...ibm-openapi-validator@0.81.1) (2022-07-07)
+
+
+### Bug Fixes
+
+* remove update-notifier from package ([a0658ef](https://github.com/IBM/openapi-validator/commit/a0658ef7ba747ae25510fa98f517a30bbd6e016d))
+
 # ibm-openapi-validator [0.81.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.80.0...ibm-openapi-validator@0.81.0) (2022-06-13)
 
 
