@@ -101,6 +101,8 @@ components:
       properties:
         chars:
           type: array
+          minItems: 0
+          maxItems: 200
           description: all the characters
           items:
             type: string

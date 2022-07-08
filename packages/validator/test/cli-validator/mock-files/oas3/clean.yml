@@ -142,6 +142,8 @@ components:
       properties:
         pets:
           type: array
+          minItems: 0
+          maxItems: 20
           description: "object containing a list of pets"
           items:
             $ref: "#/components/schemas/Pet"

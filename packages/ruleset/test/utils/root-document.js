@@ -610,6 +610,8 @@ module.exports = {
                 description:
                   'The set of Drink instances in this page of results.',
                 type: 'array',
+                minItems: 0,
+                maxItems: 50,
                 items: {
                   $ref: '#/components/schemas/Drink'
                 }
@@ -656,6 +658,8 @@ module.exports = {
                 description:
                   'The set of Movie instances in this page of results.',
                 type: 'array',
+                minItems: 0,
+                maxItems: 50,
                 items: {
                   $ref: '#/components/schemas/Movie'
                 }

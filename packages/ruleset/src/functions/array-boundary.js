@@ -1,9 +1,12 @@
-const { validateSubschemas } = require('../utils');
+const {
+  checkCompositeSchemaForConstraint,
+  validateNestedSchemas
+} = require('../utils');
 const { getSchemaType } = require('../utils');
 const { SchemaType } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, arrayBoundaryErrors, true, false);
+  return validateNestedSchemas(schema, path, arrayBoundaryErrors, true, false);
 };
 
 const debugEnabled = false;
@@ -14,42 +17,47 @@ function debug(msg) {
 }
 
 function arrayBoundaryErrors(schema, path) {
+  // If "schema" is a $ref, that means it didn't get resolved
+  // properly (perhaps due to a circular ref), so just ignore it.
+  if (schema.$ref) {
+    return [];
+  }
+
+  if (getSchemaType(schema) !== SchemaType.ARRAY) {
+    return [];
+  }
+
   const errors = [];
 
-  if (getSchemaType(schema) === SchemaType.ARRAY) {
-    if (isUndefinedOrNull(schema.minItems)) {
-      errors.push({
-        message: 'Should define a minItems for a valid array',
-        path
-      });
-      debug('>>> minItems field missing for: ' + path.join('.'));
-    }
-    if (isUndefinedOrNull(schema.maxItems)) {
-      errors.push({
-        message: 'Should define a maxItems for a valid array',
-        path
-      });
-      debug('>>> maxItems field missing for: ' + path.join('.'));
-    }
-  } else {
-    if (schema.minItems) {
-      errors.push({
-        message: 'minItems should not be defined for a non-array schema',
-        path: [...path, 'minItems']
-      });
-      debug('>>> ' + schema.type + ' minItems should not be defined for a non-array schema for: ' + path.join('.'));
-    }
-    if (schema.maxItems) {
-      errors.push({
-        message: 'maxItems should not be defined for a non-array schema',
-        path: [...path, 'maxItems']
-      });
-      debug('>>> ' + schema.type + ' maxItems should not be defined for a non-array schema for: ' + path.join('.'));
-    }
+  const hasMinItems = checkCompositeSchemaForConstraint(
+    schema,
+    s => s && isDefined(s.minItems) && typeof s.minItems === 'number'
+  );
+
+  if (!hasMinItems) {
+    errors.push({
+      message: 'Array schemas should define a numeric minItems field',
+      path
+    });
+    debug('>>> minItems field missing for: ' + path.join('.'));
   }
+
+  const hasMaxItems = checkCompositeSchemaForConstraint(
+    schema,
+    s => s && isDefined(s.maxItems) && typeof s.maxItems === 'number'
+  );
+
+  if (!hasMaxItems) {
+    errors.push({
+      message: 'Array schemas should define a numeric maxItems field',
+      path
+    });
+    debug('>>> maxItems field missing for: ' + path.join('.'));
+  }
+
   return errors;
 }
 
-function isUndefinedOrNull(obj) {
-  return obj === undefined || obj === null;
+function isDefined(x) {
+  return x !== null && x !== undefined;
 }
