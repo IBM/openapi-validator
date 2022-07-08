@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.30.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.30.0...@ibm-cloud/openapi-ruleset@0.30.1) (2022-07-08)
+
+
+### Bug Fixes
+
+* modify 'parameters' collection for new nimma version ([92032aa](https://github.com/IBM/openapi-validator/commit/92032aa71e97e698c352f2d3847a9d82f98cf769))
+
 # @ibm-cloud/openapi-ruleset [0.30.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.29.0...@ibm-cloud/openapi-ruleset@0.30.0) (2022-06-13)
 
 
