@@ -63,8 +63,12 @@ paths:
       tags:
         - pets
       responses:
-        '204':
-          description: Null response
+        '201':
+          description: success!
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Pets"
         default:
           description: unexpected error
           content:

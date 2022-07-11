@@ -3495,10 +3495,13 @@ responses:
 <code>101 - Switching Protocols</code> status code is used, which should be extremely rare (it's normally used with websockets).</li>
 <li>A <code>204 - No Content</code> response should not include content.</li>
 <li>A non-204 success status code (e.g. <code>200 - OK</code>, <code>201 - Created</code>, etc.) should include content.</li>
+<li>A `create`-type operation (the method is POST or the operationId starts with <code>'create'</code>) must return either a <code>201 - Created</code>
+or a <code>202 - Accepted</code> status code.</li>
 </ul>
 <p>References: 
 <ul>
-<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook</a></li>
+<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
+<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-methods#post">IBM Cloud API Handbook: Fundamentals/Methods/POST</a></li>
 <li><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-6">RFC7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a></li>
 </ul>
 </td>
