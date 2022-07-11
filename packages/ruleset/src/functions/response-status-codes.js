@@ -5,6 +5,7 @@
  * 3. Operation responses should include at least one successful (2xx) status code.
  * 4. Operation responses should not include status code 101 when successful (2xx) status codes are present.
  * 5. A 204 response must not have content.
+ * 6. A "create" operation (i.e. method is POST or operationId starts with "create") must return either a 201 or a 202.
  * @param {*} operation an operation within the API definition
  * @param {*} options unused, but needed as a placeholder due to the rule calling conventions
  * @param {*} path the array of path segments indicating the "location" of the operation within the API definition
@@ -15,11 +16,11 @@ function responseStatusCodes(operation, options, { path }) {
     return [];
   }
 
+  const errors = [];
+
   const [statusCodes, successCodes] = getResponseCodes(operation.responses);
 
   if (statusCodes.length) {
-    const errors = [];
-
     // 1. Check for a 422.
     if (statusCodes.includes('422')) {
       errors.push({
@@ -65,11 +66,31 @@ function responseStatusCodes(operation, options, { path }) {
         path: [...path, 'responses', '204', 'content']
       });
     }
-
-    return errors;
   }
 
-  return [];
+  // Grab the operation's method from the path that was passed in.
+  const method = path[path.length - 1]
+    .toString()
+    .trim()
+    .toLowerCase();
+
+  // For a 'create' operation (a POST operation or operationId starts with "create"),
+  // make sure that there's either a 201 or a 202 status code.
+  if (
+    (method && method === 'post') ||
+    (operation.operationId &&
+      operation.operationId.toString().startsWith('create'))
+  ) {
+    if (!successCodes.includes('201') && !successCodes.includes('202')) {
+      errors.push({
+        message:
+          "A 201 or 202 status code should be returned by a 'create' operation.",
+        path: [...path, 'responses']
+      });
+    }
+  }
+
+  return errors;
 }
 
 function getResponseCodes(responses) {
