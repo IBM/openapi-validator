@@ -101,6 +101,7 @@ module.exports = {
     'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'content-entry-provided': ibmRules.contentEntryProvided,
     'content-type-parameter': ibmRules.contentTypeParameter,
+    'delete-body': ibmRules.deleteBody,
     'description-mentions-json': ibmRules.descriptionMentionsJSON,
     discriminator: ibmRules.discriminator,
     'duplicate-path-parameter': ibmRules.duplicatePathParameter,

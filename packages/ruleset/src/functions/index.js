@@ -6,6 +6,7 @@ module.exports = {
   binarySchemas: require('./binary-schemas'),
   checkMajorVersion: require('./check-major-version'),
   circularRefs: require('./circular-refs'),
+  deleteBody: require('./delete-body'),
   descriptionMentionsJSON: require('./description-mentions-json'),
   disallowedHeaderParameter: require('./disallowed-header-parameter'),
   discriminator: require('./discriminator'),

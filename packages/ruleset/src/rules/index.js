@@ -10,6 +10,7 @@ module.exports = {
   contentEntryContainsSchema: require('./content-entry-contains-schema'),
   contentEntryProvided: require('./content-entry-provided'),
   contentTypeParameter: require('./content-type-parameter'),
+  deleteBody: require('./delete-body'),
   descriptionMentionsJSON: require('./description-mentions-json'),
   discriminator: require('./discriminator'),
   duplicatePathParameter: require('./duplicate-path-parameter'),
