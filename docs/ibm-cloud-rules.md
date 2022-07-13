@@ -39,6 +39,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
   * [Rule: content-type-parameter](#rule-content-type-parameter)
+  * [Rule: delete-body](#rule-delete-body)
   * [Rule: description-mentions-json](#rule-description-mentions-json)
   * [Rule: discriminator](#rule-discriminator)
   * [Rule: duplicate-path-parameter](#rule-duplicate-path-parameter)
@@ -165,6 +166,12 @@ is provided in the [Reference](#reference) section below.
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Content-Type</code> header parameter</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-delete-body">delete-body</a></td>
+<td>warn</td>
+<td>"delete" operations should not contain a requestBody.</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-description-mentions-json">description-mentions-json</a></td>
@@ -1289,6 +1296,65 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: delete-body
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>delete-body</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks each "delete" operation and will return a warning if the operation contains a <code>requestBody</code>.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#/components/parameters/ThingIdParam'
+    delete:
+      operationId: delete_thing
+      requestBody:
+          description: 'The Thing instance to be deleted.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+      responses:
+        '204':
+          description: 'The thing was deleted'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#/components/parameters/ThingIdParam'
+    delete:
+      operationId: delete_thing
+      responses:
+        '204':
+          description: 'The thing was deleted'
 </pre>
 </td>
 </tr>
