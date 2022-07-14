@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.31.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.31.0...@ibm-cloud/openapi-ruleset@0.31.1) (2022-07-14)
+
+
+### Bug Fixes
+
+* **response-status-codes:** add check for 201/202 response for 'create' operation ([4c663c2](https://github.com/IBM/openapi-validator/commit/4c663c261fc97f4498ba8ee816fa36c9f7640cda))
+
 # @ibm-cloud/openapi-ruleset [0.31.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.30.1...@ibm-cloud/openapi-ruleset@0.31.0) (2022-07-14)
 
 
