@@ -79,6 +79,8 @@ paths:
           explode: true
           schema:
             type: array
+            minItems: 0
+            maxItems: 20
             items:
               type: string
               enum:
@@ -93,11 +95,15 @@ paths:
             application/xml:
               schema:
                 type: array
+                minItems: 0
+                maxItems: 20
                 items:
                   $ref: "#/components/schemas/Pet"
             application/json:
               schema:
                 type: array
+                minItems: 0
+                maxItems: 20
                 items:
                   $ref: "#/components/schemas/Pet"
         "400":
@@ -178,6 +184,8 @@ components:
         photo_urls:
           type: array
           description: string
+          minItems: 0
+          maxItems: 20
           xml:
             name: photoUrl
             wrapped: true
@@ -186,6 +194,8 @@ components:
         tags:
           type: array
           description: string
+          minItems: 0
+          maxItems: 20
           xml:
             name: tag
             wrapped: true

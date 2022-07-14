@@ -29,6 +29,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
   * [Rule: accept-parameter](#rule-accept-parameter)
+  * [Rule: array-boundary](#rule-array-boundary)
   * [Rule: array-items](#rule-array-items)
   * [Rule: array-of-arrays](#rule-array-of-arrays)
   * [Rule: array-responses](#rule-array-responses)
@@ -104,6 +105,12 @@ is provided in the [Reference](#reference) section below.
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Accept</code> header parameter</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-array-boundary">array-boundary</a></td>
+<td>warn</td>
+<td>Array schemas should define the <code>minItems</code> and <code>maxItems</code> fields</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-array-items">array-items</a></td>
@@ -656,6 +663,64 @@ paths:
               schema:
                 $ref: '#/components/schemas/ThingCollection'
 
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: array-boundary
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>array-boundary</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Array schemas should define the <code>minItems</code> and <code>maxItems</code> fields
+[<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#array">1</a>].</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Array:
+      description: An Array instance.
+      type: array
+      items:
+        type: string
+        pattern: '^[a-zA-Z0-9]*$'
+        minLength: 0
+        maxLength: 50
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Array:
+      description: An Array instance.
+      type: array
+      minItems: 0
+      maxItems: 16
+      items:
+        type: string
+        pattern: '^[a-zA-Z0-9]*$'
+        minLength: 0
+        maxLength: 50
 </pre>
 </td>
 </tr>
