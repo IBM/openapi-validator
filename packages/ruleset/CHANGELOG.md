@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.31.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.30.1...@ibm-cloud/openapi-ruleset@0.31.0) (2022-07-14)
+
+
+### Features
+
+* **array-boundary:** new rule to enforce contraints set on arrays ([#462](https://github.com/IBM/openapi-validator/issues/462)) ([5d499d7](https://github.com/IBM/openapi-validator/commit/5d499d76e571c8eb5f2e13e01099639f624894f7))
+
 ## @ibm-cloud/openapi-ruleset [0.30.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.30.0...@ibm-cloud/openapi-ruleset@0.30.1) (2022-07-08)
 
 
