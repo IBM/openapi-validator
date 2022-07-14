@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.32.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.31.1...@ibm-cloud/openapi-ruleset@0.32.0) (2022-07-14)
+
+
+### Features
+
+* **delete-body:** add new spectral-style 'delete-body' rule ([989ae62](https://github.com/IBM/openapi-validator/commit/989ae625469fe8684af58e8e271a352718dee61d))
+
 ## @ibm-cloud/openapi-ruleset [0.31.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.31.0...@ibm-cloud/openapi-ruleset@0.31.1) (2022-07-14)
 
 
