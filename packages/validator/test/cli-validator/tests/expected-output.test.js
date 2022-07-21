@@ -183,8 +183,9 @@ describe('cli tool - test expected output - Swagger 2', function() {
     expect(capturedText[8].match(/\S+/g)[2]).toEqual('172');
     // warnings
     expect(capturedText[13].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[17].match(/\S+/g)[2]).toEqual('166');
-    expect(capturedText[21].match(/\S+/g)[2]).toEqual('197');
+    expect(capturedText[17].match(/\S+/g)[2]).toEqual('131');
+    expect(capturedText[21].match(/\S+/g)[2]).toEqual('134');
+    expect(capturedText[25].match(/\S+/g)[2]).toEqual('197');
   });
 
   it('should return exit code of 0 if there are only warnings', async function() {
@@ -412,8 +413,8 @@ describe('test expected output - OpenAPI 3', function() {
 
     expect(warningToCheck.rule).toEqual('pagination-style');
     expect(warningToCheck.path.join('.')).toBe(
-      'components.responses.StringsResponse.content.application/json.schema'
+      'components.schemas.ListOfCharacters'
     );
-    expect(warningToCheck.line).toEqual(91);
+    expect(warningToCheck.line).toEqual(94);
   });
 });

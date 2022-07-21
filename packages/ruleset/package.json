@@ -20,7 +20,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@stoplight/spectral-core": "^1.11.0",
+    "@stoplight/spectral-core": "^1.12.4",
     "jest": "^27.4.5"
   },
   "engines": {
