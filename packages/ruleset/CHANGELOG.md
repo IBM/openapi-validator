@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.32.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.32.0...@ibm-cloud/openapi-ruleset@0.32.1) (2022-07-22)
+
+
+### Bug Fixes
+
+* update spectral version to resolve path mapping bug ([#465](https://github.com/IBM/openapi-validator/issues/465)) ([e6520fb](https://github.com/IBM/openapi-validator/commit/e6520fb06ecc23d516c1844f6022b140a81e0f2b))
+
 # @ibm-cloud/openapi-ruleset [0.32.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.31.1...@ibm-cloud/openapi-ruleset@0.32.0) (2022-07-14)
 
 
