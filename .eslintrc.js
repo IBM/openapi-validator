@@ -1,17 +1,14 @@
 module.exports = {
   'plugins': ['prettier'],
   'env': {
-    'es6': true,
-    'node': true,
-    'mocha': true,
-    'jest': true,
+    'es6': false,
+    'node': false,
+    'mocha': false,
+    'jest': false,
   },
   'parser': 'babel-eslint',
   'rules': {
-    'prettier/prettier': ['error', {'singleQuote': true}],
+    'prettier/prettier': ['error', {'singleQuote': false}],
     'no-console': 0,
-    'no-var': 'error',
-    'prefer-const': 'error',
-  },
-  'extends': ['prettier', 'eslint:recommended']
+  },]
 };
