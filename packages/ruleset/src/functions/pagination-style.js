@@ -1,4 +1,4 @@
-const { isSdkExcluded, mergeAllOfSchemaProperties } = require('../utils');
+const { mergeAllOfSchemaProperties } = require('../utils');
 
 module.exports = function(pathObj, _opts, { path }) {
   return paginationStyle(pathObj, path);
@@ -18,9 +18,8 @@ function debug(msg) {
  * An operation is considered to be a paginated "list"-type operation if:
  * 1. The path doesn't end in a path param reference (e.g. /v1/drinks vs /v1/drinks/{drink_id})
  * 2. The operation is a "get"
- * 3. The operation is not excluded via the x-sdk-exclude extension.
- * 4. The operation's response schema is an object containing an array property.
- * 5. The operation defines either an "offset" query param or a page token-type query param
+ * 3. The operation's response schema is an object containing an array property.
+ * 4. The operation defines either an "offset" query param or a page token-type query param
  *    whose name is in ['start', 'token', 'cursor', 'page', 'page_token'].
  *
  * The specific checks that are performed are identified in the comments below (e.g. "Check #1").
@@ -44,8 +43,7 @@ function paginationStyle(pathItem, path) {
   // We'll bail out now if any of the following are true:
   // 1. If the path string ends with a path param reference (e.g. '{resource_id}'
   // 2. If the path item doesn't have a 'get' operation.
-  // 3. The 'get' operation is excluded via the 'x-sdk-exclude' extension.
-  if (/}$/.test(pathStr) || !operation || isSdkExcluded(operation)) {
+  if (/}$/.test(pathStr) || !operation) {
     debug('"get" operation doesn\'t exist or is excluded');
     return [];
   }

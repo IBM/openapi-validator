@@ -13,18 +13,6 @@ describe('Spectral rule: parameter-default', () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Excluded required parameter with default', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.components.parameters['DrinkIdParam'].schema.default = 'foo';
-      testDocument.components.parameters['DrinkIdParam'][
-        'x-sdk-exclude'
-      ] = true;
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
-
     it('Optional parameter with default', async () => {
       const testDocument = makeCopy(rootDocument);
 

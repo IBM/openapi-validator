@@ -1,5 +1,5 @@
 const { casing } = require('@stoplight/spectral-functions');
-const { isSdkExcluded, isDeprecated } = require('../utils');
+const { isDeprecated } = require('../utils');
 
 // Error message prefix for each parameter type.
 const errorMsgPrefix = {
@@ -28,8 +28,8 @@ module.exports = function(param, options, { path }) {
  * @returns an array containing zero or more error objects
  */
 function parameterCaseConvention(param, path, casingConfig) {
-  // Don't bother enforcing the rule on excluded or deprecated parameters.
-  if (isSdkExcluded(param) || isDeprecated(param)) {
+  // Don't bother enforcing the rule on deprecated parameters.
+  if (isDeprecated(param)) {
     return [];
   }
 

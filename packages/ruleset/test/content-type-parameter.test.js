@@ -14,26 +14,6 @@ describe('Spectral rule: content-type-parameter', () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Excluded header parameter named Content-Type', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.paths['/v1/drinks'].parameters = [
-        {
-          description: 'The request body mimetype.',
-          name: 'Content-Type',
-          required: true,
-          in: 'header',
-          'x-sdk-exclude': true,
-          schema: {
-            type: 'string'
-          }
-        }
-      ];
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
-
     it('Query parameter named Content-Type', async () => {
       const testDocument = makeCopy(rootDocument);
 

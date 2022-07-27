@@ -12,18 +12,6 @@ describe('Spectral rule: parameter-description', () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
-
-    it('Excluded parameter with no description', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      delete testDocument.components.parameters['DrinkIdParam'].description;
-      testDocument.components.parameters['DrinkIdParam'][
-        'x-sdk-exclude'
-      ] = true;
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
   });
 
   describe('Should yield errors', () => {

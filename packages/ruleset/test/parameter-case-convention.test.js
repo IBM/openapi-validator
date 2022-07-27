@@ -88,60 +88,6 @@ describe('Spectral rule: parameter-case-convention', () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Excluded query parameter with incorrect case', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.paths['/v1/movies'].get.parameters.push({
-        description: 'An optional movie rating to filter on.',
-        name: 'movieRating',
-        required: false,
-        in: 'query',
-        'x-sdk-exclude': true,
-        schema: {
-          type: 'string'
-        }
-      });
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
-
-    it('Excluded path parameter with incorrect case', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.paths['/v1/movies'].get.parameters.push({
-        description: 'An optional movie rating to filter on.',
-        name: 'movieRating',
-        required: false,
-        in: 'path',
-        'x-sdk-exclude': true,
-        schema: {
-          type: 'string'
-        }
-      });
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
-
-    it('Excluded header parameter with incorrect case', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.paths['/v1/movies'].get.parameters.push({
-        description: 'An optional movie rating to filter on.',
-        name: 'movie_rating',
-        required: false,
-        in: 'header',
-        'x-sdk-exclude': true,
-        schema: {
-          type: 'string'
-        }
-      });
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
-
     it('Deprecated query parameter with incorrect case', async () => {
       const testDocument = makeCopy(rootDocument);
 

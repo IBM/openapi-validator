@@ -7,7 +7,6 @@ module.exports = {
   isJsonMimeType: require('./is-json-mimetype'),
   isObject: require('./is-object'),
   isPrimitiveType: require('./is-primitive-type'),
-  isSdkExcluded: require('./is-sdk-excluded'),
   mergeAllOfSchemaProperties: require('./merge-allof-schema-properties'),
   operationMethods: require('./constants'),
   pathMatchesRegexp: require('./path-matches-regexp'),

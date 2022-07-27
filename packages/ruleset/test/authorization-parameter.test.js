@@ -14,26 +14,6 @@ describe('Spectral rule: authorization-parameter', () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Excluded header parameter named Authorization', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.paths['/v1/drinks'].parameters = [
-        {
-          description: 'The bearer token.',
-          name: 'Authorization',
-          required: true,
-          in: 'header',
-          'x-sdk-exclude': true,
-          schema: {
-            type: 'string'
-          }
-        }
-      ];
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
-
     it('Query parameter named Authorization', async () => {
       const testDocument = makeCopy(rootDocument);
 
