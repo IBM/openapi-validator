@@ -5,12 +5,6 @@ module.exports = function(schema, _opts, { path }) {
 };
 
 function checkDuplicateDescription(schema, path) {
-  // If "schema" is a $ref, that means it didn't get resolved
-  // properly (perhaps due to a circular ref), so just ignore it.
-  if (schema.$ref) {
-    return [];
-  }
-
   // We're only interested in a schema or schema property that has an allOf list.
   if (!Array.isArray(schema.allOf) || !schema.allOf.length) {
     return [];

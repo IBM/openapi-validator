@@ -7,6 +7,9 @@
  * Nested schemas included via `allOf`, `oneOf`, and `anyOf` are validated, but composed schemas
  * are not themselves validated. Nested schemas included via `not` are not validated.
  *
+ * Note: it is only safe to use this method within functions operating on the "resolved" specification,
+ * which should always be the case.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @param {array} path - Path array for the provided schema.
  * @param {function} validate - Validate function.
@@ -21,6 +24,12 @@ const validateNestedSchemas = (
   includeSelf = true,
   includeNot = false
 ) => {
+  // If "schema" is a $ref, that means it didn't get resolved
+  // properly (perhaps due to a circular ref), so just ignore it.
+  if (schema.$ref) {
+    return [];
+  }
+
   const errors = [];
 
   if (includeSelf) {

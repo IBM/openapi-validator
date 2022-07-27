@@ -188,4 +188,21 @@ describe('Utility function: validateComposedSchemas()', () => {
 
     expect(visitedPaths).toEqual(['']);
   });
+
+  it('should skip schemas defined by a $ref', async () => {
+    const schema = {
+      allOf: [
+        {
+          $ref: '#/components/schemas/SomeSchema'
+        },
+        {}
+      ]
+    };
+
+    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
+      return [p.join('.')];
+    });
+
+    expect(visitedPaths.sort()).toEqual(['', 'allOf.1'].sort());
+  });
 });

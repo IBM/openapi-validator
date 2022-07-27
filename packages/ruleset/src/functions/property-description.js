@@ -9,11 +9,6 @@ module.exports = function(schema, _opts, { path }) {
 };
 
 function propertyDescription(schema, path) {
-  // If "schema" is a $ref, that means it didn't get resolved
-  // properly (perhaps due to a circular ref), so just ignore it.
-  if (schema.$ref) {
-    return [];
-  }
   // If "schema" is a schema property, then check for a description.
   const isSchemaProperty = pathMatchesRegexp(path, /^.*,properties,[^,]*$/);
   if (isSchemaProperty && !schemaHasDescription(schema)) {

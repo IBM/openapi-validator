@@ -202,4 +202,24 @@ describe('Utility function: validateNestedSchemas()', () => {
       return [];
     });
   });
+
+  it('should skip schemas defined by a $ref', async () => {
+    const schema = {
+      properties: {
+        one: {},
+        two: {},
+        three: {
+          $ref: '#/components/schemas/Three'
+        }
+      }
+    };
+
+    const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
+      return [p.join('.')];
+    });
+
+    expect(visitedPaths.sort()).toEqual(
+      ['', 'properties.one', 'properties.two'].sort()
+    );
+  });
 });

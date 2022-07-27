@@ -12,12 +12,6 @@ function schemaType(schema, path) {
     return [];
   }
 
-  // If "schema" is a $ref, that means it didn't get resolved
-  // properly (perhaps due to a circular ref), so just ignore it.
-  if (schema.$ref) {
-    return [];
-  }
-
   const mergedSchema = mergeAllOfSchemaProperties(schema);
 
   if (!schemaHasType(mergedSchema)) {
