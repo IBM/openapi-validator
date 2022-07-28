@@ -11,15 +11,6 @@ describe('Spectral rule: operation-id-case-convention', () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
-
-    it('Non-snake case operationId for excluded operation', async () => {
-      const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/drinks'].post.operationId = 'CreateDrink';
-      testDocument.paths['/v1/drinks'].post['x-sdk-exclude'] = true;
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
   });
 
   describe('Should yield errors', () => {

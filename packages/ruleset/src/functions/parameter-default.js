@@ -1,5 +1,3 @@
-const { isSdkExcluded } = require('../utils');
-
 module.exports = function(param, _opts, { path }) {
   return parameterDefault(param, path);
 };
@@ -9,7 +7,7 @@ const errorMsg = 'Required parameter should not define a default value';
 function parameterDefault(param, path) {
   const results = [];
 
-  if (!isSdkExcluded(param) && param.required && paramHasDefault(param)) {
+  if (param.required && paramHasDefault(param)) {
     results.push({
       message: errorMsg,
       path

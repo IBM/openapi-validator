@@ -1,5 +1,3 @@
-const { isSdkExcluded } = require('../utils');
-
 /**
  * This custom rule function is used to check for disallowed header parameters,
  * such as Authorization, Accept, or Content-Type.
@@ -26,8 +24,8 @@ module.exports = function(param, options, { path }) {
 // Return an error if 'param' is a header parameter named '<headerName>'.
 
 function checkHeaderParam(param, path, headerName) {
-  // Don't bother enforcing the rule on excluded parameters or parameter references.
-  if (!isSdkExcluded(param) && !param.$ref) {
+  // Don't bother enforcing the rule on parameter references.
+  if (!param.$ref) {
     const isHeader = param.in && param.in.toLowerCase() === 'header';
     const isDisallowedHeader =
       param.name && param.name.trim().toLowerCase() === headerName;

@@ -1,5 +1,4 @@
 const { casing } = require('@stoplight/spectral-functions');
-const { isSdkExcluded } = require('../utils');
 let casingConfig;
 
 module.exports = function(operation, options, { path }) {
@@ -11,12 +10,11 @@ module.exports = function(operation, options, { path }) {
 };
 
 function operationIdCaseConvention(operation, path) {
-  // Bypass the check if the operation is excluded or if the
-  // operationId value is missing (the existence of an operationId value
-  // is checked by the 'operation-operationId' rule).
+  // Bypass the check if the operationId value is missing (the existence
+  // of an operationId value is checked by the 'operation-operationId' rule).
   const operationId =
     operation.operationId && operation.operationId.toString().trim();
-  if (isSdkExcluded(operation) || !operationId) {
+  if (!operationId) {
     return [];
   }
 

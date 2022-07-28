@@ -66,16 +66,6 @@ describe('Spectral rule: pagination-style', () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
-    it('Invalid pagination on get that is x-sdk-excluded', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      // Make the get operation invalid by marking offset param as required.
-      testDocument.paths['/v1/drinks'].get.parameters[0].required = true;
-      testDocument.paths['/v1/drinks'].get['x-sdk-exclude'] = true;
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
     it('Invalid pagination on get w/no success response code', async () => {
       const testDocument = makeCopy(rootDocument);
 
