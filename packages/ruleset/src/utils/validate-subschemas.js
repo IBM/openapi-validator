@@ -8,6 +8,9 @@ const validateNestedSchemas = require('./validate-nested-schemas');
  * and applicator schemas (such as those in an `allOf` or `oneOf` property), plus all subschemas
  * of those schemas.
  *
+ * Note: it is only safe to use this method within functions operating on the "resolved" specification,
+ * which should always be the case.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @param {array} path - Path array for the provided schema.
  * @param {function} validate - Validate function.

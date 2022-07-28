@@ -17,12 +17,6 @@ function debug(msg) {
 }
 
 function arrayBoundaryErrors(schema, path) {
-  // If "schema" is a $ref, that means it didn't get resolved
-  // properly (perhaps due to a circular ref), so just ignore it.
-  if (schema.$ref) {
-    return [];
-  }
-
   if (getSchemaType(schema) !== SchemaType.ARRAY) {
     return [];
   }

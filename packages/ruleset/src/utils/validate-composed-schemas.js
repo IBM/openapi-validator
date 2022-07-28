@@ -6,6 +6,9 @@
  *
  * Composed schemas DO NOT include nested schemas (property schemas, items schemas).
  *
+ * Note: it is only safe to use this method within functions operating on the "resolved" specification,
+ * which should always be the case.
+ *
  * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
  * @param {array} path - Path array for the provided schema.
  * @param {function} validate - Validate function.
@@ -20,6 +23,12 @@ const validateComposedSchemas = (
   includeSelf = true,
   includeNot = true
 ) => {
+  // If "schema" is a $ref, that means it didn't get resolved
+  // properly (perhaps due to a circular ref), so just ignore it.
+  if (schema.$ref) {
+    return [];
+  }
+
   const errors = [];
 
   if (includeSelf) {

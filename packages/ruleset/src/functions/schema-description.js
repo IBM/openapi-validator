@@ -9,12 +9,6 @@ module.exports = function(schema, _opts, { path }) {
 };
 
 function schemaDescription(schema, path) {
-  // If "schema" is a $ref, that means it didn't get resolved
-  // properly (perhaps due to a circular ref), so just ignore it.
-  if (schema.$ref) {
-    return [];
-  }
-
   //
   // Check to see if "path" represents a primary schema (i.e. not a schema property).
   // Note: the regexp used below uses a "lookbehind assertion"
