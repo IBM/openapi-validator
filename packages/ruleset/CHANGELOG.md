@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.32.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.32.1...@ibm-cloud/openapi-ruleset@0.32.2) (2022-07-28)
+
+
+### Bug Fixes
+
+* stop considering x-sdk-excluded annotation in validations ([#472](https://github.com/IBM/openapi-validator/issues/472)) ([e7f4e63](https://github.com/IBM/openapi-validator/commit/e7f4e63b96ec2084ce7039743e7dc28e60cf9245))
+
 ## @ibm-cloud/openapi-ruleset [0.32.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.32.0...@ibm-cloud/openapi-ruleset@0.32.1) (2022-07-22)
 
 
