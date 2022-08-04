@@ -1,7 +1,12 @@
-const { validateSubschemas } = require('../utils');
+const {
+  checkCompositeSchemaForConstraint,
+  getCompositeSchemaAttribute,
+  isStringSchema,
+  validateNestedSchemas
+} = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, stringBoundaryErrors, true, false);
+  return validateNestedSchemas(schema, path, stringBoundaryErrors, true, false);
 };
 
 // Rudimentary debug logging that is useful in debugging this rule.
@@ -20,35 +25,40 @@ const bypassFormats = {
   maxLength: ['date']
 };
 
+/**
+ * This function performs various checks on a string schema property to make sure it
+ * contains the "pattern", "minLength" and "maxLength" attributes.
+ * @param {*} schema the schema to check
+ * @param {*} path the array of path segments indicating the "location" of the pathItem within the API definition
+ * @returns an array containing the violations found or [] if no violations
+ */
 function stringBoundaryErrors(schema, path) {
   const errors = [];
 
-  if (schema.type === 'string') {
-    if (isUndefinedOrNull(schema.enum)) {
-      if (
-        isUndefinedOrNull(schema.pattern) &&
-        !bypassFormats.pattern.includes(schema.format)
-      ) {
+  if (isStringSchema(schema)) {
+    // Perform these checks only if enum is not defined.
+    if (!schemaContainsAttribute(schema, 'enum')) {
+      // Retrieve the relevant attributes of "schema" ahead of time for use below.
+      const format = getCompositeSchemaAttribute(schema, 'format');
+      const pattern = getCompositeSchemaAttribute(schema, 'pattern');
+      const minLength = getCompositeSchemaAttribute(schema, 'minLength');
+      const maxLength = getCompositeSchemaAttribute(schema, 'maxLength');
+
+      if (!isDefined(pattern) && !bypassFormats.pattern.includes(format)) {
         errors.push({
           message: 'Should define a pattern for a valid string',
           path
         });
         debug('>>> pattern field missing for: ' + path.join('.'));
       }
-      if (
-        isUndefinedOrNull(schema.minLength) &&
-        !bypassFormats.minLength.includes(schema.format)
-      ) {
+      if (!isDefined(minLength) && !bypassFormats.minLength.includes(format)) {
         errors.push({
           message: 'Should define a minLength for a valid string',
           path
         });
         debug('>>> minLength field missing for: ' + path.join('.'));
       }
-      if (
-        isUndefinedOrNull(schema.maxLength) &&
-        !bypassFormats.maxLength.includes(schema.format)
-      ) {
+      if (!isDefined(maxLength) && !bypassFormats.maxLength.includes(format)) {
         errors.push({
           message: 'Should define a maxLength for a valid string',
           path
@@ -56,32 +66,32 @@ function stringBoundaryErrors(schema, path) {
         debug('>>> maxLength field missing for: ' + path.join('.'));
       }
       if (
-        !isUndefinedOrNull(schema.minLength) &&
-        !isUndefinedOrNull(schema.maxLength) &&
-        schema.minLength > schema.maxLength
+        isDefined(minLength) &&
+        isDefined(maxLength) &&
+        minLength > maxLength
       ) {
         errors.push({
           message: 'minLength cannot be greater than maxLength',
           path
         });
-        debug('>>> minLength >= maxLength for: ' + path.join('.'));
+        debug('>>> minLength > maxLength for: ' + path.join('.'));
       }
     }
   } else {
     // Make sure that string-related fields are not present in a non-string schema.
-    if (schema.pattern) {
+    if (schemaContainsAttribute(schema, 'pattern')) {
       errors.push({
         message: 'pattern should not be defined for a non-string schema',
         path: [...path, 'pattern']
       });
     }
-    if (schema.minLength) {
+    if (schemaContainsAttribute(schema, 'minLength')) {
       errors.push({
         message: 'minLength should not be defined for a non-string schema',
         path: [...path, 'minLength']
       });
     }
-    if (schema.maxLength) {
+    if (schemaContainsAttribute(schema, 'maxLength')) {
       errors.push({
         message: 'maxLength should not be defined for a non-string schema',
         path: [...path, 'maxLength']
@@ -91,6 +101,15 @@ function stringBoundaryErrors(schema, path) {
   return errors;
 }
 
-function isUndefinedOrNull(obj) {
-  return obj === undefined || obj === null;
+function isDefined(x) {
+  return x !== null && x !== undefined;
+}
+
+// Returns true iff 'schema' contains the specified attribute either
+// directly or within one of its composition "children".
+function schemaContainsAttribute(schema, attrName) {
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => attrName in s && isDefined(s[attrName])
+  );
 }

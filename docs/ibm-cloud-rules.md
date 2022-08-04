@@ -3974,8 +3974,23 @@ servers:
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>String schema properties should define the <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields
-[<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#string">1</a>].</td>
+<td>This rule checks to make sure that string schema properties define the <code>pattern</code>, <code>minLength</code> and <code>maxLength</code>
+fields in order to clearly define the set of valid values for the property.
+[<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#string">1</a>].
+<p>Note that these checks are bypassed for the following scenarios:
+<ul>
+<li>All checks are bypassed for string schemas that are used only within an operation response.
+<li>All checks are bypassed for string schemas that contain an <code>enum</code> field.</li>
+<li>The check for the <code>pattern</code> field is bypassed if <code>format</code> is set to 
+<code>binary</code>, <code>byte</code>, <code>date</code>, <code>date-time</code>, or <code>url</code>.</li>
+<li>The check for the <code>minLength</code> field is bypassed if <code>format</code> is set to
+<code>date</code>, <code>identifier</code>, or <code>url</code>.</li>
+<li>The check for the <code>maxLength</code> field is bypassed if <code>format</code> is set to <code>date</code>.</li>
+</ul>
+<p>This rule also checks non-string schema properties to make sure they do not define the
+code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields since these fields are applicable
+only for string schemas.
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
