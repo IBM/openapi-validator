@@ -98,6 +98,7 @@ module.exports = {
     'authorization-parameter': ibmRules.authorizationParameter,
     'binary-schemas': ibmRules.binarySchemas,
     'circular-refs': ibmRules.circularRefs,
+    'consecutive-path-param-segments': ibmRules.consecutivePathParamSegments,
     'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'content-entry-provided': ibmRules.contentEntryProvided,
     'content-type-parameter': ibmRules.contentTypeParameter,
@@ -145,6 +146,7 @@ module.exports = {
     'server-variable-default-value': ibmRules.serverVariableDefaultValue,
     'string-boundary': ibmRules.stringBoundary,
     'unused-tag': ibmRules.unusedTag,
+    'valid-path-segments': ibmRules.validPathSegments,
     'valid-type-format': ibmRules.validTypeFormat
   }
 };
