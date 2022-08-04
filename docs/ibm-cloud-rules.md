@@ -35,6 +35,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: array-responses](#rule-array-responses)
   * [Rule: authorization-parameter](#rule-authorization-parameter)
   * [Rule: binary-schemas](#rule-binary-schemas)
+  * [Rule: consecutive-path-param-segments](#rule-consecutive-path-param-segments)
   * [Rule: circular-refs](#rule-circular-refs)
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
@@ -81,6 +82,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: server-variable-default-value](#rule-server-variable-default-value)
   * [Rule: string-boundary](#rule-string-boundary)
   * [Rule: unused-tag](#rule-unused-tag)
+  * [Rule: valid-path-segments](#rule-valid-path-segments)
   * [Rule: valid-type-format](#rule-valid-type-format)
 
 <!-- tocstop -->
@@ -142,6 +144,14 @@ is provided in the [Reference](#reference) section below.
 <td>warn</td>
 <td>Makes sure that binary schemas are used only in proper locations within the API definition</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-consecutive-path-param-segments">consecutive-path-param-segments</a></td>
+<td>error</td>
+<td>Checks each path string in the API definition to detect the presence of two or more consecutive
+path segments that contain a path parameter reference (e.g. <code>/v1/foos/{foo_id}/{bar_id}</code>), 
+which is not allowed.</td>
+<td>oas2, oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-circular-refs">circular-refs</a></td>
@@ -419,6 +429,12 @@ has non-form content.</td>
 <td>warn</td>
 <td>Verifies that each defined tag is referenced by at least one operation</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-valid-path-segments">valid-path-segments</a></td>
+<td>error</td>
+<td>Checks each path string in the API to make sure path parameter references are valid within path segments</td>
+<td>oas2, oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-valid-type-format">valid-type-format</a></td>
@@ -1060,6 +1076,60 @@ paths:
               schema:
                 type: string
                 format: binary
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: consecutive-path-param-segments
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>consecutive-path-param-segments</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks each path string in the API to detect the presence of two or more path segments that contain
+a parameter reference, which is not allowed.
+For example, the path <code>/v1/foos/{foo_id}/{bar_id}</code> is invalid and should probably be <code>/v1/foos/{foo_id}/bars/{bar_id}</code>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/foos/{foo_id}/{bar_id}':
+    parameters:
+      - $ref: '#/components/parameters/FooIdParam'
+      - $ref: '#/components/parameters/BarIdParam'
+  get:
+    operationId: get_foobar
+    ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/foos/{foo_id}/bars/{bar_id}':
+    parameters:
+      - $ref: '#/components/parameters/FooIdParam'
+      - $ref: '#/components/parameters/BarIdParam'
+  get:
+    operationId: get_foobar
+    ...
 </pre>
 </td>
 </tr>
@@ -4094,6 +4164,59 @@ paths:
       summary: Create a Thing
       tags:
         - Things
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: valid-path-segments
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>valid-path-segments</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule validates the path segments within each path string found in the API.
+Specifically, the rule makes sure that any path segment containing a path parameter reference contains
+only that parameter reference and nothing more.
+For example, the path <code>/v1/foos/_{foo_id}_</code> is invalid and should probably be <code>/v1/foos/{foo_id}</code>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/foos/_{foo_id}_':
+    parameters:
+      - $ref: '#/components/parameters/FooIdParam'
+  get:
+    operationId: get_foo
+    ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/foos/{foo_id}':
+    parameters:
+      - $ref: '#/components/parameters/FooIdParam'
+  get:
+    operationId: get_foo
+    ...
 </pre>
 </td>
 </tr>

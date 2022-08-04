@@ -7,6 +7,7 @@ module.exports = {
   authorizationParameter: require('./authorization-parameter'),
   binarySchemas: require('./binary-schemas'),
   circularRefs: require('./circular-refs'),
+  consecutivePathParamSegments: require('./consecutive-path-param-segments'),
   contentEntryContainsSchema: require('./content-entry-contains-schema'),
   contentEntryProvided: require('./content-entry-provided'),
   contentTypeParameter: require('./content-type-parameter'),
@@ -52,5 +53,6 @@ module.exports = {
   serverVariableDefaultValue: require('./server-variable-default-value'),
   stringBoundary: require('./string-boundary'),
   unusedTag: require('./unused-tag'),
+  validPathSegments: require('./valid-path-segments'),
   validTypeFormat: require('./valid-type-format')
 };

@@ -6,6 +6,7 @@ module.exports = {
   binarySchemas: require('./binary-schemas'),
   checkMajorVersion: require('./check-major-version'),
   circularRefs: require('./circular-refs'),
+  consecutivePathParamSegments: require('./consecutive-path-param-segments'),
   deleteBody: require('./delete-body'),
   descriptionMentionsJSON: require('./description-mentions-json'),
   disallowedHeaderParameter: require('./disallowed-header-parameter'),
@@ -41,5 +42,6 @@ module.exports = {
   securitySchemes: require('./security-schemes').securitySchemes,
   stringBoundary: require('./string-boundary'),
   unusedTag: require('./unused-tag').unusedTag,
+  validatePathSegments: require('./valid-path-segments'),
   validTypeFormat: require('./valid-type-format')
 };
