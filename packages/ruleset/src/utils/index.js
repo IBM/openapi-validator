@@ -1,6 +1,7 @@
 module.exports = {
   checkCompositeSchemaForConstraint: require('./check-composite-schema-for-constraint'),
   checkCompositeSchemaForProperty: require('./check-composite-schema-for-property'),
+  getCompositeSchemaAttribute: require('./get-composite-schema-attribute'),
   getPropertyNamesForSchema: require('./get-property-names-for-schema'),
   isDeprecated: require('./is-deprecated'),
   isFormMimeType: require('./is-form-mimetype'),
