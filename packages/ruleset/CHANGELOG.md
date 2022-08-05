@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.32.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.32.2...@ibm-cloud/openapi-ruleset@0.32.3) (2022-08-05)
+
+
+### Bug Fixes
+
+* **string-boundary:** improve handling of composed schemas ([#473](https://github.com/IBM/openapi-validator/issues/473)) ([1dfa961](https://github.com/IBM/openapi-validator/commit/1dfa9618c76ba040a9b864efad1a6d3b68ed1938))
+
 ## @ibm-cloud/openapi-ruleset [0.32.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.32.1...@ibm-cloud/openapi-ruleset@0.32.2) (2022-07-28)
 
 
