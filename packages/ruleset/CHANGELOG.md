@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.33.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.32.3...@ibm-cloud/openapi-ruleset@0.33.0) (2022-08-08)
+
+
+### Features
+
+* add 2 new rules related to path segments ([014f8a9](https://github.com/IBM/openapi-validator/commit/014f8a95aac125b31309d644376461f3dbae857a))
+
 ## @ibm-cloud/openapi-ruleset [0.32.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.32.2...@ibm-cloud/openapi-ruleset@0.32.3) (2022-08-05)
 
 
