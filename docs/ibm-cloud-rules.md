@@ -52,6 +52,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: inline-response-schema](#rule-inline-response-schema)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
   * [Rule: missing-required-property](#rule-missing-required-property)
+  * [Rule: no-etag-header](#rule-no-etag-header)
   * [Rule: operation-id-case-convention](#rule-operation-id-case-convention)
   * [Rule: operation-id-naming-convention](#rule-operation-id-naming-convention)
   * [Rule: operation-summary](#rule-operation-summary)
@@ -247,6 +248,14 @@ which is not allowed.</td>
 <td><a href="#rule-missing-required-property">missing-required-property</a></td>
 <td>error</td>
 <td>A schema property defined as <code>required</code> must be defined within the schema</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-no-etag-header">no-etag-header</a></td>
+<td>error</td>
+<td>Verifies that the <code>ETag</code> response header is defined in the <code>GET</code> operation
+for any resources (paths) that support the <code>If-Match</code> and/or <code>If-None-Match</code> header parameters.
+</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -2090,6 +2099,116 @@ components:
       required:
         - thing_id
         - thing_version
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: no-etag-header
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>no-etag-header</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks each path item (the object containing operations with keys 'get', 'post', 'delete', etc.) to make sure that
+the path item's <code>GET</code> operation defines the <code>ETag</code> response header if it is, in fact, needed.
+An <code>ETag</code> response header is needed if there are operations within the same
+path item that support the <code>If-Match</code> or <code>If-Not-Match</code> header parameters.
+<p>The reasoning behind this rule is that if a given path has one or more operations in which the user needs
+to provide a value for the <code>If-Match</code> or <code>If-None-Match</code> header parameters
+(sometimes referred to as an "etag value"), then the API
+must provide a way for the user to obtain the etag value.
+And, the standard way for a service to provide an etag value to the user is by returning it as the <code>ETag</code> response header
+within the <code>GET</code> operation's response.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - name: thing_id
+        description: The id of the Thing.
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: get_thing
+      responses:
+        '200':
+          description: 'Success response!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingCollection'
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: 'If-Match'
+          description: The etag value associated with the Thing instance to be deleted.
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'Success response!'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - name: thing_id
+        description: The id of the Thing.
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: get_thing
+      responses:
+        '200':
+          description: 'Success response!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingCollection'
+          headers:
+            ETag:
+              description: The unique etag value associated with the instance that was retrieved.
+              schema:
+                type: string
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: 'If-Match'
+          description: The etag value associated with the Thing instance to be deleted.
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'Success response!'
 </pre>
 </td>
 </tr>

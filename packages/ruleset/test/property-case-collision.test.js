@@ -38,7 +38,7 @@ describe('Spectral rule: property-case-collision', () => {
 
     const results = await testRule(name, propertyCaseCollision, testDocument);
 
-    expect(results).toHaveLength(3);
+    expect(results).toHaveLength(5);
 
     const validation = results[0];
     expect(validation.code).toBe(name);

@@ -220,7 +220,7 @@ describe('Spectral rule: description-mentions-json', () => {
         'This is NOT a JSON object!';
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(3);
+      expect(results).toHaveLength(5);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
@@ -263,6 +263,29 @@ describe('Spectral rule: description-mentions-json', () => {
         'properties',
         'movies',
         'items',
+        'properties',
+        'id'
+      ]);
+      expect(results[3].path).toStrictEqual([
+        'paths',
+        '/v1/movies/{movie_id}',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'id'
+      ]);
+      expect(results[4].path).toStrictEqual([
+        'paths',
+        '/v1/movies/{movie_id}',
+        'put',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
         'properties',
         'id'
       ]);
@@ -285,7 +308,7 @@ describe('Spectral rule: description-mentions-json', () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(3);
+      expect(results).toHaveLength(5);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
@@ -328,6 +351,29 @@ describe('Spectral rule: description-mentions-json', () => {
         'properties',
         'movies',
         'items',
+        'properties',
+        'x-not-an-extension'
+      ]);
+      expect(results[3].path).toStrictEqual([
+        'paths',
+        '/v1/movies/{movie_id}',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'x-not-an-extension'
+      ]);
+      expect(results[4].path).toStrictEqual([
+        'paths',
+        '/v1/movies/{movie_id}',
+        'put',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
         'properties',
         'x-not-an-extension'
       ]);
