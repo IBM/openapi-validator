@@ -164,7 +164,7 @@ describe('Spectral rule: property-description', () => {
       testDocument.components.schemas['IdString'].description = '';
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(3);
+      expect(results).toHaveLength(5);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
@@ -178,6 +178,12 @@ describe('Spectral rule: property-description', () => {
       );
       expect(results[2].path.join('.')).toBe(
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.id'
+      );
+      expect(results[3].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.id'
+      );
+      expect(results[4].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.properties.id'
       );
     });
 

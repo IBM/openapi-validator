@@ -140,7 +140,7 @@ describe('Spectral rule: array-of-arrays', () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(3);
+      expect(results).toHaveLength(5);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMessage);
@@ -186,6 +186,31 @@ describe('Spectral rule: array-of-arrays', () => {
         'properties',
         'movies',
         'items',
+        'properties',
+        'array_prop'
+      ]);
+
+      expect(results[3].path).toStrictEqual([
+        'paths',
+        '/v1/movies/{movie_id}',
+        'get',
+        'responses',
+        '200',
+        'content',
+        'application/json',
+        'schema',
+        'properties',
+        'array_prop'
+      ]);
+
+      expect(results[4].path).toStrictEqual([
+        'paths',
+        '/v1/movies/{movie_id}',
+        'put',
+        'requestBody',
+        'content',
+        'application/json',
+        'schema',
         'properties',
         'array_prop'
       ]);

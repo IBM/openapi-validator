@@ -114,6 +114,7 @@ module.exports = {
     'inline-response-schema': ibmRules.inlineResponseSchema,
     'major-version-in-path': ibmRules.majorVersionInPath,
     'missing-required-property': ibmRules.missingRequiredProperty,
+    'no-etag-header': ibmRules.noEtagHeader,
     'operation-id-case-convention': ibmRules.operationIdCaseConvention,
     'operation-id-naming-convention': ibmRules.operationIdNamingConvention,
     'operation-summary': ibmRules.operationSummary,

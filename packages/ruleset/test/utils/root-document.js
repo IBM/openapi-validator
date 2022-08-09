@@ -367,6 +367,90 @@ module.exports = {
         }
       }
     },
+    '/v1/movies/{movie_id}': {
+      parameters: [
+        {
+          $ref: '#/components/parameters/MovieIdParam'
+        }
+      ],
+      get: {
+        operationId: 'get_movie',
+        summary: 'Get a movie',
+        description: 'Retrieve the movie and return it in the response.',
+        tags: ['TestTag'],
+        security: [
+          {
+            MovieScheme: ['moviegoer']
+          }
+        ],
+        responses: {
+          '200': {
+            $ref: '#/components/responses/MovieWithETag'
+          },
+          '400': {
+            description: 'Didnt work!',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      },
+      put: {
+        operationId: 'replace_movie',
+        summary: 'Replace movie',
+        description: 'Replace a movie with updated state information.',
+        tags: ['TestTag'],
+        parameters: [
+          {
+            $ref: '#/components/parameters/IfMatchParam'
+          }
+        ],
+        security: [
+          {
+            MovieScheme: ['director']
+          }
+        ],
+        'x-codegen-request-body-name': 'movie',
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Movie'
+              }
+            }
+          }
+        },
+        responses: {
+          '204': {
+            description: 'The movie was successfully updated.'
+          },
+          '400': {
+            description: 'Didnt work!',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          },
+          '409': {
+            description: 'Resource conflict!',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Error'
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     '/v1/cars': {
       post: {
         operationId: 'create_car',
@@ -455,6 +539,18 @@ module.exports = {
           maxLength: 30
         }
       },
+      MovieIdParam: {
+        name: 'movie_id',
+        description: 'The id of the movie resource.',
+        in: 'path',
+        required: true,
+        schema: {
+          type: 'string',
+          pattern: '[a-zA-Z0-9 ]+',
+          minLength: 1,
+          maxLength: 30
+        }
+      },
       VerboseParam: {
         description: 'An optional verbose parameter.',
         name: 'verbose',
@@ -484,6 +580,18 @@ module.exports = {
           pattern: '[a-zA-Z0-9 ]+',
           minLength: 1,
           maxLength: 30
+        }
+      },
+      IfMatchParam: {
+        description: 'The If-Match header param.',
+        name: 'If-Match',
+        required: true,
+        in: 'header',
+        schema: {
+          type: 'string',
+          pattern: '[a-zA-Z0-9 ]+',
+          minLength: 1,
+          maxLength: 64
         }
       }
     },
@@ -923,6 +1031,24 @@ module.exports = {
           'application/json': {
             schema: {
               $ref: '#/components/schemas/Drink'
+            }
+          }
+        }
+      },
+      MovieWithETag: {
+        description: 'Success, we retrieved a movie!',
+        content: {
+          'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Movie'
+            }
+          }
+        },
+        headers: {
+          ETag: {
+            description: 'The unique version identifier of the movie.',
+            schema: {
+              $ref: '#/components/schemas/IdString'
             }
           }
         }

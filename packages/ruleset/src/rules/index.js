@@ -23,6 +23,7 @@ module.exports = {
   inlineResponseSchema: require('./inline-response-schema'),
   majorVersionInPath: require('./major-version-in-path'),
   missingRequiredProperty: require('./missing-required-property'),
+  noEtagHeader: require('./no-etag-header'),
   operationIdCaseConvention: require('./operation-id-case-convention'),
   operationIdNamingConvention: require('./operation-id-naming-convention'),
   operationSummary: require('./operation-summary'),
