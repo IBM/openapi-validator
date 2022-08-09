@@ -70,6 +70,51 @@ describe('Spectral rule: content-entry-provided', () => {
     expect(results).toHaveLength(0);
   });
 
+  it('should not error if HEAD response is missing content', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].head = {
+      responses: {
+        '200': {
+          description: 'No content'
+        }
+      }
+    };
+
+    const results = await testRule(name, contentEntryProvided, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
+  it('should not error if OPTIONS response is missing content', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].options = {
+      responses: {
+        '200': {
+          description: 'No content'
+        }
+      }
+    };
+
+    const results = await testRule(name, contentEntryProvided, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
+  it('should not error if TRACE response is missing content', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies'].trace = {
+      responses: {
+        '200': {
+          description: 'No content'
+        }
+      }
+    };
+
+    const results = await testRule(name, contentEntryProvided, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
   it('should error if 201 response is missing content', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post = {
