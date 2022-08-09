@@ -1,7 +1,11 @@
 const stringValidator = require('validator');
 
-module.exports = function(securityScheme, _opts, { path }) {
-  return checkSecuritySchemeAttributes(securityScheme, path);
+module.exports = function(securityScheme, _opts, context) {
+  return checkSecuritySchemeAttributes(
+    securityScheme,
+    context.path,
+    context.document
+  );
 };
 
 const API_KEY = 'apiKey';
@@ -28,9 +32,9 @@ const validIns = ['query', 'header', 'cookie'];
  * @param {*} path the array of path segments indicating the "location" of the securitySchema within the API definition
  * @returns an array containing the violations found or [] if no violations
  */
-function checkSecuritySchemeAttributes(securityScheme, path) {
+function checkSecuritySchemeAttributes(securityScheme, path, doc) {
   const errors = [];
-
+  const serviceUrl = getServiceUrl(doc);
   const type = securityScheme.type;
 
   if (!type) {
@@ -84,10 +88,7 @@ function checkSecuritySchemeAttributes(securityScheme, path) {
         message: `security scheme with type '${OPENID_CONNECT}' is missing required property: openIdConnectUrl`,
         path
       });
-    } else if (
-      typeof openIdConnectUrl !== 'string' ||
-      !stringValidator.isURL(openIdConnectUrl)
-    ) {
+    } else if (!isValidUrl(openIdConnectUrl, serviceUrl)) {
       errors.push({
         message: `security scheme 'openIdConnectUrl' property must be a valid URL`,
         path: [...path, 'openIdConnectUrl']
@@ -125,10 +126,7 @@ function checkSecuritySchemeAttributes(securityScheme, path) {
             message: `oauth2 'authorizationCode' flow is missing required property: tokenUrl`,
             path: [...path, 'flows', 'authorizationCode']
           });
-        } else if (
-          typeof flow.tokenUrl !== 'string' ||
-          !stringValidator.isURL(flow.tokenUrl)
-        ) {
+        } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'tokenUrl' property must be a valid URL`,
             path: [...path, 'flows', 'authorizationCode', 'tokenUrl']
@@ -140,10 +138,7 @@ function checkSecuritySchemeAttributes(securityScheme, path) {
             message: `oauth2 'authorizationCode' flow is missing required property: authorizationUrl`,
             path: [...path, 'flows', 'authorizationCode']
           });
-        } else if (
-          typeof flow.authorizationUrl !== 'string' ||
-          !stringValidator.isURL(flow.authorizationUrl)
-        ) {
+        } else if (!isValidUrl(flow.authorizationUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'authorizationUrl' property must be a valid URL`,
             path: [...path, 'flows', 'authorizationCode', 'authorizationUrl']
@@ -166,10 +161,7 @@ function checkSecuritySchemeAttributes(securityScheme, path) {
             message: `oauth2 'password' flow is missing required property: tokenUrl`,
             path: [...path, 'flows', 'password']
           });
-        } else if (
-          typeof flow.tokenUrl !== 'string' ||
-          !stringValidator.isURL(flow.tokenUrl)
-        ) {
+        } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'tokenUrl' property must be a valid URL`,
             path: [...path, 'flows', 'password', 'tokenUrl']
@@ -192,10 +184,7 @@ function checkSecuritySchemeAttributes(securityScheme, path) {
             message: `oauth2 'clientCredentials' flow is missing required property: tokenUrl`,
             path: [...path, 'flows', 'clientCredentials']
           });
-        } else if (
-          typeof flow.tokenUrl !== 'string' ||
-          !stringValidator.isURL(flow.tokenUrl)
-        ) {
+        } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'tokenUrl' property must be a valid URL`,
             path: [...path, 'flows', 'clientCredentials', 'tokenUrl']
@@ -218,10 +207,7 @@ function checkSecuritySchemeAttributes(securityScheme, path) {
             message: `oauth2 'implicit' flow is missing required property: authorizationUrl`,
             path: [...path, 'flows', 'implicit']
           });
-        } else if (
-          typeof flow.authorizationUrl !== 'string' ||
-          !stringValidator.isURL(flow.authorizationUrl)
-        ) {
+        } else if (!isValidUrl(flow.authorizationUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'authorizationUrl' property must be a valid URL`,
             path: [...path, 'flows', 'implicit', 'authorizationUrl']
@@ -239,4 +225,30 @@ function checkSecuritySchemeAttributes(securityScheme, path) {
   }
 
   return errors;
+}
+
+function getServiceUrl(doc) {
+  const openapi = doc.parserResult.data;
+  if (openapi.servers && openapi.servers.length > 0) {
+    return openapi.servers[0].url;
+  }
+
+  return '';
+}
+
+function isValidUrl(url, serviceUrl) {
+  if (typeof url !== 'string') {
+    return false;
+  }
+
+  // the openapi spec allows url properties to be relative to the url in "servers"
+  if (url.startsWith('/')) {
+    if (serviceUrl.endsWith('/')) {
+      url = serviceUrl + url.slice(1);
+    } else {
+      url = serviceUrl + url;
+    }
+  }
+
+  return stringValidator.isURL(url);
 }

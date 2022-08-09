@@ -28,6 +28,28 @@ describe('Spectral rule: security-scheme-attributes', () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Relative URLs within security schemes', async () => {
+      const testDocument = makeCopy(rootDocument);
+      const flows = testDocument.components.securitySchemes.DrinkScheme.flows;
+      flows.implicit.authorizationUrl = '/relative/url';
+      flows.authorizationCode.tokenUrl = '/relative/url';
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Relative URLs with base url that ends in backslash', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.servers[0].url = 'https://some-madeup-url.com/api/';
+
+      const flows = testDocument.components.securitySchemes.DrinkScheme.flows;
+      flows.implicit.authorizationUrl = '/relative/url';
+      flows.authorizationCode.tokenUrl = '/relative/url';
+
+      const results = await testRule(ruleId, rule, rootDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
