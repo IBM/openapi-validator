@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.33.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.33.0...@ibm-cloud/openapi-ruleset@0.33.1) (2022-08-09)
+
+
+### Bug Fixes
+
+* **security-scheme-attributes:** allow relative urls in scheme attributes ([#475](https://github.com/IBM/openapi-validator/issues/475)) ([da4436a](https://github.com/IBM/openapi-validator/commit/da4436a4e0a3c9b0a863163c4ef6a1577437e360)), closes [#466](https://github.com/IBM/openapi-validator/issues/466)
+
 # @ibm-cloud/openapi-ruleset [0.33.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.32.3...@ibm-cloud/openapi-ruleset@0.33.0) (2022-08-08)
 
 
