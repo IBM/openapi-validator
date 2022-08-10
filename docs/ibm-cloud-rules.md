@@ -350,8 +350,8 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 </tr>
 <tr>
 <td><a href="#rule-property-inconsistent-name-and-type">property-inconsistent-name-and-type</a></td>
-<td>warn</td>
-<td>Avoid using the same property name for properties of different types.</td>
+<td>off</td>
+<td>Avoid using the same property name for properties of different types. This rule is disabled by default.</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
@@ -3232,11 +3232,14 @@ components:
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Avoid using the same property name for properties of different types.</td>
+<td>Avoid using the same property name for properties of different types.
+<br><br>
+<b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
-<td>warn</td>
+<td>off</td>
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>

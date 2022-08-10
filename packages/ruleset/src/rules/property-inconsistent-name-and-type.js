@@ -8,7 +8,7 @@ module.exports = {
   message: '{{error}}',
   formats: [oas2, oas3],
   given: schemas,
-  severity: 'warn',
+  severity: 'off',
   resolved: true,
   then: {
     function: propertyInconsistentNameAndType,
