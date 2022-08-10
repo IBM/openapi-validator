@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.34.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.33.2...@ibm-cloud/openapi-ruleset@0.34.0) (2022-08-10)
+
+
+### Features
+
+* **no-etag-header:** add new 'no-etag-header' spectral-style rule ([791ec7d](https://github.com/IBM/openapi-validator/commit/791ec7da0460c65a23e525445542a72f1978cc2e))
+
 ## @ibm-cloud/openapi-ruleset [0.33.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.33.1...@ibm-cloud/openapi-ruleset@0.33.2) (2022-08-10)
 
 
