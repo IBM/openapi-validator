@@ -1,7 +1,12 @@
-let { propertyInconsistentNameAndType } = require('../src/rules');
+let rule = require('../src/rules').propertyInconsistentNameAndType;
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'property-inconsistent-name-and-type';
+// this rule is turned off by default - enable it to run tests
+// but still verify it is defined in the rule as "off"
+const originalSeverity = makeCopy(rule.severity);
+rule.severity = 'warn';
+
+const ruleId = 'property-inconsistent-name-and-type';
 const expectedSeverity = severityCodes.warning;
 
 describe('Spectral rule: property-inconsistent-name-and-type', () => {
@@ -11,17 +16,17 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
   // isolation between the tests. this will reset that variable after each test
   afterEach(() => {
     jest.resetModules();
-    propertyInconsistentNameAndType = require('../src/rules')
-      .propertyInconsistentNameAndType;
+    rule = require('../src/rules').propertyInconsistentNameAndType;
+    rule.severity = 'warn';
+  });
+
+  it('Should originally be set to severity: "off"', () => {
+    expect(originalSeverity).toBe('off');
   });
 
   describe('Should not yield errors', () => {
     it('should not error with clean spec', async () => {
-      const results = await testRule(
-        name,
-        propertyInconsistentNameAndType,
-        rootDocument
-      );
+      const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -41,12 +46,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
         }
       };
 
-      const results = await testRule(
-        name,
-        propertyInconsistentNameAndType,
-        testDocument
-      );
-
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -94,11 +94,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
         }
       };
 
-      const results = await testRule(
-        name,
-        propertyInconsistentNameAndType,
-        testDocument
-      );
+      const results = await testRule(ruleId, rule, testDocument);
 
       expect(results).toHaveLength(0);
     });
@@ -147,11 +143,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
         }
       };
 
-      const results = await testRule(
-        name,
-        propertyInconsistentNameAndType,
-        testDocument
-      );
+      const results = await testRule(ruleId, rule, testDocument);
 
       expect(results).toHaveLength(0);
     });
@@ -200,11 +192,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
         }
       };
 
-      const results = await testRule(
-        name,
-        propertyInconsistentNameAndType,
-        testDocument
-      );
+      const results = await testRule(ruleId, rule, testDocument);
 
       expect(results).toHaveLength(0);
     });
@@ -253,11 +241,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
         }
       };
 
-      const results = await testRule(
-        name,
-        propertyInconsistentNameAndType,
-        testDocument
-      );
+      const results = await testRule(ruleId, rule, testDocument);
 
       expect(results).toHaveLength(0);
     });
@@ -287,16 +271,12 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
         }
       };
 
-      const results = await testRule(
-        name,
-        propertyInconsistentNameAndType,
-        testDocument
-      );
+      const results = await testRule(ruleId, rule, testDocument);
 
       expect(results).toHaveLength(2);
 
       let validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Properties with the same name have inconsistent types: running_time.'
       );
@@ -306,7 +286,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
       expect(validation.severity).toBe(expectedSeverity);
 
       validation = results[1];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Properties with the same name have inconsistent types: running_time.'
       );
@@ -360,16 +340,12 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
         }
       };
 
-      const results = await testRule(
-        name,
-        propertyInconsistentNameAndType,
-        testDocument
-      );
+      const results = await testRule(ruleId, rule, testDocument);
 
       expect(results).toHaveLength(3);
 
       let validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Properties with the same name have inconsistent types: running_time.'
       );
@@ -379,7 +355,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
       expect(validation.severity).toBe(expectedSeverity);
 
       validation = results[1];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Properties with the same name have inconsistent types: running_time.'
       );
@@ -389,7 +365,7 @@ describe('Spectral rule: property-inconsistent-name-and-type', () => {
       expect(validation.severity).toBe(expectedSeverity);
 
       validation = results[2];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Properties with the same name have inconsistent types: running_time.'
       );
