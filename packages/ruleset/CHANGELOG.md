@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.33.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.33.1...@ibm-cloud/openapi-ruleset@0.33.2) (2022-08-10)
+
+
+### Bug Fixes
+
+* **content-entry-provided:** make exceptions for head, options, and trace operations ([#476](https://github.com/IBM/openapi-validator/issues/476)) ([e5bc535](https://github.com/IBM/openapi-validator/commit/e5bc535f559e2243fde5fb4033d971637911f502)), closes [#235](https://github.com/IBM/openapi-validator/issues/235)
+
 ## @ibm-cloud/openapi-ruleset [0.33.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.33.0...@ibm-cloud/openapi-ruleset@0.33.1) (2022-08-09)
 
 
