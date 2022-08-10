@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.35.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.34.0...@ibm-cloud/openapi-ruleset@0.35.0) (2022-08-10)
+
+
+### Features
+
+* **property-inconsistent-name-and-type:** disable rule in default configuration ([01845f2](https://github.com/IBM/openapi-validator/commit/01845f295cb36fdcf222bbf447fc76417a39106a))
+
 # @ibm-cloud/openapi-ruleset [0.34.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.33.2...@ibm-cloud/openapi-ruleset@0.34.0) (2022-08-10)
 
 
