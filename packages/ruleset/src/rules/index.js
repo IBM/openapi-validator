@@ -20,6 +20,8 @@ module.exports = {
   ibmContentTypeIsSpecific: require('./ibm-content-type-is-specific'),
   ibmErrorContentTypeIsJson: require('./ibm-error-content-type-is-json'),
   ibmSdkOperations: require('./ibm-sdk-operations'),
+  ifModifiedSinceParameter: require('./if-modified-since-parameter'),
+  ifUnmodifiedSinceParameter: require('./if-unmodified-since-parameter'),
   inlineResponseSchema: require('./inline-response-schema'),
   majorVersionInPath: require('./major-version-in-path'),
   missingRequiredProperty: require('./missing-required-property'),
