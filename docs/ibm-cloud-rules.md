@@ -49,6 +49,8 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: ibm-content-type-is-specific](#rule-ibm-content-type-is-specific)
   * [Rule: ibm-error-content-type-is-json](#rule-ibm-error-content-type-is-json)
   * [Rule: ibm-sdk-operations](#rule-ibm-sdk-operations)
+  * [Rule: if-modified-since-parameter](#rule-if-modified-since-parameter)
+  * [Rule: if-unmodified-since-parameter](#rule-if-unmodified-since-parameter)
   * [Rule: inline-response-schema](#rule-inline-response-schema)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
   * [Rule: missing-required-property](#rule-missing-required-property)
@@ -231,6 +233,18 @@ which is not allowed.</td>
 <td>warn</td>
 <td>Validates the structure of the <code>x-sdk-operations</code> object </td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-if-modified-since-parameter">if-modified-since-parameter</a></td>
+<td>warn</td>
+<td>Operations should avoid supporting the <code>If-Modified-Since</code> header parameter</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-if-unmodified-since-parameter">if-unmodified-since-parameter</a></td>
+<td>warn</td>
+<td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter</td>
+<td>oas2, oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-inline-response-schema">inline-response-schema</a></td>
@@ -635,6 +649,7 @@ For details on how to add overrides to your custom ruleset, please read the
 ## Reference
 This section provides reference documentation about the IBM Cloud Validation Rules contained
 in the `@ibm-cloud/openapi-ruleset` package.
+
 
 ### Rule: accept-parameter
 <table>
@@ -1904,6 +1919,166 @@ n/a
 <td valign=top><b>Compliant example:</b></td>
 <td>
 n/a
+</td>
+</tr>
+</table>
+
+
+### Rule: if-modified-since-parameter
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>if-modified-since-parameter</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers">API Handbook</a>
+recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
+Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
+<p>This rule warns about operations that support the <code>If-Modified-Since</code> header parameter.
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    get:
+      operationId: get_thing
+      parameters:
+        - name: If-Modified-Since
+          in: header
+          description: |-
+            The operation will succeed only if the resource has been last modified 
+            after the date specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Resource was retrieved successfully!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+        '412':
+          description: 'Resource has not been modified after If-Modified-Since date.'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    get:
+      operationId: get_thing
+      parameters:
+        - name: If-None-Match
+          in: header
+          description: |-
+            The operation will succeed only if the resource's current ETag value 
+            does not match the value specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Resource was retrieved successfully!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+        '412':
+          description: 'Resource current ETag matches If-None-Match value.'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: if-unmodified-since-parameter
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>if-unmodified-since-parameter</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers">API Handbook</a>
+recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
+Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
+<p>This rule warns about operations that support the <code>If-Unmodified-Since</code> header parameter.
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: If-Unmodified-Since
+          in: header
+          description: |-
+            The operation will succeed only if the resource has not been modified 
+            after the date specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'Resource was deleted successfully!'
+        '412':
+          description: 'Resource was last modified after the If-Unmodified-Since date.'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: If-Match
+          in: header
+           description: |-
+            The operation will succeed only if the resource's current ETag value
+            matches the value specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'Resource was deleted successfully!'
+        '412':
+          description: 'Resource current ETag value does not match the If-Match value.'
+</pre>
 </td>
 </tr>
 </table>

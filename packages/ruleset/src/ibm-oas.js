@@ -111,6 +111,8 @@ module.exports = {
     'ibm-content-type-is-specific': ibmRules.ibmContentTypeIsSpecific,
     'ibm-error-content-type-is-json': ibmRules.ibmErrorContentTypeIsJson,
     'ibm-sdk-operations': ibmRules.ibmSdkOperations,
+    'if-modified-since-parameter': ibmRules.ifModifiedSinceParameter,
+    'if-unmodified-since-parameter': ibmRules.ifUnmodifiedSinceParameter,
     'inline-response-schema': ibmRules.inlineResponseSchema,
     'major-version-in-path': ibmRules.majorVersionInPath,
     'missing-required-property': ibmRules.missingRequiredProperty,
