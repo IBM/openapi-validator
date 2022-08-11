@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.36.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.35.0...@ibm-cloud/openapi-ruleset@0.36.0) (2022-08-11)
+
+
+### Features
+
+* add new rules 'if-modified-since-parameter' and if-unmodified-since-parameter ([#478](https://github.com/IBM/openapi-validator/issues/478)) ([fec1b25](https://github.com/IBM/openapi-validator/commit/fec1b257315edd84fe90f3f6f0e5bc5ff4efd9dd))
+
 # @ibm-cloud/openapi-ruleset [0.35.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.34.0...@ibm-cloud/openapi-ruleset@0.35.0) (2022-08-10)
 
 
