@@ -32,6 +32,7 @@ describe('Spectral rule: security-schemes', () => {
       delete testDocument.paths['/v1/movies/{movie_id}'].put.security;
       delete testDocument.paths['/v1/cars'].post.security;
       delete testDocument.paths['/v1/cars/{car_id}'].get.security;
+      delete testDocument.paths['/v1/cars/{car_id}'].patch.security;
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
@@ -47,45 +48,29 @@ describe('Spectral rule: security-schemes', () => {
 
       // All references to security schemes should now be flagged as undefined.
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(12);
-      for (const r of results) {
-        expect(r.code).toBe(ruleId);
-        expect(r.message).toBe(expectedMsgUndefinedScheme);
-        expect(r.severity).toBe(expectedSeverity);
-      }
+      expect(results).toHaveLength(13);
+      const expectedPaths = [
+        'security.0.IAM',
+        'security.1.OpenIdScheme',
+        'paths./v1/drinks.post.security.0.DrinkScheme',
+        'paths./v1/drinks.get.security.0.Basic',
+        'paths./v1/drinks.get.security.0.DrinkScheme',
+        'paths./v1/drinks/{drink_id}.get.security.0.DrinkScheme',
+        'paths./v1/movies.post.security.0.MovieScheme',
+        'paths./v1/movies.get.security.0.MovieScheme',
+        'paths./v1/movies/{movie_id}.get.security.0.MovieScheme',
+        'paths./v1/movies/{movie_id}.put.security.0.MovieScheme',
+        'paths./v1/cars.post.security.0.IAM',
+        'paths./v1/cars/{car_id}.get.security.0.IAM',
+        'paths./v1/cars/{car_id}.patch.security.0.IAM'
+      ];
 
-      expect(results[0].path.join('.')).toBe('security.0.IAM');
-      expect(results[1].path.join('.')).toBe('security.1.OpenIdScheme');
-      expect(results[2].path.join('.')).toBe(
-        'paths./v1/drinks.post.security.0.DrinkScheme'
-      );
-      expect(results[3].path.join('.')).toBe(
-        'paths./v1/drinks.get.security.0.Basic'
-      );
-      expect(results[4].path.join('.')).toBe(
-        'paths./v1/drinks.get.security.0.DrinkScheme'
-      );
-      expect(results[5].path.join('.')).toBe(
-        'paths./v1/drinks/{drink_id}.get.security.0.DrinkScheme'
-      );
-      expect(results[6].path.join('.')).toBe(
-        'paths./v1/movies.post.security.0.MovieScheme'
-      );
-      expect(results[7].path.join('.')).toBe(
-        'paths./v1/movies.get.security.0.MovieScheme'
-      );
-      expect(results[8].path.join('.')).toBe(
-        'paths./v1/movies/{movie_id}.get.security.0.MovieScheme'
-      );
-      expect(results[9].path.join('.')).toBe(
-        'paths./v1/movies/{movie_id}.put.security.0.MovieScheme'
-      );
-      expect(results[10].path.join('.')).toBe(
-        'paths./v1/cars.post.security.0.IAM'
-      );
-      expect(results[11].path.join('.')).toBe(
-        'paths./v1/cars/{car_id}.get.security.0.IAM'
-      );
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMsgUndefinedScheme);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
     });
 
     it('Reference to undefined security scheme - global', async () => {

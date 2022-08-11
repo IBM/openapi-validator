@@ -145,11 +145,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minimum',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minimum',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minimum'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minimum',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.minimum',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minimum'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -169,11 +171,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minimum',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minimum',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minimum'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minimum',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.minimum',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minimum'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -193,11 +197,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.maximum',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.maximum',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maximum'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maximum',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.maximum',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maximum'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -225,11 +231,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minItems',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minItems',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minItems'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minItems',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.minItems',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minItems'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -249,11 +257,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minItems',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minItems',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minItems'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minItems',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.minItems',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minItems'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -273,11 +283,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.maxItems',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.maxItems',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maxItems'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maxItems',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.maxItems',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maxItems'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -301,11 +313,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minProperties',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minProperties',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minProperties'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minProperties',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.minProperties',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minProperties'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -325,11 +339,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minProperties',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minProperties',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minProperties'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minProperties',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.minProperties',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minProperties'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -350,11 +366,13 @@ describe('Spectral rule: property-attributes', () => {
         };
 
         const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(3);
+        expect(results).toHaveLength(5);
         const expectedPaths = [
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.maxProperties',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.maxProperties',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maxProperties'
+          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maxProperties',
+          'paths./v1/cars/{car_id}.patch.requestBody.content.application/merge-patch+json; charset=utf-8.schema.properties.wheel_count.maxProperties',
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maxProperties'
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
