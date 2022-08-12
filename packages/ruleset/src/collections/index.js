@@ -28,6 +28,8 @@ const paths = ['$.paths[*]'];
 
 const operations = ['$.paths[*][get,put,post,delete,options,head,patch,trace]'];
 
+const patchOperations = ['$.paths[*][patch]'];
+
 // A collection of locations where a response schema could be defined
 // within an unresolved API definition.
 const unresolvedResponseSchemas = [
@@ -40,6 +42,7 @@ const securitySchemes = ['$.components.securitySchemes[*]'];
 module.exports = {
   responseSchemas,
   operations,
+  patchOperations,
   parameters,
   paths,
   unresolvedResponseSchemas,

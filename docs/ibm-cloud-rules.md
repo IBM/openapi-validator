@@ -64,6 +64,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: parameter-description](#rule-parameter-description)
   * [Rule: parameter-order](#rule-parameter-order)
   * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
+  * [Rule: patch-request-content-type](#rule-patch-request-content-type)
   * [Rule: path-segment-case-convention](#rule-path-segment-case-convention)
   * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
   * [Rule: property-attributes](#rule-property-attributes)
@@ -327,7 +328,14 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-path-segment-case-convention">parameter-schema-or-content</a></td>
+<td><a href="#rule-patch-request-content-type">patch-request-content-type"</a></td>
+<td>error</td>
+<td>Verifies that PATCH operations support only requestBody content types <code>application/json-patch+json</code>
+or <code>application/merge-patch+json</code>.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-path-segment-case-convention">path-segment-case-convention</a></td>
 <td>error</td>
 <td>Path segments must follow a specific case convention</td>
 <td>oas2, oas3</td>
@@ -3010,6 +3018,75 @@ parameters:
   description: query param
   schema:
     type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: patch-request-content-type
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>patch-request-content-type</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-methods#patch">API Handbook</a>
+recommends that PATCH operations contain request bodies that support only content types
+<code>application/json-patch+json</code> and <code>application/merge-patch+json</code>.
+<p>This rule verifies that each PATCH operation complies with this recommendation.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#/components/parameters/ThingIdParam'
+    patch:
+      operationId: update_thing
+      description: Update a Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              - $ref: '#/components/schemas/Thing'
+      responses:
+        '200':
+          description: 'Thing updated successfully!'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#/components/parameters/ThingIdParam'
+    patch:
+      operationId: update_thing
+      description: Update a Thing instance.
+      requestBody:
+        content:
+          application/merge-patch+json:
+            schema:
+              - $ref: '#/components/schemas/Thing'
+      responses:
+        '200':
+          description: 'Thing updated successfully!'
 </pre>
 </td>
 </tr>

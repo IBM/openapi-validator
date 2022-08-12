@@ -522,6 +522,41 @@ module.exports = {
             $ref: '#/components/responses/ErrorResponse'
           }
         }
+      },
+      patch: {
+        operationId: 'update_car',
+        summary: 'Update a car',
+        description: 'Update a new Car instance with new state information.',
+        tags: ['TestTag'],
+        security: [
+          {
+            IAM: []
+          }
+        ],
+        'x-codegen-request-body-name': 'car',
+        requestBody: {
+          $ref: '#/components/requestBodies/UpdateCarRequest'
+        },
+        responses: {
+          '200': {
+            description: 'The car instance was updated successfully.',
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Car'
+                },
+                examples: {
+                  ResponseExample: {
+                    $ref: '#/components/examples/CarExample'
+                  }
+                }
+              }
+            }
+          },
+          '400': {
+            $ref: '#/components/responses/ErrorResponse'
+          }
+        }
       }
     }
   },
@@ -1093,6 +1128,20 @@ module.exports = {
       CarRequest: {
         content: {
           'application/json': {
+            schema: {
+              $ref: '#/components/schemas/Car'
+            },
+            examples: {
+              RequestExample: {
+                $ref: '#/components/examples/CarExample'
+              }
+            }
+          }
+        }
+      },
+      UpdateCarRequest: {
+        content: {
+          'application/merge-patch+json; charset=utf-8': {
             schema: {
               $ref: '#/components/schemas/Car'
             },

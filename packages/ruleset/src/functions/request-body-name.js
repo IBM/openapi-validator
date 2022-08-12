@@ -1,4 +1,4 @@
-const { isJsonMimeType, isFormMimeType } = require('../utils');
+const { isJsonMimeType, isFormMimeType, isArraySchema } = require('../utils');
 
 module.exports = function(operation, _opts, { path }) {
   return requestBodyName(operation, path);
@@ -87,7 +87,7 @@ function needRequestBodyName(requestBody) {
   const bodySchema = jsonMimeType && content[jsonMimeType].schema;
 
   // Is the request body schema an array?
-  const isArraySchema = bodySchema && bodySchema.type === 'array';
+  const isArrayBody = bodySchema && isArraySchema(bodySchema);
 
   // Does the schema contain oneOf/anyOf?
   const isAbstract = isSchemaAbstract(bodySchema);
@@ -105,7 +105,7 @@ function needRequestBodyName(requestBody) {
   const bodyWillBeExploded =
     bodySchema &&
     hasSingleMimeType &&
-    !isArraySchema &&
+    !isArrayBody &&
     !hasNonJsonContent &&
     !isAbstract &&
     !isDynamic &&

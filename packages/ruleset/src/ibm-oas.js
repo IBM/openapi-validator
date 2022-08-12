@@ -126,6 +126,7 @@ module.exports = {
     'parameter-description': ibmRules.parameterDescription,
     'parameter-order': ibmRules.parameterOrder,
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
+    'patch-request-content-type': ibmRules.patchRequestContentType,
     'path-segment-case-convention': ibmRules.pathSegmentCaseConvention,
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,
     'property-attributes': ibmRules.propertyAttributes,

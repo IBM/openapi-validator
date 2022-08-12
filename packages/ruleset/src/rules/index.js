@@ -35,6 +35,7 @@ module.exports = {
   parameterDescription: require('./parameter-description'),
   parameterOrder: require('./parameter-order'),
   parameterSchemaOrContent: require('./parameter-schema-or-content'),
+  patchRequestContentType: require('./patch-request-content-type'),
   pathSegmentCaseConvention: require('./path-segment-case-convention'),
   prohibitSummarySentenceStyle: require('./prohibit-summary-sentence-style'),
   propertyAttributes: require('./property-attributes'),
