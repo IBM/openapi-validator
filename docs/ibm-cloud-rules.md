@@ -404,7 +404,7 @@ has non-form content.</td>
 <tr>
 <td><a href="#rule-response-error-response-schema">response-error-response-schema</a></td>
 <td>warn</td>
-<td>Error response should follow API Handbook guidelines</td>
+<td>Error response schemas should comply with API Handbook guidance</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -3895,12 +3895,19 @@ requestBody:
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td><code>4xx</code> and <code>5xx</code> error responses should provide sufficient information
-to help the user resolve the error
-[<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors">1</a>].
-This rule is more lenient than the guidance outlined in the API Handbook.
-Specifically, the rule does not require an "Error Container Model"
-and allows for a single "Error Model" to be provided at the top level of the error response schema or in an <code>error</code> field.
+<td>This rule implements the guidance related to error response schemas found in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors">API Handbook</a>.
+<p>Specifically, the following checks are performed against each schema associated with an error response:
+<ul>
+<li>The error response schema should form a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-container-model">error container model</a> as
+described by the API Handbook.</li>
+<li>The <code>errors</code> property must be an array whose <code>items</code> field is a schema that forms a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-model">error model</a>
+as described in the API Handbook.</li>
+<li>If present, the <code>target</code> property must contain a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-target-model">error target model</a>
+as described in the API Handbook.</li>
+</ul>
 </td>
 </tr>
 <tr>
@@ -3914,13 +3921,130 @@ and allows for a single "Error Model" to be provided at the top level of the err
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
 <td>
-n/a
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Thing'
+    responses:
+      '201':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      '400':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorContainer'
+components:
+  schemas:
+    ErrorContainer: {
+      description: 'An error response for an operation.',
+      type: 'object',
+      properties: {
+        error: {
+          $ref: '#/components/schemas/Error'
+        },
+        trace: {
+          description: 'The error trace information.',
+          type: 'string',
+          format: 'uuid'
+        }
+      }
+    },
+    Error: {
+      description: 'An error response entry.',
+      type: 'object',
+      properties: {
+        code: {
+          description: 'The error code.',
+          type: 'integer'
+        },
+        message: {
+          description: 'The error message.',
+          type: 'string'
+        },
+        more_info: {
+          description: 'Additional info about the error.',
+          type: 'string'
+        },
+      }
+    }
+</pre>
 </td>
 </tr>
 <tr>
 <td valign=top><b>Compliant example:</b></td>
 <td>
-n/a
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Thing'
+    responses:
+      '201':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      '400':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorContainer'
+components:
+  schemas:
+    ErrorContainer: {
+      description: 'An error response for an operation.',
+      type: 'object',
+      properties: {
+        errors: {
+          type: 'array',
+          minItems: 0,
+          maxItems: 100,
+          description: 'The array of error entries associated with the error response',
+          items: {
+            $ref: '#/components/schemas/Error'
+          }
+        },
+        trace: {
+          description: 'The error trace information.',
+          type: 'string',
+          format: 'uuid'
+        }
+      }
+    },
+    Error: {
+      description: 'An error response entry.',
+      type: 'object',
+      properties: {
+        code: {
+          description: 'The error code.',
+          type: 'string',
+          enum: ['bad_request', 'not_authorized', 'no_need_to_know']
+        },
+        message: {
+          description: 'The error message.',
+          type: 'string'
+        },
+        more_info: {
+          description: 'Additional info about the error.',
+          type: 'string'
+        },
+      }
+    }
+</pre>
 </td>
 </tr>
 </table>

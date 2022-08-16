@@ -83,15 +83,22 @@ describe('Spectral rule: schema-type', () => {
       testDocument.paths['/v1/movies'].post.responses['400'].content[
         'application/json'
       ].schema = {
+        type: '  ',
         description: 'an object schema',
         properties: {
+          errors: {
+            type: 'array',
+            minItems: 0,
+            description:
+              'The array of error entries associated with the error response',
+            items: {
+              $ref: '#/components/schemas/Error'
+            }
+          },
           trace: {
             description: 'The error trace information.',
             type: 'string',
             format: 'uuid'
-          },
-          error: {
-            $ref: '#/components/schemas/RequestError'
           }
         }
       };
