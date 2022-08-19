@@ -533,7 +533,6 @@ module.exports = {
             IAM: []
           }
         ],
-        'x-codegen-request-body-name': 'car',
         requestBody: {
           $ref: '#/components/requestBodies/UpdateCarRequest'
         },

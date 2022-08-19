@@ -1,4 +1,10 @@
-const { isJsonMimeType, isFormMimeType, isArraySchema } = require('../utils');
+const {
+  isJsonMimeType,
+  isFormMimeType,
+  isArraySchema,
+  isJsonPatchMimeType,
+  isMergePatchMimeType
+} = require('../utils');
 
 module.exports = function(operation, _opts, { path }) {
   return requestBodyName(operation, path);
@@ -78,10 +84,15 @@ function needRequestBodyName(requestBody) {
   // so let's check if the body will be exploded.
 
   // Does the operation support JSON content?
-  const jsonMimeType = mimeTypes.find(m => isJsonMimeType(m));
+  const jsonMimeType = mimeTypes.find(
+    m => isJsonMimeType(m) || isJsonPatchMimeType(m) || isMergePatchMimeType(m)
+  );
 
   // Does the operation support non-JSON content?
-  const hasNonJsonContent = mimeTypes.find(m => !isJsonMimeType(m));
+  const hasNonJsonContent = mimeTypes.find(
+    m =>
+      !isJsonMimeType(m) && !isJsonPatchMimeType(m) && !isMergePatchMimeType(m)
+  );
 
   // Grab the requestBody schema for the JSON mimetype (if present).
   const bodySchema = jsonMimeType && content[jsonMimeType].schema;

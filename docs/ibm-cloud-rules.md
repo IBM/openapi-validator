@@ -3643,7 +3643,7 @@ specific description. Here is an example (a swagger 2.0 fragment):
 <pre>
 definitions:
   PageLink:
-    description: 'A link to a page of results'        <<< general description
+    description: 'A link to a page of results'        &lt;&lt;&lt; general description
     type: object
     properties:
       href:
@@ -3655,10 +3655,10 @@ definitions:
     properties:
       first:
         $ref: '#/definitions/PageLink'
-        description: 'A link to the first page of results'     <<< more specific description
+        description: 'A link to the first page of results'     &lt;&lt;&lt; more specific description
       next:
         $ref: '#/definitions/PageLink'
-        description: 'A link to the next page of results'      <<< more specific description
+        description: 'A link to the next page of results'      &lt;&lt;&lt; more specific description
 </pre>
 In this example, the "first" and "next" properties are given specific descriptions that indicate they point to
 the first and next page of results, respectively.
@@ -3669,7 +3669,7 @@ API authors typically use the "ref sibling" allOf pattern.   The above example m
 components:
   schemas:
     PageLink:
-      description: 'A link to a page of results'        <<< general description
+      description: 'A link to a page of results'        &lt;&lt;&lt; general description
       type: object
       properties:
         href:
@@ -3682,9 +3682,9 @@ components:
         first:
           allOf:
             - $ref: '#/components/schemas/PageLink'
-            - description: 'A link to the first page of results'     <<< more specific description
+            - description: 'A link to the first page of results'     &lt;&lt;&lt; more specific description
         next:
-          description: 'A link to the next page of results'      <<< more specific description
+          description: 'A link to the next page of results'      &lt;&lt;&lt; more specific description
           allOf:
             - $ref: '#/components/schemas/PageLink'
 </pre>
@@ -3700,7 +3700,7 @@ Here is an example of this:
 components:
   schemas:
     PageLink:
-      description: 'A link to a page of results'        <<< general description
+      description: 'A link to a page of results'        &lt;&lt;&lt; general description
       type: object
       properties:
         href:
@@ -3713,7 +3713,7 @@ components:
         page_link:
           allOf:
             - $ref: '#/components/schemas/PageLink'
-            - description: 'A link to a page of results'     <<< duplicate description
+            - description: 'A link to a page of results'     &lt;&lt;&lt; duplicate description
 </pre>
 </td>
 </tr>
