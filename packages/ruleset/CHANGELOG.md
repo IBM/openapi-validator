@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.37.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.37.0...@ibm-cloud/openapi-ruleset@0.37.1) (2022-08-19)
+
+
+### Bug Fixes
+
+* **response-error-response-schema:** bring rule in sync with API Handbook ([#481](https://github.com/IBM/openapi-validator/issues/481)) ([656cfb1](https://github.com/IBM/openapi-validator/commit/656cfb111eb35b07a154bc5b59f1b600b502d02c))
+
 # @ibm-cloud/openapi-ruleset [0.37.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.36.0...@ibm-cloud/openapi-ruleset@0.37.0) (2022-08-12)
 
 
