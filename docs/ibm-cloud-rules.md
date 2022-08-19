@@ -4129,8 +4129,36 @@ responses:
 <code>101 - Switching Protocols</code> status code is used, which should be extremely rare (it's normally used with websockets).</li>
 <li>A <code>204 - No Content</code> response should not include content.</li>
 <li>A non-204 success status code (e.g. <code>200 - OK</code>, <code>201 - Created</code>, etc.) should include content.</li>
-<li>A `create`-type operation (the method is POST or the operationId starts with <code>'create'</code>) must return either a <code>201 - Created</code>
-or a <code>202 - Accepted</code> status code.</li>
+<li>A "create"-type operation must return either a <code>201 - Created</code>
+or a <code>202 - Accepted</code> status code.
+<p>Note that for the purposes of this rule, an operation is considered to be a "create"-type operation if the
+operationId starts with "create" or the operation is a POST request and there is another path
+present in the API that is similar to the path of the "create" operation, but with a trailing path parameter reference.
+For example, "process_things" would be considered a "create"-type operation:
+<pre>
+  paths:
+    '/v1/things':
+      post:
+        operationId: process_things
+        ...
+    '/v1/things/{thing_id}':
+      get:
+        operationId: get_thing
+</pre>
+but "handle_things" would not:
+<pre>
+  paths:
+    '/v1/things':
+      post:
+        operationId: handle_things
+        ...
+</pre>
+The difference being that with the "handle_things" operation, there is no corresponding path
+with a trailing path parameter reference that would give us a hint that "handle_things" is a create-type operation.
+</li>
+<li>An operation that returns a <code>202 - Accepted</code> status code should not return any other
+success (2xx) status codes. This is because an operation should be unambiguous in terms of whether or not
+it is a synchronous or asynchronous operation.
 </ul>
 <p>References: 
 <ul>
@@ -4158,16 +4186,16 @@ paths:
       operationId: create_thing
       description: 'Create a Thing instance.'
       responses:
-      204:
-        description: 'should not have content'
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Thing'
-      101:
-        description: 'invalid use of status code 101'
-      422:
-        description: 'should use status code 400 instead'
+        '204':
+          description: 'should not have content'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+        '101':
+          description: 'invalid use of status code 101'
+        '422':
+          description: 'should use status code 400 instead'
 </pre>
 </td>
 </tr>
@@ -4181,18 +4209,18 @@ paths:
       operationId: create_thing
       description: 'Create a Thing instance.'
       responses:
-      201:
-        description: 'Successfully created a new Thing instance.'
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Thing'
-      400:
-        description: 'Thing instance was invalid'
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ErrorResponse'
+        '201':
+          description: 'Successfully created a new Thing instance.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+        '400':
+          description: 'Thing instance was invalid'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
 </pre>
 </td>
 </tr>
