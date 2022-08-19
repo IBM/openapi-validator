@@ -1,3 +1,11 @@
+module.exports = function(operation, _opts, context) {
+  return responseStatusCodes(
+    operation,
+    context.path,
+    context.document.parserResult.data
+  );
+};
+
 /**
  * This function performs a few checks on each operation's responses field:
  * 1. Status code 400 should be used instead of 422.
@@ -5,13 +13,16 @@
  * 3. Operation responses should include at least one successful (2xx) status code.
  * 4. Operation responses should not include status code 101 when successful (2xx) status codes are present.
  * 5. A 204 response must not have content.
- * 6. A "create" operation (i.e. method is POST or operationId starts with "create") must return either a 201 or a 202.
+ * 6. A "create" operation must return either a 201 or a 202.
+ *    An operation is considered to be a "create" operation if the operationId starts with "create"
+ *    OR it's a POST request and there is a similar path but with a trailing path parameter reference.
+ * 7. If an operation returns status code 202, it should not return any other 2xx status codes.
  * @param {*} operation an operation within the API definition
- * @param {*} options unused, but needed as a placeholder due to the rule calling conventions
  * @param {*} path the array of path segments indicating the "location" of the operation within the API definition
+ * @param {*} apidef the resolved API spec
  * @returns an array containing the violations found or [] if no violations
  */
-function responseStatusCodes(operation, options, { path }) {
+function responseStatusCodes(operation, path, apidef) {
   if (!operation.responses) {
     return [];
   }
@@ -66,31 +77,62 @@ function responseStatusCodes(operation, options, { path }) {
         path: [...path, 'responses', '204', 'content']
       });
     }
-  }
 
-  // Grab the operation's method from the path that was passed in.
-  const method = path[path.length - 1]
-    .toString()
-    .trim()
-    .toLowerCase();
+    // 6. For a 'create' operation (a POST operation or operationId starts with "create"),
+    // make sure that there's either a 201 or a 202 status code.
+    if (isCreateOperation(operation, path, apidef)) {
+      if (!successCodes.includes('201') && !successCodes.includes('202')) {
+        errors.push({
+          message:
+            "A 201 or 202 status code should be returned by a 'create' operation.",
+          path: [...path, 'responses']
+        });
+      }
+    }
 
-  // For a 'create' operation (a POST operation or operationId starts with "create"),
-  // make sure that there's either a 201 or a 202 status code.
-  if (
-    (method && method === 'post') ||
-    (operation.operationId &&
-      operation.operationId.toString().startsWith('create'))
-  ) {
-    if (!successCodes.includes('201') && !successCodes.includes('202')) {
+    // 7. If an operation returns 202, it should not return any other success status codes.
+    if (successCodes.includes('202') && successCodes.length > 1) {
       errors.push({
         message:
-          "A 201 or 202 status code should be returned by a 'create' operation.",
+          'An operation that returns a 202 status code should not return any other 2xx status codes.',
         path: [...path, 'responses']
       });
     }
   }
 
   return errors;
+}
+
+function isCreateOperation(operation, path, apidef) {
+  // 1. If operationId starts with "create", we'll assume it's a create operation.
+  if (
+    operation.operationId &&
+    operation.operationId
+      .toString()
+      .trim()
+      .toLowerCase()
+      .startsWith('create')
+  ) {
+    return true;
+  }
+
+  // 2. If not a POST, then it's not a create operation.
+  const method = path[path.length - 1]
+    .toString()
+    .trim()
+    .toLowerCase();
+  if (method !== 'post') {
+    return false;
+  }
+
+  // 3. Does this operation's path have a sibling path with a trailing path param reference?
+  const thisPath = path[path.length - 2].toString().trim();
+  const siblingPathRE = new RegExp(`^${thisPath}/{[^{}/]+}$`);
+  const siblingPath = Object.keys(apidef.paths).find(p =>
+    siblingPathRE.test(p)
+  );
+
+  return !!siblingPath;
 }
 
 function getResponseCodes(responses) {
@@ -100,5 +142,3 @@ function getResponseCodes(responses) {
   const successCodes = statusCodes.filter(code => code.match(/^2[0-9][0-9]$/));
   return [statusCodes, successCodes];
 }
-
-module.exports = responseStatusCodes;

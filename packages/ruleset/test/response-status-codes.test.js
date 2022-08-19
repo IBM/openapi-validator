@@ -47,6 +47,32 @@ describe('Spectral rule: response-status-codes', () => {
       expect(results).toHaveLength(0);
     });
 
+    it('POST non-"create" with no sibling path', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // Make the create operation seem incorrect with only a 200 status code.
+      testDocument.paths['/v1/drinks'].post.operationId = 'pour_drink';
+      testDocument.paths['/v1/drinks'].post.responses['200'] =
+        testDocument.paths['/v1/drinks'].post.responses['201'];
+      delete testDocument.paths['/v1/drinks'].post.responses['201'];
+
+      // Remove the sibling path so "pour_drink" isn't considered a "create" operation.
+      delete testDocument.paths['/v1/drinks/{drink_id}'];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('POST "create" with no responses', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // Remove all the responses for the "create" operation.
+      delete testDocument.paths['/v1/drinks'].post.responses;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     it('non-POST "create" w/201', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -203,6 +229,23 @@ describe('Spectral rule: response-status-codes', () => {
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe('paths./v1/drinks.post.responses');
+    });
+
+    it('operation returns 202 plus another success status code', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].get.responses['202'] =
+        testDocument.paths['/v1/drinks'].get.responses['200'];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(
+        'An operation that returns a 202 status code should not return any other 2xx status codes.'
+      );
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe('paths./v1/drinks.get.responses');
     });
   });
 });
