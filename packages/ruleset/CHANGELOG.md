@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.37.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.37.1...@ibm-cloud/openapi-ruleset@0.37.2) (2022-08-19)
+
+
+### Bug Fixes
+
+* **request-body-name:** support json-patch/merge-patch operations ([#482](https://github.com/IBM/openapi-validator/issues/482)) ([41daa3e](https://github.com/IBM/openapi-validator/commit/41daa3e190f44c8a2ac250d3ddf0b6188a095901))
+
 ## @ibm-cloud/openapi-ruleset [0.37.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.37.0...@ibm-cloud/openapi-ruleset@0.37.1) (2022-08-19)
 
 
