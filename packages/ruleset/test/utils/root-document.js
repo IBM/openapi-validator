@@ -62,7 +62,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error'
+                  $ref: '#/components/schemas/ErrorContainer'
                 }
               }
             }
@@ -122,7 +122,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error'
+                  $ref: '#/components/schemas/ErrorContainer'
                 }
               }
             }
@@ -283,7 +283,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error'
+                  $ref: '#/components/schemas/ErrorContainer'
                 }
               }
             }
@@ -392,7 +392,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error'
+                  $ref: '#/components/schemas/ErrorContainer'
                 }
               }
             }
@@ -433,7 +433,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error'
+                  $ref: '#/components/schemas/ErrorContainer'
                 }
               }
             }
@@ -443,7 +443,7 @@ module.exports = {
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Error'
+                  $ref: '#/components/schemas/ErrorContainer'
                 }
               }
             }
@@ -952,13 +952,39 @@ module.exports = {
           }
         }
       },
-      RequestError: {
-        description: 'This schema describes an error response.',
+      ErrorContainer: {
+        description: 'An error response for an operation.',
+        type: 'object',
+        properties: {
+          errors: {
+            type: 'array',
+            minItems: 0,
+            maxItems: 100,
+            description:
+              'The array of error entries associated with the error response',
+            items: {
+              $ref: '#/components/schemas/Error'
+            }
+          },
+          status_code: {
+            type: 'integer',
+            description: 'The HTTP status code.'
+          },
+          trace: {
+            description: 'The error trace information.',
+            type: 'string',
+            format: 'uuid'
+          }
+        }
+      },
+      Error: {
+        description: 'An error response entry.',
         type: 'object',
         properties: {
           code: {
             description: 'The error code.',
-            type: 'string'
+            type: 'string',
+            enum: ['bad_request', 'not_authorized', 'no_need_to_know']
           },
           message: {
             description: 'The error message.',
@@ -967,20 +993,25 @@ module.exports = {
           more_info: {
             description: 'Additional info about the error.',
             type: 'string'
+          },
+          target: {
+            $ref: '#/components/schemas/ErrorTarget'
           }
         }
       },
-      Error: {
-        description: 'An error response.',
+      ErrorTarget: {
+        description: 'An error target (a field, header or query parameter).',
         type: 'object',
         properties: {
-          trace: {
-            description: 'The error trace information.',
+          type: {
+            description: 'The error target type.',
             type: 'string',
-            format: 'uuid'
+            enum: ['field', 'header', 'parameter']
           },
-          error: {
-            $ref: '#/components/schemas/RequestError'
+          name: {
+            description:
+              'The name of the field/header/query parameter associated with the error.',
+            type: 'string'
           }
         }
       }
@@ -1093,7 +1124,7 @@ module.exports = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Error'
+              $ref: '#/components/schemas/ErrorContainer'
             }
           }
         }
@@ -1118,7 +1149,7 @@ module.exports = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Error'
+              $ref: '#/components/schemas/ErrorContainer'
             }
           }
         }

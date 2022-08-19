@@ -1,715 +1,500 @@
 const { responseErrorResponseSchema } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'response-error-response-schema';
+const rule = responseErrorResponseSchema;
+const ruleId = 'response-error-response-schema';
+const expectedSeverity = severityCodes.warning;
 
 describe('Spectral rule: response-error-response-schema', () => {
-  it('should not error with a clean spec', async () => {
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      rootDocument
-    );
+  describe('Should not yield errors', () => {
+    it('Clean spec', async () => {
+      const results = await testRule(ruleId, rule, rootDocument);
+      expect(results).toHaveLength(0);
+    });
 
-    expect(results).toHaveLength(0);
+    it('Error container model omits status_code property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.components.schemas.ErrorContainer.properties
+        .status_code;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Error model omits target property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.components.schemas.Error.properties.target;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
-  it('should not error if `errors` array items schema contains required properties', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              errors: {
-                type: 'array',
-                items: {
-                  type: 'object',
-                  properties: {
-                    code: {
-                      type: 'string'
-                    },
-                    message: {
-                      type: 'string'
-                    },
-                    more_info: {
-                      type: 'string'
-                    }
-                  }
-                }
-              }
-            }
+  describe('Should yield errors', () => {
+    it('Error container model has no properties', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].get.responses['400'] = {
+        content: {
+          'application/json': {
+            schema: {}
           }
         }
-      }
-    };
+      };
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
 
-    expect(results).toHaveLength(0);
-  });
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error container model must be an object with properties'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/movies.get.responses.400.content.application/json.schema'
+      );
+    });
 
-  it('should not error if `error` object contains required properties', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              error: {
-                type: 'object',
-                properties: {
-                  code: {
-                    type: 'string'
-                  },
-                  message: {
-                    type: 'string'
-                  },
-                  more_info: {
-                    type: 'string'
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    };
+    it('No trace property', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+      delete testDocument.components.schemas.ErrorContainer.properties.trace;
 
-    expect(results).toHaveLength(0);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error schema has no properties', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {}
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error container model should contain property `trace` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('trace property not a string', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      testDocument.components.schemas.ErrorContainer.properties.trace = {
+        type: 'integer'
+      };
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error response should be an object with properties'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if response object has no `trace` field', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              code: {
-                type: 'string'
-              },
-              message: {
-                type: 'string'
-              },
-              more_info: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error container model should contain property `trace` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.trace'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('status_code property is not an integer', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      testDocument.components.schemas.ErrorContainer.properties.status_code.type =
+        'string';
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error response should have a uuid `trace` field'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `status_code` field is not an integer', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              code: {
-                type: 'string'
-              },
-              message: {
-                type: 'string'
-              },
-              more_info: {
-                type: 'string'
-              },
-              status_code: {
-                type: 'string',
-                description: 'this should be an integer'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(severityCodes.warning);
+      expect(r.message).toBe(
+        'Error container model property `status_code` must be of type integer'
+      );
+      expect(r.path.join('.')).toStrictEqual(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.status_code'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('No errors property', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      delete testDocument.components.schemas.ErrorContainer.properties.errors;
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe('`status_code` field must be an integer');
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'status_code'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `message` field is missing', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              code: {
-                type: 'string'
-              },
-              more_info: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error container model must contain property `errors` which must be an array of error models'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('errors property not an array', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      testDocument.components.schemas.ErrorContainer.properties.errors.type =
+        'string';
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error Model should contain a string, `message`, field'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `message` field is not a string', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              code: {
-                type: 'string'
-              },
-              more_info: {
-                type: 'string'
-              },
-              message: {
-                type: 'integer'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(severityCodes.warning);
+      expect(r.message).toBe(
+        'Error container model must contain property `errors` which must be an array of error models'
+      );
+      expect(r.path.join('.')).toStrictEqual(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('errors array has no items', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      delete testDocument.components.schemas.ErrorContainer.properties.errors
+        .items;
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error Model should contain a string, `message`, field'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'message'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `code` field is missing', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              message: {
-                type: 'string'
-              },
-              more_info: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(severityCodes.warning);
+      expect(r.message).toBe(
+        'Error container model `errors.items` field must be an object with properties'
+      );
+      expect(r.path.join('.')).toStrictEqual(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('errors array items not an object', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      testDocument.components.schemas.ErrorContainer.properties.errors.items = {};
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error Model should contain `code` field, a snake-case, string error code'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `code` field is not a string', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              message: {
-                type: 'string'
-              },
-              more_info: {
-                type: 'string'
-              },
-              code: {
-                type: 'integer'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(severityCodes.warning);
+      expect(r.message).toBe(
+        'Error container model `errors.items` field must be an object with properties'
+      );
+      expect(r.path.join('.')).toStrictEqual(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('No code property', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      delete testDocument.components.schemas.Error.properties.code;
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error Model should contain `code` field, a snake-case, string error code'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'code'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `more_info` field is missing', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              code: {
-                type: 'string'
-              },
-              message: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model must contain property `code` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('code property not a string', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      testDocument.components.schemas.Error.properties.code = {
+        type: 'integer'
+      };
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error Model should contain `more_info` field that contains a URL with more info about the error'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `more_info` field is not a string', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              code: {
-                type: 'string'
-              },
-              message: {
-                type: 'string'
-              },
-              more_info: {
-                type: 'integer'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model must contain property `code` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.code'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('code property has no enum', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      delete testDocument.components.schemas.Error.properties.code.enum;
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error Model should contain `more_info` field that contains a URL with more info about the error'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'more_info'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `errors` field is not an array', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              errors: {
-                type: 'object',
-                description: 'this should be an array'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model property `code` must include an enumeration of the valid error codes'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.code'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('code property invalid enum', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      testDocument.components.schemas.Error.properties.code.enum = 'foo';
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      '`errors` field should be an array of error models'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'errors'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `errors` array items schema is not an object', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              errors: {
-                type: 'array',
-                items: {
-                  type: 'string',
-                  description: 'this should be an object'
-                }
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model property `code` must include an enumeration of the valid error codes'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.code.enum'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('No message property', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      delete testDocument.components.schemas.Error.properties.message;
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error Model should be an object with properties'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'errors',
-      'items'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
-  });
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
 
-  it('should error if `error` field is not an object', async () => {
-    const testDocument = makeCopy(rootDocument);
-    testDocument.paths['/v1/movies'].get.responses['400'] = {
-      content: {
-        'application/json': {
-          schema: {
-            properties: {
-              trace: {
-                type: 'string',
-                format: 'uuid',
-                description: 'Error trace'
-              },
-              error: {
-                type: 'string',
-                description: 'this should be an object'
-              }
-            }
-          }
-        }
-      }
-    };
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model must contain property `message` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties'
+      );
+    });
 
-    const results = await testRule(
-      name,
-      responseErrorResponseSchema,
-      testDocument
-    );
+    it('message property not a string', async () => {
+      const testDocument = makeCopy(rootDocument);
 
-    expect(results).toHaveLength(1);
+      testDocument.components.schemas.Error.properties.message = {
+        type: 'integer'
+      };
 
-    const validation = results[0];
-    expect(validation.code).toBe(name);
-    expect(validation.message).toBe(
-      'Error Model should be an object with properties'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'get',
-      'responses',
-      '400',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'error'
-    ]);
-    expect(validation.severity).toBe(severityCodes.warning);
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model must contain property `message` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.message'
+      );
+    });
+
+    it('No more_info property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.components.schemas.Error.properties.more_info;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model should contain property `more_info` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties'
+      );
+    });
+
+    it('more_info property not a string', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Error.properties.more_info = {
+        type: 'integer'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model should contain property `more_info` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.more_info'
+      );
+    });
+
+    it('target property not an error target model', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Error.properties.target = {
+        type: 'integer'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error model property `target` must be a valid error target model object'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target'
+      );
+    });
+
+    it('error target model has no type property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.components.schemas.ErrorTarget.properties.type;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error target model must contain property `type` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties'
+      );
+    });
+
+    it('error target model type property not a string', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.ErrorTarget.properties.type = {
+        type: 'integer'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error target model must contain property `type` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties.type'
+      );
+    });
+
+    it('type property has no enum', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.components.schemas.ErrorTarget.properties.type.enum;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        "Error target model property `type` must define an enumeration containing ['field', 'header', 'parameter']"
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties.type'
+      );
+    });
+
+    it('type property has incorrect enum', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.ErrorTarget.properties.type.enum = [
+        'property',
+        'queryParam',
+        'headerParam'
+      ];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        "Error target model property `type` must define an enumeration containing ['field', 'header', 'parameter']"
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties.type.enum'
+      );
+    });
+
+    it('error target model has no name property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.components.schemas.ErrorTarget.properties.name;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error target model must contain property `name` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties'
+      );
+    });
+
+    it('error target model name property not a string', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.ErrorTarget.properties.name = {
+        type: 'integer'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(10);
+
+      const r = results[0];
+      expect(r.code).toBe(ruleId);
+      expect(r.severity).toBe(expectedSeverity);
+      expect(r.message).toBe(
+        'Error target model must contain property `name` of type string'
+      );
+      expect(r.path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties.name'
+      );
+    });
   });
 });

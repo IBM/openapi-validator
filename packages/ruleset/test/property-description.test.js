@@ -137,13 +137,20 @@ describe('Spectral rule: property-description', () => {
         description: 'An error response.',
         type: 'object',
         properties: {
+          errors: {
+            type: 'array',
+            minItems: 0,
+            maxItems: 100,
+            description:
+              'The array of error entries associated with the error response',
+            items: {
+              $ref: '#/components/schemas/Error'
+            }
+          },
           trace: {
-            description: '        ',
+            description: '   ',
             type: 'string',
             format: 'uuid'
-          },
-          error: {
-            $ref: '#/components/schemas/RequestError'
           }
         }
       };

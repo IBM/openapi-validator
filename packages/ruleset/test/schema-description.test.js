@@ -119,13 +119,20 @@ describe('Spectral rule: schema-description', () => {
         description: '      ',
         type: 'object',
         properties: {
+          errors: {
+            type: 'array',
+            minItems: 0,
+            maxItems: 100,
+            description:
+              'The array of error entries associated with the error response',
+            items: {
+              $ref: '#/components/schemas/Error'
+            }
+          },
           trace: {
             description: 'The error trace information.',
             type: 'string',
             format: 'uuid'
-          },
-          error: {
-            $ref: '#/components/schemas/RequestError'
           }
         }
       };

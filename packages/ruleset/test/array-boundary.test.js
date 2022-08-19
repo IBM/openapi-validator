@@ -133,17 +133,19 @@ describe('Spectral rule: array-boundary', () => {
         description: 'An error response.',
         type: 'object',
         properties: {
-          trace: {
-            description: 'array containing each line of a stack trace',
+          errors: {
             type: 'array',
-            minItems: 1,
+            minItems: 0,
+            description:
+              'The array of error entries associated with the error response',
             items: {
-              type: 'string',
-              format: 'uuid'
+              $ref: '#/components/schemas/Error'
             }
           },
-          error: {
-            $ref: '#/components/schemas/RequestError'
+          trace: {
+            description: 'The error trace information.',
+            type: 'string',
+            format: 'uuid'
           }
         }
       };
@@ -154,7 +156,7 @@ describe('Spectral rule: array-boundary', () => {
       expect(results[0].message).toBe(expectedMsgMax);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies.post.responses.400.content.application/json.schema.properties.trace'
+        'paths./v1/movies.post.responses.400.content.application/json.schema.properties.errors'
       );
     });
 
