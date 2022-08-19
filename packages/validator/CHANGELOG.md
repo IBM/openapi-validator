@@ -1,3 +1,18 @@
+## ibm-openapi-validator [0.88.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.88.2...ibm-openapi-validator@0.88.3) (2022-08-19)
+
+
+### Bug Fixes
+
+* **response-status-codes:** avoid false positives for 'create' operations ([#483](https://github.com/IBM/openapi-validator/issues/483)) ([09aeb17](https://github.com/IBM/openapi-validator/commit/09aeb17aada639c27a36da05ad6ada34ed520ebe))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.37.3
+
 ## ibm-openapi-validator [0.88.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.88.1...ibm-openapi-validator@0.88.2) (2022-08-19)
 
 
