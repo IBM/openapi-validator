@@ -344,7 +344,7 @@ or <code>application/merge-patch+json</code>.</td>
 <tr>
 <td><a href="#rule-precondition-header">precondition-header</a></td>
 <td>error</td>
-<td>An operation with 412 response must support at least one conditional header</td>
+<td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code></td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -3163,7 +3163,7 @@ paths:
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>An operation with 412 response must support at least one conditional header.</td>
+<td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code></td>. For more details, please see the API Handbook on [Conditional Headers](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers).
 </tr>
 <tr>
 <td><b>Severity:</b></td>
