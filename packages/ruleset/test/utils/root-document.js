@@ -38,6 +38,7 @@ module.exports = {
         ],
         'x-codegen-request-body-name': 'drink',
         requestBody: {
+          required: true,
           content: {
             'application/json': {
               schema: {
@@ -218,6 +219,7 @@ module.exports = {
           }
         ],
         requestBody: {
+          required: true,
           content: {
             'application/octet-stream': {
               schema: {
@@ -259,6 +261,7 @@ module.exports = {
           }
         ],
         requestBody: {
+          required: true,
           content: {
             'application/json': {
               schema: {
@@ -416,6 +419,7 @@ module.exports = {
         ],
         'x-codegen-request-body-name': 'movie',
         requestBody: {
+          required: true,
           content: {
             'application/json': {
               schema: {
@@ -1156,6 +1160,7 @@ module.exports = {
     },
     requestBodies: {
       CarRequest: {
+        required: true,
         content: {
           'application/json': {
             schema: {
@@ -1170,6 +1175,7 @@ module.exports = {
         }
       },
       UpdateCarRequest: {
+        required: true,
         content: {
           'application/merge-patch+json; charset=utf-8': {
             schema: {
