@@ -66,6 +66,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
   * [Rule: patch-request-content-type](#rule-patch-request-content-type)
   * [Rule: path-segment-case-convention](#rule-path-segment-case-convention)
+  * [Rule: precondition-header](#rule-precondition-header)
   * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
   * [Rule: property-attributes](#rule-property-attributes)
   * [Rule: property-case-collision](#rule-property-case-collision)
@@ -339,6 +340,12 @@ or <code>application/merge-patch+json</code>.</td>
 <td>error</td>
 <td>Path segments must follow a specific case convention</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-precondition-header">precondition-header</a></td>
+<td>error</td>
+<td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code></td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-prohibit-summary-sentence-style">prohibit-summary-sentence-style</a></td>
@@ -3142,6 +3149,79 @@ paths:
 <pre>
 paths:
   '/v1/some_things/{thing_id}':
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: precondition-header
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>precondition-header</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code></td>. For more details, please see the API Handbook on [Conditional Headers](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers).
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    get:
+      operationId: get_thing
+      responses:
+        '200':
+          description: 'Resource was retrieved successfully!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+        '412':
+          description: 'Resource current ETag matches If-None-Match value.'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    get:
+      operationId: get_thing
+      parameters:
+        - name: If-None-Match
+          in: header
+          description: |-
+            The operation will succeed only if the resource's current ETag value 
+            does not match the value specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Resource was retrieved successfully!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+        '412':
+          description: 'Resource current ETag matches If-None-Match value.'
 </pre>
 </td>
 </tr>
