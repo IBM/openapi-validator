@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.38.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.37.3...@ibm-cloud/openapi-ruleset@0.38.0) (2022-08-25)
+
+
+### Features
+
+* **precondition-header:** add new `precondition-header` spectral-style rule ([#484](https://github.com/IBM/openapi-validator/issues/484)) ([2471a14](https://github.com/IBM/openapi-validator/commit/2471a14e617a74f5f83fbbf368159a7245a69d0c))
+
 ## @ibm-cloud/openapi-ruleset [0.37.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.37.2...@ibm-cloud/openapi-ruleset@0.37.3) (2022-08-19)
 
 
