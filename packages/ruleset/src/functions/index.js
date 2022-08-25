@@ -19,6 +19,7 @@ module.exports = {
   operationIdCaseConvention: require('./operation-id-case-convention'),
   operationIdNamingConvention: require('./operation-id-naming-convention'),
   operationSummary: require('./operation-summary'),
+  optionalRequestBody: require('./optional-request-body'),
   paginationStyle: require('./pagination-style'),
   parameterCaseConvention: require('./parameter-case-convention'),
   parameterDefault: require('./parameter-default'),

@@ -120,6 +120,7 @@ module.exports = {
     'operation-id-case-convention': ibmRules.operationIdCaseConvention,
     'operation-id-naming-convention': ibmRules.operationIdNamingConvention,
     'operation-summary': ibmRules.operationSummary,
+    'optional-request-body': ibmRules.optionalRequestBody,
     'pagination-style': ibmRules.paginationStyle,
     'parameter-case-convention': ibmRules.parameterCaseConvention,
     'parameter-default': ibmRules.parameterDefault,

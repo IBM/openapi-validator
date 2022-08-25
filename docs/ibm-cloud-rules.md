@@ -58,6 +58,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: operation-id-case-convention](#rule-operation-id-case-convention)
   * [Rule: operation-id-naming-convention](#rule-operation-id-naming-convention)
   * [Rule: operation-summary](#rule-operation-summary)
+  * [Rule: optional-request-body](#rule-optional-request-body)
   * [Rule: pagination-style](#rule-pagination-style)
   * [Rule: parameter-case-convention](#rule-parameter-case-convention)
   * [Rule: parameter-default](#rule-parameter-default)
@@ -290,6 +291,12 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td><a href="#rule-operation-summary">operation-summary</a></td>
 <td>warn</td>
 <td>Operation <code>summary</code> must be present and non-empty string.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-optional-request-body">optional-request-body</a></td>
+<td>info</td>
+<td>An optional requestBody with required properties should probably be required</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -2576,6 +2583,65 @@ paths:
       operationId: create_thing
       description: Create a new Thing instance.
       summary: Create a Thing
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: optional-request-body
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>optional-request-body</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule scrutinizes optional request bodies because in most cases, they should be required.
+Specifically, this rule examines the schemas associated with optional request bodies and
+if there are required properties, then it is likely that the API author intended for the
+request body to be required.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>info</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      requestBody:
+        required: false
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Thing'    # Assume "Thing" schema has required properties
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Thing'    # Assume "Thing" schema has required properties
 </pre>
 </td>
 </tr>
