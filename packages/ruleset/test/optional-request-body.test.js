@@ -36,6 +36,7 @@ describe('Spectral rule: optional-request-body', () => {
       testDocument.components.requestBodies[
         'UpdateCarRequest'
       ].required = false;
+      testDocument.components.schemas['CarPatch'].required = ['make', 'model'];
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
