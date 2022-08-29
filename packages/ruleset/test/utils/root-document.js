@@ -861,6 +861,29 @@ module.exports = {
           }
         }
       },
+      CarPatch: {
+        description: 'Information about a car.',
+        type: 'object',
+        properties: {
+          id: {
+            description: 'The car id.',
+            type: 'string',
+            minLength: 1,
+            maxLength: 64,
+            pattern: '[0-9]+'
+          },
+          make: {
+            description: 'The car make.',
+            type: 'string',
+            minLength: 1,
+            maxLength: 32,
+            pattern: '.*'
+          },
+          model: {
+            $ref: '#/components/schemas/CarModelType'
+          }
+        }
+      },
       CarModelType: {
         description: 'The car model.',
         type: 'string',
@@ -1179,7 +1202,7 @@ module.exports = {
         content: {
           'application/merge-patch+json; charset=utf-8': {
             schema: {
-              $ref: '#/components/schemas/Car'
+              $ref: '#/components/schemas/CarPatch'
             },
             examples: {
               RequestExample: {

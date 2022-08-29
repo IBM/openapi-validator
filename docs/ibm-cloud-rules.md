@@ -53,6 +53,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: if-unmodified-since-parameter](#rule-if-unmodified-since-parameter)
   * [Rule: inline-response-schema](#rule-inline-response-schema)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
+  * [Rule: merge-patch-optional-properties](#rule-merge-patch-optional-properties)
   * [Rule: missing-required-property](#rule-missing-required-property)
   * [Rule: no-etag-header](#rule-no-etag-header)
   * [Rule: operation-id-case-convention](#rule-operation-id-case-convention)
@@ -260,6 +261,12 @@ which is not allowed.</td>
 <td>warn</td>
 <td>All paths must contain the API major version as a distinct path segment</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-merge-patch-optional-properties">merge-patch-optional-properties</a></td>
+<td>warn</td>
+<td>JSON merge-patch requestBody schemas should have no required properties</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-missing-required-property">missing-required-property</a></td>
@@ -2216,7 +2223,7 @@ info:
   ...
 paths:
   /things:
-    ,,,
+    ...
 </pre>
 </td>
 </tr>
@@ -2230,12 +2237,91 @@ info:
   ...
 paths:
   /v1/things:
-    ,,,
+    ...
 </pre>
 </td>
 </tr>
 </table>
 
+
+### Rule: merge-patch-optional-properties
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>merge-patch-optional-properties</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>In order to adhere to the "merge-patch" semantics, the requestBody schema for a patch operation
+with <code>application/merge-patch+json</code> requestBody content should not
+define any required properties or specify a non-zero value for the <code>minProperties</code> field.
+<p>This rule verifies that "merge-patch" operations adhere to this requirement.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things/{thing_id}:
+    patch:
+      operationId: update_thing
+      requestBody:
+        content:
+          'application/merge-patch+json':
+            schema:
+              $ref: '#/components/schemas/ThingPatch'
+components:
+  schemas:
+    ThingPatch:
+      type: object
+      required:
+        - name
+        - long_description
+      properties:
+        name:
+          description: The name of the Thing
+          type: string
+        long_description:
+          description: The long description of the Thing
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  /v1/things/{thing_id}:
+    patch:
+      operationId: update_thing
+      requestBody:
+        content:
+          'application/merge-patch+json':
+            schema:
+              $ref: '#/components/schemas/ThingPatch'
+components:
+  schemas:
+    ThingPatch:          &lt;&lt;&lt; no longer defines any required properties
+      type: object
+      properties:
+        name:
+          description: The name of the Thing
+          type: string
+        long_description:
+          description: The long description of the Thing
+</pre>
+</td>
+</tr>
+</table>
 
 ### Rule: missing-required-property
 <table>

@@ -115,6 +115,7 @@ module.exports = {
     'if-unmodified-since-parameter': ibmRules.ifUnmodifiedSinceParameter,
     'inline-response-schema': ibmRules.inlineResponseSchema,
     'major-version-in-path': ibmRules.majorVersionInPath,
+    'merge-patch-optional-properties': ibmRules.mergePatchOptionalProperties,
     'missing-required-property': ibmRules.missingRequiredProperty,
     'no-etag-header': ibmRules.noEtagHeader,
     'operation-id-case-convention': ibmRules.operationIdCaseConvention,

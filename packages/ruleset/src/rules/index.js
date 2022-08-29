@@ -24,6 +24,7 @@ module.exports = {
   ifUnmodifiedSinceParameter: require('./if-unmodified-since-parameter'),
   inlineResponseSchema: require('./inline-response-schema'),
   majorVersionInPath: require('./major-version-in-path'),
+  mergePatchOptionalProperties: require('./merge-patch-optional-properties'),
   missingRequiredProperty: require('./missing-required-property'),
   noEtagHeader: require('./no-etag-header'),
   operationIdCaseConvention: require('./operation-id-case-convention'),

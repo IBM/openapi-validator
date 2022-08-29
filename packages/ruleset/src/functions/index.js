@@ -15,6 +15,7 @@ module.exports = {
   enumCaseConvention: require('./enum-case-convention'),
   errorResponseSchema: require('./error-response-schema'),
   inlineResponseSchema: require('./inline-response-schema'),
+  mergePatchOptionalProperties: require('./merge-patch-optional-properties'),
   noEtagHeader: require('./no-etag-header'),
   operationIdCaseConvention: require('./operation-id-case-convention'),
   operationIdNamingConvention: require('./operation-id-naming-convention'),
