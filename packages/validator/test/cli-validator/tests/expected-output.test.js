@@ -411,7 +411,7 @@ describe('test expected output - OpenAPI 3', function() {
     const jsonOutput = JSON.parse(capturedText);
     const warningToCheck = jsonOutput.warnings[0];
 
-    expect(warningToCheck.rule).toEqual('pagination-style');
+    expect(warningToCheck.rule).toEqual('collection-array-property');
     expect(warningToCheck.path.join('.')).toBe(
       'components.schemas.ListOfCharacters'
     );

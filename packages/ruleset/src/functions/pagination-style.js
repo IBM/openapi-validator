@@ -294,17 +294,20 @@ function paginationStyle(pathItem, path) {
     }
   }
 
-  // Check #7: The response body must contain an array property whose name matches the final path segment.
-  // Reference: https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-collections-overview#response-format
-  const pathSeg = pathStr.split('/').pop();
-  const resourcesProp = responseSchema.properties[pathSeg];
-  if (!resourcesProp || resourcesProp.type !== 'array') {
-    results.push({
-      message:
-        'A paginated list operation must include an array property whose name matches the final segment of the path',
-      path: responseSchemaPath
-    });
-  }
+  //
+  // This check has been removed from this rule and replaced by the new 'collection-array-property' rule.
+  //
+  // // Check #7: The response body must contain an array property whose name matches the final path segment.
+  // // Reference: https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-collections-overview#response-format
+  // const pathSeg = pathStr.split('/').pop();
+  // const resourcesProp = responseSchema.properties[pathSeg];
+  // if (!resourcesProp || resourcesProp.type !== 'array') {
+  //   results.push({
+  //     message:
+  //       'A paginated list operation must include an array property whose name matches the final segment of the path',
+  //     path: responseSchemaPath
+  //   });
+  // }
 
   // Check #8: If the response body contains a "total_count" property, it must be type integer and required.
   // References:

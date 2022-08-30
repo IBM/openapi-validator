@@ -7,6 +7,7 @@ module.exports = {
   authorizationParameter: require('./authorization-parameter'),
   binarySchemas: require('./binary-schemas'),
   circularRefs: require('./circular-refs'),
+  collectionArrayProperty: require('./collection-array-property'),
   consecutivePathParamSegments: require('./consecutive-path-param-segments'),
   contentEntryContainsSchema: require('./content-entry-contains-schema'),
   contentEntryProvided: require('./content-entry-provided'),

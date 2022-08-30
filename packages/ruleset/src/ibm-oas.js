@@ -98,6 +98,7 @@ module.exports = {
     'authorization-parameter': ibmRules.authorizationParameter,
     'binary-schemas': ibmRules.binarySchemas,
     'circular-refs': ibmRules.circularRefs,
+    'collection-array-property': ibmRules.collectionArrayProperty,
     'consecutive-path-param-segments': ibmRules.consecutivePathParamSegments,
     'content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'content-entry-provided': ibmRules.contentEntryProvided,
