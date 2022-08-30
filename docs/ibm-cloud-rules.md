@@ -35,8 +35,9 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: array-responses](#rule-array-responses)
   * [Rule: authorization-parameter](#rule-authorization-parameter)
   * [Rule: binary-schemas](#rule-binary-schemas)
-  * [Rule: consecutive-path-param-segments](#rule-consecutive-path-param-segments)
   * [Rule: circular-refs](#rule-circular-refs)
+  * [Rule: collection-array-property](#rule-collection-array-property)
+  * [Rule: consecutive-path-param-segments](#rule-consecutive-path-param-segments)
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
   * [Rule: content-type-parameter](#rule-content-type-parameter)
@@ -153,18 +154,33 @@ is provided in the [Reference](#reference) section below.
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#rule-circular-refs">circular-refs</a></td>
+<td>warn</td>
+<td>Makes sure that the API definition doesn't contain any circular references</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-collection-array-property">collection-array-property</a></td>
+<td>warn</td>
+<td>The [API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-collections-overview#response-format) states that the response
+to a "list" operation returning a collection must be an object that contains an array property whose name matches the plural form of the
+resource type.
+For example, the "GET /v1/things" operation should return an object with an array property named "things"
+(which is presumably defined as an array of Thing instances).
+<p>This rule enforces this requirement by checking each operation that appears to be a
+"list"-type operation (with or without support for pagination) to make sure that the operation's
+response schema defines an array property whose name matches the last path segment
+within the operation's path string, which should also match the plural form of the resource type.
+</td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
 <td><a href="#rule-consecutive-path-param-segments">consecutive-path-param-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API definition to detect the presence of two or more consecutive
 path segments that contain a path parameter reference (e.g. <code>/v1/foos/{foo_id}/{bar_id}</code>), 
 which is not allowed.</td>
 <td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#rule-circular-refs">circular-refs</a></td>
-<td>warn</td>
-<td>Makes sure that the API definition doesn't contain any circular references</td>
-<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-content-entry-contains-schema">content-entry-contains-schema</a></td>
@@ -1135,60 +1151,6 @@ paths:
 </table>
 
 
-### Rule: consecutive-path-param-segments
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>consecutive-path-param-segments</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule checks each path string in the API to detect the presence of two or more path segments that contain
-a parameter reference, which is not allowed.
-For example, the path <code>/v1/foos/{foo_id}/{bar_id}</code> is invalid and should probably be <code>/v1/foos/{foo_id}/bars/{bar_id}</code>.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  '/v1/foos/{foo_id}/{bar_id}':
-    parameters:
-      - $ref: '#/components/parameters/FooIdParam'
-      - $ref: '#/components/parameters/BarIdParam'
-  get:
-    operationId: get_foobar
-    ...
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/foos/{foo_id}/bars/{bar_id}':
-    parameters:
-      - $ref: '#/components/parameters/FooIdParam'
-      - $ref: '#/components/parameters/BarIdParam'
-  get:
-    operationId: get_foobar
-    ...
-</pre>
-</td>
-</tr>
-</table>
-
-
 ### Rule: circular-refs
 <table>
 <tr>
@@ -1251,6 +1213,141 @@ components:
         foo_id:               # include only the Foo instance's id,
           type: string        # not the entire Foo instance
 
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: collection-array-property
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>collection-array-property</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The [API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-collections-overview#response-format)
+states that the response to a "list" operation returning a collection must be an object that contains an array property
+whose name matches the plural form of the resource type.
+For example, the "GET /v1/things" operation should return an object
+with an array property named "things" (which is presumably defined as an array of Thing instances).
+<p>This rule enforces this requirement by checking each operation that appears to be a
+"list"-type operation (with or without support for pagination) to make sure that the operation's
+response schema defines an array property whose name matches the last path segment
+within the operation's path string, which should also match the plural form of the resource type.
+<p>For the purposes of this rule, an operation is considered to be a "list"-type operation
+if it is a "get" request and one of the following are also true:
+<ol>
+<li>the operation's operationId starts with "list" (e.g. "list_things")
+<li>the operation's path string does not end with a path parameter reference, but there is a
+companion path string that does end with a path parameter reference (e.g. "/v1/things" vs "/v1/things/{thing_id}").
+</ol>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+  get:
+    operationId: list_things
+    responses:
+      '200':
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                abuncha_things:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+  get:
+    operationId: list_things
+    responses:
+      '200':
+        content:
+          'application/json':
+            schema:
+              type: object
+              properties:
+                things:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: consecutive-path-param-segments
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>consecutive-path-param-segments</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks each path string in the API to detect the presence of two or more path segments that contain
+a parameter reference, which is not allowed.
+For example, the path <code>/v1/foos/{foo_id}/{bar_id}</code> is invalid and should probably be <code>/v1/foos/{foo_id}/bars/{bar_id}</code>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/foos/{foo_id}/{bar_id}':
+    parameters:
+      - $ref: '#/components/parameters/FooIdParam'
+      - $ref: '#/components/parameters/BarIdParam'
+  get:
+    operationId: get_foobar
+    ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/foos/{foo_id}/bars/{bar_id}':
+    parameters:
+      - $ref: '#/components/parameters/FooIdParam'
+      - $ref: '#/components/parameters/BarIdParam'
+  get:
+    operationId: get_foobar
+    ...
 </pre>
 </td>
 </tr>

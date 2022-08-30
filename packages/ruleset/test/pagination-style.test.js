@@ -477,63 +477,6 @@ describe('Spectral rule: pagination-style', () => {
         );
       });
     });
-    describe('Check #7 - response schema must contain array property w/name matching final path segment', () => {
-      it('array property with incorrect name', async () => {
-        const testDocument = makeCopy(rootDocument);
-
-        // Effectively rename the "movies" property to be "misnamed_movies".
-        const arrayProp =
-          testDocument.components.schemas['MovieCollection'].allOf[1].properties
-            .movies;
-        testDocument.components.schemas[
-          'MovieCollection'
-        ].allOf[1].properties.misnamed_prop = arrayProp;
-        testDocument.components.schemas['MovieCollection'].allOf[1].required = [
-          'misnamed_prop'
-        ];
-        delete testDocument.components.schemas['MovieCollection'].allOf[1]
-          .properties.movies;
-
-        const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(1);
-        const r = results[0];
-        expect(r.code).toBe(ruleId);
-        expect(r.message).toBe(expectedMsgArrayProp);
-        expect(r.severity).toBe(expectedSeverity);
-        expect(r.path.join('.')).toBe(
-          'paths./v1/movies.get.responses.200.content.application/json.schema'
-        );
-      });
-      it('correctly named property not an array', async () => {
-        const testDocument = makeCopy(rootDocument);
-
-        // Effectively rename the "movies" property to be "misnamed_movies",
-        // then create a new "movies" property that is not an array.
-        // Note: we need to have an array property in the response schema so that the
-        // operation will not be ignored by the pagination rule.
-        const arrayProp =
-          testDocument.components.schemas['MovieCollection'].allOf[1].properties
-            .movies;
-        testDocument.components.schemas[
-          'MovieCollection'
-        ].allOf[1].properties.array_prop = arrayProp;
-        testDocument.components.schemas[
-          'MovieCollection'
-        ].allOf[1].properties.movies = {
-          type: 'string'
-        };
-
-        const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(1);
-        const r = results[0];
-        expect(r.code).toBe(ruleId);
-        expect(r.message).toBe(expectedMsgArrayProp);
-        expect(r.severity).toBe(expectedSeverity);
-        expect(r.path.join('.')).toBe(
-          'paths./v1/movies.get.responses.200.content.application/json.schema'
-        );
-      });
-    });
     describe('Check #8 - total_count response property should be integer and required', () => {
       it('"total_count" response property not an integer', async () => {
         const testDocument = makeCopy(rootDocument);
@@ -767,8 +710,6 @@ const expectedMsgStartParam =
   'The "start" parameter must be of type string and optional';
 const expectedMsgStartParamName =
   'The "page_token" parameter should be named "start"';
-const expectedMsgArrayProp =
-  'A paginated list operation must include an array property whose name matches the final segment of the path';
 const expectedMsgTotalCountProp =
   'The "total_count" property in the response body of a paginated list operation must be of type integer and required';
 const expectedMsgPagelinkRE = /A paginated list operation should include a ".*" property in the response body schema/;

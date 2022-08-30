@@ -6,6 +6,7 @@ module.exports = {
   binarySchemas: require('./binary-schemas'),
   checkMajorVersion: require('./check-major-version'),
   circularRefs: require('./circular-refs'),
+  collectionArrayProperty: require('./collection-array-property'),
   consecutivePathParamSegments: require('./consecutive-path-param-segments'),
   deleteBody: require('./delete-body'),
   descriptionMentionsJSON: require('./description-mentions-json'),
