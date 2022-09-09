@@ -130,6 +130,7 @@ module.exports = {
     'parameter-order': ibmRules.parameterOrder,
     'parameter-schema-or-content': ibmRules.parameterSchemaOrContent,
     'patch-request-content-type': ibmRules.patchRequestContentType,
+    'path-param-not-crn': ibmRules.pathParamNotCRN,
     'path-segment-case-convention': ibmRules.pathSegmentCaseConvention,
     'precondition-header': ibmRules.preconditionHeader,
     'prohibit-summary-sentence-style': ibmRules.prohibitSummarySentenceStyle,

@@ -68,6 +68,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: parameter-order](#rule-parameter-order)
   * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
   * [Rule: patch-request-content-type](#rule-patch-request-content-type)
+  * [Rule: path-param-not-crn](#rule-path-param-not-crn)
   * [Rule: path-segment-case-convention](#rule-path-segment-case-convention)
   * [Rule: precondition-header](#rule-precondition-header)
   * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
@@ -364,6 +365,12 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td>Verifies that PATCH operations support only requestBody content types <code>application/json-patch+json</code>
 or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-path-param-not-crn">path-param-not-crn</a></td>
+<td>warn</td>
+<td>Verifies that path parameters are not defined as CRN (Cloud Resource Name) values</td>
+<td>oas2, oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-path-segment-case-convention">path-segment-case-convention</a></td>
@@ -3343,6 +3350,96 @@ paths:
       responses:
         '200':
           description: 'Thing updated successfully!'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: path-param-not-crn
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>path-param-not-crn</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks to make sure that there are no path parameters that are defined as a CRN (Cloud Resource Name) value.
+<p>In order to determine whether or not a path parameter is considered to be defined as a CRN value, this validation rule
+will perform the following checks:
+<ul>
+<li>The parameter's <code>name</code> field contains "crn" (e.g. "resource_crn")</li>
+<li>The parameter's schema is defined with type=string, format=crn</li>
+<li>The parameter's schema is defined with a pattern field that starts with either "crn" or "^crn" (e.g. 'crn:[-0-9A-Fa-f]+')</li>
+<li>The parameter's <code>example</code> field contains a CRN-like value (e.g. "crn:0afd-0138-2636")</li>
+<li>The parameter's <code>examples</code> field contains an entry containing a CRN-like value, as in this example:
+<pre>
+</pre>
+components:
+  parameters:
+    ThingIdParam:
+      name: thing_id
+      description: The id of the Thing instance
+      in: path
+      required: true
+      schema:
+        type: string
+      examples:
+        crn_example:
+          value: 'crn:0afd-0138-2636'
+</li>
+<li>The parameter schema's <code>example</code> field contains a CRN-like value (e.g. "crn:0afd-0138-2636")</li>
+<li>The parameter's <code>description</code> field contains either "CRN" or "Cloud Resource Name"</li>
+<li>The parameter schema's <code>description</code> field contains either "CRN" or "Cloud Resource Name"</li>
+</ul>
+These checks are logically OR'd together, so that if any one or more of these checks
+are true for a particular parameter, then a warning is raised for that parameter. 
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas2, oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  parameters:
+    ThingCrnParam:
+      name: thing_crn
+      description: The CRN associated with the Thing instance
+      in: path
+      required: true
+      schema:
+        type: string
+        format: crn
+        pattern: '^crn:[-0-9A-Fa-f]+$'
+        minLength: 5
+        maxLength: 32
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  parameters:
+    ThingIdParam:
+      name: thing_id
+      description: The id associated with the Thing instance
+      in: path
+      required: true
+      schema:
+        type: string
+        format: identifier
+        pattern: '^id:[-0-9A-Fa-f]+$'
+        minLength: 5
+        maxLength: 32
 </pre>
 </td>
 </tr>

@@ -28,6 +28,7 @@ module.exports = {
   parameterDescription: require('./parameter-description'),
   parameterOrder: require('./parameter-order'),
   patchRequestContentType: require('./patch-request-content-type'),
+  pathParamNotCRN: require('./path-param-not-crn'),
   pathSegmentCaseConvention: require('./path-segment-case-convention'),
   preconditionHeader: require('./precondition-header'),
   propertyAttributes: require('./property-attributes'),
