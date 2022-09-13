@@ -114,6 +114,7 @@ module.exports = {
     'ibm-sdk-operations': ibmRules.ibmSdkOperations,
     'if-modified-since-parameter': ibmRules.ifModifiedSinceParameter,
     'if-unmodified-since-parameter': ibmRules.ifUnmodifiedSinceParameter,
+    'inline-request-schema': ibmRules.inlineRequestSchema,
     'inline-response-schema': ibmRules.inlineResponseSchema,
     'major-version-in-path': ibmRules.majorVersionInPath,
     'merge-patch-optional-properties': ibmRules.mergePatchOptionalProperties,

@@ -95,6 +95,48 @@ describe('Spectral rule: inline-response-schema', () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('2-element Ref sibling in success response', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        allOf: [
+          {
+            $ref: '#/components/schemas/Movie'
+          },
+          {
+            description: 'The create_movie operation returns a Movie instance.',
+            nullable: false,
+            example: 'foo'
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('1-element Ref sibling in success response', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        allOf: [
+          {
+            $ref: '#/components/schemas/Movie'
+          }
+        ],
+        description: 'The create_movie operation returns a Movie instance.',
+        nullable: false,
+        example: 'foo'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
@@ -210,6 +252,60 @@ describe('Spectral rule: inline-response-schema', () => {
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
         'components.responses.BarIsClosed.content.application/json.schema'
+      );
+    });
+
+    it('Non ref-sibling composed schema in success response', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        allOf: [
+          {
+            $ref: '#/components/schemas/Movie'
+          },
+          {
+            description: 'Not a ref-sibling!',
+            minProperties: 1
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies.post.responses.201.content.application/json.schema'
+      );
+    });
+
+    it('Non ref-sibling composed schema in success response', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        allOf: [
+          {
+            $ref: '#/components/schemas/Movie'
+          }
+        ],
+        description: 'Still not a ref-sibling!',
+        pattern: '.*'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies.post.responses.201.content.application/json.schema'
       );
     });
   });

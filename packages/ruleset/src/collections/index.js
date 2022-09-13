@@ -37,6 +37,13 @@ const unresolvedResponseSchemas = [
   '$.components.responses[*].content[*].schema'
 ];
 
+// A collection of locations where a requestBody schema could be defined
+// within an unresolved API definition.
+const unresolvedRequestBodySchemas = [
+  '$.paths[*][*].requestBody.content[*].schema',
+  '$.components.requestBodies[*].content[*].schema'
+];
+
 const securitySchemes = ['$.components.securitySchemes[*]'];
 
 module.exports = {
@@ -45,6 +52,7 @@ module.exports = {
   patchOperations,
   parameters,
   paths,
+  unresolvedRequestBodySchemas,
   unresolvedResponseSchemas,
   schemas,
   securitySchemes
