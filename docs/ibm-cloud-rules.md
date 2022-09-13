@@ -52,6 +52,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: ibm-sdk-operations](#rule-ibm-sdk-operations)
   * [Rule: if-modified-since-parameter](#rule-if-modified-since-parameter)
   * [Rule: if-unmodified-since-parameter](#rule-if-unmodified-since-parameter)
+  * [Rule: inline-request-schema](#rule-inline-request-schema)
   * [Rule: inline-response-schema](#rule-inline-response-schema)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
   * [Rule: merge-patch-optional-properties](#rule-merge-patch-optional-properties)
@@ -266,6 +267,12 @@ which is not allowed.</td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-inline-request-schema">inline-request-schema</a></td>
+<td>warn</td>
+<td>Request body schemas should be defined as a $ref to a named schema</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-inline-response-schema">inline-response-schema</a></td>
@@ -2217,6 +2224,92 @@ paths:
 </table>
 
 
+### Rule: inline-request-schema
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>inline-request-schema</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>If a requestBody schema contains properties (i.e. a user-defined model), it is a best practice to
+define the schema as a named schema within the <code>components.schemas</code> section
+of the API definition, and then reference it with a schema $ref within the requestBody object.
+Following this best practice allows user-defined models to be re-used within the API definition.
+<p>In addition to re-usability, there is an added benefit during SDK code generation.
+In certain scenarios, the SDK generator will refactor an inline requestBody schema by moving it to
+<code>components.schemas</code> and replacing it with a schema $ref.
+When doing this refactoring, the SDK generator is likely to compute a name for the new schema that is
+not optimal (e.g. CreateThingRequest), so the recommendation is to specify user-defined models
+as a named schema in <code>components.schemas</code>, and then reference where needed with a schema $ref 
+instead of an inline schema.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: A Thing instance.
+              properties:
+                thing_id:
+                  type: string
+                thing_style:
+                  type: string
+              additionalProperties: true
+      ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      description: A Thing instance.
+      properties:
+        thing_id:
+          type: string
+        thing_style:
+          type: string
+      additionalProperties: true
+paths:
+  /v1/things:
+    post:
+      operationId: create_thing
+      description: Create a Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      ...
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### Rule: inline-response-schema
 <table>
 <tr>
@@ -2228,9 +2321,9 @@ paths:
 <td>A response schema should be defined as a reference to a named schema instead of defined as an inline schema.
 This is a best practice because the SDK generator will use the schema reference when determining the operation's return type
 within the generated SDK code.
-The SDK generator will refactor any inline response schemas that it finds by moving them to the <code>components.schemas</code>
+<p>The SDK generator will refactor any inline response schemas that it finds by moving them to the <code>components.schemas</code>
 section of the API definition and then replacing them with a reference.  However, the names computed by the SDK generator are
-not optimal, so the recommendation is for API authors to define the response schema as a $ref.
+not optimal (e.g. GetThingResponse), so the recommendation is for API authors to define the response schema as a $ref.
 </td>
 </tr>
 <tr>

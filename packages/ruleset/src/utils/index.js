@@ -6,6 +6,7 @@ module.exports = {
   isDeprecated: require('./is-deprecated'),
   isObject: require('./is-object'),
   isPrimitiveType: require('./is-primitive-type'),
+  isRefSiblingSchema: require('./is-ref-sibling-schema'),
   mergeAllOfSchemaProperties: require('./merge-allof-schema-properties'),
   ...require('./mimetype-utils'),
   operationMethods: require('./constants'),
