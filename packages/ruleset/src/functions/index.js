@@ -15,7 +15,7 @@ module.exports = {
   duplicatePathParameter: require('./duplicate-path-parameter'),
   enumCaseConvention: require('./enum-case-convention'),
   errorResponseSchema: require('./error-response-schema'),
-  inlineResponseSchema: require('./inline-response-schema'),
+  ...require('./inline-schema-rules'),
   mergePatchOptionalProperties: require('./merge-patch-optional-properties'),
   noEtagHeader: require('./no-etag-header'),
   operationIdCaseConvention: require('./operation-id-case-convention'),
