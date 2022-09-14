@@ -40,12 +40,12 @@ paths:
             format: int32
       responses:
         '200':
-          description: An paged array of pets
+          description: A paged array of pets
           headers:
             x-next:
-              description: A link to the next page of responses
               schema:
                 type: string
+                description: A link to the next page of responses
           content:
             application/json:
               schema:
@@ -163,33 +163,21 @@ components:
           type: string
           description: next token
         first:
-          type: object
-          description: Link to first page of results
-          properties:
-            href:
-              description: Request URL string
-              type: string
+          allOf:
+            - $ref: '#/components/schemas/PageLink'
+            - description: Link to the first page of results
         last:
-          type: object
-          description: Link to last page of results
-          properties:
-            href:
-              description: Request URL string
-              type: string
+          allOf:
+            - $ref: '#/components/schemas/PageLink'
+            - description: Link to the last page of results
         previous:
-          type: object
-          description: Link to previous page of results
-          properties:
-            href:
-              description: Request URL string
-              type: string
+          allOf:
+            - $ref: '#/components/schemas/PageLink'
+            - description: Link to the previous page of results
         next:
-          type: object
-          description: Link to next page of results
-          properties:
-            href:
-              description: Request URL string
-              type: string
+          allOf:
+            - $ref: '#/components/schemas/PageLink'
+            - description: Link to the next page of results
       example:
         pets:
         - id: 1
@@ -199,6 +187,13 @@ components:
         limit: 50
         offset: 20
         next_token: TOKEN_STRING
+    PageLink:
+      type: object
+      description: Link to a page of results
+      properties:
+        href:
+          description: Request URL string
+          type: string
     Error:
       type: object
       description:

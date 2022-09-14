@@ -23,6 +23,7 @@ module.exports = {
   ibmSdkOperations: require('./ibm-sdk-operations'),
   ifModifiedSinceParameter: require('./if-modified-since-parameter'),
   ifUnmodifiedSinceParameter: require('./if-unmodified-since-parameter'),
+  inlinePropertySchema: require('./inline-property-schema'),
   inlineRequestSchema: require('./inline-request-schema'),
   inlineResponseSchema: require('./inline-response-schema'),
   majorVersionInPath: require('./major-version-in-path'),
