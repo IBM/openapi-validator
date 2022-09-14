@@ -52,6 +52,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: ibm-sdk-operations](#rule-ibm-sdk-operations)
   * [Rule: if-modified-since-parameter](#rule-if-modified-since-parameter)
   * [Rule: if-unmodified-since-parameter](#rule-if-unmodified-since-parameter)
+  * [Rule: inline-property-schema](#rule-inline-property-schema)
   * [Rule: inline-request-schema](#rule-inline-request-schema)
   * [Rule: inline-response-schema](#rule-inline-response-schema)
   * [Rule: major-version-in-path](#rule-major-version-in-path)
@@ -267,6 +268,12 @@ which is not allowed.</td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter</td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-inline-property-schema">inline-property-schema</a></td>
+<td>warn</td>
+<td>Nested objects should be defined as a $ref to a named schema</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-inline-request-schema">inline-request-schema</a></td>
@@ -2218,6 +2225,84 @@ paths:
           description: 'Resource was deleted successfully!'
         '412':
           description: 'Resource current ETag value does not match the If-Match value.'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: inline-property-schema
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>inline-property-schema</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>If a nested schema (perhaps a schema property, an array <code>items</code> schema,
+an <code>additionalProperties</code> schema, etc.) is an object with user-defined properties,
+it is a best practice to define the schema as a named schema within the <code>components.schemas</code> section
+of the API definition, and then reference it with a schema $ref instead of defining it as an inline object schema.
+This is documented in the
+[API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#nested-object-schemas).
+<p>The use of a schema $ref is preferred instead of a nested object schema, because the SDK generator will
+use the schema $ref when determining the datatype associated with the nested object within the generated SDK code.
+If the SDK generator encounters a nested objet schema, it must refactor it by moving it to the <code>components.schemas</code>
+section of the API definition and then replacing it with a schema $ref.
+However, the names computed by the SDK generator are not optimal (e.g. MyModelProp1),
+so the recommendation is to define any nested object schema as a $ref so that the SDK generator's
+refactoring (and it's sub-optimal name computation) can be avoided.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        version:
+          type: object
+          properties:
+            major:
+              type: string
+            minor:
+              type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        version:
+          $ref: '#/components/schemas/ThingVersion'
+    ThingVersion:
+      type: object
+      properties:
+        major:
+          type: string
+        minor:
+          type: string
 </pre>
 </td>
 </tr>

@@ -2,11 +2,14 @@ const {
   getCompositeSchemaAttribute,
   isJsonMimeType,
   isArraySchema,
+  isEmptyObjectSchema,
   isPrimitiveType,
-  isRefSiblingSchema
+  isRefSiblingSchema,
+  validateSubschemas
 } = require('../utils');
 
 module.exports = {
+  inlinePropertySchema,
   inlineResponseSchema,
   inlineRequestSchema
 };
@@ -20,8 +23,8 @@ module.exports = {
  * is not optimal (e.g. "CreateThingResponse").
  * Therefore, the recommendation is to define each response to use a schema reference to
  * avoid the refactoring performed by the generator.
- * @param {*} schema a response schema from the unresolved API definition
- * @param {*} path the array of path segments indicating the "location" of the response schema within the API definition
+ * @param {*} schema a schema from the unresolved API definition
+ * @param {*} path the array of path segments indicating the location of "schema" within the API definition
  * @returns an array containing the violations found or [] if no violations
  */
 function inlineResponseSchema(schema, options, { path }) {
@@ -58,8 +61,8 @@ function inlineResponseSchema(schema, options, { path }) {
  * is not optimal (e.g. "CreateThingRequest").
  * Therefore, the recommendation is to define each requestBody object to use a schema reference to
  * avoid the refactoring performed by the generator.
- * @param {*} schema a requestBody schema from the unresolved API definition
- * @param {*} path the array of path segments indicating the "location" of the response schema within the API definition
+ * @param {*} schema a schema from the unresolved API definition
+ * @param {*} path the array of path segments indicating the location of "schema" within the API definition
  * @returns an array containing the violations found or [] if no violations
  */
 function inlineRequestSchema(schema, options, { path }) {
@@ -87,6 +90,87 @@ function inlineRequestSchema(schema, options, { path }) {
   }
 
   return [];
+}
+
+/**
+ * Checks to make sure that nested object schemas are defined using a $ref rather than
+ * an inline object schema.
+ * When the SDK generator encounters a nested schema (property, additionalProperties, array items, etc.)
+ * that is defined as an inline object schema, it must refacter the inline object schema by moving it to
+ * the "components.schemas" section and replacing it with a $ref.
+ * This is done so that the schema property will have an appropriate datatype that defines
+ * the nested object.   When the generator refactors a schema, it computes a name for the new schema by
+ * combining the name of the containing schema (the schema that contains the nested schema) together
+ * with the name of the property (e.g. property "foo" within schema MyModel would yield a new schema name
+ * of "MyModelFoo", the "items" field within array schema MyList would yield a new schema name of
+ * "MyListItems", etc.).
+ * To avoid these sub-optimal name computations, the recommendation is to define each
+ * nested object schema property to use a schema reference to avoid the refactoring performed by the generator.
+ * @param {*} schema a schema from the unresolved API definition
+ * @param {*} path the array of path segments indicating the location of "schema" within the API definition
+ * @returns an array containing the violations found or [] if no violations
+ */
+function inlinePropertySchema(schema, options, { path }) {
+  // Check each sub-schema that is reachable from "schema" (properties,
+  // additionalProperties, allOf/anyOf/oneOf, array items, etc.) .
+  return validateSubschemas(schema, path, checkForInlineNestedObjectSchema);
+}
+
+/**
+ * Checks the specified schema to determine if it's an inline object schema.
+ * If yes and it is in a "reportable" location, then return a warning for it.
+ *
+ * @param {*} schema the schema to be checked
+ * @param {*} path the array of path segments indicating the "location" of "schema" within the API definition
+ * @returns an array containing the violations found or [] if no violations
+ */
+function checkForInlineNestedObjectSchema(schema, path) {
+  // If "schema" is a $ref or fits the ref-sibling pattern,
+  // then bail out now to avoid a warning.
+  if (
+    schema.$ref ||
+    isPrimitiveType(schema) ||
+    isRefSiblingSchema(schema) ||
+    isEmptyObjectSchema(schema) ||
+    isArraySchema(schema)
+  ) {
+    return [];
+  }
+
+  // We need to avoid returning a warning for certain locations within the API because those are
+  // either covered by other rules or are otherwise locations where it's ok to have an inline object schema.
+  const pathString = path.join('!');
+
+  // It's ok for a named schema to be an inline object schema (duh!).
+  if (/^components!schemas![^!]+$/.test(pathString)) {
+    return [];
+  }
+
+  // Request body schemas are handled by the inline-request-schema rule.
+  if (/requestBody!content![^!]+!schema$/.test(pathString)) {
+    return [];
+  }
+
+  // Response schemas are handled by the inline-response-schema rule.
+  if (/responses![^!]+!content![^!]+!schema$/.test(pathString)) {
+    return [];
+  }
+
+  // We don't want to return a warning for an individual element of an
+  // allOf composition because an individual list element
+  // doesn't provide the full context of the inline object schema.
+  // Any violations would be reported against the schema that contains the allOf.
+  if (/allOf![^!]+$/.test(pathString)) {
+    return [];
+  }
+
+  // If we made it here, then "path" must be a "reportable" location.
+  return [
+    {
+      message: 'Nested objects should be defined as a $ref to a named schema.',
+      path
+    }
+  ];
 }
 
 /**

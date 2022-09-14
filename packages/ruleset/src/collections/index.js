@@ -13,6 +13,7 @@ const schemas = [
   '$.paths[*][parameters][*].content[*].schema',
   '$.paths[*][*][parameters][*].schema',
   '$.paths[*][*][parameters,responses][*].content[*].schema',
+  '$.paths[*][*].responses[*].headers[*].schema',
   '$.paths[*][*][requestBody].content[*].schema'
 ];
 
@@ -44,6 +45,33 @@ const unresolvedRequestBodySchemas = [
   '$.components.requestBodies[*].content[*].schema'
 ];
 
+// A collection of locations where a schema object could be defined
+// within an unresolved API definition.
+const unresolvedSchemas = [
+  // Named schemas.
+  '$.components.schemas[*]',
+
+  // Request/response schemas.
+  ...unresolvedRequestBodySchemas,
+  ...unresolvedResponseSchemas,
+
+  // Parameter schemas.
+  '$.paths[*].parameters[*].schema',
+  '$.paths[*].parameters[*].content[*].schema',
+  '$.paths[*][*].parameters[*].schema',
+  '$.paths[*][*].parameters[*].content[*].schema',
+  '$.components.parameters[*].schema',
+  '$.components.parameters[*].content[*].schema',
+
+  // Header schemas.
+  '$.paths[*][*].responses[*].headers[*].schema',
+  '$.paths[*][*].responses[*].headers[*].content[*].schema',
+  '$.components.headers[*].schema',
+  '$.components.headers[*].content[*].schema',
+  '$.components.responses[*].headers[*].schema',
+  '$.components.responses[*].headers[*].content[*].schema'
+];
+
 const securitySchemes = ['$.components.securitySchemes[*]'];
 
 module.exports = {
@@ -54,6 +82,7 @@ module.exports = {
   paths,
   unresolvedRequestBodySchemas,
   unresolvedResponseSchemas,
+  unresolvedSchemas,
   schemas,
   securitySchemes
 };

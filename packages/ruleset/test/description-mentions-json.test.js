@@ -227,7 +227,7 @@ describe('Spectral rule: description-mentions-json', () => {
         'This is NOT a JSON object!';
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(5);
+      expect(results).toHaveLength(6);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
@@ -286,6 +286,16 @@ describe('Spectral rule: description-mentions-json', () => {
         'id'
       ]);
       expect(results[4].path).toStrictEqual([
+        'paths',
+        '/v1/movies/{movie_id}',
+        'get',
+        'responses',
+        '200',
+        'headers',
+        'ETag',
+        'schema'
+      ]);
+      expect(results[5].path).toStrictEqual([
         'paths',
         '/v1/movies/{movie_id}',
         'put',
