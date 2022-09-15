@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.42.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.41.0...@ibm-cloud/openapi-ruleset@0.42.0) (2022-09-15)
+
+
+### Features
+
+* **path-param-not-crn:** add new spectral-style rule ([efea0e5](https://github.com/IBM/openapi-validator/commit/efea0e5f2c75ab6f854a4e860955d1648ab06a63))
+
 # @ibm-cloud/openapi-ruleset [0.41.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.40.0...@ibm-cloud/openapi-ruleset@0.41.0) (2022-09-09)
 
 
