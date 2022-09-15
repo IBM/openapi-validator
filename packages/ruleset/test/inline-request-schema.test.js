@@ -229,6 +229,88 @@ describe('Spectral rule: inline-request-schema', () => {
       );
     });
 
+    it('Inline composed schema via multiple references', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.requestBody.content[
+        'application/json'
+      ].schema = {
+        allOf: [
+          {
+            $ref: '#/components/schemas/Drink'
+          },
+          {
+            $ref: '#/components/schemas/Car'
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema'
+      );
+    });
+
+    it('Inline composed schema via oneOf', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.requestBody.content[
+        'application/json'
+      ].schema = {
+        oneOf: [
+          {
+            $ref: '#/components/schemas/Drink'
+          },
+          {
+            description:
+              'This is an alternate description for the Drink schema.'
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema'
+      );
+    });
+
+    it('Inline composed schema with altered required properties', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.requestBody.content[
+        'application/json'
+      ].schema = {
+        allOf: [
+          {
+            $ref: '#/components/schemas/Drink'
+          },
+          {
+            required: ['type']
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema'
+      );
+    });
+
     it('Inline array schema', async () => {
       const testDocument = makeCopy(rootDocument);
 
