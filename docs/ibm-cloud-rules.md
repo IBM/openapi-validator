@@ -37,6 +37,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: binary-schemas](#rule-binary-schemas)
   * [Rule: circular-refs](#rule-circular-refs)
   * [Rule: collection-array-property](#rule-collection-array-property)
+  * [Rule: composed-schema-restrictions](#rule-composed-schema-restrictions)
   * [Rule: consecutive-path-param-segments](#rule-consecutive-path-param-segments)
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
@@ -176,6 +177,13 @@ response schema defines an array property whose name matches the last path segme
 within the operation's path string, which should also match the plural form of the resource type.
 </td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-composed-schema-restrictions">composed-schema-restrictions</a></td>
+<td>error</td>
+<td>Verifies that schema compositions involving <code>oneOf</code> and <code>anyOf</code> comply with the
+restrictions imposed by the SDK generator.</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-consecutive-path-param-segments">consecutive-path-param-segments</a></td>
@@ -1315,6 +1323,90 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### Rule: composed-schema-restrictions
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>composed-schema-restrictions</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule examines each schema that inclues a oneOf/anyOf composition and verifies that
+it complies with the restrictions imposed by the SDK generator.  The restrictions are:
+<ul>
+<li>Any object schema containing a oneOf/anyOf composition must include only object schemas within
+the oneOf/anyOf list.</li>
+<li>The union of the properties defined by the main schema and its
+oneOf/anyOf sub-schemas is examined to detect any like-named properties defined by two or more of the schemas.
+Like-named properties that are found to be of different types will trigger an error.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      description: A schema that violates the restrictions
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/SubSchema1
+        - $ref: '#/components/schemas/SubSchema2
+    SubSchema1:
+      properties:
+        common_property:
+          type: string
+        another_property:
+          type: integer
+    SubSchema2:
+      properties:
+        common_property:
+          type: integer       &lt;&lt;&lt; incompatible type
+        some_other_property:
+          type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      description: A schema that complies with the restrictions
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/SubSchema1
+        - $ref: '#/components/schemas/SubSchema2
+    SubSchema1:
+      properties:
+        common_property:
+          type: string
+        another_property:
+          type: string
+    SubSchema2:
+      properties:
+        common_property:
+          type: string
+        some_other_property:
+          type: string
 </pre>
 </td>
 </tr>

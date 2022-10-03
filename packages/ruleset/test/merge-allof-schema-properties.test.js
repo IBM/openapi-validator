@@ -15,7 +15,7 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(schema);
   });
 
-  it('should return original schema (minum allOf) if empty allOf', async () => {
+  it('should return original schema (minus allOf) if empty allOf', async () => {
     const schema = {
       description: 'the description',
       type: 'object',

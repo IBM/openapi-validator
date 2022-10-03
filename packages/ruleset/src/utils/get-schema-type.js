@@ -294,6 +294,29 @@ const isStringSchema = schema => {
   return checkCompositeSchemaForConstraint(schema, s => s.type === 'string');
 };
 
+/**
+ * Returns true if "schema" is a primitive schema (string, integer, number, boolean)
+ * @param {*} schema the schema to check
+ * @returns boolean
+ */
+function isPrimitiveSchema(s) {
+  const primitiveTypes = [
+    SchemaType.BOOLEAN,
+    SchemaType.BYTE,
+    SchemaType.DOUBLE,
+    SchemaType.ENUMERATION,
+    SchemaType.FLOAT,
+    SchemaType.INT32,
+    SchemaType.INT64,
+    SchemaType.INTEGER,
+    SchemaType.NUMBER,
+    SchemaType.STRING
+  ];
+
+  const type = getSchemaType(s);
+  return primitiveTypes.includes(type);
+}
+
 module.exports = {
   SchemaType,
   getSchemaType,
@@ -311,5 +334,6 @@ module.exports = {
   isIntegerSchema,
   isNumberSchema,
   isObjectSchema,
+  isPrimitiveSchema,
   isStringSchema
 };
