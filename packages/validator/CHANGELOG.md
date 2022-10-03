@@ -1,3 +1,10 @@
+## ibm-openapi-validator [0.95.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.95.0...ibm-openapi-validator@0.95.1) (2022-10-03)
+
+
+### Bug Fixes
+
+* fix broken pkg script and publish binaries to github ([#499](https://github.com/IBM/openapi-validator/issues/499)) ([ba19b7b](https://github.com/IBM/openapi-validator/commit/ba19b7b9caafd8f648a28f1befac8bdb3fcddc4d))
+
 # ibm-openapi-validator [0.95.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.94.0...ibm-openapi-validator@0.95.0) (2022-09-20)
 
 
