@@ -16,7 +16,7 @@
     "test-travis": "npm run test-travis --workspaces",
     "lint": "npm run lint --workspaces",
     "fix": "npm run fix --workspaces",
-    "pkg": "npm run pkg --workspace packages/validator",
+    "pkg": "./scripts/create-binaries.sh",
     "link": "npm run link --workspace packages/validator",
     "unlink": "npm run unlink --workspace packages/validator",
     "all": "npm run test && npm run lint"

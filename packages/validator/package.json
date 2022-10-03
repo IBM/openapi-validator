@@ -16,8 +16,7 @@
     "test-cli-tool": "jest test/cli-validator/tests",
     "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test/",
     "lint": "eslint --cache --quiet --ext '.js' src test",
-    "fix": "eslint --fix --ext '.js' src test",
-    "pkg": "./node_modules/.bin/pkg --out-path=./bin ./package.json; cd bin; rename -f 's/ibm-openapi-validator-(linux|macos|win)/lint-openapi-$1/g' ./ibm-openapi-*"
+    "fix": "eslint --fix --ext '.js' src test"
   },
   "dependencies": {
     "@ibm-cloud/openapi-ruleset": "0.44.0",

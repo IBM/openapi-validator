@@ -1,6 +1,13 @@
 {
   "branches": "main",
-  "verifyConditions": ["@semantic-release/changelog", "@semantic-release/npm", "@semantic-release/git"],
-  "prepare": ["@semantic-release/changelog", "@semantic-release/npm", "@semantic-release/git"],
-  "publish": ["@semantic-release/npm", { "path": "@semantic-release/github" }]
+  "plugins": [
+    "@semantic-release/commit-analyzer",
+    "@semantic-release/release-notes-generator",
+    "@semantic-release/changelog",
+    "@semantic-release/npm",
+    "@semantic-release/git",
+    ["@semantic-release/github", {
+      "assets": ["bin/*"]
+    }]
+  ]
 }
