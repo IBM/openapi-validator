@@ -58,12 +58,12 @@ function composedSchemaRestrictions(schema, path) {
     return [];
   }
 
-  // Next, we need to verify that it's oneOf/anyOf list complies.
+  // Next, we need to verify that its oneOf/anyOf list complies.
   return checkSchemaList(schema, subSchemas, fieldName, path);
 }
 
 /**
- * This function checks "schema" and it's oneOf/anyOf list "subSchemas" to verify that
+ * This function checks "schema" and its oneOf/anyOf list "subSchemas" to verify that
  * it complies with the generator restrictions around the use of oneOf/anyOf.
  * @param {*} schema the main schema to check
  * @param {*} subSchemas the oneOf or anyOf list belonging to "schema"
@@ -89,7 +89,7 @@ function checkSchemaList(schema, subSchemas, fieldName, path) {
     // "s" should be an object schema. If not, return an error.
     if (!isObjectSchema(s)) {
       errors.push({
-        message: 'A schema within a oneOf/anyOf list must be an object schema',
+        message: `A schema within an object schema's oneOf/anyOf list must be an object schema`,
         path: [...path, fieldName, i.toString()]
       });
     } else {

@@ -3,11 +3,9 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = composedSchemaRestrictions;
 const ruleId = 'composed-schema-restrictions';
-const expectedSeverity = severityCodes.error;
-const expectedMsgObjSchema =
-  'A schema within a oneOf/anyOf list must be an object schema';
-const expectedMsgProp =
-  'Duplicate property with incompatible type defined in schema within a oneOf/anyOf list:';
+const expectedSeverity = severityCodes.warning;
+const expectedMsgObjSchema = `A schema within an object schema's oneOf/anyOf list must be an object schema`;
+const expectedMsgProp = `Duplicate property with incompatible type defined in schema within a oneOf/anyOf list:`;
 
 describe('Spectral rule: schema-description', () => {
   describe('Should not yield errors', () => {

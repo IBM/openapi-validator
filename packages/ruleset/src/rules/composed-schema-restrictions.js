@@ -4,10 +4,10 @@ const { schemas } = require('../collections');
 
 module.exports = {
   description:
-    'Composed schemas using oneOf or anyOf should comply with restrictions imposed by the SDK generator',
+    'Composed schemas using oneOf or anyOf should comply with SDK generation best practices',
   message: '{{error}}',
   given: schemas,
-  severity: 'error',
+  severity: 'warn',
   formats: [oas3],
   resolved: true,
   then: {
