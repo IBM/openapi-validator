@@ -6,8 +6,8 @@
 require('./utils/check-version')('10.0.0');
 
 const program = require('./utils/modified-commander');
+const getVersionString = require('./utils/get-version-string');
 const cliValidator = require('./run-validator');
-const version = require('../../package.json').version;
 
 // set up the command line options
 /* prettier-ignore */
@@ -56,7 +56,7 @@ program
     '--debug',
     'enable debugging output'
   )
-  .version(version, '--version');
+  .version(getVersionString(), '--version');
 
 function increaseVerbosity(dummyValue, previous) {
   return previous + 1;
