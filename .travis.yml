@@ -9,7 +9,7 @@ before_install:
 script:
 - npm run test-travis
 - npm run lint
-- npm run pkg
+- npm run pkg && mv bin packages/validator
 deploy:
 - provider: script
   skip_cleanup: true
