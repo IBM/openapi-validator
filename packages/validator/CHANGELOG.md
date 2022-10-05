@@ -1,3 +1,10 @@
+# ibm-openapi-validator [0.96.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.95.1...ibm-openapi-validator@0.96.0) (2022-10-05)
+
+
+### Features
+
+* add ruleset version string to `--version` output ([#501](https://github.com/IBM/openapi-validator/issues/501)) ([1d7e028](https://github.com/IBM/openapi-validator/commit/1d7e0289e818194c43827bf92e11b86f418adae9)), closes [#498](https://github.com/IBM/openapi-validator/issues/498)
+
 ## ibm-openapi-validator [0.95.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.95.0...ibm-openapi-validator@0.95.1) (2022-10-03)
 
 
