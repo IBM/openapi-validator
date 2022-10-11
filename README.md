@@ -92,7 +92,7 @@ Once pulled, the container can be run directly, but mount a volume containing th
 
 ## Usage
 ### Command line
-`lint-openapi [options] [command] [<files>]`
+`lint-openapi [options] [<files>]`
 
 ##### [options]
 -  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
