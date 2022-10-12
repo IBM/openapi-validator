@@ -5,7 +5,7 @@ const rule = composedSchemaRestrictions;
 const ruleId = 'composed-schema-restrictions';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgObjSchema = `A schema within an object schema's oneOf/anyOf list must be an object schema`;
-const expectedMsgProp = `Duplicate property with incompatible type defined in schema within a oneOf/anyOf list:`;
+const expectedMsgProp = `SDK generation may fail due to incompatible types for property across composite object schema:`;
 
 describe('Spectral rule: schema-description', () => {
   describe('Should not yield errors', () => {
@@ -284,7 +284,7 @@ describe('Spectral rule: schema-description', () => {
       expect(results[0].message).toBe(expectedMsgObjSchema);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.additionalProperties.anyOf.0'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.additionalProperties'
       );
     });
 
@@ -319,7 +319,7 @@ describe('Spectral rule: schema-description', () => {
       expect(results[0].message).toBe(`${expectedMsgProp} drink_size`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items'
       );
     });
 
@@ -353,7 +353,7 @@ describe('Spectral rule: schema-description', () => {
       expect(results[0].message).toBe(`${expectedMsgProp} bad_prop`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.1'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items'
       );
     });
 
@@ -399,7 +399,7 @@ describe('Spectral rule: schema-description', () => {
       expect(results[0].message).toBe(`${expectedMsgProp} bad_prop`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.1'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items'
       );
     });
 
@@ -465,7 +465,7 @@ describe('Spectral rule: schema-description', () => {
       expect(results[0].message).toBe(`${expectedMsgProp} bad_prop`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.1'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items'
       );
     });
 
@@ -516,7 +516,7 @@ describe('Spectral rule: schema-description', () => {
       expect(results[0].message).toBe(`${expectedMsgProp} object_prop`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items'
       );
     });
 
@@ -567,7 +567,7 @@ describe('Spectral rule: schema-description', () => {
       expect(results[0].message).toBe(`${expectedMsgProp} object_prop`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items'
       );
     });
 
@@ -618,7 +618,7 @@ describe('Spectral rule: schema-description', () => {
       expect(results[0].message).toBe(`${expectedMsgProp} object_prop`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items'
       );
     });
   });

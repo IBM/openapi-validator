@@ -3,6 +3,7 @@ module.exports = {
   checkCompositeSchemaForProperty: require('./check-composite-schema-for-property'),
   getCompositeSchemaAttribute: require('./get-composite-schema-attribute'),
   getPropertyNamesForSchema: require('./get-property-names-for-schema'),
+  getPropertySchemasByName: require('./get-property-schemas-by-name'),
   isDeprecated: require('./is-deprecated'),
   isEmptyObjectSchema: require('./is-empty-object-schema'),
   isObject: require('./is-object'),
