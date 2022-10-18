@@ -5,8 +5,8 @@ module.exports = {
   description: 'Content entries must specify a schema',
   formats: [oas3],
   given: [
-    '$.paths[*].[post,put,patch].requestBody.content[*]',
-    '$.paths[*].[get,post,put,patch,delete].[parameters,responses][*].content[*]'
+    '$.paths[*][post,put,patch].requestBody.content[*]',
+    '$.paths[*][get,post,put,patch,delete][parameters,responses][*].content[*]'
   ],
   severity: 'warn',
   resolved: true,
