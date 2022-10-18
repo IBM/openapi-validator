@@ -1,7 +1,7 @@
 {
   "name": "ibm-openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
-  "version": "0.96.0",
+  "version": "0.96.1",
   "main": "src/lib/index.js",
   "private": false,
   "repository": "https://github.com/IBM/openapi-validator",
@@ -19,7 +19,7 @@
     "fix": "eslint --fix --ext '.js' src test"
   },
   "dependencies": {
-    "@ibm-cloud/openapi-ruleset": "0.44.0",
+    "@ibm-cloud/openapi-ruleset": "0.44.1",
     "@stoplight/spectral-cli": "^6.4.2",
     "@stoplight/spectral-core": "^1.12.4",
     "@stoplight/spectral-parsers": "^1.0.1",
