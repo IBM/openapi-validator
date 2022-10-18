@@ -6,7 +6,7 @@ module.exports = {
     'An optional requestBody with required properties should probably be required',
   message: '{{description}}',
   given:
-    "$.paths[*].[*].[?(@property === 'requestBody' && @.required !== true)].content.[*].schema",
+    "$.paths[*][*][?(@property === 'requestBody' && @.required !== true)].content[*].schema",
   severity: 'info',
   formats: [oas3],
   resolved: true,
