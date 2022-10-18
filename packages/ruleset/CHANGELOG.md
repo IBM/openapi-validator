@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.44.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.0...@ibm-cloud/openapi-ruleset@0.44.1) (2022-10-18)
+
+
+### Performance Improvements
+
+* remove accidental recursion in given statements ([#508](https://github.com/IBM/openapi-validator/issues/508)) ([187d14a](https://github.com/IBM/openapi-validator/commit/187d14a3029497089ae53c884bfaab17c3ea993c))
+
 # @ibm-cloud/openapi-ruleset [0.44.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.43.0...@ibm-cloud/openapi-ruleset@0.44.0) (2022-09-20)
 
 
