@@ -58,13 +58,17 @@ Get started by [installing the tool](#installation), then [run the tool](#usage)
 You can modify the behavior of the validator for your project to meet your preferred standards. See the [customization documentation](docs/ibm-cloud-rules.md#customization) for more information.
 
 ## Installation
-There are two main ways to install the validator, either using NPM or building from source. Installing with NPM is recommended.
+There are three ways to install the validator: using NPM, downloading a platform-specific binary, or building from source.
 
 ### Install with NPM (recommended)
 
 `npm install -g ibm-openapi-validator`
 
 The `-g` flag installs the tool globally so that the validator can be run from anywhere in the file system. Alternatively, you can pass no flag or the `--save-dev` flag to add the validator as a dependency to your project and run it from your NPM scripts or JavaScript code.
+
+### Download an executable binary
+
+Platform-specific binary files are packaged with each release for MacOS, Linux, and Windows. See [the releases](https://github.com/IBM/openapi-validator/releases) page to download the executable for your platform. These do not depend on Node.JS being installed.
 
 ### Build from source
 1. Clone or download this repository
@@ -74,10 +78,8 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 
 _If you installed the validator using `npm install -g ibm-openapi-validator`, you will need to run `npm uninstall -g ibm-openapi-validator` before running `npm run link`._
 
-### Platform specific binaries
-It is possible to build platform specific binaries for Linux, MacOS, and Windows that do not depend on having node.js installed.
-
-To build these, run `npm run pkg` in the project root directory.  The binaries (lint-openapi-linux, lint-openapi-macos, lint-openapi-windows.exe respectively) are built in the project's 'bin' directory.
+#### Build platform-specific binaries
+It is also possible to build platform specific binaries from the source code by running `npm run pkg` in the project root directory.  The binaries (lint-openapi-macos, lint-openapi-linux, lint-openapi-windows.exe) will be in the project's `bin` directory.
 
 ### Docker container
 A community Docker image is [publicly available on Docker hub](https://hub.docker.com/r/jamescooke/openapi-validator).
@@ -90,7 +92,7 @@ Once pulled, the container can be run directly, but mount a volume containing th
 
 ## Usage
 ### Command line
-`lint-openapi [options] [command] [<files>]`
+`lint-openapi [options] [<files>]`
 
 ##### [options]
 -  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
