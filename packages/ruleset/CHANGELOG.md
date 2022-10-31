@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.44.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.1...@ibm-cloud/openapi-ruleset@0.44.2) (2022-10-31)
+
+
+### Bug Fixes
+
+* **collection-array-property:** avoid bug that crashes nimma ([#511](https://github.com/IBM/openapi-validator/issues/511)) ([ea99640](https://github.com/IBM/openapi-validator/commit/ea996403bdb937ff33a1d786e853e3b247e6c8c9))
+
 ## @ibm-cloud/openapi-ruleset [0.44.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.0...@ibm-cloud/openapi-ruleset@0.44.1) (2022-10-18)
 
 
