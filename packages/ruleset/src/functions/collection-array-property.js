@@ -55,7 +55,11 @@ function collectionArrayProperty(schema, path, apidef) {
  * @returns boolean
  */
 function isListOperation(operation, path, apidef) {
-  // Note that we already know this operation is a "get" due to the rule's "given" field.
+  // Note that, if the operation is defined, we already know it is a "get" due
+  // to the rule's "given" field.
+  if (!operation) {
+    return false;
+  }
 
   // 1. If the operation id starts with "list", we'll assume it's a collection list operation.
   if (operation.operationId && /^list.*$/.test(operation.operationId)) {
