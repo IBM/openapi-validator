@@ -28,8 +28,37 @@ const SchemaType = {
   UNKNOWN: Symbol('unknown')
 };
 
+const JSONSchemaType = {
+  [SchemaType.ARRAY]: 'array',
+  [SchemaType.BINARY]: 'string',
+  [SchemaType.BOOLEAN]: 'boolean',
+  [SchemaType.BYTE]: 'string',
+  [SchemaType.DATE]: 'string',
+  [SchemaType.DATE_TIME]: 'string',
+  [SchemaType.DOUBLE]: 'number',
+  [SchemaType.ENUMERATION]: 'string',
+  [SchemaType.FLOAT]: 'number',
+  [SchemaType.INT32]: 'integer',
+  [SchemaType.INT64]: 'integer',
+  [SchemaType.INTEGER]: 'integer',
+  [SchemaType.NUMBER]: 'number',
+  [SchemaType.OBJECT]: 'object',
+  [SchemaType.STRING]: 'string'
+};
+
+const JSONSchemaFormat = {
+  [SchemaType.BINARY]: 'binary',
+  [SchemaType.BYTE]: 'byte',
+  [SchemaType.DATE]: 'date',
+  [SchemaType.DATE_TIME]: 'date-time',
+  [SchemaType.DOUBLE]: 'double',
+  [SchemaType.FLOAT]: 'float',
+  [SchemaType.INT32]: 'int32',
+  [SchemaType.INT64]: 'int64'
+};
+
 /**
- * Returns a symbol from SchemaType based on the most specific schema type detected for a schema.
+ *] Returns a symbol from SchemaType based on the most specific schema type detected for a schema.
  *
  * This function is a heuristic and does not attempt to account for contradictions, schemas which
  * give no consistent indication of type, or OAS 3.1 schemas which use a type array. It also does
@@ -108,7 +137,7 @@ const getSchemaType = schema => {
 const isArraySchema = schema => {
   return checkCompositeSchemaForConstraint(schema, s => {
     if ('type' in s) {
-      return s.type === 'array'; // ignores the possibility of type arrays in OAS 3.1
+      return s.type === JSONSchemaType[SchemaType.ARRAY]; // ignores the possibility of type arrays in OAS 3.1
     } else {
       return isObject(s.items);
     }
@@ -124,7 +153,9 @@ const isArraySchema = schema => {
 const isBinarySchema = schema => {
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'string' && s.format === 'binary'
+    s =>
+      s.type === JSONSchemaType[SchemaType.BINARY] &&
+      s.format === JSONSchemaFormat[SchemaType.BINARY]
   );
 };
 
@@ -135,7 +166,10 @@ const isBinarySchema = schema => {
  * @returns {boolean}
  */
 const isBooleanSchema = schema => {
-  return checkCompositeSchemaForConstraint(schema, s => s.type === 'boolean');
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => s.type === JSONSchemaType[SchemaType.BOOLEAN]
+  );
 };
 
 /**
@@ -147,7 +181,9 @@ const isBooleanSchema = schema => {
 const isByteSchema = schema => {
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'string' && s.format === 'byte'
+    s =>
+      s.type === JSONSchemaType[SchemaType.BYTE] &&
+      s.format === JSONSchemaFormat[SchemaType.BYTE]
   );
 };
 
@@ -160,7 +196,9 @@ const isByteSchema = schema => {
 const isDateSchema = schema => {
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'string' && s.format === 'date'
+    s =>
+      s.type === JSONSchemaType[SchemaType.DATE] &&
+      s.format === JSONSchemaFormat[SchemaType.DATE]
   );
 };
 
@@ -173,7 +211,9 @@ const isDateSchema = schema => {
 const isDateTimeSchema = schema => {
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'string' && s.format === 'date-time'
+    s =>
+      s.type === JSONSchemaType[SchemaType.DATE] &&
+      s.format === JSONSchemaFormat[SchemaType.DATE_TIME]
   );
 };
 
@@ -187,7 +227,9 @@ const isDoubleSchema = schema => {
   // also ignores `type` and `format` defined in separately composited schemas
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'number' && s.format === 'double'
+    s =>
+      s.type === JSONSchemaType[SchemaType.DOUBLE] &&
+      s.format === JSONSchemaFormat[SchemaType.DOUBLE]
   );
 };
 
@@ -200,7 +242,8 @@ const isDoubleSchema = schema => {
 const isEnumerationSchema = schema => {
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'string' && Array.isArray(s.enum)
+    s =>
+      s.type === JSONSchemaType[SchemaType.ENUMERATION] && Array.isArray(s.enum)
   );
 };
 
@@ -214,7 +257,9 @@ const isFloatSchema = schema => {
   // also ignores `type` and `format` defined in separately composited schemas
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'number' && s.format === 'float'
+    s =>
+      s.type === JSONSchemaType[SchemaType.FLOAT] &&
+      s.format === JSONSchemaFormat[SchemaType.FLOAT]
   );
 };
 
@@ -227,7 +272,9 @@ const isFloatSchema = schema => {
 const isInt32Schema = schema => {
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'integer' && s.format === 'int32'
+    s =>
+      s.type === JSONSchemaType[SchemaType.INT32] &&
+      s.format === JSONSchemaFormat[SchemaType.INT32]
   );
 };
 
@@ -240,7 +287,9 @@ const isInt32Schema = schema => {
 const isInt64Schema = schema => {
   return checkCompositeSchemaForConstraint(
     schema,
-    s => s.type === 'integer' && s.format === 'int64'
+    s =>
+      s.type === JSONSchemaType[SchemaType.INT64] &&
+      s.format === JSONSchemaFormat[SchemaType.INT64]
   );
 };
 
@@ -251,7 +300,10 @@ const isInt64Schema = schema => {
  * @returns {boolean}
  */
 const isIntegerSchema = schema => {
-  return checkCompositeSchemaForConstraint(schema, s => s.type === 'integer');
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => s.type === JSONSchemaType[SchemaType.INTEGER]
+  );
 };
 
 /**
@@ -261,7 +313,10 @@ const isIntegerSchema = schema => {
  * @returns {boolean}
  */
 const isNumberSchema = schema => {
-  return checkCompositeSchemaForConstraint(schema, s => s.type === 'number');
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => s.type === JSONSchemaType[SchemaType.NUMBER]
+  );
 };
 
 /**
@@ -273,7 +328,7 @@ const isNumberSchema = schema => {
 const isObjectSchema = schema => {
   return checkCompositeSchemaForConstraint(schema, s => {
     if ('type' in s) {
-      return s.type === 'object'; // ignores the possibility of type arrays in OAS 3.1
+      return s.type === JSONSchemaType[SchemaType.OBJECT]; // ignores the possibility of type arrays in OAS 3.1
     } else {
       return (
         isObject(s.properties) ||
@@ -291,11 +346,39 @@ const isObjectSchema = schema => {
  * @returns {boolean}
  */
 const isStringSchema = schema => {
-  return checkCompositeSchemaForConstraint(schema, s => s.type === 'string');
+  return checkCompositeSchemaForConstraint(
+    schema,
+    s => s.type === JSONSchemaType[SchemaType.STRING]
+  );
 };
+
+/**
+ * Returns true if "schema" is a primitive schema (string, integer, number, boolean)
+ * @param {*} schema the schema to check
+ * @returns boolean
+ */
+function isPrimitiveSchema(s) {
+  const primitiveTypes = [
+    SchemaType.BOOLEAN,
+    SchemaType.BYTE,
+    SchemaType.DOUBLE,
+    SchemaType.ENUMERATION,
+    SchemaType.FLOAT,
+    SchemaType.INT32,
+    SchemaType.INT64,
+    SchemaType.INTEGER,
+    SchemaType.NUMBER,
+    SchemaType.STRING
+  ];
+
+  const type = getSchemaType(s);
+  return primitiveTypes.includes(type);
+}
 
 module.exports = {
   SchemaType,
+  JSONSchemaType,
+  JSONSchemaFormat,
   getSchemaType,
   isArraySchema,
   isBinarySchema,
@@ -311,5 +394,6 @@ module.exports = {
   isIntegerSchema,
   isNumberSchema,
   isObjectSchema,
+  isPrimitiveSchema,
   isStringSchema
 };

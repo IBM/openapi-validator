@@ -37,6 +37,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Rule: binary-schemas](#rule-binary-schemas)
   * [Rule: circular-refs](#rule-circular-refs)
   * [Rule: collection-array-property](#rule-collection-array-property)
+  * [Rule: composed-schema-restrictions](#rule-composed-schema-restrictions)
   * [Rule: consecutive-path-param-segments](#rule-consecutive-path-param-segments)
   * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
   * [Rule: content-entry-provided](#rule-content-entry-provided)
@@ -176,6 +177,13 @@ response schema defines an array property whose name matches the last path segme
 within the operation's path string, which should also match the plural form of the resource type.
 </td>
 <td>oas2, oas3</td>
+</tr>
+<tr>
+<td><a href="#rule-composed-schema-restrictions">composed-schema-restrictions</a></td>
+<td>warn</td>
+<td>Verifies that schema compositions involving <code>oneOf</code> and <code>anyOf</code> comply
+with best practices associated with SDK generation.</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#rule-consecutive-path-param-segments">consecutive-path-param-segments</a></td>
@@ -1321,6 +1329,91 @@ paths:
 </table>
 
 
+### Rule: composed-schema-restrictions
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>composed-schema-restrictions</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule examines each schema that includes a oneOf/anyOf composition and verifies that
+it complies with SDK generation best practices.
+<p>These best practices include the following restrictions:
+<ul>
+<li>Any object schema containing a oneOf/anyOf composition must include only object schemas within
+the oneOf/anyOf list.</li>
+<li>The union of the properties defined by the main schema and its
+oneOf/anyOf sub-schemas is examined to detect any like-named (common) properties defined by two or more of the schemas.
+These common properties must be defined with the same datatype.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      description: A schema that violates the restrictions
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/SubSchema1
+        - $ref: '#/components/schemas/SubSchema2
+    SubSchema1:
+      properties:
+        common_property:
+          type: string
+        another_property:
+          type: integer
+    SubSchema2:
+      properties:
+        common_property:
+          type: integer       &lt;&lt;&lt; incompatible type
+        some_other_property:
+          type: integer
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      description: A schema that complies with the restrictions
+      type: object
+      oneOf:
+        - $ref: '#/components/schemas/SubSchema1
+        - $ref: '#/components/schemas/SubSchema2
+    SubSchema1:
+      properties:
+        common_property:
+          type: string
+        another_property:
+          type: string
+    SubSchema2:
+      properties:
+        common_property:
+          type: string
+        some_other_property:
+          type: integer
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### Rule: consecutive-path-param-segments
 <table>
 <tr>
@@ -2245,12 +2338,12 @@ it is a best practice to define the schema as a named schema within the <code>co
 of the API definition, and then reference it with a schema $ref instead of defining it as an inline object schema.
 This is documented in the
 [API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#nested-object-schemas).
-<p>The use of a schema $ref is preferred instead of a nested object schema, because the SDK generator will
+<p>The use of a schema $ref is preferred instead of a nested object schema, because IBM's SDK generator will
 use the schema $ref when determining the datatype associated with the nested object within the generated SDK code.
-If the SDK generator encounters a nested objet schema, it must refactor it by moving it to the <code>components.schemas</code>
+If IBM's SDK generator encounters a nested object schema, it must refactor it by moving it to the <code>components.schemas</code>
 section of the API definition and then replacing it with a schema $ref.
-However, the names computed by the SDK generator are not optimal (e.g. MyModelProp1),
-so the recommendation is to define any nested object schema as a $ref so that the SDK generator's
+However, the names computed by the generator are not optimal (e.g. MyModelProp1),
+so the recommendation is to define any nested object schema as a $ref so that the generator's
 refactoring (and it's sub-optimal name computation) can be avoided.
 </td>
 </tr>
@@ -2404,10 +2497,10 @@ paths:
 <tr>
 <td valign=top><b>Description:</b></td>
 <td>A response schema should be defined as a reference to a named schema instead of defined as an inline schema.
-This is a best practice because the SDK generator will use the schema reference when determining the operation's return type
+This is a best practice because IBM's SDK generator will use the schema reference when determining the operation's return type
 within the generated SDK code.
-<p>The SDK generator will refactor any inline response schemas that it finds by moving them to the <code>components.schemas</code>
-section of the API definition and then replacing them with a reference.  However, the names computed by the SDK generator are
+<p>IBM's SDK generator will refactor any inline response schemas that it finds by moving them to the <code>components.schemas</code>
+section of the API definition and then replacing them with a reference.  However, the names computed by the generator are
 not optimal (e.g. GetThingResponse), so the recommendation is for API authors to define the response schema as a $ref.
 </td>
 </tr>

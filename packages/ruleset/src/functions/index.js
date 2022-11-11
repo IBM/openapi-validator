@@ -7,6 +7,7 @@ module.exports = {
   checkMajorVersion: require('./check-major-version'),
   circularRefs: require('./circular-refs'),
   collectionArrayProperty: require('./collection-array-property'),
+  composedSchemaRestrictions: require('./composed-schema-restrictions'),
   consecutivePathParamSegments: require('./consecutive-path-param-segments'),
   deleteBody: require('./delete-body'),
   descriptionMentionsJSON: require('./description-mentions-json'),

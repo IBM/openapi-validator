@@ -3,7 +3,7 @@ const {
   isJsonMimeType,
   isArraySchema,
   isEmptyObjectSchema,
-  isPrimitiveType,
+  isPrimitiveSchema,
   isRefSiblingSchema,
   validateSubschemas
 } = require('../utils');
@@ -35,7 +35,7 @@ function inlineResponseSchema(schema, options, { path }) {
   if (
     !schema.$ref &&
     isJsonMimeType(mimeType) &&
-    !isPrimitiveType(schema) &&
+    !isPrimitiveSchema(schema) &&
     !arrayItemsAreRefOrPrimitive(schema) &&
     !isRefSiblingSchema(schema)
   ) {
@@ -72,7 +72,7 @@ function inlineRequestSchema(schema, options, { path }) {
   if (
     !schema.$ref &&
     isJsonMimeType(mimeType) &&
-    !isPrimitiveType(schema) &&
+    !isPrimitiveSchema(schema) &&
     !arrayItemsAreRefOrPrimitive(schema) &&
     !isRefSiblingSchema(schema)
   ) {
@@ -111,9 +111,11 @@ function inlineRequestSchema(schema, options, { path }) {
  * @returns an array containing the violations found or [] if no violations
  */
 function inlinePropertySchema(schema, options, { path }) {
-  // Check each sub-schema that is reachable from "schema" (properties,
-  // additionalProperties, allOf/anyOf/oneOf, array items, etc.) .
-  return validateSubschemas(schema, path, checkForInlineNestedObjectSchema);
+  // If "schema" is not a primitive, then check each sub-schema that is reachable from
+  // "schema" (properties, additionalProperties, allOf/anyOf/oneOf, array items, etc.).
+  return isPrimitiveSchema(schema)
+    ? []
+    : validateSubschemas(schema, path, checkForInlineNestedObjectSchema);
 }
 
 /**
@@ -129,7 +131,7 @@ function checkForInlineNestedObjectSchema(schema, path) {
   // then bail out now to avoid a warning.
   if (
     schema.$ref ||
-    isPrimitiveType(schema) ||
+    isPrimitiveSchema(schema) ||
     isRefSiblingSchema(schema) ||
     isEmptyObjectSchema(schema) ||
     isArraySchema(schema)
@@ -182,5 +184,5 @@ function checkForInlineNestedObjectSchema(schema, path) {
 function arrayItemsAreRefOrPrimitive(schema) {
   const isArray = isArraySchema(schema);
   const items = isArray && getCompositeSchemaAttribute(schema, 'items');
-  return items && (items.$ref || isPrimitiveType(items));
+  return items && (items.$ref || isPrimitiveSchema(items));
 }
