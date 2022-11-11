@@ -3,11 +3,10 @@ const { schemaType } = require('../functions');
 const { schemas } = require('../collections');
 
 module.exports = {
-  description:
-    'Schemas and schema properties should have a non-empty `type` field. **This rule is disabled by default.**',
+  description: 'Schemas must have an explicit and consistent type',
   message: '{{error}}',
   given: schemas,
-  severity: 'off',
+  severity: 'warn',
   formats: [oas2, oas3],
   resolved: true,
   then: {

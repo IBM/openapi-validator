@@ -1,6 +1,7 @@
 module.exports = {
   checkCompositeSchemaForConstraint: require('./check-composite-schema-for-constraint'),
   checkCompositeSchemaForProperty: require('./check-composite-schema-for-property'),
+  getAllComposedSchemas: require('./get-all-composed-schemas'),
   getCompositeSchemaAttribute: require('./get-composite-schema-attribute'),
   getPropertyNamesForSchema: require('./get-property-names-for-schema'),
   getPropertySchemasByName: require('./get-property-schemas-by-name'),
