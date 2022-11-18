@@ -22,6 +22,7 @@ const printError = require('./utils/print-error');
 const { printJson } = require('./utils/json-results');
 const spectralValidator = require('../spectral/spectral-validator');
 const validator = require('./utils/validator');
+const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
 
 // this function processes the input, does the error handling,
 //  and acts as the main function for the program
@@ -33,6 +34,11 @@ const processInput = async function(program) {
     program.help();
     return Promise.reject(2);
   }
+
+  // Set default loglevel of the root logger to be 'info'.
+  // The user can change this via the command line.
+  const loggerFactory = LoggerFactory.newInstance();
+  loggerFactory.addLoggerSetting('root', 'info');
 
   // interpret the options
   const printValidators = !!program.print_validator_modules;
@@ -50,6 +56,39 @@ const processInput = async function(program) {
   const limitsFileOverride = program.limits;
 
   const verbose = program.verbose > 0;
+
+  // Process each loglevel entry supplied on the command line.
+  // Add each option to our LoggerFactory so they can be used to affect the
+  // log level of both existing loggers and loggers created later by individual rules.
+  // Examples:
+  //   -l info  (equivalent to -l root=info)
+  //   --loglevel schema-*=debug (enable debug for all rules like "schema-*")
+  //   -l property-description=trace (enable trace for the "property-description" rule)
+  let logLevels;
+  if (typeof program.opts === 'function') {
+    logLevels = program.opts().loglevel;
+  }
+  if (!logLevels) {
+    logLevels = [];
+  }
+  for (const entry of logLevels) {
+    let [loggerName, logLevel] = entry.split('=');
+
+    // No logLevel was parsed (e.g. -l info); assume root logger.
+    if (!logLevel) {
+      logLevel = loggerName;
+      loggerName = 'root';
+    }
+
+    loggerFactory.addLoggerSetting(loggerName, logLevel);
+  }
+
+  // After setting all the logger-related options on the LoggerFactory,
+  // we need to make sure they are applied to any loggers that already exist.
+  // It is very unlikely that any loggers exist yet, but just in case... :)
+  loggerFactory.applySettingsToAllLoggers();
+
+  // logger.info('This is the IBM OpenAPI Validator');
 
   // turn off coloring if explicitly requested
   if (turnOffColoring) {

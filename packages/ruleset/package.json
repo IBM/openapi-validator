@@ -17,7 +17,9 @@
     "@stoplight/spectral-formats": "^1.1.0",
     "@stoplight/spectral-functions": "^1.6.1",
     "@stoplight/spectral-rulesets": "^1.6.0",
-    "lodash": "^4.17.21"
+    "lodash": "^4.17.21",
+    "loglevel": "^1.8.1",
+    "minimatch": "^5.1.0"
   },
   "devDependencies": {
     "@stoplight/spectral-core": "^1.12.4",

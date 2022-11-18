@@ -1,14 +1,23 @@
 const {
   validateSubschemas,
   pathMatchesRegexp,
-  checkCompositeSchemaForConstraint
+  checkCompositeSchemaForConstraint,
+  LoggerFactory
 } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, schemaDescription);
+let logger;
+let ruleId;
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return validateSubschemas(schema, context.path, schemaDescription);
 };
 
 function schemaDescription(schema, path) {
+  logger.debug(`${ruleId}: checking path '${path.join('.')}'`);
+
   //
   // Check to see if "path" represents a primary schema (i.e. not a schema property).
   // Note: the regexp used below uses a "lookbehind assertion"
@@ -26,6 +35,7 @@ function schemaDescription(schema, path) {
   );
   // If "schema" is a primary schema, then check for a description.
   if (isPrimarySchema && !schemaHasDescription(schema)) {
+    logger.debug(`${ruleId}: FAILED!`);
     return [
       {
         message: 'Schema should have a non-empty description',
@@ -34,6 +44,7 @@ function schemaDescription(schema, path) {
     ];
   }
 
+  logger.debug(`${ruleId}: PASSED!`);
   return [];
 }
 

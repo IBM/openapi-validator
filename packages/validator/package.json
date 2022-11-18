@@ -24,7 +24,7 @@
     "@stoplight/spectral-core": "^1.12.4",
     "@stoplight/spectral-parsers": "^1.0.1",
     "chalk": "^4.1.1",
-    "commander": "^2.20.3",
+    "commander": "^9.4.1",
     "deepmerge": "^2.2.1",
     "find-up": "^3.0.0",
     "globby": "^11.0.4",

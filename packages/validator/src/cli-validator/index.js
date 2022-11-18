@@ -56,6 +56,10 @@ program
     '--debug',
     'enable debugging output'
   )
+  .option(
+    '-l, --loglevel <loglevel...>',
+    'Set the log level for one or more loggers (e.g. -l root=info -l schema-description=trace ...)'
+  )
   .version(getVersionString(), '--version');
 
 function increaseVerbosity(dummyValue, previous) {

@@ -8,6 +8,7 @@ module.exports = {
   isObject: require('./is-object'),
   isPrimitiveType: require('./is-primitive-type'),
   isRefSiblingSchema: require('./is-ref-sibling-schema'),
+  LoggerFactory: require('./logger-factory'),
   mergeAllOfSchemaProperties: require('./merge-allof-schema-properties'),
   ...require('./mimetype-utils'),
   operationMethods: require('./constants'),
