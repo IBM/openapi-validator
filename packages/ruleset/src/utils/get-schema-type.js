@@ -294,6 +294,21 @@ const isStringSchema = schema => {
   return checkCompositeSchemaForConstraint(schema, s => s.type === 'string');
 };
 
+/**
+ * Returns `true` for a primitive schema (anything encoded as a JSON string, number, or boolean).
+ *
+ * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @returns {boolean}
+ */
+const isPrimitiveSchema = schema => {
+  // This implementation should remain stable when additional specific types are added
+  return (
+    !isObjectSchema(schema) &&
+    !isArraySchema(schema) &&
+    getSchemaType(schema) !== SchemaType.UNKNOWN
+  );
+};
+
 module.exports = {
   SchemaType,
   getSchemaType,
@@ -311,5 +326,6 @@ module.exports = {
   isIntegerSchema,
   isNumberSchema,
   isObjectSchema,
+  isPrimitiveSchema,
   isStringSchema
 };

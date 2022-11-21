@@ -58,4 +58,34 @@ describe('Utility function: isObjectSchema()', () => {
       })
     ).toBe(true);
   });
+
+  it('should recurse through `oneOf` and `allOf` (implicit object type)', async () => {
+    expect(
+      isObjectSchema({
+        oneOf: [
+          {
+            allOf: [{ properties: {} }, {}]
+          },
+          {
+            properties: {}
+          }
+        ]
+      })
+    ).toBe(true);
+  });
+
+  it('should recurse through `allOf` (implicit object type)', async () => {
+    expect(
+      isObjectSchema({
+        allOf: [
+          {
+            allOf: [{ properties: {} }, {}]
+          },
+          {
+            properties: {}
+          }
+        ]
+      })
+    ).toBe(true);
+  });
 });
