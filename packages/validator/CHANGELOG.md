@@ -1,3 +1,10 @@
+## ibm-openapi-validator [0.96.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.96.2...ibm-openapi-validator@0.96.3) (2022-11-22)
+
+
+### Bug Fixes
+
+* remove buggy support for tolerating trailing commas ([#518](https://github.com/IBM/openapi-validator/issues/518)) ([9aaa580](https://github.com/IBM/openapi-validator/commit/9aaa580d2f1798798cd96af1bfc2517a678deaf9))
+
 ## ibm-openapi-validator [0.96.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.96.1...ibm-openapi-validator@0.96.2) (2022-10-31)
 
 
