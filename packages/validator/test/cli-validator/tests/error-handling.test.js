@@ -185,7 +185,7 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when the swagger contains a trailing comma', async function() {
+  it('should return an error when a JSON document contains a trailing comma', async function() {
     const program = {};
     program.args = ['./test/cli-validator/mock-files/trailing-comma.json'];
     program.default_mode = true;
@@ -200,14 +200,10 @@ describe('cli tool - test error handling', function() {
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(28);
 
-    expect(capturedText[0].trim()).toEqual(
-      '[Error] Trailing comma on line 36 of file ./test/cli-validator/mock-files/trailing-comma.json.'
+    expect(capturedText[0].trim()).toContain('[Error] Invalid input file');
+    expect(capturedText[1].trim()).toEqual(
+      'SyntaxError: Unexpected token ] in JSON at position 815'
     );
-    expect(capturedText[12]).toContain(
-      'Operation "description" must be present and non-empty string.'
-    );
-    expect(capturedText[13]).toContain('paths./v1/thing.post');
   });
 });
