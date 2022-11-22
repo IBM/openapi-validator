@@ -107,6 +107,26 @@ describe('Spectral rule: inline-request-schema', () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Composed primitive schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.requestBody.content[
+        'application/json'
+      ].schema = {
+        oneOf: [
+          {
+            type: 'string'
+          },
+          {
+            type: 'string'
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {

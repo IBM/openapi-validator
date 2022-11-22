@@ -49,6 +49,24 @@ describe('Spectral rule: inline-property-schema', () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Composed primitive schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Car.properties['inline_prop'] = {
+        oneOf: [
+          {
+            type: 'string'
+          },
+          {
+            type: 'string'
+          }
+        ]
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
