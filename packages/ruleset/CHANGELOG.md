@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.44.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.2...@ibm-cloud/openapi-ruleset@0.44.3) (2022-11-22)
+
+
+### Bug Fixes
+
+* replace isPrimitiveType with more sophisticated isPrimitiveSchema ([#519](https://github.com/IBM/openapi-validator/issues/519)) ([a4c0293](https://github.com/IBM/openapi-validator/commit/a4c02932fc949f50ea8a04a3993ff4330149250c))
+
 ## @ibm-cloud/openapi-ruleset [0.44.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.1...@ibm-cloud/openapi-ruleset@0.44.2) (2022-10-31)
 
 
