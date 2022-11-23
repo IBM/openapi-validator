@@ -28,73 +28,73 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
     + [Define a new rule](#define-a-new-rule)
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
-  * [Rule: accept-parameter](#rule-accept-parameter)
-  * [Rule: array-boundary](#rule-array-boundary)
-  * [Rule: array-items](#rule-array-items)
-  * [Rule: array-of-arrays](#rule-array-of-arrays)
-  * [Rule: array-responses](#rule-array-responses)
-  * [Rule: authorization-parameter](#rule-authorization-parameter)
-  * [Rule: binary-schemas](#rule-binary-schemas)
-  * [Rule: circular-refs](#rule-circular-refs)
-  * [Rule: collection-array-property](#rule-collection-array-property)
-  * [Rule: consecutive-path-param-segments](#rule-consecutive-path-param-segments)
-  * [Rule: content-entry-contains-schema](#rule-content-entry-contains-schema)
-  * [Rule: content-entry-provided](#rule-content-entry-provided)
-  * [Rule: content-type-parameter](#rule-content-type-parameter)
-  * [Rule: delete-body](#rule-delete-body)
-  * [Rule: description-mentions-json](#rule-description-mentions-json)
-  * [Rule: discriminator](#rule-discriminator)
-  * [Rule: duplicate-path-parameter](#rule-duplicate-path-parameter)
-  * [Rule: enum-case-convention](#rule-enum-case-convention)
-  * [Rule: examples-name-contains-space](#rule-examples-name-contains-space)
-  * [Rule: ibm-content-type-is-specific](#rule-ibm-content-type-is-specific)
-  * [Rule: ibm-error-content-type-is-json](#rule-ibm-error-content-type-is-json)
-  * [Rule: ibm-sdk-operations](#rule-ibm-sdk-operations)
-  * [Rule: if-modified-since-parameter](#rule-if-modified-since-parameter)
-  * [Rule: if-unmodified-since-parameter](#rule-if-unmodified-since-parameter)
-  * [Rule: inline-property-schema](#rule-inline-property-schema)
-  * [Rule: inline-request-schema](#rule-inline-request-schema)
-  * [Rule: inline-response-schema](#rule-inline-response-schema)
-  * [Rule: major-version-in-path](#rule-major-version-in-path)
-  * [Rule: merge-patch-optional-properties](#rule-merge-patch-optional-properties)
-  * [Rule: missing-required-property](#rule-missing-required-property)
-  * [Rule: no-etag-header](#rule-no-etag-header)
-  * [Rule: operation-id-case-convention](#rule-operation-id-case-convention)
-  * [Rule: operation-id-naming-convention](#rule-operation-id-naming-convention)
-  * [Rule: operation-summary](#rule-operation-summary)
-  * [Rule: optional-request-body](#rule-optional-request-body)
-  * [Rule: pagination-style](#rule-pagination-style)
-  * [Rule: parameter-case-convention](#rule-parameter-case-convention)
-  * [Rule: parameter-default](#rule-parameter-default)
-  * [Rule: parameter-description](#rule-parameter-description)
-  * [Rule: parameter-order](#rule-parameter-order)
-  * [Rule: parameter-schema-or-content](#rule-parameter-schema-or-content)
-  * [Rule: patch-request-content-type](#rule-patch-request-content-type)
-  * [Rule: path-param-not-crn](#rule-path-param-not-crn)
-  * [Rule: path-segment-case-convention](#rule-path-segment-case-convention)
-  * [Rule: precondition-header](#rule-precondition-header)
-  * [Rule: prohibit-summary-sentence-style](#rule-prohibit-summary-sentence-style)
-  * [Rule: property-attributes](#rule-property-attributes)
-  * [Rule: property-case-collision](#rule-property-case-collision)
-  * [Rule: property-case-convention](#rule-property-case-convention)
-  * [Rule: property-description](#rule-property-description)
-  * [Rule: property-inconsistent-name-and-type](#rule-property-inconsistent-name-and-type)
-  * [Rule: ref-pattern](#rule-ref-pattern)
-  * [Rule: ref-sibling-duplicate-description](#rule-ref-sibling-duplicate-description)
-  * [Rule: request-body-name](#rule-request-body-name)
-  * [Rule: request-body-object](#rule-request-body-object)
-  * [Rule: response-error-response-schema](#rule-response-error-response-schema)
-  * [Rule: response-example-provided](#rule-response-example-provided)
-  * [Rule: response-status-codes](#rule-response-status-codes)
-  * [Rule: schema-description](#rule-schema-description)
-  * [Rule: schema-type](#rule-schema-type)
-  * [Rule: security-scheme-attributes](#rule-security-scheme-attributes)
-  * [Rule: security-schemes](#rule-security-schemes)
-  * [Rule: server-variable-default-value](#rule-server-variable-default-value)
-  * [Rule: string-boundary](#rule-string-boundary)
-  * [Rule: unused-tag](#rule-unused-tag)
-  * [Rule: valid-path-segments](#rule-valid-path-segments)
-  * [Rule: valid-type-format](#rule-valid-type-format)
+  * [accept-parameter](#accept-parameter)
+  * [array-boundary](#array-boundary)
+  * [array-items](#array-items)
+  * [array-of-arrays](#array-of-arrays)
+  * [array-responses](#array-responses)
+  * [authorization-parameter](#authorization-parameter)
+  * [binary-schemas](#binary-schemas)
+  * [circular-refs](#circular-refs)
+  * [collection-array-property](#collection-array-property)
+  * [consecutive-path-param-segments](#consecutive-path-param-segments)
+  * [content-entry-contains-schema](#content-entry-contains-schema)
+  * [content-entry-provided](#content-entry-provided)
+  * [content-type-parameter](#content-type-parameter)
+  * [delete-body](#delete-body)
+  * [description-mentions-json](#description-mentions-json)
+  * [discriminator](#discriminator)
+  * [duplicate-path-parameter](#duplicate-path-parameter)
+  * [enum-case-convention](#enum-case-convention)
+  * [examples-name-contains-space](#examples-name-contains-space)
+  * [ibm-content-type-is-specific](#ibm-content-type-is-specific)
+  * [ibm-error-content-type-is-json](#ibm-error-content-type-is-json)
+  * [ibm-sdk-operations](#ibm-sdk-operations)
+  * [if-modified-since-parameter](#if-modified-since-parameter)
+  * [if-unmodified-since-parameter](#if-unmodified-since-parameter)
+  * [inline-property-schema](#inline-property-schema)
+  * [inline-request-schema](#inline-request-schema)
+  * [inline-response-schema](#inline-response-schema)
+  * [major-version-in-path](#major-version-in-path)
+  * [merge-patch-optional-properties](#merge-patch-optional-properties)
+  * [missing-required-property](#missing-required-property)
+  * [no-etag-header](#no-etag-header)
+  * [operation-id-case-convention](#operation-id-case-convention)
+  * [operation-id-naming-convention](#operation-id-naming-convention)
+  * [operation-summary](#operation-summary)
+  * [optional-request-body](#optional-request-body)
+  * [pagination-style](#pagination-style)
+  * [parameter-case-convention](#parameter-case-convention)
+  * [parameter-default](#parameter-default)
+  * [parameter-description](#parameter-description)
+  * [parameter-order](#parameter-order)
+  * [parameter-schema-or-content](#parameter-schema-or-content)
+  * [patch-request-content-type](#patch-request-content-type)
+  * [path-param-not-crn](#path-param-not-crn)
+  * [path-segment-case-convention](#path-segment-case-convention)
+  * [precondition-header](#precondition-header)
+  * [prohibit-summary-sentence-style](#prohibit-summary-sentence-style)
+  * [property-attributes](#property-attributes)
+  * [property-case-collision](#property-case-collision)
+  * [property-case-convention](#property-case-convention)
+  * [property-description](#property-description)
+  * [property-inconsistent-name-and-type](#property-inconsistent-name-and-type)
+  * [ref-pattern](#ref-pattern)
+  * [ref-sibling-duplicate-description](#ref-sibling-duplicate-description)
+  * [request-body-name](#request-body-name)
+  * [request-body-object](#request-body-object)
+  * [response-error-response-schema](#response-error-response-schema)
+  * [response-example-provided](#response-example-provided)
+  * [response-status-codes](#response-status-codes)
+  * [schema-description](#schema-description)
+  * [schema-type](#schema-type)
+  * [security-scheme-attributes](#security-scheme-attributes)
+  * [security-schemes](#security-schemes)
+  * [server-variable-default-value](#server-variable-default-value)
+  * [string-boundary](#string-boundary)
+  * [unused-tag](#unused-tag)
+  * [valid-path-segments](#valid-path-segments)
+  * [valid-type-format](#valid-type-format)
 
 <!-- tocstop -->
 
@@ -115,55 +115,55 @@ is provided in the [Reference](#reference) section below.
 <th>Rule Id</th><th>Severity</th><th>Description</th><th>OpenAPI Versions</th>
 <tr>
 <tr>
-<td><a href="#rule-accept-parameter">accept-parameter</a></td>
+<td><a href="#accept-parameter">accept-parameter</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Accept</code> header parameter</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-array-boundary">array-boundary</a></td>
+<td><a href="#array-boundary">array-boundary</a></td>
 <td>warn</td>
 <td>Array schemas should define the <code>minItems</code> and <code>maxItems</code> fields</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-array-items">array-items</a></td>
+<td><a href="#array-items">array-items</a></td>
 <td>warn</td>
 <td>Array schemas must specify the <code>items</code> property</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-array-of-arrays">array-of-arrays</a></td>
+<td><a href="#array-of-arrays">array-of-arrays</a></td>
 <td>warn</td>
 <td>Array schemas with <code>items</code> of type array should be avoided</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-array-responses">array-responses</a></td>
+<td><a href="#array-responses">array-responses</a></td>
 <td>error</td>
 <td>Operations should not return an array as the top-level structure of a response.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-authorization-parameter">authorization-parameter</a></td>
+<td><a href="#authorization-parameter">authorization-parameter</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Authorization</code> header parameter</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-binary-schemas">binary-schemas</a></td>
+<td><a href="#binary-schemas">binary-schemas</a></td>
 <td>warn</td>
 <td>Makes sure that binary schemas are used only in proper locations within the API definition</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-circular-refs">circular-refs</a></td>
+<td><a href="#circular-refs">circular-refs</a></td>
 <td>warn</td>
 <td>Makes sure that the API definition doesn't contain any circular references</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-collection-array-property">collection-array-property</a></td>
+<td><a href="#collection-array-property">collection-array-property</a></td>
 <td>warn</td>
 <td>The [API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-collections-overview#response-format) states that the response
 to a "list" operation returning a collection must be an object that contains an array property whose name matches the plural form of the
@@ -178,7 +178,7 @@ within the operation's path string, which should also match the plural form of t
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-consecutive-path-param-segments">consecutive-path-param-segments</a></td>
+<td><a href="#consecutive-path-param-segments">consecutive-path-param-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API definition to detect the presence of two or more consecutive
 path segments that contain a path parameter reference (e.g. <code>/v1/foos/{foo_id}/{bar_id}</code>), 
@@ -186,127 +186,127 @@ which is not allowed.</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-content-entry-contains-schema">content-entry-contains-schema</a></td>
+<td><a href="#content-entry-contains-schema">content-entry-contains-schema</a></td>
 <td>warn</td>
 <td>Content entries must specify a schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-content-entry-provided">content-entry-provided</a></td>
+<td><a href="#content-entry-provided">content-entry-provided</a></td>
 <td>warn</td>
 <td>Request bodies and non-204 responses should define a content field</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-content-type-parameter">content-type-parameter</a></td>
+<td><a href="#content-type-parameter">content-type-parameter</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Content-Type</code> header parameter</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-delete-body">delete-body</a></td>
+<td><a href="#delete-body">delete-body</a></td>
 <td>warn</td>
 <td>"delete" operations should not contain a requestBody.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-description-mentions-json">description-mentions-json</a></td>
+<td><a href="#description-mentions-json">description-mentions-json</a></td>
 <td>warn</td>
 <td>Schema descriptions should avoid mentioning <code>JSON</code></td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-discriminator">discriminator</a></td>
+<td><a href="#discriminator">discriminator</a></td>
 <td>error</td>
 <td>The discriminator property must be defined in the schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-duplicate-path-parameter">discriminator</a></td>
+<td><a href="#duplicate-path-parameter">discriminator</a></td>
 <td>error</td>
 <td>Common path parameters should be defined on the path object.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-enum-case-convention">enum-case-convention</a></td>
+<td><a href="#enum-case-convention">enum-case-convention</a></td>
 <td>error</td>
 <td>Enum values should follow a specific case convention</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-examples-name-contains-space">examples-name-contains-space</a></td>
+<td><a href="#examples-name-contains-space">examples-name-contains-space</a></td>
 <td>warn</td>
 <td>The name of an entry in an <code>examples</code> field should not contain a space</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-ibm-content-type-is-specific">ibm-content-type-is-specific</a></td>
+<td><a href="#ibm-content-type-is-specific">ibm-content-type-is-specific</a></td>
 <td>warn</td>
 <td><code>*/*</code> should only be used when all content types are supported</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-ibm-error-content-type-is-json">ibm-error-content-type-is-json</a></td>
+<td><a href="#ibm-error-content-type-is-json">ibm-error-content-type-is-json</a></td>
 <td>warn</td>
 <td>Error response should support <code>application/json</code></td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-ibm-sdk-operations">ibm-sdk-operations</a></td>
+<td><a href="#ibm-sdk-operations">ibm-sdk-operations</a></td>
 <td>warn</td>
 <td>Validates the structure of the <code>x-sdk-operations</code> object </td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-if-modified-since-parameter">if-modified-since-parameter</a></td>
+<td><a href="#if-modified-since-parameter">if-modified-since-parameter</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Modified-Since</code> header parameter</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-if-unmodified-since-parameter">if-unmodified-since-parameter</a></td>
+<td><a href="#if-unmodified-since-parameter">if-unmodified-since-parameter</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-inline-property-schema">inline-property-schema</a></td>
+<td><a href="#inline-property-schema">inline-property-schema</a></td>
 <td>warn</td>
 <td>Nested objects should be defined as a $ref to a named schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-inline-request-schema">inline-request-schema</a></td>
+<td><a href="#inline-request-schema">inline-request-schema</a></td>
 <td>warn</td>
 <td>Request body schemas should be defined as a $ref to a named schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-inline-response-schema">inline-response-schema</a></td>
+<td><a href="#inline-response-schema">inline-response-schema</a></td>
 <td>warn</td>
 <td>Response schemas should be defined as a $ref to a named schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-major-version-in-path">major-version-in-path</a></td>
+<td><a href="#major-version-in-path">major-version-in-path</a></td>
 <td>warn</td>
 <td>All paths must contain the API major version as a distinct path segment</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-merge-patch-optional-properties">merge-patch-optional-properties</a></td>
+<td><a href="#merge-patch-optional-properties">merge-patch-optional-properties</a></td>
 <td>warn</td>
 <td>JSON merge-patch requestBody schemas should have no required properties</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-missing-required-property">missing-required-property</a></td>
+<td><a href="#missing-required-property">missing-required-property</a></td>
 <td>error</td>
 <td>A schema property defined as <code>required</code> must be defined within the schema</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-no-etag-header">no-etag-header</a></td>
+<td><a href="#no-etag-header">no-etag-header</a></td>
 <td>error</td>
 <td>Verifies that the <code>ETag</code> response header is defined in the <code>GET</code> operation
 for any resources (paths) that support the <code>If-Match</code> and/or <code>If-None-Match</code> header parameters.
@@ -314,219 +314,219 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-operation-id-case-convention">operation-id-case-convention</a></td>
+<td><a href="#operation-id-case-convention">operation-id-case-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a specific case convention</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-operation-id-naming-convention">operation-id-naming-convention</a></td>
+<td><a href="#operation-id-naming-convention">operation-id-naming-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a naming convention</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-operation-summary">operation-summary</a></td>
+<td><a href="#operation-summary">operation-summary</a></td>
 <td>warn</td>
 <td>Operation <code>summary</code> must be present and non-empty string.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-optional-request-body">optional-request-body</a></td>
+<td><a href="#optional-request-body">optional-request-body</a></td>
 <td>info</td>
 <td>An optional requestBody with required properties should probably be required</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-pagination-style">pagination-style</a></td>
+<td><a href="#pagination-style">pagination-style</a></td>
 <td>warn</td>
 <td>List operations should have correct pagination style</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-parameter-case-convention">parameter-case-convention</a></td>
+<td><a href="#parameter-case-convention">parameter-case-convention</a></td>
 <td>error</td>
 <td>Parameter names should follow a specific case convention</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-parameter-default">parameter-default</a></td>
+<td><a href="#parameter-default">parameter-default</a></td>
 <td>warn</td>
 <td>Required parameters should not define a default value</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-parameter-description">parameter-description</a></td>
+<td><a href="#parameter-description">parameter-description</a></td>
 <td>warn</td>
 <td>Parameters should have a non-empty description</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-parameter-order">parameter-order</a></td>
+<td><a href="#parameter-order">parameter-order</a></td>
 <td>warn</td>
 <td>All required operation parameters should be listed before optional parameters.</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-parameter-schema-or-content">parameter-schema-or-content</a></td>
+<td><a href="#parameter-schema-or-content">parameter-schema-or-content</a></td>
 <td>error</td>
 <td>Parameters must provide either a schema or content</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-patch-request-content-type">patch-request-content-type"</a></td>
+<td><a href="#patch-request-content-type">patch-request-content-type"</a></td>
 <td>error</td>
 <td>Verifies that PATCH operations support only requestBody content types <code>application/json-patch+json</code>
 or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-path-param-not-crn">path-param-not-crn</a></td>
+<td><a href="#path-param-not-crn">path-param-not-crn</a></td>
 <td>warn</td>
 <td>Verifies that path parameters are not defined as CRN (Cloud Resource Name) values</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-path-segment-case-convention">path-segment-case-convention</a></td>
+<td><a href="#path-segment-case-convention">path-segment-case-convention</a></td>
 <td>error</td>
 <td>Path segments must follow a specific case convention</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-precondition-header">precondition-header</a></td>
+<td><a href="#precondition-header">precondition-header</a></td>
 <td>error</td>
 <td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code></td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-prohibit-summary-sentence-style">prohibit-summary-sentence-style</a></td>
+<td><a href="#prohibit-summary-sentence-style">prohibit-summary-sentence-style</a></td>
 <td>warn</td>
 <td>An operation's <code>summary</code> field should not have a trailing period</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-property-attributes">property-attributes</a></td>
+<td><a href="#property-attributes">property-attributes</a></td>
 <td>error</td>
 <td>Performs a series of checks on the attributes defined for various schema types</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-property-case-collision">property-case-collision</a></td>
+<td><a href="#property-case-collision">property-case-collision</a></td>
 <td>error</td>
 <td>Avoid duplicate property names within a schema, even if they differ by case convention</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-property-case-convention">property-case-convention</a></td>
+<td><a href="#property-case-convention">property-case-convention</a></td>
 <td>error</td>
 <td>Schema property names should follow a specific case convention</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-property-description">property-description</a></td>
+<td><a href="#property-description">property-description</a></td>
 <td>warn</td>
 <td>Schema properties should have a non-empty description</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-property-inconsistent-name-and-type">property-inconsistent-name-and-type</a></td>
+<td><a href="#property-inconsistent-name-and-type">property-inconsistent-name-and-type</a></td>
 <td>off</td>
 <td>Avoid using the same property name for properties of different types. This rule is disabled by default.</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-ref-pattern">ref-pattern</a></td>
+<td><a href="#ref-pattern">ref-pattern</a></td>
 <td>warn</td>
 <td>Ensures that <code>$ref</code> values follow the correct patterns.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-ref-sibling-duplicate-description">ref-sibling-duplicate-description</a></td>
+<td><a href="#ref-sibling-duplicate-description">ref-sibling-duplicate-description</a></td>
 <td>warn</td>
 <td>Ensures that the "ref-sibling" <code>allOf</code> pattern is not used unnecessarily to define a duplicate description.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-request-body-name">request-body-name</a></td>
+<td><a href="#request-body-name">request-body-name</a></td>
 <td>warn</td>
 <td>An operation should specify a request body name (with the <code>x-codegen-request-body-name</code> extension) if its requestBody
 has non-form content.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-request-body-object">request-body-object</a></td>
+<td><a href="#request-body-object">request-body-object</a></td>
 <td>warn</td>
 <td>A request body should be defined as an object</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-response-error-response-schema">response-error-response-schema</a></td>
+<td><a href="#response-error-response-schema">response-error-response-schema</a></td>
 <td>warn</td>
 <td>Error response schemas should comply with API Handbook guidance</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-response-example-provided">response-example-provided</a></td>
+<td><a href="#response-example-provided">response-example-provided</a></td>
 <td>warn</td>
 <td>Response should provide an example</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-response-status-codes">response-status-codes</a></td>
+<td><a href="#response-status-codes">response-status-codes</a></td>
 <td>warn</td>
 <td>Performs multiple checks on the status codes used in operation responses.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-schema-description">schema-description</a></td>
+<td><a href="#schema-description">schema-description</a></td>
 <td>warn</td>
 <td>Schemas should have a non-empty description</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-schema-type">schema-type</a></td>
+<td><a href="#schema-type">schema-type</a></td>
 <td>off</td>
 <td>Schemas and schema properties should have a non-empty <code>type</code> field. <b>This rule is disabled by default.</b></td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-security-scheme-attributes">security-schemes</a></td>
+<td><a href="#security-scheme-attributes">security-schemes</a></td>
 <td>warn</td>
 <td>Performs a series of validations on the content within security schemes</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-security-schemes">security-schemes</a></td>
+<td><a href="#security-schemes">security-schemes</a></td>
 <td>warn</td>
 <td>Verifies the security schemes and security requirement objects</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-server-variable-default-value">server-variable-default-value</a></td>
+<td><a href="#server-variable-default-value">server-variable-default-value</a></td>
 <td>warn</td>
 <td>Server variables should have a default value</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-string-boundary">string-boundary</a></td>
+<td><a href="#string-boundary">string-boundary</a></td>
 <td>warn</td>
 <td>String schema properties should define the <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-unused-tag">unused-tag</a></td>
+<td><a href="#unused-tag">unused-tag</a></td>
 <td>warn</td>
 <td>Verifies that each defined tag is referenced by at least one operation</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-valid-path-segments">valid-path-segments</a></td>
+<td><a href="#valid-path-segments">valid-path-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API to make sure path parameter references are valid within path segments</td>
 <td>oas2, oas3</td>
 </tr>
 <tr>
-<td><a href="#rule-valid-type-format">valid-type-format</a></td>
+<td><a href="#valid-type-format">valid-type-format</a></td>
 <td>error</td>
 <td>Schema must use a valid combination of <code>type</code> and <code>format</code></td>
 <td>oas3</td>
@@ -717,7 +717,7 @@ This section provides reference documentation about the IBM Cloud Validation Rul
 in the `@ibm-cloud/openapi-ruleset` package.
 
 
-### Rule: accept-parameter
+### accept-parameter
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -782,7 +782,7 @@ paths:
 </table>
 
 
-### Rule: array-boundary
+### array-boundary
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -840,7 +840,7 @@ components:
 </table>
 
 
-### Rule: array-items
+### array-items
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -901,7 +901,7 @@ requestBody:
 </table>
 
 
-### Rule: array-of-arrays
+### array-of-arrays
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -952,7 +952,7 @@ requestBody:
 </table>
 
 
-### Rule: array-responses
+### array-responses
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1022,7 +1022,7 @@ sample response body:
 </table>
 
 
-### Rule: authorization-parameter
+### authorization-parameter
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1106,7 +1106,7 @@ paths:
 </table>
 
 
-### Rule: binary-schemas
+### binary-schemas
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1172,7 +1172,7 @@ paths:
 </table>
 
 
-### Rule: circular-refs
+### circular-refs
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1240,7 +1240,7 @@ components:
 </table>
 
 
-### Rule: collection-array-property
+### collection-array-property
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1321,7 +1321,7 @@ paths:
 </table>
 
 
-### Rule: consecutive-path-param-segments
+### consecutive-path-param-segments
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1375,7 +1375,7 @@ paths:
 </table>
 
 
-### Rule: content-entry-contains-schema
+### content-entry-contains-schema
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1424,7 +1424,7 @@ responses:
 </table>
 
 
-### Rule: content-entry-provided
+### content-entry-provided
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1468,7 +1468,7 @@ responses:
 </table>
 
 
-### Rule: content-type-parameter
+### content-type-parameter
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1543,7 +1543,7 @@ paths:
 </table>
 
 
-### Rule: delete-body
+### delete-body
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1602,7 +1602,7 @@ paths:
 </table>
 
 
-### Rule: description-mentions-json
+### description-mentions-json
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1657,7 +1657,7 @@ components:
 </table>
 
 
-### Rule: discriminator
+### discriminator
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1727,7 +1727,7 @@ components:
 </table>
 
 
-### Rule: duplicate-path-parameter
+### duplicate-path-parameter
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1796,7 +1796,7 @@ paths:
 </table>
 
 
-### Rule: enum-case-convention
+### enum-case-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1871,7 +1871,7 @@ components:
 </table>
 
 
-### Rule: examples-name-contains-space
+### examples-name-contains-space
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1940,7 +1940,7 @@ paths:
 </table>
 
 
-### Rule: ibm-content-type-is-specific
+### ibm-content-type-is-specific
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1988,7 +1988,7 @@ requestBody:
 </table>
 
 
-### Rule: ibm-error-content-type-is-json
+### ibm-error-content-type-is-json
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2036,7 +2036,7 @@ responses:
 </table>
 
 
-### Rule: ibm-sdk-operations
+### ibm-sdk-operations
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2071,7 +2071,7 @@ n/a
 </table>
 
 
-### Rule: if-modified-since-parameter
+### if-modified-since-parameter
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2155,7 +2155,7 @@ paths:
 </table>
 
 
-### Rule: if-unmodified-since-parameter
+### if-unmodified-since-parameter
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2231,7 +2231,7 @@ paths:
 </table>
 
 
-### Rule: inline-property-schema
+### inline-property-schema
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2309,7 +2309,7 @@ components:
 </table>
 
 
-### Rule: inline-request-schema
+### inline-request-schema
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2395,7 +2395,7 @@ paths:
 </table>
 
 
-### Rule: inline-response-schema
+### inline-response-schema
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2474,7 +2474,7 @@ paths:
 </table>
 
 
-### Rule: major-version-in-path
+### major-version-in-path
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2526,7 +2526,7 @@ paths:
 </table>
 
 
-### Rule: merge-patch-optional-properties
+### merge-patch-optional-properties
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2605,7 +2605,7 @@ components:
 </tr>
 </table>
 
-### Rule: missing-required-property
+### missing-required-property
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2670,7 +2670,7 @@ components:
 </table>
 
 
-### Rule: no-etag-header
+### no-etag-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2780,7 +2780,7 @@ paths:
 </table>
 
 
-### Rule: operation-id-case-convention
+### operation-id-case-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2848,7 +2848,7 @@ paths:
 </table>
 
 
-### Rule: operation-id-naming-convention
+### operation-id-naming-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2910,7 +2910,7 @@ paths:
 </table>
 
 
-### Rule: operation-summary
+### operation-summary
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2957,7 +2957,7 @@ paths:
 </table>
 
 
-### Rule: optional-request-body
+### optional-request-body
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3016,7 +3016,7 @@ paths:
 </table>
 
 
-### Rule: pagination-style
+### pagination-style
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3100,7 +3100,7 @@ n/a
 </table>
 
 
-### Rule: parameter-case-convention
+### parameter-case-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3219,7 +3219,7 @@ components:
 </table>
 
 
-### Rule: parameter-default
+### parameter-default
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3279,7 +3279,7 @@ components:
 </table>
 
 
-### Rule: parameter-description
+### parameter-description
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3339,7 +3339,7 @@ components:
 </table>
 
 
-### Rule: parameter-order
+### parameter-order
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3420,7 +3420,7 @@ paths:
 </table>
 
 
-### Rule: parameter-schema-or-content
+### parameter-schema-or-content
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3465,7 +3465,7 @@ parameters:
 </table>
 
 
-### Rule: patch-request-content-type
+### patch-request-content-type
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3534,7 +3534,7 @@ paths:
 </table>
 
 
-### Rule: path-param-not-crn
+### path-param-not-crn
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3624,7 +3624,7 @@ components:
 </table>
 
 
-### Rule: path-segment-case-convention
+### path-segment-case-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3679,7 +3679,7 @@ paths:
 </table>
 
 
-### Rule: precondition-header
+### precondition-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3752,7 +3752,7 @@ paths:
 </table>
 
 
-### Rule: prohibit-summary-sentence-style
+### prohibit-summary-sentence-style
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3799,7 +3799,7 @@ paths:
 </table>
 
 
-### Rule: property-attributes
+### property-attributes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3891,7 +3891,7 @@ components:
 </table>
 
 
-### Rule: property-case-collision
+### property-case-collision
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3947,7 +3947,7 @@ components:
 </table>
 
 
-### Rule: property-case-convention
+### property-case-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4025,7 +4025,7 @@ components:
 </table>
 
 
-### Rule: property-description
+### property-description
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4080,7 +4080,7 @@ components:
 </table>
 
 
-### Rule: property-inconsistent-name-and-type
+### property-inconsistent-name-and-type
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4146,7 +4146,7 @@ components:
 </table>
 
 
-### Rule: ref-pattern
+### ref-pattern
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4228,7 +4228,7 @@ components:
 </table>
 
 
-### Rule: ref-sibling-duplicate-description
+### ref-sibling-duplicate-description
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4378,7 +4378,7 @@ components:
 </table>
 
 
-### Rule: request-body-name
+### request-body-name
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4443,7 +4443,7 @@ paths:
 </table>
 
 
-### Rule: request-body-object
+### request-body-object
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4491,7 +4491,7 @@ requestBody:
 </table>
 
 
-### Rule: response-error-response-schema
+### response-error-response-schema
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4654,7 +4654,7 @@ components:
 </table>
 
 
-### Rule: response-example-provided
+### response-example-provided
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4715,7 +4715,7 @@ responses:
 </table>
 
 
-### Rule: response-status-codes
+### response-status-codes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4831,7 +4831,7 @@ paths:
 </table>
 
 
-### Rule: schema-description
+### schema-description
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4881,7 +4881,7 @@ components:
 </table>
 
 
-### Rule: schema-type
+### schema-type
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4931,7 +4931,7 @@ components:
 </table>
 
 
-### Rule: security-scheme-attributes
+### security-scheme-attributes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5037,7 +5037,7 @@ components:
 </table>
 
 
-### Rule: security-schemes
+### security-schemes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5114,7 +5114,7 @@ components:
 </table>
 
 
-### Rule: server-variable-default-value
+### server-variable-default-value
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5166,7 +5166,7 @@ servers:
 </table>
 
 
-### Rule: string-boundary
+### string-boundary
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5239,7 +5239,7 @@ components:
 </table>
 
 
-### Rule: unused-tag
+### unused-tag
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5300,7 +5300,7 @@ paths:
 </table>
 
 
-### Rule: valid-path-segments
+### valid-path-segments
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5353,7 +5353,7 @@ paths:
 </table>
 
 
-### Rule: valid-type-format
+### valid-type-format
 <table>
 <tr>
 <td><b>Rule id:</b></td>
