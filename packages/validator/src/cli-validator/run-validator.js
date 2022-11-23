@@ -18,11 +18,13 @@ const config = require('./utils/process-configuration');
 const ext = require('./utils/file-extension-validator');
 const preprocessFile = require('./utils/preprocess-file');
 const print = require('./utils/print-results');
-const printError = require('./utils/print-error');
 const { printJson } = require('./utils/json-results');
 const spectralValidator = require('../spectral/spectral-validator');
 const validator = require('./utils/validator');
+const getVersionString = require('./utils/get-version-string');
 const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
+
+let logger;
 
 // this function processes the input, does the error handling,
 //  and acts as the main function for the program
@@ -39,23 +41,29 @@ const processInput = async function(program) {
   // The user can change this via the command line.
   const loggerFactory = LoggerFactory.newInstance();
   loggerFactory.addLoggerSetting('root', 'info');
+  logger = loggerFactory.getLogger(null);
+
+  let opts = program;
+  if (typeof program.opts === 'function') {
+    opts = program.opts();
+  }
 
   // interpret the options
-  const printValidators = !!program.print_validator_modules;
-  const reportingStats = !!program.report_statistics;
+  const printValidators = !!opts.print_validator_modules;
+  const reportingStats = !!opts.report_statistics;
 
-  const turnOffColoring = !!program.no_colors;
-  const defaultMode = !!program.default_mode;
-  const jsonOutput = !!program.json;
-  const errorsOnly = !!program.errors_only;
-  const debug = !!program.debug;
+  const turnOffColoring = !!opts.no_colors;
+  const defaultMode = !!opts.default_mode;
+  const jsonOutput = !!opts.json;
+  const errorsOnly = !!opts.errors_only;
+  const debug = !!opts.debug;
 
-  const configFileOverride = program.config;
-  const rulesetFileOverride = program.ruleset;
+  const configFileOverride = opts.config;
+  const rulesetFileOverride = opts.ruleset;
 
-  const limitsFileOverride = program.limits;
+  const limitsFileOverride = opts.limits;
 
-  const verbose = program.verbose > 0;
+  const verbose = opts.verbose > 0;
 
   // Process each loglevel entry supplied on the command line.
   // Add each option to our LoggerFactory so they can be used to affect the
@@ -63,11 +71,8 @@ const processInput = async function(program) {
   // Examples:
   //   -l info  (equivalent to -l root=info)
   //   --loglevel schema-*=debug (enable debug for all rules like "schema-*")
-  //   -l property-description=trace (enable trace for the "property-description" rule)
-  let logLevels;
-  if (typeof program.opts === 'function') {
-    logLevels = program.opts().loglevel;
-  }
+  //   -l property-description=debug (enable debug for the "property-description" rule)
+  let logLevels = opts.loglevel;
   if (!logLevels) {
     logLevels = [];
   }
@@ -88,11 +93,14 @@ const processInput = async function(program) {
   // It is very unlikely that any loggers exist yet, but just in case... :)
   loggerFactory.applySettingsToAllLoggers();
 
-  // logger.info('This is the IBM OpenAPI Validator');
-
   // turn off coloring if explicitly requested
   if (turnOffColoring) {
     chalk.level = 0;
+  }
+
+  if (verbose) {
+    logger.info(
+      chalk.green(`IBM OpenAPI Validator (${getVersionString()}), @Copyright IBM Corporation 2017, 2022.\n`));
   }
 
   // run the validator on the passed in files
@@ -108,9 +116,9 @@ const processInput = async function(program) {
   // then, print these for the user. this way, the user is alerted to why files
   // aren't validated
   const filteredFiles = args.filter(file => !filteredArgs.includes(file));
-  if (filteredFiles.length) console.log();
+  // if (filteredFiles.length) console.log();
   filteredFiles.forEach(filename => {
-    console.log(
+    logger.warn(
       chalk.magenta('[Ignored] ') + path.relative(process.cwd(), filename)
     );
   });
@@ -127,17 +135,16 @@ const processInput = async function(program) {
     if (ext.supportedFileExtension(arg, supportedFileTypes)) {
       filesWithValidExtensions.push(arg);
     } else {
-      if (!unsupportedExtensionsFound) console.log();
       unsupportedExtensionsFound = true;
-      console.log(
+      logger.warn(
         chalk.yellow('[Warning]') +
-          ` Skipping file with unsupported file type: ${arg}`
+        ` Skipping file with unsupported file type: ${arg}`
       );
     }
   });
 
   if (unsupportedExtensionsFound) {
-    console.log(
+    logger.warn(
       chalk.magenta(
         'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
       )
@@ -156,16 +163,18 @@ const processInput = async function(program) {
   const nonExistentFiles = filesWithValidExtensions.filter(
     file => !filesToValidate.includes(file)
   );
-  if (nonExistentFiles.length) console.log();
+  // if (nonExistentFiles.length) console.log();
   nonExistentFiles.forEach(file => {
-    console.log(
+    logger.warn(
       chalk.yellow('[Warning]') + ` Skipping non-existent file: ${file}`
     );
   });
 
   // if no passed in files are valid, exit the program
-  if (filesToValidate.length === 0) {
-    printError(chalk, 'None of the given arguments are valid files.');
+  console.log('filesToValidate: ', filesToValidate);
+  console.log('filesToValidate.length: ', filesToValidate.length);
+  if (!filesToValidate.length) {
+    logError(chalk, 'None of the given arguments are valid files.');
     return Promise.reject(2);
   }
 
@@ -197,7 +206,7 @@ const processInput = async function(program) {
 
   for (const validFile of filesToValidate) {
     if (filesToValidate.length > 1) {
-      console.log(
+      logger.info(
         '\n    ' + chalk.underline(`Validation Results for ${validFile}:`)
       );
     }
@@ -213,7 +222,7 @@ const processInput = async function(program) {
           const chars = originalFile.substring(0, match.index);
           const lineNum = (chars.match(/\n/g) || []).length + 1;
           const msg = `Trailing comma on line ${lineNum} of file ${validFile}.`;
-          printError(chalk, chalk.red(msg));
+          logError(chalk, chalk.red(msg));
           exitCode = 1;
           originalFile = originalFile.replace(/,(\s*[}\]])/gm, '$1');
         }
@@ -238,7 +247,7 @@ const processInput = async function(program) {
         chalk.red(validFile) +
         '. See below for details.';
 
-      printError(chalk, description, err);
+      logError(chalk, description, err);
       exitCode = 1;
       continue;
     }
@@ -253,9 +262,9 @@ const processInput = async function(program) {
     try {
       swagger = await buildSwaggerObject(input);
     } catch (err) {
-      printError(chalk, 'There is a problem with the Swagger.', getError(err));
+      logError(chalk, 'There is a problem with the Swagger.', getError(err));
       if (debug) {
-        console.log(err.stack);
+        logger.error(err.stack);
       }
       exitCode = 1;
       continue;
@@ -284,24 +293,24 @@ const processInput = async function(program) {
       const doc = new Document(originalFile, parser, validFile);
       spectralResults = await spectral.run(doc);
     } catch (err) {
-      printError(chalk, 'There was a problem with spectral.', getError(err));
+      logError(chalk, 'There was a problem with spectral.', getError(err));
       if (debug || err.message === 'Error running Nimma') {
-        printError(chalk, 'Additional error details:');
-        console.log(err);
+        logError(chalk, 'Additional error details:');
+        logger.error(err);
       }
       // this check can be removed once we support spectral overrides
       if (err.message.startsWith('Document must have some source assigned.')) {
-        console.log(
+        logger.error(
           'This error likely occurred because Spectral `exceptions` are deprecated and `overrides` are not yet supported.\n' +
-            'Remove these fields from your Spectral config file to proceed.'
+          'Remove these fields from your Spectral config file to proceed.'
         );
       } else if (
         err.message ==
         "Cannot use 'in' operator to search for '**' in undefined"
       ) {
-        console.log(
+        logger.error(
           'This error likely means the API Definition is missing a `servers` field.\n' +
-            'Spectral currently has a bug that prevents it from processing a definition without a `servers` field.'
+          'Spectral currently has a bug that prevents it from processing a definition without a `servers` field.'
         );
       }
       exitCode = 1;
@@ -313,9 +322,9 @@ const processInput = async function(program) {
     try {
       results = validator(swagger, configObject, spectralResults, debug);
     } catch (err) {
-      printError(chalk, 'There was a problem with a validator.', getError(err));
+      logError(chalk, 'There was a problem with a validator.', getError(err));
       if (debug) {
-        console.log(err.stack);
+        logger.error(err.stack);
       }
       exitCode = 1;
       continue;
@@ -371,8 +380,8 @@ const processInput = async function(program) {
           errorsOnly
         );
       } else {
-        console.log(chalk.green(`\n${validFile} passed the validator`));
-        if (validFile === last(filesToValidate)) console.log();
+        logger.info(chalk.green(`\n${validFile} passed the validator`));
+        // if (validFile === last(filesToValidate)) console.log();
       }
     }
   }
@@ -385,6 +394,12 @@ const processInput = async function(program) {
 // print the whole error
 function getError(err) {
   return err.message || err;
+}
+
+function logError(chalk, description, message = '') {
+  const text = '\n' + chalk.red('[Error]')
+    + ` ${description}` + message ? chalk.magenta(message) : '';
+  logger.error(text);
 }
 
 // this exports the entire program so it can be used or tested

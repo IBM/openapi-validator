@@ -6,13 +6,19 @@ const { getCapturedText } = require('../../test-utils');
 
 describe('cli tool - test error handling', function() {
   let consoleSpy;
+  let originalWarn = console.warn;
+  let originalError = console.error;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    console.warn = console.log;
+    console.error = console.log;
   });
 
   afterEach(() => {
     consoleSpy.mockRestore();
+    console.warn = originalWarn;
+    console.error = originalError;
   });
 
   const helpMessage = function() {
@@ -70,9 +76,10 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(5);
+    expect(capturedText.length).toEqual(3);
     expect(capturedText[0].trim()).toEqual('');
     expect(capturedText[1].trim()).toEqual(
       '[Warning] Skipping file with unsupported file type: json'
@@ -98,6 +105,7 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(2);
     expect(capturedText.length).toEqual(5);
@@ -126,6 +134,7 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(3);
@@ -150,6 +159,7 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(3);
@@ -174,6 +184,7 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(3);
@@ -198,6 +209,7 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(28);

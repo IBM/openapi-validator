@@ -58,9 +58,10 @@ program
   )
   .option(
     '-l, --loglevel <loglevel...>',
-    'Set the log level for one or more loggers (e.g. -l root=info -l schema-description=trace ...)'
+    'Set the log level for one or more loggers (e.g. -l root=info -l schema-description=debug ...)'
   )
   .version(getVersionString(), '--version');
+program.addHelpText('beforeAll', `IBM OpenAPI Validator: ${getVersionString()}\n`);
 
 function increaseVerbosity(dummyValue, previous) {
   return previous + 1;
