@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-- 12
 - 14
+- 16
 cache:
   npm: false
 before_install:
@@ -9,7 +9,7 @@ before_install:
 script:
 - npm run test-travis
 - npm run lint
-- npm run pkg && mv bin packages/validator
+
 deploy:
 - provider: script
   skip_cleanup: true

@@ -1,13 +1,25 @@
 {
   "branches": "main",
+  "debug": true,
   "plugins": [
     "@semantic-release/commit-analyzer",
     "@semantic-release/release-notes-generator",
     "@semantic-release/changelog",
     "@semantic-release/npm",
     "@semantic-release/git",
-    ["@semantic-release/github", {
-      "assets": ["bin/*"]
-    }]
+    [
+      "@semantic-release/exec",
+      {
+        "prepareCmd": "npm run pkg && mv bin packages/validator"
+      }
+    ],
+    [
+      "@semantic-release/github",
+      {
+        "assets": [
+          "bin/*"
+        ]
+      }
+    ]
   ]
 }
