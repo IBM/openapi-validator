@@ -10,7 +10,7 @@
     [
       "@semantic-release/exec",
       {
-        "prepareCmd": "npm run pkg && mv bin packages/validator"
+        "prepareCmd": "npm run pkg"
       }
     ],
     [

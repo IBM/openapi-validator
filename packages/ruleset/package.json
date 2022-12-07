@@ -11,7 +11,8 @@
     "test": "jest test",
     "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test",
     "lint": "eslint --cache --quiet --ext '.js' src test",
-    "fix": "eslint --fix --ext '.js' src test"
+    "fix": "eslint --fix --ext '.js' src test",
+    "pkg": "echo no executables to build in this package"
   },
   "dependencies": {
     "@stoplight/spectral-formats": "^1.1.0",
