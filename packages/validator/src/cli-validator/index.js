@@ -87,7 +87,6 @@ cliValidator(program)
 // 0: the validator finished and passed with no errors/warnings
 // 1: the validator finished but there were errors or warnings
 //    in the Swagger file
-//
 // err
 // 2: the program encountered an error that prevented
 //    the validator from running on all the files
