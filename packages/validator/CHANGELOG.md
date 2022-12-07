@@ -1,3 +1,19 @@
+## ibm-openapi-validator [0.96.5](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.96.4...ibm-openapi-validator@0.96.5) (2022-12-07)
+
+
+### Bug Fixes
+
+* create executables in correct package ([c289a16](https://github.com/IBM/openapi-validator/commit/c289a164f3a834f22bedd5d74b700d46f3bc5e6b))
+* force new release of the project ([1208d82](https://github.com/IBM/openapi-validator/commit/1208d8276e43c4a12d979a51ac4a0f071cde14de))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.44.4
+
 ## ibm-openapi-validator [0.96.4](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.96.3...ibm-openapi-validator@0.96.4) (2022-11-22)
 
 
