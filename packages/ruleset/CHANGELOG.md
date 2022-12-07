@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.44.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.3...@ibm-cloud/openapi-ruleset@0.44.4) (2022-12-07)
+
+
+### Bug Fixes
+
+* create executables in correct package ([c289a16](https://github.com/IBM/openapi-validator/commit/c289a164f3a834f22bedd5d74b700d46f3bc5e6b))
+
 ## @ibm-cloud/openapi-ruleset [0.44.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.2...@ibm-cloud/openapi-ruleset@0.44.3) (2022-11-22)
 
 
