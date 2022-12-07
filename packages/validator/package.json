@@ -1,7 +1,7 @@
 {
   "name": "ibm-openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
-  "version": "0.96.5",
+  "version": "0.96.4",
   "main": "src/lib/index.js",
   "private": false,
   "repository": "https://github.com/IBM/openapi-validator",
@@ -16,7 +16,8 @@
     "test-cli-tool": "jest test/cli-validator/tests",
     "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test/",
     "lint": "eslint --cache --quiet --ext '.js' src test",
-    "fix": "eslint --fix --ext '.js' src test"
+    "fix": "eslint --fix --ext '.js' src test",
+    "pkg": "../../scripts/create-binaries.sh"
   },
   "dependencies": {
     "@ibm-cloud/openapi-ruleset": "0.44.3",
