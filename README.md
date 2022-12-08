@@ -12,7 +12,7 @@ This command line tool lets you validate OpenAPI documents according to their sp
 as well as IBM-defined best practices.
 
 #### Prerequisites
-- Node 12.x
+- Node 14.x
 - NPM 7.x
 
 ## Table of contents
@@ -79,7 +79,7 @@ Platform-specific binary files are packaged with each release for MacOS, Linux, 
 _If you installed the validator using `npm install -g ibm-openapi-validator`, you will need to run `npm uninstall -g ibm-openapi-validator` before running `npm run link`._
 
 #### Build platform-specific binaries
-It is also possible to build platform specific binaries from the source code by running `npm run pkg` in the project root directory.  The binaries (lint-openapi-macos, lint-openapi-linux, lint-openapi-windows.exe) will be in the project's `bin` directory.
+It is also possible to build platform specific binaries from the source code by running `npm run pkg` in the project root directory.  The binaries (lint-openapi-macos, lint-openapi-linux, lint-openapi-windows.exe) will be in the project's `packages/validator/bin` directory.
 
 ### Docker container
 A community Docker image is [publicly available on Docker hub](https://hub.docker.com/r/jamescooke/openapi-validator).
