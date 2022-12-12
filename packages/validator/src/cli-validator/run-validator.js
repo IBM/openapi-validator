@@ -171,8 +171,6 @@ const processInput = async function(program) {
   });
 
   // if no passed in files are valid, exit the program
-  console.log('filesToValidate: ', filesToValidate);
-  console.log('filesToValidate.length: ', filesToValidate.length);
   if (!filesToValidate.length) {
     logError(chalk, 'None of the given arguments are valid files.');
     return Promise.reject(2);

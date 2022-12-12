@@ -1,18 +1,26 @@
 const { casing } = require('@stoplight/spectral-functions');
-const { validateSubschemas } = require('../utils');
+const { validateSubschemas, LoggerFactory } = require('../utils');
 
 let casingConfig;
+let logger;
+let ruleId;
 
-module.exports = function(schema, options, { path }) {
+module.exports = function(schema, options, context) {
   // Save this rule's "functionOptions" value since we need
   // to pass it on to Spectral's "casing" function.
   casingConfig = options;
 
-  return validateSubschemas(schema, path, checkPropertyCaseConvention);
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return validateSubschemas(schema, context.path, checkPropertyCaseConvention);
 };
 
 function checkPropertyCaseConvention(schema, path) {
   if (schema.properties) {
+    logger.debug(`${ruleId}: checking path '${path.join('.')}'`);
+
     const errors = [];
     for (const propName of Object.keys(schema.properties)) {
       // skip deprecated properties
@@ -29,6 +37,13 @@ function checkPropertyCaseConvention(schema, path) {
         result[0].path = [...path, 'properties', propName];
         errors.push(result[0]);
       }
+    }
+
+    if (errors.length) {
+      logger.debug(`${ruleId}: FAILED!`);
+      logger.debug(`Errors: ${JSON.stringify(errors, null, 2)}`);
+    } else {
+      logger.debug(`${ruleId}: PASSED!`);
     }
 
     return errors;
