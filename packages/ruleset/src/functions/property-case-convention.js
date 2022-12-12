@@ -25,8 +25,9 @@ function checkPropertyCaseConvention(schema, path) {
       if (result) {
         // 'casing' only reports the message - add the path to it
         // the message itself isn't great either - add some detail to it
-        result[0].message = 'Property names ' + result[0].message;
-        result[0].path = [...path, 'properties', propName];
+        result[0].message =
+          'Property names ' + result[0].message + ': ' + propName;
+        result[0].path = [...path, 'properties'];
         errors.push(result[0]);
       }
     }
