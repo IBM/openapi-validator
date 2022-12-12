@@ -4,7 +4,6 @@ const fs = require('fs');
 const globby = require('globby');
 const isPlainObject = require('lodash/isPlainObject');
 const jsonValidator = require('json-dup-key-validator');
-const last = require('lodash/last');
 const path = require('path');
 const readYaml = require('js-yaml');
 const util = require('util');
@@ -21,7 +20,6 @@ const print = require('./utils/print-results');
 const { printJson } = require('./utils/json-results');
 const spectralValidator = require('../spectral/spectral-validator');
 const validator = require('./utils/validator');
-const getVersionString = require('./utils/get-version-string');
 const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
 
 let logger;
@@ -98,10 +96,10 @@ const processInput = async function(program) {
     chalk.level = 0;
   }
 
-  if (verbose) {
-    logger.info(
-      chalk.green(`IBM OpenAPI Validator (${getVersionString()}), @Copyright IBM Corporation 2017, 2022.\n`));
-  }
+  // if (verbose) {
+  //   logger.info(
+  //     chalk.green(`IBM OpenAPI Validator (${getVersionString()}), @Copyright IBM Corporation 2017, 2022.\n`));
+  // }
 
   // run the validator on the passed in files
   // first, process the given files to handle bad input
@@ -138,7 +136,7 @@ const processInput = async function(program) {
       unsupportedExtensionsFound = true;
       logger.warn(
         chalk.yellow('[Warning]') +
-        ` Skipping file with unsupported file type: ${arg}`
+          ` Skipping file with unsupported file type: ${arg}`
       );
     }
   });
@@ -300,7 +298,7 @@ const processInput = async function(program) {
       if (err.message.startsWith('Document must have some source assigned.')) {
         logger.error(
           'This error likely occurred because Spectral `exceptions` are deprecated and `overrides` are not yet supported.\n' +
-          'Remove these fields from your Spectral config file to proceed.'
+            'Remove these fields from your Spectral config file to proceed.'
         );
       } else if (
         err.message ==
@@ -308,7 +306,7 @@ const processInput = async function(program) {
       ) {
         logger.error(
           'This error likely means the API Definition is missing a `servers` field.\n' +
-          'Spectral currently has a bug that prevents it from processing a definition without a `servers` field.'
+            'Spectral currently has a bug that prevents it from processing a definition without a `servers` field.'
         );
       }
       exitCode = 1;
@@ -395,8 +393,10 @@ function getError(err) {
 }
 
 function logError(chalk, description, message = '') {
-  const text = '\n' + chalk.red('[Error]')
-    + ` ${description}` + message ? chalk.magenta(message) : '';
+  const text =
+    '\n' + chalk.red('[Error]') + ` ${description}` + message
+      ? chalk.magenta(message)
+      : '';
   logger.error(text);
 }
 

@@ -11,13 +11,22 @@ const count = (array, regex) => {
 
 describe('cli tool - test expected output - Swagger 2', function() {
   let consoleSpy;
+  const originalWarn = console.warn;
+  const originalError = console.error;
+  const originalInfo = console.info;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    console.warn = console.log;
+    console.error = console.log;
+    console.info = console.log;
   });
 
   afterEach(() => {
     consoleSpy.mockRestore();
+    console.warn = originalWarn;
+    console.error = originalError;
+    console.info = originalInfo;
   });
 
   it('should not produce any errors or warnings from mock-files/clean.yml', async function() {
@@ -30,11 +39,10 @@ describe('cli tool - test expected output - Swagger 2', function() {
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(0);
-    expect(capturedText.length).toEqual(2);
+    expect(capturedText.length).toEqual(1);
     expect(capturedText[0].trim()).toEqual(
       './test/cli-validator/mock-files/clean.yml passed the validator'
     );
-    expect(capturedText[1].trim()).toEqual('');
   });
 
   it('should produce errors, then warnings from mock-files/err-and-warn.yaml', async function() {
@@ -258,23 +266,31 @@ describe('cli tool - test expected output - Swagger 2', function() {
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     expect(exitCode).toEqual(0);
-    expect(capturedText.length).toEqual(2);
+    expect(capturedText.length).toEqual(1);
     expect(capturedText[0].trim()).toEqual(
       './test/cli-validator/mock-files/clean-with-tabs.yml passed the validator'
     );
-    expect(capturedText[1].trim()).toEqual('');
   });
 });
 
 describe('test expected output - OpenAPI 3', function() {
   let consoleSpy;
+  const originalWarn = console.warn;
+  const originalError = console.error;
+  const originalInfo = console.info;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    console.warn = console.log;
+    console.error = console.log;
+    console.info = console.log;
   });
 
   afterEach(() => {
     consoleSpy.mockRestore();
+    console.warn = originalWarn;
+    console.error = originalError;
+    console.info = originalInfo;
   });
 
   it('should not produce any errors or warnings from a clean file', async function() {

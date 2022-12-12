@@ -6,19 +6,22 @@ const { getCapturedText } = require('../../test-utils');
 
 describe('cli tool - test error handling', function() {
   let consoleSpy;
-  let originalWarn = console.warn;
-  let originalError = console.error;
+  const originalWarn = console.warn;
+  const originalError = console.error;
+  const originalInfo = console.info;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
+    console.info = console.log;
   });
 
   afterEach(() => {
     consoleSpy.mockRestore();
     console.warn = originalWarn;
     console.error = originalError;
+    console.info = originalInfo;
   });
 
   const helpMessage = function() {
@@ -76,20 +79,17 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    originalError('Captured text:\n', capturedText);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(2);
     expect(capturedText.length).toEqual(3);
-    expect(capturedText[0].trim()).toEqual('');
-    expect(capturedText[1].trim()).toEqual(
+    expect(capturedText[0].trim()).toEqual(
       '[Warning] Skipping file with unsupported file type: json'
     );
-    expect(capturedText[2].trim()).toEqual(
+    expect(capturedText[1].trim()).toEqual(
       'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
     );
-    expect(capturedText[3].trim()).toEqual(
-      '[Error] None of the given arguments are valid files.'
-    );
+    expect(capturedText[2].trim()).toEqual('');
   });
 
   it('should return an error when there is an invalid file extension', async function() {
@@ -105,20 +105,17 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    originalError('Captured text:\n', capturedText);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(5);
-    expect(capturedText[0].trim()).toEqual('');
-    expect(capturedText[1].trim()).toEqual(
+    expect(capturedText.length).toEqual(3);
+    expect(capturedText[0].trim()).toEqual(
       '[Warning] Skipping file with unsupported file type: badExtension.jsob'
     );
-    expect(capturedText[2].trim()).toEqual(
+    expect(capturedText[1].trim()).toEqual(
       'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
     );
-    expect(capturedText[3].trim()).toEqual(
-      '[Error] None of the given arguments are valid files.'
-    );
+    expect(capturedText[2].trim()).toEqual('');
   });
 
   it('should return an error when a file contains an invalid object', async function() {
@@ -134,14 +131,11 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    originalError('Captured text:\n', capturedText);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(3);
+    expect(capturedText.length).toEqual(1);
     expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid input file: ./test/cli-validator/mock-files/bad-json.json. See below for details.'
-    );
-    expect(capturedText[1].trim()).toEqual(
       'SyntaxError: Unexpected token ; in JSON at position 14'
     );
   });
@@ -159,14 +153,11 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    originalError('Captured text:\n', capturedText);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(3);
+    expect(capturedText.length).toEqual(1);
     expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid input file: ./test/cli-validator/mock-files/duplicate-keys.json. See below for details.'
-    );
-    expect(capturedText[1].trim()).toEqual(
       'Syntax error: duplicated keys "version" near sion": "1.'
     );
   });
@@ -184,14 +175,11 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    originalError('Captured text:\n', capturedText);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(3);
-    expect(capturedText[0].trim()).toEqual(
-      '[Error] There is a problem with the Swagger.'
-    );
-    expect(capturedText[1].split('\n')[1].trim()).toEqual(
+    expect(capturedText.length).toEqual(1);
+    expect(capturedText[0].split('\n')[1].trim()).toEqual(
       'Token "NonExistentObject" does not exist.'
     );
   });
@@ -209,17 +197,18 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    originalError('Captured text:\n', capturedText);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(28);
+    expect(capturedText.length).toEqual(27);
 
-    expect(capturedText[0].trim()).toEqual(
-      '[Error] Trailing comma on line 36 of file ./test/cli-validator/mock-files/trailing-comma.json.'
-    );
-    expect(capturedText[12]).toContain(
+    // expect(capturedText[0].trim()).toEqual(
+    //   '[Error] Trailing comma on line 36 of file ./test/cli-validator/mock-files/trailing-comma.json.'
+    // );
+
+    expect(capturedText[11]).toContain(
       'Operation "description" must be present and non-empty string.'
     );
-    expect(capturedText[13]).toContain('paths./v1/thing.post');
+    expect(capturedText[12]).toContain('paths./v1/thing.post');
   });
 });
