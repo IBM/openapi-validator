@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [0.45.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.4...@ibm-cloud/openapi-ruleset@0.45.0) (2022-12-12)
+
+
+### Features
+
+* bump min node version to 14 ([#525](https://github.com/IBM/openapi-validator/issues/525)) ([249c33e](https://github.com/IBM/openapi-validator/commit/249c33e52687f0933b14039ab515a5e69c88c59e))
+
 ## @ibm-cloud/openapi-ruleset [0.44.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.44.3...@ibm-cloud/openapi-ruleset@0.44.4) (2022-12-07)
 
 
