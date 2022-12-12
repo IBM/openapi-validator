@@ -1,3 +1,18 @@
+# ibm-openapi-validator [0.97.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.96.5...ibm-openapi-validator@0.97.0) (2022-12-12)
+
+
+### Features
+
+* bump min node version to 14 ([#525](https://github.com/IBM/openapi-validator/issues/525)) ([249c33e](https://github.com/IBM/openapi-validator/commit/249c33e52687f0933b14039ab515a5e69c88c59e))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.45.0
+
 ## ibm-openapi-validator [0.96.5](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.96.4...ibm-openapi-validator@0.96.5) (2022-12-07)
 
 
