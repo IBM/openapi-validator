@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.45.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.45.1...@ibm-cloud/openapi-ruleset@0.45.2) (2022-12-14)
+
+
+### Bug Fixes
+
+* move `validator` dependency to correct package within monorepo ([#529](https://github.com/IBM/openapi-validator/issues/529)) ([6904445](https://github.com/IBM/openapi-validator/commit/6904445cbe9a19ddb16c44c06df2c8715336b13f))
+
 ## @ibm-cloud/openapi-ruleset [0.45.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.45.0...@ibm-cloud/openapi-ruleset@0.45.1) (2022-12-14)
 
 
