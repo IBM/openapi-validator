@@ -1,3 +1,18 @@
+## ibm-openapi-validator [0.97.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.97.0...ibm-openapi-validator@0.97.1) (2022-12-14)
+
+
+### Bug Fixes
+
+* **property-case-convention:** report correct path in errors ([#526](https://github.com/IBM/openapi-validator/issues/526)) ([3fd84cf](https://github.com/IBM/openapi-validator/commit/3fd84cf96ee90a0229635ea696b6ec97651e48b8))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 0.45.1
+
 # ibm-openapi-validator [0.97.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.96.5...ibm-openapi-validator@0.97.0) (2022-12-12)
 
 
