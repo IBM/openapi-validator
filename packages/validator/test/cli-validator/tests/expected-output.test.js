@@ -180,7 +180,7 @@ describe('cli tool - test expected output - Swagger 2', function() {
 
     // errors
     expect(capturedText[4].match(/\S+/g)[2]).toEqual('59');
-    expect(capturedText[8].match(/\S+/g)[2]).toEqual('172');
+    expect(capturedText[8].match(/\S+/g)[2]).toEqual('161');
     // warnings
     expect(capturedText[13].match(/\S+/g)[2]).toEqual('59');
     expect(capturedText[17].match(/\S+/g)[2]).toEqual('131');
