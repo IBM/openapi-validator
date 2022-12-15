@@ -105,7 +105,7 @@ module.exports = {
     'content-type-parameter': ibmRules.contentTypeParameter,
     'delete-body': ibmRules.deleteBody,
     'description-mentions-json': ibmRules.descriptionMentionsJSON,
-    discriminator: ibmRules.discriminator,
+    'discriminator': ibmRules.discriminator,
     'duplicate-path-parameter': ibmRules.duplicatePathParameter,
     'enum-case-convention': ibmRules.enumCaseConvention,
     'examples-name-contains-space': ibmRules.examplesNameContainsSpace,

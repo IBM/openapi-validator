@@ -36,5 +36,16 @@
       "nimma/legacy": "<rootDir>/../../node_modules/nimma/dist/legacy/cjs",
       "nimma/fallbacks": "<rootDir>/../../node_modules/nimma/dist/cjs/fallbacks/"
     }
+  },
+  "prettier": {
+    "quoteProps": "consistent",
+    "overrides": [
+      {
+        "files": "**/*-document.js",
+        "options": {
+          "quoteProps": "as-needed"
+        }
+      }
+    ]
   }
 }
