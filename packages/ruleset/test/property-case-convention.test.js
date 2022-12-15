@@ -53,7 +53,9 @@ describe('Spectral rule: property-case-convention', () => {
 
     const validation = results[0];
     expect(validation.code).toBe(name);
-    expect(validation.message).toBe('Property names must be snake case');
+    expect(validation.message).toBe(
+      'Property names must be snake case: plotSummary'
+    );
     expect(validation.path).toStrictEqual([
       'paths',
       '/v1/movies',
@@ -62,8 +64,7 @@ describe('Spectral rule: property-case-convention', () => {
       'content',
       'application/json',
       'schema',
-      'properties',
-      'plotSummary'
+      'properties'
     ]);
     expect(validation.severity).toBe(expectedSeverity);
   });
