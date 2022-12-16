@@ -1,6 +1,8 @@
+const {
+  schemas
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { binarySchemas } = require('../functions');
-const { schemas } = require('../collections');
 
 // 1. Parameters should not contain binary (type: string, format: binary) values.
 // 2. JSON request bodies should not contain binary (type: string, format: binary) values.

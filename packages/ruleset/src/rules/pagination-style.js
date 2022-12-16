@@ -1,6 +1,8 @@
+const {
+  paths
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { paginationStyle } = require('../functions');
-const { paths } = require('../collections');
 
 module.exports = {
   description: 'List operations should have correct pagination style',

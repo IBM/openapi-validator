@@ -3,7 +3,7 @@ const {
   isIntegerSchema,
   isObject,
   isStringSchema
-} = require('../utils');
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(schema, _opts, { path }) {
   return checkErrorContainerModelSchema(schema, path);

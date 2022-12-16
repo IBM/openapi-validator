@@ -1,8 +1,6 @@
-const {
-  isBinarySchema,
-  isJsonMimeType,
-  pathMatchesRegexp
-} = require('../utils');
+const { isBinarySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
+
+const { isJsonMimeType, pathMatchesRegexp } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
   return binarySchemaCheck(schema, path);

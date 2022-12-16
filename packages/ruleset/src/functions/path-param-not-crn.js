@@ -1,7 +1,7 @@
 const {
   isStringSchema,
-  checkCompositeSchemaForConstraint
-} = require('../utils');
+  schemaHasConstraint
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(pathParam, _opts, { path }) {
   return pathParamNotCRN(pathParam, path);
@@ -61,7 +61,7 @@ function isCRNParameter(p) {
   if (
     schema &&
     isStringSchema(schema) &&
-    checkCompositeSchemaForConstraint(schema, s => s.format === 'crn')
+    schemaHasConstraint(schema, s => s.format === 'crn')
   ) {
     return ['schema', 'format'];
   }
@@ -69,7 +69,7 @@ function isCRNParameter(p) {
   // Check if the schema defines a pattern field that starts with "crn" or "^crn".
   if (
     schema &&
-    checkCompositeSchemaForConstraint(
+    schemaHasConstraint(
       schema,
       s =>
         s.pattern &&

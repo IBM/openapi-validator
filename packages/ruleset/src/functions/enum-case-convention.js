@@ -1,5 +1,5 @@
+const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { casing } = require('@stoplight/spectral-functions');
-const { validateSubschemas } = require('../utils');
 
 let casingConfig;
 

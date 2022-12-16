@@ -2,7 +2,8 @@
   "name": "ibm-openapi-validator",
   "workspaces": [
     "packages/validator",
-    "packages/ruleset"
+    "packages/ruleset",
+    "packages/utilities"
   ],
   "version": "0.0.0",
   "private": true,
@@ -11,6 +12,7 @@
     "clean": "rm -rf node_modules/ && npm run clean --workspaces",
     "test": "npm run test --workspaces",
     "test-ruleset": "npm run test --workspace packages/ruleset",
+    "test-utilities": "npm run test --workspace packages/utilities",
     "test-validator": "npm run test --workspace packages/validator",
     "jest": "jest",
     "test-travis": "npm run test-travis --workspaces",

@@ -1,6 +1,8 @@
+const {
+  schemas
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas2, oas3 } = require('@stoplight/spectral-formats');
 const { propertyCaseConvention } = require('../functions');
-const { schemas } = require('../collections');
 
 module.exports = {
   description: 'Property names must follow a specified case convention',

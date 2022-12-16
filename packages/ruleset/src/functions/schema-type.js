@@ -1,4 +1,5 @@
-const { mergeAllOfSchemaProperties, validateSubschemas } = require('../utils');
+const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { mergeAllOfSchemaProperties } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, schemaType);

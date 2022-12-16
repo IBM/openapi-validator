@@ -1,4 +1,4 @@
-const { validateSubschemas } = require('../utils');
+const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, arrayOfArrays, true, false);

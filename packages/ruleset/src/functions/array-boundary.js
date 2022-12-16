@@ -1,9 +1,9 @@
 const {
-  checkCompositeSchemaForConstraint,
-  validateNestedSchemas
-} = require('../utils');
-const { getSchemaType } = require('../utils');
-const { SchemaType } = require('../utils');
+  getSchemaType,
+  schemaHasConstraint,
+  validateNestedSchemas,
+  SchemaType
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(schema, _opts, { path }) {
   return validateNestedSchemas(schema, path, arrayBoundaryErrors, true, false);
@@ -23,7 +23,7 @@ function arrayBoundaryErrors(schema, path) {
 
   const errors = [];
 
-  const hasMinItems = checkCompositeSchemaForConstraint(
+  const hasMinItems = schemaHasConstraint(
     schema,
     s => s && isDefined(s.minItems) && typeof s.minItems === 'number'
   );
@@ -36,7 +36,7 @@ function arrayBoundaryErrors(schema, path) {
     debug('>>> minItems field missing for: ' + path.join('.'));
   }
 
-  const hasMaxItems = checkCompositeSchemaForConstraint(
+  const hasMaxItems = schemaHasConstraint(
     schema,
     s => s && isDefined(s.maxItems) && typeof s.maxItems === 'number'
   );

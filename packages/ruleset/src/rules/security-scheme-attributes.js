@@ -1,6 +1,8 @@
+const {
+  securitySchemes
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { securitySchemeAttributes } = require('../functions');
-const { securitySchemes } = require('../collections');
 
 module.exports = {
   description:

@@ -1,8 +1,9 @@
 const {
   validateSubschemas,
-  pathMatchesRegexp,
-  checkCompositeSchemaForConstraint
-} = require('../utils');
+  schemaHasConstraint
+} = require('@ibm-cloud/openapi-ruleset-utilities');
+
+const { pathMatchesRegexp } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, schemaDescription);
@@ -43,7 +44,7 @@ function schemaDescription(schema, path) {
 // 3. 'schema' has a oneOf or anyOf list and ALL of the list element schemas
 //    have a non-empty description.
 function schemaHasDescription(schema) {
-  return checkCompositeSchemaForConstraint(
+  return schemaHasConstraint(
     schema,
     s => s && s.description && s.description.toString().trim().length
   );

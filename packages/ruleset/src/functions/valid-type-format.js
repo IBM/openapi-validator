@@ -1,4 +1,4 @@
-const { validateSubschemas } = require('../utils');
+const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 // Valid schema types.
 const validTypes = [

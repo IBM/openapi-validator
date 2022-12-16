@@ -1,11 +1,14 @@
 const {
+  isArraySchema,
+  isPrimitiveSchema,
+  validateSubschemas
+} = require('@ibm-cloud/openapi-ruleset-utilities');
+
+const {
   getCompositeSchemaAttribute,
   isJsonMimeType,
-  isArraySchema,
   isEmptyObjectSchema,
-  isPrimitiveSchema,
-  isRefSiblingSchema,
-  validateSubschemas
+  isRefSiblingSchema
 } = require('../utils');
 
 module.exports = {

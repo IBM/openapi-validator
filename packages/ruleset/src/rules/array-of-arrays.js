@@ -1,6 +1,8 @@
+const {
+  schemas
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { arrayOfArrays } = require('../functions');
-const { schemas } = require('../collections');
 
 module.exports = {
   description: 'Array schema with items of type array should be avoided',

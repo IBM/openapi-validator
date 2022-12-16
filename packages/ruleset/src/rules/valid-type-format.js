@@ -1,6 +1,8 @@
+const {
+  schemas
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { validTypeFormat } = require('../functions');
-const { schemas } = require('../collections');
 
 module.exports = {
   description: 'Schema must use valid combination of type and format',
