@@ -1,6 +1,8 @@
+const {
+  unresolvedRequestBodySchemas
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { inlineRequestSchema } = require('../functions');
-const { unresolvedRequestBodySchemas } = require('../collections');
 
 module.exports = {
   description:

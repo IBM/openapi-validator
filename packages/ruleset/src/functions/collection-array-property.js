@@ -1,8 +1,8 @@
 const {
-  checkCompositeSchemaForConstraint,
+  schemaHasConstraint,
   isArraySchema,
   isObject
-} = require('../utils');
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(schema, _opts, context) {
   return collectionArrayProperty(
@@ -94,7 +94,7 @@ function isListOperation(operation, path, apidef) {
  * @returns boolean true if the array property was found, false otherwise
  */
 function checkCompositeSchemaForArrayProperty(schema, name) {
-  return checkCompositeSchemaForConstraint(
+  return schemaHasConstraint(
     schema,
     s =>
       'properties' in s &&

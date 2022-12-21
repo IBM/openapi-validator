@@ -1,4 +1,4 @@
-const { checkCompositeSchemaForConstraint } = require('../utils');
+const { schemaHasConstraint } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(schema, _opts, { path }) {
   return mergePatchOptionalProperties(schema, path);
@@ -29,12 +29,12 @@ function mergePatchOptionalProperties(schema, path) {
 }
 
 function containsRequiredProperties(schema) {
-  return checkCompositeSchemaForConstraint(
+  return schemaHasConstraint(
     schema,
     s => s && Array.isArray(s.required) && s.required.length > 0
   );
 }
 
 function hasMinProperties(schema) {
-  return checkCompositeSchemaForConstraint(schema, s => s && s.minProperties);
+  return schemaHasConstraint(schema, s => s && s.minProperties);
 }

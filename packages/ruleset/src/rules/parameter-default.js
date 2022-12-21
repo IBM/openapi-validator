@@ -1,6 +1,8 @@
+const {
+  parameters
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas2, oas3 } = require('@stoplight/spectral-formats');
 const { parameterDefault } = require('../functions');
-const { parameters } = require('../collections');
 
 module.exports = {
   description: 'Required parameters should not define a default value',

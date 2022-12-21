@@ -1,4 +1,4 @@
-const { validateSubschemas } = require('../utils');
+const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
 const isPlainObject = require('lodash/isPlainObject');
 
 module.exports = function(schema, _opts, { path }) {

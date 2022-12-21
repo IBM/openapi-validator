@@ -1,0 +1,33 @@
+{
+  "name": "@ibm-cloud/openapi-ruleset-utilities",
+  "description": "Programmatic utility functions for creating Spectral-formatted OpenAPI Rulesets",
+  "version": "0.0.1",
+  "license": "Apache-2.0",
+  "private": false,
+  "main": "./src/index.js",
+  "repository": "https://github.com/IBM/openapi-validator",
+  "scripts": {
+    "clean": "rm -rf node_modules",
+    "test": "jest test",
+    "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test",
+    "lint": "eslint --cache --quiet --ext '.js' src test",
+    "fix": "eslint --fix --ext '.js' src test",
+    "pkg": "echo no executables to build in this package"
+  },
+  "devDependencies": {
+    "@stoplight/spectral-core": "^1.16.0",
+    "jest": "^27.4.5"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "jest": {
+    "collectCoverage": true,
+    "coverageDirectory": "./coverage/",
+    "testEnvironment": "node",
+    "moduleNameMapper": {
+      "nimma/legacy": "<rootDir>/../../node_modules/nimma/dist/legacy/cjs",
+      "nimma/fallbacks": "<rootDir>/../../node_modules/nimma/dist/cjs/fallbacks/"
+    }
+  }
+}

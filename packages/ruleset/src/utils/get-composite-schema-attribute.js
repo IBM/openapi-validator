@@ -1,4 +1,4 @@
-const checkCompositeSchemaForConstraint = require('./check-composite-schema-for-constraint');
+const { schemaHasConstraint } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 /**
  * Retrieves the value of "schema"'s attribute named "attrName" either directly from "schema"
@@ -13,7 +13,7 @@ const checkCompositeSchemaForConstraint = require('./check-composite-schema-for-
  */
 function getCompositeSchemaAttribute(schema, attrName) {
   let value = undefined;
-  const foundConstraint = checkCompositeSchemaForConstraint(schema, s => {
+  const foundConstraint = schemaHasConstraint(schema, s => {
     if (attrName in s && s[attrName] !== undefined && s[attrName] !== null) {
       value = s[attrName];
       return true;

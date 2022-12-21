@@ -1,6 +1,8 @@
+const {
+  operations
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { responseStatusCodes } = require('../functions');
-const { operations } = require('../collections');
 
 module.exports = {
   description:

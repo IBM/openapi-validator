@@ -6,7 +6,7 @@ const {
   isDoubleSchema,
   isArraySchema,
   isObjectSchema
-} = require('../utils');
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, checkPropertyAttributes);

@@ -1,4 +1,4 @@
-const isObject = require('./is-object');
+const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 /**
  * Returns `true` if the input is an object with deprecated=true.

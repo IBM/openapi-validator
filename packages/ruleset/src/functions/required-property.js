@@ -1,7 +1,7 @@
 const {
-  checkCompositeSchemaForProperty,
+  schemaHasProperty,
   validateSubschemas
-} = require('../utils');
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, checkRequiredProperties, true, false);
@@ -11,7 +11,7 @@ function checkRequiredProperties(schema, path) {
   const errors = [];
   if (Array.isArray(schema.required)) {
     schema.required.forEach(function(requiredPropName) {
-      if (!checkCompositeSchemaForProperty(schema, requiredPropName)) {
+      if (!schemaHasProperty(schema, requiredPropName)) {
         let message;
         if (schema.allOf) {
           message = `Required property, ${requiredPropName}, must be defined in at least one of the allOf schemas`;

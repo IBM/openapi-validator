@@ -15,9 +15,9 @@
 // must be defined in the schema.
 
 const {
-  checkCompositeSchemaForProperty,
+  schemaHasProperty,
   validateSubschemas
-} = require('../utils');
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 module.exports = function(schema, _opts, { path }) {
   return validateSubschemas(schema, path, validateDiscriminators);
@@ -32,7 +32,7 @@ function validateDiscriminators(schema, path) {
   }
 
   const { propertyName } = discriminator;
-  if (!checkCompositeSchemaForProperty(schema, propertyName)) {
+  if (!schemaHasProperty(schema, propertyName)) {
     errors.push({
       message:
         'The discriminator property name used must be defined in this schema',

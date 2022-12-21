@@ -1,7 +1,7 @@
+const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
 const {
   isJsonMimeType,
   isFormMimeType,
-  isArraySchema,
   isJsonPatchMimeType,
   isMergePatchMimeType
 } = require('../utils');

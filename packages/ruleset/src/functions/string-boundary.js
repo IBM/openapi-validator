@@ -1,9 +1,10 @@
 const {
-  checkCompositeSchemaForConstraint,
-  getCompositeSchemaAttribute,
+  schemaHasConstraint,
   isStringSchema,
   validateNestedSchemas
-} = require('../utils');
+} = require('@ibm-cloud/openapi-ruleset-utilities');
+
+const { getCompositeSchemaAttribute } = require('../utils');
 
 module.exports = function(schema, _opts, { path }) {
   return validateNestedSchemas(schema, path, stringBoundaryErrors, true, false);
@@ -108,7 +109,7 @@ function isDefined(x) {
 // Returns true iff 'schema' contains the specified attribute either
 // directly or within one of its composition "children".
 function schemaContainsAttribute(schema, attrName) {
-  return checkCompositeSchemaForConstraint(
+  return schemaHasConstraint(
     schema,
     s => attrName in s && isDefined(s[attrName])
   );
