@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.45.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.45.2...@ibm-cloud/openapi-ruleset@0.45.3) (2023-01-09)
+
+
+### Bug Fixes
+
+* **ref-pattern:** better regex matching if path contains OpenAPI field name ([#533](https://github.com/IBM/openapi-validator/issues/533)) ([84b31d9](https://github.com/IBM/openapi-validator/commit/84b31d9ae615e6fd9f2bbbfe02f8be5e342ae6cb))
+
 ## @ibm-cloud/openapi-ruleset [0.45.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.45.1...@ibm-cloud/openapi-ruleset@0.45.2) (2022-12-14)
 
 
