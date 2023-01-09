@@ -10,7 +10,7 @@ module.exports = function($ref, _opts, { path }) {
 // The entries of this object are ordered in descending order of presumed prevalence.
 const validRefPrefixes = {
   schemas: {
-    refPathRegex: /,(schema)|(properties,[^,]+)|(items)|(additionalProperties)|((allOf|anyOf|oneOf),\d+)$/,
+    refPathRegex: /,((schema)|(properties,[^,]+)|(items)|(additionalProperties)|((allOf|anyOf|oneOf),\d+))$/,
     prefix: '#/components/schemas/'
   },
   parameters: {
