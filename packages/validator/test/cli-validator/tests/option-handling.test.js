@@ -11,13 +11,22 @@ const {
 
 describe('cli tool - test option handling', function() {
   let consoleSpy;
+  const originalWarn = console.warn;
+  const originalError = console.error;
+  const originalInfo = console.info;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    console.warn = console.log;
+    console.error = console.log;
+    console.info = console.log;
   });
 
   afterEach(() => {
     consoleSpy.mockRestore();
+    console.warn = originalWarn;
+    console.error = originalError;
+    console.info = originalInfo;
   });
 
   it('should color output by default @skip-ci', async function() {
@@ -27,9 +36,10 @@ describe('cli tool - test option handling', function() {
 
     await commandLineValidator(program);
     const capturedText = getCapturedTextWithColor(consoleSpy.mock.calls);
+    // originalError('Captured text:\n', capturedText);
 
     capturedText.forEach(function(line) {
-      if (line !== '\n') {
+      if (line) {
         expect(line).not.toEqual(stripAnsiFrom(line));
       }
     });
@@ -101,6 +111,7 @@ describe('cli tool - test option handling', function() {
     program.args = ['./test/cli-validator/mock-files/err-and-warn.yaml'];
     program.report_statistics = true;
     program.default_mode = true;
+    program.loglevel = ['root=info'];
 
     await commandLineValidator(program);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
@@ -258,5 +269,26 @@ describe('cli tool - test option handling', function() {
     expect(helpStub).toHaveBeenCalled();
     expect(exitStub).toHaveBeenCalled();
     expect(exitStub.mock.calls[0][0]).toBe(1);
+  });
+
+  it('should not print anything when loglevel is error', async function() {
+    const program = {};
+    program.args = ['./test/cli-validator/mock-files/err-and-warn.yaml'];
+    program.report_statistics = true;
+    program.default_mode = true;
+    program.loglevel = ['root=error'];
+
+    await commandLineValidator(program);
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+
+    // This can be uncommented to display the output when adjustments to
+    // the expect statements below are needed.
+    // let textOutput = '';
+    // capturedText.forEach((elem, index) => {
+    //   textOutput += `[${index}]: ${elem}\n`;
+    // });
+    // originalWarn(textOutput);
+
+    expect(capturedText).toHaveLength(0);
   });
 });

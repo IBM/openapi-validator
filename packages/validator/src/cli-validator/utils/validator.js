@@ -30,6 +30,7 @@ const validators = {
 
 // this function runs the validators on the swagger object
 module.exports = function validateSwagger(
+  logger,
   allSpecs,
   config,
   spectralResults,
@@ -56,6 +57,7 @@ module.exports = function validateSwagger(
 
   // merge the spectral results
   const parsedSpectralResults = spectralValidator.parseResults(
+    logger,
     spectralResults,
     debug
   );

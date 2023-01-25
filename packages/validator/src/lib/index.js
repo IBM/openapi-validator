@@ -7,6 +7,7 @@ const {
 } = require('../cli-validator/utils/json-results');
 const spectralValidator = require('../spectral/spectral-validator');
 const validator = require('../cli-validator/utils/validator');
+const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
 
 module.exports = async function(
   input,
@@ -14,6 +15,11 @@ module.exports = async function(
   configFileOverride = null,
   debug = false
 ) {
+  // Use a root logger with loglevel "info".
+  const loggerFactory = LoggerFactory.newInstance();
+  loggerFactory.addLoggerSetting('root', 'info');
+  const logger = loggerFactory.getLogger(null);
+
   // process the config file for the validations &
   // create an instance of spectral & load the spectral ruleset, either a user's
   // or the default ruleset
@@ -29,12 +35,12 @@ module.exports = async function(
   const swagger = await buildSwaggerObject(input);
 
   try {
-    const spectral = await spectralValidator.setup(null, debug, chalk);
+    const spectral = await spectralValidator.setup(logger, null, debug, chalk);
     spectralResults = await spectral.run(input);
   } catch (err) {
     return Promise.reject(err);
   }
-  const results = validator(swagger, configObject, spectralResults);
+  const results = validator(logger, swagger, configObject, spectralResults);
 
   // return a json object containing the errors/warnings
   return formatResultsAsObject(results);

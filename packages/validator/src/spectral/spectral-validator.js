@@ -6,7 +6,16 @@ const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const MessageCarrier = require('../plugins/utils/message-carrier');
 const config = require('../cli-validator/utils/process-configuration');
 
-const parseResults = function(results, debug) {
+/**
+ * Parses the results received from the spectral validator and returns
+ * a MessageCarrier instance containing the parsed results.
+ *
+ * @param {*} logger the logger object used to log messages
+ * @param {*} results the results from a spectral run that are to be parsed
+ * @param {boolean} debug a flag that indicates that debug information should be printed
+ * @returns a MessageCarrier instance that holds the parsed results
+ */
+const parseResults = function(logger, results, debug) {
   const messages = new MessageCarrier();
 
   if (results) {
@@ -39,9 +48,10 @@ const parseResults = function(results, debug) {
           }
         } else {
           if (debug) {
-            console.log(
-              'There was an error while parsing the spectral results: ',
-              JSON.stringify(validationResult)
+            logger.error(
+              `There was an error while parsing the spectral results: ${JSON.stringify(
+                validationResult
+              )}`
             );
           }
         }
@@ -51,10 +61,16 @@ const parseResults = function(results, debug) {
   return messages;
 };
 
-// setup: creates a new spectral instance, sets up the ruleset, then returns the instance
-// `rulesetFileOverride` is a string - the path to a ruleset as given by an argument
-// `debug` is a boolean - it indicates that debug information should be printed
-const setup = async function(rulesetFileOverride, debug, chalk) {
+/**
+ * Creates a new spectral instance, sets up the ruleset, then returns the spectral instance.
+ *
+ * @param {*} logger the logger object used to log messages
+ * @param {string} rulesetFileOverride the path to a ruleset as given by an argument
+ * @param {boolean} debug a flag that indicates that debug information should be printed
+ * @param {*} chalk an object used to colorize messages
+ * @returns the spectral instance
+ */
+const setup = async function(logger, rulesetFileOverride, debug, chalk) {
   const spectral = new Spectral();
 
   // spectral only supports reading a config file in the working directory
@@ -72,7 +88,7 @@ const setup = async function(rulesetFileOverride, debug, chalk) {
     // which is fine. we just use our default in that case.
     // in certain cases, we help the user understand what is happening by
     // logging informative messages
-    checkGetRulesetError(e, debug, chalk);
+    checkGetRulesetError(logger, e, debug, chalk);
   }
 
   spectral.setRuleset(ruleset);
@@ -85,7 +101,7 @@ module.exports = {
   setup
 };
 
-function checkGetRulesetError(error, debug, chalk) {
+function checkGetRulesetError(logger, error, debug, chalk) {
   // this first check is to help users migrate to the new version of spectral. if they
   // try to extend our old ruleset name, spectral will reject the ruleset. we should let
   // the user know what they need to change
@@ -93,7 +109,7 @@ function checkGetRulesetError(error, debug, chalk) {
     error.message.startsWith('ENOENT: no such file or directory') &&
     error.message.includes('ibm:oas')
   ) {
-    console.log(
+    logger.warn(
       chalk.yellow('\n[Warning]') +
         ' The IBM ruleset name has changed and the old one is invalid.\n' +
         'Change your ruleset to extend `@ibm-cloud/openapi-ruleset` instead of `ibm:oas`\n' +
@@ -103,18 +119,20 @@ function checkGetRulesetError(error, debug, chalk) {
     error.message.endsWith('Cannot parse null because it is not a string')
   ) {
     if (debug) {
-      console.log(
-        chalk.magenta('\n[Info]') +
-          ' No Spectral config file found, using default IBM Spectral ruleset.'
+      logger.info(
+        `${chalk.magenta(
+          '[Info]'
+        )} No Spectral config file found, using default IBM Spectral ruleset.`
       );
     }
   } else {
     if (debug) {
-      console.log(
-        chalk.magenta('\n[Info]') +
-          ' Problem reading Spectral config file, using default IBM Spectral ruleset. Cause for error:'
+      logger.info(
+        `${chalk.magenta(
+          '[Info]'
+        )} Problem reading Spectral config file, using default IBM Spectral ruleset. Cause for error:`
       );
-      console.log(error.message);
+      logger.info(error.message);
     }
   }
 }

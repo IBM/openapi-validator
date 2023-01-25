@@ -4,7 +4,6 @@ const fs = require('fs');
 const globby = require('globby');
 const isPlainObject = require('lodash/isPlainObject');
 const jsonValidator = require('json-dup-key-validator');
-const last = require('lodash/last');
 const path = require('path');
 const readYaml = require('js-yaml');
 const util = require('util');
@@ -18,10 +17,13 @@ const config = require('./utils/process-configuration');
 const ext = require('./utils/file-extension-validator');
 const preprocessFile = require('./utils/preprocess-file');
 const print = require('./utils/print-results');
-const printError = require('./utils/print-error');
 const { printJson } = require('./utils/json-results');
 const spectralValidator = require('../spectral/spectral-validator');
 const validator = require('./utils/validator');
+const getVersionString = require('./utils/get-version-string');
+const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
+
+let logger;
 
 // this function processes the input, does the error handling,
 //  and acts as the main function for the program
@@ -34,26 +36,76 @@ const processInput = async function(program) {
     return Promise.reject(2);
   }
 
+  // Set default loglevel of the root logger to be 'info'.
+  // The user can change this via the command line.
+  const loggerFactory = LoggerFactory.newInstance();
+  loggerFactory.addLoggerSetting('root', 'info');
+  logger = loggerFactory.getLogger(null);
+
+  let opts = program;
+  if (typeof program.opts === 'function') {
+    opts = program.opts();
+  }
+
+  // console.log(`Program opts:\n`, opts);
+
   // interpret the options
-  const printValidators = !!program.print_validator_modules;
-  const reportingStats = !!program.report_statistics;
+  const printValidators = !!opts.print_validator_modules;
+  const reportingStats = !!opts.report_statistics;
 
-  const turnOffColoring = !!program.no_colors;
-  const defaultMode = !!program.default_mode;
-  const jsonOutput = !!program.json;
-  const errorsOnly = !!program.errors_only;
-  const debug = !!program.debug;
+  const turnOffColoring = !!opts.no_colors;
+  const defaultMode = !!opts.default_mode;
+  const jsonOutput = !!opts.json;
+  const errorsOnly = !!opts.errors_only;
+  const debug = !!opts.debug;
 
-  const configFileOverride = program.config;
-  const rulesetFileOverride = program.ruleset;
+  const configFileOverride = opts.config;
+  const rulesetFileOverride = opts.ruleset;
 
-  const limitsFileOverride = program.limits;
+  const limitsFileOverride = opts.limits;
 
-  const verbose = program.verbose > 0;
+  const verbose = opts.verbose > 0;
+
+  // Process each loglevel entry supplied on the command line.
+  // Add each option to our LoggerFactory so they can be used to affect the
+  // log level of both existing loggers and loggers created later by individual rules.
+  // Examples:
+  //   -l info  (equivalent to -l root=info)
+  //   --loglevel schema-*=debug (enable debug for all rules like "schema-*")
+  //   -l property-description=debug (enable debug for the "property-description" rule)
+  let logLevels = opts.loglevel;
+  if (!logLevels) {
+    logLevels = [];
+  }
+
+  for (const entry of logLevels) {
+    let [loggerName, logLevel] = entry.split('=');
+
+    // No logLevel was parsed (e.g. -l info); assume root logger.
+    if (!logLevel) {
+      logLevel = loggerName;
+      loggerName = 'root';
+    }
+
+    loggerFactory.addLoggerSetting(loggerName, logLevel);
+  }
+
+  // After setting all the logger-related options on the LoggerFactory,
+  // we need to make sure they are applied to any loggers that already exist.
+  // It is very unlikely that any loggers exist yet, but just in case... :)
+  loggerFactory.applySettingsToAllLoggers();
 
   // turn off coloring if explicitly requested
   if (turnOffColoring) {
     chalk.level = 0;
+  }
+
+  if (verbose && !jsonOutput) {
+    logger.info(
+      chalk.green(
+        `IBM OpenAPI Validator (${getVersionString()}), @Copyright IBM Corporation 2017, 2023.\n`
+      )
+    );
   }
 
   // run the validator on the passed in files
@@ -69,9 +121,8 @@ const processInput = async function(program) {
   // then, print these for the user. this way, the user is alerted to why files
   // aren't validated
   const filteredFiles = args.filter(file => !filteredArgs.includes(file));
-  if (filteredFiles.length) console.log();
   filteredFiles.forEach(filename => {
-    console.log(
+    logger.warn(
       chalk.magenta('[Ignored] ') + path.relative(process.cwd(), filename)
     );
   });
@@ -88,9 +139,8 @@ const processInput = async function(program) {
     if (ext.supportedFileExtension(arg, supportedFileTypes)) {
       filesWithValidExtensions.push(arg);
     } else {
-      if (!unsupportedExtensionsFound) console.log();
       unsupportedExtensionsFound = true;
-      console.log(
+      logger.warn(
         chalk.yellow('[Warning]') +
           ` Skipping file with unsupported file type: ${arg}`
       );
@@ -98,7 +148,7 @@ const processInput = async function(program) {
   });
 
   if (unsupportedExtensionsFound) {
-    console.log(
+    logger.warn(
       chalk.magenta(
         'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
       )
@@ -117,16 +167,15 @@ const processInput = async function(program) {
   const nonExistentFiles = filesWithValidExtensions.filter(
     file => !filesToValidate.includes(file)
   );
-  if (nonExistentFiles.length) console.log();
   nonExistentFiles.forEach(file => {
-    console.log(
+    logger.warn(
       chalk.yellow('[Warning]') + ` Skipping non-existent file: ${file}`
     );
   });
 
   // if no passed in files are valid, exit the program
-  if (filesToValidate.length === 0) {
-    printError(chalk, 'None of the given arguments are valid files.');
+  if (!filesToValidate.length) {
+    logError(chalk, 'None of the given arguments are valid files.');
     return Promise.reject(2);
   }
 
@@ -158,7 +207,7 @@ const processInput = async function(program) {
 
   for (const validFile of filesToValidate) {
     if (filesToValidate.length > 1) {
-      console.log(
+      logger.info(
         '\n    ' + chalk.underline(`Validation Results for ${validFile}:`)
       );
     }
@@ -184,12 +233,11 @@ const processInput = async function(program) {
         throw duplicateKeysError;
       }
     } catch (err) {
-      const description =
-        'Invalid input file: ' +
-        chalk.red(validFile) +
-        '. See below for details.';
-
-      printError(chalk, description, err);
+      logError(
+        chalk,
+        `Invalid input file: ${chalk.red(validFile)}. See below for details.`,
+        err
+      );
       exitCode = 1;
       continue;
     }
@@ -204,9 +252,13 @@ const processInput = async function(program) {
     try {
       swagger = await buildSwaggerObject(input);
     } catch (err) {
-      printError(chalk, 'There is a problem with the Swagger.', getError(err));
+      logError(
+        chalk,
+        'There is a problem with the API definition.',
+        getError(err)
+      );
       if (debug) {
-        console.log(err.stack);
+        logger.error(err.stack);
       }
       exitCode = 1;
       continue;
@@ -221,6 +273,7 @@ const processInput = async function(program) {
     let spectralResults;
     try {
       const spectral = await spectralValidator.setup(
+        logger,
         rulesetFileOverride,
         debug,
         chalk
@@ -235,22 +288,16 @@ const processInput = async function(program) {
       const doc = new Document(originalFile, parser, validFile);
       spectralResults = await spectral.run(doc);
     } catch (err) {
-      printError(chalk, 'There was a problem with spectral.', getError(err));
+      logError(chalk, 'There was a problem with spectral.', getError(err));
       if (debug || err.message === 'Error running Nimma') {
-        printError(chalk, 'Additional error details:');
-        console.log(err);
+        logError(chalk, 'Additional error details:', err);
       }
-      // this check can be removed once we support spectral overrides
-      if (err.message.startsWith('Document must have some source assigned.')) {
-        console.log(
-          'This error likely occurred because Spectral `exceptions` are deprecated and `overrides` are not yet supported.\n' +
-            'Remove these fields from your Spectral config file to proceed.'
-        );
-      } else if (
+
+      if (
         err.message ==
         "Cannot use 'in' operator to search for '**' in undefined"
       ) {
-        console.log(
+        logger.error(
           'This error likely means the API Definition is missing a `servers` field.\n' +
             'Spectral currently has a bug that prevents it from processing a definition without a `servers` field.'
         );
@@ -262,11 +309,17 @@ const processInput = async function(program) {
     // run validator, print the results, and determine if validator passed
     let results;
     try {
-      results = validator(swagger, configObject, spectralResults, debug);
+      results = validator(
+        logger,
+        swagger,
+        configObject,
+        spectralResults,
+        debug
+      );
     } catch (err) {
-      printError(chalk, 'There was a problem with a validator.', getError(err));
+      logError(chalk, 'There was a problem with a validator.', getError(err));
       if (debug) {
-        console.log(err.stack);
+        logger.error(err.stack);
       }
       exitCode = 1;
       continue;
@@ -309,10 +362,11 @@ const processInput = async function(program) {
     }
 
     if (jsonOutput) {
-      printJson(results, originalFile, verbose, errorsOnly);
+      printJson(logger, results, originalFile, verbose, errorsOnly);
     } else {
       if (results.error || results.warning || results.info || results.hint) {
         print(
+          logger,
           results,
           chalk,
           printValidators,
@@ -322,8 +376,7 @@ const processInput = async function(program) {
           errorsOnly
         );
       } else {
-        console.log(chalk.green(`\n${validFile} passed the validator`));
-        if (validFile === last(filesToValidate)) console.log();
+        logger.info(chalk.green(`${validFile} passed the validator`));
       }
     }
   }
@@ -336,6 +389,13 @@ const processInput = async function(program) {
 // print the whole error
 function getError(err) {
   return err.message || err;
+}
+
+function logError(chalk, description, message = '') {
+  logger.error(`${chalk.red('[Error]')} ${description}`);
+  if (message) {
+    logger.error(chalk.magenta(message));
+  }
 }
 
 // this exports the entire program so it can be used or tested
