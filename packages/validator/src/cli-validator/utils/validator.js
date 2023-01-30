@@ -33,8 +33,7 @@ module.exports = function validateSwagger(
   logger,
   allSpecs,
   config,
-  spectralResults,
-  debug
+  spectralResults
 ) {
   const version = getVersion(allSpecs.jsSpec);
   allSpecs.isOAS3 = version === '3';
@@ -58,8 +57,7 @@ module.exports = function validateSwagger(
   // merge the spectral results
   const parsedSpectralResults = spectralValidator.parseResults(
     logger,
-    spectralResults,
-    debug
+    spectralResults
   );
   const key = 'spectral';
   if (parsedSpectralResults.errors.length) {
