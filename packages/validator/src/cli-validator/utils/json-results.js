@@ -12,10 +12,17 @@ function printJson(
   results,
   originalFile = null,
   verbose = false,
-  errorsOnly = false
+  errorsOnly = false,
+  summaryOnly = false
 ) {
   // render the results to json in the console with 2 char spacing
-  results = formatResultsAsObject(results, originalFile, verbose, errorsOnly);
+  results = formatResultsAsObject(
+    results,
+    originalFile,
+    verbose,
+    errorsOnly,
+    summaryOnly
+  );
   logger.info(JSON.stringify(results, null, 2));
 }
 
@@ -23,10 +30,19 @@ function formatResultsAsObject(
   results,
   originalFile = null,
   verbose = false,
-  errorsOnly = false
+  errorsOnly = false,
+  summaryOnly = false
 ) {
-  // initialize the results with the validator version
-  const formattedResults = { version: validatorVersion };
+  // initialize the results with the validator version and the initial summary section
+  const formattedResults = {
+    version: validatorVersion,
+    summary: {
+      errors: 0,
+      warnings: 0,
+      infos: 0,
+      hints: 0
+    }
+  };
 
   const allErrorCategories = ['errors', 'warnings', 'infos', 'hints'];
   const types = errorsOnly ? ['errors'] : allErrorCategories;
@@ -57,10 +73,13 @@ function formatResultsAsObject(
           }
         }
         // initialize object for this type of error (e.g. error, warning, info, hint)
-        if (!formattedResults[type]) {
-          formattedResults[type] = [];
+        if (!summaryOnly) {
+          if (!formattedResults[type]) {
+            formattedResults[type] = [];
+          }
+          formattedResults[type].push(problem);
         }
-        formattedResults[type].push(problem);
+        formattedResults.summary[type]++;
       });
     });
   });

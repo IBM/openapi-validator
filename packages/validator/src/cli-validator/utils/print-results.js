@@ -11,9 +11,8 @@ module.exports = function print(
   logger,
   results,
   chalk,
-  printValidators,
   verbose,
-  reportingStats,
+  summaryOnly,
   originalFile,
   errorsOnly
 ) {
@@ -27,7 +26,7 @@ module.exports = function print(
     hints: 'bgGreen'
   };
 
-  // define an object template in the case that statistics reporting is turned on
+  // define an object template to use for the summary
   const stats = {
     errors: {
       total: 0
@@ -43,24 +42,18 @@ module.exports = function print(
     }
   };
 
-  logger.info('');
-
   types.forEach(type => {
     let color = colors[type];
-    if (Object.keys(results[type]).length) {
+    if (Object.keys(results[type]).length && !summaryOnly) {
       logger.info(chalk[color].bold(`${type}\n`));
     }
 
     // convert 'color' from a background color to foreground color
     color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
 
-    each(results[type], (problems, validator) => {
-      if (printValidators) {
-        logger.info(`Validator: ${validator}`);
-      }
-
+    each(results[type], problems => {
       problems.forEach(problem => {
-        // To allow messages with fillins to be grouped properly in the statistics,
+        // To allow messages with fillins to be grouped properly in the summary,
         // truncate the message at the first ':'
         const message = problem.message.split(':')[0];
         let path = problem.path;
@@ -88,38 +81,40 @@ module.exports = function print(
         const lineNumber = getLineNumberForPath(originalFile, path);
 
         // print the path array as a dot-separated string
-
-        logger.info(chalk[color](`  Message :   ${problem.message}`));
-        if (verbose && problem.rule) {
-          logger.info(chalk[color](`  Rule    :   ${problem.rule}`));
+        if (!summaryOnly) {
+          logger.info(chalk[color](`  Message :   ${problem.message}`));
+          if (problem.rule) {
+            logger.info(chalk[color](`  Rule    :   ${problem.rule}`));
+          }
+          logger.info(chalk[color](`  Path    :   ${path.join('.')}`));
+          logger.info(chalk[color](`  Line    :   ${lineNumber}`));
+          if (verbose && problem.componentPath) {
+            const componentPath = getPathAsArray(problem.componentPath);
+            const componentLine = getLineNumberForPath(
+              originalFile,
+              componentPath
+            );
+            logger.info(
+              chalk[color](`  Component Path    :   ${componentPath.join('.')}`)
+            );
+            logger.info(
+              chalk[color](`  Component Line    :   ${componentLine}`)
+            );
+          }
+          logger.info('');
         }
-        logger.info(chalk[color](`  Path    :   ${path.join('.')}`));
-        logger.info(chalk[color](`  Line    :   ${lineNumber}`));
-        if (verbose && problem.componentPath) {
-          const componentPath = getPathAsArray(problem.componentPath);
-          const componentLine = getLineNumberForPath(
-            originalFile,
-            componentPath
-          );
-          logger.info(
-            chalk[color](`  Component Path    :   ${componentPath.join('.')}`)
-          );
-          logger.info(chalk[color](`  Component Line    :   ${componentLine}`));
-        }
-        logger.info('');
       });
     });
   });
 
-  // print the stats here, if applicable
+  // Print the summary here if we had any messages.
   if (
-    reportingStats &&
-    (stats.errors.total ||
-      stats.warnings.total ||
-      stats.infos.total ||
-      stats.hints.total)
+    stats.errors.total ||
+    stats.warnings.total ||
+    stats.infos.total ||
+    stats.hints.total
   ) {
-    logger.info(chalk.bgCyan('statistics\n'));
+    logger.info(chalk.bgCyan('summary\n'));
 
     logger.info(
       chalk.cyan(`  Total number of errors   : ${stats.errors.total}`)

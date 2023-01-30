@@ -96,16 +96,13 @@ Once pulled, the container can be run directly, but mount a volume containing th
 `lint-openapi [options] [<files>]`
 
 ##### [options]
--  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
--  -e (--errors_only) : Only print the errors, ignore the warnings.
--  -j (--json) : Output results as a JSON object
--  -l (--loglevel) `<loggername>=<loglevel> ...` : Set loglevel of logger named `<loggername>` to `<loglevel>` (e.g. `-l root=info -l ibm-schema-description=debug`)
--  -n (--no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
--  -p (--print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This can be helpful for developing validations.
--  -v (--verbose) : Increase verbosity of reported results.  Use this option to display the rule for each reported result.
+-  -e (--errors-only) : Only print the errors, ignore the warnings.
+-  -j (--json) : Output results as a JSON object.
+-  -l (--log-level) `<loggername>=<loglevel> ...` : Set log level of logger named `<loggername>` to `<loglevel>` (e.g. `-l root=info -l ibm-schema-description=debug`). If you omit the logger name, then `root` is assumed (e.g. `-l info`).
+-  -n (--no-colors) : Disables colorization of the output messages, which is enabled by default.
+-  -v (--verbose) : Display verbose output.
 -  -r (--ruleset) `<path/to/your/ruleset>` : Path to Spectral ruleset file, used instead of .spectral.yaml if provided.
--  -s (--report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
--  --debug : Enable debugging output.
+-  -s (--summary-only) : Display only the summary section, and avoid displaying individual errors and warnings. This applies to both JSON and non-JSON output.
 -  --version : Print the current semantic version of the validator
 -  -h (--help) : This option prints the usage menu.
 

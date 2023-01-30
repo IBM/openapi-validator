@@ -1,8 +1,4 @@
-const commandLineValidator = require('../../../src/cli-validator/run-validator');
-const { getCapturedText } = require('../../test-utils');
-
-// for an explanation of the text interceptor, see the comments for the
-// first test in expectedOutput.js
+const { getCapturedText, testValidator } = require('../../test-utils');
 
 describe('cli tool - test error handling', function() {
   let consoleSpy;
@@ -24,56 +20,30 @@ describe('cli tool - test error handling', function() {
     console.info = originalInfo;
   });
 
-  const helpMessage = function() {
-    console.log('\n  Usage: validate-swagger [options] <file>\n\n');
-    console.log('  Options:\n');
-    console.log(
-      '    -v, --print_validator_modules  print the validators that catch each error/warning'
-    );
-    console.log('    -n, --no_colors                turn off output coloring');
-    console.log('    -h, --help                     output usage information');
-  };
-
-  it('should return an error when there is no filename given', async function() {
-    const program = {};
-    program.args = [];
-    program.default_mode = true;
-    program.help = helpMessage;
-
+  it('should display helpt text and return an error when no filename is given', async function() {
     let exitCode;
     try {
-      exitCode = await commandLineValidator(program);
+      exitCode = await testValidator([]);
     } catch (err) {
       exitCode = err;
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // originalError(`Captured text: ${capturedText}`);
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(5);
-    expect(capturedText[0].trim()).toEqual(
-      'Usage: validate-swagger [options] <file>'
+    expect(capturedText).toHaveLength(1);
+    expect(capturedText[0]).toMatch(/^IBM OpenAPI Validator/);
+    expect(capturedText[0]).toMatch(
+      /Usage: lint-openapi \[options\] \[<file>\]/
     );
-    expect(capturedText[1].trim()).toEqual('Options:');
-    expect(capturedText[2].trim()).toEqual(
-      '-v, --print_validator_modules  print the validators that catch each error/warning'
-    );
-    expect(capturedText[3].trim()).toEqual(
-      '-n, --no_colors                turn off output coloring'
-    );
-    expect(capturedText[4].trim()).toEqual(
-      '-h, --help                     output usage information'
-    );
+    expect(capturedText[0]).toMatch(/-h, --help +display help for command/);
   });
 
   it('should return an error when there is no file extension', async function() {
-    const program = {};
-    program.args = ['json'];
-    program.default_mode = true;
-
     let exitCode;
     try {
-      exitCode = await commandLineValidator(program);
+      exitCode = await testValidator(['json']);
     } catch (err) {
       exitCode = err;
     }
@@ -95,13 +65,9 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when there is an invalid file extension', async function() {
-    const program = {};
-    program.args = ['badExtension.jsob'];
-    program.default_mode = true;
-
     let exitCode;
     try {
-      exitCode = await commandLineValidator(program);
+      exitCode = await testValidator(['badExtension.jsob']);
     } catch (err) {
       exitCode = err;
     }
@@ -123,13 +89,11 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when a file contains an invalid object', async function() {
-    const program = {};
-    program.args = ['./test/cli-validator/mock-files/bad-json.json'];
-    program.default_mode = true;
-
     let exitCode;
     try {
-      exitCode = await commandLineValidator(program);
+      exitCode = await testValidator([
+        './test/cli-validator/mock-files/bad-json.json'
+      ]);
     } catch (err) {
       exitCode = err;
     }
@@ -148,13 +112,11 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when a json file has duplicated key mappings', async function() {
-    const program = {};
-    program.args = ['./test/cli-validator/mock-files/duplicate-keys.json'];
-    program.default_mode = true;
-
     let exitCode;
     try {
-      exitCode = await commandLineValidator(program);
+      exitCode = await testValidator([
+        './test/cli-validator/mock-files/duplicate-keys.json'
+      ]);
     } catch (err) {
       exitCode = err;
     }
@@ -173,13 +135,11 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when the swagger contains a reference to a missing object', async function() {
-    const program = {};
-    program.args = ['./test/cli-validator/mock-files/missing-object.yml'];
-    program.default_mode = true;
-
     let exitCode;
     try {
-      exitCode = await commandLineValidator(program);
+      exitCode = await testValidator([
+        './test/cli-validator/mock-files/missing-object.yml'
+      ]);
     } catch (err) {
       exitCode = err;
     }
@@ -198,13 +158,11 @@ describe('cli tool - test error handling', function() {
   });
 
   it('should return an error when a JSON document contains a trailing comma', async function() {
-    const program = {};
-    program.args = ['./test/cli-validator/mock-files/trailing-comma.json'];
-    program.default_mode = true;
-
     let exitCode;
     try {
-      exitCode = await commandLineValidator(program);
+      exitCode = await testValidator([
+        './test/cli-validator/mock-files/trailing-comma.json'
+      ]);
     } catch (err) {
       exitCode = err;
     }
