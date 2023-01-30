@@ -8,6 +8,7 @@ const validatorVersion = require('../../../package.json').version;
 
 // function to print the results as json to the console.
 function printJson(
+  logger,
   results,
   originalFile = null,
   verbose = false,
@@ -15,7 +16,7 @@ function printJson(
 ) {
   // render the results to json in the console with 2 char spacing
   results = formatResultsAsObject(results, originalFile, verbose, errorsOnly);
-  console.log(JSON.stringify(results, null, 2));
+  logger.info(JSON.stringify(results, null, 2));
 }
 
 function formatResultsAsObject(
