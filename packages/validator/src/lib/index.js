@@ -18,7 +18,10 @@ module.exports = async function(
   // Use a root logger with loglevel "info".
   const loggerFactory = LoggerFactory.newInstance();
   loggerFactory.addLoggerSetting('root', 'info');
-  const logger = loggerFactory.getLogger(null);
+  const logger = loggerFactory.getLogger('root');
+  if (debug) {
+    logger.setLevel('debug');
+  }
 
   // process the config file for the validations &
   // create an instance of spectral & load the spectral ruleset, either a user's
@@ -35,7 +38,7 @@ module.exports = async function(
   const swagger = await buildSwaggerObject(input);
 
   try {
-    const spectral = await spectralValidator.setup(logger, null, debug, chalk);
+    const spectral = await spectralValidator.setup(logger, null, chalk);
     spectralResults = await spectral.run(input);
   } catch (err) {
     return Promise.reject(err);

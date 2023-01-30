@@ -20,19 +20,29 @@ const print = require('./utils/print-results');
 const { printJson } = require('./utils/json-results');
 const spectralValidator = require('../spectral/spectral-validator');
 const validator = require('./utils/validator');
-const getVersionString = require('./utils/get-version-string');
+const getCopyrightString = require('./utils/get-copyright-string');
 const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
+const createCLIOptions = require('./utils/cli-options');
 
 let logger;
 
-// this function processes the input, does the error handling,
+// this function processes the command-line arguments, does the error handling,
 //  and acts as the main function for the program
-const processInput = async function(program) {
+/**
+ * This function is the main entry point to the validator.
+ * It processes the passed-in cli arguments and performs error handling as needed.
+ * @param {*} cliArgs the array of command-line arguments (normally this should be process.argv)
+ * @param {*} parseOptions an optional object containing parse options
+ */
+async function cliValidator(cliArgs, parseOptions = {}) {
+  const program = createCLIOptions();
+  program.parse(cliArgs, parseOptions);
+
   let args = program.args;
 
-  // require that arguments are passed in
+  // If no arguments are passed in, then display help text and exit.
   if (args.length === 0) {
-    program.help();
+    console.log(`${getCopyrightString()}\n${program.helpInformation()}`);
     return Promise.reject(2);
   }
 
@@ -42,43 +52,25 @@ const processInput = async function(program) {
   loggerFactory.addLoggerSetting('root', 'info');
   logger = loggerFactory.getLogger('root');
 
-  let opts = program;
-  if (typeof program.opts === 'function') {
-    opts = program.opts();
-  }
+  const opts = program.opts();
 
-  // Leaving this here for debugging.
-  // console.log(`Program opts:\n`, opts);
-
-  // interpret the options
-  const printValidators = !!opts.print_validator_modules;
-  const reportingStats = !!opts.report_statistics;
-
-  const turnOffColoring = !!opts.no_colors;
-  const defaultMode = !!opts.default_mode;
+  // Retrieve the options.
+  const summaryOnly = !!opts.summaryOnly;
+  const colorizeOutput = !!opts.colors;
   const jsonOutput = !!opts.json;
-  const errorsOnly = !!opts.errors_only;
-  const debug = !!opts.debug;
-
-  const configFileOverride = opts.config;
+  const errorsOnly = !!opts.errorsOnly;
   const rulesetFileOverride = opts.ruleset;
-
+  const verbose = !!opts.verbose;
+  const logLevels = opts.logLevel || [];
   const limitsFileOverride = opts.limits;
-
-  const verbose = opts.verbose > 0;
 
   // Process each loglevel entry supplied on the command line.
   // Add each option to our LoggerFactory so they can be used to affect the
   // log level of both existing loggers and loggers created later by individual rules.
   // Examples:
   //   -l info  (equivalent to -l root=info)
-  //   --log-level schema-*=debug (enable debug for all rules like "schema-*")
-  //   -l property-description=debug (enable debug for the "property-description" rule)
-  let logLevels = opts.logLevel;
-  if (!logLevels) {
-    logLevels = [];
-  }
-
+  //   --log-level ibm-schema-*=debug (enable debug for all rules like "ibm-schema-*")
+  //   -l ibm-property-description=debug (enable debug for the "ibm-property-description" rule)
   for (const entry of logLevels) {
     let [loggerName, logLevel] = entry.split('=');
 
@@ -97,16 +89,12 @@ const processInput = async function(program) {
   loggerFactory.applySettingsToAllLoggers();
 
   // turn off coloring if explicitly requested
-  if (turnOffColoring) {
+  if (!colorizeOutput) {
     chalk.level = 0;
   }
 
   if (verbose && !jsonOutput) {
-    logger.info(
-      chalk.green(
-        `IBM OpenAPI Validator (${getVersionString()}), @Copyright IBM Corporation 2017, 2023.\n`
-      )
-    );
+    logger.info(chalk.green(getCopyrightString()));
   }
 
   // run the validator on the passed in files
@@ -121,6 +109,8 @@ const processInput = async function(program) {
   // determine which files were removed from args because they were 'ignored'
   // then, print these for the user. this way, the user is alerted to why files
   // aren't validated
+  // "filteredArgs" is the list of files to process after removing ignored files
+  // "filteredFiles" is the list of files to be ignored
   const filteredFiles = args.filter(file => !filteredArgs.includes(file));
   filteredFiles.forEach(filename => {
     logger.warn(
@@ -183,7 +173,12 @@ const processInput = async function(program) {
   // process the config file for the validations
   let configObject;
   try {
-    configObject = await config.get(defaultMode, chalk, configFileOverride);
+    // "defaultMode" changed to true in the following line since we no longer
+    // want to read in a user's .validaterc.
+    // We need to re-visit this when we address the legacy code inside validate()
+    // that is invoked below.
+    // Passing null for "configFileOverride" since we no longer support the -c option.
+    configObject = await config.get(true, chalk, null);
   } catch (err) {
     return Promise.reject(err);
   }
@@ -258,9 +253,7 @@ const processInput = async function(program) {
         'There is a problem with the API definition.',
         getError(err)
       );
-      if (debug) {
-        logger.error(err.stack);
-      }
+      logger.debug(err.stack);
       exitCode = 1;
       continue;
     } finally {
@@ -276,7 +269,6 @@ const processInput = async function(program) {
       const spectral = await spectralValidator.setup(
         logger,
         rulesetFileOverride,
-        debug,
         chalk
       );
 
@@ -288,13 +280,20 @@ const processInput = async function(program) {
 
       const doc = new Document(originalFile, parser, validFile);
       spectralResults = await spectral.run(doc);
+      // console.log(`spectralResults: `, spectralResults);
     } catch (err) {
       logError(chalk, 'There was a problem with spectral.', getError(err));
-      if (debug || err.message === 'Error running Nimma') {
-        logError(chalk, 'Additional error details:', err);
+      if (err.message === 'Error running Nimma') {
+        logger.debug(chalk.red('Additional error details:'));
+        logger.debug(chalk.red(err));
       }
-
-      if (
+      // this check can be removed once we support spectral overrides
+      if (err.message.startsWith('Document must have some source assigned.')) {
+        console.log(
+          'This error likely occurred because Spectral `exceptions` are deprecated and `overrides` are not yet supported.\n' +
+            'Remove these fields from your Spectral config file to proceed.'
+        );
+      } else if (
         err.message ==
         "Cannot use 'in' operator to search for '**' in undefined"
       ) {
@@ -310,16 +309,10 @@ const processInput = async function(program) {
     // run validator, print the results, and determine if validator passed
     let results;
     try {
-      results = validator(
-        logger,
-        swagger,
-        configObject,
-        spectralResults,
-        debug
-      );
+      results = validator(logger, swagger, configObject, spectralResults);
     } catch (err) {
       logError(chalk, 'There was a problem with a validator.', getError(err));
-      if (debug) {
+      if (verbose) {
         logger.error(err.stack);
       }
       exitCode = 1;
@@ -363,16 +356,22 @@ const processInput = async function(program) {
     }
 
     if (jsonOutput) {
-      printJson(logger, results, originalFile, verbose, errorsOnly);
+      printJson(
+        logger,
+        results,
+        originalFile,
+        verbose,
+        errorsOnly,
+        summaryOnly
+      );
     } else {
       if (results.error || results.warning || results.info || results.hint) {
         print(
           logger,
           results,
           chalk,
-          printValidators,
           verbose,
-          reportingStats,
+          summaryOnly,
           originalFile,
           errorsOnly
         );
@@ -383,7 +382,7 @@ const processInput = async function(program) {
   }
 
   return exitCode;
-};
+}
 
 // if the error has a message property (it should),
 // this is the cleanest way to present it. If not,
@@ -400,4 +399,4 @@ function logError(chalk, description, message = '') {
 }
 
 // this exports the entire program so it can be used or tested
-module.exports = processInput;
+module.exports = cliValidator;
