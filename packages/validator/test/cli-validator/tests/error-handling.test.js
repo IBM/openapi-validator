@@ -6,13 +6,22 @@ const { getCapturedText } = require('../../test-utils');
 
 describe('cli tool - test error handling', function() {
   let consoleSpy;
+  const originalWarn = console.warn;
+  const originalError = console.error;
+  const originalInfo = console.info;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    console.warn = console.log;
+    console.error = console.log;
+    console.info = console.log;
   });
 
   afterEach(() => {
     consoleSpy.mockRestore();
+    console.warn = originalWarn;
+    console.error = originalError;
+    console.info = originalInfo;
   });
 
   const helpMessage = function() {
@@ -70,17 +79,17 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(5);
-    expect(capturedText[0].trim()).toEqual('');
-    expect(capturedText[1].trim()).toEqual(
+    expect(capturedText.length).toEqual(3);
+    expect(capturedText[0].trim()).toEqual(
       '[Warning] Skipping file with unsupported file type: json'
     );
-    expect(capturedText[2].trim()).toEqual(
+    expect(capturedText[1].trim()).toEqual(
       'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
     );
-    expect(capturedText[3].trim()).toEqual(
+    expect(capturedText[2].trim()).toEqual(
       '[Error] None of the given arguments are valid files.'
     );
   });
@@ -98,17 +107,17 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(5);
-    expect(capturedText[0].trim()).toEqual('');
-    expect(capturedText[1].trim()).toEqual(
+    expect(capturedText.length).toEqual(3);
+    expect(capturedText[0].trim()).toEqual(
       '[Warning] Skipping file with unsupported file type: badExtension.jsob'
     );
-    expect(capturedText[2].trim()).toEqual(
+    expect(capturedText[1].trim()).toEqual(
       'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
     );
-    expect(capturedText[3].trim()).toEqual(
+    expect(capturedText[2].trim()).toEqual(
       '[Error] None of the given arguments are valid files.'
     );
   });
@@ -126,9 +135,10 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(3);
+    expect(capturedText.length).toEqual(2);
     expect(capturedText[0].trim()).toEqual(
       '[Error] Invalid input file: ./test/cli-validator/mock-files/bad-json.json. See below for details.'
     );
@@ -150,9 +160,10 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(3);
+    expect(capturedText.length).toEqual(2);
     expect(capturedText[0].trim()).toEqual(
       '[Error] Invalid input file: ./test/cli-validator/mock-files/duplicate-keys.json. See below for details.'
     );
@@ -174,11 +185,12 @@ describe('cli tool - test error handling', function() {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(3);
+    expect(capturedText.length).toEqual(2);
     expect(capturedText[0].trim()).toEqual(
-      '[Error] There is a problem with the Swagger.'
+      '[Error] There is a problem with the API definition.'
     );
     expect(capturedText[1].split('\n')[1].trim()).toEqual(
       'Token "NonExistentObject" does not exist.'

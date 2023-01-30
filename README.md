@@ -33,8 +33,9 @@ as well as IBM-defined best practices.
   * [Customization](#customization)
 - [Installation](#installation)
   * [Install with NPM (recommended)](#install-with-npm-recommended)
+  * [Download an executable binary](#download-an-executable-binary)
   * [Build from source](#build-from-source)
-  * [Platform specific binaries](#platform-specific-binaries)
+    + [Build platform-specific binaries](#build-platform-specific-binaries)
   * [Docker container](#docker-container)
 - [Usage](#usage)
   * [Command line](#command-line)
@@ -98,10 +99,11 @@ Once pulled, the container can be run directly, but mount a volume containing th
 -  -d (--default_mode) : This option turns off [configuration](#configuration) and runs the validator in [default mode](#default-mode).
 -  -e (--errors_only) : Only print the errors, ignore the warnings.
 -  -j (--json) : Output results as a JSON object
+-  -l (--loglevel) `<loggername>=<loglevel> ...` : Set loglevel of logger named `<loggername>` to `<loglevel>` (e.g. `-l root=info -l ibm-schema-description=debug`)
 -  -n (--no_colors) : The output is colored by default. If this bothers you, this flag will turn off the coloring.
 -  -p (--print_validator_modules) : Print the name of the validator source file the error/warning was caught it. This can be helpful for developing validations.
 -  -v (--verbose) : Increase verbosity of reported results.  Use this option to display the rule for each reported result.
--  -r (--ruleset) <path/to/your/ruleset> : Path to Spectral ruleset file, used instead of .spectral.yaml if provided.
+-  -r (--ruleset) `<path/to/your/ruleset>` : Path to Spectral ruleset file, used instead of .spectral.yaml if provided.
 -  -s (--report_statistics) : Print a simple report at the end of the output showing the frequency, in percentage, of each error/warning.
 -  --debug : Enable debugging output.
 -  --version : Print the current semantic version of the validator

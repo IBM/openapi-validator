@@ -11,13 +11,22 @@ const configFileValidator = require('../../../src/cli-validator/utils/process-co
 
 describe('cli tool - test config file validator', function() {
   let consoleSpy;
+  const originalWarn = console.warn;
+  const originalError = console.error;
+  const originalInfo = console.info;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    console.warn = console.log;
+    console.error = console.log;
+    console.info = console.log;
   });
 
   afterEach(() => {
     consoleSpy.mockRestore();
+    console.warn = originalWarn;
+    console.error = originalError;
+    console.info = originalInfo;
   });
 
   it('should print no errors with a clean config object', function() {

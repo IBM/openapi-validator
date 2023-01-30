@@ -6,13 +6,22 @@ const { getCapturedText } = require('../../test-utils');
 
 describe('test the .thresholdrc limits', function() {
   let consoleSpy;
+  const originalWarn = console.warn;
+  const originalError = console.error;
+  const originalInfo = console.info;
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    console.warn = console.log;
+    console.error = console.log;
+    console.info = console.log;
   });
 
   afterEach(() => {
     consoleSpy.mockRestore();
+    console.warn = originalWarn;
+    console.error = originalError;
+    console.info = originalInfo;
   });
 
   it('should show error and set exit code to 1 when warning limit exceeded', async function() {

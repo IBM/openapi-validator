@@ -1,9 +1,9 @@
 {
   "name": "ibm-openapi-validator",
   "workspaces": [
-    "packages/validator",
+    "packages/utilities",
     "packages/ruleset",
-    "packages/utilities"
+    "packages/validator"
   ],
   "version": "0.0.0",
   "private": true,
