@@ -12,10 +12,9 @@ const config = require('../cli-validator/utils/process-configuration');
  *
  * @param {*} logger the logger object used to log messages
  * @param {*} results the results from a spectral run that are to be parsed
- * @param {boolean} debug a flag that indicates that debug information should be printed
  * @returns a MessageCarrier instance that holds the parsed results
  */
-const parseResults = function(logger, results, debug) {
+const parseResults = function(logger, results) {
   const messages = new MessageCarrier();
 
   if (results) {
@@ -47,13 +46,11 @@ const parseResults = function(logger, results, debug) {
             messages.addMessage(path, message, 'hint', code);
           }
         } else {
-          if (debug) {
-            logger.error(
-              `There was an error while parsing the spectral results: ${JSON.stringify(
-                validationResult
-              )}`
-            );
-          }
+          logger.debug(
+            `There was an error while parsing the spectral results: ${JSON.stringify(
+              validationResult
+            )}`
+          );
         }
       }
     }
@@ -66,11 +63,10 @@ const parseResults = function(logger, results, debug) {
  *
  * @param {*} logger the logger object used to log messages
  * @param {string} rulesetFileOverride the path to a ruleset as given by an argument
- * @param {boolean} debug a flag that indicates that debug information should be printed
  * @param {*} chalk an object used to colorize messages
  * @returns the spectral instance
  */
-const setup = async function(logger, rulesetFileOverride, debug, chalk) {
+const setup = async function(logger, rulesetFileOverride, chalk) {
   const spectral = new Spectral();
 
   // spectral only supports reading a config file in the working directory
@@ -88,7 +84,7 @@ const setup = async function(logger, rulesetFileOverride, debug, chalk) {
     // which is fine. we just use our default in that case.
     // in certain cases, we help the user understand what is happening by
     // logging informative messages
-    checkGetRulesetError(logger, e, debug, chalk);
+    checkGetRulesetError(logger, e, chalk);
   }
 
   spectral.setRuleset(ruleset);
@@ -101,7 +97,7 @@ module.exports = {
   setup
 };
 
-function checkGetRulesetError(logger, error, debug, chalk) {
+function checkGetRulesetError(logger, error, chalk) {
   // this first check is to help users migrate to the new version of spectral. if they
   // try to extend our old ruleset name, spectral will reject the ruleset. we should let
   // the user know what they need to change
@@ -118,21 +114,17 @@ function checkGetRulesetError(logger, error, debug, chalk) {
   } else if (
     error.message.endsWith('Cannot parse null because it is not a string')
   ) {
-    if (debug) {
-      logger.info(
-        `${chalk.magenta(
-          '[Info]'
-        )} No Spectral config file found, using default IBM Spectral ruleset.`
-      );
-    }
+    logger.debug(
+      `${chalk.magenta(
+        '[Info]'
+      )} No Spectral config file found, using default IBM Spectral ruleset.`
+    );
   } else {
-    if (debug) {
-      logger.info(
-        `${chalk.magenta(
-          '[Info]'
-        )} Problem reading Spectral config file, using default IBM Spectral ruleset. Cause for error:`
-      );
-      logger.info(error.message);
-    }
+    logger.debug(
+      `${chalk.magenta(
+        '[Info]'
+      )} Problem reading Spectral config file, using default IBM Spectral ruleset. Cause for error:`
+    );
+    logger.debug(error.message);
   }
 }
