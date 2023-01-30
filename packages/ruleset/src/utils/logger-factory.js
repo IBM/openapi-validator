@@ -34,6 +34,7 @@ module.exports = class LoggerFactory {
    * @param {*} logLevel the log level to set on the logger
    */
   addLoggerSetting(name, logLevel) {
+    checkLevel(logLevel);
     this.loggerSettings.push({
       loggerName: name,
       logLevel
@@ -89,3 +90,10 @@ module.exports = class LoggerFactory {
     }
   }
 };
+
+const validLevels = ['error', 'warn', 'info', 'debug', 'trace'];
+function checkLevel(logLevel) {
+  if (!validLevels.includes(logLevel.toLowerCase())) {
+    throw `Invalid log level '${logLevel}'. Valid log levels: ${validLevels}`;
+  }
+}

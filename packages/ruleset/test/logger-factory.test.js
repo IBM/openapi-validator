@@ -57,6 +57,12 @@ describe('LoggerFactory tests', () => {
     expect(logger.getLevel()).toBe(logger.levels.ERROR);
   });
 
+  it('addLoggerSetting() should throw exception for invalid level', async () => {
+    expect(() => {
+      loggerFactory.addLoggerSetting('ibm-*', 'BADLEVEL');
+    }).toThrow(/Invalid log level 'BADLEVEL'/);
+  });
+
   it('Ensure level=error is honored', async () => {
     loggerFactory.addLoggerSetting('rule-logger-error', 'error');
     loggerFactory.applySettingsToAllLoggers();

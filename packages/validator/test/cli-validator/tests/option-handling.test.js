@@ -276,7 +276,7 @@ describe('cli tool - test option handling', function() {
     program.args = ['./test/cli-validator/mock-files/err-and-warn.yaml'];
     program.report_statistics = true;
     program.default_mode = true;
-    program.loglevel = ['root=error'];
+    program.logLevel = ['root=error'];
 
     await commandLineValidator(program);
     const capturedText = getCapturedText(consoleSpy.mock.calls);

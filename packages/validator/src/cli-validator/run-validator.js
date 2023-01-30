@@ -40,13 +40,14 @@ const processInput = async function(program) {
   // The user can change this via the command line.
   const loggerFactory = LoggerFactory.newInstance();
   loggerFactory.addLoggerSetting('root', 'info');
-  logger = loggerFactory.getLogger(null);
+  logger = loggerFactory.getLogger('root');
 
   let opts = program;
   if (typeof program.opts === 'function') {
     opts = program.opts();
   }
 
+  // Leaving this here for debugging.
   // console.log(`Program opts:\n`, opts);
 
   // interpret the options
@@ -71,9 +72,9 @@ const processInput = async function(program) {
   // log level of both existing loggers and loggers created later by individual rules.
   // Examples:
   //   -l info  (equivalent to -l root=info)
-  //   --loglevel schema-*=debug (enable debug for all rules like "schema-*")
+  //   --log-level schema-*=debug (enable debug for all rules like "schema-*")
   //   -l property-description=debug (enable debug for the "property-description" rule)
-  let logLevels = opts.loglevel;
+  let logLevels = opts.logLevel;
   if (!logLevels) {
     logLevels = [];
   }

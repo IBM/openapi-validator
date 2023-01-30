@@ -57,7 +57,7 @@ program
     'enable debugging output'
   )
   .option(
-    '-l, --loglevel <loglevel...>',
+    '-l, --log-level <loglevel...>',
     'Set the log level for one or more loggers (e.g. -l root=info -l schema-description=debug ...)'
   )
   .version(getVersionString(), '--version');
