@@ -8,6 +8,7 @@ const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast')
 
 // this function prints all of the output
 module.exports = function print(
+  logger,
   results,
   chalk,
   printValidators,
@@ -42,12 +43,12 @@ module.exports = function print(
     }
   };
 
-  console.log();
+  logger.info('');
 
   types.forEach(type => {
     let color = colors[type];
     if (Object.keys(results[type]).length) {
-      console.log(chalk[color].bold(`${type}\n`));
+      logger.info(chalk[color].bold(`${type}\n`));
     }
 
     // convert 'color' from a background color to foreground color
@@ -55,7 +56,7 @@ module.exports = function print(
 
     each(results[type], (problems, validator) => {
       if (printValidators) {
-        console.log(`Validator: ${validator}`);
+        logger.info(`Validator: ${validator}`);
       }
 
       problems.forEach(problem => {
@@ -88,24 +89,24 @@ module.exports = function print(
 
         // print the path array as a dot-separated string
 
-        console.log(chalk[color](`  Message :   ${problem.message}`));
+        logger.info(chalk[color](`  Message :   ${problem.message}`));
         if (verbose && problem.rule) {
-          console.log(chalk[color](`  Rule    :   ${problem.rule}`));
+          logger.info(chalk[color](`  Rule    :   ${problem.rule}`));
         }
-        console.log(chalk[color](`  Path    :   ${path.join('.')}`));
-        console.log(chalk[color](`  Line    :   ${lineNumber}`));
+        logger.info(chalk[color](`  Path    :   ${path.join('.')}`));
+        logger.info(chalk[color](`  Line    :   ${lineNumber}`));
         if (verbose && problem.componentPath) {
           const componentPath = getPathAsArray(problem.componentPath);
           const componentLine = getLineNumberForPath(
             originalFile,
             componentPath
           );
-          console.log(
+          logger.info(
             chalk[color](`  Component Path    :   ${componentPath.join('.')}`)
           );
-          console.log(chalk[color](`  Component Line    :   ${componentLine}`));
+          logger.info(chalk[color](`  Component Line    :   ${componentLine}`));
         }
-        console.log();
+        logger.info('');
       });
     });
   });
@@ -118,30 +119,30 @@ module.exports = function print(
       stats.infos.total ||
       stats.hints.total)
   ) {
-    console.log(chalk.bgCyan('statistics\n'));
+    logger.info(chalk.bgCyan('statistics\n'));
 
-    console.log(
+    logger.info(
       chalk.cyan(`  Total number of errors   : ${stats.errors.total}`)
     );
-    console.log(
+    logger.info(
       chalk.cyan(`  Total number of warnings : ${stats.warnings.total}`)
     );
     if (stats.infos.total > 0) {
-      console.log(
+      logger.info(
         chalk.cyan(`  Total number of infos    : ${stats.infos.total}`)
       );
     }
     if (stats.hints.total > 0) {
-      console.log(
+      logger.info(
         chalk.cyan(`  Total number of hints    : ${stats.hints.total}`)
       );
     }
-    console.log('');
+    logger.info('');
 
     types.forEach(type => {
       // print the type, either error or warning
       if (stats[type].total) {
-        console.log('  ' + chalk.underline.cyan(type));
+        logger.info('  ' + chalk.underline.cyan(type));
       }
 
       Object.keys(stats[type]).forEach(message => {
@@ -158,13 +159,13 @@ module.exports = function print(
           // use 6 for largest case of '(100%)'
           const frequencyString = pad(6, `(${percentage}%)`);
 
-          console.log(
+          logger.info(
             chalk.cyan(`${numberString} ${frequencyString} : ${message}`)
           );
         }
       });
       if (stats[type].total) {
-        console.log();
+        logger.info('');
       }
     });
   }
