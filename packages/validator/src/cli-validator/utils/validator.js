@@ -6,9 +6,12 @@ const semanticValidators2 = require('require-all')(
   __dirname + '/../../plugins/validation/swagger2/semantic-validators'
 );
 
-const semanticValidators3 = require('require-all')(
-  __dirname + '/../../plugins/validation/oas3/semantic-validators'
-);
+// I'm effectively removing the oas3 semantic validators.
+// The one remaining rule left (check for 'openapi' field) is covered by
+// spectral:oas rule 'unrecognized-format'.
+// const semanticValidators3 = require('require-all')(
+//   __dirname + '/../../plugins/validation/oas3/semantic-validators'
+// );
 
 const structuralValidator = require(__dirname +
   '/../../plugins/validation/2and3/structural-validation/validator');
@@ -24,7 +27,7 @@ const validators = {
     semanticValidators: semanticValidators2
   },
   '3': {
-    semanticValidators: semanticValidators3
+    semanticValidators: {}
   }
 };
 

@@ -1,17 +1,7 @@
-// Assertations
-
-// Operations must have unique (name + in combination) parameters.
-// Covered by spectral:oas 'operation-parameters' rule
-
-// `operationId` should adhere to a given case convention
-// Replaced by new rule
-
-// Arrays MUST NOT be returned as the top-level structure in a response body.
-// ref: https://pages.github.ibm.com/CloudEngineering/api_handbook/fundamentals/format.html#object-encapsulation
-
-// All required parameters of an operation are listed before any optional parameters.
-// http://watson-developer-cloud.github.io/api-guidelines/swagger-coding-style#parameter-order
-
+//
+// Assertions:
+// 1. An operation should not be defined with a $ref property.
+//
 const pick = require('lodash/pick');
 const map = require('lodash/map');
 const each = require('lodash/each');

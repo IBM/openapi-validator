@@ -34,7 +34,7 @@ let logger;
  * @param {*} cliArgs the array of command-line arguments (normally this should be process.argv)
  * @param {*} parseOptions an optional object containing parse options
  */
-async function cliValidator(cliArgs, parseOptions = {}) {
+async function runValidator(cliArgs, parseOptions = {}) {
   const program = createCLIOptions();
   program.parse(cliArgs, parseOptions);
 
@@ -399,4 +399,4 @@ function logError(chalk, description, message = '') {
 }
 
 // this exports the entire program so it can be used or tested
-module.exports = cliValidator;
+module.exports = runValidator;
