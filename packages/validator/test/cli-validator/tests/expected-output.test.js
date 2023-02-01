@@ -1,8 +1,4 @@
-const inCodeValidator = require('../../../src/lib');
-const swaggerInMemory = require('../mock-files/err-warn-in-memory');
 const { getCapturedText, testValidator } = require('../../test-utils');
-const yaml = require('yaml-js');
-const fs = require('fs');
 
 const count = (array, regex) => {
   return array.reduce((a, v) => (v.match(regex) ? a + 1 : a), 0);
@@ -101,20 +97,6 @@ describe('Expected output tests', function() {
       }
     );
 
-    it('should include the validator version in JSON output for the inCodeValidator', async function() {
-      const content = fs
-        .readFileSync('./test/cli-validator/mock-files/clean.yml')
-        .toString();
-      const spec = yaml.load(content);
-
-      const defaultMode = true;
-      const validationResults = await inCodeValidator(spec, defaultMode);
-
-      const expectedValidatorVersion = require('../../../package.json').version;
-      expect(validationResults.version).toBeTruthy();
-      expect(validationResults.version).toBe(expectedValidatorVersion);
-    });
-
     it.each(['-j', '--json'])(
       'should include the associated rule with each error and warning in JSON output',
       async function(option) {
@@ -142,35 +124,6 @@ describe('Expected output tests', function() {
         allMessages.forEach(msg => expect(msg).toHaveProperty('rule'));
       }
     );
-
-    it('should include the associated rule in return value of in-memory validator', async function() {
-      const content = fs
-        .readFileSync('./test/cli-validator/mock-files/err-and-warn.yaml')
-        .toString();
-      const oas2Object = yaml.load(content);
-
-      const defaultMode = true;
-      const validationResults = await inCodeValidator(oas2Object, defaultMode);
-
-      // console.warn(JSON.stringify(validationResults, null, 2));
-      // console.warn(JSON.stringify(validationResults, null, 2));
-
-      expect(validationResults.errors.length).toBe(3);
-      expect(validationResults.warnings.length).toBe(6);
-      expect(validationResults.infos).not.toBeDefined();
-      expect(validationResults.hints).not.toBeDefined();
-      expect(validationResults.errors.length).toBe(3);
-      expect(validationResults.warnings.length).toBe(6);
-      expect(validationResults.infos).not.toBeDefined();
-      expect(validationResults.hints).not.toBeDefined();
-
-      validationResults.errors.forEach(msg =>
-        expect(msg).toHaveProperty('rule')
-      );
-      validationResults.warnings.forEach(msg =>
-        expect(msg).toHaveProperty('rule')
-      );
-    });
 
     it('should print the correct line numbers for each error/warning', async function() {
       const exitCode = await testValidator([
@@ -243,19 +196,6 @@ describe('Expected output tests', function() {
           'Validation Results for ./test/cli-validator/mock-files/clean.yml:'
         )
       ).toEqual(true);
-    });
-
-    it('should return errors and warnings using the in-memory module', async function() {
-      const defaultMode = true;
-      const validationResults = await inCodeValidator(
-        swaggerInMemory,
-        defaultMode
-      );
-
-      // should produce an object with `errors` and `warnings` keys that should
-      // both be non-empty
-      expect(validationResults.errors.length).toBeGreaterThan(0);
-      expect(validationResults.warnings.length).toBeGreaterThan(0);
     });
 
     it('should not produce any errors or warnings from mock-files/clean-with-tabs.yml', async function() {
@@ -351,28 +291,6 @@ describe('Expected output tests', function() {
         allMessages.forEach(msg => expect(msg).toHaveProperty('rule'));
       }
     );
-
-    it('should include the associated rule in return value of in-memory validator', async function() {
-      const content = fs
-        .readFileSync('./test/cli-validator/mock-files/oas3/err-and-warn.yaml')
-        .toString();
-      const oas3Object = yaml.load(content);
-
-      const defaultMode = true;
-      const validationResults = await inCodeValidator(oas3Object, defaultMode);
-
-      expect(validationResults.errors.length).toBe(3);
-      expect(validationResults.warnings.length).toBe(47);
-      expect(validationResults.infos).not.toBeDefined();
-      expect(validationResults.hints).not.toBeDefined();
-
-      validationResults.errors.forEach(msg =>
-        expect(msg).toHaveProperty('rule')
-      );
-      validationResults.warnings.forEach(msg =>
-        expect(msg).toHaveProperty('rule')
-      );
-    });
 
     it.each(['-v', '--verbose'])(
       'should include the path to the component (if it exists) when in verbose mode',

@@ -110,61 +110,7 @@ _These options only apply to running the validator on a file, not to any command
 
 ##### \<files>
 - The OpenAPI document(s) to be validated. All files must be a valid JSON or YAML (only .json, .yml, and .yaml file extensions are supported).
-- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-openapi files/*` will run the validator on all files in `files/`)
-
-### Node module
-```javascript
-const validator = require('ibm-openapi-validator');
-
-validator(openApiDoc)
-  .then(validationResults => {
-    console.log(JSON.stringify(validationResults, null, 2));
-  });
-
-// or, if inside `async` function
-const validationResults = await validator(openApiDoc);
-console.log(JSON.stringify(validationResults, null, 2));
-```
-
-#### API
-##### validator(openApiDoc, [defaultMode = false])
-Returns a `Promise` with the validation results.
-
-###### openApiDoc
-Type: `Object`
-An object that represents an OpenAPI document.
-
-###### defaultMode
-Type: `boolean`
-Default: `false`
-If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
-
-###### debug
-Type: `boolean`
-Default: `false`
-If set to true, the validator will log additional debug information during execution.
-
-#### Validation results
-The Promise returned from the validator resolves into a JSON object. The structure of the object is:
-```
-{
-  errors:
-  [
-    {
-      path: 'path.to.error.in.object'
-      message: 'Major problem in the OpenAPI document.'
-    }
-  ],
-  warnings:
-  [
-    {
-      path: 'path.to.warning.in.object'
-      message: 'Minor problem in the OpenAPI document.'
-    }
-  ]
-}
-```
-The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the OpenAPI document.
+- Multiple, space-separated files can be passed in and each will be validated. This includes support for globs (e.g. `lint-openapi files/*` will run the validator on all files in `files/`).
 
 ## Configuration
 Within the openapi-validator project, we have transitioned our legacy rules
