@@ -19,7 +19,6 @@ const preprocessFile = require('./utils/preprocess-file');
 const print = require('./utils/print-results');
 const { printJson } = require('./utils/json-results');
 const spectralValidator = require('../spectral/spectral-validator');
-const validator = require('./utils/validator');
 const getCopyrightString = require('./utils/get-copyright-string');
 const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
 const createCLIOptions = require('./utils/cli-options');
@@ -170,19 +169,6 @@ async function runValidator(cliArgs, parseOptions = {}) {
     return Promise.reject(2);
   }
 
-  // process the config file for the validations
-  let configObject;
-  try {
-    // "defaultMode" changed to true in the following line since we no longer
-    // want to read in a user's .validaterc.
-    // We need to re-visit this when we address the legacy code inside validate()
-    // that is invoked below.
-    // Passing null for "configFileOverride" since we no longer support the -c option.
-    configObject = await config.get(true, chalk, null);
-  } catch (err) {
-    return Promise.reject(err);
-  }
-
   // get limits from .thresholdrc file
   let limitsObject;
   try {
@@ -280,7 +266,6 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
       const doc = new Document(originalFile, parser, validFile);
       spectralResults = await spectral.run(doc);
-      // console.log(`spectralResults: `, spectralResults);
     } catch (err) {
       logError(chalk, 'There was a problem with spectral.', getError(err));
       if (err.message === 'Error running Nimma') {
@@ -289,7 +274,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       }
       // this check can be removed once we support spectral overrides
       if (err.message.startsWith('Document must have some source assigned.')) {
-        console.log(
+        logger.error(
           'This error likely occurred because Spectral `exceptions` are deprecated and `overrides` are not yet supported.\n' +
             'Remove these fields from your Spectral config file to proceed.'
         );
@@ -306,32 +291,24 @@ async function runValidator(cliArgs, parseOptions = {}) {
       continue;
     }
 
-    // run validator, print the results, and determine if validator passed
-    let results;
-    try {
-      results = validator(logger, swagger, configObject, spectralResults);
-    } catch (err) {
-      logError(chalk, 'There was a problem with a validator.', getError(err));
-      if (verbose) {
-        logger.error(err.stack);
-      }
-      exitCode = 1;
-      continue;
-    }
+    // Convert the spectral results to the form expected by our two "print" functions.
+    const results = convertSpectralResults(spectralResults);
 
     // the warning property tells the user if warnings are included as part of the output
     // if errorsOnly is true, only errors will be returned, so need to force this to false
+    // If we are to report only errors, then "hide" warnings, infos and hints.
     if (errorsOnly) {
       results.warning = false;
       results.info = false;
       results.hint = false;
     }
 
-    // fail on errors or if number of warnings exceeds warnings limit
+    // Check to see if we should be passing back a non-zero exit code.
     if (results.error) {
+      // If we have any errors, then exit code 1 is returned.
       exitCode = 1;
     } else {
-      // Calculate number of warnings and set exit code to 1 if warning limit exceeded
+      // If the # of warnings exceeded the warnings limit, then this is an error.
       let numWarnings = 0;
       for (const key of Object.keys(results.warnings)) {
         numWarnings += results.warnings[key].length;
@@ -355,6 +332,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       addPathsToComponents(results, swagger.jsSpec);
     }
 
+    // Now print the results, either JSON or text.
     if (jsonOutput) {
       printJson(
         logger,
@@ -398,5 +376,48 @@ function logError(chalk, description, message = '') {
   }
 }
 
-// this exports the entire program so it can be used or tested
+/**
+ * Converts the raw "spectralResults" into a form suitable for
+ * print-results.js and json-results.js.
+ * @param {*} logger the validator's root logger
+ * @param {*} spectralResults the results returned by Spectral.run
+ * @returns the converted results
+ */
+function convertSpectralResults(spectralResults) {
+  const validationResults = {
+    errors: {},
+    warnings: {},
+    infos: {},
+    hints: {},
+    error: false,
+    warning: false,
+    info: false,
+    hint: false
+  };
+
+  const parsedSpectralResults = spectralValidator.parseResults(
+    logger,
+    spectralResults
+  );
+  const key = 'spectral';
+  if (parsedSpectralResults.errors.length) {
+    validationResults.errors[key] = [...parsedSpectralResults.errors];
+    validationResults.error = true;
+  }
+  if (parsedSpectralResults.warnings.length) {
+    validationResults.warnings[key] = [...parsedSpectralResults.warnings];
+    validationResults.warning = true;
+  }
+  if (parsedSpectralResults.infos.length) {
+    validationResults.infos[key] = [...parsedSpectralResults.infos];
+    validationResults.info = true;
+  }
+  if (parsedSpectralResults.hints.length) {
+    validationResults.hints[key] = [...parsedSpectralResults.hints];
+    validationResults.hint = true;
+  }
+
+  return validationResults;
+}
+
 module.exports = runValidator;
