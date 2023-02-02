@@ -73,10 +73,10 @@ describe('cli tool - test option handling', function() {
 
       let foundSummary = false;
       capturedText.forEach(function(line) {
-        if (line.includes('statistics')) {
+        if (line.includes('summary')) {
           foundSummary = true;
         }
-        // It's ok to "see" the work "warnings" in the summary section.
+        // It's ok to "see" the word "warnings" in the summary section.
         expect(line.includes('warnings') && !foundSummary).toEqual(false);
       });
     }
@@ -98,22 +98,20 @@ describe('cli tool - test option handling', function() {
       // });
       // originalError(textOutput);
 
-      let statisticsReported = false;
+      let summaryReported = false;
 
       capturedText.forEach(function(line) {
-        if (line.includes('statistics')) {
-          statisticsReported = true;
+        if (line.includes('summary')) {
+          summaryReported = true;
         }
       });
 
       // .match(/\S+/g) returns an array of all non-whitespace strings
       //   example output would be [ '33%', ':', 'operationIds', 'must', 'be', 'unique' ]
-      expect(statisticsReported).toEqual(true);
+      expect(summaryReported).toEqual(true);
 
-      const statsSection = capturedText.findIndex(x =>
-        x.includes('statistics')
-      );
-      expect(statsSection).toBe(0);
+      const sumSection = capturedText.findIndex(x => x.includes('summary'));
+      expect(sumSection).toBe(0);
 
       // totals
       expect(capturedText[1].match(/\S+/g)[5]).toEqual('2');
