@@ -2,7 +2,7 @@ const { binarySchemas } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = binarySchemas;
-const ruleId = 'binary-schemas';
+const ruleId = 'ibm-binary-schemas';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgParam =
   'Parameters should not contain binary values (type: string, format: binary).';
@@ -11,7 +11,7 @@ const expectedMsgReqBody =
 const expectedMsgResponse =
   'Responses with JSON content should not contain binary values (type: string, format: binary).';
 
-describe('Spectral rule: binary-schemas', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

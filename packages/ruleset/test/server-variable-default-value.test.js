@@ -1,15 +1,12 @@
 const { serverVariableDefaultValue } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'server-variable-default-value';
+const ruleId = 'ibm-server-variable-default-value';
+const rule = serverVariableDefaultValue;
 
-describe('Spectral rule: server-variable-default-value', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(
-      name,
-      serverVariableDefaultValue,
-      rootDocument
-    );
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -28,16 +25,12 @@ describe('Spectral rule: server-variable-default-value', () => {
       }
     ];
 
-    const results = await testRule(
-      name,
-      serverVariableDefaultValue,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Server variable should have default value'
     );

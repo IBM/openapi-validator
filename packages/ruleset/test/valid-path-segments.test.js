@@ -2,10 +2,10 @@ const { validPathSegments } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = validPathSegments;
-const ruleId = 'valid-path-segments';
+const ruleId = 'ibm-valid-path-segments';
 const expectedSeverity = severityCodes.error;
 
-describe('Spectral rule: valid-path-segments', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

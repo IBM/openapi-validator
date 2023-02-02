@@ -1,14 +1,28 @@
-const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
+const {
+  isArraySchema,
+  validateSubschemas
+} = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, arrayOfArrays, true, false);
+let ruleId;
+let logger;
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+  return validateSubschemas(schema, context.path, arrayOfArrays, true, false);
 };
 
 function arrayOfArrays(schema, path) {
   const errors = [];
 
-  if (schema.type === 'array' && schema.items) {
-    if (schema.items.type === 'array') {
+  if (isArraySchema(schema) && schema.items) {
+    logger.debug(
+      `${ruleId}: checking array schema at location: ${path.join('.')}`
+    );
+    if (isArraySchema(schema.items)) {
+      logger.debug('Found an array of arrays!');
       errors.push({
         message: 'Array schemas should avoid having items of type array.',
         path

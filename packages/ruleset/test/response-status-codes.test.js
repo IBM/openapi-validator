@@ -2,10 +2,10 @@ const { responseStatusCodes } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = responseStatusCodes;
-const ruleId = 'response-status-codes';
+const ruleId = 'ibm-response-status-codes';
 const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: response-status-codes', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

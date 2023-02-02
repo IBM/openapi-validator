@@ -2,10 +2,10 @@ const { preconditionHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = preconditionHeader;
-const ruleId = 'precondition-header';
+const ruleId = 'ibm-precondition-header';
 const expectedSeverity = severityCodes.error;
 
-describe('Spectral rule: precondition-header', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('412 response code with conditional header parameter defined', async () => {
       const testDocument = makeCopy(rootDocument);

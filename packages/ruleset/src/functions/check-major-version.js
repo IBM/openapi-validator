@@ -1,18 +1,31 @@
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
+module.exports = function(apiDef, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+  return checkMajorVersion(apiDef);
+};
+
 // Check:
 // - Each url in the servers object has a path segment of the form v followed by a number,
 //   and the number is the same for all urls, or
 // - Each path has a path segment of the form v followed by a number, and the number is
 //   the same for all paths
-
-module.exports = targetVal => {
-  if (targetVal === null || typeof targetVal !== 'object') {
-    return;
+function checkMajorVersion(apiDef) {
+  if (apiDef === null || typeof apiDef !== 'object') {
+    return [];
   }
 
-  const oas3 = targetVal['openapi'];
+  const oas3 = apiDef['openapi'];
 
   if (oas3) {
-    const servers = targetVal['servers'];
+    logger.debug(`${ruleId}: detected OAS3 document!`);
+    const servers = apiDef['servers'];
     if (servers && Array.isArray(servers)) {
       // Gather up all the unique path segments that
       // indicate the API major version (e.g. /v1) within
@@ -39,6 +52,11 @@ module.exports = targetVal => {
         const uniqueVersions = versions.filter(
           (val, i, self) => self.indexOf(val) === i
         );
+        logger.debug(
+          `${ruleId}: detected multiple unique URL major version segments in servers list: ${uniqueVersions.join(
+            ', '
+          )}`
+        );
         return [
           {
             message:
@@ -51,21 +69,29 @@ module.exports = targetVal => {
 
       if (versions.length >= 1 && versions[0]) {
         // Major version present in server URL and all match -- all good
-        return;
+        logger.debug(
+          `${ruleId}: detected matching URL major version segments in servers list: ${versions[0]}`
+        );
+        return [];
       }
     }
   } else {
     // oas2
-    const basePath = targetVal['basePath'] || '';
+    logger.debug(`${ruleId}: detected Swagger 2 document!`);
+
+    const basePath = apiDef['basePath'] || '';
     const version = getVersion(basePath);
     if (version) {
-      return;
+      return [];
     }
   }
 
   // We did not find a major version in server URLs, so now check the paths
+  logger.debug(
+    `${ruleId}: checking for major version segments in path strings`
+  );
 
-  const paths = targetVal['paths'];
+  const paths = apiDef['paths'];
   if (paths && typeof paths === 'object') {
     const urls = Object.keys(paths);
     const versions = urls.map(url => getVersion(url));
@@ -73,6 +99,11 @@ module.exports = targetVal => {
     if (versions.length > 1 && !versions.every(v => v === versions[0])) {
       const uniqueVersions = versions.filter(
         (val, i, self) => self.indexOf(val) === i
+      );
+      logger.debug(
+        `${ruleId}: detected multiple unique major version segments in paths: ${uniqueVersions.join(
+          ', '
+        )}`
       );
       return [
         {
@@ -86,11 +117,17 @@ module.exports = targetVal => {
 
     if (versions.length >= 1 && versions[0]) {
       // Major version present in server URL and all match -- all good
-      return;
+      logger.debug(
+        `${ruleId}: detected matching major version segments in paths: ${versions[0]}`
+      );
+      return [];
     }
   }
 
   if (oas3) {
+    logger.debug(
+      `${ruleId}: no major version segments detected in servers field or paths object!`
+    );
     return [
       {
         message:
@@ -98,13 +135,16 @@ module.exports = targetVal => {
       }
     ];
   } else {
+    logger.debug(
+      `${ruleId}: no major version segments detected in basePath field or paths object!`
+    );
     return [
       {
         message: 'Major version segment not present in either basePath or paths'
       }
     ];
   }
-};
+}
 
 /**
  * Returns the first segment of the path portion of "urlString" that matches the pattern 'v\d+'

@@ -2,7 +2,7 @@ const { refPattern } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = refPattern;
-const ruleId = 'ref-pattern';
+const ruleId = 'ibm-ref-pattern';
 const expectedSeverity = severityCodes.warning;
 
 const expectedMsgs = {
@@ -20,7 +20,7 @@ const expectedMsgs = {
     "$refs to securitySchemes should start with '#/components/securitySchemes/'"
 };
 
-describe('Spectral rule: ref-pattern', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

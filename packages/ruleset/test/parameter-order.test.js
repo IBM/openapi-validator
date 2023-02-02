@@ -2,12 +2,12 @@ const { parameterOrder } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = parameterOrder;
-const ruleId = 'parameter-order';
+const ruleId = 'ibm-parameter-order';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'Required parameters should appear before optional parameters.';
 
-describe('Spectral rule: parameter-order', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

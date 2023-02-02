@@ -2,7 +2,7 @@ const { arrayOfArrays } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = arrayOfArrays;
-const ruleId = 'array-of-arrays';
+const ruleId = 'ibm-array-of-arrays';
 const expectedSeverity = severityCodes.warning;
 const expectedMessage =
   'Array schemas should avoid having items of type array.';
@@ -42,7 +42,7 @@ const arrayOfArrayOfInt = {
   }
 };
 
-describe('Spectral rule: array-of-arrays', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

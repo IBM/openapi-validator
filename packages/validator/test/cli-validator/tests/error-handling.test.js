@@ -20,7 +20,7 @@ describe('cli tool - test error handling', function() {
     console.info = originalInfo;
   });
 
-  it('should display helpt text and return an error when no filename is given', async function() {
+  it('should display help text and return an error when no filename is given', async function() {
     let exitCode;
     try {
       exitCode = await testValidator([]);
@@ -115,7 +115,7 @@ describe('cli tool - test error handling', function() {
     let exitCode;
     try {
       exitCode = await testValidator([
-        './test/cli-validator/mock-files/duplicate-keys.json'
+        './test/cli-validator/mock-files/oas3/duplicate-keys.json'
       ]);
     } catch (err) {
       exitCode = err;
@@ -127,7 +127,7 @@ describe('cli tool - test error handling', function() {
     expect(exitCode).toEqual(1);
     expect(capturedText.length).toEqual(2);
     expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid input file: ./test/cli-validator/mock-files/duplicate-keys.json. See below for details.'
+      '[Error] Invalid input file: ./test/cli-validator/mock-files/oas3/duplicate-keys.json. See below for details.'
     );
     expect(capturedText[1].trim()).toEqual(
       'Syntax error: duplicated keys "version" near sion": "1.'
@@ -138,7 +138,7 @@ describe('cli tool - test error handling', function() {
     let exitCode;
     try {
       exitCode = await testValidator([
-        './test/cli-validator/mock-files/missing-object.yml'
+        './test/cli-validator/mock-files/oas3/missing-object.yml'
       ]);
     } catch (err) {
       exitCode = err;
@@ -161,7 +161,7 @@ describe('cli tool - test error handling', function() {
     let exitCode;
     try {
       exitCode = await testValidator([
-        './test/cli-validator/mock-files/trailing-comma.json'
+        './test/cli-validator/mock-files/oas3/trailing-comma.json'
       ]);
     } catch (err) {
       exitCode = err;
@@ -173,7 +173,7 @@ describe('cli tool - test error handling', function() {
 
     expect(capturedText[0].trim()).toContain('[Error] Invalid input file');
     expect(capturedText[1].trim()).toEqual(
-      'SyntaxError: Unexpected token ] in JSON at position 815'
+      'SyntaxError: Unexpected token ] in JSON at position 634'
     );
   });
 });
