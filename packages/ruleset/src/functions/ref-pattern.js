@@ -1,5 +1,15 @@
-module.exports = function($ref, _opts, { path }) {
-  return checkRefPattern($ref, path);
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
+module.exports = function($ref, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return checkRefPattern($ref, context.path);
 };
 
 // This object is used to categorize a $ref value, based on its path (location within the API document).
@@ -50,8 +60,13 @@ const validRefPrefixes = {
 function checkRefPattern($ref, path) {
   // We're interested only in local refs (e.g. #/components/schemas/MyModel).
   if (!$ref.startsWith('#')) {
+    logger.debug(`${ruleId}: skipping check for external $ref: ${$ref}`);
     return [];
   }
+
+  logger.debug(
+    `${ruleId}: checking $ref '${$ref}' at location: ${path.join('.')}`
+  );
 
   // Compute the path of the $ref property's parent object
   // by just removing the last element of "path" (which will be '$ref').
@@ -64,6 +79,9 @@ function checkRefPattern($ref, path) {
   for (const [refType, entry] of Object.entries(validRefPrefixes)) {
     if (pathStr.match(entry.refPathRegex)) {
       if (!$ref.startsWith(entry.prefix)) {
+        logger.debug(
+          `${ruleId}: $ref '${$ref}' (type '${refType}') should start with '${entry.prefix}'`
+        );
         return [
           {
             message: `$refs to ${refType} should start with '${entry.prefix}'`,

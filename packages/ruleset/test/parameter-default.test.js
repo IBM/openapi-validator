@@ -2,11 +2,11 @@ const { parameterDefault } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = parameterDefault;
-const ruleId = 'parameter-default';
+const ruleId = 'ibm-parameter-default';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Required parameter should not define a default value';
 
-describe('Spectral rule: parameter-default', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

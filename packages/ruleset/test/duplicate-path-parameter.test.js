@@ -2,12 +2,12 @@ const { duplicatePathParameter } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = duplicatePathParameter;
-const ruleId = 'duplicate-path-parameter';
+const ruleId = 'ibm-duplicate-path-parameter';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'Common path parameters should be defined on the path object.';
 
-describe('Spectral rule: duplicate-path-parameter', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

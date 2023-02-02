@@ -1,4 +1,4 @@
-const { oas2, oas3 } = require('@stoplight/spectral-formats');
+const { oas3 } = require('@stoplight/spectral-formats');
 const { collectionArrayProperty } = require('../functions');
 
 module.exports = {
@@ -8,7 +8,7 @@ module.exports = {
   given:
     '$.paths[*].get.responses[?(@property.match(/2\\d\\d/))].content[*].schema',
   severity: 'warn',
-  formats: [oas2, oas3],
+  formats: [oas3],
   resolved: true,
   then: {
     function: collectionArrayProperty

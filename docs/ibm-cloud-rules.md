@@ -28,73 +28,72 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
     + [Define a new rule](#define-a-new-rule)
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
-  * [accept-parameter](#accept-parameter)
-  * [array-boundary](#array-boundary)
-  * [array-items](#array-items)
-  * [array-of-arrays](#array-of-arrays)
-  * [array-responses](#array-responses)
-  * [authorization-parameter](#authorization-parameter)
-  * [binary-schemas](#binary-schemas)
-  * [circular-refs](#circular-refs)
-  * [collection-array-property](#collection-array-property)
-  * [consecutive-path-param-segments](#consecutive-path-param-segments)
-  * [content-entry-contains-schema](#content-entry-contains-schema)
-  * [content-entry-provided](#content-entry-provided)
-  * [content-type-parameter](#content-type-parameter)
-  * [delete-body](#delete-body)
-  * [description-mentions-json](#description-mentions-json)
-  * [discriminator](#discriminator)
-  * [duplicate-path-parameter](#duplicate-path-parameter)
-  * [enum-case-convention](#enum-case-convention)
-  * [examples-name-contains-space](#examples-name-contains-space)
+  * [ibm-accept-header](#ibm-accept-header)
+  * [ibm-array-attributes](#ibm-array-attributes)
+  * [ibm-array-of-arrays](#ibm-array-of-arrays)
+  * [ibm-array-responses](#ibm-array-responses)
+  * [ibm-authorization-header](#ibm-authorization-header)
+  * [ibm-binary-schemas](#ibm-binary-schemas)
+  * [ibm-circular-refs](#ibm-circular-refs)
+  * [ibm-collection-array-property](#ibm-collection-array-property)
+  * [ibm-consecutive-path-segments](#ibm-consecutive-path-segments)
+  * [ibm-content-contains-schema](#ibm-content-contains-schema)
+  * [ibm-content-exists](#ibm-content-exists)
   * [ibm-content-type-is-specific](#ibm-content-type-is-specific)
+  * [ibm-content-type-header](#ibm-content-type-header)
+  * [ibm-delete-body](#ibm-delete-body)
+  * [ibm-description-mentions-json](#ibm-description-mentions-json)
+  * [ibm-discriminator-property-exists](#ibm-discriminator-property-exists)
+  * [ibm-duplicate-path-parameter](#ibm-duplicate-path-parameter)
+  * [ibm-enum-casing-convention](#ibm-enum-casing-convention)
   * [ibm-error-content-type-is-json](#ibm-error-content-type-is-json)
+  * [ibm-error-response-schemas](#ibm-error-response-schemas)
+  * [ibm-etag-header-exists](#ibm-etag-header-exists)
+  * [ibm-examples-name-contains-space](#ibm-examples-name-contains-space)
+  * [ibm-if-modified-since-header](#ibm-if-modified-since-header)
+  * [ibm-if-unmodified-since-header](#ibm-if-unmodified-since-header)
+  * [ibm-inline-property-schema](#ibm-inline-property-schema)
+  * [ibm-inline-request-schema](#ibm-inline-request-schema)
+  * [ibm-inline-response-schema](#ibm-inline-response-schema)
+  * [ibm-major-version-in-path](#ibm-major-version-in-path)
+  * [ibm-merge-patch-properties](#ibm-merge-patch-properties)
+  * [ibm-operation-summary-exists](#ibm-operation-summary-exists)
+  * [ibm-operationid-casing-convention](#ibm-operationid-casing-convention)
+  * [ibm-operationid-naming-convention](#ibm-operationid-naming-convention)
+  * [ibm-optional-requestbody](#ibm-optional-requestbody)
+  * [ibm-pagination-style](#ibm-pagination-style)
+  * [ibm-parameter-casing-convention](#ibm-parameter-casing-convention)
+  * [ibm-parameter-default](#ibm-parameter-default)
+  * [ibm-parameter-description](#ibm-parameter-description)
+  * [ibm-parameter-order](#ibm-parameter-order)
+  * [ibm-parameter-schema-or-content-exists](#ibm-parameter-schema-or-content-exists)
+  * [ibm-patch-request-content-type](#ibm-patch-request-content-type)
+  * [ibm-path-parameter-not-crn](#ibm-path-parameter-not-crn)
+  * [ibm-path-segment-casing-convention](#ibm-path-segment-casing-convention)
+  * [ibm-precondition-header](#ibm-precondition-header)
+  * [ibm-property-attributes](#ibm-property-attributes)
+  * [ibm-property-casing-convention](#ibm-property-casing-convention)
+  * [ibm-property-consistent-name-and-type](#ibm-property-consistent-name-and-type)
+  * [ibm-property-description-exists](#ibm-property-description-exists)
+  * [ibm-property-name-collision](#ibm-property-name-collision)
+  * [ibm-ref-pattern](#ibm-ref-pattern)
+  * [ibm-ref-sibling-duplicate-description](#ibm-ref-sibling-duplicate-description)
+  * [ibm-requestbody-name-exists](#ibm-requestbody-name-exists)
+  * [ibm-requestbody-is-object](#ibm-requestbody-is-object)
+  * [ibm-required-property-missing](#ibm-required-property-missing)
+  * [ibm-response-example-exists](#ibm-response-example-exists)
+  * [ibm-response-status-codes](#ibm-response-status-codes)
+  * [ibm-schema-description-exists](#ibm-schema-description-exists)
+  * [ibm-schema-type-exists](#ibm-schema-type-exists)
+  * [ibm-schema-type-format](#ibm-schema-type-format)
   * [ibm-sdk-operations](#ibm-sdk-operations)
-  * [if-modified-since-parameter](#if-modified-since-parameter)
-  * [if-unmodified-since-parameter](#if-unmodified-since-parameter)
-  * [inline-property-schema](#inline-property-schema)
-  * [inline-request-schema](#inline-request-schema)
-  * [inline-response-schema](#inline-response-schema)
-  * [major-version-in-path](#major-version-in-path)
-  * [merge-patch-optional-properties](#merge-patch-optional-properties)
-  * [missing-required-property](#missing-required-property)
-  * [no-etag-header](#no-etag-header)
-  * [operation-id-case-convention](#operation-id-case-convention)
-  * [operation-id-naming-convention](#operation-id-naming-convention)
-  * [operation-summary](#operation-summary)
-  * [optional-request-body](#optional-request-body)
-  * [pagination-style](#pagination-style)
-  * [parameter-case-convention](#parameter-case-convention)
-  * [parameter-default](#parameter-default)
-  * [parameter-description](#parameter-description)
-  * [parameter-order](#parameter-order)
-  * [parameter-schema-or-content](#parameter-schema-or-content)
-  * [patch-request-content-type](#patch-request-content-type)
-  * [path-param-not-crn](#path-param-not-crn)
-  * [path-segment-case-convention](#path-segment-case-convention)
-  * [precondition-header](#precondition-header)
-  * [prohibit-summary-sentence-style](#prohibit-summary-sentence-style)
-  * [property-attributes](#property-attributes)
-  * [property-case-collision](#property-case-collision)
-  * [property-case-convention](#property-case-convention)
-  * [property-description](#property-description)
-  * [property-inconsistent-name-and-type](#property-inconsistent-name-and-type)
-  * [ref-pattern](#ref-pattern)
-  * [ref-sibling-duplicate-description](#ref-sibling-duplicate-description)
-  * [request-body-name](#request-body-name)
-  * [request-body-object](#request-body-object)
-  * [response-error-response-schema](#response-error-response-schema)
-  * [response-example-provided](#response-example-provided)
-  * [response-status-codes](#response-status-codes)
-  * [schema-description](#schema-description)
-  * [schema-type](#schema-type)
-  * [security-scheme-attributes](#security-scheme-attributes)
-  * [security-schemes](#security-schemes)
-  * [server-variable-default-value](#server-variable-default-value)
-  * [string-boundary](#string-boundary)
-  * [unused-tag](#unused-tag)
-  * [valid-path-segments](#valid-path-segments)
-  * [valid-type-format](#valid-type-format)
+  * [ibm-securityscheme-attributes](#ibm-securityscheme-attributes)
+  * [ibm-securityschemes](#ibm-securityschemes)
+  * [ibm-server-variable-default-value](#ibm-server-variable-default-value)
+  * [ibm-string-attributes](#ibm-string-attributes)
+  * [ibm-summary-sentence-style](#ibm-summary-sentence-style)
+  * [ibm-unused-tags](#ibm-unused-tags)
+  * [ibm-valid-path-segments](#ibm-valid-path-segments)
 
 <!-- tocstop -->
 
@@ -115,55 +114,49 @@ is provided in the [Reference](#reference) section below.
 <th>Rule Id</th><th>Severity</th><th>Description</th><th>OpenAPI Versions</th>
 <tr>
 <tr>
-<td><a href="#accept-parameter">accept-parameter</a></td>
+<td><a href="#ibm-accept-header">ibm-accept-header</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Accept</code> header parameter</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#array-boundary">array-boundary</a></td>
-<td>warn</td>
-<td>Array schemas should define the <code>minItems</code> and <code>maxItems</code> fields</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#array-items">array-items</a></td>
+<td><a href="#ibm-array-attributes">ibm-array-attributes</a></td>
 <td>warn</td>
-<td>Array schemas must specify the <code>items</code> property</td>
+<td>Array schemas must define the <code>items</code> field, and should define the <code>minItems</code> and <code>maxItems</code> fields</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#array-of-arrays">array-of-arrays</a></td>
+<td><a href="#ibm-array-of-arrays">ibm-array-of-arrays</a></td>
 <td>warn</td>
 <td>Array schemas with <code>items</code> of type array should be avoided</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#array-responses">array-responses</a></td>
+<td><a href="#ibm-array-responses">ibm-array-responses</a></td>
 <td>error</td>
 <td>Operations should not return an array as the top-level structure of a response.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#authorization-parameter">authorization-parameter</a></td>
+<td><a href="#ibm-authorization-header">ibm-authorization-header</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Authorization</code> header parameter</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#binary-schemas">binary-schemas</a></td>
+<td><a href="#ibm-binary-schemas">ibm-binary-schemas</a></td>
 <td>warn</td>
 <td>Makes sure that binary schemas are used only in proper locations within the API definition</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#circular-refs">circular-refs</a></td>
+<td><a href="#ibm-circular-refs">ibm-circular-refs</a></td>
 <td>warn</td>
 <td>Makes sure that the API definition doesn't contain any circular references</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#collection-array-property">collection-array-property</a></td>
+<td><a href="#ibm-collection-array-property">ibm-collection-array-property</a></td>
 <td>warn</td>
 <td>The [API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-collections-overview#response-format) states that the response
 to a "list" operation returning a collection must be an object that contains an array property whose name matches the plural form of the
@@ -175,68 +168,26 @@ For example, the "GET /v1/things" operation should return an object with an arra
 response schema defines an array property whose name matches the last path segment
 within the operation's path string, which should also match the plural form of the resource type.
 </td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#consecutive-path-param-segments">consecutive-path-param-segments</a></td>
+<td><a href="#ibm-consecutive-path-segments">ibm-consecutive-path-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API definition to detect the presence of two or more consecutive
 path segments that contain a path parameter reference (e.g. <code>/v1/foos/{foo_id}/{bar_id}</code>), 
 which is not allowed.</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#content-entry-contains-schema">content-entry-contains-schema</a></td>
+<td><a href="#ibm-content-contains-schema">ibm-content-contains-schema</a></td>
 <td>warn</td>
 <td>Content entries must specify a schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#content-entry-provided">content-entry-provided</a></td>
+<td><a href="#ibm-content-exists">ibm-content-exists</a></td>
 <td>warn</td>
 <td>Request bodies and non-204 responses should define a content field</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#content-type-parameter">content-type-parameter</a></td>
-<td>warn</td>
-<td>Operations should not explicitly define the <code>Content-Type</code> header parameter</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#delete-body">delete-body</a></td>
-<td>warn</td>
-<td>"delete" operations should not contain a requestBody.</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#description-mentions-json">description-mentions-json</a></td>
-<td>warn</td>
-<td>Schema descriptions should avoid mentioning <code>JSON</code></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#discriminator">discriminator</a></td>
-<td>error</td>
-<td>The discriminator property must be defined in the schema</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#duplicate-path-parameter">discriminator</a></td>
-<td>error</td>
-<td>Common path parameters should be defined on the path object.</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#enum-case-convention">enum-case-convention</a></td>
-<td>error</td>
-<td>Enum values should follow a specific case convention</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#examples-name-contains-space">examples-name-contains-space</a></td>
-<td>warn</td>
-<td>The name of an entry in an <code>examples</code> field should not contain a space</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -246,289 +197,331 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#ibm-content-type-header">ibm-content-type-header</a></td>
+<td>warn</td>
+<td>Operations should not explicitly define the <code>Content-Type</code> header parameter</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-delete-body">ibm-delete-body</a></td>
+<td>warn</td>
+<td>"delete" operations should not contain a requestBody.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-description-mentions-json">ibm-description-mentions-json</a></td>
+<td>warn</td>
+<td>Schema descriptions should avoid mentioning <code>JSON</code></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-discriminator-property-exists">ibm-discriminator-property-exists</a></td>
+<td>error</td>
+<td>The discriminator property must be defined in the schema</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-duplicate-path-parameter">ibm-duplicate-path-parameter</a></td>
+<td>error</td>
+<td>Common path parameters should be defined on the path object.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-enum-casing-convention">ibm-enum-casing-convention</a></td>
+<td>error</td>
+<td>Enum values should follow a specific case convention</td>
+<td>oas3</td>
+</tr>
+<tr>
 <td><a href="#ibm-error-content-type-is-json">ibm-error-content-type-is-json</a></td>
 <td>warn</td>
 <td>Error response should support <code>application/json</code></td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-sdk-operations">ibm-sdk-operations</a></td>
+<td><a href="#ibm-error-response-schemas">ibm-error-response-schemas</a></td>
 <td>warn</td>
-<td>Validates the structure of the <code>x-sdk-operations</code> object </td>
+<td>Error response schemas should comply with API Handbook guidance</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#if-modified-since-parameter">if-modified-since-parameter</a></td>
+<td><a href="#ibm-etag-header-exists">ibm-etag-header-exists</a></td>
+<td>error</td>
+<td>Verifies that the <code>ETag</code> response header is defined in the <code>GET</code> operation
+for any resources (paths) that support the <code>If-Match</code> and/or <code>If-None-Match</code> header parameters.
+</td>
+<tr>
+<td><a href="#ibm-examples-name-contains-space">ibm-examples-name-contains-space</a></td>
+<td>warn</td>
+<td>The name of an entry in an <code>examples</code> field should not contain a space</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-if-modified-since-header">ibm-if-modified-since-header</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Modified-Since</code> header parameter</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#if-unmodified-since-parameter">if-unmodified-since-parameter</a></td>
+<td><a href="#ibm-if-unmodified-since-header">ibm-if-unmodified-since-header</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#inline-property-schema">inline-property-schema</a></td>
+<td><a href="#ibm-inline-property-schema">ibm-inline-property-schema</a></td>
 <td>warn</td>
 <td>Nested objects should be defined as a $ref to a named schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#inline-request-schema">inline-request-schema</a></td>
+<td><a href="#ibm-inline-request-schema">ibm-inline-request-schema</a></td>
 <td>warn</td>
 <td>Request body schemas should be defined as a $ref to a named schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#inline-response-schema">inline-response-schema</a></td>
+<td><a href="#ibm-inline-response-schema">ibm-inline-response-schema</a></td>
 <td>warn</td>
 <td>Response schemas should be defined as a $ref to a named schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#major-version-in-path">major-version-in-path</a></td>
+<td><a href="#ibm-major-version-in-path">ibm-major-version-in-path</a></td>
 <td>warn</td>
 <td>All paths must contain the API major version as a distinct path segment</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#merge-patch-optional-properties">merge-patch-optional-properties</a></td>
+<td><a href="#ibm-merge-patch-properties">ibm-merge-patch-properties</a></td>
 <td>warn</td>
 <td>JSON merge-patch requestBody schemas should have no required properties</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#missing-required-property">missing-required-property</a></td>
-<td>error</td>
-<td>A schema property defined as <code>required</code> must be defined within the schema</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#no-etag-header">no-etag-header</a></td>
-<td>error</td>
-<td>Verifies that the <code>ETag</code> response header is defined in the <code>GET</code> operation
-for any resources (paths) that support the <code>If-Match</code> and/or <code>If-None-Match</code> header parameters.
-</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#operation-id-case-convention">operation-id-case-convention</a></td>
+<td><a href="#ibm-operation-summary-exists">ibm-operation-summary-exists</a></td>
 <td>warn</td>
-<td>Operation ids should follow a specific case convention</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#operation-id-naming-convention">operation-id-naming-convention</a></td>
-<td>warn</td>
-<td>Operation ids should follow a naming convention</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#operation-summary">operation-summary</a></td>
-<td>warn</td>
-<td>Operation <code>summary</code> must be present and non-empty string.</td>
+<td>Each operation should have a non-empty <code>summary</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#optional-request-body">optional-request-body</a></td>
+<td><a href="#ibm-operationid-casing-convention">ibm-operationid-casing-convention</a></td>
+<td>warn</td>
+<td>Operation ids should follow a specific case convention</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-operationid-naming-convention">ibm-operationid-naming-convention</a></td>
+<td>warn</td>
+<td>Operation ids should follow a naming convention</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-optional-requestbody">ibm-optional-requestbody</a></td>
 <td>info</td>
 <td>An optional requestBody with required properties should probably be required</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#pagination-style">pagination-style</a></td>
+<td><a href="#ibm-pagination-style">ibm-pagination-style</a></td>
 <td>warn</td>
 <td>List operations should have correct pagination style</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#parameter-case-convention">parameter-case-convention</a></td>
+<td><a href="#ibm-parameter-casing-convention">ibm-parameter-casing-convention</a></td>
 <td>error</td>
 <td>Parameter names should follow a specific case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#parameter-default">parameter-default</a></td>
+<td><a href="#ibm-parameter-default">ibm-parameter-default</a></td>
 <td>warn</td>
 <td>Required parameters should not define a default value</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#parameter-description">parameter-description</a></td>
+<td><a href="#ibm-parameter-description">ibm-parameter-description</a></td>
 <td>warn</td>
 <td>Parameters should have a non-empty description</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#parameter-order">parameter-order</a></td>
+<td><a href="#ibm-parameter-order">ibm-parameter-order</a></td>
 <td>warn</td>
 <td>All required operation parameters should be listed before optional parameters.</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#parameter-schema-or-content">parameter-schema-or-content</a></td>
+<td><a href="#ibm-parameter-schema-or-content-exists">ibm-parameter-schema-or-content-exists</a></td>
 <td>error</td>
 <td>Parameters must provide either a schema or content</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#patch-request-content-type">patch-request-content-type"</a></td>
+<td><a href="#ibm-patch-request-content-type">ibm-patch-request-content-type"</a></td>
 <td>error</td>
 <td>Verifies that PATCH operations support only requestBody content types <code>application/json-patch+json</code>
 or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#path-param-not-crn">path-param-not-crn</a></td>
+<td><a href="#ibm-path-parameter-not-crn">ibm-path-parameter-not-crn</a></td>
 <td>warn</td>
 <td>Verifies that path parameters are not defined as CRN (Cloud Resource Name) values</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#path-segment-case-convention">path-segment-case-convention</a></td>
+<td><a href="#ibm-path-segment-casing-convention">ibm-path-segment-casing-convention</a></td>
 <td>error</td>
 <td>Path segments must follow a specific case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#precondition-header">precondition-header</a></td>
+<td><a href="#ibm-precondition-header">ibm-precondition-header</a></td>
 <td>error</td>
 <td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code></td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#prohibit-summary-sentence-style">prohibit-summary-sentence-style</a></td>
-<td>warn</td>
-<td>An operation's <code>summary</code> field should not have a trailing period</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#property-attributes">property-attributes</a></td>
+<td><a href="#ibm-property-attributes">ibm-property-attributes</a></td>
 <td>error</td>
 <td>Performs a series of checks on the attributes defined for various schema types</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#property-case-collision">property-case-collision</a></td>
-<td>error</td>
-<td>Avoid duplicate property names within a schema, even if they differ by case convention</td>
-<td>oas2, oas3</td>
-</tr>
 <tr>
-<td><a href="#property-case-convention">property-case-convention</a></td>
+<td><a href="#ibm-property-casing-convention">ibm-property-casing-convention</a></td>
 <td>error</td>
 <td>Schema property names should follow a specific case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#property-description">property-description</a></td>
+<td><a href="#ibm-property-consistent-name-and-type">ibm-property-consistent-name-and-type</a></td>
+<td>off</td>
+<td>Schema properties that share the same name should also share the same type. This rule is disabled by default.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-property-description-exists">ibm-property-description-exists</a></td>
 <td>warn</td>
 <td>Schema properties should have a non-empty description</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
+</tr>
+<td><a href="#ibm-property-name-collision">ibm-property-name-collision</a></td>
+<td>error</td>
+<td>Avoid duplicate property names within a schema, even if they differ by case convention</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#property-inconsistent-name-and-type">property-inconsistent-name-and-type</a></td>
-<td>off</td>
-<td>Avoid using the same property name for properties of different types. This rule is disabled by default.</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#ref-pattern">ref-pattern</a></td>
+<td><a href="#ibm-ref-pattern">ibm-ref-pattern</a></td>
 <td>warn</td>
 <td>Ensures that <code>$ref</code> values follow the correct patterns.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ref-sibling-duplicate-description">ref-sibling-duplicate-description</a></td>
+<td><a href="#ibm-ref-sibling-duplicate-description">ibm-ref-sibling-duplicate-description</a></td>
 <td>warn</td>
 <td>Ensures that the "ref-sibling" <code>allOf</code> pattern is not used unnecessarily to define a duplicate description.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#request-body-name">request-body-name</a></td>
+<td><a href="#ibm-requestbody-name-exists">ibm-requestbody-name-exists</a></td>
 <td>warn</td>
 <td>An operation should specify a request body name (with the <code>x-codegen-request-body-name</code> extension) if its requestBody
 has non-form content.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#request-body-object">request-body-object</a></td>
+<td><a href="#ibm-requestbody-is-object">ibm-requestbody-is-object</a></td>
 <td>warn</td>
-<td>A request body should be defined as an object</td>
+<td>A non-form request body should be defined as an object</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#response-error-response-schema">response-error-response-schema</a></td>
-<td>warn</td>
-<td>Error response schemas should comply with API Handbook guidance</td>
+<td><a href="#ibm-required-property-missing">ibm-required-property-missing</a></td>
+<td>error</td>
+<td>A schema property defined as <code>required</code> must be defined within the schema</td>
+<td>oas3</td>
+</tr>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#response-example-provided">response-example-provided</a></td>
+<td><a href="#ibm-response-example-exists">ibm-response-example-exists</a></td>
 <td>warn</td>
-<td>Response should provide an example</td>
+<td>Each response should provide an example</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#response-status-codes">response-status-codes</a></td>
+<td><a href="#ibm-response-status-codes">ibm-response-status-codes</a></td>
 <td>warn</td>
 <td>Performs multiple checks on the status codes used in operation responses.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#schema-description">schema-description</a></td>
+<td><a href="#ibm-schema-description-exists">ibm-schema-description-exists</a></td>
 <td>warn</td>
 <td>Schemas should have a non-empty description</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#schema-type">schema-type</a></td>
+<td><a href="#ibm-schema-type-exists">ibm-schema-type-exists</a></td>
 <td>off</td>
 <td>Schemas and schema properties should have a non-empty <code>type</code> field. <b>This rule is disabled by default.</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#security-scheme-attributes">security-schemes</a></td>
+<td><a href="#ibm-schema-type-format">ibm-schema-type-format</a></td>
+<td>error</td>
+<td>Schemas and schema properties must use a valid combination of <code>type</code> and <code>format</code></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-sdk-operations">ibm-sdk-operations</a></td>
+<td>warn</td>
+<td>Validates the structure of each <code>x-sdk-operations</code> object</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-securityscheme-attributes">ibm-securityscheme-attributes</a></td>
 <td>warn</td>
 <td>Performs a series of validations on the content within security schemes</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#security-schemes">security-schemes</a></td>
+<td><a href="#ibm-securityschemes">ibm-securityschemes</a></td>
 <td>warn</td>
 <td>Verifies the security schemes and security requirement objects</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#server-variable-default-value">server-variable-default-value</a></td>
+<td><a href="#ibm-server-variable-default-value">ibm-server-variable-default-value</a></td>
 <td>warn</td>
 <td>Server variables should have a default value</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#string-boundary">string-boundary</a></td>
+<td><a href="#ibm-string-attributes">ibm-string-attributes</a></td>
 <td>warn</td>
 <td>String schema properties should define the <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#unused-tag">unused-tag</a></td>
+<td><a href="#ibm-summary-sentence-style">ibm-summary-sentence-style</a></td>
+<td>warn</td>
+<td>An operation's <code>summary</code> field should not have a trailing period</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-unused-tags">ibm-unused-tags</a></td>
 <td>warn</td>
 <td>Verifies that each defined tag is referenced by at least one operation</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#valid-path-segments">valid-path-segments</a></td>
+<td><a href="#ibm-valid-path-segments">ibm-valid-path-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API to make sure path parameter references are valid within path segments</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#valid-type-format">valid-type-format</a></td>
-<td>error</td>
-<td>Schema must use a valid combination of <code>type</code> and <code>format</code></td>
 <td>oas3</td>
 </tr>
 </table>
@@ -717,11 +710,11 @@ This section provides reference documentation about the IBM Cloud Validation Rul
 in the `@ibm-cloud/openapi-ruleset` package.
 
 
-### accept-parameter
+### ibm-accept-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>accept-parameter</b></td>
+<td><b>ibm-accept-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -734,7 +727,7 @@ Instead, the value of the <code>Accept</code> parameter is inferred from the <co
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:</b></td>
@@ -782,15 +775,15 @@ paths:
 </table>
 
 
-### array-boundary
+### ibm-array-attributes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>array-boundary</b></td>
+<td><b>ibm-array-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Array schemas should define the <code>minItems</code> and <code>maxItems</code> fields
+<td>Array schemas must define the <code>items</code> field, and should define the <code>minItems</code> and <code>maxItems</code> fields.
 [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#array">1</a>].</td>
 </tr>
 <tr>
@@ -810,11 +803,6 @@ components:
     Array:
       description: An Array instance.
       type: array
-      items:
-        type: string
-        pattern: '^[a-zA-Z0-9]*$'
-        minLength: 0
-        maxLength: 50
 </pre>
 </td>
 </tr>
@@ -840,72 +828,11 @@ components:
 </table>
 
 
-### array-items
+### ibm-array-of-arrays
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>array-items</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule checks to make sure that array schemas properly specify the <code>items</code> property
-to define the type of elements contained in the array.</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-requestBody:
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          field1:
-            type: array
-          field2:
-            type: array
-            items: 'not a schema'
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-requestBody:
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          field1:
-            type: array
-            items:
-              type: string
-          field2:
-            type: array
-            items: 
-              $ref: '#/components/schemas/SomeSchema'
-</pre>
-</td>
-</tr>
-</table>
-
-
-### array-of-arrays
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>array-of-arrays</b></td>
+<td><b>ibm-array-of-arrays</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -952,11 +879,11 @@ requestBody:
 </table>
 
 
-### array-responses
+### ibm-array-responses
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>array-responses</b></td>
+<td><b>ibm-array-responses</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1022,11 +949,11 @@ sample response body:
 </table>
 
 
-### authorization-parameter
+### ibm-authorization-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>authorization-parameter</b></td>
+<td><b>ibm-authorization-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1048,7 +975,7 @@ together with other documentation provided for the service.
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1106,11 +1033,11 @@ paths:
 </table>
 
 
-### binary-schemas
+### ibm-binary-schemas
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>binary-schemas</b></td>
+<td><b>ibm-binary-schemas</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1172,11 +1099,11 @@ paths:
 </table>
 
 
-### circular-refs
+### ibm-circular-refs
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>circular-refs</b></td>
+<td><b>ibm-circular-refs</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1240,11 +1167,11 @@ components:
 </table>
 
 
-### collection-array-property
+### ibm-collection-array-property
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>collection-array-property</b></td>
+<td><b>ibm-collection-array-property</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1272,7 +1199,7 @@ companion path string that does end with a path parameter reference (e.g. "/v1/t
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1321,11 +1248,11 @@ paths:
 </table>
 
 
-### consecutive-path-param-segments
+### ibm-consecutive-path-segments
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>consecutive-path-param-segments</b></td>
+<td><b>ibm-consecutive-path-segments</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1340,7 +1267,7 @@ For example, the path <code>/v1/foos/{foo_id}/{bar_id}</code> is invalid and sho
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1375,11 +1302,11 @@ paths:
 </table>
 
 
-### content-entry-contains-schema
+### ibm-content-contains-schema
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>content-entry-contains-schema</b></td>
+<td><b>ibm-content-contains-schema</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1424,11 +1351,11 @@ responses:
 </table>
 
 
-### content-entry-provided
+### ibm-content-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>content-entry-provided</b></td>
+<td><b>ibm-content-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1468,11 +1395,59 @@ responses:
 </table>
 
 
-### content-type-parameter
+### ibm-content-type-is-specific
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>content-type-parameter</b></td>
+<td><b>ibm-content-type-is-specific</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The use of <code>*/*</code> as a mimetype within a <code>content</code> field should be avoided
+unless the API actually supports all content types.
+<p>If the API in fact supports all content types, this warning should be ignored.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+requestBody:
+  content:
+    '*/*':
+      ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+requestBody:
+  content:
+    'application/json':
+      ...
+    'text/plain':
+      ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-content-type-header
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-content-type-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1486,7 +1461,7 @@ Note that the <code>Content-Type</code> header parameter is managed automaticall
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1543,11 +1518,11 @@ paths:
 </table>
 
 
-### delete-body
+### ibm-delete-body
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>delete-body</b></td>
+<td><b>ibm-delete-body</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1602,11 +1577,11 @@ paths:
 </table>
 
 
-### description-mentions-json
+### ibm-description-mentions-json
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>description-mentions-json</b></td>
+<td><b>ibm-description-mentions-json</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1657,11 +1632,11 @@ components:
 </table>
 
 
-### discriminator
+### ibm-discriminator-property-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>discriminator</b></td>
+<td><b>ibm-discriminator-property-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1727,11 +1702,11 @@ components:
 </table>
 
 
-### duplicate-path-parameter
+### ibm-duplicate-path-parameter
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>duplicate-path-parameter</b></td>
+<td><b>ibm-duplicate-path-parameter</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1747,7 +1722,7 @@ and returns a warning to alert the user that the path parameter should be define
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1796,11 +1771,11 @@ paths:
 </table>
 
 
-### enum-case-convention
+### ibm-enum-casing-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>enum-case-convention</b></td>
+<td><b>ibm-enum-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1813,7 +1788,7 @@ contain values that follow a specific case convention, with the default being sn
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -1871,123 +1846,6 @@ components:
 </table>
 
 
-### examples-name-contains-space
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>examples-name-contains-space</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>The name of an entry in an <code>examples</code> field should not contain a space.</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  /v1/things:
-    post:
-      operationId: create_thing
-      description: Create a new Thing instance.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Thing'
-            examples:
-              'Create Thing Example':
-                value:
-                  thing_id: 1ac38d2z89
-                  thing_type: type1
-      responses:
-        ...
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  /v1/things:
-    post:
-      operationId: create_thing
-      description: Create a new Thing instance.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Thing'
-            examples:
-              CreateThingExample:
-                value:
-                  thing_id: 1ac38d2z89
-                  thing_type: type1
-      responses:
-        ...
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-content-type-is-specific
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-content-type-is-specific</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>The use of <code>*/*</code> as a mimetype within a <code>content</code> field should be avoided
-unless the API actually supports all content types.
-<p>If the API in fact supports all content types, this warning should be ignored.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-requestBody:
-  content:
-    '*/*':
-      ...
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-requestBody:
-  content:
-    'application/json':
-      ...
-    'text/plain':
-      ...
-</pre>
-</td>
-</tr>
-</table>
-
-
 ### ibm-error-content-type-is-json
 <table>
 <tr>
@@ -2036,298 +1894,27 @@ responses:
 </table>
 
 
-### ibm-sdk-operations
+### ibm-error-response-schemas
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-sdk-operations</b></td>
+<td><b>ibm-error-response-schemas</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>This rule validates the structure of values specified for the <code>x-sdk-operations</code>
-extension, using <a href="/packages/ruleset/src/schemas/x-sdk-operations.json">this JSON Schema document</a>.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-n/a
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-n/a
-</td>
-</tr>
-</table>
-
-
-### if-modified-since-parameter
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>if-modified-since-parameter</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers">API Handbook</a>
-recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
-Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
-<p>This rule warns about operations that support the <code>If-Modified-Since</code> header parameter.
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/things/{thing_id}':
-    parameters:
-      - $ref: '#components/parameters/ThingIdParam'
-    get:
-      operationId: get_thing
-      parameters:
-        - name: If-Modified-Since
-          in: header
-          description: |-
-            The operation will succeed only if the resource has been last modified 
-            after the date specified for this header parameter.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'Resource was retrieved successfully!'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Thing'
-        '412':
-          description: 'Resource has not been modified after If-Modified-Since date.'
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/things/{thing_id}':
-    parameters:
-      - $ref: '#components/parameters/ThingIdParam'
-    get:
-      operationId: get_thing
-      parameters:
-        - name: If-None-Match
-          in: header
-          description: |-
-            The operation will succeed only if the resource's current ETag value 
-            does not match the value specified for this header parameter.
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'Resource was retrieved successfully!'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Thing'
-        '412':
-          description: 'Resource current ETag matches If-None-Match value.'
-</pre>
-</td>
-</tr>
-</table>
-
-
-### if-unmodified-since-parameter
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>if-unmodified-since-parameter</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers">API Handbook</a>
-recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
-Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
-<p>This rule warns about operations that support the <code>If-Unmodified-Since</code> header parameter.
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/things/{thing_id}':
-    parameters:
-      - $ref: '#components/parameters/ThingIdParam'
-    delete:
-      operationId: delete_thing
-      parameters:
-        - name: If-Unmodified-Since
-          in: header
-          description: |-
-            The operation will succeed only if the resource has not been modified 
-            after the date specified for this header parameter.
-          schema:
-            type: string
-      responses:
-        '204':
-          description: 'Resource was deleted successfully!'
-        '412':
-          description: 'Resource was last modified after the If-Unmodified-Since date.'
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/things/{thing_id}':
-    parameters:
-      - $ref: '#components/parameters/ThingIdParam'
-    delete:
-      operationId: delete_thing
-      parameters:
-        - name: If-Match
-          in: header
-           description: |-
-            The operation will succeed only if the resource's current ETag value
-            matches the value specified for this header parameter.
-          schema:
-            type: string
-      responses:
-        '204':
-          description: 'Resource was deleted successfully!'
-        '412':
-          description: 'Resource current ETag value does not match the If-Match value.'
-</pre>
-</td>
-</tr>
-</table>
-
-
-### inline-property-schema
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>inline-property-schema</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>If a nested schema (perhaps a schema property, an array <code>items</code> schema,
-an <code>additionalProperties</code> schema, etc.) is an object with user-defined properties,
-it is a best practice to define the schema as a named schema within the <code>components.schemas</code> section
-of the API definition, and then reference it with a schema $ref instead of defining it as an inline object schema.
-This is documented in the
-[API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#nested-object-schemas).
-<p>The use of a schema $ref is preferred instead of a nested object schema, because the SDK generator will
-use the schema $ref when determining the datatype associated with the nested object within the generated SDK code.
-If the SDK generator encounters a nested objet schema, it must refactor it by moving it to the <code>components.schemas</code>
-section of the API definition and then replacing it with a schema $ref.
-However, the names computed by the SDK generator are not optimal (e.g. MyModelProp1),
-so the recommendation is to define any nested object schema as a $ref so that the SDK generator's
-refactoring (and it's sub-optimal name computation) can be avoided.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        id:
-          type: string
-        version:
-          type: object
-          properties:
-            major:
-              type: string
-            minor:
-              type: string
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        id:
-          type: string
-        version:
-          $ref: '#/components/schemas/ThingVersion'
-    ThingVersion:
-      type: object
-      properties:
-        major:
-          type: string
-        minor:
-          type: string
-</pre>
-</td>
-</tr>
-</table>
-
-
-### inline-request-schema
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>inline-request-schema</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>If a requestBody schema contains properties (i.e. a user-defined model), it is a best practice to
-define the schema as a named schema within the <code>components.schemas</code> section
-of the API definition, and then reference it with a schema $ref within the requestBody object.
-Following this best practice allows user-defined models to be re-used within the API definition.
-<p>In addition to re-usability, there is an added benefit during SDK code generation.
-In certain scenarios, the SDK generator will refactor an inline requestBody schema by moving it to
-<code>components.schemas</code> and replacing it with a schema $ref.
-When doing this refactoring, the SDK generator is likely to compute a name for the new schema that is
-not optimal (e.g. CreateThingRequest), so the recommendation is to specify user-defined models
-as a named schema in <code>components.schemas</code>, and then reference where needed with a schema $ref 
-instead of an inline schema.
+<td>This rule implements the guidance related to error response schemas found in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors">API Handbook</a>.
+<p>Specifically, the following checks are performed against each schema associated with an error response:
+<ul>
+<li>The error response schema should form a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-container-model">error container model</a> as
+described by the API Handbook.</li>
+<li>The <code>errors</code> property must be an array whose <code>items</code> field is a schema that forms a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-model">error model</a>
+as described in the API Handbook.</li>
+<li>If present, the <code>target</code> property must contain a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-target-model">error target model</a>
+as described in the API Handbook.</li>
+</ul>
 </td>
 </tr>
 <tr>
@@ -2343,237 +1930,50 @@ instead of an inline schema.
 <td>
 <pre>
 paths:
-  /v1/things:
+  '/v1/things':
     post:
       operationId: create_thing
-      description: Create a new Thing instance.
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              description: A Thing instance.
-              properties:
-                thing_id:
-                  type: string
-                thing_style:
-                  type: string
-              additionalProperties: true
-      ...
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      description: A Thing instance.
-      properties:
-        thing_id:
-          type: string
-        thing_style:
-          type: string
-      additionalProperties: true
-paths:
-  /v1/things:
-    post:
-      operationId: create_thing
-      description: Create a Thing instance.
-      requestBody:
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Thing'
+    responses:
+      '201':
         content:
           application/json:
             schema:
               $ref: '#/components/schemas/Thing'
-      ...
-</pre>
-</td>
-</tr>
-</table>
-
-
-### inline-response-schema
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>inline-response-schema</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>A response schema should be defined as a reference to a named schema instead of defined as an inline schema.
-This is a best practice because the SDK generator will use the schema reference when determining the operation's return type
-within the generated SDK code.
-<p>The SDK generator will refactor any inline response schemas that it finds by moving them to the <code>components.schemas</code>
-section of the API definition and then replacing them with a reference.  However, the names computed by the SDK generator are
-not optimal (e.g. GetThingResponse), so the recommendation is for API authors to define the response schema as a $ref.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  '/v1/things/{thing_id}':
-    get:
-      operationId: get_thing
-      description: Retrieve a Thing instance by id.
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                type: object
-                description: A Thing instance.
-                properties:
-                  thing_id:
-                    type: string
-                  thing_style:
-                    type: string
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      description: A Thing instance.
-      properties:
-        thing_id:
-          type: string
-        thing_style:
-          type: string
-paths:
-  '/v1/things/{thing_id}':
-    get:
-      operationId: get_thing
-      description: Retrieve a Thing instance by id.
-      responses:
-        '200':
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Thing'
-</pre>
-</td>
-</tr>
-</table>
-
-
-### major-version-in-path
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>major-version-in-path</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>Each path defined within the API definition should include a path segment for the API major version,
-of the form <code>v&lt;n&gt;</code>, and all paths should have the same API major version segment.
-The API major version can appear in either the server URL (oas3), the basePath (oas2), or in each path entry.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-openapi: 3.0.1
-info:
-  version: 1.0.0
-  ...
-paths:
-  /things:
-    ...
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-openapi: 3.0.1
-info:
-  version: 1.0.0
-  ...
-paths:
-  /v1/things:
-    ...
-</pre>
-</td>
-</tr>
-</table>
-
-
-### merge-patch-optional-properties
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>merge-patch-optional-properties</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>In order to adhere to the "merge-patch" semantics, the requestBody schema for a patch operation
-with <code>application/merge-patch+json</code> requestBody content should not
-define any required properties or specify a non-zero value for the <code>minProperties</code> field.
-<p>This rule verifies that "merge-patch" operations adhere to this requirement.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  /v1/things/{thing_id}:
-    patch:
-      operationId: update_thing
-      requestBody:
+      '400':
         content:
-          'application/merge-patch+json':
+          application/json:
             schema:
-              $ref: '#/components/schemas/ThingPatch'
+              $ref: '#/components/schemas/ErrorContainer'
 components:
   schemas:
-    ThingPatch:
+    ErrorContainer:
+      description: 'An error response for an operation.'
       type: object
-      required:
-        - name
-        - long_description
       properties:
-        name:
-          description: The name of the Thing
+        error:
+          $ref: '#/components/schemas/Error'
+        trace:
+          description: 'The error trace information.'
           type: string
-        long_description:
-          description: The long description of the Thing
+          format: uuid
+    Error:
+      description: 'An error response entry.'
+      type: object
+      properties:
+        code:
+          description: 'The error code.'
+          type: integer
+        message:
+          description: 'The error message.'
+          type: string
+        more_info:
+          description: 'Additional info about the error.'
+          type: string
 </pre>
 </td>
 </tr>
@@ -2582,99 +1982,74 @@ components:
 <td>
 <pre>
 paths:
-  /v1/things/{thing_id}:
-    patch:
-      operationId: update_thing
-      requestBody:
+  '/v1/things':
+    post:
+      operationId: create_thing
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Thing'
+    responses:
+      '201':
         content:
-          'application/merge-patch+json':
+          application/json:
             schema:
-              $ref: '#/components/schemas/ThingPatch'
+              $ref: '#/components/schemas/Thing'
+      '400':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorContainer'
 components:
   schemas:
-    ThingPatch:          &lt;&lt;&lt; no longer defines any required properties
+    ErrorContainer:
+      description: 'An error response for an operation.'
       type: object
       properties:
-        name:
-          description: The name of the Thing
+        errors:
+          type: array
+          minItems: 0,
+          maxItems: 100,
+          description: 'The array of error entries associated with the error response',
+          items:
+            $ref: '#/components/schemas/Error'
+        trace:
+          description: 'The error trace information.'
           type: string
-        long_description:
-          description: The long description of the Thing
-</pre>
-</td>
-</tr>
-</table>
-
-### missing-required-property
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>missing-required-property</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule verifies that for each property name included in a schema's <code>required</code> list, 
-that property must be defined within the schema.
-The property could be defined in any of the following ways:
-<ol>
-<li>within the schema's <code>properties</code> field</li>
-<li>within <b>one or more</b> of the schemas listed in the <code>allOf</code> field</li>
-<li>within <b>each</b> of the schemas listed in the <code>anyOf</code> or <code>oneOf</code> field</li>
-</ol>
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
+          format: uuid
+        }
+      }
+    },
+    Error:
+      description: 'An error response entry.'
       type: object
       properties:
-        thing_id:
+        code:
+          description: 'The error code.'
           type: string
-      required:
-        - thing_id
-        - thing_version
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
+          enum:
+            - 'bad_request'
+            - 'not_authorized'
+            - 'no_need_to_know'
+        },
+        message:
+          description: 'The error message.'
           type: string
-        thing_version:
+        more_info:
+          description: 'Additional info about the error.'
           type: string
-      required:
-        - thing_id
-        - thing_version
 </pre>
 </td>
 </tr>
 </table>
 
 
-### no-etag-header
+### ibm-etag-header-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>no-etag-header</b></td>
+<td><b>ibm-etag-header-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2684,9 +2059,8 @@ An <code>ETag</code> response header is needed if there are operations within th
 path item that support the <code>If-Match</code> or <code>If-Not-Match</code> header parameters.
 <p>The reasoning behind this rule is that if a given path has one or more operations in which the user needs
 to provide a value for the <code>If-Match</code> or <code>If-None-Match</code> header parameters
-(sometimes referred to as an "etag value"), then the API
-must provide a way for the user to obtain the etag value.
-And, the standard way for a service to provide an etag value to the user is by returning it as the <code>ETag</code> response header
+(sometimes referred to as an "etag value"), then the API should provide a way for the user to obtain the etag value.
+And the standard way for a service to provide an etag value to the user is by returning it as the <code>ETag</code> response header
 within the <code>GET</code> operation's response.
 </td>
 </tr>
@@ -2696,7 +2070,7 @@ within the <code>GET</code> operation's response.
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -2780,11 +2154,662 @@ paths:
 </table>
 
 
-### operation-id-case-convention
+### ibm-examples-name-contains-space
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>operation-id-case-convention</b></td>
+<td><b>ibm-examples-name-contains-space</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The name of an entry in an <code>examples</code> field should not contain a space.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+            examples:
+              'Create Thing Example':
+                value:
+                  thing_id: 1ac38d2z89
+                  thing_type: type1
+      responses:
+        ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+            examples:
+              CreateThingExample:
+                value:
+                  thing_id: 1ac38d2z89
+                  thing_type: type1
+      responses:
+        ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-if-modified-since-header
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-if-modified-since-header</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers">API Handbook</a>
+recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
+Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
+<p>This rule warns about operations that support the <code>If-Modified-Since</code> header parameter.
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    get:
+      operationId: get_thing
+      parameters:
+        - name: If-Modified-Since
+          in: header
+          description: |-
+            The operation will succeed only if the resource has been last modified 
+            after the date specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Resource was retrieved successfully!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+        '412':
+          description: 'Resource has not been modified after If-Modified-Since date.'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    get:
+      operationId: get_thing
+      parameters:
+        - name: If-None-Match
+          in: header
+          description: |-
+            The operation will succeed only if the resource's current ETag value 
+            does not match the value specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'Resource was retrieved successfully!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+        '412':
+          description: 'Resource current ETag matches If-None-Match value.'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-if-unmodified-since-header
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-if-unmodified-since-header</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers">API Handbook</a>
+recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
+Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
+<p>This rule warns about operations that support the <code>If-Unmodified-Since</code> header parameter.
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: If-Unmodified-Since
+          in: header
+          description: |-
+            The operation will succeed only if the resource has not been modified 
+            after the date specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'Resource was deleted successfully!'
+        '412':
+          description: 'Resource was last modified after the If-Unmodified-Since date.'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#components/parameters/ThingIdParam'
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: If-Match
+          in: header
+           description: |-
+            The operation will succeed only if the resource's current ETag value
+            matches the value specified for this header parameter.
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'Resource was deleted successfully!'
+        '412':
+          description: 'Resource current ETag value does not match the If-Match value.'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-inline-property-schema
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-inline-property-schema</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>If a nested schema (perhaps a schema property, an array <code>items</code> schema,
+an <code>additionalProperties</code> schema, etc.) is an object with user-defined properties,
+it is a best practice to define the schema as a named schema within the <code>components.schemas</code> section
+of the API definition, and then reference it with a schema $ref instead of defining it as an inline object schema.
+This is documented in the
+[API Handbook](https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#nested-object-schemas).
+<p>The use of a schema $ref is preferred instead of a nested object schema, because the SDK generator will
+use the schema $ref when determining the datatype associated with the nested object within the generated SDK code.
+If the SDK generator encounters a nested objet schema, it must refactor it by moving it to the <code>components.schemas</code>
+section of the API definition and then replacing it with a schema $ref.
+However, the names computed by the SDK generator are not optimal (e.g. MyModelProp1),
+so the recommendation is to define any nested object schema as a $ref so that the SDK generator's
+refactoring (and it's sub-optimal name computation) can be avoided.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        version:
+          type: object
+          properties:
+            major:
+              type: string
+            minor:
+              type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        version:
+          $ref: '#/components/schemas/ThingVersion'
+    ThingVersion:
+      type: object
+      properties:
+        major:
+          type: string
+        minor:
+          type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-inline-request-schema
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-inline-request-schema</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>If a requestBody schema contains properties (i.e. a user-defined model), it is a best practice to
+define the schema as a named schema within the <code>components.schemas</code> section
+of the API definition, and then reference it with a schema $ref within the requestBody object.
+Following this best practice allows user-defined models to be re-used within the API definition.
+<p>In addition to re-usability, there is an added benefit during SDK code generation.
+In certain scenarios, the SDK generator will refactor an inline requestBody schema by moving it to
+<code>components.schemas</code> and replacing it with a schema $ref.
+When doing this refactoring, the SDK generator is likely to compute a name for the new schema that is
+not optimal (e.g. CreateThingRequest), so the recommendation is to specify user-defined models
+as a named schema in <code>components.schemas</code>, and then reference where needed with a schema $ref 
+instead of an inline schema.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              description: A Thing instance.
+              properties:
+                thing_id:
+                  type: string
+                thing_style:
+                  type: string
+              additionalProperties: true
+      ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      description: A Thing instance.
+      properties:
+        thing_id:
+          type: string
+        thing_style:
+          type: string
+      additionalProperties: true
+paths:
+  /v1/things:
+    post:
+      operationId: create_thing
+      description: Create a Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-inline-response-schema
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-inline-response-schema</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>A response schema should be defined as a reference to a named schema instead of defined as an inline schema.
+This is a best practice because the SDK generator will use the schema reference when determining the operation's return type
+within the generated SDK code.
+<p>The SDK generator will refactor any inline response schemas that it finds by moving them to the <code>components.schemas</code>
+section of the API definition and then replacing them with a reference.  However, the names computed by the SDK generator are
+not optimal (e.g. GetThingResponse), so the recommendation is for API authors to define the response schema as a $ref.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      description: Retrieve a Thing instance by id.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A Thing instance.
+                properties:
+                  thing_id:
+                    type: string
+                  thing_style:
+                    type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      description: A Thing instance.
+      properties:
+        thing_id:
+          type: string
+        thing_style:
+          type: string
+paths:
+  '/v1/things/{thing_id}':
+    get:
+      operationId: get_thing
+      description: Retrieve a Thing instance by id.
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-major-version-in-path
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-major-version-in-path</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Each path defined within the API definition should include a path segment for the API major version,
+of the form <code>v&lt;n&gt;</code>, and all paths should have the same API major version segment.
+The API major version can appear in either the server URL or in each path entry.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  ...
+paths:
+  /things:
+    ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+openapi: 3.0.1
+info:
+  version: 1.0.0
+  ...
+paths:
+  /v1/things:
+    ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-merge-patch-properties
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-merge-patch-properties</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>In order to adhere to the "merge-patch" semantics, the requestBody schema for a patch operation
+with <code>application/merge-patch+json</code> requestBody content should not
+define any required properties or specify a non-zero value for the <code>minProperties</code> field.
+<p>This rule verifies that "merge-patch" operations adhere to this requirement.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things/{thing_id}:
+    patch:
+      operationId: update_thing
+      requestBody:
+        content:
+          'application/merge-patch+json':
+            schema:
+              $ref: '#/components/schemas/ThingPatch'
+components:
+  schemas:
+    ThingPatch:
+      type: object
+      required:
+        - name
+        - long_description
+      properties:
+        name:
+          description: The name of the Thing
+          type: string
+        long_description:
+          description: The long description of the Thing
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  /v1/things/{thing_id}:
+    patch:
+      operationId: update_thing
+      requestBody:
+        content:
+          'application/merge-patch+json':
+            schema:
+              $ref: '#/components/schemas/ThingPatch'
+components:
+  schemas:
+    ThingPatch:          &lt;&lt;&lt; no longer defines any required properties
+      type: object
+      properties:
+        name:
+          description: The name of the Thing
+          type: string
+        long_description:
+          description: The long description of the Thing
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-operation-summary-exists
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-operation-summary-exists</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule verifies that each operation has a non-empty <code>summary</code>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      summary: Create a Thing
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-operationid-casing-convention
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-operationid-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2796,7 +2821,7 @@ paths:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -2848,10 +2873,11 @@ paths:
 </table>
 
 
-### operation-id-naming-convention
+### ibm-operationid-naming-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
+<td><b>ibm-operationid-naming-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2869,7 +2895,7 @@ Likewise, for the <code>GET /v1/things/{thing_id}</code> operation, we might pre
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -2910,58 +2936,11 @@ paths:
 </table>
 
 
-### operation-summary
+### ibm-optional-requestbody
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>operation-summary</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule verifies that each operation has a non-empty summary.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  '/v1/things':
-    post:
-      operationId: create_thing
-      description: Create a new Thing instance.
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/things':
-    get:
-      operationId: create_thing
-      description: Create a new Thing instance.
-      summary: Create a Thing
-</pre>
-</td>
-</tr>
-</table>
-
-
-### optional-request-body
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>optional-request-body</b></td>
+<td><b>ibm-optional-requestbody</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3016,11 +2995,11 @@ paths:
 </table>
 
 
-### pagination-style
+### ibm-pagination-style
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>pagination-style</b></td>
+<td><b>ibm-pagination-style</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3100,15 +3079,20 @@ n/a
 </table>
 
 
-### parameter-case-convention
+### ibm-parameter-casing-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-case-convention</b></td>
+<td><b>ibm-parameter-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Parameter names should be snake case</td>
+<td>This rule verifies that each parameter name complies with the casing convention associated with that parameter's type.
+For example, the default casing convention for query parameters is snake-case (e.g. `my-query-param`), the default for path parameters
+is snake-case (e.g. `my_path_param`), and the default casing convention for header params is pascal-case (e.g. `X-My-Custom-Header`).
+These default casing conventions constitute the default configuration for the rule, although the rule's configuration can be modified to
+fit your needs (see below).
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -3116,7 +3100,7 @@ n/a
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -3149,8 +3133,8 @@ to enforce the desired case convention for that parameter type.
 </pre>
 This enforces:
 <ul>
-<li>Query parameter names to be snake case, while also allowing "." within the name</li>
-<li>Path parameter names to be snake case</li>
+<li>Query parameter names to be snake-case, while also allowing "." within the name</li>
+<li>Path parameter names to be snake-case</li>
 <li>Header parameter names to be in http header canonical form, which amounts to
 <code>pascal</code> casing with a hyphen (<code>"-"</code>) separating the words
 (e.g. <code>X-My-Header</code>).
@@ -3162,7 +3146,7 @@ the entry for that parameter type from the configuration object.
 mentioned above, you'll need to
 <a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
 custom ruleset</a> and modify the configuration appropriately for your needs.
-For example, to disable the case convention checks on header parameter names, while enforcing camel case conventions
+For example, to disable the case convention checks on header parameter names, while enforcing camel-case conventions
 on query and path parameter names, the configuration object would look like this:
 <pre>
 {
@@ -3183,7 +3167,7 @@ on query and path parameter names, the configuration object would look like this
 components:
   parameters:
     SortOrderParam:
-      name: sortOrder           &lt;&lt; camel case
+      name: sortOrder           &lt;&lt; camel-case
       description: The sort order.
       in: query
       required: false
@@ -3203,7 +3187,7 @@ components:
 components:
   parameters:
     SortOrderParam:
-      name: sort_order        &lt;&lt; snake case
+      name: sort_order        &lt;&lt; snake-case
       description: The sort order.
       in: query
       required: false
@@ -3219,11 +3203,11 @@ components:
 </table>
 
 
-### parameter-default
+### ibm-parameter-default
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-default</b></td>
+<td><b>ibm-parameter-default</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3235,7 +3219,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3279,11 +3263,11 @@ components:
 </table>
 
 
-### parameter-description
+### ibm-parameter-description
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-description</b></td>
+<td><b>ibm-parameter-description</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3295,7 +3279,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3339,11 +3323,11 @@ components:
 </table>
 
 
-### parameter-order
+### ibm-parameter-order
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-order</b></td>
+<td><b>ibm-parameter-order</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3357,7 +3341,7 @@ listed first, then any optional parameters.
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3420,11 +3404,11 @@ paths:
 </table>
 
 
-### parameter-schema-or-content
+### ibm-parameter-schema-or-content-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-schema-or-content</b></td>
+<td><b>ibm-parameter-schema-or-content-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3465,11 +3449,11 @@ parameters:
 </table>
 
 
-### patch-request-content-type
+### ibm-patch-request-content-type
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>patch-request-content-type</b></td>
+<td><b>ibm-patch-request-content-type</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3534,11 +3518,11 @@ paths:
 </table>
 
 
-### path-param-not-crn
+### ibm-path-parameter-not-crn
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>path-param-not-crn</b></td>
+<td><b>ibm-path-parameter-not-crn</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3579,7 +3563,7 @@ are true for a particular parameter, then a warning is raised for that parameter
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3624,11 +3608,11 @@ components:
 </table>
 
 
-### path-segment-case-convention
+### ibm-path-segment-casing-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>path-segment-case-convention</b></td>
+<td><b>ibm-path-segment-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3640,7 +3624,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -3679,11 +3663,11 @@ paths:
 </table>
 
 
-### precondition-header
+### ibm-precondition-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>precondition-header</b></td>
+<td><b>ibm-precondition-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3752,58 +3736,11 @@ paths:
 </table>
 
 
-### prohibit-summary-sentence-style
+### ibm-property-attributes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>prohibit-summary-sentence-style</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>An operation's <code>summary</code> field should not have a trailing period.</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  /v1/things
-    get:
-      operationId: list_things
-      summary: List Things.
-      description: Retrieve a paginated collection of Thing instances.
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  /v1/things
-    get:
-      operationId: list_things
-      summary: List Things
-      description: Retrieve a paginated collection of Thing instances.
-</pre>
-</td>
-</tr>
-</table>
-
-
-### property-attributes
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>property-attributes</b></td>
+<td><b>ibm-property-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3815,14 +3752,6 @@ paths:
 <li><code>minimum</code> must not be greater than <code>maximum</code>.</li>
 <li><code>minimum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
 <li><code>maximum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
-</ul>
-</dd>
-<dt>Array schemas (type=array):</dt>
-<dd>
-<ul>
-<li><code>minItems</code> must not be greater than <code>maxItems</code>.</li>
-<li><code>minItems</code> must not be defined for a schema type other than <code>array</code>.</li>
-<li><code>maxItems</code> must not be defined for a schema type other than <code>array</code>.</li>
 </ul>
 </dd>
 <dt>Object schemas (type=object):</dt>
@@ -3853,12 +3782,6 @@ components:
     Thing:
       type: object
       properties:
-        thing_names:
-          type: array
-          items:
-            type: string
-          minItems: 10
-          maxItems: 5
         thing_size:
           type: integer,
           minimum: 5
@@ -3875,12 +3798,6 @@ components:
     Thing:
       type: object
       properties:
-        thing_names:
-          type: array
-          items:
-            type: string
-          minItems: 5
-          maxItems: 10
         thing_size:
           type: integer,
           minimum: 4
@@ -3891,67 +3808,11 @@ components:
 </table>
 
 
-### property-case-collision
+### ibm-property-casing-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>property-case-collision</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>Property names within a schema must be unique, even if they differ by case convention
-(e.g. properties <code>thingType</code> and <code>thing_type</code> defined within the same schema would violate this rule).</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          type: string
-        thing_type:
-          type: string
-        thingType:
-          type: string
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          type: string
-        thing_type:
-          type: string
-</pre>
-</td>
-</tr>
-</table>
-
-
-### property-case-convention
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>property-case-convention</b></td>
+<td><b>ibm-property-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3963,7 +3824,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -4025,70 +3886,16 @@ components:
 </table>
 
 
-### property-description
+### ibm-property-consistent-name-and-type
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>property-description</b></td>
+<td><b>ibm-property-consistent-name-and-type</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Schema properties should have a non-empty description.</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          type: string
-        thing_type:
-          type: string
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          description: The ID associated with the Thing instance.
-          type: string
-        thing_type:
-          description: The type associated with the Thing instance.
-          type: string
-</pre>
-</td>
-</tr>
-</table>
-
-
-### property-inconsistent-name-and-type
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>property-inconsistent-name-and-type</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>Avoid using the same property name for properties of different types.
+<td>Like-named schema properties (from different schemas) should have the same type to ensure consistency
+throughout the API definition.
 <br><br>
 <b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
 </td>
@@ -4099,7 +3906,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -4146,11 +3953,122 @@ components:
 </table>
 
 
-### ref-pattern
+### ibm-property-description-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ref-pattern</b></td>
+<td><b>ibm-property-description-exists</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Schema properties should have a non-empty description.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_type:
+          type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          description: The ID associated with the Thing instance.
+          type: string
+        thing_type:
+          description: The type associated with the Thing instance.
+          type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-property-name-collision
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-property-name-collision</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Property names within a schema must be unique, even if they differ by case convention
+(e.g. properties <code>thingType</code> and <code>thing_type</code> defined within the same schema would violate this rule).</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_type:
+          type: string
+        thingType:
+          type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_type:
+          type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-ref-pattern
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-ref-pattern</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4228,11 +4146,11 @@ components:
 </table>
 
 
-### ref-sibling-duplicate-description
+### ibm-ref-sibling-duplicate-description
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ref-sibling-duplicate-description</b></td>
+<td><b>ibm-ref-sibling-duplicate-description</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4378,11 +4296,11 @@ components:
 </table>
 
 
-### request-body-name
+### ibm-requestbody-name-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>request-body-name</b></td>
+<td><b>ibm-requestbody-name-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4443,15 +4361,15 @@ paths:
 </table>
 
 
-### request-body-object
+### ibm-requestbody-is-object
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>request-body-object</b></td>
+<td><b>ibm-requestbody-is-object</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Each request body should be defined as an object.</td>
+<td>Each non-form-based request body should be defined as an object.</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -4491,32 +4409,27 @@ requestBody:
 </table>
 
 
-### response-error-response-schema
+### ibm-required-property-missing
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>response-error-response-schema</b></td>
+<td><b>ibm-required-property-missing</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>This rule implements the guidance related to error response schemas found in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors">API Handbook</a>.
-<p>Specifically, the following checks are performed against each schema associated with an error response:
-<ul>
-<li>The error response schema should form a valid
-<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-container-model">error container model</a> as
-described by the API Handbook.</li>
-<li>The <code>errors</code> property must be an array whose <code>items</code> field is a schema that forms a valid
-<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-model">error model</a>
-as described in the API Handbook.</li>
-<li>If present, the <code>target</code> property must contain a valid
-<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-target-model">error target model</a>
-as described in the API Handbook.</li>
-</ul>
+<td>This rule verifies that for each property name included in a schema's <code>required</code> list, 
+that property must be defined within the schema.
+The property could be defined in any of the following ways:
+<ol>
+<li>within the schema's <code>properties</code> field</li>
+<li>within <b>one or more</b> of the schemas listed in the <code>allOf</code> field</li>
+<li>within <b>each</b> of the schemas listed in the <code>anyOf</code> or <code>oneOf</code> field</li>
+</ol>
 </td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
-<td>warn</td>
+<td>error</td>
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
@@ -4526,60 +4439,16 @@ as described in the API Handbook.</li>
 <td valign=top><b>Non-compliant example:<b></td>
 <td>
 <pre>
-paths:
-  '/v1/things':
-    post:
-      operationId: create_thing
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Thing'
-    responses:
-      '201':
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Thing'
-      '400':
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ErrorContainer'
 components:
   schemas:
-    ErrorContainer: {
-      description: 'An error response for an operation.',
-      type: 'object',
-      properties: {
-        error: {
-          $ref: '#/components/schemas/Error'
-        },
-        trace: {
-          description: 'The error trace information.',
-          type: 'string',
-          format: 'uuid'
-        }
-      }
-    },
-    Error: {
-      description: 'An error response entry.',
-      type: 'object',
-      properties: {
-        code: {
-          description: 'The error code.',
-          type: 'integer'
-        },
-        message: {
-          description: 'The error message.',
-          type: 'string'
-        },
-        more_info: {
-          description: 'Additional info about the error.',
-          type: 'string'
-        },
-      }
-    }
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+      required:
+        - thing_id
+        - thing_version
 </pre>
 </td>
 </tr>
@@ -4587,78 +4456,29 @@ components:
 <td valign=top><b>Compliant example:</b></td>
 <td>
 <pre>
-paths:
-  '/v1/things':
-    post:
-      operationId: create_thing
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Thing'
-    responses:
-      '201':
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Thing'
-      '400':
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ErrorContainer'
 components:
   schemas:
-    ErrorContainer: {
-      description: 'An error response for an operation.',
-      type: 'object',
-      properties: {
-        errors: {
-          type: 'array',
-          minItems: 0,
-          maxItems: 100,
-          description: 'The array of error entries associated with the error response',
-          items: {
-            $ref: '#/components/schemas/Error'
-          }
-        },
-        trace: {
-          description: 'The error trace information.',
-          type: 'string',
-          format: 'uuid'
-        }
-      }
-    },
-    Error: {
-      description: 'An error response entry.',
-      type: 'object',
-      properties: {
-        code: {
-          description: 'The error code.',
-          type: 'string',
-          enum: ['bad_request', 'not_authorized', 'no_need_to_know']
-        },
-        message: {
-          description: 'The error message.',
-          type: 'string'
-        },
-        more_info: {
-          description: 'Additional info about the error.',
-          type: 'string'
-        },
-      }
-    }
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_version:
+          type: string
+      required:
+        - thing_id
+        - thing_version
 </pre>
 </td>
 </tr>
 </table>
 
 
-### response-example-provided
+### ibm-response-example-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>response-example-provided</b></td>
+<td><b>ibm-response-example-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4715,11 +4535,11 @@ responses:
 </table>
 
 
-### response-status-codes
+### ibm-response-status-codes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>response-status-codes</b></td>
+<td><b>ibm-response-status-codes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4831,15 +4651,15 @@ paths:
 </table>
 
 
-### schema-description
+### ibm-schema-description-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>schema-description</b></td>
+<td><b>ibm-schema-description-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Schemas should have a non-empty description.</td>
+<td>Each schema should include a description.</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -4847,7 +4667,7 @@ paths:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -4881,16 +4701,16 @@ components:
 </table>
 
 
-### schema-type
+### ibm-schema-type-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>schema-type</b></td>
+<td><b>ibm-schema-type-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
 <td>
-Schemas should have a non-empty <code>type</code> field.
+Schemas and schema properties should have a non-empty <code>type</code> field.
 <br><br>
 <b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
 </td>
@@ -4901,7 +4721,7 @@ Schemas should have a non-empty <code>type</code> field.
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -4931,11 +4751,139 @@ components:
 </table>
 
 
-### security-scheme-attributes
+### ibm-schema-type-format
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>security-scheme-attributes</b></td>
+<td><b>ibm-schema-type-format</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Schemas and schema properties must use a valid combination of the <code>type</code> and <code>format</code> fields
+[<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types">1</a>].
+The following table defines the valid combinations:
+<table>
+<tr><th>Type</th><th>Formats</th></tr>
+<tr>
+<td valign=top>string</td>
+<td>
+<ul>
+<li>binary</li>
+<li>byte</li>
+<li>crn</li>
+<li>date</li>
+<li>date-time</li>
+<li>email</li>
+<li>identifier</li>
+<li>password</li>
+<li>url</li>
+<li>uuid</li>
+</ul>
+</td>
+</tr>
+<tr><td>boolean</td><td></td></tr>
+<tr><td valign=top>integer</td><td><ul><li>int32</li><li>int64</li></ul></td></tr>
+<tr><td valign=top>number</td><td><ul><li>float</li><li>double</li></ul></td></tr>
+<tr><td>object</td><td></td></tr>
+<tr><td>array</td><td></td></tr>
+</table>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: bad_object
+      properties:
+        thing_url:
+          type: url
+        thing_crn:
+          type: crn
+        thing_cost:
+          type: float
+        thing_contents:
+          type: byte-array
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_url:
+          type: string
+          format: url
+        thing_crn:
+          type: string
+          format: crn
+        thing_cost:
+          type: number
+          format: float
+        thing_contents:
+          type: string
+          format: byte
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-sdk-operations
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-sdk-operations</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule validates the structure of values specified for the <code>x-sdk-operations</code>
+extension, using <a href="/packages/ruleset/src/schemas/x-sdk-operations.json">this JSON Schema document</a>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+n/a
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+n/a
+</td>
+</tr>
+</table>
+
+
+### ibm-securityscheme-attributes
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-securityscheme-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5037,11 +4985,11 @@ components:
 </table>
 
 
-### security-schemes
+### ibm-securityschemes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>security-schemes</b></td>
+<td><b>ibm-securityschemes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5114,11 +5062,11 @@ components:
 </table>
 
 
-### server-variable-default-value
+### ibm-server-variable-default-value
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>server-variable-default-value</b></td>
+<td><b>ibm-server-variable-default-value</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5166,11 +5114,11 @@ servers:
 </table>
 
 
-### string-boundary
+### ibm-string-attributes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>string-boundary</b></td>
+<td><b>ibm-string-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5239,11 +5187,59 @@ components:
 </table>
 
 
-### unused-tag
+### ibm-summary-sentence-style
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>unused-tag</b></td>
+<td><b>ibm-summary-sentence-style</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>An operation's <code>summary</code> field should contain a very brief description of the operation and should
+not have a trailing period.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things
+    get:
+      operationId: list_things
+      summary: List the Thing objects.
+      description: Retrieve a paginated collection of Thing instances.
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  /v1/things
+    get:
+      operationId: list_things
+      summary: List things
+      description: Retrieve a paginated collection of Thing instances.
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-unused-tags
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-unused-tags</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5300,11 +5296,11 @@ paths:
 </table>
 
 
-### valid-path-segments
+### ibm-valid-path-segments
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>valid-path-segments</b></td>
+<td><b>ibm-valid-path-segments</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5320,7 +5316,7 @@ For example, the path <code>/v1/foos/_{foo_id}_</code> is invalid and should pro
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -5347,99 +5343,6 @@ paths:
   get:
     operationId: get_foo
     ...
-</pre>
-</td>
-</tr>
-</table>
-
-
-### valid-type-format
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>valid-type-format</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>Schemas and schema properties must use a valid combination of the <code>type</code> and <code>format</code> fields
-[<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types">1</a>].
-The following table defines the valid combinations:
-<table>
-<tr><th>Type</th><th>Formats</th></tr>
-<tr>
-<td valign=top>string</td>
-<td>
-<ul>
-<li>binary</li>
-<li>byte</li>
-<li>crn</li>
-<li>date</li>
-<li>date-time</li>
-<li>email</li>
-<li>identifier</li>
-<li>password</li>
-<li>url</li>
-<li>uuid</li>
-</ul>
-</td>
-</tr>
-<tr><td>boolean</td><td></td></tr>
-<tr><td valign=top>integer</td><td><ul><li>int32</li><li>int64</li></ul></td></tr>
-<tr><td valign=top>number</td><td><ul><li>float</li><li>double</li></ul></td></tr>
-<tr><td>object</td><td></td></tr>
-<tr><td>array</td><td></td></tr>
-</table>
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: bad_object
-      properties:
-        thing_url:
-          type: url
-        thing_crn:
-          type: crn
-        thing_cost:
-          type: float
-        thing_contents:
-          type: byte-array
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_url:
-          type: string
-          format: url
-        thing_crn:
-          type: string
-          format: crn
-        thing_cost:
-          type: number
-          format: float
-        thing_contents:
-          type: string
-          format: byte
 </pre>
 </td>
 </tr>

@@ -2,11 +2,11 @@ const { refSiblingDuplicateDescription } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = refSiblingDuplicateDescription;
-const ruleId = 'ref-sibling-duplicate-description';
+const ruleId = 'ibm-ref-sibling-duplicate-description';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Duplicate ref-sibling description is unnecessary';
 
-describe('Spectral rule: ref-sibling-duplicate-description', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

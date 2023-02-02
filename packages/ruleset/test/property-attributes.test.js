@@ -2,10 +2,10 @@ const { propertyAttributes } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = propertyAttributes;
-const ruleId = 'property-attributes';
+const ruleId = 'ibm-property-attributes';
 const expectedSeverity = severityCodes.error;
 
-describe('Spectral rule: property-attributes', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
@@ -42,52 +42,6 @@ describe('Spectral rule: property-attributes', () => {
           type: 'integer',
           minimum: 3,
           maximum: 4
-        };
-
-        const results = await testRule(ruleId, rule, rootDocument);
-        expect(results).toHaveLength(0);
-      });
-    });
-
-    describe('Array schema tests', () => {
-      it('minItems defined by itself', async () => {
-        const testDocument = makeCopy(rootDocument);
-
-        testDocument.components.schemas.Car.properties['wheel_count'] = {
-          type: 'array',
-          minItems: 3,
-          items: {
-            type: 'integer'
-          }
-        };
-
-        const results = await testRule(ruleId, rule, rootDocument);
-        expect(results).toHaveLength(0);
-      });
-      it('maxItems defined by itself', async () => {
-        const testDocument = makeCopy(rootDocument);
-
-        testDocument.components.schemas.Car.properties['wheel_count'] = {
-          type: 'array',
-          maxItems: 3,
-          items: {
-            type: 'integer'
-          }
-        };
-
-        const results = await testRule(ruleId, rule, rootDocument);
-        expect(results).toHaveLength(0);
-      });
-      it('minItems <= maxItems', async () => {
-        const testDocument = makeCopy(rootDocument);
-
-        testDocument.components.schemas.Car.properties['wheel_count'] = {
-          type: 'array',
-          minItems: 3,
-          maxItems: 3,
-          items: {
-            type: 'integer'
-          }
         };
 
         const results = await testRule(ruleId, rule, rootDocument);
@@ -206,89 +160,6 @@ describe('Spectral rule: property-attributes', () => {
           expect(results[i].code).toBe(ruleId);
           expect(results[i].message).toBe(
             'maximum should not be defined for a non-numeric schema'
-          );
-          expect(results[i].severity).toBe(expectedSeverity);
-          expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-        }
-      });
-    });
-
-    describe('Array schema tests', () => {
-      it('minItems > maxItems', async () => {
-        const testDocument = makeCopy(rootDocument);
-
-        testDocument.components.schemas.Car.properties['wheel_count'] = {
-          type: 'array',
-
-          items: {
-            type: 'integer'
-          },
-          minItems: 5,
-          maxItems: 4
-        };
-
-        const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(4);
-        const expectedPaths = [
-          'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minItems',
-          'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minItems',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minItems',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minItems'
-        ];
-        for (let i = 0; i < results.length; i++) {
-          expect(results[i].code).toBe(ruleId);
-          expect(results[i].message).toBe(
-            'minItems cannot be greater than maxItems'
-          );
-          expect(results[i].severity).toBe(expectedSeverity);
-          expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-        }
-      });
-      it('minItems defined for non-array schema', async () => {
-        const testDocument = makeCopy(rootDocument);
-
-        testDocument.components.schemas.Car.properties['wheel_count'] = {
-          type: 'object',
-          minItems: 3
-        };
-
-        const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(4);
-        const expectedPaths = [
-          'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minItems',
-          'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minItems',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minItems',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minItems'
-        ];
-        for (let i = 0; i < results.length; i++) {
-          expect(results[i].code).toBe(ruleId);
-          expect(results[i].message).toBe(
-            'minItems should not be defined for a non-array schema'
-          );
-          expect(results[i].severity).toBe(expectedSeverity);
-          expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-        }
-      });
-      it('maxItems defined for non-array schema', async () => {
-        const testDocument = makeCopy(rootDocument);
-
-        testDocument.components.schemas.Car.properties['wheel_count'] = {
-          type: 'integer',
-          maxItems: 3
-        };
-
-        const results = await testRule(ruleId, rule, testDocument);
-        expect(results).toHaveLength(4);
-        const expectedPaths = [
-          'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.maxItems',
-          'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.maxItems',
-          'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maxItems',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maxItems'
-        ];
-        for (let i = 0; i < results.length; i++) {
-          expect(results[i].code).toBe(ruleId);
-          expect(results[i].message).toBe(
-            'maxItems should not be defined for a non-array schema'
           );
           expect(results[i].severity).toBe(expectedSeverity);
           expect(results[i].path.join('.')).toBe(expectedPaths[i]);

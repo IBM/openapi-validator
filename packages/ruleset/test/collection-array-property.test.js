@@ -2,12 +2,11 @@ const { collectionArrayProperty } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = collectionArrayProperty;
-const ruleId = 'collection-array-property';
+const ruleId = 'ibm-collection-array-property';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg =
-  'Collection list operation response schema should define array property with name "movies"';
+const expectedMsg = `Collection list operation response schema should define array property with name 'movies'`;
 
-describe('Spectral rule: collection-array-property', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

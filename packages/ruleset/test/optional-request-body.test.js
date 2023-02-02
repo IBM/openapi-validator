@@ -2,12 +2,12 @@ const { optionalRequestBody } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = optionalRequestBody;
-const ruleId = 'optional-request-body';
+const ruleId = 'ibm-optional-requestbody';
 const expectedSeverity = severityCodes.info;
 const expectedMsg =
   'An optional requestBody with required properties should probably be required';
 
-describe('Spectral rule: optional-request-body', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

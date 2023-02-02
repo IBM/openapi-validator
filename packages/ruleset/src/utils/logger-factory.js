@@ -17,7 +17,7 @@ module.exports = class LoggerFactory {
   /**
    * @returns a single instance of our factory.
    */
-  static newInstance() {
+  static getInstance() {
     if (!this._factory) {
       this._factory = new LoggerFactory();
     }

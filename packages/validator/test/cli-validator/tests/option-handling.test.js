@@ -26,7 +26,9 @@ describe('cli tool - test option handling', function() {
   });
 
   it('should colorize output by default @skip-ci', async function() {
-    await testValidator(['./test/cli-validator/mock-files/err-and-warn.yaml']);
+    await testValidator([
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+    ]);
     const capturedText = getCapturedTextWithColor(consoleSpy.mock.calls);
     // originalError('Captured text:\n', capturedText);
 
@@ -42,7 +44,7 @@ describe('cli tool - test option handling', function() {
     async function(option) {
       await testValidator([
         option,
-        './test/cli-validator/mock-files/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
 
@@ -53,7 +55,9 @@ describe('cli tool - test option handling', function() {
   );
 
   it('should not print validator source file by default', async function() {
-    await testValidator(['./test/cli-validator/mock-files/err-and-warn.yaml']);
+    await testValidator([
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+    ]);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
     capturedText.forEach(function(line) {
@@ -66,7 +70,7 @@ describe('cli tool - test option handling', function() {
     async function(option) {
       await testValidator([
         option,
-        './test/cli-validator/mock-files/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
@@ -87,7 +91,7 @@ describe('cli tool - test option handling', function() {
     async function(option) {
       await testValidator([
         option,
-        './test/cli-validator/mock-files/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       // This can be uncommented to display the output when adjustments to
@@ -114,25 +118,52 @@ describe('cli tool - test option handling', function() {
       expect(sumSection).toBe(0);
 
       // totals
-      expect(capturedText[1].match(/\S+/g)[5]).toEqual('2');
-      expect(capturedText[2].match(/\S+/g)[5]).toEqual('4');
+      expect(capturedText[1].match(/\S+/g)[5]).toEqual('3');
+      expect(capturedText[2].match(/\S+/g)[5]).toEqual('29');
 
       // errors
       expect(capturedText[5].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[5].match(/\S+/g)[1]).toEqual('(50%)');
+      expect(capturedText[5].match(/\S+/g)[1]).toEqual('(33%)');
 
-      expect(capturedText[6].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[6].match(/\S+/g)[1]).toEqual('(50%)');
+      expect(capturedText[6].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[6].match(/\S+/g)[1]).toEqual('(67%)');
 
       // warnings
-      expect(capturedText[9].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[9].match(/\S+/g)[1]).toEqual('(25%)');
+      expect(capturedText[9].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[9].match(/\S+/g)[1]).toEqual('(7%)');
 
       expect(capturedText[10].match(/\S+/g)[0]).toEqual('2');
-      expect(capturedText[10].match(/\S+/g)[1]).toEqual('(50%)');
+      expect(capturedText[10].match(/\S+/g)[1]).toEqual('(7%)');
 
-      expect(capturedText[11].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[11].match(/\S+/g)[1]).toEqual('(25%)');
+      expect(capturedText[11].match(/\S+/g)[0]).toEqual('5');
+      expect(capturedText[11].match(/\S+/g)[1]).toEqual('(17%)');
+
+      expect(capturedText[12].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[12].match(/\S+/g)[1]).toEqual('(3%)');
+
+      expect(capturedText[13].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[13].match(/\S+/g)[1]).toEqual('(7%)');
+
+      expect(capturedText[14].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[14].match(/\S+/g)[1]).toEqual('(3%)');
+
+      expect(capturedText[15].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[15].match(/\S+/g)[1]).toEqual('(3%)');
+
+      expect(capturedText[16].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[16].match(/\S+/g)[1]).toEqual('(7%)');
+
+      expect(capturedText[17].match(/\S+/g)[0]).toEqual('4');
+      expect(capturedText[17].match(/\S+/g)[1]).toEqual('(14%)');
+
+      expect(capturedText[18].match(/\S+/g)[0]).toEqual('4');
+      expect(capturedText[18].match(/\S+/g)[1]).toEqual('(14%)');
+
+      expect(capturedText[19].match(/\S+/g)[0]).toEqual('4');
+      expect(capturedText[19].match(/\S+/g)[1]).toEqual('(14%)');
+
+      expect(capturedText[20].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[20].match(/\S+/g)[1]).toEqual('(3%)');
     }
   );
 
@@ -141,7 +172,7 @@ describe('cli tool - test option handling', function() {
     async function(option) {
       await testValidator([
         option,
-        './test/cli-validator/mock-files/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
 
@@ -149,7 +180,7 @@ describe('cli tool - test option handling', function() {
       const outputObject = JSON.parse(capturedText);
 
       // {"line": 59, "message": "Every operation must have unique "operationId".", "path": ["paths", "/pet", "put", "operationId"], "rule": "operation-operationId-unique"}
-      expect(outputObject['errors'][0]['line']).toEqual(59);
+      expect(outputObject['errors'][0]['line']).toEqual(52);
       expect(outputObject['errors'][0]['message']).toEqual(
         'Every operation must have unique "operationId".'
       );
@@ -160,7 +191,7 @@ describe('cli tool - test option handling', function() {
     await testValidator([
       '-j',
       '-e',
-      './test/cli-validator/mock-files/err-and-warn.yaml'
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
     ]);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
@@ -213,7 +244,7 @@ describe('cli tool - test option handling', function() {
   ) {
     await testValidator([
       option,
-      './test/cli-validator/mock-files/err-and-warn.yaml'
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
     ]);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     expect(capturedText).toHaveLength(0);

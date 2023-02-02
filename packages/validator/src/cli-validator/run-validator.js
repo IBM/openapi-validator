@@ -47,7 +47,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   // Set default loglevel of the root logger to be 'info'.
   // The user can change this via the command line.
-  const loggerFactory = LoggerFactory.newInstance();
+  const loggerFactory = LoggerFactory.getInstance();
   loggerFactory.addLoggerSetting('root', 'info');
   logger = loggerFactory.getLogger('root');
 
@@ -268,10 +268,8 @@ async function runValidator(cliArgs, parseOptions = {}) {
       spectralResults = await spectral.run(doc);
     } catch (err) {
       logError(chalk, 'There was a problem with spectral.', getError(err));
-      if (err.message === 'Error running Nimma') {
-        logger.debug(chalk.red('Additional error details:'));
-        logger.debug(chalk.red(err));
-      }
+      logger.error('Additional error details:');
+      logger.error(err);
       // this check can be removed once we support spectral overrides
       if (err.message.startsWith('Document must have some source assigned.')) {
         logger.error(

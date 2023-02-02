@@ -2,12 +2,12 @@ const { inlineRequestSchema } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = inlineRequestSchema;
-const ruleId = 'inline-request-schema';
+const ruleId = 'ibm-inline-request-schema';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'Request body schemas should be defined as a $ref to a named schema.';
 
-describe('Spectral rule: inline-request-schema', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
