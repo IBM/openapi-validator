@@ -2,7 +2,7 @@ const { inlinePropertySchema } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = inlinePropertySchema;
-const ruleId = 'inline-property-schema';
+const ruleId = 'ibm-inline-property-schema';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'Nested objects should be defined as a $ref to a named schema.';

@@ -2,7 +2,7 @@ const { operationIdCaseConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = operationIdCaseConvention;
-const ruleId = 'operation-id-case-convention';
+const ruleId = 'ibm-operation-id-case-convention';
 const expectedSeverity = severityCodes.warning;
 
 describe('Spectral rule: operation-id-case-convention', () => {

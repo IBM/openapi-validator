@@ -2,7 +2,7 @@ const { requestBodyName } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = requestBodyName;
-const ruleId = 'request-body-name';
+const ruleId = 'ibm-request-body-name';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'Operations with non-form request bodies should set a name with the x-codegen-request-body-name extension.';

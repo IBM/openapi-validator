@@ -2,7 +2,7 @@ const { arrayItems } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = arrayItems;
-const ruleId = 'array-items';
+const ruleId = 'ibm-array-items';
 const expectedSeverity = severityCodes.error;
 const expectedMessage = 'Array schemas must specify "items" property';
 

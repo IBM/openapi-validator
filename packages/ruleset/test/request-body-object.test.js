@@ -1,7 +1,7 @@
 const { requestBodyObject } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'request-body-object';
+const name = 'ibm-request-body-object';
 
 describe('Spectral rule: request-body-object', () => {
   it('should not error with a clean spec', async () => {

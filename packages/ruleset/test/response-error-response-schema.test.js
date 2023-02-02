@@ -2,7 +2,7 @@ const { responseErrorResponseSchema } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = responseErrorResponseSchema;
-const ruleId = 'response-error-response-schema';
+const ruleId = 'ibm-response-error-response-schema';
 const expectedSeverity = severityCodes.warning;
 
 describe('Spectral rule: response-error-response-schema', () => {

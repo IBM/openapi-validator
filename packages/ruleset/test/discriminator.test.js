@@ -1,7 +1,7 @@
 const { discriminator } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'discriminator';
+const name = 'ibm-discriminator';
 
 describe('Spectral rule: discriminator', () => {
   it('should not error with a clean spec', async () => {

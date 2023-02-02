@@ -1,7 +1,7 @@
 const { serverVariableDefaultValue } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'server-variable-default-value';
+const name = 'ibm-server-variable-default-value';
 
 describe('Spectral rule: server-variable-default-value', () => {
   it('should not error with a clean spec', async () => {

@@ -402,7 +402,7 @@ describe('Expected output tests', function() {
       const jsonOutput = JSON.parse(capturedText);
       const warningToCheck = jsonOutput.warnings[0];
 
-      expect(warningToCheck.rule).toEqual('collection-array-property');
+      expect(warningToCheck.rule).toEqual('ibm-collection-array-property');
       expect(warningToCheck.path.join('.')).toBe(
         'components.schemas.ListOfCharacters'
       );

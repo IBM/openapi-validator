@@ -1,7 +1,7 @@
 const { prohibitSummarySentenceStyle } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'prohibit-summary-sentence-style';
+const name = 'ibm-prohibit-summary-sentence-style';
 
 describe('Spectral rule: prohibit-summary-sentence-style', () => {
   it('should not error with a clean spec', async () => {

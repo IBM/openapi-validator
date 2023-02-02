@@ -2,7 +2,7 @@ const { unusedTag } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = unusedTag;
-const ruleId = 'unused-tag';
+const ruleId = 'ibm-unused-tag';
 const expectedSeverity = severityCodes.warning;
 
 describe('Spectral rule: unused-tag', () => {

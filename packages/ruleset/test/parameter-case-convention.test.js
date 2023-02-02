@@ -2,7 +2,7 @@ const { parameterCaseConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = parameterCaseConvention;
-const ruleId = 'parameter-case-convention';
+const ruleId = 'ibm-parameter-case-convention';
 const expectedSeverity = severityCodes.error;
 
 const expectedMsgNoName = 'Parameters must have a name';

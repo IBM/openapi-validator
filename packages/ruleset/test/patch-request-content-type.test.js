@@ -2,7 +2,7 @@ const { patchRequestContentType } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = patchRequestContentType;
-const ruleId = 'patch-request-content-type';
+const ruleId = 'ibm-patch-request-content-type';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'PATCH requests should support content types "application/json-patch+json" or "application/merge-patch+json"';

@@ -2,7 +2,7 @@ const { deleteBody } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = deleteBody;
-const ruleId = 'delete-body';
+const ruleId = 'ibm-delete-body';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = '"delete" operation should not contain a requestBody.';
 

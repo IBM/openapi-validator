@@ -2,7 +2,7 @@ const { binarySchemas } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = binarySchemas;
-const ruleId = 'binary-schemas';
+const ruleId = 'ibm-binary-schemas';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgParam =
   'Parameters should not contain binary values (type: string, format: binary).';

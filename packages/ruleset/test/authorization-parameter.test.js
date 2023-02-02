@@ -2,7 +2,7 @@ const { authorizationParameter } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = authorizationParameter;
-const ruleId = 'authorization-parameter';
+const ruleId = 'ibm-authorization-parameter';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
   "Operations should not explicitly define the 'Authorization' header parameter";

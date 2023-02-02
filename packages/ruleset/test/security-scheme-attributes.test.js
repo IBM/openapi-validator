@@ -2,7 +2,7 @@ const { securitySchemeAttributes } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = securitySchemeAttributes;
-const ruleId = 'security-scheme-attributes';
+const ruleId = 'ibm-security-scheme-attributes';
 const expectedSeverity = severityCodes.error;
 
 describe('Spectral rule: security-scheme-attributes', () => {
