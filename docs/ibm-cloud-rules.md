@@ -663,7 +663,7 @@ Here is our custom ruleset file (`.spectral.js`):
 ```javascript
 const ibmCloudValidationRules = require('@ibm-cloud/openapi-ruleset');                           // Note 1
 const { propertyCaseConvention } = require('@ibm-cloud/openapi-ruleset/src/functions');
-const { schemas } = require('@ibm-cloud/openapi-ruleset/src/collections');
+const { schemas } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 
 module.exports = {
   extends: ibmCloudValidationRules,
