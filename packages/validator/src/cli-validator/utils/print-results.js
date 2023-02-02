@@ -53,7 +53,7 @@ module.exports = function print(
 
     each(results[type], problems => {
       problems.forEach(problem => {
-        // To allow messages with fillins to be grouped properly in the statistics,
+        // To allow messages with fillins to be grouped properly in the summary,
         // truncate the message at the first ':'
         const message = problem.message.split(':')[0];
         let path = problem.path;
@@ -114,7 +114,7 @@ module.exports = function print(
     stats.infos.total ||
     stats.hints.total
   ) {
-    logger.info(chalk.bgCyan('statistics\n'));
+    logger.info(chalk.bgCyan('summary\n'));
 
     logger.info(
       chalk.cyan(`  Total number of errors   : ${stats.errors.total}`)
