@@ -2,7 +2,7 @@ const { noEtagHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = noEtagHeader;
-const ruleId = 'no-etag-header';
+const ruleId = 'ibm-no-etag-header';
 const expectedSeverity = severityCodes.error;
 
 describe('Spectral rule: no-etag-header', () => {

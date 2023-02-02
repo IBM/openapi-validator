@@ -2,7 +2,7 @@ const { propertyAttributes } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = propertyAttributes;
-const ruleId = 'property-attributes';
+const ruleId = 'ibm-property-attributes';
 const expectedSeverity = severityCodes.error;
 
 describe('Spectral rule: property-attributes', () => {

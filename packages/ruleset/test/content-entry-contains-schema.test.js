@@ -1,7 +1,7 @@
 const { contentEntryContainsSchema } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'content-entry-contains-schema';
+const name = 'ibm-content-entry-contains-schema';
 
 describe('Spectral rule: content-entry-contains-schema', () => {
   it('should not error with a clean spec', async () => {

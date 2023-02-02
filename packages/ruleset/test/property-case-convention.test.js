@@ -1,7 +1,7 @@
 const { propertyCaseConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'property-case-convention';
+const name = 'ibm-property-case-convention';
 const expectedSeverity = severityCodes.error;
 
 describe('Spectral rule: property-case-convention', () => {

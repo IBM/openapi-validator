@@ -2,7 +2,7 @@ const { descriptionMentionsJSON } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = descriptionMentionsJSON;
-const ruleId = 'description-mentions-json';
+const ruleId = 'ibm-description-mentions-json';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Schema descriptions should avoid mentioning "JSON"';
 

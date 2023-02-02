@@ -2,7 +2,7 @@ const { arrayBoundary } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = arrayBoundary;
-const ruleId = 'array-boundary';
+const ruleId = 'ibm-array-boundary';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgMin = 'Array schemas should define a numeric minItems field';
 const expectedMsgMax = 'Array schemas should define a numeric maxItems field';

@@ -2,7 +2,7 @@ const { consecutivePathParamSegments } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = consecutivePathParamSegments;
-const ruleId = 'consecutive-path-param-segments';
+const ruleId = 'ibm-consecutive-path-param-segments';
 const expectedSeverity = severityCodes.error;
 
 describe('Spectral rule: consecutive-path-param-segments', () => {

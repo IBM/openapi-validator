@@ -1,7 +1,7 @@
 const { contentEntryProvided } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'content-entry-provided';
+const name = 'ibm-content-entry-provided';
 
 describe('Spectral rule: content-entry-provided', () => {
   it('should not error with a clean spec', async () => {

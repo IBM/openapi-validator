@@ -2,7 +2,7 @@ const { mergePatchOptionalProperties } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = mergePatchOptionalProperties;
-const ruleId = 'merge-patch-optional-properties';
+const ruleId = 'ibm-merge-patch-optional-properties';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'A JSON merge-patch requestBody should have no required properties';

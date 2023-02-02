@@ -1,7 +1,7 @@
 const { responseExampleProvided } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'response-example-provided';
+const name = 'ibm-response-example-provided';
 
 describe('Spectral rule: response-example-provided', () => {
   it('should not error with a clean spec', async () => {

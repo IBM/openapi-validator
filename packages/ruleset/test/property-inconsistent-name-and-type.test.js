@@ -6,7 +6,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const originalSeverity = makeCopy(rule.severity);
 rule.severity = 'warn';
 
-const ruleId = 'property-inconsistent-name-and-type';
+const ruleId = 'ibm-property-inconsistent-name-and-type';
 const expectedSeverity = severityCodes.warning;
 
 describe('Spectral rule: property-inconsistent-name-and-type', () => {

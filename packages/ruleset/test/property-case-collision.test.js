@@ -1,7 +1,7 @@
 const { propertyCaseCollision } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'property-case-collision';
+const name = 'ibm-property-case-collision';
 
 describe('Spectral rule: property-case-collision', () => {
   it('should not error with a clean spec', async () => {

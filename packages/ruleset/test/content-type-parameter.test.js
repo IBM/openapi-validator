@@ -2,7 +2,7 @@ const { contentTypeParameter } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = contentTypeParameter;
-const ruleId = 'content-type-parameter';
+const ruleId = 'ibm-content-type-parameter';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
   "Operations should not explicitly define the 'Content-Type' header parameter";

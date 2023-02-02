@@ -2,7 +2,7 @@ const { arrayResponses } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = arrayResponses;
-const ruleId = 'array-responses';
+const ruleId = 'ibm-array-responses';
 const expectedSeverity = severityCodes.error;
 const expectedMsg =
   'Operations should not return an array as the top-level structure of a response.';

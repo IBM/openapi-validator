@@ -2,7 +2,7 @@ const { pathSegmentCaseConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = pathSegmentCaseConvention;
-const ruleId = 'path-segment-case-convention';
+const ruleId = 'ibm-path-segment-case-convention';
 const expectedSeverity = severityCodes.error;
 
 describe('Spectral rule: path-segment-case-convention', () => {

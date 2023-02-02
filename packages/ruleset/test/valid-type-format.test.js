@@ -2,7 +2,7 @@ const { validTypeFormat } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = validTypeFormat;
-const ruleId = 'valid-type-format';
+const ruleId = 'ibm-valid-type-format';
 const expectedSeverity = severityCodes.error;
 
 const errorMsgInvalidType = /^Invalid type. Valid types are:.*$/;

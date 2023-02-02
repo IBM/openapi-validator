@@ -1,7 +1,7 @@
 const { majorVersionInPath } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'major-version-in-path';
+const name = 'ibm-major-version-in-path';
 
 describe('Spectral rule: major-version-in-path', () => {
   it('should not error with a clean spec', async () => {

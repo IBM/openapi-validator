@@ -2,7 +2,7 @@ const { pathParamNotCRN } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = pathParamNotCRN;
-const ruleId = 'path-param-not-crn';
+const ruleId = 'ibm-path-param-not-crn';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Path parameter should not be defined as a CRN value';
 

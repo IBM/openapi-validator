@@ -2,7 +2,7 @@ const { securitySchemes } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = securitySchemes;
-const ruleId = 'security-schemes';
+const ruleId = 'ibm-security-schemes';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgUndefinedScheme = 'An undefined security scheme is referenced';
 const expectedMsgUndefinedScope = 'An undefined security scope is referenced';

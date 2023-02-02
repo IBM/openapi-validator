@@ -1,7 +1,7 @@
 const { stringBoundary } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'string-boundary';
+const name = 'ibm-string-boundary';
 
 describe('Spectral rule: string-boundary', () => {
   describe('Should not yield errors', () => {

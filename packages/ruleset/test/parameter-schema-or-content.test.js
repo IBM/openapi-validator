@@ -1,7 +1,7 @@
 const { parameterSchemaOrContent } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'parameter-schema-or-content';
+const name = 'ibm-parameter-schema-or-content';
 
 describe('Spectral rule: parameter-schema-or-content', () => {
   it('should not error with a clean spec', async () => {

@@ -2,7 +2,7 @@ const { refPattern } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = refPattern;
-const ruleId = 'ref-pattern';
+const ruleId = 'ibm-ref-pattern';
 const expectedSeverity = severityCodes.warning;
 
 const expectedMsgs = {

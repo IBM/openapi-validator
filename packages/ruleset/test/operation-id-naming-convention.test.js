@@ -2,7 +2,7 @@ const { operationIdNamingConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = operationIdNamingConvention;
-const ruleId = 'operation-id-naming-convention';
+const ruleId = 'ibm-operation-id-naming-convention';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgPrefix = /^operationIds should follow naming convention: operationId verb should be.*$/;
 
