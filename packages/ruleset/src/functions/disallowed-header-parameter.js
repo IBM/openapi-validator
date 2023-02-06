@@ -1,3 +1,5 @@
+const { LoggerFactory } = require('../utils');
+
 /**
  * This custom rule function is used to check for disallowed header parameters,
  * such as Authorization, Accept, or Content-Type.
@@ -12,24 +14,35 @@
  * @param {*} headerName the name of the header parameter to check for
  * @returns an array of size one if 'param' is flagged, or an empty array otherwise
  */
-module.exports = function(param, options, { path }) {
+module.exports = function(param, options, context) {
+  const ruleId = context.rule.name;
+  const logger = LoggerFactory.newInstance().getLogger(ruleId);
+
   if (!options || !options.headerName || !options.headerName.trim().length) {
     throw new Error(
       "Required rule configuration property 'headerName' not found."
     );
   }
-  return checkHeaderParam(param, path, options.headerName.trim().toLowerCase());
+  return checkHeaderParam(
+    logger,
+    ruleId,
+    param,
+    context.path,
+    options.headerName.trim().toLowerCase()
+  );
 };
 
 // Return an error if 'param' is a header parameter named '<headerName>'.
 
-function checkHeaderParam(param, path, headerName) {
+function checkHeaderParam(logger, ruleId, param, path, headerName) {
+  logger.debug(`${ruleId}: checking parameter at location: ${path.join('.')}`);
   // Don't bother enforcing the rule on parameter references.
   if (!param.$ref) {
     const isHeader = param.in && param.in.toLowerCase() === 'header';
     const isDisallowedHeader =
       param.name && param.name.trim().toLowerCase() === headerName;
     if (isHeader && isDisallowedHeader) {
+      logger.debug(`${ruleId}: found disallowed header: ${headerName}`);
       return [
         {
           // This is a default message. We expect the rule definition to supply a message.

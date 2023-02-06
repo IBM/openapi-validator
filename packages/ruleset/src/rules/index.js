@@ -1,7 +1,6 @@
 module.exports = {
-  arrayBoundary: require('./array-boundary'),
   acceptParameter: require('./accept-parameter'),
-  arrayItems: require('./array-items'),
+  arrayAttributes: require('./array-attributes'),
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
   authorizationParameter: require('./authorization-parameter'),
@@ -62,7 +61,7 @@ module.exports = {
   securitySchemeAttributes: require('./security-scheme-attributes'),
   securitySchemes: require('./security-schemes'),
   serverVariableDefaultValue: require('./server-variable-default-value'),
-  stringBoundary: require('./string-boundary'),
+  stringAttributes: require('./string-attributes'),
   unusedTag: require('./unused-tag'),
   validPathSegments: require('./valid-path-segments'),
   validTypeFormat: require('./valid-type-format')

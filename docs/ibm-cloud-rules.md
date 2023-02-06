@@ -29,8 +29,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
   * [ibm-accept-parameter](#ibm-accept-parameter)
-  * [ibm-array-boundary](#ibm-array-boundary)
-  * [ibm-array-items](#ibm-array-items)
+  * [ibm-array-attributes](#ibm-array-attributes)
   * [ibm-array-of-arrays](#ibm-array-of-arrays)
   * [ibm-array-responses](#ibm-array-responses)
   * [ibm-authorization-parameter](#ibm-authorization-parameter)
@@ -91,7 +90,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-security-scheme-attributes](#ibm-security-scheme-attributes)
   * [ibm-security-schemes](#ibm-security-schemes)
   * [ibm-server-variable-default-value](#ibm-server-variable-default-value)
-  * [ibm-string-boundary](#ibm-string-boundary)
+  * [ibm-string-attributes](#ibm-string-attributes)
   * [ibm-unused-tag](#ibm-unused-tag)
   * [ibm-valid-path-segments](#ibm-valid-path-segments)
   * [ibm-valid-type-format](#ibm-valid-type-format)
@@ -118,18 +117,12 @@ is provided in the [Reference](#reference) section below.
 <td><a href="#ibm-accept-parameter">ibm-accept-parameter</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Accept</code> header parameter</td>
-<td>oas2, oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-array-boundary">ibm-array-boundary</a></td>
-<td>warn</td>
-<td>Array schemas should define the <code>minItems</code> and <code>maxItems</code> fields</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-array-items">ibm-array-items</a></td>
+<td><a href="#ibm-array-attributes">ibm-array-attributes</a></td>
 <td>warn</td>
-<td>Array schemas must specify the <code>items</code> property</td>
+<td>Array schemas must define the <code>items</code> field, and should define the <code>minItems</code> and <code>maxItems</code> fields</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -145,19 +138,19 @@ is provided in the [Reference](#reference) section below.
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-authorization-parameter">Vauthorization-parameter</a></td>
+<td><a href="#ibm-authorization-parameter">ibm-authorization-parameter</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Authorization</code> header parameter</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
-<td><a href="#Vbinary-schemas">Vbinary-schemas</a></td>
+<td><a href="#ibm-binary-schemas">ibm-binary-schemas</a></td>
 <td>warn</td>
 <td>Makes sure that binary schemas are used only in proper locations within the API definition</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#Vcircular-refs">Vcircular-refs</a></td>
+<td><a href="#ibm-circular-refs">ibm-circular-refs</a></td>
 <td>warn</td>
 <td>Makes sure that the API definition doesn't contain any circular references</td>
 <td>oas3</td>
@@ -175,7 +168,7 @@ For example, the "GET /v1/things" operation should return an object with an arra
 response schema defines an array property whose name matches the last path segment
 within the operation's path string, which should also match the plural form of the resource type.
 </td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-consecutive-path-param-segments">ibm-consecutive-path-param-segments</a></td>
@@ -183,7 +176,7 @@ within the operation's path string, which should also match the plural form of t
 <td>Checks each path string in the API definition to detect the presence of two or more consecutive
 path segments that contain a path parameter reference (e.g. <code>/v1/foos/{foo_id}/{bar_id}</code>), 
 which is not allowed.</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-content-entry-contains-schema">ibm-content-entry-contains-schema</a></td>
@@ -201,7 +194,7 @@ which is not allowed.</td>
 <td><a href="#ibm-content-type-parameter">ibm-content-type-parameter</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Content-Type</code> header parameter</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-delete-body">ibm-delete-body</a></td>
@@ -231,7 +224,7 @@ which is not allowed.</td>
 <td><a href="#ibm-enum-case-convention">ibm-enum-case-convention</a></td>
 <td>error</td>
 <td>Enum values should follow a specific case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-examples-name-contains-space">ibm-examples-name-contains-space</a></td>
@@ -261,13 +254,13 @@ which is not allowed.</td>
 <td><a href="#ibm-if-modified-since-parameter">ibm-if-modified-since-parameter</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Modified-Since</code> header parameter</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-if-unmodified-since-parameter">ibm-if-unmodified-since-parameter</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-inline-property-schema">ibm-inline-property-schema</a></td>
@@ -291,7 +284,7 @@ which is not allowed.</td>
 <td><a href="#ibm-major-version-in-path">ibm-major-version-in-path</a></td>
 <td>warn</td>
 <td>All paths must contain the API major version as a distinct path segment</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-merge-patch-optional-properties">ibm-merge-patch-optional-properties</a></td>
@@ -303,7 +296,7 @@ which is not allowed.</td>
 <td><a href="#ibm-missing-required-property">ibm-missing-required-property</a></td>
 <td>error</td>
 <td>A schema property defined as <code>required</code> must be defined within the schema</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-no-etag-header">ibm-no-etag-header</a></td>
@@ -311,19 +304,19 @@ which is not allowed.</td>
 <td>Verifies that the <code>ETag</code> response header is defined in the <code>GET</code> operation
 for any resources (paths) that support the <code>If-Match</code> and/or <code>If-None-Match</code> header parameters.
 </td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-operation-id-case-convention">ibm-operation-id-case-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a specific case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-operation-id-naming-convention">ibm-operation-id-naming-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a naming convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-operation-summary">ibm-operation-summary</a></td>
@@ -347,25 +340,25 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td><a href="#ibm-parameter-case-convention">ibm-parameter-case-convention</a></td>
 <td>error</td>
 <td>Parameter names should follow a specific case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-parameter-default">ibm-parameter-default</a></td>
 <td>warn</td>
 <td>Required parameters should not define a default value</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-parameter-description">ibm-parameter-description</a></td>
 <td>warn</td>
 <td>Parameters should have a non-empty description</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-parameter-order">ibm-parameter-order</a></td>
 <td>warn</td>
 <td>All required operation parameters should be listed before optional parameters.</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-parameter-schema-or-content">ibm-parameter-schema-or-content</a></td>
@@ -384,13 +377,13 @@ or <code>application/merge-patch+json</code>.</td>
 <td><a href="#ibm-path-param-not-crn">ibm-path-param-not-crn</a></td>
 <td>warn</td>
 <td>Verifies that path parameters are not defined as CRN (Cloud Resource Name) values</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-path-segment-case-convention">ibm-path-segment-case-convention</a></td>
 <td>error</td>
 <td>Path segments must follow a specific case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-precondition-header">ibm-precondition-header</a></td>
@@ -414,25 +407,25 @@ or <code>application/merge-patch+json</code>.</td>
 <td><a href="#ibm-property-case-collision">ibm-property-case-collision</a></td>
 <td>error</td>
 <td>Avoid duplicate property names within a schema, even if they differ by case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-property-case-convention">ibm-property-case-convention</a></td>
 <td>error</td>
 <td>Schema property names should follow a specific case convention</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-property-description">ibm-property-description</a></td>
 <td>warn</td>
 <td>Schema properties should have a non-empty description</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-property-inconsistent-name-and-type">ibm-property-inconsistent-name-and-type</a></td>
 <td>off</td>
 <td>Avoid using the same property name for properties of different types. This rule is disabled by default.</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-ref-pattern">ibm-ref-pattern</a></td>
@@ -481,13 +474,13 @@ has non-form content.</td>
 <td><a href="#ibm-schema-description">ibm-schema-description</a></td>
 <td>warn</td>
 <td>Schemas should have a non-empty description</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-schema-type">ibm-schema-type</a></td>
 <td>off</td>
 <td>Schemas and schema properties should have a non-empty <code>type</code> field. <b>This rule is disabled by default.</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-security-scheme-attributes">ibm-security-schemes</a></td>
@@ -508,7 +501,7 @@ has non-form content.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-string-boundary">ibm-string-boundary</a></td>
+<td><a href="#ibm-string-attributes">ibm-string-attributes</a></td>
 <td>warn</td>
 <td>String schema properties should define the <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields</td>
 <td>oas3</td>
@@ -523,7 +516,7 @@ has non-form content.</td>
 <td><a href="#ibm-valid-path-segments">ibm-valid-path-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API to make sure path parameter references are valid within path segments</td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-valid-type-format">ibm-valid-type-format</a></td>
@@ -721,7 +714,7 @@ in the `@ibm-cloud/openapi-ruleset` package.
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>accept-parameter</b></td>
+<td><b>ibm-accept-parameter</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -734,7 +727,7 @@ Instead, the value of the <code>Accept</code> parameter is inferred from the <co
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:</b></td>
@@ -782,15 +775,15 @@ paths:
 </table>
 
 
-### ibm-array-boundary
+### ibm-array-attributes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>array-boundary</b></td>
+<td><b>ibm-array-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Array schemas should define the <code>minItems</code> and <code>maxItems</code> fields
+<td>Array schemas must define the <code>items</code> field, and should define the <code>minItems</code> and <code>maxItems</code> fields.
 [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#array">1</a>].</td>
 </tr>
 <tr>
@@ -810,11 +803,6 @@ components:
     Array:
       description: An Array instance.
       type: array
-      items:
-        type: string
-        pattern: '^[a-zA-Z0-9]*$'
-        minLength: 0
-        maxLength: 50
 </pre>
 </td>
 </tr>
@@ -840,72 +828,11 @@ components:
 </table>
 
 
-### ibm-array-items
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>array-items</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule checks to make sure that array schemas properly specify the <code>items</code> property
-to define the type of elements contained in the array.</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-requestBody:
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          field1:
-            type: array
-          field2:
-            type: array
-            items: 'not a schema'
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-requestBody:
-  content:
-    application/json:
-      schema:
-        type: object
-        properties:
-          field1:
-            type: array
-            items:
-              type: string
-          field2:
-            type: array
-            items: 
-              $ref: '#/components/schemas/SomeSchema'
-</pre>
-</td>
-</tr>
-</table>
-
-
 ### ibm-array-of-arrays
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>array-of-arrays</b></td>
+<td><b>ibm-array-of-arrays</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -956,7 +883,7 @@ requestBody:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>array-responses</b></td>
+<td><b>ibm-array-responses</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1026,7 +953,7 @@ sample response body:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>authorization-parameter</b></td>
+<td><b>ibm-authorization-parameter</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1048,7 +975,7 @@ together with other documentation provided for the service.
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1110,7 +1037,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>binary-schemas</b></td>
+<td><b>ibm-binary-schemas</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1176,7 +1103,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>circular-refs</b></td>
+<td><b>ibm-circular-refs</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1244,7 +1171,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>collection-array-property</b></td>
+<td><b>ibm-collection-array-property</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1272,7 +1199,7 @@ companion path string that does end with a path parameter reference (e.g. "/v1/t
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1325,7 +1252,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>consecutive-path-param-segments</b></td>
+<td><b>ibm-consecutive-path-param-segments</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1340,7 +1267,7 @@ For example, the path <code>/v1/foos/{foo_id}/{bar_id}</code> is invalid and sho
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1379,7 +1306,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>content-entry-contains-schema</b></td>
+<td><b>ibm-content-entry-contains-schema</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1428,7 +1355,7 @@ responses:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>content-entry-provided</b></td>
+<td><b>ibm-content-entry-provided</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1472,7 +1399,7 @@ responses:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>content-type-parameter</b></td>
+<td><b>ibm-content-type-parameter</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1486,7 +1413,7 @@ Note that the <code>Content-Type</code> header parameter is managed automaticall
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1547,7 +1474,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>delete-body</b></td>
+<td><b>ibm-delete-body</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1606,7 +1533,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>description-mentions-json</b></td>
+<td><b>ibm-description-mentions-json</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1661,7 +1588,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>discriminator</b></td>
+<td><b>ibm-discriminator</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1731,7 +1658,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>duplicate-path-parameter</b></td>
+<td><b>ibm-duplicate-path-parameter</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1747,7 +1674,7 @@ and returns a warning to alert the user that the path parameter should be define
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -1800,7 +1727,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>enum-case-convention</b></td>
+<td><b>ibm-enum-case-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1813,7 +1740,7 @@ contain values that follow a specific case convention, with the default being sn
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -1875,7 +1802,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>examples-name-contains-space</b></td>
+<td><b>ibm-examples-name-contains-space</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2075,7 +2002,7 @@ n/a
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>if-modified-since-parameter</b></td>
+<td><b>ibm-if-modified-since-parameter</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2090,7 +2017,7 @@ Operations should support <code>If-Match</code> and <code>If-None-Match</code> h
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:</b></td>
@@ -2159,7 +2086,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>if-unmodified-since-parameter</b></td>
+<td><b>ibm-if-unmodified-since-parameter</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2174,7 +2101,7 @@ Operations should support <code>If-Match</code> and <code>If-None-Match</code> h
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:</b></td>
@@ -2235,7 +2162,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>inline-property-schema</b></td>
+<td><b>ibm-inline-property-schema</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2313,7 +2240,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>inline-request-schema</b></td>
+<td><b>ibm-inline-request-schema</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2399,7 +2326,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>inline-response-schema</b></td>
+<td><b>ibm-inline-response-schema</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2478,13 +2405,13 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>major-version-in-path</b></td>
+<td><b>ibm-major-version-in-path</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
 <td>Each path defined within the API definition should include a path segment for the API major version,
 of the form <code>v&lt;n&gt;</code>, and all paths should have the same API major version segment.
-The API major version can appear in either the server URL (oas3), the basePath (oas2), or in each path entry.
+The API major version can appear in either the server URL or in each path entry.
 </td>
 </tr>
 <tr>
@@ -2493,7 +2420,7 @@ The API major version can appear in either the server URL (oas3), the basePath (
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -2530,7 +2457,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>merge-patch-optional-properties</b></td>
+<td><b>ibm-merge-patch-optional-properties</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2609,7 +2536,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>missing-required-property</b></td>
+<td><b>ibm-missing-required-property</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2629,7 +2556,7 @@ The property could be defined in any of the following ways:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -2674,7 +2601,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>no-etag-header</b></td>
+<td><b>ibm-no-etag-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2696,7 +2623,7 @@ within the <code>GET</code> operation's response.
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -2784,7 +2711,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>operation-id-case-convention</b></td>
+<td><b>ibm-operation-id-case-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2796,7 +2723,7 @@ paths:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -2852,6 +2779,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
+<td><b>ibm-operation-id-naming-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2869,7 +2797,7 @@ Likewise, for the <code>GET /v1/things/{thing_id}</code> operation, we might pre
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -2914,7 +2842,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>operation-summary</b></td>
+<td><b>ibm-operation-summary</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2961,7 +2889,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>optional-request-body</b></td>
+<td><b>ibm-optional-request-body</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3020,7 +2948,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>pagination-style</b></td>
+<td><b>ibm-pagination-style</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3104,7 +3032,7 @@ n/a
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-case-convention</b></td>
+<td><b>ibm-parameter-case-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3116,7 +3044,7 @@ n/a
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -3223,7 +3151,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-default</b></td>
+<td><b>ibm-parameter-default</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3235,7 +3163,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3283,7 +3211,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-description</b></td>
+<td><b>ibm-parameter-description</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3295,7 +3223,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3343,7 +3271,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-order</b></td>
+<td><b>ibm-parameter-order</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3357,7 +3285,7 @@ listed first, then any optional parameters.
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3424,7 +3352,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>parameter-schema-or-content</b></td>
+<td><b>ibm-parameter-schema-or-content</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3469,7 +3397,7 @@ parameters:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>patch-request-content-type</b></td>
+<td><b>ibm-patch-request-content-type</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3538,7 +3466,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>path-param-not-crn</b></td>
+<td><b>ibm-path-param-not-crn</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3579,7 +3507,7 @@ are true for a particular parameter, then a warning is raised for that parameter
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3628,7 +3556,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>path-segment-case-convention</b></td>
+<td><b>ibm-path-segment-case-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3640,7 +3568,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -3683,7 +3611,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>precondition-header</b></td>
+<td><b>ibm-precondition-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3756,7 +3684,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>prohibit-summary-sentence-style</b></td>
+<td><b>ibm-prohibit-summary-sentence-style</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3803,7 +3731,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>property-attributes</b></td>
+<td><b>ibm-property-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3815,14 +3743,6 @@ paths:
 <li><code>minimum</code> must not be greater than <code>maximum</code>.</li>
 <li><code>minimum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
 <li><code>maximum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
-</ul>
-</dd>
-<dt>Array schemas (type=array):</dt>
-<dd>
-<ul>
-<li><code>minItems</code> must not be greater than <code>maxItems</code>.</li>
-<li><code>minItems</code> must not be defined for a schema type other than <code>array</code>.</li>
-<li><code>maxItems</code> must not be defined for a schema type other than <code>array</code>.</li>
 </ul>
 </dd>
 <dt>Object schemas (type=object):</dt>
@@ -3853,12 +3773,6 @@ components:
     Thing:
       type: object
       properties:
-        thing_names:
-          type: array
-          items:
-            type: string
-          minItems: 10
-          maxItems: 5
         thing_size:
           type: integer,
           minimum: 5
@@ -3875,12 +3789,6 @@ components:
     Thing:
       type: object
       properties:
-        thing_names:
-          type: array
-          items:
-            type: string
-          minItems: 5
-          maxItems: 10
         thing_size:
           type: integer,
           minimum: 4
@@ -3895,7 +3803,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>property-case-collision</b></td>
+<td><b>ibm-property-case-collision</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3908,7 +3816,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -3951,7 +3859,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>property-case-convention</b></td>
+<td><b>ibm-property-case-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3963,7 +3871,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
@@ -4029,7 +3937,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>property-description</b></td>
+<td><b>ibm-property-description</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4041,7 +3949,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -4084,7 +3992,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>property-inconsistent-name-and-type</b></td>
+<td><b>ibm-property-inconsistent-name-and-type</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4099,7 +4007,7 @@ components:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -4150,7 +4058,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ref-pattern</b></td>
+<td><b>ibm-ref-pattern</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4232,7 +4140,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ref-sibling-duplicate-description</b></td>
+<td><b>ibm-ref-sibling-duplicate-description</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4382,7 +4290,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>request-body-name</b></td>
+<td><b>ibm-request-body-name</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4447,7 +4355,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>request-body-object</b></td>
+<td><b>ibm-request-body-object</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4495,7 +4403,7 @@ requestBody:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>response-error-response-schema</b></td>
+<td><b>ibm-response-error-response-schema</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4658,7 +4566,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>response-example-provided</b></td>
+<td><b>ibm-response-example-provided</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4719,7 +4627,7 @@ responses:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>response-status-codes</b></td>
+<td><b>ibm-response-status-codes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4835,7 +4743,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>schema-description</b></td>
+<td><b>ibm-schema-description</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4847,7 +4755,7 @@ paths:
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -4885,7 +4793,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>schema-type</b></td>
+<td><b>ibm-schema-type</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4901,7 +4809,7 @@ Schemas should have a non-empty <code>type</code> field.
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -4935,7 +4843,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>security-scheme-attributes</b></td>
+<td><b>ibm-security-scheme-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5041,7 +4949,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>security-schemes</b></td>
+<td><b>ibm-security-schemes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5118,7 +5026,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>server-variable-default-value</b></td>
+<td><b>ibm-server-variable-default-value</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5166,11 +5074,11 @@ servers:
 </table>
 
 
-### ibm-string-boundary
+### ibm-string-attributes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>string-boundary</b></td>
+<td><b>ibm-string-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5243,7 +5151,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>unused-tag</b></td>
+<td><b>ibm-unused-tag</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5304,7 +5212,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>valid-path-segments</b></td>
+<td><b>ibm-valid-path-segments</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5320,7 +5228,7 @@ For example, the path <code>/v1/foos/_{foo_id}_</code> is invalid and should pro
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
-<td>oas2, oas3</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td valign=top><b>Non-compliant example:<b></td>
@@ -5357,7 +5265,7 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>valid-type-format</b></td>
+<td><b>ibm-valid-type-format</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>

@@ -1,12 +1,14 @@
-const { stringBoundary } = require('../src/rules');
+const { stringAttributes } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-string-boundary';
+const rule = stringAttributes;
+const ruleId = 'ibm-string-attributes';
+const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: string-boundary', () => {
+describe('Spectral rule: ibm-string-attributes', () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
-      const results = await testRule(name, stringBoundary, rootDocument);
+      const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -23,7 +25,7 @@ describe('Spectral rule: string-boundary', () => {
         }
       ];
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -42,7 +44,7 @@ describe('Spectral rule: string-boundary', () => {
         }
       ];
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -98,7 +100,7 @@ describe('Spectral rule: string-boundary', () => {
         }
       ];
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -133,7 +135,7 @@ describe('Spectral rule: string-boundary', () => {
         example: 'example string'
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -168,7 +170,7 @@ describe('Spectral rule: string-boundary', () => {
         example: 'example string'
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
   });
@@ -188,17 +190,17 @@ describe('Spectral rule: string-boundary', () => {
         }
       ];
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Should define a pattern for a valid string'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.parameters.0.schema'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('String schema is missing a `minLength` field', async () => {
@@ -219,17 +221,17 @@ describe('Spectral rule: string-boundary', () => {
         }
       ];
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Should define a minLength for a valid string'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.parameters.0.content.text/plain.schema'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('String schema is missing a `maxLength` field', async () => {
@@ -244,17 +246,17 @@ describe('Spectral rule: string-boundary', () => {
         }
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Should define a maxLength for a valid string'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('Non-string schema defines a `pattern` field', async () => {
@@ -268,17 +270,17 @@ describe('Spectral rule: string-boundary', () => {
         }
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'pattern should not be defined for a non-string schema'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema.pattern'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('Non-string schema defines a `minLength` field', async () => {
@@ -292,17 +294,17 @@ describe('Spectral rule: string-boundary', () => {
         }
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'minLength should not be defined for a non-string schema'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema.minLength'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('Non-string schema defines a `maxLength` field', async () => {
@@ -316,17 +318,17 @@ describe('Spectral rule: string-boundary', () => {
         }
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'maxLength should not be defined for a non-string schema'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema.maxLength'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('String schema has a `minLength` value greater than the `maxLength` value', async () => {
@@ -342,17 +344,17 @@ describe('Spectral rule: string-boundary', () => {
         }
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'minLength cannot be greater than maxLength'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('Invalid string schema is part of a composed schema', async () => {
@@ -389,13 +391,13 @@ describe('Spectral rule: string-boundary', () => {
         }
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
-      expect(results[0].code).toBe(name);
+      expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
         'Should define a pattern for a valid string'
       );
-      expect(results[0].severity).toBe(severityCodes.warning);
+      expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema'
       );
@@ -415,17 +417,17 @@ describe('Spectral rule: string-boundary', () => {
         }
       ];
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Should define a pattern for a valid string'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.parameters.0.schema'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('String schema specifies maxLength in only SOME oneOf schemas', async () => {
@@ -459,17 +461,17 @@ describe('Spectral rule: string-boundary', () => {
         example: 'example string'
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Should define a maxLength for a valid string'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.parameters.0.schema'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
 
     it('String schema specifies pattern in only SOME anyOf schemas', async () => {
@@ -503,17 +505,17 @@ describe('Spectral rule: string-boundary', () => {
         example: 'example string'
       };
 
-      const results = await testRule(name, stringBoundary, testDocument);
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
       const validation = results[0];
-      expect(validation.code).toBe(name);
+      expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
         'Should define a pattern for a valid string'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.parameters.0.schema'
       );
-      expect(validation.severity).toBe(severityCodes.warning);
+      expect(validation.severity).toBe(expectedSeverity);
     });
   });
 });
