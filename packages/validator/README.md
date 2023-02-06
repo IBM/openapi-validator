@@ -14,61 +14,12 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 `lint-openapi [options] [command] [<files>]`
 
 ##### [options]
--  -e (--errors-only) : Print only the errors and skip the warnings.
--  -j (--json) : Output results as a JSON object
--  -n (--no-colors) : The output is colorized by default. Using this flag will turn off the colorizing.
--  -v (--verbose) : Display more verbose output.
--  -r (--ruleset) <path/to/your/ruleset> : Path to Spectral ruleset file, used instead of .spectral.yaml if provided.
--  -s (--summary-only) : Display only the summary section and skip individual errors and warnings.
--  --version : Print the current semantic version of the validator.
+-  -e (--errors-only) : Only print the errors, ignore the warnings.
+-  -j (--json) : Output results as a JSON object.
+-  -l (--log-level) `<loggername>=<loglevel> ...` : Set log level of logger named `<loggername>` to `<loglevel>` (e.g. `-l root=info -l ibm-schema-description=debug`). If you omit the logger name, then `root` is assumed (e.g. `-l info`).
+-  -n (--no-colors) : Disables colorization of the output messages, which is enabled by default.
+-  -v (--verbose) : Display verbose output.
+-  -r (--ruleset) `<path/to/your/ruleset>` : Path to Spectral ruleset file, used instead of .spectral.yaml if provided.
+-  -s (--summary-only) : Display only the summary section, and avoid displaying individual errors and warnings. This applies to both JSON and non-JSON output.
+-  --version : Print the current semantic version of the validator
 -  -h (--help) : This option prints the usage menu.
-
-
-### Node module
-```javascript
-const validator = require('ibm-openapi-validator');
-
-validator(openApiDoc)
-  .then(validationResults => {
-    console.log(JSON.stringify(validationResults, null, 2));
-  });
-
-// or, if inside `async` function
-const validationResults = await validator(openApiDoc);
-console.log(JSON.stringify(validationResults, null, 2));
-```
-
-#### API
-##### validator(openApiDoc, [defaultMode = false])
-Returns a `Promise` with the validation results.
-
-###### openApiDoc
-Type: `Object`
-An object that represents an OpenAPI document.
-
-###### defaultMode
-Type: `boolean`
-Default: `false`
-If set to true, the validator will ignore the `.validaterc` file and will use the [configuration defaults](#default-values).
-
-#### Validation results
-The Promise returned from the validator resolves into a JSON object. The structure of the object is:
-```
-{
-  errors:
-  [
-    {
-      path: 'path.to.error.in.object'
-      message: 'Major problem in the OpenAPI document.'
-    }
-  ],
-  warnings:
-  [
-    {
-      path: 'path.to.warning.in.object'
-      message: 'Minor problem in the OpenAPI document.'
-    }
-  ]
-}
-```
-The object will always have `errors` and `warnings` keys that map to arrays. If an array is empty, that means there were no errors/warnings in the OpenAPI document.
