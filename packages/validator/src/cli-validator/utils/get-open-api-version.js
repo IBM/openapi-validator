@@ -1,5 +1,6 @@
 function getVersion(spec) {
-  return spec.openapi ? '3' : '2';
+  // Let's prefer "openapi 3.x" if no swagger field is found.
+  return spec.swagger ? '2' : '3';
 }
 
 module.exports = getVersion;
