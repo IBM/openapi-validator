@@ -91,12 +91,10 @@ module.exports = {
 
     // IBM Custom Rules
     'ibm-accept-parameter': ibmRules.acceptParameter,
-    'ibm-authorization-parameter': ibmRules.authorizationParameter,
-    'ibm-content-type-parameter': ibmRules.contentTypeParameter,
-    'ibm-array-boundary': ibmRules.arrayBoundary,
-    'ibm-array-items': ibmRules.arrayItems,
+    'ibm-array-attributes': ibmRules.arrayAttributes,
     'ibm-array-of-arrays': ibmRules.arrayOfArrays,
     'ibm-array-responses': ibmRules.arrayResponses,
+    'ibm-authorization-parameter': ibmRules.authorizationParameter,
     'ibm-binary-schemas': ibmRules.binarySchemas,
     'ibm-circular-refs': ibmRules.circularRefs,
     'ibm-collection-array-property': ibmRules.collectionArrayProperty,
@@ -104,6 +102,7 @@ module.exports = {
       ibmRules.consecutivePathParamSegments,
     'ibm-content-entry-contains-schema': ibmRules.contentEntryContainsSchema,
     'ibm-content-entry-provided': ibmRules.contentEntryProvided,
+    'ibm-content-type-parameter': ibmRules.contentTypeParameter,
     'ibm-delete-body': ibmRules.deleteBody,
     'ibm-description-mentions-json': ibmRules.descriptionMentionsJSON,
     'ibm-discriminator': ibmRules.discriminator,
@@ -158,7 +157,7 @@ module.exports = {
     'ibm-security-scheme-attributes': ibmRules.securitySchemeAttributes,
     'ibm-security-schemes': ibmRules.securitySchemes,
     'ibm-server-variable-default-value': ibmRules.serverVariableDefaultValue,
-    'ibm-string-boundary': ibmRules.stringBoundary,
+    'ibm-string-attributes': ibmRules.stringAttributes,
     'ibm-unused-tag': ibmRules.unusedTag,
     'ibm-valid-path-segments': ibmRules.validPathSegments,
     'ibm-valid-type-format': ibmRules.validTypeFormat

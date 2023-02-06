@@ -4,19 +4,23 @@ const {
   validateNestedSchemas
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
-const { getCompositeSchemaAttribute } = require('../utils');
+const { getCompositeSchemaAttribute, LoggerFactory } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return validateNestedSchemas(schema, path, stringBoundaryErrors, true, false);
-};
-
-// Rudimentary debug logging that is useful in debugging this rule.
-const debugEnabled = false;
-function debug(msg) {
-  if (debugEnabled) {
-    console.log(msg);
+let ruleId;
+let logger;
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
   }
-}
+  return validateNestedSchemas(
+    schema,
+    context.path,
+    stringBoundaryErrors,
+    true,
+    false
+  );
+};
 
 // An object holding a list of "format" values to be bypassed when checking
 // for the "pattern", "minLength" and "maxLength" fields of a string property, respectively.
@@ -34,9 +38,15 @@ const bypassFormats = {
  * @returns an array containing the violations found or [] if no violations
  */
 function stringBoundaryErrors(schema, path) {
+  logger.debug(
+    `${ruleId}: checking attributes of schema at location: ${path.join('.')}`
+  );
+
   const errors = [];
 
   if (isStringSchema(schema)) {
+    logger.debug('schema is a string schema');
+
     // Perform these checks only if enum is not defined.
     if (!schemaContainsAttribute(schema, 'enum')) {
       // Retrieve the relevant attributes of "schema" ahead of time for use below.
@@ -50,21 +60,18 @@ function stringBoundaryErrors(schema, path) {
           message: 'Should define a pattern for a valid string',
           path
         });
-        debug('>>> pattern field missing for: ' + path.join('.'));
       }
       if (!isDefined(minLength) && !bypassFormats.minLength.includes(format)) {
         errors.push({
           message: 'Should define a minLength for a valid string',
           path
         });
-        debug('>>> minLength field missing for: ' + path.join('.'));
       }
       if (!isDefined(maxLength) && !bypassFormats.maxLength.includes(format)) {
         errors.push({
           message: 'Should define a maxLength for a valid string',
           path
         });
-        debug('>>> maxLength field missing for: ' + path.join('.'));
       }
       if (
         isDefined(minLength) &&
@@ -75,7 +82,6 @@ function stringBoundaryErrors(schema, path) {
           message: 'minLength cannot be greater than maxLength',
           path
         });
-        debug('>>> minLength > maxLength for: ' + path.join('.'));
       }
     }
   } else {

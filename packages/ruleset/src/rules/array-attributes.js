@@ -2,16 +2,16 @@ const {
   schemas
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
-const { arrayItems } = require('../functions');
+const { arrayAttributes } = require('../functions');
 
 module.exports = {
-  description: 'Array schemas must have "items" field',
+  description: 'Array schemas should have certain attributes defined',
   message: '{{error}}',
-  given: schemas,
-  severity: 'error',
+  severity: 'warn',
   formats: [oas3],
   resolved: true,
+  given: schemas,
   then: {
-    function: arrayItems
+    function: arrayAttributes
   }
 };

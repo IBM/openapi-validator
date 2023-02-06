@@ -1,8 +1,8 @@
 const { oas3 } = require('@stoplight/spectral-formats');
-const { stringBoundary } = require('../functions');
+const { stringAttributes } = require('../functions');
 
 module.exports = {
-  description: 'String schemas should have explicit boundaries defined',
+  description: 'String schemas should have certain attributes defined',
   message: '{{error}}',
   severity: 'warn',
   formats: [oas3],
@@ -15,6 +15,6 @@ module.exports = {
     '$.paths[*][*].requestBody.content[*].schema'
   ],
   then: {
-    function: stringBoundary
+    function: stringAttributes
   }
 };

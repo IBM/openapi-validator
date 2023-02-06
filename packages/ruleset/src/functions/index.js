@@ -1,6 +1,5 @@
 module.exports = {
-  arrayBoundary: require('./array-boundary'),
-  arrayItems: require('./array-items'),
+  arrayAttributes: require('./array-attributes'),
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
   binarySchemas: require('./binary-schemas'),
@@ -47,7 +46,7 @@ module.exports = {
   schemaOrContentProvided: require('./schema-or-content-provided'),
   securitySchemeAttributes: require('./security-scheme-attributes'),
   securitySchemes: require('./security-schemes').securitySchemes,
-  stringBoundary: require('./string-boundary'),
+  stringAttributes: require('./string-attributes'),
   unusedTag: require('./unused-tag').unusedTag,
   validatePathSegments: require('./valid-path-segments'),
   validTypeFormat: require('./valid-type-format')
