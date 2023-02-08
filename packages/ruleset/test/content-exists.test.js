@@ -1,11 +1,12 @@
-const { contentEntryProvided } = require('../src/rules');
+const { contentExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-content-entry-provided';
+const ruleId = 'ibm-content-exists';
+const rule = contentExists;
 
-describe('Spectral rule: content-entry-provided', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(name, contentEntryProvided, rootDocument);
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -20,7 +21,7 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -35,7 +36,7 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -50,7 +51,7 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -65,7 +66,7 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -80,7 +81,7 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -95,7 +96,7 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -110,7 +111,7 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -125,12 +126,12 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Request bodies and non-204 responses should define a content object'
     );
@@ -152,12 +153,12 @@ describe('Spectral rule: content-entry-provided', () => {
       }
     };
 
-    const results = await testRule(name, contentEntryProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Request bodies and non-204 responses should define a content object'
     );

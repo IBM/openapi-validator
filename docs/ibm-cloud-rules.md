@@ -37,8 +37,8 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-circular-refs](#ibm-circular-refs)
   * [ibm-collection-array-property](#ibm-collection-array-property)
   * [ibm-consecutive-path-segments](#ibm-consecutive-path-segments)
-  * [ibm-content-entry-contains-schema](#ibm-content-entry-contains-schema)
-  * [ibm-content-entry-provided](#ibm-content-entry-provided)
+  * [ibm-content-contains-schema](#ibm-content-contains-schema)
+  * [ibm-content-exists](#ibm-content-exists)
   * [ibm-content-type-parameter](#ibm-content-type-parameter)
   * [ibm-delete-body](#ibm-delete-body)
   * [ibm-description-mentions-json](#ibm-description-mentions-json)
@@ -179,13 +179,13 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-content-entry-contains-schema">ibm-content-entry-contains-schema</a></td>
+<td><a href="#ibm-content-contains-schema">ibm-content-contains-schema</a></td>
 <td>warn</td>
 <td>Content entries must specify a schema</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-content-entry-provided">ibm-content-entry-provided</a></td>
+<td><a href="#ibm-content-exists">ibm-content-exists</a></td>
 <td>warn</td>
 <td>Request bodies and non-204 responses should define a content field</td>
 <td>oas3</td>
@@ -1302,11 +1302,11 @@ paths:
 </table>
 
 
-### ibm-content-entry-contains-schema
+### ibm-content-contains-schema
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-content-entry-contains-schema</b></td>
+<td><b>ibm-content-contains-schema</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1351,11 +1351,11 @@ responses:
 </table>
 
 
-### ibm-content-entry-provided
+### ibm-content-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-content-entry-provided</b></td>
+<td><b>ibm-content-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>

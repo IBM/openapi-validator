@@ -5,7 +5,7 @@ const { oas3 } = require('@stoplight/spectral-formats');
 const { deleteBody } = require('../functions');
 
 module.exports = {
-  description: '"delete" operation should not contain a requestBody.',
+  description: 'Delete operations should not contain a requestBody.',
   message: '{{error}}',
   severity: 'warn',
   formats: [oas3],
