@@ -7,7 +7,7 @@ module.exports = {
   binarySchemas: require('./binary-schemas'),
   circularRefs: require('./circular-refs'),
   collectionArrayProperty: require('./collection-array-property'),
-  consecutivePathParamSegments: require('./consecutive-path-param-segments'),
+  consecutivePathSegments: require('./consecutive-path-segments'),
   contentEntryContainsSchema: require('./content-entry-contains-schema'),
   contentEntryProvided: require('./content-entry-provided'),
   contentTypeParameter: require('./content-type-parameter'),

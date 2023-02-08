@@ -42,7 +42,7 @@ const arrayOfArrayOfInt = {
   }
 };
 
-describe('Spectral rule: array-of-arrays', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

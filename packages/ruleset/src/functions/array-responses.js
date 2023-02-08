@@ -1,5 +1,13 @@
-module.exports = function(operation, _opts, { path }) {
-  return checkForArrayResponses(operation, path);
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+module.exports = function(operation, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return checkForArrayResponses(operation, context.path);
 };
 
 /**
@@ -12,17 +20,22 @@ module.exports = function(operation, _opts, { path }) {
  * @returns an array containing the violations found or [] if no violations
  */
 function checkForArrayResponses(op, path) {
+  logger.debug(`${ruleId}: checking operation at location: ${path.join('.')}`);
+
   const errors = [];
 
   // Check for an array schema within each response.
   for (const [responseCode, response] of Object.entries(op.responses || {})) {
+    logger.debug(`${ruleId}: checking responses for code '${responseCode}'`);
     for (const [mimeType, contentEntry] of Object.entries(
       response.content || {}
     )) {
+      logger.debug(`${ruleId}: checking response for mimetype '${mimeType}'`);
       const isArrayResponse =
         contentEntry.schema &&
         (contentEntry.schema.type === 'array' || contentEntry.schema.items);
       if (isArrayResponse) {
+        logger.debug('Found an array response!');
         errors.push({
           message:
             'Operations should not return an array as the top-level structure of a response.',

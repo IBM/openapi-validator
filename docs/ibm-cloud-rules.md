@@ -36,7 +36,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-binary-schemas](#ibm-binary-schemas)
   * [ibm-circular-refs](#ibm-circular-refs)
   * [ibm-collection-array-property](#ibm-collection-array-property)
-  * [ibm-consecutive-path-param-segments](#ibm-consecutive-path-param-segments)
+  * [ibm-consecutive-path-segments](#ibm-consecutive-path-segments)
   * [ibm-content-entry-contains-schema](#ibm-content-entry-contains-schema)
   * [ibm-content-entry-provided](#ibm-content-entry-provided)
   * [ibm-content-type-parameter](#ibm-content-type-parameter)
@@ -171,7 +171,7 @@ within the operation's path string, which should also match the plural form of t
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-consecutive-path-param-segments">ibm-consecutive-path-param-segments</a></td>
+<td><a href="#ibm-consecutive-path-segments">ibm-consecutive-path-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API definition to detect the presence of two or more consecutive
 path segments that contain a path parameter reference (e.g. <code>/v1/foos/{foo_id}/{bar_id}</code>), 
@@ -1248,11 +1248,11 @@ paths:
 </table>
 
 
-### ibm-consecutive-path-param-segments
+### ibm-consecutive-path-segments
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-consecutive-path-param-segments</b></td>
+<td><b>ibm-consecutive-path-segments</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
