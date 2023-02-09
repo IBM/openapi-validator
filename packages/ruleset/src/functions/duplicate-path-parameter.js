@@ -1,10 +1,17 @@
 const flatten = require('lodash/flatten');
 const isEqual = require('lodash/isEqual');
 const uniqWith = require('lodash/uniqWith');
-const { operationMethods } = require('../utils');
+const { operationMethods, LoggerFactory } = require('../utils');
 
-module.exports = function(pathItem, _opts, { path }) {
-  return duplicatePathParameter(pathItem, path);
+let ruleId;
+let logger;
+
+module.exports = function(pathItem, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return duplicatePathParameter(pathItem, context.path);
 };
 
 // Regex used to identify references to path params within a path string.
@@ -42,6 +49,10 @@ function duplicatePathParameter(pathItem, path) {
 
     // If we have more than one operation, then perform the checks.
     if (operationKeys.length > 1) {
+      logger.debug(
+        `${ruleId}: checking path param refs at location: ${path.join('.')}`
+      );
+
       const errors = [];
 
       for (const paramName of paramRefs) {
@@ -65,6 +76,11 @@ function duplicatePathParameter(pathItem, path) {
                 p => p.name === paramName
               );
               if (paramIndex >= 0) {
+                logger.debug(
+                  `${ruleId}: define common param on path object: ${path.join(
+                    '.'
+                  )}.${opKey}.parameters.${paramIndex.toString()}, name=${paramName}`
+                );
                 errors.push({
                   message:
                     'Common path parameters should be defined on path object',

@@ -39,16 +39,15 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-consecutive-path-segments](#ibm-consecutive-path-segments)
   * [ibm-content-contains-schema](#ibm-content-contains-schema)
   * [ibm-content-exists](#ibm-content-exists)
+  * [ibm-content-type-is-specific](#ibm-content-type-is-specific)
   * [ibm-content-type-parameter](#ibm-content-type-parameter)
   * [ibm-delete-body](#ibm-delete-body)
   * [ibm-description-mentions-json](#ibm-description-mentions-json)
-  * [ibm-discriminator](#ibm-discriminator)
+  * [ibm-discriminator-property-exists](#ibm-discriminator-property-exists)
   * [ibm-duplicate-path-parameter](#ibm-duplicate-path-parameter)
-  * [ibm-enum-case-convention](#ibm-enum-case-convention)
-  * [ibm-examples-name-contains-space](#ibm-examples-name-contains-space)
-  * [ibm-content-type-is-specific](#ibm-content-type-is-specific)
+  * [ibm-enum-case](#ibm-enum-case)
   * [ibm-error-content-type-is-json](#ibm-error-content-type-is-json)
-  * [ibm-sdk-operations](#ibm-sdk-operations)
+  * [ibm-examples-name-contains-space](#ibm-examples-name-contains-space)
   * [ibm-if-modified-since-parameter](#ibm-if-modified-since-parameter)
   * [ibm-if-unmodified-since-parameter](#ibm-if-unmodified-since-parameter)
   * [ibm-inline-property-schema](#ibm-inline-property-schema)
@@ -87,6 +86,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-response-status-codes](#ibm-response-status-codes)
   * [ibm-schema-description](#ibm-schema-description)
   * [ibm-schema-type](#ibm-schema-type)
+  * [ibm-sdk-operations](#ibm-sdk-operations)
   * [ibm-security-scheme-attributes](#ibm-security-scheme-attributes)
   * [ibm-security-schemes](#ibm-security-schemes)
   * [ibm-server-variable-default-value](#ibm-server-variable-default-value)
@@ -191,6 +191,12 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#ibm-content-type-is-specific">ibm-content-type-is-specific</a></td>
+<td>warn</td>
+<td><code>*/*</code> should only be used when all content types are supported</td>
+<td>oas3</td>
+</tr>
+<tr>
 <td><a href="#ibm-content-type-parameter">ibm-content-type-parameter</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Content-Type</code> header parameter</td>
@@ -209,7 +215,7 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-discriminator">ibm-discriminator</a></td>
+<td><a href="#ibm-discriminator-property-exists">ibm-discriminator-property-exists</a></td>
 <td>error</td>
 <td>The discriminator property must be defined in the schema</td>
 <td>oas3</td>
@@ -221,21 +227,9 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-enum-case-convention">ibm-enum-case-convention</a></td>
+<td><a href="#ibm-enum-case">ibm-enum-case</a></td>
 <td>error</td>
 <td>Enum values should follow a specific case convention</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-examples-name-contains-space">ibm-examples-name-contains-space</a></td>
-<td>warn</td>
-<td>The name of an entry in an <code>examples</code> field should not contain a space</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-content-type-is-specific">ibm-content-type-is-specific</a></td>
-<td>warn</td>
-<td><code>*/*</code> should only be used when all content types are supported</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -245,9 +239,15 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#ibm-examples-name-contains-space">ibm-examples-name-contains-space</a></td>
+<td>warn</td>
+<td>The name of an entry in an <code>examples</code> field should not contain a space</td>
+<td>oas3</td>
+</tr>
+<tr>
 <td><a href="#ibm-sdk-operations">ibm-sdk-operations</a></td>
 <td>warn</td>
-<td>Validates the structure of the <code>x-sdk-operations</code> object </td>
+<td>Validates the structure of each <code>x-sdk-operations</code> object</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -1395,6 +1395,54 @@ responses:
 </table>
 
 
+### ibm-content-type-is-specific
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-content-type-is-specific</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The use of <code>*/*</code> as a mimetype within a <code>content</code> field should be avoided
+unless the API actually supports all content types.
+<p>If the API in fact supports all content types, this warning should be ignored.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+requestBody:
+  content:
+    '*/*':
+      ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+requestBody:
+  content:
+    'application/json':
+      ...
+    'text/plain':
+      ...
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### ibm-content-type-parameter
 <table>
 <tr>
@@ -1584,11 +1632,11 @@ components:
 </table>
 
 
-### ibm-discriminator
+### ibm-discriminator-property-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-discriminator</b></td>
+<td><b>ibm-discriminator-property-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1723,11 +1771,11 @@ paths:
 </table>
 
 
-### ibm-enum-case-convention
+### ibm-enum-case
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-enum-case-convention</b></td>
+<td><b>ibm-enum-case</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1798,6 +1846,54 @@ components:
 </table>
 
 
+### ibm-error-content-type-is-json
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-error-content-type-is-json</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>An error response likely returns <code>application/json</code> content and this rule warns when <code>application/json</code> 
+is not the content mimetype.
+This rule should be ignored when the API actually returns an error response that is not <code>application/json</code>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+responses:
+  400:
+    content:
+      'application/octet-stream':
+        ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+responses:
+  400:
+    content:
+      'application/json':
+        ...
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### ibm-examples-name-contains-space
 <table>
 <tr>
@@ -1862,137 +1958,6 @@ paths:
       responses:
         ...
 </pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-content-type-is-specific
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-content-type-is-specific</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>The use of <code>*/*</code> as a mimetype within a <code>content</code> field should be avoided
-unless the API actually supports all content types.
-<p>If the API in fact supports all content types, this warning should be ignored.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-requestBody:
-  content:
-    '*/*':
-      ...
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-requestBody:
-  content:
-    'application/json':
-      ...
-    'text/plain':
-      ...
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-error-content-type-is-json
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-error-content-type-is-json</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>An error response likely returns <code>application/json</code> content and this rule warns when <code>application/json</code> 
-is not the content mimetype.
-This rule should be ignored when the API actually returns an error response that is not <code>application/json</code>.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-responses:
-  400:
-    content:
-      'application/octet-stream':
-        ...
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-responses:
-  400:
-    content:
-      'application/json':
-        ...
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-sdk-operations
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-sdk-operations</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule validates the structure of values specified for the <code>x-sdk-operations</code>
-extension, using <a href="/packages/ruleset/src/schemas/x-sdk-operations.json">this JSON Schema document</a>.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-n/a
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-n/a
 </td>
 </tr>
 </table>
@@ -4834,6 +4799,41 @@ components:
       description: An string schema
         ...
 </pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-sdk-operations
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-sdk-operations</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule validates the structure of values specified for the <code>x-sdk-operations</code>
+extension, using <a href="/packages/ruleset/src/schemas/x-sdk-operations.json">this JSON Schema document</a>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+n/a
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+n/a
 </td>
 </tr>
 </table>

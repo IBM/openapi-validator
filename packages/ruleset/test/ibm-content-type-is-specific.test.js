@@ -1,15 +1,12 @@
 const { ibmContentTypeIsSpecific } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-content-type-is-specific';
+const ruleId = 'ibm-content-type-is-specific';
+const rule = ibmContentTypeIsSpecific;
 
-describe('Spectral rule: ibm-content-type-is-specific', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(
-      name,
-      ibmContentTypeIsSpecific,
-      rootDocument
-    );
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -28,16 +25,12 @@ describe('Spectral rule: ibm-content-type-is-specific', () => {
       }
     ];
 
-    const results = await testRule(
-      name,
-      ibmContentTypeIsSpecific,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       '*/* should only be used when all content types are supported'
     );
@@ -63,16 +56,12 @@ describe('Spectral rule: ibm-content-type-is-specific', () => {
       }
     };
 
-    const results = await testRule(
-      name,
-      ibmContentTypeIsSpecific,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       '*/* should only be used when all content types are supported'
     );
@@ -99,16 +88,12 @@ describe('Spectral rule: ibm-content-type-is-specific', () => {
       }
     };
 
-    const results = await testRule(
-      name,
-      ibmContentTypeIsSpecific,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       '*/* should only be used when all content types are supported'
     );

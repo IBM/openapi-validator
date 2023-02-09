@@ -1,15 +1,12 @@
 const { examplesNameContainsSpace } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-examples-name-contains-space';
+const ruleId = 'ibm-examples-name-contains-space';
+const rule = examplesNameContainsSpace;
 
-describe('Spectral rule: examples-name-contains-space', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(
-      name,
-      examplesNameContainsSpace,
-      rootDocument
-    );
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -50,16 +47,12 @@ describe('Spectral rule: examples-name-contains-space', () => {
       }
     };
 
-    const results = await testRule(
-      name,
-      examplesNameContainsSpace,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe('Examples name should not contain space');
     expect(validation.path).toStrictEqual([
       'paths',

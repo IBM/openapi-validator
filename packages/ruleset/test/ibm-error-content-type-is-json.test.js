@@ -1,16 +1,12 @@
 const { ibmErrorContentTypeIsJson } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-error-content-type-is-json';
+const ruleId = 'ibm-error-content-type-is-json';
+const rule = ibmErrorContentTypeIsJson;
 
-describe('Spectral rule: ibm-error-content-type-is-json', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(
-      name,
-      ibmErrorContentTypeIsJson,
-      rootDocument
-    );
-
+    const results = await testRule(ruleId, rule, rootDocument);
     expect(results).toHaveLength(0);
   });
 
@@ -24,16 +20,12 @@ describe('Spectral rule: ibm-error-content-type-is-json', () => {
       }
     };
 
-    const results = await testRule(
-      name,
-      ibmErrorContentTypeIsJson,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'error response should support application/json'
     );

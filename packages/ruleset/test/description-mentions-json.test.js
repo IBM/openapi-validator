@@ -6,7 +6,7 @@ const ruleId = 'ibm-description-mentions-json';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Schema descriptions should avoid mentioning "JSON"';
 
-describe('Spectral rule: description-mentions-json', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

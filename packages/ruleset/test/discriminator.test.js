@@ -1,12 +1,13 @@
 const { discriminator } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-discriminator';
+const ruleId = 'ibm-discriminator-property-exists';
+const rule = discriminator;
 
-describe('Spectral rule: discriminator', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
     // tests oneOf with all properties containing the property
-    const results = await testRule(name, discriminator, rootDocument);
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -34,7 +35,7 @@ describe('Spectral rule: discriminator', () => {
       ]
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -62,7 +63,7 @@ describe('Spectral rule: discriminator', () => {
       ]
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -90,7 +91,7 @@ describe('Spectral rule: discriminator', () => {
       ]
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -111,7 +112,7 @@ describe('Spectral rule: discriminator', () => {
       }
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -128,14 +129,14 @@ describe('Spectral rule: discriminator', () => {
       }
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     // the spectral path resolution logic is ignored for these tests so the
     // request and response instance are both reported
     expect(results).toHaveLength(4);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'The discriminator property name used must be defined in this schema'
     );
@@ -179,11 +180,11 @@ describe('Spectral rule: discriminator', () => {
       }
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(4);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'The discriminator property name used must be defined in this schema'
     );
@@ -224,11 +225,11 @@ describe('Spectral rule: discriminator', () => {
       ]
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(4);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'The discriminator property name used must be defined in this schema'
     );
@@ -269,11 +270,11 @@ describe('Spectral rule: discriminator', () => {
       ]
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(4);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'The discriminator property name used must be defined in this schema'
     );
@@ -314,11 +315,11 @@ describe('Spectral rule: discriminator', () => {
       ]
     };
 
-    const results = await testRule(name, discriminator, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(4);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'The discriminator property name used must be defined in this schema'
     );
