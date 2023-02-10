@@ -1,15 +1,12 @@
-const { contentEntryContainsSchema } = require('../src/rules');
+const { contentContainsSchema } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-content-entry-contains-schema';
+const ruleId = 'ibm-content-contains-schema';
+const rule = contentContainsSchema;
 
-describe('Spectral rule: content-entry-contains-schema', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(
-      name,
-      contentEntryContainsSchema,
-      rootDocument
-    );
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -47,16 +44,12 @@ describe('Spectral rule: content-entry-contains-schema', () => {
       }
     };
 
-    const results = await testRule(
-      name,
-      contentEntryContainsSchema,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(3);
 
     results.forEach(r => {
-      expect(r.code).toBe(name);
+      expect(r.code).toBe(ruleId);
       expect(r.message).toBe('Content entries must specify a schema');
       expect(r.severity).toBe(severityCodes.warning);
     });
@@ -160,16 +153,12 @@ describe('Spectral rule: content-entry-contains-schema', () => {
       }
     };
 
-    const results = await testRule(
-      name,
-      contentEntryContainsSchema,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(5);
 
     results.forEach(r => {
-      expect(r.code).toBe(name);
+      expect(r.code).toBe(ruleId);
       expect(r.message).toBe('Content entries must specify a schema');
       expect(r.severity).toBe(severityCodes.warning);
     });
@@ -286,16 +275,12 @@ describe('Spectral rule: content-entry-contains-schema', () => {
       }
     };
 
-    const results = await testRule(
-      name,
-      contentEntryContainsSchema,
-      testDocument
-    );
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(5);
 
     results.forEach(r => {
-      expect(r.code).toBe(name);
+      expect(r.code).toBe(ruleId);
       expect(r.message).toBe('Content entries must specify a schema');
       expect(r.severity).toBe(severityCodes.warning);
     });
