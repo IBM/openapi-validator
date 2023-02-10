@@ -35,9 +35,11 @@ module.exports = function(param, options, context) {
 // Return an error if 'param' is a header parameter named '<headerName>'.
 
 function checkHeaderParam(logger, ruleId, param, path, headerName) {
-  logger.debug(`${ruleId}: checking parameter at location: ${path.join('.')}`);
   // Don't bother enforcing the rule on parameter references.
   if (!param.$ref) {
+    logger.debug(
+      `${ruleId}: checking parameter at location: ${path.join('.')}`
+    );
     const isHeader = param.in && param.in.toLowerCase() === 'header';
     const isDisallowedHeader =
       param.name && param.name.trim().toLowerCase() === headerName;

@@ -7,7 +7,7 @@ const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
   'Operations should support the If-None-Match header parameter instead of If-Modified-Since';
 
-describe('Spectral rule: if-modified-since-parameter', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
