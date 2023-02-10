@@ -11,7 +11,7 @@ const expectedMsgReqBody =
 const expectedMsgResponse =
   'Responses with JSON content should not contain binary values (type: string, format: binary).';
 
-describe('Spectral rule: binary-schemas', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

@@ -8,7 +8,7 @@ const expectedMsgMin = 'Array schemas should define a numeric minItems field';
 const expectedMsgMax = 'Array schemas should define a numeric maxItems field';
 const expectedMsgItems = 'Array schemas must specify the items field';
 
-describe('Spectral rule: array-boundary', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

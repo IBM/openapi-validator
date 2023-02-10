@@ -7,7 +7,7 @@ const expectedSeverity = severityCodes.error;
 const expectedMsg =
   'Operations should not return an array as the top-level structure of a response.';
 
-describe('Spectral rule: array-responses', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

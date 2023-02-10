@@ -1,17 +1,21 @@
 const { isBinarySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
 
-const { isJsonMimeType, pathMatchesRegexp } = require('../utils');
+const {
+  isJsonMimeType,
+  pathMatchesRegexp,
+  LoggerFactory
+} = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return binarySchemaCheck(schema, path);
-};
+let ruleId;
+let logger;
 
-const debugEnabled = false;
-function debug(msg) {
-  if (debugEnabled) {
-    console.log(msg);
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
   }
-}
+  return binarySchemaCheck(schema, context.path);
+};
 
 /**
  * This function implements the 'binary-schemas' rule which makes sure that
@@ -31,7 +35,9 @@ function binarySchemaCheck(schema, path) {
     return [];
   }
 
-  debug('>>> Found binary schema: ' + path.join('.'));
+  logger.debug(
+    `${ruleId}: checking binary schema at location: ' + path.join('.')`
+  );
 
   // We know that "schema" is binary, so let's do some checks on "path"
   // to see if it is being used where it shouldn't be.
@@ -53,7 +59,7 @@ function binarySchemaCheck(schema, path) {
     isParamSchema ||
     (isParamContentSchema && isJsonMimeType(path[path.length - 2]))
   ) {
-    debug('>>> Its a parameter schema!');
+    logger.debug(`${ruleId}: it's a parameter schema!`);
     return [
       {
         message:
@@ -69,7 +75,7 @@ function binarySchemaCheck(schema, path) {
     /^paths,.*,requestBody,content,.*,schema$/
   );
   if (isRequestBodySchema && isJsonMimeType(path[path.length - 2])) {
-    debug('>>> Its a requestBody schema!');
+    logger.debug(`${ruleId}: it's a requestBody schema!`);
     return [
       {
         message:
@@ -85,7 +91,7 @@ function binarySchemaCheck(schema, path) {
     /^paths,.*,responses,[^,]*,content,.*,schema$/
   );
   if (isResponseSchema && isJsonMimeType(path[path.length - 2])) {
-    debug('>>> Its a response schema!');
+    logger.debug(`${ruleId}: it's a response schema!`);
     return [
       {
         message:

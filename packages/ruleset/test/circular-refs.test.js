@@ -5,7 +5,7 @@ const ruleId = 'ibm-circular-refs';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'API definition should not contain circular references.';
 
-describe('Spectral rule: circular-refs', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   // The implementation of the circular-refs rule uses a global variable
   // to store the set of unique flagged $ref values.
   // Because the global variable's value is retained across testcases, we need to reset

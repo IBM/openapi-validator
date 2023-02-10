@@ -3,8 +3,16 @@ const {
   isArraySchema,
   isObject
 } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
 
 module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
   return collectionArrayProperty(
     schema,
     context.path,
@@ -24,7 +32,7 @@ module.exports = function(schema, _opts, context) {
  * @returns an array containing the violations found or [] if no violations
  */
 function collectionArrayProperty(schema, path, apidef) {
-  // console.log(`Invoked for path: ${path.join('.')}`);
+  logger.debug(`${ruleId}: checking schema at location: ${path.join('.')}`);
 
   // Grab the GET operation that defines "schema" as the success response schema.
   const pathString = path[1];
@@ -33,12 +41,14 @@ function collectionArrayProperty(schema, path, apidef) {
   // If this is a collection "list"-type operation, then check to make sure
   // that "schema" defines an array property named after the last path segment.
   if (isListOperation(operation, pathString, apidef)) {
+    logger.debug('Detected list-type operation');
     const pathSegments = pathString.split('/');
     const propertyName = pathSegments[pathSegments.length - 1];
     if (!checkCompositeSchemaForArrayProperty(schema, propertyName)) {
+      logger.debug(`Couldn't find array property named '${propertyName}'`);
       return [
         {
-          message: `Collection list operation response schema should define array property with name "${propertyName}"`,
+          message: `Collection list operation response schema should define array property with name '${propertyName}'`,
           path
         }
       ];

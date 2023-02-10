@@ -1,5 +1,14 @@
-module.exports = function($ref, _opts, { path }) {
-  return checkForCircularRef($ref, path);
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
+module.exports = function($ref, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return checkForCircularRef($ref, context.path);
 };
 
 // This set is used to make sure that we warn about each distinct $ref value only once.
@@ -42,17 +51,21 @@ const reportedRefValues = new Set();
  * @returns an array containing the violations found or [] if no violations
  */
 function checkForCircularRef($ref, path) {
-  // console.warn(`>>> Found unresolved $ref ['${$ref}'] at: ${path.join('.')}\nreportedRefValues: ${[...reportedRefValues]}`);
+  logger.debug(
+    `${ruleId}: found unresolved $ref '${$ref}' at location: ${path.join('.')}`
+  );
+  logger.debug(`reportedRefValues: ${[...reportedRefValues]}`);
 
   // Bail out now if $ref is not a local ref.
   if (!$ref.startsWith('#')) {
+    logger.debug(`Found an external reference: ${$ref}`);
     return [];
   }
 
   // Return a warning only if we have not reported on this $ref value yet.
   if (!reportedRefValues.has($ref)) {
+    logger.debug(`Reporting circular $ref: ${$ref}`);
     reportedRefValues.add($ref);
-    // console.warn(`>>> Circular ref!`);
     return [
       {
         message: 'API definition should not contain circular references.',
