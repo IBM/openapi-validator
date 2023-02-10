@@ -2,7 +2,7 @@ const { optionalRequestBody } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = optionalRequestBody;
-const ruleId = 'ibm-optional-request-body';
+const ruleId = 'ibm-optional-requestbody';
 const expectedSeverity = severityCodes.info;
 const expectedMsg =
   'An optional requestBody with required properties should probably be required';

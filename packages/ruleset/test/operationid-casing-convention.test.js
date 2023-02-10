@@ -1,11 +1,11 @@
-const { operationIdCaseConvention } = require('../src/rules');
+const { operationIdCasingConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = operationIdCaseConvention;
-const ruleId = 'ibm-operation-id-case-convention';
+const rule = operationIdCasingConvention;
+const ruleId = 'ibm-operationid-casing-convention';
 const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: operation-id-case-convention', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

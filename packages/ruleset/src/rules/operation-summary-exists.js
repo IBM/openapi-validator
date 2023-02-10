@@ -2,7 +2,7 @@ const {
   operations
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
-const { operationSummary } = require('../functions');
+const { operationSummaryExists } = require('../functions');
 
 module.exports = {
   description: 'Operation "summary" must be present and non-empty string.',
@@ -11,6 +11,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: operationSummary
+    function: operationSummaryExists
   }
 };

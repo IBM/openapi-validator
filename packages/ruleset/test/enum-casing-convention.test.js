@@ -1,8 +1,8 @@
-const { enumCaseConvention } = require('../src/rules');
+const { enumCasingConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = enumCaseConvention;
-const ruleId = 'ibm-enum-case';
+const rule = enumCasingConvention;
+const ruleId = 'ibm-enum-casing-convention';
 const expectedSeverity = severityCodes.error;
 const expectedMsg = 'Enum values must be snake case';
 
