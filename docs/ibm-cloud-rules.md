@@ -47,6 +47,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-duplicate-path-parameter](#ibm-duplicate-path-parameter)
   * [ibm-enum-case](#ibm-enum-case)
   * [ibm-error-content-type-is-json](#ibm-error-content-type-is-json)
+  * [ibm-etag-header-exists](#ibm-etag-header-exists)
   * [ibm-examples-name-contains-space](#ibm-examples-name-contains-space)
   * [ibm-if-modified-since-parameter](#ibm-if-modified-since-parameter)
   * [ibm-if-unmodified-since-parameter](#ibm-if-unmodified-since-parameter)
@@ -54,9 +55,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-inline-request-schema](#ibm-inline-request-schema)
   * [ibm-inline-response-schema](#ibm-inline-response-schema)
   * [ibm-major-version-in-path](#ibm-major-version-in-path)
-  * [ibm-merge-patch-optional-properties](#ibm-merge-patch-optional-properties)
-  * [ibm-missing-required-property](#ibm-missing-required-property)
-  * [ibm-no-etag-header](#ibm-no-etag-header)
+  * [ibm-merge-patch-properties](#ibm-merge-patch-properties)
   * [ibm-operation-id-case-convention](#ibm-operation-id-case-convention)
   * [ibm-operation-id-naming-convention](#ibm-operation-id-naming-convention)
   * [ibm-operation-summary](#ibm-operation-summary)
@@ -82,6 +81,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-request-body-name](#ibm-request-body-name)
   * [ibm-request-body-object](#ibm-request-body-object)
   * [ibm-response-error-response-schema](#ibm-response-error-response-schema)
+  * [ibm-required-property-missing](#ibm-required-property-missing)
   * [ibm-response-example-provided](#ibm-response-example-provided)
   * [ibm-response-status-codes](#ibm-response-status-codes)
   * [ibm-schema-description](#ibm-schema-description)
@@ -239,6 +239,12 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#ibm-etag-header-exists">ibm-etag-header-exists</a></td>
+<td>error</td>
+<td>Verifies that the <code>ETag</code> response header is defined in the <code>GET</code> operation
+for any resources (paths) that support the <code>If-Match</code> and/or <code>If-None-Match</code> header parameters.
+</td>
+<tr>
 <td><a href="#ibm-examples-name-contains-space">ibm-examples-name-contains-space</a></td>
 <td>warn</td>
 <td>The name of an entry in an <code>examples</code> field should not contain a space</td>
@@ -281,23 +287,9 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-merge-patch-optional-properties">ibm-merge-patch-optional-properties</a></td>
+<td><a href="#ibm-merge-patch-properties">ibm-merge-patch-properties</a></td>
 <td>warn</td>
 <td>JSON merge-patch requestBody schemas should have no required properties</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-missing-required-property">ibm-missing-required-property</a></td>
-<td>error</td>
-<td>A schema property defined as <code>required</code> must be defined within the schema</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-no-etag-header">ibm-no-etag-header</a></td>
-<td>error</td>
-<td>Verifies that the <code>ETag</code> response header is defined in the <code>GET</code> operation
-for any resources (paths) that support the <code>If-Match</code> and/or <code>If-None-Match</code> header parameters.
-</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -444,6 +436,14 @@ has non-form content.</td>
 <td><a href="#ibm-request-body-object">ibm-request-body-object</a></td>
 <td>warn</td>
 <td>A request body should be defined as an object</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-required-property-missing">ibm-required-property-missing</a></td>
+<td>error</td>
+<td>A schema property defined as <code>required</code> must be defined within the schema</td>
+<td>oas3</td>
+</tr>
 <td>oas3</td>
 </tr>
 <tr>
@@ -1894,6 +1894,115 @@ responses:
 </table>
 
 
+### ibm-etag-header-exists
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-etag-header-exists</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks each path item (the object containing operations with keys 'get', 'post', 'delete', etc.) to make sure that
+the path item's <code>GET</code> operation defines the <code>ETag</code> response header if it is, in fact, needed.
+An <code>ETag</code> response header is needed if there are operations within the same
+path item that support the <code>If-Match</code> or <code>If-Not-Match</code> header parameters.
+<p>The reasoning behind this rule is that if a given path has one or more operations in which the user needs
+to provide a value for the <code>If-Match</code> or <code>If-None-Match</code> header parameters
+(sometimes referred to as an "etag value"), then the API should provide a way for the user to obtain the etag value.
+And the standard way for a service to provide an etag value to the user is by returning it as the <code>ETag</code> response header
+within the <code>GET</code> operation's response.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - name: thing_id
+        description: The id of the Thing.
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: get_thing
+      responses:
+        '200':
+          description: 'Success response!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingCollection'
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: 'If-Match'
+          description: The etag value associated with the Thing instance to be deleted.
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'Success response!'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - name: thing_id
+        description: The id of the Thing.
+        in: path
+        required: true
+        schema:
+          type: string
+    get:
+      operationId: get_thing
+      responses:
+        '200':
+          description: 'Success response!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingCollection'
+          headers:
+            ETag:
+              description: The unique etag value associated with the instance that was retrieved.
+              schema:
+                type: string
+    delete:
+      operationId: delete_thing
+      parameters:
+        - name: 'If-Match'
+          description: The etag value associated with the Thing instance to be deleted.
+          in: header
+          required: true
+          schema:
+            type: string
+      responses:
+        '204':
+          description: 'Success response!'
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### ibm-examples-name-contains-space
 <table>
 <tr>
@@ -2418,11 +2527,11 @@ paths:
 </table>
 
 
-### ibm-merge-patch-optional-properties
+### ibm-merge-patch-properties
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-merge-patch-optional-properties</b></td>
+<td><b>ibm-merge-patch-properties</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2492,180 +2601,6 @@ components:
           type: string
         long_description:
           description: The long description of the Thing
-</pre>
-</td>
-</tr>
-</table>
-
-### ibm-missing-required-property
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-missing-required-property</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule verifies that for each property name included in a schema's <code>required</code> list, 
-that property must be defined within the schema.
-The property could be defined in any of the following ways:
-<ol>
-<li>within the schema's <code>properties</code> field</li>
-<li>within <b>one or more</b> of the schemas listed in the <code>allOf</code> field</li>
-<li>within <b>each</b> of the schemas listed in the <code>anyOf</code> or <code>oneOf</code> field</li>
-</ol>
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          type: string
-      required:
-        - thing_id
-        - thing_version
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          type: string
-        thing_version:
-          type: string
-      required:
-        - thing_id
-        - thing_version
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-no-etag-header
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-no-etag-header</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule checks each path item (the object containing operations with keys 'get', 'post', 'delete', etc.) to make sure that
-the path item's <code>GET</code> operation defines the <code>ETag</code> response header if it is, in fact, needed.
-An <code>ETag</code> response header is needed if there are operations within the same
-path item that support the <code>If-Match</code> or <code>If-Not-Match</code> header parameters.
-<p>The reasoning behind this rule is that if a given path has one or more operations in which the user needs
-to provide a value for the <code>If-Match</code> or <code>If-None-Match</code> header parameters
-(sometimes referred to as an "etag value"), then the API
-must provide a way for the user to obtain the etag value.
-And, the standard way for a service to provide an etag value to the user is by returning it as the <code>ETag</code> response header
-within the <code>GET</code> operation's response.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  '/v1/things/{thing_id}':
-    parameters:
-      - name: thing_id
-        description: The id of the Thing.
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      operationId: get_thing
-      responses:
-        '200':
-          description: 'Success response!'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ThingCollection'
-    delete:
-      operationId: delete_thing
-      parameters:
-        - name: 'If-Match'
-          description: The etag value associated with the Thing instance to be deleted.
-          in: header
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: 'Success response!'
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/things/{thing_id}':
-    parameters:
-      - name: thing_id
-        description: The id of the Thing.
-        in: path
-        required: true
-        schema:
-          type: string
-    get:
-      operationId: get_thing
-      responses:
-        '200':
-          description: 'Success response!'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ThingCollection'
-          headers:
-            ETag:
-              description: The unique etag value associated with the instance that was retrieved.
-              schema:
-                type: string
-    delete:
-      operationId: delete_thing
-      parameters:
-        - name: 'If-Match'
-          description: The etag value associated with the Thing instance to be deleted.
-          in: header
-          required: true
-          schema:
-            type: string
-      responses:
-        '204':
-          description: 'Success response!'
 </pre>
 </td>
 </tr>
@@ -4521,6 +4456,71 @@ components:
         },
       }
     }
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-required-property-missing
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-required-property-missing</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule verifies that for each property name included in a schema's <code>required</code> list, 
+that property must be defined within the schema.
+The property could be defined in any of the following ways:
+<ol>
+<li>within the schema's <code>properties</code> field</li>
+<li>within <b>one or more</b> of the schemas listed in the <code>allOf</code> field</li>
+<li>within <b>each</b> of the schemas listed in the <code>anyOf</code> or <code>oneOf</code> field</li>
+</ol>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+      required:
+        - thing_id
+        - thing_version
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_version:
+          type: string
+      required:
+        - thing_id
+        - thing_version
 </pre>
 </td>
 </tr>

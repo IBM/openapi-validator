@@ -2,14 +2,33 @@ const {
   schemaHasProperty,
   validateSubschemas
 } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, checkRequiredProperties, true, false);
+let ruleId;
+let logger;
+
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return validateSubschemas(
+    schema,
+    context.path,
+    checkRequiredProperties,
+    true,
+    false
+  );
 };
 
 function checkRequiredProperties(schema, path) {
   const errors = [];
   if (Array.isArray(schema.required)) {
+    logger.debug(
+      `${ruleId}: checking for required properties in schema at location: ${path.join(
+        '.'
+      )}`
+    );
     schema.required.forEach(function(requiredPropName) {
       if (!schemaHasProperty(schema, requiredPropName)) {
         let message;
@@ -20,6 +39,7 @@ function checkRequiredProperties(schema, path) {
         } else {
           message = `Required property, ${requiredPropName}, not in the schema`;
         }
+        logger.debug(`${ruleId}: Uh oh: ${message}`);
         errors.push({
           message,
           path

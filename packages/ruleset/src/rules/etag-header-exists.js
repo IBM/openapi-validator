@@ -1,8 +1,8 @@
 const {
   paths
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas2, oas3 } = require('@stoplight/spectral-formats');
-const { noEtagHeader } = require('../functions');
+const { oas3 } = require('@stoplight/spectral-formats');
+const { etagHeaderExists } = require('../functions');
 
 module.exports = {
   description:
@@ -10,9 +10,9 @@ module.exports = {
   message: '{{error}}',
   given: paths,
   severity: 'error',
-  formats: [oas2, oas3],
+  formats: [oas3],
   resolved: true,
   then: {
-    function: noEtagHeader
+    function: etagHeaderExists
   }
 };

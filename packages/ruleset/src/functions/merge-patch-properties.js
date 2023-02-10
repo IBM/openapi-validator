@@ -1,7 +1,15 @@
 const { schemaHasConstraint } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return mergePatchOptionalProperties(schema, path);
+let ruleId;
+let logger;
+
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return mergePatchOptionalProperties(schema, context.path);
 };
 
 /**
@@ -15,7 +23,13 @@ module.exports = function(schema, _opts, { path }) {
  * @returns an array containing the violations found or [] if no violations
  */
 function mergePatchOptionalProperties(schema, path) {
+  logger.debug(
+    `${ruleId}: checking merge-patch schema properties at location: ${path.join(
+      '.'
+    )}`
+  );
   if (containsRequiredProperties(schema) || hasMinProperties(schema)) {
+    logger.debug(`${ruleId}: detected required properties!`);
     return [
       {
         // The rule's description field is used as the error message.

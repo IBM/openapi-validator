@@ -1,5 +1,14 @@
-module.exports = function(pathItem, options, { path }) {
-  return etagHeaderCheck(pathItem, path);
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
+module.exports = function(pathItem, options, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return etagHeaderCheck(pathItem, context.path);
 };
 
 /**
@@ -14,8 +23,14 @@ module.exports = function(pathItem, options, { path }) {
  * @returns an array containing the violations found or [] if no violations
  */
 function etagHeaderCheck(pathItem, path) {
+  logger.debug(
+    `${ruleId}: checking for etag header in pathItem at location: ${path.join(
+      '.'
+    )}`
+  );
   // If no operations define the If-Match/If-None-Match header params, then bail out now.
   if (!isETagNeeded(pathItem)) {
+    logger.debug(`${ruleId}: etag header not needed!`);
     return [];
   }
 
@@ -24,6 +39,7 @@ function etagHeaderCheck(pathItem, path) {
   // 1. Make sure there is a GET operation.
   const getOperation = pathItem['get'];
   if (!getOperation) {
+    logger.debug(`${ruleId}: no GET operation!`);
     return [
       {
         message:
@@ -32,6 +48,8 @@ function etagHeaderCheck(pathItem, path) {
       }
     ];
   }
+
+  logger.debug(`${ruleId}: found the GET operation!`);
 
   // 2. Make sure that EACH success response entry defines the ETag response header.
   const errors = [];
@@ -54,6 +72,7 @@ function etagHeaderCheck(pathItem, path) {
         }
 
         if (!etagHeader) {
+          logger.debug(`${ruleId}: no ETag header found!`);
           let errorPath = [...path, 'get', 'responses', statusCode];
           if (response && response.headers) {
             errorPath = [...errorPath, 'headers'];
@@ -62,6 +81,8 @@ function etagHeaderCheck(pathItem, path) {
             message: 'ETag response header is required',
             path: errorPath
           });
+        } else {
+          logger.debug(`${ruleId}: found etag header!`);
         }
       }
     }
@@ -69,6 +90,7 @@ function etagHeaderCheck(pathItem, path) {
 
   // Finally, make sure that we found at least one success response entry.
   if (!numSuccessResponses) {
+    logger.debug(`${ruleId}: no success responses found!`);
     errors.push({
       message:
         'ETag response header is required, but "get" operation defines no success responses',

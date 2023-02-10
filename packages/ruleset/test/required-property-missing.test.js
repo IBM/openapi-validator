@@ -1,11 +1,12 @@
-const { missingRequiredProperty } = require('../src/rules');
+const { requiredPropertyMissing } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-missing-required-property';
+const ruleId = 'ibm-missing-required-property';
+const rule = requiredPropertyMissing;
 
-describe('Spectral rule: missing-required-property', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(name, missingRequiredProperty, rootDocument);
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -119,7 +120,7 @@ describe('Spectral rule: missing-required-property', () => {
       }
     };
 
-    const results = await testRule(name, missingRequiredProperty, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -153,7 +154,7 @@ describe('Spectral rule: missing-required-property', () => {
       }
     };
 
-    const results = await testRule(name, missingRequiredProperty, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -198,12 +199,12 @@ describe('Spectral rule: missing-required-property', () => {
       }
     };
 
-    const results = await testRule(name, missingRequiredProperty, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Required property, foo, must be defined in at least one of the allOf schemas'
     );
@@ -259,12 +260,12 @@ describe('Spectral rule: missing-required-property', () => {
       }
     };
 
-    const results = await testRule(name, missingRequiredProperty, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Required property, foo, must be defined in all of the anyOf/oneOf schemas'
     );
@@ -321,12 +322,12 @@ describe('Spectral rule: missing-required-property', () => {
       }
     };
 
-    const results = await testRule(name, missingRequiredProperty, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Required property, foo, must be defined in all of the anyOf/oneOf schemas'
     );
@@ -389,12 +390,12 @@ describe('Spectral rule: missing-required-property', () => {
       }
     };
 
-    const results = await testRule(name, missingRequiredProperty, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(3);
 
     results.forEach(r => {
-      expect(r.code).toBe(name);
+      expect(r.code).toBe(ruleId);
       expect(r.message).toBe('Required property, foo, not in the schema');
       expect(r.severity).toBe(severityCodes.error);
     });

@@ -1,11 +1,11 @@
-const { noEtagHeader } = require('../src/rules');
+const { etagHeaderExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = noEtagHeader;
-const ruleId = 'ibm-no-etag-header';
+const rule = etagHeaderExists;
+const ruleId = 'ibm-etag-header-exists';
 const expectedSeverity = severityCodes.error;
 
-describe('Spectral rule: no-etag-header', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
