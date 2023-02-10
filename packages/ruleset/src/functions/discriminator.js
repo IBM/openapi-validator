@@ -19,20 +19,34 @@ const {
   validateSubschemas
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
-module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, validateDiscriminators);
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return validateSubschemas(schema, context.path, validateDiscriminators);
 };
 
 function validateDiscriminators(schema, path) {
-  const errors = [];
-
   const { discriminator } = schema;
   if (!discriminator || !typeof discriminator === 'object') {
-    return errors;
+    return [];
   }
+
+  logger.debug(
+    `${ruleId}: checking discriminator at location: ${path.join('.')}`
+  );
+
+  const errors = [];
 
   const { propertyName } = discriminator;
   if (!schemaHasProperty(schema, propertyName)) {
+    logger.debug(`Discriminator property is not defined: ${propertyName}`);
     errors.push({
       message:
         'The discriminator property name used must be defined in this schema',

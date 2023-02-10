@@ -2,11 +2,11 @@ const { enumCaseConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = enumCaseConvention;
-const ruleId = 'ibm-enum-case-convention';
+const ruleId = 'ibm-enum-case';
 const expectedSeverity = severityCodes.error;
 const expectedMsg = 'Enum values must be snake case';
 
-describe('Spectral rule: enum-case-convention', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
