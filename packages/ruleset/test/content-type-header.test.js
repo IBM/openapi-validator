@@ -1,26 +1,26 @@
-const { ifUnmodifiedSinceParameter } = require('../src/rules');
+const { contentTypeHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = ifUnmodifiedSinceParameter;
-const ruleId = 'ibm-if-unmodified-since-parameter';
+const rule = contentTypeHeader;
+const ruleId = 'ibm-content-type-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
-  'Operations should support the If-Match header parameter instead of If-Unmodified-Since';
+  "Operations should not explicitly define the 'Content-Type' header parameter";
 
-describe(`Spectral rule: ${ruleId}`, () => {
+describe('Spectral rule: content-type-parameter', () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
 
-    it('Query parameter named If-Unmodified-Since', async () => {
+    it('Query parameter named Content-Type', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
           description: 'A query param.',
-          name: 'If-Unmodified-Since',
+          name: 'Content-Type',
           required: true,
           in: 'query',
           schema: {
@@ -33,13 +33,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Path parameter named If-Unmodified-Since', async () => {
+    it('Path parameter named Content-Type', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
           description: 'A path param.',
-          name: 'If-Unmodified-Since',
+          name: 'Content-Type',
           required: true,
           in: 'path',
           schema: {
@@ -54,13 +54,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
   });
 
   describe('Should yield errors', () => {
-    it('Header parameter named If-Unmodified-Since', async () => {
+    it('Header parameter named Content-Type', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
-          description: 'Used for synchronization of resource updates.',
-          name: 'If-Unmodified-Since',
+          description: 'The request body mimetype.',
+          name: 'Content-Type',
           required: true,
           in: 'header',
           schema: {

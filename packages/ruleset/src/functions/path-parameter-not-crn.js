@@ -2,9 +2,17 @@ const {
   isStringSchema,
   schemaHasConstraint
 } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
 
-module.exports = function(pathParam, _opts, { path }) {
-  return pathParamNotCRN(pathParam, path);
+let ruleId;
+let logger;
+
+module.exports = function(pathParam, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+  return pathParameterNotCRN(pathParam, context.path);
 };
 
 /**
@@ -14,9 +22,15 @@ module.exports = function(pathParam, _opts, { path }) {
  * @param {*} path the jsonpath location of "pathParam" within the API definition
  * @returns an array containing the violations found or [] if no violations
  */
-function pathParamNotCRN(pathParam, path) {
+function pathParameterNotCRN(pathParam, path) {
+  logger.debug(
+    `${ruleId}: checking path parameter '${
+      pathParam.name
+    }' at location: ${path.join('.')}`
+  );
   const subPath = isCRNParameter(pathParam);
   if (subPath && subPath.length > 0) {
+    logger.debug(`${ruleId}: it's a CRN value!`);
     return [
       {
         message: 'Path parameter should not be defined as a CRN value',

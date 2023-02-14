@@ -5,7 +5,7 @@ const rule = paginationStyle;
 const ruleId = 'ibm-pagination-style';
 const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: pagination-style', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

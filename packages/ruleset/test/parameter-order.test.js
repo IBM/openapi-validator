@@ -7,7 +7,7 @@ const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'Required parameters should appear before optional parameters.';
 
-describe('Spectral rule: parameter-order', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

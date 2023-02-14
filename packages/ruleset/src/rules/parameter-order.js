@@ -1,7 +1,7 @@
 const {
   operations
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas2, oas3 } = require('@stoplight/spectral-formats');
+const { oas3 } = require('@stoplight/spectral-formats');
 const { parameterOrder } = require('../functions');
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
   message: '{{error}}',
   given: operations,
   severity: 'warn',
-  formats: [oas2, oas3],
+  formats: [oas3],
   resolved: true,
   then: {
     function: parameterOrder

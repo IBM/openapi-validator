@@ -1,11 +1,11 @@
-const { pathSegmentCaseConvention } = require('../src/rules');
+const { pathSegmentCasingConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = pathSegmentCaseConvention;
-const ruleId = 'ibm-path-segment-case-convention';
+const rule = pathSegmentCasingConvention;
+const ruleId = 'ibm-path-segment-casing-convention';
 const expectedSeverity = severityCodes.error;
 
-describe('Spectral rule: path-segment-case-convention', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

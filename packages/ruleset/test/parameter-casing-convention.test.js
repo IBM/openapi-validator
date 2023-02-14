@@ -1,8 +1,8 @@
-const { parameterCaseConvention } = require('../src/rules');
+const { parameterCasingConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = parameterCaseConvention;
-const ruleId = 'ibm-parameter-case-convention';
+const rule = parameterCasingConvention;
+const ruleId = 'ibm-parameter-casing-convention';
 const expectedSeverity = severityCodes.error;
 
 const expectedMsgNoName = 'Parameters must have a name';
@@ -11,7 +11,7 @@ const expectedMsgQuery = 'Query parameter names must be snake case';
 const expectedMsgPath = 'Path parameter names must be snake case';
 const expectedMsgHeader = 'Header parameter names must be pascal case';
 
-describe('Spectral rule: parameter-case-convention', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

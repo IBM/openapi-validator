@@ -1,16 +1,15 @@
-const { mergeAllOfSchemaProperties } = require('../utils');
+const { mergeAllOfSchemaProperties, LoggerFactory } = require('../utils');
 
-module.exports = function(pathObj, _opts, { path }) {
-  return paginationStyle(pathObj, path);
-};
+let ruleId;
+let logger;
 
-// Rudimentary debug logging that is useful in debugging this rule.
-const debugEnabled = false;
-function debug(msg) {
-  if (debugEnabled) {
-    console.log(msg);
+module.exports = function(pathObj, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
   }
-}
+  return paginationStyle(pathObj, context.path);
+};
 
 /**
  * This function implements the pagination-style rule which performs numerous checks
@@ -32,7 +31,7 @@ function debug(msg) {
  * @returns an array containing the violations found or [] if no violations
  */
 function paginationStyle(pathItem, path) {
-  debug('>>> Visiting: ' + path.join('.'));
+  logger.debug(`${ruleId}: checking pathItem at location: ${path.join('.')}`);
 
   // The actual path string (e.g. '/v1/resources') will be the last element in 'path'.
   const pathStr = path[path.length - 1];
@@ -44,7 +43,7 @@ function paginationStyle(pathItem, path) {
   // 1. If the path string ends with a path param reference (e.g. '{resource_id}'
   // 2. If the path item doesn't have a 'get' operation.
   if (/}$/.test(pathStr) || !operation) {
-    debug('"get" operation doesn\'t exist or is excluded');
+    logger.debug(`${ruleId}: 'get' operation is absent or excluded`);
     return [];
   }
 
@@ -53,7 +52,7 @@ function paginationStyle(pathItem, path) {
     code.startsWith('2')
   );
   if (!successCode) {
-    debug('No success code found');
+    logger.debug(`${ruleId}: No success response code found!`);
     return [];
   }
 
@@ -63,14 +62,14 @@ function paginationStyle(pathItem, path) {
 
   // If there's no response schema, then we can't check this operation so bail out now.
   if (!jsonResponse || !jsonResponse.schema) {
-    debug('No response schema found');
+    logger.debug(`${ruleId}: No response schema found!`);
     return [];
   }
 
   // Next, let's get the response schema (while potentially taking into account allOf).
   const responseSchema = mergeAllOfSchemaProperties(jsonResponse.schema);
   if (!responseSchema || !responseSchema.properties) {
-    debug('Merged response schema has no properties');
+    logger.debug(`${ruleId}: Merged response schema has no properties!`);
     return [];
   }
 
@@ -80,14 +79,14 @@ function paginationStyle(pathItem, path) {
       prop => prop.type === 'array'
     )
   ) {
-    debug('Response schema has no array property');
+    logger.debug(`${ruleId}: Response schema has no array property!`);
     return [];
   }
 
   // Next, make sure this operation has parameters.
   const params = operation.parameters;
   if (!params) {
-    debug('Operation has no parameters');
+    logger.debug(`${ruleId}: Operation has no parameters!`);
     return [];
   }
 
@@ -113,7 +112,7 @@ function paginationStyle(pathItem, path) {
   // If the operation doesn't define a page token-type query param or an "offset" query param,
   // then bail out now as pagination isn't supported by this operation.
   if (pageTokenParamIndex < 0 && offsetParamIndex < 0) {
-    debug('No start or offset query param');
+    logger.debug(`${ruleId}: No start or offset query param!`);
     return [];
   }
 
@@ -355,9 +354,9 @@ function paginationStyle(pathItem, path) {
   );
 
   if (results.length > 0) {
-    debug('Results: ' + JSON.stringify(results, null, 2));
+    logger.debug(`${ruleId}: Results: ' + ${JSON.stringify(results, null, 2)}`);
   } else {
-    debug('PASSED');
+    logger.debug(`${ruleId}: PASSED!`);
   }
 
   return results;

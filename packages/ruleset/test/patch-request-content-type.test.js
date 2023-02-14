@@ -7,7 +7,7 @@ const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'PATCH requests should support content types "application/json-patch+json" or "application/merge-patch+json"';
 
-describe('Spectral rule: patch-request-content-type', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
