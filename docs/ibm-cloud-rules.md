@@ -245,12 +245,6 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-sdk-operations">ibm-sdk-operations</a></td>
-<td>warn</td>
-<td>Validates the structure of each <code>x-sdk-operations</code> object</td>
-<td>oas3</td>
-</tr>
-<tr>
 <td><a href="#ibm-if-modified-since-parameter">ibm-if-modified-since-parameter</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Modified-Since</code> header parameter</td>
@@ -480,6 +474,12 @@ has non-form content.</td>
 <td><a href="#ibm-schema-type">ibm-schema-type</a></td>
 <td>off</td>
 <td>Schemas and schema properties should have a non-empty <code>type</code> field. <b>This rule is disabled by default.</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-sdk-operations">ibm-sdk-operations</a></td>
+<td>warn</td>
+<td>Validates the structure of each <code>x-sdk-operations</code> object</td>
 <td>oas3</td>
 </tr>
 <tr>
