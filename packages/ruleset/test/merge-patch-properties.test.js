@@ -1,13 +1,13 @@
-const { mergePatchOptionalProperties } = require('../src/rules');
+const { mergePatchProperties } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = mergePatchOptionalProperties;
-const ruleId = 'ibm-merge-patch-optional-properties';
+const rule = mergePatchProperties;
+const ruleId = 'ibm-merge-patch-properties';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
   'A JSON merge-patch requestBody should have no required properties';
 
-describe('Spectral rule: merge-patch-optional-properties', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

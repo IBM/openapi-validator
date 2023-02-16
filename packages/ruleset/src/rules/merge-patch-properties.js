@@ -1,5 +1,5 @@
 const { oas3 } = require('@stoplight/spectral-formats');
-const { mergePatchOptionalProperties } = require('../functions');
+const { mergePatchProperties } = require('../functions');
 
 module.exports = {
   description:
@@ -13,6 +13,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: mergePatchOptionalProperties
+    function: mergePatchProperties
   }
 };

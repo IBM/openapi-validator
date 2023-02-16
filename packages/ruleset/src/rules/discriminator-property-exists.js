@@ -2,7 +2,7 @@ const {
   schemas
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
-const { discriminator } = require('../functions');
+const { discriminatorPropertyExists } = require('../functions');
 
 module.exports = {
   description: 'The discriminator property name must be defined in this schema',
@@ -12,6 +12,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: discriminator
+    function: discriminatorPropertyExists
   }
 };

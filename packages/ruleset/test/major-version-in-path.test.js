@@ -1,11 +1,12 @@
 const { majorVersionInPath } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-major-version-in-path';
+const ruleId = 'ibm-major-version-in-path';
+const rule = majorVersionInPath;
 
-describe('Spectral rule: major-version-in-path', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(name, majorVersionInPath, rootDocument);
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -29,7 +30,7 @@ describe('Spectral rule: major-version-in-path', () => {
       }
     ];
 
-    const results = await testRule(name, majorVersionInPath, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -50,7 +51,7 @@ describe('Spectral rule: major-version-in-path', () => {
       }
     ];
 
-    const results = await testRule(name, majorVersionInPath, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -66,12 +67,12 @@ describe('Spectral rule: major-version-in-path', () => {
       }
     ];
 
-    const results = await testRule(name, majorVersionInPath, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Major version segments of urls in servers object do not match. Found v1, v2'
     );
@@ -83,12 +84,12 @@ describe('Spectral rule: major-version-in-path', () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v2/some_path'] = {};
 
-    const results = await testRule(name, majorVersionInPath, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Major version segments of paths object do not match. Found v1, v2'
     );
@@ -103,12 +104,12 @@ describe('Spectral rule: major-version-in-path', () => {
       '/movies': {}
     };
 
-    const results = await testRule(name, majorVersionInPath, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Major version segment not present in either server URLs or paths'
     );
