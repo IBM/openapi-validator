@@ -45,7 +45,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-description-mentions-json](#ibm-description-mentions-json)
   * [ibm-discriminator-property-exists](#ibm-discriminator-property-exists)
   * [ibm-duplicate-path-parameter](#ibm-duplicate-path-parameter)
-  * [ibm-enum-case](#ibm-enum-case)
+  * [ibm-enum-casing-convention](#ibm-enum-casing-convention)
   * [ibm-error-content-type-is-json](#ibm-error-content-type-is-json)
   * [ibm-etag-header-exists](#ibm-etag-header-exists)
   * [ibm-examples-name-contains-space](#ibm-examples-name-contains-space)
@@ -56,10 +56,10 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-inline-response-schema](#ibm-inline-response-schema)
   * [ibm-major-version-in-path](#ibm-major-version-in-path)
   * [ibm-merge-patch-properties](#ibm-merge-patch-properties)
-  * [ibm-operation-id-case-convention](#ibm-operation-id-case-convention)
-  * [ibm-operation-id-naming-convention](#ibm-operation-id-naming-convention)
-  * [ibm-operation-summary](#ibm-operation-summary)
-  * [ibm-optional-request-body](#ibm-optional-request-body)
+  * [ibm-operation-summary-exists](#ibm-operation-summary-exists)
+  * [ibm-operationid-casing-convention](#ibm-operationid-casing-convention)
+  * [ibm-operationid-naming-convention](#ibm-operationid-naming-convention)
+  * [ibm-optional-requestbody](#ibm-optional-requestbody)
   * [ibm-pagination-style](#ibm-pagination-style)
   * [ibm-parameter-case-convention](#ibm-parameter-case-convention)
   * [ibm-parameter-default](#ibm-parameter-default)
@@ -227,7 +227,7 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-enum-case">ibm-enum-case</a></td>
+<td><a href="#ibm-enum-casing-convention">ibm-enum-casing-convention</a></td>
 <td>error</td>
 <td>Enum values should follow a specific case convention</td>
 <td>oas3</td>
@@ -293,25 +293,25 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-operation-id-case-convention">ibm-operation-id-case-convention</a></td>
+<td><a href="#ibm-operation-summary-exists">ibm-operation-summary-exists</a></td>
+<td>warn</td>
+<td>Each operation should have a non-empty <code>summary</code>.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-operationid-casing-convention">ibm-operationid-casing-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a specific case convention</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-operation-id-naming-convention">ibm-operation-id-naming-convention</a></td>
+<td><a href="#ibm-operationid-naming-convention">ibm-operationid-naming-convention</a></td>
 <td>warn</td>
 <td>Operation ids should follow a naming convention</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-operation-summary">ibm-operation-summary</a></td>
-<td>warn</td>
-<td>Operation <code>summary</code> must be present and non-empty string.</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-optional-request-body">ibm-optional-request-body</a></td>
+<td><a href="#ibm-optional-requestbody">ibm-optional-requestbody</a></td>
 <td>info</td>
 <td>An optional requestBody with required properties should probably be required</td>
 <td>oas3</td>
@@ -1771,11 +1771,11 @@ paths:
 </table>
 
 
-### ibm-enum-case
+### ibm-enum-casing-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-enum-case</b></td>
+<td><b>ibm-enum-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2607,11 +2607,58 @@ components:
 </table>
 
 
-### ibm-operation-id-case-convention
+### ibm-operation-summary-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-operation-id-case-convention</b></td>
+<td><b>ibm-operation-summary-exists</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule verifies that each operation has a non-empty <code>summary</code>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      summary: Create a Thing
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-operationid-casing-convention
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-operationid-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2675,11 +2722,11 @@ paths:
 </table>
 
 
-### ibm-operation-id-naming-convention
+### ibm-operationid-naming-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-operation-id-naming-convention</b></td>
+<td><b>ibm-operationid-naming-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2738,58 +2785,11 @@ paths:
 </table>
 
 
-### ibm-operation-summary
+### ibm-optional-requestbody
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-operation-summary</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule verifies that each operation has a non-empty summary.
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  '/v1/things':
-    post:
-      operationId: create_thing
-      description: Create a new Thing instance.
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/things':
-    get:
-      operationId: create_thing
-      description: Create a new Thing instance.
-      summary: Create a Thing
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-optional-request-body
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-optional-request-body</b></td>
+<td><b>ibm-optional-requestbody</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
