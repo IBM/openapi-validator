@@ -1,5 +1,5 @@
 const { casing } = require('@stoplight/spectral-functions');
-const { isDeprecated } = require('../utils');
+const { isDeprecated, LoggerFactory } = require('../utils');
 
 // Error message prefix for each parameter type.
 const errorMsgPrefix = {
@@ -11,8 +11,15 @@ const errorMsgPrefix = {
 const errorMsgNoName = 'Parameters must have a name';
 const errorMsgNoIn = "Parameters must have a valid 'in' value";
 
-module.exports = function(param, options, { path }) {
-  return parameterCaseConvention(param, path, options);
+let ruleId;
+let logger;
+
+module.exports = function(param, options, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return parameterCasingConvention(param, context.path, options);
 };
 
 /**
@@ -27,13 +34,15 @@ module.exports = function(param, options, { path }) {
  * passed to Spectral's casing() function to enforce case conventions for that parameter type.
  * @returns an array containing zero or more error objects
  */
-function parameterCaseConvention(param, path, casingConfig) {
+function parameterCasingConvention(param, path, casingConfig) {
   // Don't bother enforcing the rule on deprecated parameters.
   if (isDeprecated(param)) {
     return [];
   }
 
   const errors = [];
+
+  logger.debug(`${ruleId}: checking parameter at location: ${path.join('.')}`);
 
   // First, let's make sure the 'name' and 'in' properties are present.
   let hasName = true;
@@ -44,6 +53,7 @@ function parameterCaseConvention(param, path, casingConfig) {
       path
     });
     hasName = false;
+    logger.debug(`${ruleId}: param has no name!`);
   }
   if (!isNonEmptyString(param.in)) {
     errors.push({
@@ -51,6 +61,7 @@ function parameterCaseConvention(param, path, casingConfig) {
       path
     });
     hasIn = false;
+    logger.debug(`${ruleId}: param has no in!`);
   }
 
   // If we have 'name' and 'in' properties, then check for the proper casing.
@@ -65,6 +76,9 @@ function parameterCaseConvention(param, path, casingConfig) {
     const config = casingConfig[paramIn];
     const msgPrefix = errorMsgPrefix[paramIn];
     if (config && msgPrefix) {
+      logger.debug(
+        `${ruleId}: checking case for ${paramIn} param '${param.name}'`
+      );
       const result = casing(param.name, config);
 
       // casing() will return either an array with 1 element or undefined.
@@ -74,6 +88,9 @@ function parameterCaseConvention(param, path, casingConfig) {
           message: msgPrefix + result[0].message,
           path
         });
+        logger.debug(`${ruleId}: FAILED: ${JSON.stringify(result, null, 2)}`);
+      } else {
+        logger.debug(`${ruleId}: PASSED!`);
       }
     }
   }

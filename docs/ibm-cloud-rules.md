@@ -28,11 +28,11 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
     + [Define a new rule](#define-a-new-rule)
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
-  * [ibm-accept-parameter](#ibm-accept-parameter)
+  * [ibm-accept-header](#ibm-accept-header)
   * [ibm-array-attributes](#ibm-array-attributes)
   * [ibm-array-of-arrays](#ibm-array-of-arrays)
   * [ibm-array-responses](#ibm-array-responses)
-  * [ibm-authorization-parameter](#ibm-authorization-parameter)
+  * [ibm-authorization-header](#ibm-authorization-header)
   * [ibm-binary-schemas](#ibm-binary-schemas)
   * [ibm-circular-refs](#ibm-circular-refs)
   * [ibm-collection-array-property](#ibm-collection-array-property)
@@ -40,7 +40,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-content-contains-schema](#ibm-content-contains-schema)
   * [ibm-content-exists](#ibm-content-exists)
   * [ibm-content-type-is-specific](#ibm-content-type-is-specific)
-  * [ibm-content-type-parameter](#ibm-content-type-parameter)
+  * [ibm-content-type-header](#ibm-content-type-header)
   * [ibm-delete-body](#ibm-delete-body)
   * [ibm-description-mentions-json](#ibm-description-mentions-json)
   * [ibm-discriminator-property-exists](#ibm-discriminator-property-exists)
@@ -49,8 +49,8 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-error-content-type-is-json](#ibm-error-content-type-is-json)
   * [ibm-etag-header-exists](#ibm-etag-header-exists)
   * [ibm-examples-name-contains-space](#ibm-examples-name-contains-space)
-  * [ibm-if-modified-since-parameter](#ibm-if-modified-since-parameter)
-  * [ibm-if-unmodified-since-parameter](#ibm-if-unmodified-since-parameter)
+  * [ibm-if-modified-since-header](#ibm-if-modified-since-header)
+  * [ibm-if-unmodified-since-header](#ibm-if-unmodified-since-header)
   * [ibm-inline-property-schema](#ibm-inline-property-schema)
   * [ibm-inline-request-schema](#ibm-inline-request-schema)
   * [ibm-inline-response-schema](#ibm-inline-response-schema)
@@ -61,14 +61,14 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-operationid-naming-convention](#ibm-operationid-naming-convention)
   * [ibm-optional-requestbody](#ibm-optional-requestbody)
   * [ibm-pagination-style](#ibm-pagination-style)
-  * [ibm-parameter-case-convention](#ibm-parameter-case-convention)
+  * [ibm-parameter-casing-convention](#ibm-parameter-casing-convention)
   * [ibm-parameter-default](#ibm-parameter-default)
   * [ibm-parameter-description](#ibm-parameter-description)
   * [ibm-parameter-order](#ibm-parameter-order)
-  * [ibm-parameter-schema-or-content](#ibm-parameter-schema-or-content)
+  * [ibm-parameter-schema-or-content-exists](#ibm-parameter-schema-or-content-exists)
   * [ibm-patch-request-content-type](#ibm-patch-request-content-type)
-  * [ibm-path-param-not-crn](#ibm-path-param-not-crn)
-  * [ibm-path-segment-case-convention](#ibm-path-segment-case-convention)
+  * [ibm-path-parameter-not-crn](#ibm-path-parameter-not-crn)
+  * [ibm-path-segment-casing-convention](#ibm-path-segment-casing-convention)
   * [ibm-precondition-header](#ibm-precondition-header)
   * [ibm-prohibit-summary-sentence-style](#ibm-prohibit-summary-sentence-style)
   * [ibm-property-attributes](#ibm-property-attributes)
@@ -114,7 +114,7 @@ is provided in the [Reference](#reference) section below.
 <th>Rule Id</th><th>Severity</th><th>Description</th><th>OpenAPI Versions</th>
 <tr>
 <tr>
-<td><a href="#ibm-accept-parameter">ibm-accept-parameter</a></td>
+<td><a href="#ibm-accept-header">ibm-accept-header</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Accept</code> header parameter</td>
 <td>oas3</td>
@@ -138,7 +138,7 @@ is provided in the [Reference](#reference) section below.
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-authorization-parameter">ibm-authorization-parameter</a></td>
+<td><a href="#ibm-authorization-header">ibm-authorization-header</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Authorization</code> header parameter</td>
 <td>oas3</td>
@@ -197,7 +197,7 @@ which is not allowed.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-content-type-parameter">ibm-content-type-parameter</a></td>
+<td><a href="#ibm-content-type-header">ibm-content-type-header</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Content-Type</code> header parameter</td>
 <td>oas3</td>
@@ -251,13 +251,13 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-if-modified-since-parameter">ibm-if-modified-since-parameter</a></td>
+<td><a href="#ibm-if-modified-since-header">ibm-if-modified-since-header</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Modified-Since</code> header parameter</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-if-unmodified-since-parameter">ibm-if-unmodified-since-parameter</a></td>
+<td><a href="#ibm-if-unmodified-since-header">ibm-if-unmodified-since-header</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter</td>
 <td>oas3</td>
@@ -323,7 +323,7 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-parameter-case-convention">ibm-parameter-case-convention</a></td>
+<td><a href="#ibm-parameter-casing-convention">ibm-parameter-casing-convention</a></td>
 <td>error</td>
 <td>Parameter names should follow a specific case convention</td>
 <td>oas3</td>
@@ -347,7 +347,7 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-parameter-schema-or-content">ibm-parameter-schema-or-content</a></td>
+<td><a href="#ibm-parameter-schema-or-content-exists">ibm-parameter-schema-or-content-exists</a></td>
 <td>error</td>
 <td>Parameters must provide either a schema or content</td>
 <td>oas3</td>
@@ -360,13 +360,13 @@ or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-path-param-not-crn">ibm-path-param-not-crn</a></td>
+<td><a href="#ibm-path-parameter-not-crn">ibm-path-parameter-not-crn</a></td>
 <td>warn</td>
 <td>Verifies that path parameters are not defined as CRN (Cloud Resource Name) values</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-path-segment-case-convention">ibm-path-segment-case-convention</a></td>
+<td><a href="#ibm-path-segment-casing-convention">ibm-path-segment-casing-convention</a></td>
 <td>error</td>
 <td>Path segments must follow a specific case convention</td>
 <td>oas3</td>
@@ -710,11 +710,11 @@ This section provides reference documentation about the IBM Cloud Validation Rul
 in the `@ibm-cloud/openapi-ruleset` package.
 
 
-### ibm-accept-parameter
+### ibm-accept-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-accept-parameter</b></td>
+<td><b>ibm-accept-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -949,11 +949,11 @@ sample response body:
 </table>
 
 
-### ibm-authorization-parameter
+### ibm-authorization-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-authorization-parameter</b></td>
+<td><b>ibm-authorization-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -1443,11 +1443,11 @@ requestBody:
 </table>
 
 
-### ibm-content-type-parameter
+### ibm-content-type-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-content-type-parameter</b></td>
+<td><b>ibm-content-type-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2072,11 +2072,11 @@ paths:
 </table>
 
 
-### ibm-if-modified-since-parameter
+### ibm-if-modified-since-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-if-modified-since-parameter</b></td>
+<td><b>ibm-if-modified-since-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2156,11 +2156,11 @@ paths:
 </table>
 
 
-### ibm-if-unmodified-since-parameter
+### ibm-if-unmodified-since-header
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-if-unmodified-since-parameter</b></td>
+<td><b>ibm-if-unmodified-since-header</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -2928,15 +2928,20 @@ n/a
 </table>
 
 
-### ibm-parameter-case-convention
+### ibm-parameter-casing-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-parameter-case-convention</b></td>
+<td><b>ibm-parameter-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Parameter names should be snake case</td>
+<td>This rule verifies that each parameter name complies with the casing convention associated with that parameter's type.
+For example, the default casing convention for query parameters is snake-case (e.g. `my-query-param`), the default for path parameters
+is snake-case (e.g. `my_path_param`), and the default casing convention for header params is pascal-case (e.g. `X-My-Custom-Header`).
+These default casing conventions constitute the default configuration for the rule, although the rule's configuration can be modified to
+fit your needs (see below).
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -2977,8 +2982,8 @@ to enforce the desired case convention for that parameter type.
 </pre>
 This enforces:
 <ul>
-<li>Query parameter names to be snake case, while also allowing "." within the name</li>
-<li>Path parameter names to be snake case</li>
+<li>Query parameter names to be snake-case, while also allowing "." within the name</li>
+<li>Path parameter names to be snake-case</li>
 <li>Header parameter names to be in http header canonical form, which amounts to
 <code>pascal</code> casing with a hyphen (<code>"-"</code>) separating the words
 (e.g. <code>X-My-Header</code>).
@@ -2990,7 +2995,7 @@ the entry for that parameter type from the configuration object.
 mentioned above, you'll need to
 <a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
 custom ruleset</a> and modify the configuration appropriately for your needs.
-For example, to disable the case convention checks on header parameter names, while enforcing camel case conventions
+For example, to disable the case convention checks on header parameter names, while enforcing camel-case conventions
 on query and path parameter names, the configuration object would look like this:
 <pre>
 {
@@ -3011,7 +3016,7 @@ on query and path parameter names, the configuration object would look like this
 components:
   parameters:
     SortOrderParam:
-      name: sortOrder           &lt;&lt; camel case
+      name: sortOrder           &lt;&lt; camel-case
       description: The sort order.
       in: query
       required: false
@@ -3031,7 +3036,7 @@ components:
 components:
   parameters:
     SortOrderParam:
-      name: sort_order        &lt;&lt; snake case
+      name: sort_order        &lt;&lt; snake-case
       description: The sort order.
       in: query
       required: false
@@ -3248,11 +3253,11 @@ paths:
 </table>
 
 
-### ibm-parameter-schema-or-content
+### ibm-parameter-schema-or-content-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-parameter-schema-or-content</b></td>
+<td><b>ibm-parameter-schema-or-content-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3362,11 +3367,11 @@ paths:
 </table>
 
 
-### ibm-path-param-not-crn
+### ibm-path-parameter-not-crn
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-path-param-not-crn</b></td>
+<td><b>ibm-path-parameter-not-crn</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3452,11 +3457,11 @@ components:
 </table>
 
 
-### ibm-path-segment-case-convention
+### ibm-path-segment-casing-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-path-segment-case-convention</b></td>
+<td><b>ibm-path-segment-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>

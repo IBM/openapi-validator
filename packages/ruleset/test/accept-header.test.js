@@ -1,26 +1,26 @@
-const { contentTypeParameter } = require('../src/rules');
+const { acceptHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = contentTypeParameter;
-const ruleId = 'ibm-content-type-parameter';
+const rule = acceptHeader;
+const ruleId = 'ibm-accept-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
-  "Operations should not explicitly define the 'Content-Type' header parameter";
+  "Operations should not explicitly define the 'Accept' header parameter";
 
-describe('Spectral rule: content-type-parameter', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
 
-    it('Query parameter named Content-Type', async () => {
+    it('Query parameter named Accept', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
           description: 'A query param.',
-          name: 'Content-Type',
+          name: 'Accept',
           required: true,
           in: 'query',
           schema: {
@@ -33,13 +33,13 @@ describe('Spectral rule: content-type-parameter', () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Path parameter named Content-Type', async () => {
+    it('Path parameter named Accept', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
           description: 'A path param.',
-          name: 'Content-Type',
+          name: 'Accept',
           required: true,
           in: 'path',
           schema: {
@@ -54,13 +54,13 @@ describe('Spectral rule: content-type-parameter', () => {
   });
 
   describe('Should yield errors', () => {
-    it('Header parameter named Content-Type', async () => {
+    it('Header parameter named Accept', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
-          description: 'The request body mimetype.',
-          name: 'Content-Type',
+          description: 'The expected response mimetype.',
+          name: 'Accept',
           required: true,
           in: 'header',
           schema: {

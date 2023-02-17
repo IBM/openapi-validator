@@ -1,7 +1,18 @@
-const { isJsonPatchMimeType, isMergePatchMimeType } = require('../utils');
+const {
+  isJsonPatchMimeType,
+  isMergePatchMimeType,
+  LoggerFactory
+} = require('../utils');
 
-module.exports = function(operation, _opts, { path }) {
-  return patchRequestContentType(operation, path);
+let ruleId;
+let logger;
+
+module.exports = function(operation, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return patchRequestContentType(operation, context.path);
 };
 
 /**
@@ -22,6 +33,10 @@ function patchRequestContentType(operation, path) {
     return [];
   }
 
+  logger.debug(
+    `${ruleId}: checking patch operation at location: ${path.join('.')}`
+  );
+
   // Make sure we find at least one of these in the requestBody content field.
   let foundJsonPatch = false;
   let foundMergePatch = false;
@@ -30,11 +45,17 @@ function patchRequestContentType(operation, path) {
     const content = operation.requestBody.content;
     const errors = [];
     for (const contentType in content) {
+      logger.debug(
+        `${ruleId}: looking at requestBody content entry: ${contentType}`
+      );
       if (isJsonPatchMimeType(contentType)) {
         foundJsonPatch = true;
+        logger.debug(`${ruleId}: json-patch... CHECK!`);
       } else if (isMergePatchMimeType(contentType)) {
         foundMergePatch = true;
+        logger.debug(`${ruleId}: merge-patch... CHECK!`);
       } else {
+        logger.debug(`${ruleId}: unexpected content type: ${contentType}`);
         errors.push({
           message: '',
           path: [...path, 'requestBody', 'content', contentType]
@@ -51,6 +72,9 @@ function patchRequestContentType(operation, path) {
 
   // If neither content type was found, then return an error.
   if (!foundJsonPatch && !foundMergePatch) {
+    logger.debug(
+      `${ruleId}: didn't find either patch-compatible content type!`
+    );
     const errorPath = [...path];
     if (operation.requestBody) {
       errorPath.push('requestBody');

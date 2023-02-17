@@ -1,8 +1,8 @@
-const { ibmErrorContentTypeIsJson } = require('../src/rules');
+const { errorContentTypeIsJson } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const ruleId = 'ibm-error-content-type-is-json';
-const rule = ibmErrorContentTypeIsJson;
+const rule = errorContentTypeIsJson;
 
 describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {

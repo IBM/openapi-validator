@@ -1,11 +1,11 @@
-const { ifModifiedSinceParameter } = require('../src/rules');
+const { authorizationHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = ifModifiedSinceParameter;
-const ruleId = 'ibm-if-modified-since-parameter';
+const rule = authorizationHeader;
+const ruleId = 'ibm-authorization-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
-  'Operations should support the If-None-Match header parameter instead of If-Modified-Since';
+  "Operations should not explicitly define the 'Authorization' header parameter";
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
@@ -14,13 +14,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Query parameter named If-Modified-Since', async () => {
+    it('Query parameter named Authorization', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
-          description: 'A query param.',
-          name: 'If-Modified-Since',
+          description: 'The bearer token.',
+          name: 'Authorization',
           required: true,
           in: 'query',
           schema: {
@@ -33,13 +33,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Path parameter named If-Modified-Since', async () => {
+    it('Path parameter named Authorization', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
-          description: 'A path param.',
-          name: 'If-Modified-Since',
+          description: 'The bearer token.',
+          name: 'Authorization',
           required: true,
           in: 'path',
           schema: {
@@ -54,13 +54,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
   });
 
   describe('Should yield errors', () => {
-    it('Header parameter named If-Modified-Since', async () => {
+    it('Header parameter named Authorization', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
-          description: 'Used for synchronization of resource updates.',
-          name: 'If-Modified-Since',
+          description: 'The bearer token.',
+          name: 'Authorization',
           required: true,
           in: 'header',
           schema: {

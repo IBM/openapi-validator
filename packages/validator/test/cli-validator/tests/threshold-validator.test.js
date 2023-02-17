@@ -44,9 +44,9 @@ describe('test the .thresholdrc limits', function() {
       './test/cli-validator/mock-files/clean.yml'
     ]);
     // limit values invalid, so default limit, Number.MAX_VALUE, used
-    expect(exitCode).toEqual(0);
-
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
+    expect(exitCode).toEqual(0);
     const allOutput = capturedText.join('');
 
     expect(allOutput.includes('"population" limit not supported.')).toEqual(

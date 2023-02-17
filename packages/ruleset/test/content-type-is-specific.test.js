@@ -1,8 +1,8 @@
-const { ibmContentTypeIsSpecific } = require('../src/rules');
+const { contentTypeIsSpecific } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const ruleId = 'ibm-content-type-is-specific';
-const rule = ibmContentTypeIsSpecific;
+const rule = contentTypeIsSpecific;
 
 describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {

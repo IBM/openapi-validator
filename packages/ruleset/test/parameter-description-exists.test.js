@@ -1,12 +1,12 @@
-const { parameterDescription } = require('../src/rules');
+const { parameterDescriptionExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = parameterDescription;
-const ruleId = 'ibm-parameter-description';
+const rule = parameterDescriptionExists;
+const ruleId = 'ibm-parameter-description-exists';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Parameter should have a non-empty description';
 
-describe('Spectral rule: parameter-description', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

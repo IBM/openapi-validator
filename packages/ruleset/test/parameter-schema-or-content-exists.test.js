@@ -1,15 +1,12 @@
-const { parameterSchemaOrContent } = require('../src/rules');
+const { parameterSchemaOrContentExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-parameter-schema-or-content';
+const ruleId = 'ibm-parameter-schema-or-content-exists';
+const rule = parameterSchemaOrContentExists;
 
-describe('Spectral rule: parameter-schema-or-content', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(
-      name,
-      parameterSchemaOrContent,
-      rootDocument
-    );
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -26,12 +23,7 @@ describe('Spectral rule: parameter-schema-or-content', () => {
       }
     ];
 
-    const results = await testRule(
-      name,
-      parameterSchemaOrContent,
-      testDocument
-    );
-
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(0);
   });
 
@@ -51,12 +43,7 @@ describe('Spectral rule: parameter-schema-or-content', () => {
       }
     ];
 
-    const results = await testRule(
-      name,
-      parameterSchemaOrContent,
-      testDocument
-    );
-
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(0);
   });
 
@@ -69,16 +56,11 @@ describe('Spectral rule: parameter-schema-or-content', () => {
       }
     ];
 
-    const results = await testRule(
-      name,
-      parameterSchemaOrContent,
-      testDocument
-    );
-
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Parameter must provide either a schema or content'
     );

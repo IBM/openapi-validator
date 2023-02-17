@@ -1,12 +1,12 @@
-const { pathParamNotCRN } = require('../src/rules');
+const { pathParameterNotCRN } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = pathParamNotCRN;
-const ruleId = 'ibm-path-param-not-crn';
+const rule = pathParameterNotCRN;
+const ruleId = 'ibm-path-parameter-not-crn';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Path parameter should not be defined as a CRN value';
 
-describe('Spectral rule: path-param-not-crn', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

@@ -1,20 +1,32 @@
-module.exports = function(param, _opts, { path }) {
-  return parameterDefault(param, path);
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
+module.exports = function(param, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.newInstance().getLogger(ruleId);
+  }
+  return parameterDefault(param, context.path);
 };
 
 const errorMsg = 'Required parameter should not define a default value';
 
 function parameterDefault(param, path) {
-  const results = [];
+  logger.debug(`${ruleId}: checking parameter at location: ${path.join('.')}`);
 
   if (param.required && paramHasDefault(param)) {
-    results.push({
-      message: errorMsg,
-      path
-    });
+    logger.debug(`Parameter is required AND has a default value!`);
+    return [
+      {
+        message: errorMsg,
+        path
+      }
+    ];
   }
 
-  return results;
+  return [];
 }
 
 /**

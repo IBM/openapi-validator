@@ -1,18 +1,18 @@
 const {
   parameters
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas2, oas3 } = require('@stoplight/spectral-formats');
-const { parameterCaseConvention } = require('../functions');
+const { oas3 } = require('@stoplight/spectral-formats');
+const { parameterCasingConvention } = require('../functions');
 
 module.exports = {
   description: 'Parameter names must follow case conventions',
   message: '{{error}}',
-  formats: [oas2, oas3],
+  formats: [oas3],
   given: parameters,
   severity: 'error',
   resolved: true,
   then: {
-    function: parameterCaseConvention,
+    function: parameterCasingConvention,
 
     // The configuration of this rule should be an object
     // with keys that represent the different parameter types

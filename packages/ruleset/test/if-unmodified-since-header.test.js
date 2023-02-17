@@ -1,11 +1,11 @@
-const { acceptParameter } = require('../src/rules');
+const { ifUnmodifiedSinceHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = acceptParameter;
-const ruleId = 'ibm-accept-parameter';
+const rule = ifUnmodifiedSinceHeader;
+const ruleId = 'ibm-if-unmodified-since-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
-  "Operations should not explicitly define the 'Accept' header parameter";
+  'Operations should support the If-Match header parameter instead of If-Unmodified-Since';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
@@ -14,13 +14,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Query parameter named Accept', async () => {
+    it('Query parameter named If-Unmodified-Since', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
           description: 'A query param.',
-          name: 'Accept',
+          name: 'If-Unmodified-Since',
           required: true,
           in: 'query',
           schema: {
@@ -33,13 +33,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Path parameter named Accept', async () => {
+    it('Path parameter named If-Unmodified-Since', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
           description: 'A path param.',
-          name: 'Accept',
+          name: 'If-Unmodified-Since',
           required: true,
           in: 'path',
           schema: {
@@ -54,13 +54,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
   });
 
   describe('Should yield errors', () => {
-    it('Header parameter named Accept', async () => {
+    it('Header parameter named If-Unmodified-Since', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].parameters = [
         {
-          description: 'The expected response mimetype.',
-          name: 'Accept',
+          description: 'Used for synchronization of resource updates.',
+          name: 'If-Unmodified-Since',
           required: true,
           in: 'header',
           schema: {
