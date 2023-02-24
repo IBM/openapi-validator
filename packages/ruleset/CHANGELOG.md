@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.45.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.45.3...@ibm-cloud/openapi-ruleset@0.45.4) (2023-02-24)
+
+
+### Bug Fixes
+
+* **inline-property-schema:** avoid [secure] warnings ([#553](https://github.com/IBM/openapi-validator/issues/553)) ([ae27982](https://github.com/IBM/openapi-validator/commit/ae2798226e4cfc489147fb0110d9efd3a9efebf2))
+
 ## @ibm-cloud/openapi-ruleset [0.45.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.45.2...@ibm-cloud/openapi-ruleset@0.45.3) (2023-01-09)
 
 
