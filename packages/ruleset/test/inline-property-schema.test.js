@@ -32,6 +32,26 @@ describe('Spectral rule: inline-property-schema', () => {
       expect(results).toHaveLength(0);
     });
 
+    it('Inline object schema w/annotation but no properties', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // empty object
+      testDocument.components.schemas.Car.properties['inline_prop1'] = {
+        'type': 'object',
+        'x-foo': 'bar'
+      };
+
+      // any object
+      testDocument.components.schemas.Car.properties['inline_prop2'] = {
+        'type': 'object',
+        'additionalProperties': true,
+        'x-terraform-sensitive': 'bar'
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     it('Ref sibling', async () => {
       const testDocument = makeCopy(rootDocument);
 

@@ -99,5 +99,14 @@ describe('Utility function: isEmptyObjectSchema()', () => {
       };
       expect(isEmptyObjectSchema(s)).toBe(true);
     });
+
+    it('empty object schema w/annotations', async () => {
+      const s = {
+        'type': 'object',
+        'description': 'empty object schema',
+        'x-foo': 'bar'
+      };
+      expect(isEmptyObjectSchema(s)).toBe(true);
+    });
   });
 });

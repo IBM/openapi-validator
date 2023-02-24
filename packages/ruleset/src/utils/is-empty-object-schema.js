@@ -30,11 +30,11 @@ function isEmptyObjectSchema(schema) {
     return false;
   }
 
-  // "schema" should have only the following properties.
+  // "schema" should have only the following properties (ignoring annotations).
   // 'description' and 'additionalProperties' are optional.
   const allowableFields = ['type', 'description', 'additionalProperties'];
   for (const field of Object.keys(schema)) {
-    if (!allowableFields.includes(field)) {
+    if (!allowableFields.includes(field) && !field.startsWith('x-')) {
       return false;
     }
   }
