@@ -6,7 +6,7 @@ let logger;
 module.exports = function($ref, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
-    logger = LoggerFactory.newInstance().getLogger(ruleId);
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForCircularRef($ref, context.path);
 };

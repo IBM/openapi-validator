@@ -1,11 +1,12 @@
-const { propertyCaseCollision } = require('../src/rules');
+const { propertyNameCollision } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-property-case-collision';
+const ruleId = 'ibm-property-name-collision';
+const rule = propertyNameCollision;
 
 describe('Spectral rule: property-case-collision', () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(name, propertyCaseCollision, rootDocument);
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -21,7 +22,7 @@ describe('Spectral rule: property-case-collision', () => {
       type: 'string'
     };
 
-    const results = await testRule(name, propertyCaseCollision, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -36,12 +37,12 @@ describe('Spectral rule: property-case-collision', () => {
       type: 'string'
     };
 
-    const results = await testRule(name, propertyCaseCollision, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(5);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Avoid duplicate property names within a schema, even if different case conventions are used'
     );

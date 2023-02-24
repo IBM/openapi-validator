@@ -47,7 +47,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   // Set default loglevel of the root logger to be 'info'.
   // The user can change this via the command line.
-  const loggerFactory = LoggerFactory.newInstance();
+  const loggerFactory = LoggerFactory.getInstance();
   loggerFactory.addLoggerSetting('root', 'info');
   logger = loggerFactory.getLogger('root');
 

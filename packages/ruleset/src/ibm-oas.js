@@ -133,14 +133,12 @@ module.exports = {
     'ibm-path-parameter-not-crn': ibmRules.pathParameterNotCRN,
     'ibm-path-segment-casing-convention': ibmRules.pathSegmentCasingConvention,
     'ibm-precondition-header': ibmRules.preconditionHeader,
-    'ibm-prohibit-summary-sentence-style':
-      ibmRules.prohibitSummarySentenceStyle,
     'ibm-property-attributes': ibmRules.propertyAttributes,
-    'ibm-property-case-collision': ibmRules.propertyCaseCollision,
-    'ibm-property-case-convention': ibmRules.propertyCaseConvention,
-    'ibm-property-description': ibmRules.propertyDescription,
+    'ibm-property-casing-convention': ibmRules.propertyCasingConvention,
+    'ibm-property-description-exists': ibmRules.propertyDescriptionExists,
     'ibm-property-inconsistent-name-and-type':
       ibmRules.propertyInconsistentNameAndType,
+    'ibm-property-name-collision': ibmRules.propertyNameCollision,
     'ibm-ref-pattern': ibmRules.refPattern,
     'ibm-ref-sibling-duplicate-description':
       ibmRules.refSiblingDuplicateDescription,
@@ -157,6 +155,7 @@ module.exports = {
     'ibm-security-schemes': ibmRules.securitySchemes,
     'ibm-server-variable-default-value': ibmRules.serverVariableDefaultValue,
     'ibm-string-attributes': ibmRules.stringAttributes,
+    'ibm-summary-sentence-style': ibmRules.summarySentenceStyle,
     'ibm-unused-tag': ibmRules.unusedTag,
     'ibm-valid-path-segments': ibmRules.validPathSegments,
     'ibm-valid-type-format': ibmRules.validTypeFormat

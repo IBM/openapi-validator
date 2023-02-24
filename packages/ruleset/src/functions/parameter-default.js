@@ -6,7 +6,7 @@ let logger;
 module.exports = function(param, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
-    logger = LoggerFactory.newInstance().getLogger(ruleId);
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return parameterDefault(param, context.path);
 };

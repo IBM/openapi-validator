@@ -24,10 +24,6 @@ module.exports = class LoggerFactory {
     return this._factory;
   }
 
-  static newInstance() {
-    return this.getInstance();
-  }
-
   /**
    * A logger setting consists of a logger name (a glob-like string,
    * e.g. 'my-*-logger' or 'my-first-logger') and a log level

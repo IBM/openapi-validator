@@ -13,7 +13,7 @@ let logger;
 module.exports = function(schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
-    logger = LoggerFactory.newInstance().getLogger(ruleId);
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return validateSubschemas(schema, context.path, checkPropertyAttributes);
 };

@@ -6,7 +6,7 @@ let logger;
 module.exports = function(pathItem, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
-    logger = LoggerFactory.newInstance().getLogger(ruleId);
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return etagHeaderCheck(pathItem, context.path);
 };

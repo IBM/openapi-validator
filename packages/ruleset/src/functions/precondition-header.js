@@ -1,4 +1,13 @@
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
 module.exports = function(operation, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
   return preconditionHeader(operation, context.path);
 };
 
@@ -13,6 +22,12 @@ function preconditionHeader(operation, path) {
     return [];
   }
 
+  logger.debug(
+    `${ruleId}: checking operation for pre-condition headers at location: ${path.join(
+      '.'
+    )}`
+  );
+
   if (Object.keys(operation.responses).includes('412')) {
     const conditionalHeaders = [
       'If-Match',
@@ -24,10 +39,14 @@ function preconditionHeader(operation, path) {
     for (const k in operation.parameters) {
       if (conditionalHeaders.includes(operation.parameters[k].name)) {
         found = true;
+        logger.debug(
+          `${ruleId}: found pre-condition header param'${operation.parameters[k].name}'`
+        );
       }
     }
 
     if (!found) {
+      logger.debug(`${ruleId}: no pre-condition header params found!`);
       return [
         {
           message:

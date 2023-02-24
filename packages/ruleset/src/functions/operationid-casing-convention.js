@@ -12,7 +12,7 @@ module.exports = function(operation, options, context) {
 
   if (!logger) {
     ruleId = context.rule.name;
-    logger = LoggerFactory.newInstance().getLogger(ruleId);
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
   return operationIdCaseConvention(operation, context.path);

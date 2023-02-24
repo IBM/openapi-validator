@@ -70,12 +70,11 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-path-parameter-not-crn](#ibm-path-parameter-not-crn)
   * [ibm-path-segment-casing-convention](#ibm-path-segment-casing-convention)
   * [ibm-precondition-header](#ibm-precondition-header)
-  * [ibm-prohibit-summary-sentence-style](#ibm-prohibit-summary-sentence-style)
   * [ibm-property-attributes](#ibm-property-attributes)
-  * [ibm-property-case-collision](#ibm-property-case-collision)
-  * [ibm-property-case-convention](#ibm-property-case-convention)
-  * [ibm-property-description](#ibm-property-description)
+  * [ibm-property-casing-convention](#ibm-property-casing-convention)
+  * [ibm-property-description-exists](#ibm-property-description-exists)
   * [ibm-property-inconsistent-name-and-type](#ibm-property-inconsistent-name-and-type)
+  * [ibm-property-name-collision](#ibm-property-name-collision)
   * [ibm-ref-pattern](#ibm-ref-pattern)
   * [ibm-ref-sibling-duplicate-description](#ibm-ref-sibling-duplicate-description)
   * [ibm-request-body-name](#ibm-request-body-name)
@@ -91,6 +90,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-security-schemes](#ibm-security-schemes)
   * [ibm-server-variable-default-value](#ibm-server-variable-default-value)
   * [ibm-string-attributes](#ibm-string-attributes)
+  * [ibm-summary-sentence-style](#ibm-summary-sentence-style)
   * [ibm-unused-tag](#ibm-unused-tag)
   * [ibm-valid-path-segments](#ibm-valid-path-segments)
   * [ibm-valid-type-format](#ibm-valid-type-format)
@@ -378,31 +378,20 @@ or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-prohibit-summary-sentence-style">ibm-prohibit-summary-sentence-style</a></td>
-<td>warn</td>
-<td>An operation's <code>summary</code> field should not have a trailing period</td>
-<td>oas3</td>
-</tr>
-<tr>
 <td><a href="#ibm-property-attributes">ibm-property-attributes</a></td>
 <td>error</td>
 <td>Performs a series of checks on the attributes defined for various schema types</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-property-case-collision">ibm-property-case-collision</a></td>
-<td>error</td>
-<td>Avoid duplicate property names within a schema, even if they differ by case convention</td>
-<td>oas3</td>
-</tr>
 <tr>
-<td><a href="#ibm-property-case-convention">ibm-property-case-convention</a></td>
+<td><a href="#ibm-property-casing-convention">ibm-property-casing-convention</a></td>
 <td>error</td>
 <td>Schema property names should follow a specific case convention</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-property-description">ibm-property-description</a></td>
+<td><a href="#ibm-property-description-exists">ibm-property-description-exists</a></td>
 <td>warn</td>
 <td>Schema properties should have a non-empty description</td>
 <td>oas3</td>
@@ -411,6 +400,11 @@ or <code>application/merge-patch+json</code>.</td>
 <td><a href="#ibm-property-inconsistent-name-and-type">ibm-property-inconsistent-name-and-type</a></td>
 <td>off</td>
 <td>Avoid using the same property name for properties of different types. This rule is disabled by default.</td>
+<td>oas3</td>
+</tr>
+<td><a href="#ibm-property-name-collision">ibm-property-name-collision</a></td>
+<td>error</td>
+<td>Avoid duplicate property names within a schema, even if they differ by case convention</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -504,6 +498,12 @@ has non-form content.</td>
 <td><a href="#ibm-string-attributes">ibm-string-attributes</a></td>
 <td>warn</td>
 <td>String schema properties should define the <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-summary-sentence-style">ibm-summary-sentence-style</a></td>
+<td>warn</td>
+<td>An operation's <code>summary</code> field should not have a trailing period</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -3585,53 +3585,6 @@ paths:
 </table>
 
 
-### ibm-prohibit-summary-sentence-style
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-prohibit-summary-sentence-style</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>An operation's <code>summary</code> field should not have a trailing period.</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  /v1/things
-    get:
-      operationId: list_things
-      summary: List Things.
-      description: Retrieve a paginated collection of Thing instances.
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  /v1/things
-    get:
-      operationId: list_things
-      summary: List Things
-      description: Retrieve a paginated collection of Thing instances.
-</pre>
-</td>
-</tr>
-</table>
-
-
 ### ibm-property-attributes
 <table>
 <tr>
@@ -3704,67 +3657,11 @@ components:
 </table>
 
 
-### ibm-property-case-collision
+### ibm-property-casing-convention
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-property-case-collision</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>Property names within a schema must be unique, even if they differ by case convention
-(e.g. properties <code>thingType</code> and <code>thing_type</code> defined within the same schema would violate this rule).</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          type: string
-        thing_type:
-          type: string
-        thingType:
-          type: string
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          type: string
-        thing_type:
-          type: string
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-property-case-convention
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-property-case-convention</b></td>
+<td><b>ibm-property-casing-convention</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3838,11 +3735,11 @@ components:
 </table>
 
 
-### ibm-property-description
+### ibm-property-description-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-property-description</b></td>
+<td><b>ibm-property-description-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -3952,6 +3849,62 @@ components:
       properties:
         name:
           description: The name of the OtherThing.
+          type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-property-name-collision
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-property-name-collision</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Property names within a schema must be unique, even if they differ by case convention
+(e.g. properties <code>thingType</code> and <code>thing_type</code> defined within the same schema would violate this rule).</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_type:
+          type: string
+        thingType:
+          type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_type:
           type: string
 </pre>
 </td>
@@ -5146,6 +5099,54 @@ components:
           minLength: 8
           maxLength: 64
           example: 'ab38dd26z'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-summary-sentence-style
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-summary-sentence-style</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>An operation's <code>summary</code> field should contain a very brief description of the operation and should
+not have a trailing period.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things
+    get:
+      operationId: list_things
+      summary: List the Thing objects.
+      description: Retrieve a paginated collection of Thing instances.
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  /v1/things
+    get:
+      operationId: list_things
+      summary: List things
+      description: Retrieve a paginated collection of Thing instances.
 </pre>
 </td>
 </tr>
