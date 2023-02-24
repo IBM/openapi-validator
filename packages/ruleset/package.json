@@ -1,7 +1,7 @@
 {
   "name": "@ibm-cloud/openapi-ruleset",
   "description": "Spectral ruleset for validating IBM Cloud services",
-  "version": "0.45.3",
+  "version": "0.45.4",
   "license": "Apache-2.0",
   "private": false,
   "main": "./src/ibm-oas.js",
