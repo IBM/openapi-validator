@@ -5,7 +5,7 @@ const rule = responseStatusCodes;
 const ruleId = 'ibm-response-status-codes';
 const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: response-status-codes', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

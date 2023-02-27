@@ -1,4 +1,5 @@
 const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
 
 // Valid schema types.
 const validTypes = [
@@ -41,11 +42,25 @@ const stringFormatErrorMsg = `Schema of type string should use one of the follow
   ', '
 )}.`;
 
-module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, typeFormatErrors);
+let ruleId;
+let logger;
+
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return validateSubschemas(schema, context.path, typeFormatErrors);
 };
 
 function typeFormatErrors(schema, path) {
+  logger.debug(
+    `${ruleId}: checking schema [type=${schema.type}, format=${
+      schema.format
+    }] at location: ${path.join('.')}`
+  );
+
   const errors = [];
 
   // It's ok to have a schema with no type, but we need to
@@ -118,5 +133,14 @@ function typeFormatErrors(schema, path) {
       }
     }
   }
+
+  if (errors.length) {
+    logger.debug(
+      `${ruleId}: found these errors:\n${JSON.stringify(errors, null, 2)}`
+    );
+  } else {
+    logger.debug(`${ruleId}: PASSED!`);
+  }
+
   return errors;
 }

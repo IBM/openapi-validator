@@ -20,7 +20,7 @@ const expectedMsgs = {
     "$refs to securitySchemes should start with '#/components/securitySchemes/'"
 };
 
-describe('Spectral rule: ref-pattern', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

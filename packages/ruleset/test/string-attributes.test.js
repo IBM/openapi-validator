@@ -5,7 +5,7 @@ const rule = stringAttributes;
 const ruleId = 'ibm-string-attributes';
 const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: ibm-string-attributes', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

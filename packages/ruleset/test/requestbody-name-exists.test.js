@@ -1,13 +1,14 @@
-const { requestBodyName } = require('../src/rules');
+const { requestBodyNameExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = requestBodyName;
-const ruleId = 'ibm-request-body-name';
+const ruleId = 'ibm-requestbody-name-exists';
+const rule = requestBodyNameExists;
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
-  'Operations with non-form request bodies should set a name with the x-codegen-request-body-name extension.';
+  'Operation with non-form requestBody should set a name with the x-codegen-request-body-name extension.';
 
-describe('Spectral rule: request-body-name', () => {
+// `Operation with non-form requestBody should set a name with the ${EXTENSION_NAME} extension.`
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

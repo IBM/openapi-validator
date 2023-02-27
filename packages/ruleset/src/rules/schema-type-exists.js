@@ -1,8 +1,8 @@
 const {
   schemas
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas2, oas3 } = require('@stoplight/spectral-formats');
-const { schemaType } = require('../functions');
+const { oas3 } = require('@stoplight/spectral-formats');
+const { schemaTypeExists } = require('../functions');
 
 module.exports = {
   description:
@@ -10,9 +10,9 @@ module.exports = {
   message: '{{error}}',
   given: schemas,
   severity: 'off',
-  formats: [oas2, oas3],
+  formats: [oas3],
   resolved: true,
   then: {
-    function: schemaType
+    function: schemaTypeExists
   }
 };

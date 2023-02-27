@@ -2,14 +2,21 @@ const {
   validateSubschemas,
   schemaHasConstraint
 } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory, pathMatchesRegexp } = require('../utils');
 
-const { pathMatchesRegexp } = require('../utils');
+let ruleId;
+let logger;
 
-module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, schemaDescription);
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return validateSubschemas(schema, context.path, schemaDescriptionExists);
 };
 
-function schemaDescription(schema, path) {
+function schemaDescriptionExists(schema, path) {
   //
   // Check to see if "path" represents a primary schema (i.e. not a schema property).
   // Note: the regexp used below uses a "lookbehind assertion"
@@ -26,13 +33,18 @@ function schemaDescription(schema, path) {
     /^.*(?<!,parameters,\d+),schema$/
   );
   // If "schema" is a primary schema, then check for a description.
-  if (isPrimarySchema && !schemaHasDescription(schema)) {
-    return [
-      {
-        message: 'Schema should have a non-empty description',
-        path
-      }
-    ];
+  if (isPrimarySchema) {
+    logger.debug(`${ruleId}: checking schema at location: ${path.join('.')}`);
+
+    if (!schemaHasDescription(schema)) {
+      logger.debug(`${ruleId}: no description found!`);
+      return [
+        {
+          message: 'Schema should have a non-empty description',
+          path
+        }
+      ];
+    }
   }
 
   return [];

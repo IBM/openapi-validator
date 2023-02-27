@@ -1,22 +1,16 @@
-// Rudimentary debug logging that is useful in debugging this rule.
-const debugEnabled = false;
-function debug(msg) {
-  if (debugEnabled) {
-    console.log(msg);
-  }
-}
+const { LoggerFactory, operationMethods } = require('../utils');
 
-// Set of fields within a "path item" that we expect to hold an operation object.
-const operationMethods = [
-  'get',
-  'put',
-  'post',
-  'delete',
-  'options',
-  'head',
-  'patch',
-  'trace'
-];
+let ruleId;
+let logger;
+
+module.exports = function(rootDocument, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return checkSecuritySchemes(rootDocument);
+};
 
 // Security scheme types that support scopes.
 const schemeTypesSupportScopes = ['oauth2', 'openIdConnect'];
@@ -25,7 +19,7 @@ const schemeTypesSupportScopes = ['oauth2', 'openIdConnect'];
 const schemeTypesDefineScopes = ['oauth2'];
 
 /**
- * This function implements the 'security-schemes' validation rule.
+ * This function implements the 'securityschemes' validation rule.
  * The specific checks that are performed are:
  *
  * 1. The name used within a security requirement object must correspond to a
@@ -47,7 +41,11 @@ const schemeTypesDefineScopes = ['oauth2'];
  * @param {object} rootDocument the entire API definition (assumed to be an OpenAPI 3 document)
  * @returns an array of error objects
  */
-function securitySchemes(rootDocument) {
+function checkSecuritySchemes(rootDocument) {
+  logger.debug(
+    `${ruleId}: checking securityScheme usage throughout API definition.`
+  );
+
   // Grab the securitySchemes from the API definition.
   const securitySchemes =
     rootDocument.components && rootDocument.components.securitySchemes;
@@ -90,12 +88,13 @@ function securitySchemes(rootDocument) {
 
       usageInfo[schemeName] = usageEntry;
     }
-    debug(
-      '>>> Found these security schemes in the API definition: ' +
-        Object.keys(usageInfo).join(', ')
+    logger.debug(
+      `${ruleId}: found these securitySchemes in the API definition: ${Object.keys(
+        usageInfo
+      ).join(', ')}`
     );
   } else {
-    debug('>>> No securitySchemes found in the API definition.');
+    logger.debug(`${ruleId}:  No securitySchemes found in the API definition!`);
   }
 
   // Next, visit each "security" object and record its usage.
@@ -105,7 +104,7 @@ function securitySchemes(rootDocument) {
 
   // 1. Record usage info for the global "security" field.
   if (rootDocument.security) {
-    debug('>>> Visiting global "security" object');
+    logger.debug(`${ruleId}: checking global security object`);
     errors.push(...recordUsage(rootDocument.security, usageInfo, ['security']));
   }
 
@@ -117,7 +116,9 @@ function securitySchemes(rootDocument) {
       for (const methodName of operationMethods) {
         const operationObj = pathItem[methodName];
         if (operationObj && operationObj.security) {
-          debug('>>> Visiting operation: ' + operationObj.operationId);
+          logger.debug(
+            `${ruleId}: checking operation '${operationObj.operationId}'`
+          );
           errors.push(
             ...recordUsage(operationObj.security, usageInfo, [
               'paths',
@@ -135,6 +136,9 @@ function securitySchemes(rootDocument) {
   for (const schemeName in usageInfo) {
     const usageEntry = usageInfo[schemeName];
     if (usageEntry.used === false) {
+      logger.debug(
+        `${ruleId}: securityScheme '${schemeName}' defined but not used!`
+      );
       errors.push({
         message: 'A security scheme is defined but never used',
         path: ['components', 'securitySchemes', schemeName]
@@ -144,6 +148,7 @@ function securitySchemes(rootDocument) {
     for (const scope in usageEntry.scopeUsage) {
       const scopeUsageEntry = usageEntry.scopeUsage[scope];
       if (scopeUsageEntry.used === false) {
+        logger.debug(`${ruleId}: scope '${scope}' defined but not used!`);
         errors.push({
           message: 'A security scope is defined but never used',
           path: [
@@ -198,6 +203,9 @@ function recordUsage(securityList, usageInfo, path) {
               if (schemeTypesDefineScopes.includes(usageEntry.type)) {
                 // Only return an error for an "undefined scope" if
                 // the scheme type is one where scopes are defined locally (e.g. 'oauth2').
+                logger.debug(
+                  `${ruleId}: undefined security scope referenced: ${scope}`
+                );
                 errors.push({
                   message: 'An undefined security scope is referenced',
                   path: [
@@ -214,6 +222,7 @@ function recordUsage(securityList, usageInfo, path) {
           // For a scheme that doesn't support scopes, verify that the scopes array is empty.
           const scopes = securityObj[schemeName];
           if (scopes && scopes.length) {
+            logger.debug(`${ruleId}: unexpected scopes found!`);
             errors.push({
               message:
                 'For security scheme types that do not support scopes, the value must be an empty array',
@@ -222,6 +231,9 @@ function recordUsage(securityList, usageInfo, path) {
           }
         }
       } else {
+        logger.debug(
+          `${ruleId}: undefined securitySchema referenced: ${schemeName}`
+        );
         errors.push({
           message: 'An undefined security scheme is referenced',
           path: [...path, securityIndex.toString(), schemeName]
@@ -232,7 +244,3 @@ function recordUsage(securityList, usageInfo, path) {
 
   return errors;
 }
-
-module.exports = {
-  securitySchemes
-};

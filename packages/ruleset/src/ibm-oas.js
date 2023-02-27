@@ -109,6 +109,7 @@ module.exports = {
     'ibm-duplicate-path-parameter': ibmRules.duplicatePathParameter,
     'ibm-enum-casing-convention': ibmRules.enumCasingConvention,
     'ibm-error-content-type-is-json': ibmRules.errorContentTypeIsJson,
+    'ibm-error-response-schemas': ibmRules.errorResponseSchemas,
     'ibm-etag-header-exists': ibmRules.etagHeaderExists,
     'ibm-examples-name-contains-space': ibmRules.examplesNameContainsSpace,
     'ibm-if-modified-since-header': ibmRules.ifModifiedSinceHeader,
@@ -136,28 +137,27 @@ module.exports = {
     'ibm-property-attributes': ibmRules.propertyAttributes,
     'ibm-property-casing-convention': ibmRules.propertyCasingConvention,
     'ibm-property-description-exists': ibmRules.propertyDescriptionExists,
-    'ibm-property-inconsistent-name-and-type':
-      ibmRules.propertyInconsistentNameAndType,
+    'ibm-property-consistent-name-and-type':
+      ibmRules.propertyConsistentNameAndType,
     'ibm-property-name-collision': ibmRules.propertyNameCollision,
     'ibm-ref-pattern': ibmRules.refPattern,
     'ibm-ref-sibling-duplicate-description':
       ibmRules.refSiblingDuplicateDescription,
-    'ibm-request-body-name': ibmRules.requestBodyName,
-    'ibm-request-body-object': ibmRules.requestBodyObject,
+    'ibm-requestbody-is-object': ibmRules.requestBodyIsObject,
+    'ibm-requestbody-name-exists': ibmRules.requestBodyNameExists,
     'ibm-required-property-missing': ibmRules.requiredPropertyMissing,
-    'ibm-response-error-response-schema': ibmRules.responseErrorResponseSchema,
-    'ibm-response-example-provided': ibmRules.responseExampleProvided,
+    'ibm-response-example-exists': ibmRules.responseExampleExists,
     'ibm-response-status-codes': ibmRules.responseStatusCodes,
-    'ibm-schema-description': ibmRules.schemaDescription,
-    'ibm-schema-type': ibmRules.schemaType,
-    'ibm-security-scheme-attributes': ibmRules.securitySchemeAttributes,
+    'ibm-schema-description-exists': ibmRules.schemaDescriptionExists,
+    'ibm-schema-type-exists': ibmRules.schemaTypeExists,
+    'ibm-schema-type-format': ibmRules.schemaTypeFormat,
     'ibm-sdk-operations': ibmRules.ibmSdkOperations,
-    'ibm-security-schemes': ibmRules.securitySchemes,
+    'ibm-securityscheme-attributes': ibmRules.securitySchemeAttributes,
+    'ibm-securityschemes': ibmRules.securitySchemes,
     'ibm-server-variable-default-value': ibmRules.serverVariableDefaultValue,
     'ibm-string-attributes': ibmRules.stringAttributes,
     'ibm-summary-sentence-style': ibmRules.summarySentenceStyle,
-    'ibm-unused-tag': ibmRules.unusedTag,
-    'ibm-valid-path-segments': ibmRules.validPathSegments,
-    'ibm-valid-type-format': ibmRules.validTypeFormat
+    'ibm-unused-tags': ibmRules.unusedTags,
+    'ibm-valid-path-segments': ibmRules.validPathSegments
   }
 };

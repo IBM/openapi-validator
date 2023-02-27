@@ -1,22 +1,23 @@
-let rule = require('../src/rules').propertyInconsistentNameAndType;
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
+let rule = require('../src/rules').propertyConsistentNameAndType;
+
+const ruleId = 'ibm-property-consistent-name-and-type';
 
 // this rule is turned off by default - enable it to run tests
 // but still verify it is defined in the rule as "off"
 const originalSeverity = makeCopy(rule.severity);
 rule.severity = 'warn';
 
-const ruleId = 'ibm-property-inconsistent-name-and-type';
 const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: property-inconsistent-name-and-type', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   // this is required because of the "global" variable we are using in the file
   // that holds the implementation for this rule. By default, it will maintain
   // its list of "visited properties" between tests, which prevents proper
   // isolation between the tests. this will reset that variable after each test
   afterEach(() => {
     jest.resetModules();
-    rule = require('../src/rules').propertyInconsistentNameAndType;
+    rule = require('../src/rules').propertyConsistentNameAndType;
     rule.severity = 'warn';
   });
 

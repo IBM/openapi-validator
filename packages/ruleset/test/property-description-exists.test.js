@@ -6,7 +6,7 @@ const ruleId = 'ibm-property-description-exists';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Schema property should have a non-empty description';
 
-describe('Spectral rule: property-description', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

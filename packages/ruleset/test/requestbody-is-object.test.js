@@ -1,11 +1,12 @@
-const { requestBodyObject } = require('../src/rules');
+const { requestBodyIsObject } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-request-body-object';
+const ruleId = 'ibm-requestbody-is-object';
+const rule = requestBodyIsObject;
 
-describe('Spectral rule: request-body-object', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(name, requestBodyObject, rootDocument);
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -23,7 +24,7 @@ describe('Spectral rule: request-body-object', () => {
       }
     };
 
-    const results = await testRule(name, requestBodyObject, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -39,12 +40,12 @@ describe('Spectral rule: request-body-object', () => {
       }
     };
 
-    const results = await testRule(name, requestBodyObject, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'All request bodies MUST be structured as an object'
     );

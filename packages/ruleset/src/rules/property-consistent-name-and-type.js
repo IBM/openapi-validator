@@ -1,19 +1,19 @@
 const {
   schemas
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas2, oas3 } = require('@stoplight/spectral-formats');
-const { propertyInconsistentNameAndType } = require('../functions');
+const { oas3 } = require('@stoplight/spectral-formats');
+const { propertyConsistentNameAndType } = require('../functions');
 
 module.exports = {
   description:
-    'Avoid using the same property name for properties of different types.',
+    'Schema properties that have the same name should also have the same types.',
   message: '{{error}}',
-  formats: [oas2, oas3],
+  formats: [oas3],
   given: schemas,
   severity: 'off',
   resolved: true,
   then: {
-    function: propertyInconsistentNameAndType,
+    function: propertyConsistentNameAndType,
     functionOptions: {
       excludedProperties: ['code', 'default', 'type', 'value']
     }

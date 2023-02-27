@@ -4,7 +4,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const ruleId = 'ibm-summary-sentence-style';
 const rule = summarySentenceStyle;
 
-describe('Spectral rule: prohibit-summary-sentence-style', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
     const results = await testRule(ruleId, rule, rootDocument);
     expect(results).toHaveLength(0);

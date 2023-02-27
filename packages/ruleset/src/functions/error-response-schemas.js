@@ -4,9 +4,18 @@ const {
   isObject,
   isStringSchema
 } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return checkErrorContainerModelSchema(schema, path);
+let ruleId;
+let logger;
+
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return checkErrorContainerModelSchema(schema, context.path);
 };
 
 /**
@@ -31,7 +40,11 @@ module.exports = function(schema, _opts, { path }) {
  * @returns an array containing the violations found or [] if no violations
  */
 function checkErrorContainerModelSchema(schema, path) {
+  logger.debug(
+    `${ruleId}: checking error container model at location: ${path.join('.')}`
+  );
   if (!schemaIsObjectWithProperties(schema)) {
+    logger.debug(`${ruleId}: it's not an object with properties!`);
     return [
       {
         message: 'Error container model must be an object with properties',
@@ -47,6 +60,13 @@ function checkErrorContainerModelSchema(schema, path) {
   errors.push(...checkTraceProperty(properties, path));
   errors.push(...checkStatusCodeProperty(properties, path));
   errors.push(...checkErrorsProperty(properties, path));
+  if (errors.length) {
+    logger.debug(
+      `${ruleId}: found one or more violations:\n${JSON.stringify(errors)}`
+    );
+  } else {
+    logger.debug(`${ruleId}: PASSED!`);
+  }
   return errors;
 }
 

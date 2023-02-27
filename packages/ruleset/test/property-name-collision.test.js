@@ -4,7 +4,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const ruleId = 'ibm-property-name-collision';
 const rule = propertyNameCollision;
 
-describe('Spectral rule: property-case-collision', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
     const results = await testRule(ruleId, rule, rootDocument);
 

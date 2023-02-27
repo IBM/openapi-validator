@@ -1,21 +1,37 @@
 const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { mergeAllOfSchemaProperties } = require('../utils');
+const { LoggerFactory, mergeAllOfSchemaProperties } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, schemaType);
+let ruleId;
+let logger;
+
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return validateSubschemas(schema, context.path, schemaTypeExists);
 };
 
-function schemaType(schema, path) {
+function schemaTypeExists(schema, path) {
   // If we're looking at an allOf list element schema, then
   // bail out as this would not necessarily provide the full
   // definition of a schema or schema property.
   if (path[path.length - 2] === 'allOf') {
+    logger.debug(
+      `${ruleId}: skipping type check for allOf member at location: ${path.join(
+        '.'
+      )}`
+    );
     return [];
   }
 
   const mergedSchema = mergeAllOfSchemaProperties(schema);
 
   if (!schemaHasType(mergedSchema)) {
+    logger.debug(
+      `${ruleId}: schema with no type at location: ${path.join('.')}`
+    );
     return [
       {
         message: 'Schema should have a non-empty `type` field.',

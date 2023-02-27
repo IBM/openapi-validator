@@ -1,11 +1,11 @@
-const { responseErrorResponseSchema } = require('../src/rules');
+const { errorResponseSchemas } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = responseErrorResponseSchema;
-const ruleId = 'ibm-response-error-response-schema';
+const rule = errorResponseSchemas;
+const ruleId = 'ibm-error-response-schemas';
 const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: response-error-response-schema', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

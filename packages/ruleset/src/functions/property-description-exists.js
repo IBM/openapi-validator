@@ -2,7 +2,7 @@ const {
   schemaHasConstraint,
   validateSubschemas
 } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { pathMatchesRegexp, LoggerFactory } = require('../utils');
+const { LoggerFactory, pathMatchesRegexp } = require('../utils');
 
 let ruleId;
 let logger;
@@ -12,6 +12,7 @@ module.exports = function(schema, _opts, context) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
+
   return validateSubschemas(schema, context.path, propertyDescriptionExists);
 };
 

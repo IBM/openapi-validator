@@ -1,17 +1,17 @@
 const {
-  paths
+  schemas
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
-const { validatePathSegments } = require('../functions');
+const { schemaDescriptionExists } = require('../functions');
 
 module.exports = {
-  description: 'Validates individual path segments within a path string',
+  description: 'Schemas should have a non-empty description',
   message: '{{error}}',
+  given: schemas,
+  severity: 'warn',
   formats: [oas3],
-  given: paths,
-  severity: 'error',
   resolved: true,
   then: {
-    function: validatePathSegments
+    function: schemaDescriptionExists
   }
 };
