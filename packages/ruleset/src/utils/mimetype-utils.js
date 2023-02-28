@@ -9,7 +9,7 @@ function isJsonMimeType(mimeType) {
     return false;
   }
 
-  const mimeTypeRE = /^application\/json(;.*)?$/i;
+  const mimeTypeRE = /^application\/json(\s*;.*)?$/i;
   return mimeTypeRE.test(mimeType);
 }
 
@@ -25,7 +25,7 @@ function isJsonPatchMimeType(mimeType) {
   }
 
   // Regular expressions for each allowable content type.
-  const mimeTypeRE = /^application\/json-patch\+json(;.*)?$/i;
+  const mimeTypeRE = /^application\/json-patch\+json(\s*;.*)?$/i;
   return mimeTypeRE.test(mimeType);
 }
 
@@ -40,7 +40,7 @@ function isMergePatchMimeType(mimeType) {
     return false;
   }
 
-  const mimeTypeRE = /^application\/merge-patch\+json(;.*)?$/i;
+  const mimeTypeRE = /^application\/merge-patch\+json(\s*;.*)?$/i;
   return mimeTypeRE.test(mimeType);
 }
 
@@ -57,10 +57,10 @@ function isFormMimeType(mimeType) {
 
   // Form-related mimetype regex's.
   const formMimeTypeREs = [
-    /^multipart\/form-data(;.*)?$/i,
-    /^multipart\/related(;.*)?$/i,
-    /^multipart\/mixed(;.*)?$/i,
-    /^application\/x-www-form-urlencoded(;.*)?$/i
+    /^multipart\/form-data(\s*;.*)?$/i,
+    /^multipart\/related(\s*;.*)?$/i,
+    /^multipart\/mixed(\s*;.*)?$/i,
+    /^application\/x-www-form-urlencoded(\s*;.*)?$/i
   ];
 
   return !!formMimeTypeREs.find(re => re.test(mimeType));
