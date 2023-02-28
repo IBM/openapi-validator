@@ -2,7 +2,7 @@ const {
   schemas
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
-const { enumCaseConvention } = require('../functions');
+const { enumCasingConvention } = require('../functions');
 
 module.exports = {
   description: 'Enum values must follow a specified case convention',
@@ -11,7 +11,7 @@ module.exports = {
   given: schemas,
   severity: 'error',
   then: {
-    function: enumCaseConvention,
+    function: enumCasingConvention,
     functionOptions: {
       type: 'snake'
     }

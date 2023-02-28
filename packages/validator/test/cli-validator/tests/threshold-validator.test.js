@@ -1,6 +1,3 @@
-// the rule names are all snake case and need to stay that way. don't lint them
-/* eslint-disable camelcase */
-
 const { getCapturedText, testValidator } = require('../../test-utils');
 
 describe('test the .thresholdrc limits', function() {
@@ -27,7 +24,7 @@ describe('test the .thresholdrc limits', function() {
     const exitCode = await testValidator([
       '--limits',
       './test/cli-validator/mock-files/thresholds/five-warnings.json',
-      './test/cli-validator/mock-files/warn-threshold.yml'
+      './test/cli-validator/mock-files/oas3/warn-threshold.yml'
     ]);
     expect(exitCode).toEqual(1);
 
@@ -41,7 +38,7 @@ describe('test the .thresholdrc limits', function() {
     const exitCode = await testValidator([
       '--limits',
       './test/cli-validator/mock-files/thresholds/invalid-values.json',
-      './test/cli-validator/mock-files/clean.yml'
+      './test/cli-validator/mock-files/oas3/clean.yml'
     ]);
     // limit values invalid, so default limit, Number.MAX_VALUE, used
     const capturedText = getCapturedText(consoleSpy.mock.calls);
@@ -58,7 +55,7 @@ describe('test the .thresholdrc limits', function() {
 
   it('should give exit code 0 when warnings limit not exceeded', async function() {
     const exitCode = await testValidator([
-      './test/cli-validator/mock-files/clean.yml',
+      './test/cli-validator/mock-files/oas3/clean.yml',
       '--limits',
       './test/cli-validator/mock-files/thresholds/zero-warnings.json'
     ]);
@@ -69,7 +66,7 @@ describe('test the .thresholdrc limits', function() {
     const args = [
       '--limits',
       './test/cli-validator/mock-files/thresholds/invalid-json.json',
-      './test/cli-validator/mock-files/clean.yml'
+      './test/cli-validator/mock-files/oas3/clean.yml'
     ];
     await expect(testValidator(args)).rejects.toBe(2);
 

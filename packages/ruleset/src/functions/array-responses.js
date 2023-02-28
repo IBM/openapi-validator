@@ -5,7 +5,7 @@ let logger;
 module.exports = function(operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
-    logger = LoggerFactory.newInstance().getLogger(ruleId);
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForArrayResponses(operation, context.path);
 };

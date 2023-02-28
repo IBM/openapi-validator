@@ -16,7 +16,7 @@ const { LoggerFactory } = require('../utils');
  */
 module.exports = function(param, options, context) {
   const ruleId = context.rule.name;
-  const logger = LoggerFactory.newInstance().getLogger(ruleId);
+  const logger = LoggerFactory.getInstance().getLogger(ruleId);
 
   if (!options || !options.headerName || !options.headerName.trim().length) {
     throw new Error(

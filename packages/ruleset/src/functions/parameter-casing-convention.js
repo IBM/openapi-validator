@@ -17,7 +17,7 @@ let logger;
 module.exports = function(param, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
-    logger = LoggerFactory.newInstance().getLogger(ruleId);
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return parameterCasingConvention(param, context.path, options);
 };

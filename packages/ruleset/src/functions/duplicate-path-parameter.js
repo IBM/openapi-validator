@@ -9,7 +9,7 @@ let logger;
 module.exports = function(pathItem, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
-    logger = LoggerFactory.newInstance().getLogger(ruleId);
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return duplicatePathParameter(pathItem, context.path);
 };

@@ -1,13 +1,13 @@
-const { propertyCaseConvention } = require('../src/rules');
+const { propertyCasingConvention } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-property-case-convention';
+const ruleId = 'ibm-property-casing-convention';
+const rule = propertyCasingConvention;
 const expectedSeverity = severityCodes.error;
 
 describe('Spectral rule: property-case-convention', () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(name, propertyCaseConvention, rootDocument);
-
+    const results = await testRule(ruleId, rule, rootDocument);
     expect(results).toHaveLength(0);
   });
 
@@ -27,8 +27,7 @@ describe('Spectral rule: property-case-convention', () => {
       }
     };
 
-    const results = await testRule(name, propertyCaseConvention, testDocument);
-
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(0);
   });
 
@@ -47,25 +46,17 @@ describe('Spectral rule: property-case-convention', () => {
       }
     };
 
-    const results = await testRule(name, propertyCaseConvention, testDocument);
-
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Property names must be snake case: plotSummary'
     );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'properties'
-    ]);
+    expect(validation.path.join('.')).toBe(
+      'paths./v1/movies.post.requestBody.content.application/json.schema.properties'
+    );
     expect(validation.severity).toBe(expectedSeverity);
   });
 });

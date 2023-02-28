@@ -1,16 +1,12 @@
-const { prohibitSummarySentenceStyle } = require('../src/rules');
+const { summarySentenceStyle } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-prohibit-summary-sentence-style';
+const ruleId = 'ibm-summary-sentence-style';
+const rule = summarySentenceStyle;
 
 describe('Spectral rule: prohibit-summary-sentence-style', () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(
-      name,
-      prohibitSummarySentenceStyle,
-      rootDocument
-    );
-
+    const results = await testRule(ruleId, rule, rootDocument);
     expect(results).toHaveLength(0);
   });
 
@@ -18,18 +14,13 @@ describe('Spectral rule: prohibit-summary-sentence-style', () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post.summary = 'Should not be a sentence.';
 
-    const results = await testRule(
-      name,
-      prohibitSummarySentenceStyle,
-      testDocument
-    );
-
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Summary should not have a trailing period'
+      'Operation summaries should not have a trailing period'
     );
     expect(validation.path).toStrictEqual([
       'paths',
