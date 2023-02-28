@@ -1,4 +1,14 @@
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
 module.exports = function(operation, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
   return responseStatusCodes(
     operation,
     context.path,
@@ -26,6 +36,12 @@ function responseStatusCodes(operation, path, apidef) {
   if (!operation.responses) {
     return [];
   }
+
+  logger.debug(
+    `${ruleId}: checking status codes for operation at location: ${path.join(
+      '.'
+    )}`
+  );
 
   const errors = [];
 
@@ -98,6 +114,14 @@ function responseStatusCodes(operation, path, apidef) {
         path: [...path, 'responses']
       });
     }
+  }
+
+  if (errors.length) {
+    logger.debug(
+      `${ruleId}: found these errors:\n${JSON.stringify(errors, null, 2)}`
+    );
+  } else {
+    logger.debug(`${ruleId}: PASSED!`);
   }
 
   return errors;

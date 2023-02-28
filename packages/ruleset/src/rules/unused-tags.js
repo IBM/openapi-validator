@@ -1,5 +1,5 @@
 const { oas3 } = require('@stoplight/spectral-formats');
-const { unusedTag } = require('../functions');
+const { unusedTags } = require('../functions');
 
 module.exports = {
   description: 'Checks that each defined tag is actually used',
@@ -9,6 +9,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: unusedTag
+    function: unusedTags
   }
 };

@@ -47,6 +47,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-duplicate-path-parameter](#ibm-duplicate-path-parameter)
   * [ibm-enum-casing-convention](#ibm-enum-casing-convention)
   * [ibm-error-content-type-is-json](#ibm-error-content-type-is-json)
+  * [ibm-error-response-schemas](#ibm-error-response-schemas)
   * [ibm-etag-header-exists](#ibm-etag-header-exists)
   * [ibm-examples-name-contains-space](#ibm-examples-name-contains-space)
   * [ibm-if-modified-since-header](#ibm-if-modified-since-header)
@@ -72,28 +73,27 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-precondition-header](#ibm-precondition-header)
   * [ibm-property-attributes](#ibm-property-attributes)
   * [ibm-property-casing-convention](#ibm-property-casing-convention)
+  * [ibm-property-consistent-name-and-type](#ibm-property-consistent-name-and-type)
   * [ibm-property-description-exists](#ibm-property-description-exists)
-  * [ibm-property-inconsistent-name-and-type](#ibm-property-inconsistent-name-and-type)
   * [ibm-property-name-collision](#ibm-property-name-collision)
   * [ibm-ref-pattern](#ibm-ref-pattern)
   * [ibm-ref-sibling-duplicate-description](#ibm-ref-sibling-duplicate-description)
-  * [ibm-request-body-name](#ibm-request-body-name)
-  * [ibm-request-body-object](#ibm-request-body-object)
-  * [ibm-response-error-response-schema](#ibm-response-error-response-schema)
+  * [ibm-requestbody-name-exists](#ibm-requestbody-name-exists)
+  * [ibm-requestbody-is-object](#ibm-requestbody-is-object)
   * [ibm-required-property-missing](#ibm-required-property-missing)
-  * [ibm-response-example-provided](#ibm-response-example-provided)
+  * [ibm-response-example-exists](#ibm-response-example-exists)
   * [ibm-response-status-codes](#ibm-response-status-codes)
-  * [ibm-schema-description](#ibm-schema-description)
-  * [ibm-schema-type](#ibm-schema-type)
+  * [ibm-schema-description-exists](#ibm-schema-description-exists)
+  * [ibm-schema-type-exists](#ibm-schema-type-exists)
+  * [ibm-schema-type-format](#ibm-schema-type-format)
   * [ibm-sdk-operations](#ibm-sdk-operations)
-  * [ibm-security-scheme-attributes](#ibm-security-scheme-attributes)
-  * [ibm-security-schemes](#ibm-security-schemes)
+  * [ibm-securityscheme-attributes](#ibm-securityscheme-attributes)
+  * [ibm-securityschemes](#ibm-securityschemes)
   * [ibm-server-variable-default-value](#ibm-server-variable-default-value)
   * [ibm-string-attributes](#ibm-string-attributes)
   * [ibm-summary-sentence-style](#ibm-summary-sentence-style)
-  * [ibm-unused-tag](#ibm-unused-tag)
+  * [ibm-unused-tags](#ibm-unused-tags)
   * [ibm-valid-path-segments](#ibm-valid-path-segments)
-  * [ibm-valid-type-format](#ibm-valid-type-format)
 
 <!-- tocstop -->
 
@@ -236,6 +236,12 @@ which is not allowed.</td>
 <td><a href="#ibm-error-content-type-is-json">ibm-error-content-type-is-json</a></td>
 <td>warn</td>
 <td>Error response should support <code>application/json</code></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-error-response-schemas">ibm-error-response-schemas</a></td>
+<td>warn</td>
+<td>Error response schemas should comply with API Handbook guidance</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -391,15 +397,15 @@ or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-property-description-exists">ibm-property-description-exists</a></td>
-<td>warn</td>
-<td>Schema properties should have a non-empty description</td>
+<td><a href="#ibm-property-consistent-name-and-type">ibm-property-consistent-name-and-type</a></td>
+<td>off</td>
+<td>Schema properties that share the same name should also share the same type. This rule is disabled by default.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-property-inconsistent-name-and-type">ibm-property-inconsistent-name-and-type</a></td>
-<td>off</td>
-<td>Avoid using the same property name for properties of different types. This rule is disabled by default.</td>
+<td><a href="#ibm-property-description-exists">ibm-property-description-exists</a></td>
+<td>warn</td>
+<td>Schema properties should have a non-empty description</td>
 <td>oas3</td>
 </tr>
 <td><a href="#ibm-property-name-collision">ibm-property-name-collision</a></td>
@@ -420,16 +426,16 @@ or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-request-body-name">ibm-request-body-name</a></td>
+<td><a href="#ibm-requestbody-name-exists">ibm-requestbody-name-exists</a></td>
 <td>warn</td>
 <td>An operation should specify a request body name (with the <code>x-codegen-request-body-name</code> extension) if its requestBody
 has non-form content.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-request-body-object">ibm-request-body-object</a></td>
+<td><a href="#ibm-requestbody-is-object">ibm-requestbody-is-object</a></td>
 <td>warn</td>
-<td>A request body should be defined as an object</td>
+<td>A non-form request body should be defined as an object</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -441,15 +447,9 @@ has non-form content.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-response-error-response-schema">ibm-response-error-response-schema</a></td>
+<td><a href="#ibm-response-example-exists">ibm-response-example-exists</a></td>
 <td>warn</td>
-<td>Error response schemas should comply with API Handbook guidance</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-response-example-provided">ibm-response-example-provided</a></td>
-<td>warn</td>
-<td>Response should provide an example</td>
+<td>Each response should provide an example</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -459,15 +459,21 @@ has non-form content.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-schema-description">ibm-schema-description</a></td>
+<td><a href="#ibm-schema-description-exists">ibm-schema-description-exists</a></td>
 <td>warn</td>
 <td>Schemas should have a non-empty description</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-schema-type">ibm-schema-type</a></td>
+<td><a href="#ibm-schema-type-exists">ibm-schema-type-exists</a></td>
 <td>off</td>
 <td>Schemas and schema properties should have a non-empty <code>type</code> field. <b>This rule is disabled by default.</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-schema-type-format">ibm-schema-type-format</a></td>
+<td>error</td>
+<td>Schemas and schema properties must use a valid combination of <code>type</code> and <code>format</code></td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -477,13 +483,13 @@ has non-form content.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-security-scheme-attributes">ibm-security-schemes</a></td>
+<td><a href="#ibm-securityscheme-attributes">ibm-securityscheme-attributes</a></td>
 <td>warn</td>
 <td>Performs a series of validations on the content within security schemes</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-security-schemes">ibm-security-schemes</a></td>
+<td><a href="#ibm-securityschemes">ibm-securityschemes</a></td>
 <td>warn</td>
 <td>Verifies the security schemes and security requirement objects</td>
 <td>oas3</td>
@@ -507,7 +513,7 @@ has non-form content.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-unused-tag">ibm-unused-tag</a></td>
+<td><a href="#ibm-unused-tags">ibm-unused-tags</a></td>
 <td>warn</td>
 <td>Verifies that each defined tag is referenced by at least one operation</td>
 <td>oas3</td>
@@ -516,12 +522,6 @@ has non-form content.</td>
 <td><a href="#ibm-valid-path-segments">ibm-valid-path-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API to make sure path parameter references are valid within path segments</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-valid-type-format">ibm-valid-type-format</a></td>
-<td>error</td>
-<td>Schema must use a valid combination of <code>type</code> and <code>format</code></td>
 <td>oas3</td>
 </tr>
 </table>
@@ -1888,6 +1888,157 @@ responses:
     content:
       'application/json':
         ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-error-response-schemas
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-error-response-schemas</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule implements the guidance related to error response schemas found in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors">API Handbook</a>.
+<p>Specifically, the following checks are performed against each schema associated with an error response:
+<ul>
+<li>The error response schema should form a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-container-model">error container model</a> as
+described by the API Handbook.</li>
+<li>The <code>errors</code> property must be an array whose <code>items</code> field is a schema that forms a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-model">error model</a>
+as described in the API Handbook.</li>
+<li>If present, the <code>target</code> property must contain a valid
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-target-model">error target model</a>
+as described in the API Handbook.</li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Thing'
+    responses:
+      '201':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      '400':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorContainer'
+components:
+  schemas:
+    ErrorContainer:
+      description: 'An error response for an operation.'
+      type: object
+      properties:
+        error:
+          $ref: '#/components/schemas/Error'
+        trace:
+          description: 'The error trace information.'
+          type: string
+          format: uuid
+    Error:
+      description: 'An error response entry.'
+      type: object
+      properties:
+        code:
+          description: 'The error code.'
+          type: integer
+        message:
+          description: 'The error message.'
+          type: string
+        more_info:
+          description: 'Additional info about the error.'
+          type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Thing'
+    responses:
+      '201':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+      '400':
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ErrorContainer'
+components:
+  schemas:
+    ErrorContainer:
+      description: 'An error response for an operation.'
+      type: object
+      properties:
+        errors:
+          type: array
+          minItems: 0,
+          maxItems: 100,
+          description: 'The array of error entries associated with the error response',
+          items:
+            $ref: '#/components/schemas/Error'
+        trace:
+          description: 'The error trace information.'
+          type: string
+          format: uuid
+        }
+      }
+    },
+    Error:
+      description: 'An error response entry.'
+      type: object
+      properties:
+        code:
+          description: 'The error code.'
+          type: string
+          enum:
+            - 'bad_request'
+            - 'not_authorized'
+            - 'no_need_to_know'
+        },
+        message:
+          description: 'The error message.'
+          type: string
+        more_info:
+          description: 'Additional info about the error.'
+          type: string
 </pre>
 </td>
 </tr>
@@ -3735,70 +3886,16 @@ components:
 </table>
 
 
-### ibm-property-description-exists
+### ibm-property-consistent-name-and-type
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-property-description-exists</b></td>
+<td><b>ibm-property-consistent-name-and-type</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Schema properties should have a non-empty description.</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          type: string
-        thing_type:
-          type: string
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_id:
-          description: The ID associated with the Thing instance.
-          type: string
-        thing_type:
-          description: The type associated with the Thing instance.
-          type: string
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-property-inconsistent-name-and-type
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-property-inconsistent-name-and-type</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>Avoid using the same property name for properties of different types.
+<td>Like-named schema properties (from different schemas) should have the same type to ensure consistency
+throughout the API definition.
 <br><br>
 <b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
 </td>
@@ -3849,6 +3946,61 @@ components:
       properties:
         name:
           description: The name of the OtherThing.
+          type: string
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-property-description-exists
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-property-description-exists</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Schema properties should have a non-empty description.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_type:
+          type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          description: The ID associated with the Thing instance.
+          type: string
+        thing_type:
+          description: The type associated with the Thing instance.
           type: string
 </pre>
 </td>
@@ -4144,11 +4296,11 @@ components:
 </table>
 
 
-### ibm-request-body-name
+### ibm-requestbody-name-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-request-body-name</b></td>
+<td><b>ibm-requestbody-name-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4209,15 +4361,15 @@ paths:
 </table>
 
 
-### ibm-request-body-object
+### ibm-requestbody-is-object
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-request-body-object</b></td>
+<td><b>ibm-requestbody-is-object</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Each request body should be defined as an object.</td>
+<td>Each non-form-based request body should be defined as an object.</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -4251,169 +4403,6 @@ requestBody:
         properties:
           prop1:
             type: string
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-response-error-response-schema
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-response-error-response-schema</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>This rule implements the guidance related to error response schemas found in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors">API Handbook</a>.
-<p>Specifically, the following checks are performed against each schema associated with an error response:
-<ul>
-<li>The error response schema should form a valid
-<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-container-model">error container model</a> as
-described by the API Handbook.</li>
-<li>The <code>errors</code> property must be an array whose <code>items</code> field is a schema that forms a valid
-<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-model">error model</a>
-as described in the API Handbook.</li>
-<li>If present, the <code>target</code> property must contain a valid
-<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-target-model">error target model</a>
-as described in the API Handbook.</li>
-</ul>
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-paths:
-  '/v1/things':
-    post:
-      operationId: create_thing
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Thing'
-    responses:
-      '201':
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Thing'
-      '400':
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ErrorContainer'
-components:
-  schemas:
-    ErrorContainer: {
-      description: 'An error response for an operation.',
-      type: 'object',
-      properties: {
-        error: {
-          $ref: '#/components/schemas/Error'
-        },
-        trace: {
-          description: 'The error trace information.',
-          type: 'string',
-          format: 'uuid'
-        }
-      }
-    },
-    Error: {
-      description: 'An error response entry.',
-      type: 'object',
-      properties: {
-        code: {
-          description: 'The error code.',
-          type: 'integer'
-        },
-        message: {
-          description: 'The error message.',
-          type: 'string'
-        },
-        more_info: {
-          description: 'Additional info about the error.',
-          type: 'string'
-        },
-      }
-    }
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-paths:
-  '/v1/things':
-    post:
-      operationId: create_thing
-    requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Thing'
-    responses:
-      '201':
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Thing'
-      '400':
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ErrorContainer'
-components:
-  schemas:
-    ErrorContainer: {
-      description: 'An error response for an operation.',
-      type: 'object',
-      properties: {
-        errors: {
-          type: 'array',
-          minItems: 0,
-          maxItems: 100,
-          description: 'The array of error entries associated with the error response',
-          items: {
-            $ref: '#/components/schemas/Error'
-          }
-        },
-        trace: {
-          description: 'The error trace information.',
-          type: 'string',
-          format: 'uuid'
-        }
-      }
-    },
-    Error: {
-      description: 'An error response entry.',
-      type: 'object',
-      properties: {
-        code: {
-          description: 'The error code.',
-          type: 'string',
-          enum: ['bad_request', 'not_authorized', 'no_need_to_know']
-        },
-        message: {
-          description: 'The error message.',
-          type: 'string'
-        },
-        more_info: {
-          description: 'Additional info about the error.',
-          type: 'string'
-        },
-      }
-    }
 </pre>
 </td>
 </tr>
@@ -4485,11 +4474,11 @@ components:
 </table>
 
 
-### ibm-response-example-provided
+### ibm-response-example-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-response-example-provided</b></td>
+<td><b>ibm-response-example-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4662,15 +4651,15 @@ paths:
 </table>
 
 
-### ibm-schema-description
+### ibm-schema-description-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-schema-description</b></td>
+<td><b>ibm-schema-description-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Schemas should have a non-empty description.</td>
+<td>Each schema should include a description.</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -4712,16 +4701,16 @@ components:
 </table>
 
 
-### ibm-schema-type
+### ibm-schema-type-exists
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-schema-type</b></td>
+<td><b>ibm-schema-type-exists</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
 <td>
-Schemas should have a non-empty <code>type</code> field.
+Schemas and schema properties should have a non-empty <code>type</code> field.
 <br><br>
 <b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
 </td>
@@ -4756,6 +4745,99 @@ components:
       type: string
       description: An string schema
         ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-schema-type-format
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-schema-type-format</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Schemas and schema properties must use a valid combination of the <code>type</code> and <code>format</code> fields
+[<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types">1</a>].
+The following table defines the valid combinations:
+<table>
+<tr><th>Type</th><th>Formats</th></tr>
+<tr>
+<td valign=top>string</td>
+<td>
+<ul>
+<li>binary</li>
+<li>byte</li>
+<li>crn</li>
+<li>date</li>
+<li>date-time</li>
+<li>email</li>
+<li>identifier</li>
+<li>password</li>
+<li>url</li>
+<li>uuid</li>
+</ul>
+</td>
+</tr>
+<tr><td>boolean</td><td></td></tr>
+<tr><td valign=top>integer</td><td><ul><li>int32</li><li>int64</li></ul></td></tr>
+<tr><td valign=top>number</td><td><ul><li>float</li><li>double</li></ul></td></tr>
+<tr><td>object</td><td></td></tr>
+<tr><td>array</td><td></td></tr>
+</table>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: bad_object
+      properties:
+        thing_url:
+          type: url
+        thing_crn:
+          type: crn
+        thing_cost:
+          type: float
+        thing_contents:
+          type: byte-array
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_url:
+          type: string
+          format: url
+        thing_crn:
+          type: string
+          format: crn
+        thing_cost:
+          type: number
+          format: float
+        thing_contents:
+          type: string
+          format: byte
 </pre>
 </td>
 </tr>
@@ -4797,11 +4879,11 @@ n/a
 </table>
 
 
-### ibm-security-scheme-attributes
+### ibm-securityscheme-attributes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-security-scheme-attributes</b></td>
+<td><b>ibm-securityscheme-attributes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -4903,11 +4985,11 @@ components:
 </table>
 
 
-### ibm-security-schemes
+### ibm-securityschemes
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-security-schemes</b></td>
+<td><b>ibm-securityschemes</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5153,11 +5235,11 @@ paths:
 </table>
 
 
-### ibm-unused-tag
+### ibm-unused-tags
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-unused-tag</b></td>
+<td><b>ibm-unused-tags</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -5261,99 +5343,6 @@ paths:
   get:
     operationId: get_foo
     ...
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-valid-type-format
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-valid-type-format</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>Schemas and schema properties must use a valid combination of the <code>type</code> and <code>format</code> fields
-[<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types">1</a>].
-The following table defines the valid combinations:
-<table>
-<tr><th>Type</th><th>Formats</th></tr>
-<tr>
-<td valign=top>string</td>
-<td>
-<ul>
-<li>binary</li>
-<li>byte</li>
-<li>crn</li>
-<li>date</li>
-<li>date-time</li>
-<li>email</li>
-<li>identifier</li>
-<li>password</li>
-<li>url</li>
-<li>uuid</li>
-</ul>
-</td>
-</tr>
-<tr><td>boolean</td><td></td></tr>
-<tr><td valign=top>integer</td><td><ul><li>int32</li><li>int64</li></ul></td></tr>
-<tr><td valign=top>number</td><td><ul><li>float</li><li>double</li></ul></td></tr>
-<tr><td>object</td><td></td></tr>
-<tr><td>array</td><td></td></tr>
-</table>
-</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>error</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: bad_object
-      properties:
-        thing_url:
-          type: url
-        thing_crn:
-          type: crn
-        thing_cost:
-          type: float
-        thing_contents:
-          type: byte-array
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      type: object
-      properties:
-        thing_url:
-          type: string
-          format: url
-        thing_crn:
-          type: string
-          format: crn
-        thing_cost:
-          type: number
-          format: float
-        thing_contents:
-          type: string
-          format: byte
 </pre>
 </td>
 </tr>

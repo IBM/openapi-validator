@@ -7,7 +7,7 @@ const expectedSeverity = severityCodes.info;
 const expectedMsg =
   'An optional requestBody with required properties should probably be required';
 
-describe('Spectral rule: optional-request-body', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

@@ -1,12 +1,12 @@
-const { schemaDescription } = require('../src/rules');
+const { schemaDescriptionExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = schemaDescription;
-const ruleId = 'ibm-schema-description';
+const rule = schemaDescriptionExists;
+const ruleId = 'ibm-schema-description-exists';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Schema should have a non-empty description';
 
-describe('Spectral rule: schema-description', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

@@ -1,6 +1,15 @@
 const stringValidator = require('validator');
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
 
 module.exports = function(securityScheme, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
   return checkSecuritySchemeAttributes(
     securityScheme,
     context.path,
@@ -33,6 +42,10 @@ const validIns = ['query', 'header', 'cookie'];
  * @returns an array containing the violations found or [] if no violations
  */
 function checkSecuritySchemeAttributes(securityScheme, path, doc) {
+  logger.debug(
+    `${ruleId}: checking securityScheme at location; ${path.join('.')}`
+  );
+
   const errors = [];
   const serviceUrl = getServiceUrl(doc);
   const type = securityScheme.type;
@@ -222,6 +235,14 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
         }
       }
     }
+  }
+
+  if (errors.length) {
+    logger.debug(
+      `${ruleId}: found these errors:\n${JSON.stringify(errors, null, 2)}`
+    );
+  } else {
+    logger.debug(`${ruleId}: PASSED!`);
   }
 
   return errors;

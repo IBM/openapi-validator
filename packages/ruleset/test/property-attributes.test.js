@@ -5,7 +5,7 @@ const rule = propertyAttributes;
 const ruleId = 'ibm-property-attributes';
 const expectedSeverity = severityCodes.error;
 
-describe('Spectral rule: ibm-property-attributes', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

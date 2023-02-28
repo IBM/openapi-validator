@@ -3,23 +3,24 @@ const {
   isJsonMimeType,
   isFormMimeType,
   isJsonPatchMimeType,
-  isMergePatchMimeType
+  isMergePatchMimeType,
+  LoggerFactory
 } = require('../utils');
 
-module.exports = function(operation, _opts, { path }) {
-  return requestBodyName(operation, path);
+let ruleId;
+let logger;
+
+module.exports = function(operation, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return requestBodyNameExists(operation, context.path);
 };
 
-// Rudimentary debug logging that is useful in debugging this rule.
-const debugEnabled = false;
-function debug(msg) {
-  if (debugEnabled) {
-    console.log(msg);
-  }
-}
-
 // Name of the extension that we're looking for.
-const REQUEST_BODY_NAME = 'x-codegen-request-body-name';
+const EXTENSION_NAME = 'x-codegen-request-body-name';
 
 /**
  * This function implements the 'request-body-name' rule.
@@ -33,12 +34,12 @@ const REQUEST_BODY_NAME = 'x-codegen-request-body-name';
  * @param {*} path the array of path segments indicating the "location" of "op" within the API definition
  * @returns an array containing the violations found or [] if no violations
  */
-function requestBodyName(op, path) {
-  debug(
-    '>>> Visiting operation: ' + op.operationId + ' [' + path.join('.') + ']'
+function requestBodyNameExists(op, path) {
+  logger.debug(
+    `${ruleId}: checking operation '${op.operationId}' at location: ${path.join(
+      '.'
+    )}`
   );
-
-  const errors = [];
 
   // If this operation needs a request body name, then check for one.
   if (
@@ -47,25 +48,32 @@ function requestBodyName(op, path) {
     op.requestBody.content &&
     needRequestBodyName(op.requestBody)
   ) {
+    logger.debug(
+      `${ruleId}: operation needs the '${EXTENSION_NAME}' extension.`
+    );
+
     const hasRequestBodyName =
-      op[REQUEST_BODY_NAME] && op[REQUEST_BODY_NAME].trim().length;
+      op[EXTENSION_NAME] && op[EXTENSION_NAME].trim().length;
 
     if (!hasRequestBodyName) {
-      errors.push({
-        message:
-          'Operations with non-form request bodies should set a name with the x-codegen-request-body-name extension.',
-        path
-      });
+      logger.debug(`${ruleId}: extension not foud!`);
+
+      return [
+        {
+          message: `Operation with non-form requestBody should set a name with the ${EXTENSION_NAME} extension.`,
+          path
+        }
+      ];
+    } else {
+      logger.debug(`${ruleId}: found the extension!`);
     }
-  }
-
-  if (errors.length) {
-    debug('>>> Returning errors: ' + JSON.stringify(errors, null, 2));
   } else {
-    debug('>>> PASSED!');
+    logger.debug(
+      `${ruleId}: operation doesn't need the '${EXTENSION_NAME}' extension.`
+    );
   }
 
-  return errors;
+  return [];
 }
 
 /**
@@ -123,6 +131,10 @@ function needRequestBodyName(requestBody) {
     !hasDiscriminator;
 
   const hasFormContent = mimeTypes.find(m => isFormMimeType(m));
+
+  logger.debug(
+    `${ruleId}: bodyWillBeExploded=${!!bodyWillBeExploded}, hasFormContent=${!!hasFormContent}`
+  );
 
   return !bodyWillBeExploded && !hasFormContent;
 }

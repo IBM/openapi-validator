@@ -6,7 +6,7 @@ const ruleId = 'ibm-operation-id-naming-convention';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgPrefix = /^operationIds should follow naming convention: operationId verb should be.*$/;
 
-describe('Spectral rule: operation-id-naming-convention', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

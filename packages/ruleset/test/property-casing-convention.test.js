@@ -5,7 +5,7 @@ const ruleId = 'ibm-property-casing-convention';
 const rule = propertyCasingConvention;
 const expectedSeverity = severityCodes.error;
 
-describe('Spectral rule: property-case-convention', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
     const results = await testRule(ruleId, rule, rootDocument);
     expect(results).toHaveLength(0);

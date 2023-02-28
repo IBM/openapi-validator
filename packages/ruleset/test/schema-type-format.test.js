@@ -1,8 +1,8 @@
-const { validTypeFormat } = require('../src/rules');
+const { schemaTypeFormat } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = validTypeFormat;
-const ruleId = 'ibm-valid-type-format';
+const rule = schemaTypeFormat;
+const ruleId = 'ibm-schema-type-format';
 const expectedSeverity = severityCodes.error;
 
 const errorMsgInvalidType = /^Invalid type. Valid types are:.*$/;
@@ -107,7 +107,7 @@ const validNumberProperties = {
   }
 };
 
-describe('Spectral rule: valid-type-format', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

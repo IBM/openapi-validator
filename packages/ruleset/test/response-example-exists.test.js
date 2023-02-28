@@ -1,11 +1,12 @@
-const { responseExampleProvided } = require('../src/rules');
+const { responseExampleExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const name = 'ibm-response-example-provided';
+const ruleId = 'ibm-response-example-exists';
+const rule = responseExampleExists;
 
-describe('Spectral rule: response-example-provided', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
-    const results = await testRule(name, responseExampleProvided, rootDocument);
+    const results = await testRule(ruleId, rule, rootDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -21,7 +22,7 @@ describe('Spectral rule: response-example-provided', () => {
       'application/json'
     ].examples = [{ value: { name: 'The Return of the King' } }];
 
-    const results = await testRule(name, responseExampleProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(0);
   });
@@ -36,12 +37,12 @@ describe('Spectral rule: response-example-provided', () => {
       }
     };
 
-    const results = await testRule(name, responseExampleProvided, testDocument);
+    const results = await testRule(ruleId, rule, testDocument);
 
     expect(results).toHaveLength(1);
 
     const validation = results[0];
-    expect(validation.code).toBe(name);
+    expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
       'Response bodies should include an example response'
     );

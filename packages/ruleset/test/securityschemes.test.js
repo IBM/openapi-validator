@@ -2,7 +2,7 @@ const { securitySchemes } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = securitySchemes;
-const ruleId = 'ibm-security-schemes';
+const ruleId = 'ibm-securityschemes';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgUndefinedScheme = 'An undefined security scheme is referenced';
 const expectedMsgUndefinedScope = 'An undefined security scope is referenced';
@@ -11,7 +11,7 @@ const expectedMsgUnusedScope = 'A security scope is defined but never used';
 const expectedMsgScopesNotSupported =
   'For security scheme types that do not support scopes, the value must be an empty array';
 
-describe('Spectral rule: security-schemes', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

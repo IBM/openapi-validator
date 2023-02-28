@@ -1,7 +1,16 @@
 const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
-  return validateSubschemas(schema, path, checkDuplicateDescription);
+let ruleId;
+let logger;
+
+module.exports = function(schema, _opts, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return validateSubschemas(schema, context.path, checkDuplicateDescription);
 };
 
 function checkDuplicateDescription(schema, path) {
@@ -16,6 +25,10 @@ function checkDuplicateDescription(schema, path) {
   if (!description1) {
     return [];
   }
+
+  logger.debug(
+    `${ruleId}: checking descriptions at location: ${path.join('.')}.allOf`
+  );
 
   // Next, if 'schema' itself has a description, then we'll use that
   // as the second description in the comparison.
@@ -33,11 +46,13 @@ function checkDuplicateDescription(schema, path) {
   }
 
   if (!description2) {
+    logger.debug(`${ruleId}: second description not present`);
     return [];
   }
 
   // We have non-empty descriptions to compare...
   if (description1 === description2) {
+    logger.debug(`${ruleId}: found a duplicate!`);
     return [
       {
         message: 'Duplicate ref-sibling description is unnecessary',

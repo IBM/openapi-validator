@@ -1,5 +1,15 @@
-module.exports = function(pathItem, options, { path }) {
-  return validatePathSegments(path);
+const { LoggerFactory } = require('../utils');
+
+let ruleId;
+let logger;
+
+module.exports = function(pathItem, options, context) {
+  if (!logger) {
+    ruleId = context.rule.name;
+    logger = LoggerFactory.getInstance().getLogger(ruleId);
+  }
+
+  return validatePathSegments(context.path);
 };
 
 /**
@@ -12,11 +22,16 @@ module.exports = function(pathItem, options, { path }) {
  * @returns an array containing the violations found or [] if no violations
  */
 function validatePathSegments(path) {
+  logger.debug(
+    `${ruleId}: checking path segments at location: ${path.join('.')}`
+  );
+
   // The path string itself (e.g. '/v1/clouds/{id}') will be the last element in 'path'.
   const pathStr = path[path.length - 1].toString();
 
   // Parse the path string into the individual path segments.
   const segments = pathStr.split('/');
+  logger.debug(`${ruleId}: found these path segments: ${segments}`);
 
   // Validate each path segment.
   const errors = [];
@@ -27,6 +42,7 @@ function validatePathSegments(path) {
     // path param reference.
     if (segment.indexOf('{') >= 0 || segment.indexOf('}') >= 0) {
       if (!/^{[^}]*}$/.test(segment)) {
+        logger.debug(`${ruleId}: path segment failed check: '${segment}'`);
         errors.push({
           message: `Invalid path parameter reference within path segment: ${segment}`,
           path

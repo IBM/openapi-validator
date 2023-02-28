@@ -1,17 +1,17 @@
-const { schemaType } = require('../src/rules');
+const { schemaTypeExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = schemaType;
+const rule = schemaTypeExists;
 // this rule is turned off by default - enable it to run tests
 // but still verify it is defined in the rule as "off"
 const originalSeverity = makeCopy(rule.severity);
 rule.severity = 'warn';
 
-const ruleId = 'ibm-schema-type';
+const ruleId = 'ibm-schema-type-exists';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Schema should have a non-empty `type` field.';
 
-describe('Spectral rule: schema-type', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   it('Should originally be set to severity: "off"', () => {
     expect(originalSeverity).toBe('off');
   });

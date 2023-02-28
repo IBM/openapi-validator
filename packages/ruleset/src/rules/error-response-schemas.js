@@ -1,5 +1,5 @@
 const { oas3 } = require('@stoplight/spectral-formats');
-const { errorResponseSchema } = require('../functions');
+const { errorResponseSchemas } = require('../functions');
 
 module.exports = {
   description:
@@ -11,6 +11,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: errorResponseSchema
+    function: errorResponseSchemas
   }
 };

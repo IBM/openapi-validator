@@ -1,11 +1,11 @@
-const { unusedTag } = require('../src/rules');
+const { unusedTags } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const rule = unusedTag;
-const ruleId = 'ibm-unused-tag';
+const rule = unusedTags;
+const ruleId = 'ibm-unused-tags';
 const expectedSeverity = severityCodes.warning;
 
-describe('Spectral rule: unused-tag', () => {
+describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
