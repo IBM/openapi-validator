@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const isObject = require('./is-object');
 const schemaHasConstraint = require('./schema-has-constraint');
 

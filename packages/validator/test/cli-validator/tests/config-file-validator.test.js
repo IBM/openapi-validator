@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 // the rule names are all snake case and need to stay that way. don't lint them
 /* eslint-disable camelcase */
 

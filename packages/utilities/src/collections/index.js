@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 // A group of predefined "collections" of OpenAPI locations to validate,
 // to be re-used by multiple rules.
 

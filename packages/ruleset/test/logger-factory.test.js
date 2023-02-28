@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const { LoggerFactory } = require('../src/utils');
 
 describe('LoggerFactory tests', () => {
@@ -139,6 +144,16 @@ describe('LoggerFactory tests', () => {
     expect(messages[1]).toContain('should be');
     expect(messages[2]).toContain('should be');
     expect(messages[3]).toContain('should be');
+  });
+
+  it('Ensure correct levels with root and non-root loggers', async () => {
+    loggerFactory.addLoggerSetting('root', 'debug');
+    loggerFactory.applySettingsToAllLoggers();
+    let logger = loggerFactory.getLogger('root');
+    expect(logger.getLevel()).toBe(logger.levels.DEBUG);
+
+    logger = loggerFactory.getLogger('my-rule');
+    expect(logger.getLevel()).toBe(logger.levels.WARN);
   });
 });
 

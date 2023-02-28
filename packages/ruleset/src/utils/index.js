@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 module.exports = {
   getCompositeSchemaAttribute: require('./get-composite-schema-attribute'),
   isDeprecated: require('./is-deprecated'),

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const log = require('loglevel');
 const minimatch = require('minimatch');
 
@@ -54,6 +59,17 @@ module.exports = class LoggerFactory {
       name && name !== 'root'
         ? this.rootLogger.getLogger(name)
         : this.rootLogger;
+
+    // If the root logger already has a loglevel set on it
+    // that is different from the default ("warn"), then any
+    // new loggers created from the root logger will also have
+    // that same level set on it automatically.
+    // So, to avoid that, we'll set the new logger's level
+    // immediately to the default ("warn"), then let the
+    // "applyLoggerSettings()" method potentially set it to the
+    // correct level per user-supplied command-line options.
+    logger.setLevel('warn');
+
     this.applyLoggerSettings(name, logger);
     return logger;
   }

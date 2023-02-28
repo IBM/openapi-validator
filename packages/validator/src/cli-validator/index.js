@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
 
 // this module enforces that the user is running a supported version
 // of Node by exiting the process if the version is less than

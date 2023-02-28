@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const { pattern } = require('@stoplight/spectral-functions');
 const { oas3 } = require('@stoplight/spectral-formats');
 

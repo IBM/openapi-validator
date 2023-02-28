@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 // Expose validator utils as a module with each sub-module as a property
 
 module.exports.checkCase = require('./case-convention-check');

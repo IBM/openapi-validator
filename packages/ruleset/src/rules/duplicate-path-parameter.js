@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const {
   paths
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');

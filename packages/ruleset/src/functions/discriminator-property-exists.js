@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 // Assertation 1:
 // if discriminator exist inside schema object, it must be of type Object
 // enforced by Spectral's oas3-schema rule
