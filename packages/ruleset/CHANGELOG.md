@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [0.45.5](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.45.4...@ibm-cloud/openapi-ruleset@0.45.5) (2023-02-28)
+
+
+### Bug Fixes
+
+* **utils:** recognize content types with valid whitespace ([#557](https://github.com/IBM/openapi-validator/issues/557)) ([69c619d](https://github.com/IBM/openapi-validator/commit/69c619d693b5da814879d17765173b5d21fdc928))
+
 ## @ibm-cloud/openapi-ruleset [0.45.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@0.45.3...@ibm-cloud/openapi-ruleset@0.45.4) (2023-02-24)
 
 
