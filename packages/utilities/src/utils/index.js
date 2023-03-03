@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 module.exports = {
   getPropertyNamesForSchema: require('./get-property-names-for-schema'),
   ...require('./get-schema-type'),

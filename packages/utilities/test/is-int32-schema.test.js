@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const { isInt32Schema } = require('../src');
 
 describe('Utility function: isInt32Schema()', () => {

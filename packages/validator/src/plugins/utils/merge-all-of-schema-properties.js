@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const { isObject, mergeWith } = require('lodash');
 
 // Takes a schema, and if an allOf field is provided,
