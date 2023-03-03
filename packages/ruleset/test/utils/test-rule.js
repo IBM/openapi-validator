@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const { Spectral } = require('@stoplight/spectral-core');
 
 // this module provides a reusable function that sets up spectral

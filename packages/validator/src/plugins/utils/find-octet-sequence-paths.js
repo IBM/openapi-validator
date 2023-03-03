@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 // Finds octet sequences (type: string, format: binary) in schemas including
 // nested arrays, objects, nested arrays of type object, objects with properties
 // that are nested arrays, and objects with properties that are objects This

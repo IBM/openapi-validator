@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 // NOTE: Duplicated from ruleset package. Need to revisit
 module.exports = {
   openapi: '3.0.2',

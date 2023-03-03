@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const { validateNestedSchemas } = require('../src');
 
 describe('Utility function: validateNestedSchemas()', () => {

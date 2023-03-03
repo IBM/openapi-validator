@@ -1,4 +1,9 @@
 /**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
+/**
  * These are the allowable attributes that may appear alongside a $ref within a schema that fits the
  * "ref sibling" pattern.
  * Attention: this list should be kept in sync with the IBMDefaultCodegen.schemaFitsRefSiblingsPattern()
