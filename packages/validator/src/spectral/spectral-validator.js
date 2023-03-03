@@ -3,65 +3,98 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Spectral } = require('@stoplight/spectral-core');
+const { Document, Spectral } = require('@stoplight/spectral-core');
+const Parsers = require('@stoplight/spectral-parsers');
 const {
   getRuleset
 } = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
 const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
-const MessageCarrier = require('../plugins/utils/message-carrier');
+const {
+  getFileExtension
+} = require('../cli-validator/utils/file-extension-validator');
 const config = require('../cli-validator/utils/process-configuration');
 
 /**
- * Parses the results received from the spectral validator and returns
- * a MessageCarrier instance containing the parsed results.
+ * Creates a Spectral document from the input, runs spectral, converts the results
+ * from Spectral to IBM format and returns them.
  *
- * @param {*} logger the logger object used to log messages
- * @param {*} results the results from a spectral run that are to be parsed
- * @returns a MessageCarrier instance that holds the parsed results
+ * @param {*} opts an object containing the input options
+ * @returns the formatted results
  */
-const parseResults = function(logger, results) {
-  const messages = new MessageCarrier();
+const runSpectral = async function(opts) {
+  const spectral = await setup(
+    opts.logger,
+    opts.rulesetFileOverride,
+    opts.chalk
+  );
 
-  if (results) {
-    for (const validationResult of results) {
-      if (validationResult) {
-        const code = validationResult['code'];
-        const severity = validationResult['severity'];
-        const message = validationResult['message'];
-        const path = validationResult['path'];
+  const fileExtension = getFileExtension(opts.validFile);
+  let parser = Parsers.Json;
+  if (['yaml', 'yml'].includes(fileExtension)) {
+    parser = Parsers.Yaml;
+  }
 
-        if (code === 'parser') {
-          // Spectral doesn't allow disabling parser rules, so don't include them
-          // in the output (for now)
-          continue;
-        }
+  const doc = new Document(opts.originalFile, parser, opts.validFile);
+  const spectralResults = await spectral.run(doc);
+  return convertResults(spectralResults, opts.logger);
+};
 
-        if (typeof severity === 'number' && code && message && path) {
-          if (severity === 0) {
-            // error
-            messages.addMessage(path, message, 'error', code);
-          } else if (severity === 1) {
-            // warning
-            messages.addMessage(path, message, 'warning', code);
-          } else if (severity === 2) {
-            // info
-            messages.addMessage(path, message, 'info', code);
-          } else if (severity === 3) {
-            // hint
-            messages.addMessage(path, message, 'hint', code);
-          }
-        } else {
-          logger.debug(
-            `There was an error while parsing the spectral results: ${JSON.stringify(
-              validationResult
-            )}`
-          );
-        }
-      }
+function convertResults(spectralResults, logger) {
+  // This structure must match the JSON Schema defined for JSON output
+  const finalResultsObject = {
+    error: { results: [], summary: { total: 0, entries: [] } },
+    warning: { results: [], summary: { total: 0, entries: [] } },
+    info: { results: [], summary: { total: 0, entries: [] } },
+    hint: { results: [], summary: { total: 0, entries: [] } },
+    has_results: false
+  };
+
+  // use this object to count the occurance of each validation
+  const summaryHelper = { error: {}, warning: {}, info: {}, hint: {} };
+
+  for (const r of spectralResults) {
+    if (invalidResult(r)) {
+      logger.debug(
+        'Spectral validation result does not contain necessary information'
+      );
+      continue;
+    }
+
+    finalResultsObject.has_results = true;
+
+    const severity = convertSpectralSeverity(r.severity);
+    finalResultsObject[severity].summary.total++;
+    finalResultsObject[severity].results.push({
+      message: r.message,
+      path: r.path,
+      rule: r.code,
+      line: r.range.start.line + 1
+    });
+
+    // compute a generalized message for the summary
+    const genMessage = r.message.split(':')[0];
+    if (!summaryHelper[severity][genMessage]) {
+      summaryHelper[severity][genMessage] = 0;
+    }
+    summaryHelper[severity][genMessage] += 1;
+  }
+
+  // finish putting together the summary object
+  for (const sev in summaryHelper) {
+    for (const field in summaryHelper[sev]) {
+      finalResultsObject[sev].summary.entries.push({
+        generalized_message: field,
+        count: summaryHelper[sev][field],
+        percentage: Math.round(
+          (summaryHelper[sev][field] / finalResultsObject[sev].summary.total) *
+            100
+        )
+      });
     }
   }
-  return messages;
-};
+
+  return finalResultsObject;
+}
 
 /**
  * Creates a new spectral instance, sets up the ruleset, then returns the spectral instance.
@@ -71,7 +104,7 @@ const parseResults = function(logger, results) {
  * @param {*} chalk an object used to colorize messages
  * @returns the spectral instance
  */
-const setup = async function(logger, rulesetFileOverride, chalk) {
+async function setup(logger, rulesetFileOverride, chalk) {
   const spectral = new Spectral();
 
   // spectral only supports reading a config file in the working directory
@@ -84,22 +117,20 @@ const setup = async function(logger, rulesetFileOverride, chalk) {
   try {
     ruleset = await getRuleset(rulesetFileOverride);
   } catch (e) {
-    // check error for common issues but do nothing
-    // we get here anytime the user doesnt define a valid spectral config,
-    // which is fine. we just use our default in that case.
-    // in certain cases, we help the user understand what is happening by
-    // logging informative messages
+    // Check error for common issues but do nothing.
+    // We get here anytime the user doesnt define a valid spectral config, which is fine.
+    // We use our default in that case. In certain cases, we help the user understand
+    // the error by logging informative messages.
     checkGetRulesetError(logger, e, chalk);
   }
 
   spectral.setRuleset(ruleset);
 
   return spectral;
-};
+}
 
 module.exports = {
-  parseResults,
-  setup
+  runSpectral
 };
 
 function checkGetRulesetError(logger, error, chalk) {
@@ -132,4 +163,18 @@ function checkGetRulesetError(logger, error, chalk) {
     );
     logger.debug(error.message);
   }
+}
+
+function invalidResult(r) {
+  return !r || !r.code || !r.message || !r.path || invalidSeverity(r.severity);
+}
+
+function invalidSeverity(s) {
+  return typeof s !== 'number' || s < 0 || s > 3;
+}
+
+function convertSpectralSeverity(s) {
+  // we have already guaranteed s to be a number, 0-3
+  const mapping = { 0: 'error', 1: 'warning', 2: 'info', 3: 'hint' };
+  return mapping[s];
 }

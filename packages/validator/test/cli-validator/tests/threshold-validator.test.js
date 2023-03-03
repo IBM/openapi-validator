@@ -36,7 +36,7 @@ describe('test the .thresholdrc limits', function() {
     const capturedText = getCapturedText(consoleSpy.mock.calls);
     // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
 
-    expect(capturedText[1].slice(14, 32)).toEqual(`Number of warnings`);
+    expect(capturedText[0].slice(14, 32)).toEqual(`Number of warnings`);
   });
 
   it('should print errors for unsupported limit options and invalid limit values', async function() {

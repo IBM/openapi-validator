@@ -5,166 +5,91 @@
 
 const each = require('lodash/each');
 const pad = require('pad');
-const getPathAsArray = require('./get-path-as-array');
-
-// get line-number-producing, 'magic' code from Swagger Editor
-const getLineNumberForPath = require(__dirname + '/../../plugins/ast/ast')
-  .getLineNumberForPath;
 
 // this function prints all of the output
 module.exports = function print(
   logger,
   results,
   chalk,
-  verbose,
   summaryOnly,
-  originalFile,
   errorsOnly
 ) {
-  const types = errorsOnly
-    ? ['errors']
-    : ['errors', 'warnings', 'infos', 'hints'];
+  const types = errorsOnly ? ['error'] : ['error', 'warning', 'info', 'hint'];
   const colors = {
-    errors: 'bgRed',
-    warnings: 'bgYellow',
-    infos: 'bgGrey',
-    hints: 'bgGreen'
-  };
-
-  // define an object template to use for the summary
-  const stats = {
-    errors: {
-      total: 0
-    },
-    warnings: {
-      total: 0
-    },
-    infos: {
-      total: 0
-    },
-    hints: {
-      total: 0
-    }
+    error: 'bgRed',
+    warning: 'bgYellow',
+    info: 'bgGrey',
+    hint: 'bgGreen'
   };
 
   types.forEach(type => {
     let color = colors[type];
-    if (Object.keys(results[type]).length && !summaryOnly) {
-      logger.info(chalk[color].bold(`${type}\n`));
+    if (results[type].summary.total && !summaryOnly) {
+      logger.info(chalk[color].bold(`${type}s\n`));
     }
 
     // convert 'color' from a background color to foreground color
     color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
 
-    each(results[type], problems => {
-      problems.forEach(problem => {
-        // To allow messages with fillins to be grouped properly in the summary,
-        // truncate the message at the first ':'
-        const message = problem.message.split(':')[0];
-        let path = problem.path;
-
-        // collect info for stats reporting, if applicable
-
-        stats[type].total += 1;
-
-        if (!stats[type][message]) {
-          stats[type][message] = 0;
+    each(results[type].results, result => {
+      // print the path array as a dot-separated string
+      if (!summaryOnly) {
+        logger.info(chalk[color](`  Message :   ${result.message}`));
+        if (result.rule) {
+          logger.info(chalk[color](`  Rule    :   ${result.rule}`));
         }
-
-        stats[type][message] += 1;
-
-        // path needs to be an array to get the line number
-        if (!Array.isArray(path)) {
-          path = path.split('.');
-        }
-
-        // get line number from the path of strings to the problem
-        // as they say in src/plugins/validation/semantic-validators/hook.js,
-        //
-        //                  "it's magic!"
-        //
-        const lineNumber = getLineNumberForPath(originalFile, path);
-
-        // print the path array as a dot-separated string
-        if (!summaryOnly) {
-          logger.info(chalk[color](`  Message :   ${problem.message}`));
-          if (problem.rule) {
-            logger.info(chalk[color](`  Rule    :   ${problem.rule}`));
-          }
-          logger.info(chalk[color](`  Path    :   ${path.join('.')}`));
-          logger.info(chalk[color](`  Line    :   ${lineNumber}`));
-          if (verbose && problem.componentPath) {
-            const componentPath = getPathAsArray(problem.componentPath);
-            const componentLine = getLineNumberForPath(
-              originalFile,
-              componentPath
-            );
-            logger.info(
-              chalk[color](`  Component Path    :   ${componentPath.join('.')}`)
-            );
-            logger.info(
-              chalk[color](`  Component Line    :   ${componentLine}`)
-            );
-          }
-          logger.info('');
-        }
-      });
+        logger.info(chalk[color](`  Path    :   ${result.path.join('.')}`));
+        logger.info(chalk[color](`  Line    :   ${result.line}`));
+        logger.info('');
+      }
     });
   });
 
   // Print the summary here if we had any messages.
-  if (
-    stats.errors.total ||
-    stats.warnings.total ||
-    stats.infos.total ||
-    stats.hints.total
-  ) {
+  if (results.has_results) {
     logger.info(chalk.bgCyan('summary\n'));
 
     logger.info(
-      chalk.cyan(`  Total number of errors   : ${stats.errors.total}`)
+      chalk.cyan(`  Total number of errors   : ${results.error.summary.total}`)
     );
     logger.info(
-      chalk.cyan(`  Total number of warnings : ${stats.warnings.total}`)
+      chalk.cyan(
+        `  Total number of warnings : ${results.warning.summary.total}`
+      )
     );
-    if (stats.infos.total > 0) {
+    if (results.info.summary.total > 0) {
       logger.info(
-        chalk.cyan(`  Total number of infos    : ${stats.infos.total}`)
+        chalk.cyan(`  Total number of infos    : ${results.info.summary.total}`)
       );
     }
-    if (stats.hints.total > 0) {
+    if (results.hint.summary.total > 0) {
       logger.info(
-        chalk.cyan(`  Total number of hints    : ${stats.hints.total}`)
+        chalk.cyan(`  Total number of hints    : ${results.hint.summary.total}`)
       );
     }
     logger.info('');
 
     types.forEach(type => {
       // print the type, either error or warning
-      if (stats[type].total) {
-        logger.info('  ' + chalk.underline.cyan(type));
+      if (results[type].summary.total) {
+        logger.info('  ' + chalk.underline.cyan(type + 's'));
       }
 
-      Object.keys(stats[type]).forEach(message => {
-        if (message !== 'total') {
-          // calculate percentage
-          const number = stats[type][message];
-          const total = stats[type].total;
-          const percentage = Math.round((number / total) * 100).toString();
+      results[type].summary.entries.forEach(entry => {
+        // pad(<number>, <string>) right-aligns <string> to the <number>th column, padding with spaces.
+        // use 4, two for the appended spaces of every line and two for the number
+        //   (assuming errors/warnings won't go to triple digits)
+        const numberString = pad(4, entry.count);
+        // use 6 for largest case of '(100%)'
+        const frequencyString = pad(6, `(${entry.percentage}%)`);
 
-          // pad(<number>, <string>) right-aligns <string> to the <number>th column, padding with spaces.
-          // use 4, two for the appended spaces of every line and two for the number
-          //   (assuming errors/warnings won't go to triple digits)
-          const numberString = pad(4, number.toString());
-          // use 6 for largest case of '(100%)'
-          const frequencyString = pad(6, `(${percentage}%)`);
-
-          logger.info(
-            chalk.cyan(`${numberString} ${frequencyString} : ${message}`)
-          );
-        }
+        logger.info(
+          chalk.cyan(
+            `${numberString} ${frequencyString} : ${entry.generalized_message}`
+          )
+        );
       });
-      if (stats[type].total) {
+      if (results[type].summary.total) {
         logger.info('');
       }
     });
