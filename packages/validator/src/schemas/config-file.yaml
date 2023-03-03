@@ -1,0 +1,79 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: IBM OpenAPI Validator Configuration File Schema
+description: >
+  The structure of the configuration file supported by the IBM OpenAPI Validator
+type: object
+additionalProperties: false
+properties:
+  colorizeOutput:
+    description: A flag that indicates whether the validator should colorize its output
+    type: boolean
+    default: true
+  errorsOnly:
+    description: A flag that causes the validator to include only errors in the output
+    type: boolean
+    default: false
+  files:
+    description: >
+      The names of the files to be validated.
+      Each element of the array is a glob-like string that will be evaluated relative
+      to the current directory at the time the validator is being run.
+      Examples: 'a.yaml', '../b.json', '../../c/foo.yml'
+    type: array
+    items:
+      type: string
+  ignoreFiles:
+    description: >
+      The fully-qualified names of files to be ignored
+    type: array
+    items:
+      type: string
+  limits:
+    description: >
+      An object containing various threshold limits supported by the validator
+    type: object
+    properties:
+      warnings:
+        description: >
+          If the number of warnings exceeds this threshold, an error is logged.
+          -1 indicates no threshold.
+        type: integer
+        default: -1
+    required:
+      - warnings
+    default:
+      warnings: -1
+    additionalProperties: false
+  logLevels:
+    description: >
+      An object that defines logLevel settings for loggers used by the validator.
+      It is a map of loggerName -> logLevel.
+      Valid logLevel values are: error, warn, info, debug
+    type: object
+    additionalProperties:
+      type: string
+    default:
+      root: info
+  outputFormat:
+    description: The type of output to be displayed by the validator
+    type: string
+    enum:
+      - json
+      - text
+    default: text
+  ruleset:
+    description: >
+      The name of a Specral ruleset file to be used instead
+      of the IBM Cloud Validation Ruleset
+    type: string
+    default: null
+  summaryOnly:
+    description: >
+      A flag that causes the validator to display only the summary in the output
+    type: boolean
+    default: false
+  verbose:
+    description: >      
+      A flag that causes the validator to include more details in the output
+    type: boolean
+    default: false

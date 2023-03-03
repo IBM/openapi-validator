@@ -1,0 +1,15 @@
+colorizeOutput: true
+errorsOnly: true
+files:
+  - file1.yaml
+  - file2.json
+limits:
+  warnings: 5
+ignoreFiles:
+  - 'ignored/file1'
+logLevels:
+  root: 'info'
+  'ibm-schema-description-exists': 'debug'
+outputFormat: 'text'
+summaryOnly: false
+verbose: false
