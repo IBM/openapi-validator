@@ -1,5 +1,12 @@
 {
-  "branches": "main",
+  "branches": [
+    "main",
+    {
+      "name": "1.0-prerelease",
+      channel: "v1-rc",
+      "prerelease": "rc"
+    }
+  ],
   "debug": true,
   "plugins": [
     "@semantic-release/commit-analyzer",
