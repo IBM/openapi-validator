@@ -11,12 +11,36 @@
 # Pull Requests
 If you want to contribute to the repository, follow these steps:
 1. Fork the repo.
-2. Verify that everything is working before you start developing: `npm test`
-3. Make your changes. Please follow our style guidelines and leave comments where appropriate. Be sure to update all applicable files [1].
+2. Verify that everything is working before you start developing: `npm ci`, then `npm run all`
+3. Make your changes. Please follow our style guidelines and leave comments where appropriate. Be sure to update all applicable files.
 4. Add one or more tests for your changes. Only refactoring, documentation, or build changes require no new tests.
-5. Once your tests are passing, commit changes with an [appropriate commit message](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
-6. Push to your fork and open a pull request. Describe your changes and the motivation for them.
+5. Make sure that the project still builds and tests cleanly: `npm run all`
+6. Once your tests are passing, commit changes with an [appropriate commit message](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
+7. Push to your fork and open a pull request. Describe your changes and the motivation for them.
 
-[1] If submitting a new validation, the following files must be updated:
-- packages/validator/src/.defaultsForValidator.js
-- README.md (description of validation **and** documentation of default value)
+# Developer's Certificate of Origin 1.1
+
+By making a contribution to this project, I certify that:
+
+(a) The contribution was created in whole or in part by me and I
+   have the right to submit it under the open source license
+   indicated in the file; or
+
+(b) The contribution is based upon previous work that, to the best
+   of my knowledge, is covered under an appropriate open source
+   license and I have the right under that license to submit that
+   work with modifications, whether created in whole or in part
+   by me, under the same open source license (unless I am
+   permitted to submit under a different license), as indicated
+   in the file; or
+
+(c) The contribution was provided directly to me by some other
+   person who certified (a), (b) or (c) and I have not modified
+   it.
+
+(d) I understand and agree that this project and the contribution
+   are public and that a record of the contribution (including all
+   personal information I submit with it, including my sign-off) is
+   maintained indefinitely and may be redistributed consistent with
+   this project or the open source license(s) involved.
+

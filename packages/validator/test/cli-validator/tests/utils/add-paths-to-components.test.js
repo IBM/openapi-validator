@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const addPathsToComponents = require('../../../../src/cli-validator/utils/add-paths-to-components');
 
 describe('test postprocessing util - test component path finding', function() {

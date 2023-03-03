@@ -1,4 +1,9 @@
 /**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
+/**
  * Returns true iff "schema" is an empty object schema.
  * Examples of an empty object schema include:
  *   components:

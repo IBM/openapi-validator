@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 module.exports = {
   openapi: '3.0.0',
   info: {

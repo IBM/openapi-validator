@@ -1,4 +1,9 @@
 /**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
+/**
  * Returns true if and only if "mimeType" is a "JSON-like" mime type
  * (e.g. "application/json; charset=utf-8").
  * @param {string} mimeType the mimeType string

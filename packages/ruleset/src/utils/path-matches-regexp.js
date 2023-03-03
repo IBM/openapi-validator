@@ -1,4 +1,9 @@
 /**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
+/**
  * This function will return true if the specified path successfully matches the specified regex.
  * The elements of "path" are joined using "," as the delimiter, and the resulting
  * string is matched against the regex.

@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const { casing } = require('@stoplight/spectral-functions');
 const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');

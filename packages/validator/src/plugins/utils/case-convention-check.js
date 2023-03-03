@@ -1,3 +1,8 @@
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 /*
   Snake Case: A custom RegEx in implemented here so that number characters are allowed to
   directly follow letter characters, without an underscore in between. The

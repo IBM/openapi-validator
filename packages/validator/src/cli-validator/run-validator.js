@@ -1,4 +1,9 @@
 #!/usr/bin/env node
+/**
+ * Copyright 2017 - 2023 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const chalk = require('chalk');
 const fs = require('fs');
 const globby = require('globby');
