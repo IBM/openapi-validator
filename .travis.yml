@@ -23,4 +23,4 @@ deploy:
   script: npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
   on:
     node: 14
-    branch: main
+    all_branches: true
