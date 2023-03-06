@@ -1,0 +1,86 @@
+$schema: https://json-schema.org/draft/2020-12/schema
+title: OpenAPI Validator Results Schema
+description: The results produced by running the validator on an API definition
+type: object
+required:
+  - error
+  - warning
+  - info
+  - hint
+properties:
+  error:
+    $ref: '#/$defs/ValidationData'
+  warning:
+    $ref: '#/$defs/ValidationData'
+  info:
+    $ref: '#/$defs/ValidationData'
+  hint:
+    $ref: '#/$defs/ValidationData'
+  has_results:
+    type: boolean
+    description: A convenience flag indicating there is at least one result at any severity level
+
+$defs:
+  ValidationData:
+    type: object
+    required:
+      - results
+      - summary
+    properties:
+      results:
+        type: array
+        description: List of results with a given severity
+        items:
+          $ref: '$defs/ValidationResult'
+      summary:
+        type: object
+        required:
+          - entries
+          - total
+        properties:
+          entries:
+            type: array
+            description: List of metadata summarizing the results at a given severity
+            items:
+              $ref: '#/$defs/SummaryEntry'
+          total:
+            type: integer
+            description: The total number of validations with a given severity
+  ValidationResult:
+    type: object
+    required:
+      - message
+      - path
+      - rule
+      - line
+    properties:
+      message:
+        type: string
+        description: A description of the problem discovered in the API
+      path:
+        type: array
+        items:
+          type: string
+        description: An array containing the field names of the API document
+          that lead to the location of the discovered problem
+      rule:
+        type: string
+        description: The rule identifier in the Spectral ruleset
+      line:
+        type: integer
+        description: The line number in the original file that the problem
+          was discovered on
+    additionalProperties: false
+  SummaryEntry:
+    type: object
+    required:
+      generalized_message:
+        type: string
+        description: Generalized version of a rule message that has been reported by the validator
+      count:
+        type: integer
+        description: The number of times this specific rule has been violated in the API
+      percentage:
+        type: integer
+        description: The percentage of total violations for a given severity that this rule comprises
+      additionalProperties: false

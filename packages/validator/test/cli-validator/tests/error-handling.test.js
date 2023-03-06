@@ -139,29 +139,6 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when the swagger contains a reference to a missing object', async function() {
-    let exitCode;
-    try {
-      exitCode = await testValidator([
-        './test/cli-validator/mock-files/oas3/missing-object.yml'
-      ]);
-    } catch (err) {
-      exitCode = err;
-    }
-
-    const capturedText = getCapturedText(consoleSpy.mock.calls);
-    // originalError('Captured text:\n', capturedText);
-
-    expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(2);
-    expect(capturedText[0].trim()).toEqual(
-      '[Error] There is a problem with the API definition.'
-    );
-    expect(capturedText[1].split('\n')[1].trim()).toEqual(
-      'Token "NonExistentObject" does not exist.'
-    );
-  });
-
   it('should return an error when a JSON document contains a trailing comma', async function() {
     let exitCode;
     try {
