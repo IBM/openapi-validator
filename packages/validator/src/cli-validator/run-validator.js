@@ -266,13 +266,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
       const numWarnings = results.warning.summary.total;
       if (numWarnings > limitsObject.warnings) {
         exitCode = 1;
-        // add the exceeded warnings limit as an error
-        results.error.results.push({
-          line: 0,
-          rule: 'warnings-limit',
-          path: [],
-          message: `Number of warnings (${numWarnings}) exceeds warnings limit (${limitsObject.warnings}).`
-        });
+        logger.error(
+          `Number of warnings (${numWarnings}) exceeds warnings limit (${limitsObject.warnings}).`
+        );
       }
     }
 
