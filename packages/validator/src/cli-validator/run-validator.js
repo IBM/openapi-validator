@@ -13,17 +13,12 @@ const path = require('path');
 const readYaml = require('js-yaml');
 const util = require('util');
 
-const { Document } = require('@stoplight/spectral-core');
-const Parsers = require('@stoplight/spectral-parsers');
-
-const addPathsToComponents = require('./utils/add-paths-to-components');
-const buildSwaggerObject = require('./utils/build-swagger-object');
 const config = require('./utils/process-configuration');
 const ext = require('./utils/file-extension-validator');
 const preprocessFile = require('./utils/preprocess-file');
 const print = require('./utils/print-results');
 const { printJson } = require('./utils/json-results');
-const spectralValidator = require('../spectral/spectral-validator');
+const { runSpectral } = require('../spectral/spectral-validator');
 const getCopyrightString = require('./utils/get-copyright-string');
 const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
 const createCLIOptions = require('./utils/cli-options');
@@ -229,59 +224,21 @@ async function runValidator(cliArgs, parseOptions = {}) {
       continue;
     }
 
-    // change working directory to location of root api definition
-    // this will allow the parser in `buildSwaggerObject` to resolve external refs correctly
-    const originalWorkingDirectory = process.cwd();
-    process.chdir(path.dirname(validFile));
-
-    // validator requires the swagger object to follow a specific format
-    let swagger;
+    // Run spectral and collect formatted results
+    let results;
     try {
-      swagger = await buildSwaggerObject(input);
-    } catch (err) {
-      logError(
+      results = await runSpectral({
         chalk,
-        'There is a problem with the API definition.',
-        getError(err)
-      );
-      logger.debug(err.stack);
-      exitCode = 1;
-      continue;
-    } finally {
-      // return the working directory to its original location so that
-      // the rest of the program runs as expected. using finally block
-      // because this must happen regardless of result in buildSwaggerObject
-      process.chdir(originalWorkingDirectory);
-    }
-
-    // run spectral and save the results
-    let spectralResults;
-    try {
-      const spectral = await spectralValidator.setup(
+        validFile,
+        originalFile,
         logger,
-        rulesetFileOverride,
-        chalk
-      );
-
-      const fileExtension = ext.getFileExtension(validFile);
-      let parser = Parsers.Json;
-      if (['yaml', 'yml'].includes(fileExtension)) {
-        parser = Parsers.Yaml;
-      }
-
-      const doc = new Document(originalFile, parser, validFile);
-      spectralResults = await spectral.run(doc);
+        rulesetFileOverride
+      });
     } catch (err) {
       logError(chalk, 'There was a problem with spectral.', getError(err));
       logger.error('Additional error details:');
       logger.error(err);
-      // this check can be removed once we support spectral overrides
-      if (err.message.startsWith('Document must have some source assigned.')) {
-        logger.error(
-          'This error likely occurred because Spectral `exceptions` are deprecated and `overrides` are not yet supported.\n' +
-            'Remove these fields from your Spectral config file to proceed.'
-        );
-      } else if (
+      if (
         err.message ==
         "Cannot use 'in' operator to search for '**' in undefined"
       ) {
@@ -294,68 +251,37 @@ async function runValidator(cliArgs, parseOptions = {}) {
       continue;
     }
 
-    // Convert the spectral results to the form expected by our two "print" functions.
-    const results = convertSpectralResults(spectralResults);
-
-    // the warning property tells the user if warnings are included as part of the output
-    // if errorsOnly is true, only errors will be returned, so need to force this to false
-    // If we are to report only errors, then "hide" warnings, infos and hints.
     if (errorsOnly) {
-      results.warning = false;
-      results.info = false;
-      results.hint = false;
+      logger.debug(
+        'Running in "errors only" mode - only error-severity validations will be displayed.'
+      );
     }
 
     // Check to see if we should be passing back a non-zero exit code.
-    if (results.error) {
+    if (results.error.summary.total) {
       // If we have any errors, then exit code 1 is returned.
       exitCode = 1;
-    } else {
+    } else if (!errorsOnly) {
       // If the # of warnings exceeded the warnings limit, then this is an error.
-      let numWarnings = 0;
-      for (const key of Object.keys(results.warnings)) {
-        numWarnings += results.warnings[key].length;
-      }
+      const numWarnings = results.warning.summary.total;
       if (numWarnings > limitsObject.warnings) {
         exitCode = 1;
         // add the exceeded warnings limit as an error
-        if (!results.errors) {
-          results.errors = {};
-        }
-        results.errors['warnings-limit'] = [
-          {
-            path: [],
-            message: `Number of warnings (${numWarnings}) exceeds warnings limit (${limitsObject.warnings}).`
-          }
-        ];
+        results.error.results.push({
+          line: 0,
+          rule: 'warnings-limit',
+          path: [],
+          message: `Number of warnings (${numWarnings}) exceeds warnings limit (${limitsObject.warnings}).`
+        });
       }
-    }
-
-    if (verbose) {
-      addPathsToComponents(results, swagger.jsSpec);
     }
 
     // Now print the results, either JSON or text.
     if (jsonOutput) {
-      printJson(
-        logger,
-        results,
-        originalFile,
-        verbose,
-        errorsOnly,
-        summaryOnly
-      );
+      printJson(logger, results);
     } else {
-      if (results.error || results.warning || results.info || results.hint) {
-        print(
-          logger,
-          results,
-          chalk,
-          verbose,
-          summaryOnly,
-          originalFile,
-          errorsOnly
-        );
+      if (results.has_results) {
+        print(logger, results, chalk, summaryOnly, errorsOnly);
       } else {
         logger.info(chalk.green(`${validFile} passed the validator`));
       }
@@ -377,50 +303,6 @@ function logError(chalk, description, message = '') {
   if (message) {
     logger.error(chalk.magenta(message));
   }
-}
-
-/**
- * Converts the raw "spectralResults" into a form suitable for
- * print-results.js and json-results.js.
- * @param {*} logger the validator's root logger
- * @param {*} spectralResults the results returned by Spectral.run
- * @returns the converted results
- */
-function convertSpectralResults(spectralResults) {
-  const validationResults = {
-    errors: {},
-    warnings: {},
-    infos: {},
-    hints: {},
-    error: false,
-    warning: false,
-    info: false,
-    hint: false
-  };
-
-  const parsedSpectralResults = spectralValidator.parseResults(
-    logger,
-    spectralResults
-  );
-  const key = 'spectral';
-  if (parsedSpectralResults.errors.length) {
-    validationResults.errors[key] = [...parsedSpectralResults.errors];
-    validationResults.error = true;
-  }
-  if (parsedSpectralResults.warnings.length) {
-    validationResults.warnings[key] = [...parsedSpectralResults.warnings];
-    validationResults.warning = true;
-  }
-  if (parsedSpectralResults.infos.length) {
-    validationResults.infos[key] = [...parsedSpectralResults.infos];
-    validationResults.info = true;
-  }
-  if (parsedSpectralResults.hints.length) {
-    validationResults.hints[key] = [...parsedSpectralResults.hints];
-    validationResults.hint = true;
-  }
-
-  return validationResults;
 }
 
 module.exports = runValidator;

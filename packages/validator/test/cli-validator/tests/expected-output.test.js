@@ -265,7 +265,7 @@ describe('Expected output tests', function() {
 
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       const jsonOutput = JSON.parse(capturedText);
-      const warningToCheck = jsonOutput.warnings[0];
+      const warningToCheck = jsonOutput.warning.results[0];
 
       expect(warningToCheck.rule).toEqual('ibm-collection-array-property');
       expect(warningToCheck.path.join('.')).toBe(
