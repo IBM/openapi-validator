@@ -185,8 +185,8 @@ describe('cli tool - test option handling', function() {
       const outputObject = JSON.parse(capturedText);
 
       // {"line": 59, "message": "Every operation must have unique "operationId".", "path": ["paths", "/pet", "put", "operationId"], "rule": "operation-operationId-unique"}
-      expect(outputObject['errors'][0]['line']).toEqual(52);
-      expect(outputObject['errors'][0]['message']).toEqual(
+      expect(outputObject.error.results[0]['line']).toEqual(52);
+      expect(outputObject.error.results[0]['message']).toEqual(
         'Every operation must have unique "operationId".'
       );
     }
