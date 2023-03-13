@@ -7,13 +7,9 @@ const each = require('lodash/each');
 const pad = require('pad');
 
 // this function prints all of the output
-module.exports = function print(
-  logger,
-  results,
-  chalk,
-  summaryOnly,
-  errorsOnly
-) {
+module.exports = function print({ chalk, config, logger }, results) {
+  const { summaryOnly, errorsOnly } = config;
+
   const types = errorsOnly ? ['error'] : ['error', 'warning', 'info', 'hint'];
 
   if (summaryOnly) {
@@ -93,7 +89,7 @@ function printSummary(results, types, logger, chalk, errorsOnly) {
 
       logger.info(
         chalk.cyan(
-          `${numberString} ${frequencyString} : ${entry.generalized_message}`
+          `${numberString} ${frequencyString} : ${entry.generalizedMessage}`
         )
       );
     });

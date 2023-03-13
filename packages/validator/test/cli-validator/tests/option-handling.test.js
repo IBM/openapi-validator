@@ -180,6 +180,7 @@ describe('cli tool - test option handling', function() {
         './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
+      // originalError(`Captured text: ${capturedText}`);
 
       // capturedText should be JSON object. convert to json and check fields
       const outputObject = JSON.parse(capturedText);
@@ -206,36 +207,30 @@ describe('cli tool - test option handling', function() {
     expect(outputObject.warnings).toEqual(undefined);
   });
 
-  describe.skip('test unknown option handling', function() {
-    // This describe block is being skipped altogether because there
-    // doesn't seem to be a way for us to capture and verify the
-    // output from the "unknownOption" function even though it should
-    // end up on console.error.  And, we apparently cannot override
-    // the Command instance's "unknownOption" function so that we could
-    // better control the output.
-    let exitStub;
-
-    beforeEach(() => {
-      exitStub = jest.spyOn(process, 'exit').mockImplementation(() => {});
-    });
-
-    afterEach(() => {
-      exitStub.mockRestore();
-    });
-
+  describe('test unknown option handling', function() {
     it('should return an error and help text when there is an unknown option', async function() {
-      await testValidator(['--unknown-option']);
-      // const capturedText = getCapturedText(consoleSpy.mock.calls);
+      let caughtException = false;
+      let exception;
+      try {
+        await testValidator(['--unknown-option']);
+      } catch (err) {
+        // originalError(`caught exception: ${err}`);
+        caughtException = true;
+        exception = err;
+      }
+      const capturedText = getCapturedText(consoleSpy.mock.calls);
       // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
 
-      // expect(errorStub).toHaveBeenCalled();
-      // expect(errorStub.mock.calls[1][0].trim()).toEqual(
-      //   "error: unknown option '--unknown-option'"
-      // );
-      // expect(errorStub.mock.calls[1][1].trim()).toEqual('unknown-option');
+      expect(caughtException).toBe(true);
+      expect(exception).toBe(2);
 
-      expect(exitStub).toHaveBeenCalled();
-      expect(exitStub.mock.calls[0][0]).toBe(1);
+      expect(capturedText[0]).toMatch(
+        /error: unknown option '--unknown-option'/
+      );
+      expect(capturedText[2]).toMatch(
+        /IBM OpenAPI Validator.*Copyright IBM Corporation/
+      );
+      expect(capturedText[3]).toMatch(/Usage: lint-openapi/);
     });
   });
 

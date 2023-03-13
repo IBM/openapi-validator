@@ -44,6 +44,7 @@ module.exports = class LoggerFactory {
       loggerName: name,
       logLevel
     });
+    this.applySettingsToAllLoggers();
   }
 
   /**
