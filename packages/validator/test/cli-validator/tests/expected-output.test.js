@@ -48,10 +48,11 @@ describe('Expected output tests', function() {
       const exitCode = await testValidator([
         './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
       ]);
-      expect(exitCode).toEqual(1);
 
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       // originalError('Captured text:\n', capturedText);
+
+      expect(exitCode).toEqual(1);
 
       const whichProblems = [];
       capturedText.forEach(function(line) {

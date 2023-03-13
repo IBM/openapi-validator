@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-function printJson(logger, results) {
-  logger.info(JSON.stringify(results, null, 2));
+function printJson(context, results) {
+  context.logger.info(JSON.stringify(results, null, 2));
 }
 
 module.exports.printJson = printJson;

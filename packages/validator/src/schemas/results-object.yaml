@@ -1,5 +1,5 @@
 $schema: https://json-schema.org/draft/2020-12/schema
-title: OpenAPI Validator Results Schema
+title: IBM OpenAPI Validator Results Schema
 description: The results produced by running the validator on an API definition
 type: object
 required:
@@ -16,7 +16,7 @@ properties:
     $ref: '#/$defs/ValidationData'
   hint:
     $ref: '#/$defs/ValidationData'
-  has_results:
+  hasResults:
     type: boolean
     description: A convenience flag indicating there is at least one result at any severity level
 
@@ -74,7 +74,7 @@ $defs:
   SummaryEntry:
     type: object
     required:
-      generalized_message:
+      generalizedMessage:
         type: string
         description: Generalized version of a rule message that has been reported by the validator
       count:

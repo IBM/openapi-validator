@@ -1,3 +1,5 @@
 {
+  "limits": {
     "warnings": 5
+  }
 }
