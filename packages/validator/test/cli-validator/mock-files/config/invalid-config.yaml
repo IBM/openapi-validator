@@ -1,0 +1,5 @@
+limits:
+  errors: 10  # unexpected property
+colorizeOutput: false
+summaryOnly: 'uh-huh' # should be boolean
+errorsOnly: 3  # should be boolean

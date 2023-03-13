@@ -13,114 +13,93 @@ const path = require('path');
 const readYaml = require('js-yaml');
 const util = require('util');
 
-const config = require('./utils/process-configuration');
+const configMgr = require('./utils/configuration-manager');
 const ext = require('./utils/file-extension-validator');
 const preprocessFile = require('./utils/preprocess-file');
 const print = require('./utils/print-results');
 const { printJson } = require('./utils/json-results');
 const { runSpectral } = require('../spectral/spectral-validator');
 const getCopyrightString = require('./utils/get-copyright-string');
-const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
-const createCLIOptions = require('./utils/cli-options');
 
 let logger;
 
-// this function processes the command-line arguments, does the error handling,
-//  and acts as the main function for the program
 /**
  * This function is the main entry point to the validator.
  * It processes the passed-in cli arguments and performs error handling as needed.
  * @param {*} cliArgs the array of command-line arguments (normally this should be process.argv)
  * @param {*} parseOptions an optional object containing parse options
+ * @returns an exitCode that indicates success/failure:
+ *    0: The validator ran successfully and passed with no errors
+ *    1: The validator ran successfully but there were errors detected in one or more
+ *       of the requested files
+ *    2: The validator encountered an error that prevented it from validating
+ *       one or more of the requested files
  */
 async function runValidator(cliArgs, parseOptions = {}) {
-  const program = createCLIOptions();
-  program.parse(cliArgs, parseOptions);
+  // Process the CLI args to produce a validator context object.
+  // This context object will contain all the user input as well as some
+  // internal information shared by various components of the validator.
+  let context, command;
+  try {
+    ({ context, command } = await configMgr.processArgs(cliArgs, parseOptions));
+  } catch (err) {
+    // console.error(`Caught error: `, err);
+    // "err" will most likely be a CommanderError of some sort (
+    // help was displayed, version string requested, unknown option, etc.)
+    // and it should have an "exitCode" field.
+    const exitCode = 'exitCode' in err ? err.exitCode : 2;
+    return exitCode === 0 ? Promise.resolve(0) : Promise.reject(2);
+  }
 
-  let args = program.args;
+  logger = context.logger;
+  logger.debug(
+    `Using validator configuration:\n${JSON.stringify(context.config, null, 2)}`
+  );
+
+  // Grab the list of files to validate.
+  let args = context.config.files;
 
   // If no arguments are passed in, then display help text and exit.
   if (args.length === 0) {
-    console.log(`${getCopyrightString()}\n${program.helpInformation()}`);
+    logger.error(`${getCopyrightString()}\n${command.helpInformation()}`);
     return Promise.reject(2);
   }
 
-  // Set default loglevel of the root logger to be 'info'.
-  // The user can change this via the command line.
-  const loggerFactory = LoggerFactory.getInstance();
-  loggerFactory.addLoggerSetting('root', 'info');
-  logger = loggerFactory.getLogger('root');
-
-  const opts = program.opts();
-
-  // Retrieve the options.
-  const summaryOnly = !!opts.summaryOnly;
-  const colorizeOutput = !!opts.colors;
-  const jsonOutput = !!opts.json;
-  const errorsOnly = !!opts.errorsOnly;
-  const rulesetFileOverride = opts.ruleset;
-  const verbose = !!opts.verbose;
-  const logLevels = opts.logLevel || [];
-  const limitsFileOverride = opts.limits;
-
-  // Process each loglevel entry supplied on the command line.
-  // Add each option to our LoggerFactory so they can be used to affect the
-  // log level of both existing loggers and loggers created later by individual rules.
-  // Examples:
-  //   -l info  (equivalent to -l root=info)
-  //   --log-level ibm-schema-*=debug (enable debug for all rules like "ibm-schema-*")
-  //   -l ibm-property-description=debug (enable debug for the "ibm-property-description" rule)
-  for (const entry of logLevels) {
-    let [loggerName, logLevel] = entry.split('=');
-
-    // No logLevel was parsed (e.g. -l info); assume root logger.
-    if (!logLevel) {
-      logLevel = loggerName;
-      loggerName = 'root';
-    }
-
-    loggerFactory.addLoggerSetting(loggerName, logLevel);
-  }
-
-  // After setting all the logger-related options on the LoggerFactory,
-  // we need to make sure they are applied to any loggers that already exist.
-  // It is very unlikely that any loggers exist yet, but just in case... :)
-  loggerFactory.applySettingsToAllLoggers();
-
-  // turn off coloring if explicitly requested
-  if (!colorizeOutput) {
+  // Turn off coloring if requested.
+  if (!context.config.colorizeOutput) {
     chalk.level = 0;
   }
 
-  if (verbose && !jsonOutput) {
+  context.chalk = chalk;
+
+  if (context.config.verbose && context.config.outputFormat !== 'json') {
     logger.info(chalk.green(getCopyrightString()));
   }
 
-  // run the validator on the passed in files
-  // first, process the given files to handle bad input
+  //
+  // Run the validator on the files specified via command-line or config file.
+  //
 
-  // ignore files in .validateignore by comparing absolute paths
-  const ignoredFiles = await config.ignore();
+  // Ignore files listed in the config object's "ignoreFiles" field
+  // by comparing absolute paths.
+  // "filteredArgs" will be "args" minus any ignored files.
   const filteredArgs = args.filter(
-    file => !ignoredFiles.includes(path.resolve(file))
+    file => !context.config.ignoreFiles.includes(path.resolve(file))
   );
 
-  // determine which files were removed from args because they were 'ignored'
-  // then, print these for the user. this way, the user is alerted to why files
-  // aren't validated
-  // "filteredArgs" is the list of files to process after removing ignored files
-  // "filteredFiles" is the list of files to be ignored
-  const filteredFiles = args.filter(file => !filteredArgs.includes(file));
-  filteredFiles.forEach(filename => {
+  // Next, display a message for each user-specified file that is being ignored.
+  const ignoredFiles = args.filter(file => !filteredArgs.includes(file));
+  ignoredFiles.forEach(file => {
     logger.warn(
-      chalk.magenta('[Ignored] ') + path.relative(process.cwd(), filename)
+      chalk.magenta('[Ignored] ') + path.relative(process.cwd(), file)
     );
   });
 
   args = filteredArgs;
 
-  // at this point, `args` is an array of file names passed in by the user.
-  // nothing in `args` will be a glob type, as glob types are automatically
+  // At this point, "args" is an array of file names passed in by the user,
+  // but with the ignored files removed.
+  // Nothing in "args" will be a glob type, as glob types are automatically
   // converted to arrays of matching file names by the shell.
   const supportedFileTypes = ['json', 'yml', 'yaml'];
   const filesWithValidExtensions = [];
@@ -145,14 +124,13 @@ async function runValidator(cliArgs, parseOptions = {}) {
     );
   }
 
-  // globby is used in an unconventional way here. we are not passing in globs,
-  // but an array of file names. what globby does is search through the file
-  // system looking for files that match the names in the array. it returns a
-  // list of matches (file names). Therefore, any files that are in
-  // filesWithValidExtensions, but are NOT in the array globby returns, do
-  // not actually exist. This is a convenient way of checking for file
-  // existence before iterating through and running the validator on
-  // every file.
+  // Globby is used in an unconventional way here.
+  // We are not passing in globs, but an array of file names.
+  // What globby does is search through the file system looking for files
+  // that match the names in the array. It returns a list of matches (file names).
+  // Therefore, any files that are in filesWithValidExtensions, but are NOT in the
+  // array globby returns, do not actually exist. This is a convenient way of checking for file
+  // existence before iterating through and running the validator on every file.
   const filesToValidate = await globby(filesWithValidExtensions);
   const nonExistentFiles = filesWithValidExtensions.filter(
     file => !filesToValidate.includes(file)
@@ -163,31 +141,25 @@ async function runValidator(cliArgs, parseOptions = {}) {
     );
   });
 
-  // if no passed in files are valid, exit the program
+  // If no passed in files are valid, exit the program.
   if (!filesToValidate.length) {
-    logError(chalk, 'None of the given arguments are valid files.');
+    logError(chalk, 'No files to validate.');
     return Promise.reject(2);
   }
 
-  // get limits from .thresholdrc file
-  let limitsObject;
-  try {
-    limitsObject = await config.limits(chalk, limitsFileOverride);
-  } catch (err) {
-    return Promise.reject(err);
-  }
-
-  // define an exit code to return. this will tell the parent program whether
-  // the validator passed or not
+  // Define an exit code to return. This will tell the parent program whether
+  // the validator passed or not.
   let exitCode = 0;
 
-  // fs module does not return promises by default
-  // create a version of the 'readFile' function that does
+  // The "fs" module does not return promises by default.
+  // Create a version of the 'readFile' function that does.
   const readFile = util.promisify(fs.readFile);
-  let originalFile;
-  let input;
 
+  // Validate, then process the results for each file being validated.
   for (const validFile of filesToValidate) {
+    let originalFile;
+    let input;
+
     if (filesToValidate.length > 1) {
       logger.info(
         '\n    ' + chalk.underline(`Validation Results for ${validFile}:`)
@@ -205,7 +177,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       }
 
       if (!isPlainObject(input)) {
-        throw `The given input in ${validFile} is not a valid object.`;
+        throw `The content of '${validFile}' is not a valid object.`;
       }
 
       // jsonValidator looks through the originalFile for duplicate JSON keys
@@ -228,11 +200,11 @@ async function runValidator(cliArgs, parseOptions = {}) {
     let results;
     try {
       results = await runSpectral({
-        chalk,
+        chalk: context.chalk,
         validFile,
         originalFile,
-        logger,
-        rulesetFileOverride
+        logger: context.logger,
+        rulesetFileOverride: context.config.ruleset
       });
     } catch (err) {
       logError(chalk, 'There was a problem with spectral.', getError(err));
@@ -251,7 +223,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       continue;
     }
 
-    if (errorsOnly) {
+    if (context.config.errorsOnly) {
       logger.debug(
         'Running in "errors only" mode - only error-severity validations will be displayed.'
       );
@@ -261,23 +233,24 @@ async function runValidator(cliArgs, parseOptions = {}) {
     if (results.error.summary.total) {
       // If we have any errors, then exit code 1 is returned.
       exitCode = 1;
-    } else if (!errorsOnly) {
+    } else if (!context.config.errorsOnly) {
       // If the # of warnings exceeded the warnings limit, then this is an error.
       const numWarnings = results.warning.summary.total;
-      if (numWarnings > limitsObject.warnings) {
+      const warningsLimit = context.config.limits.warnings;
+      if (warningsLimit >= 0 && numWarnings > warningsLimit) {
         exitCode = 1;
         logger.error(
-          `Number of warnings (${numWarnings}) exceeds warnings limit (${limitsObject.warnings}).`
+          `Number of warnings (${numWarnings}) exceeds warnings limit (${warningsLimit}).`
         );
       }
     }
 
     // Now print the results, either JSON or text.
-    if (jsonOutput) {
-      printJson(logger, results);
+    if (context.config.outputFormat === 'json') {
+      printJson(context, results);
     } else {
-      if (results.has_results) {
-        print(logger, results, chalk, summaryOnly, errorsOnly);
+      if (results.hasResults) {
+        print(context, results);
       } else {
         logger.info(chalk.green(`${validFile} passed the validator`));
       }

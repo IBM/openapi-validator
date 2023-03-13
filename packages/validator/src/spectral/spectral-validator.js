@@ -12,21 +12,22 @@ const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const {
   getFileExtension
 } = require('../cli-validator/utils/file-extension-validator');
-const config = require('../cli-validator/utils/process-configuration');
+const findUp = require('find-up');
 
 /**
  * Creates a Spectral document from the input, runs spectral, converts the results
  * from Spectral to IBM format and returns them.
  *
  * @param {*} opts an object containing the input options
+ * @param {*} opts.logger the root logger for displaying messages
+ * @param {*} opts.chalk the chalk object used for logging messages
+ * @param {*} opts.rulesetFileOverride an optional ruleset filename
+ * @param {*} opts.validFile
+ * @param {*} opts.originalFile
  * @returns the formatted results
  */
 const runSpectral = async function(opts) {
-  const spectral = await setup(
-    opts.logger,
-    opts.rulesetFileOverride,
-    opts.chalk
-  );
+  const spectral = await setup(opts);
 
   const fileExtension = getFileExtension(opts.validFile);
   let parser = Parsers.Json;
@@ -46,7 +47,7 @@ function convertResults(spectralResults, logger) {
     warning: { results: [], summary: { total: 0, entries: [] } },
     info: { results: [], summary: { total: 0, entries: [] } },
     hint: { results: [], summary: { total: 0, entries: [] } },
-    has_results: false
+    hasResults: false
   };
 
   // use this object to count the occurance of each validation
@@ -60,7 +61,7 @@ function convertResults(spectralResults, logger) {
       continue;
     }
 
-    finalResultsObject.has_results = true;
+    finalResultsObject.hasResults = true;
 
     const severity = convertSpectralSeverity(r.severity);
     finalResultsObject[severity].summary.total++;
@@ -83,7 +84,7 @@ function convertResults(spectralResults, logger) {
   for (const sev in summaryHelper) {
     for (const field in summaryHelper[sev]) {
       finalResultsObject[sev].summary.entries.push({
-        generalized_message: field,
+        generalizedMessage: field,
         count: summaryHelper[sev][field],
         percentage: Math.round(
           (summaryHelper[sev][field] / finalResultsObject[sev].summary.total) *
@@ -97,30 +98,39 @@ function convertResults(spectralResults, logger) {
 }
 
 /**
- * Creates a new spectral instance, sets up the ruleset, then returns the spectral instance.
+ * Creates a new Spectral instance, sets up the ruleset, then returns the spectral instance.
  *
- * @param {*} logger the logger object used to log messages
- * @param {string} rulesetFileOverride the path to a ruleset as given by an argument
- * @param {*} chalk an object used to colorize messages
- * @returns the spectral instance
+ * @param {*} opts an object containing the options
+ * @param {*} opts.logger the logger to use for logging messages
+ * @param {*} opts.chalk the chalk object for displaying messages
+ * @param {string} opts.rulesetFileOverride an optional ruleset filename
+ * @returns the new Spectral instance
  */
-async function setup(logger, rulesetFileOverride, chalk) {
+async function setup(opts) {
   const spectral = new Spectral();
 
-  // spectral only supports reading a config file in the working directory
-  // but we support looking up the file path for the nearest file (if one exists)
+  // Grab the context fields we need.
+  const { logger, chalk } = opts;
+  let { rulesetFileOverride } = opts;
+
+  // Spectral only supports reading a config file in the working directory,
+  // but we support looking up the file path for the nearest file (if one exists).
   if (!rulesetFileOverride) {
-    rulesetFileOverride = await config.lookForSpectralRuleset();
+    rulesetFileOverride = await lookForSpectralRuleset();
   }
 
+  // We'll use the IBM ruleset by default, but also look for a user-provided
+  // ruleset and use that if one was specified.
   let ruleset = ibmRuleset;
   try {
     ruleset = await getRuleset(rulesetFileOverride);
+    logger.debug(`[Debug] Using Spectral ruleset file: ${rulesetFileOverride}`);
   } catch (e) {
     // Check error for common issues but do nothing.
-    // We get here anytime the user doesnt define a valid spectral config, which is fine.
-    // We use our default in that case. In certain cases, we help the user understand
-    // the error by logging informative messages.
+    // We get here anytime the user doesn't define a valid Spectral config,
+    // which is fine. We just use our default in that case.
+    // In certain cases, we help the user understand what is happening by
+    // logging informative messages.
     checkGetRulesetError(logger, e, chalk);
   }
 
@@ -134,9 +144,9 @@ module.exports = {
 };
 
 function checkGetRulesetError(logger, error, chalk) {
-  // this first check is to help users migrate to the new version of spectral. if they
-  // try to extend our old ruleset name, spectral will reject the ruleset. we should let
-  // the user know what they need to change
+  // This first check is to help users migrate to the new version of Spectral.
+  // If they try to extend our old ruleset name, Spectral will reject the ruleset.
+  // We should let the user know what they need to change.
   if (
     error.message.startsWith('ENOENT: no such file or directory') &&
     error.message.includes('ibm:oas')
@@ -153,13 +163,13 @@ function checkGetRulesetError(logger, error, chalk) {
     logger.debug(
       `${chalk.magenta(
         '[Info]'
-      )} No Spectral config file found, using default IBM Spectral ruleset.`
+      )} No Spectral ruleset file found, using the default IBM Cloud Validation Ruleset.`
     );
   } else {
     logger.debug(
       `${chalk.magenta(
         '[Info]'
-      )} Problem reading Spectral config file, using default IBM Spectral ruleset. Cause for error:`
+      )} Problem reading Spectral ruleset file, using the default IBM Cloud Validation Ruleset. Cause for error:`
     );
     logger.debug(error.message);
   }
@@ -177,4 +187,36 @@ function convertSpectralSeverity(s) {
   // we have already guaranteed s to be a number, 0-3
   const mapping = { 0: 'error', 1: 'warning', 2: 'info', 3: 'hint' };
   return mapping[s];
+}
+
+/**
+ * Looks for an instance of one of the standard Spectral ruleset files by
+ * navigating up the directory hierarchy starting in the current directory.
+ * @returns the name of the ruleset file, or null if no standard
+ * spectral ruleset file was found
+ */
+async function lookForSpectralRuleset() {
+  // List of ruleset files to search for
+  const rulesetFilesToFind = [
+    '.spectral.yaml',
+    '.spectral.yml',
+    '.spectral.json',
+    '.spectral.js'
+  ];
+
+  let rulesetFile = null;
+
+  // search up the file system for the first ruleset file found
+  try {
+    for (const file of rulesetFilesToFind) {
+      if (!rulesetFile) {
+        rulesetFile = await findUp(file);
+      }
+    }
+  } catch {
+    // if there's any issue finding a custom ruleset, then return null
+    rulesetFile = null;
+  }
+
+  return rulesetFile;
 }

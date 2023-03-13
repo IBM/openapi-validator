@@ -40,7 +40,7 @@ describe('cli tool - test error handling', function() {
     expect(capturedText).toHaveLength(1);
     expect(capturedText[0]).toMatch(/^IBM OpenAPI Validator/);
     expect(capturedText[0]).toMatch(
-      /Usage: lint-openapi \[options\] \[<file>\]/
+      /Usage: lint-openapi \[options\] \[file...\]/
     );
     expect(capturedText[0]).toMatch(/-h, --help +display help for command/);
   });
@@ -64,9 +64,7 @@ describe('cli tool - test error handling', function() {
     expect(capturedText[1].trim()).toEqual(
       'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
     );
-    expect(capturedText[2].trim()).toEqual(
-      '[Error] None of the given arguments are valid files.'
-    );
+    expect(capturedText[2].trim()).toEqual('[Error] No files to validate.');
   });
 
   it('should return an error when there is an invalid file extension', async function() {
@@ -88,9 +86,7 @@ describe('cli tool - test error handling', function() {
     expect(capturedText[1].trim()).toEqual(
       'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
     );
-    expect(capturedText[2].trim()).toEqual(
-      '[Error] None of the given arguments are valid files.'
-    );
+    expect(capturedText[2].trim()).toEqual('[Error] No files to validate.');
   });
 
   it('should return an error when a file contains an invalid object', async function() {
