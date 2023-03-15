@@ -7,13 +7,12 @@ const each = require('lodash/each');
 const pad = require('pad');
 
 // this function prints all of the output
-module.exports = function print({ chalk, config, logger }, results) {
-  const { summaryOnly, errorsOnly } = config;
+module.exports = function print(context, results) {
+  const { chalk, config, logger } = context;
+  const types = ['error', 'warning', 'info', 'hint'];
 
-  const types = errorsOnly ? ['error'] : ['error', 'warning', 'info', 'hint'];
-
-  if (summaryOnly) {
-    printSummary(results, types, logger, chalk, errorsOnly);
+  if (config.summaryOnly) {
+    printSummary(results, types, context);
     return;
   }
 
@@ -45,16 +44,16 @@ module.exports = function print({ chalk, config, logger }, results) {
   });
 
   // Print the summary here
-  printSummary(results, types, logger, chalk, errorsOnly);
+  printSummary(results, types, context);
 };
 
-function printSummary(results, types, logger, chalk, errorsOnly) {
+function printSummary(results, types, { logger, chalk, config }) {
   logger.info(chalk.bgCyan('summary\n'));
 
   logger.info(
     chalk.cyan(`  Total number of errors   : ${results.error.summary.total}`)
   );
-  if (!errorsOnly) {
+  if (!config.errorsOnly) {
     logger.info(
       chalk.cyan(
         `  Total number of warnings : ${results.warning.summary.total}`

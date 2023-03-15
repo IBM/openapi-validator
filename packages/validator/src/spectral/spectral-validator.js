@@ -26,21 +26,23 @@ const findUp = require('find-up');
  * @param {*} opts.originalFile
  * @returns the formatted results
  */
-const runSpectral = async function(opts) {
-  const spectral = await setup(opts);
+const runSpectral = async function({ originalFile, validFile }, context) {
+  const spectral = await setup(context);
 
-  const fileExtension = getFileExtension(opts.validFile);
+  const fileExtension = getFileExtension(validFile);
   let parser = Parsers.Json;
   if (['yaml', 'yml'].includes(fileExtension)) {
     parser = Parsers.Yaml;
   }
 
-  const doc = new Document(opts.originalFile, parser, opts.validFile);
+  const doc = new Document(originalFile, parser, validFile);
   const spectralResults = await spectral.run(doc);
-  return convertResults(spectralResults, opts.logger);
+  return convertResults(spectralResults, context);
 };
 
-function convertResults(spectralResults, logger) {
+function convertResults(spectralResults, { config, logger }) {
+  const { errorsOnly, summaryOnly } = config;
+
   // This structure must match the JSON Schema defined for JSON output
   const finalResultsObject = {
     error: { results: [], summary: { total: 0, entries: [] } },
@@ -61,16 +63,26 @@ function convertResults(spectralResults, logger) {
       continue;
     }
 
-    finalResultsObject.hasResults = true;
-
     const severity = convertSpectralSeverity(r.severity);
+    // only collect errors when "errors only" is true
+    if (errorsOnly && r.severity > 0) {
+      logger.debug(
+        `Ignoring result with '${severity}' severity due to 'errors-only' option`
+      );
+      continue;
+    }
+
+    finalResultsObject.hasResults = true;
     finalResultsObject[severity].summary.total++;
-    finalResultsObject[severity].results.push({
-      message: r.message,
-      path: r.path,
-      rule: r.code,
-      line: r.range.start.line + 1
-    });
+
+    if (!summaryOnly) {
+      finalResultsObject[severity].results.push({
+        message: r.message,
+        path: r.path,
+        rule: r.code,
+        line: r.range.start.line + 1
+      });
+    }
 
     // compute a generalized message for the summary
     const genMessage = r.message.split(':')[0];
@@ -100,21 +112,18 @@ function convertResults(spectralResults, logger) {
 /**
  * Creates a new Spectral instance, sets up the ruleset, then returns the spectral instance.
  *
- * @param {*} opts an object containing the options
- * @param {*} opts.logger the logger to use for logging messages
- * @param {*} opts.chalk the chalk object for displaying messages
- * @param {string} opts.rulesetFileOverride an optional ruleset filename
+ * @param {*} context an object containing the options
+ * @param {*} context.logger the logger to use for logging messages
+ * @param {*} context.chalk the chalk object for displaying messages
+ * @param {string} context.config.ruleset an optional ruleset filename
  * @returns the new Spectral instance
  */
-async function setup(opts) {
+async function setup({ chalk, config, logger }) {
   const spectral = new Spectral();
-
-  // Grab the context fields we need.
-  const { logger, chalk } = opts;
-  let { rulesetFileOverride } = opts;
 
   // Spectral only supports reading a config file in the working directory,
   // but we support looking up the file path for the nearest file (if one exists).
+  let rulesetFileOverride = config.ruleset;
   if (!rulesetFileOverride) {
     rulesetFileOverride = await lookForSpectralRuleset();
   }
@@ -163,13 +172,13 @@ function checkGetRulesetError(logger, error, chalk) {
     logger.debug(
       `${chalk.magenta(
         '[Info]'
-      )} No Spectral ruleset file found, using the default IBM Cloud Validation Ruleset.`
+      )} No Spectral ruleset file found, using the default IBM Cloud OpenAPI Ruleset.`
     );
   } else {
     logger.debug(
       `${chalk.magenta(
         '[Info]'
-      )} Problem reading Spectral ruleset file, using the default IBM Cloud Validation Ruleset. Cause for error:`
+      )} Problem reading Spectral ruleset file, using the default IBM Cloud OpenAPI Ruleset. Cause for error:`
     );
     logger.debug(error.message);
   }
