@@ -9,6 +9,10 @@ const {
   getCapturedTextWithColor,
   testValidator
 } = require('../../test-utils');
+const {
+  validate
+} = require('../../../src/cli-validator/utils/schema-validator');
+const { readYaml } = require('../../../src/cli-validator/utils/read-yaml');
 
 describe('cli tool - test option handling', function() {
   let consoleSpy;
@@ -80,13 +84,8 @@ describe('cli tool - test option handling', function() {
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
 
-      let foundSummary = false;
       capturedText.forEach(function(line) {
-        if (line.includes('summary')) {
-          foundSummary = true;
-        }
-        // It's ok to "see" the word "warnings" in the summary section.
-        expect(line.includes('warnings') && !foundSummary).toEqual(false);
+        expect(line.includes('warnings')).toEqual(false);
       });
     }
   );
@@ -190,6 +189,13 @@ describe('cli tool - test option handling', function() {
       expect(outputObject.error.results[0]['message']).toEqual(
         'Every operation must have unique "operationId".'
       );
+
+      // json output should comply with written schema
+      const outputSchemaPath =
+        __dirname + '/../../../src/schemas/results-object.yaml';
+      const outputSchema = await readYaml(outputSchemaPath);
+      const results = validate(outputObject, outputSchema);
+      expect(results).toHaveLength(0);
     }
   );
 
@@ -204,7 +210,29 @@ describe('cli tool - test option handling', function() {
     // capturedText should be JSON object. convert to json and check fields
     const outputObject = JSON.parse(capturedText);
 
-    expect(outputObject.warnings).toEqual(undefined);
+    ['warning', 'info', 'hint'].forEach(severity => {
+      expect(outputObject[severity].results.length).toEqual(0);
+      expect(outputObject[severity].summary.total).toEqual(0);
+    });
+  });
+
+  it('should not include results in json output when -j and -s options are specified together', async function() {
+    await testValidator([
+      '-j',
+      '-s',
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+    ]);
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+
+    // capturedText should be JSON object. convert to json and check fields
+    const outputObject = JSON.parse(capturedText);
+
+    ['error', 'warning', 'info', 'hint'].forEach(severity => {
+      expect(outputObject[severity].results.length).toEqual(0);
+    });
+
+    expect(outputObject.error.summary.total).toBeGreaterThan(0);
+    expect(outputObject.warning.summary.total).toBeGreaterThan(0);
   });
 
   describe('test unknown option handling', function() {
