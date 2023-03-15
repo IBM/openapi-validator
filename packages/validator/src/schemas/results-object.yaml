@@ -1,12 +1,14 @@
-$schema: https://json-schema.org/draft/2020-12/schema
+$schema: http://json-schema.org/draft-07/schema#
 title: IBM OpenAPI Validator Results Schema
 description: The results produced by running the validator on an API definition
 type: object
+additionalProperties: false
 required:
   - error
   - warning
   - info
   - hint
+  - hasResults
 properties:
   error:
     $ref: '#/$defs/ValidationData'
@@ -23,6 +25,7 @@ properties:
 $defs:
   ValidationData:
     type: object
+    additionalProperties: false
     required:
       - results
       - summary
@@ -31,9 +34,10 @@ $defs:
         type: array
         description: List of results with a given severity
         items:
-          $ref: '$defs/ValidationResult'
+          $ref: '#/$defs/ValidationResult'
       summary:
         type: object
+        additionalProperties: false
         required:
           - entries
           - total
@@ -48,6 +52,7 @@ $defs:
             description: The total number of validations with a given severity
   ValidationResult:
     type: object
+    additionalProperties: false
     required:
       - message
       - path
@@ -70,10 +75,14 @@ $defs:
         type: integer
         description: The line number in the original file that the problem
           was discovered on
-    additionalProperties: false
   SummaryEntry:
     type: object
+    additionalProperties: false
     required:
+      - generalizedMessage
+      - count
+      - percentage
+    properties:
       generalizedMessage:
         type: string
         description: Generalized version of a rule message that has been reported by the validator
@@ -83,4 +92,3 @@ $defs:
       percentage:
         type: integer
         description: The percentage of total violations for a given severity that this rule comprises
-      additionalProperties: false

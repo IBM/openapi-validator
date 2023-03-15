@@ -3,10 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const fs = require('fs');
-const util = require('util');
 const path = require('path');
-const readYaml = require('js-yaml');
 const {
   getFileExtension,
   supportedFileExtension
@@ -14,9 +11,7 @@ const {
 const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
 const { validate } = require('./schema-validator');
 const createCLIOptions = require('./cli-options');
-
-// Use a "promisified" version of fs.readFile().
-const readFile = util.promisify(fs.readFile);
+const { readYaml } = require('./read-yaml');
 
 // Lazy initializer for the logger.
 let logger;
@@ -85,8 +80,7 @@ async function loadConfig(filename) {
 
           case 'yaml':
           case 'yml': {
-            const configContents = await readFile(configFile, 'utf8');
-            userConfig = readYaml.safeLoad(configContents);
+            userConfig = await readYaml(configFile);
             break;
           }
         }
@@ -259,11 +253,9 @@ async function processArgs(args, cliParseOptions) {
 let configFileSchema;
 async function getConfigFileSchema() {
   if (!configFileSchema) {
-    const fileContents = await readFile(
-      path.join(__dirname, '../../schemas/config-file.yaml'),
-      'utf8'
+    configFileSchema = await readYaml(
+      path.join(__dirname, '../../schemas/config-file.yaml')
     );
-    configFileSchema = readYaml.safeLoad(fileContents);
   }
 
   return configFileSchema;
