@@ -199,13 +199,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
     // Run spectral and collect formatted results
     let results;
     try {
-      results = await runSpectral({
-        chalk: context.chalk,
-        validFile,
-        originalFile,
-        logger: context.logger,
-        rulesetFileOverride: context.config.ruleset
-      });
+      results = await runSpectral({ validFile, originalFile }, context);
     } catch (err) {
       logError(chalk, 'There was a problem with spectral.', getError(err));
       logger.error('Additional error details:');
@@ -223,26 +217,20 @@ async function runValidator(cliArgs, parseOptions = {}) {
       continue;
     }
 
-    if (context.config.errorsOnly) {
-      logger.debug(
-        'Running in "errors only" mode - only error-severity validations will be displayed.'
-      );
-    }
-
     // Check to see if we should be passing back a non-zero exit code.
     if (results.error.summary.total) {
       // If we have any errors, then exit code 1 is returned.
       exitCode = 1;
-    } else if (!context.config.errorsOnly) {
-      // If the # of warnings exceeded the warnings limit, then this is an error.
-      const numWarnings = results.warning.summary.total;
-      const warningsLimit = context.config.limits.warnings;
-      if (warningsLimit >= 0 && numWarnings > warningsLimit) {
-        exitCode = 1;
-        logger.error(
-          `Number of warnings (${numWarnings}) exceeds warnings limit (${warningsLimit}).`
-        );
-      }
+    }
+
+    // If the # of warnings exceeded the warnings limit, then this is an error.
+    const numWarnings = results.warning.summary.total;
+    const warningsLimit = context.config.limits.warnings;
+    if (warningsLimit >= 0 && numWarnings > warningsLimit) {
+      exitCode = 1;
+      logger.error(
+        `Number of warnings (${numWarnings}) exceeds warnings limit (${warningsLimit}).`
+      );
     }
 
     // Now print the results, either JSON or text.
