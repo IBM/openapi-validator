@@ -14,6 +14,6 @@ module.exports = {
   formats: [oas3],
   resolved: false,
   then: {
-    function: refPattern
-  }
+    function: refPattern,
+  },
 };

@@ -4,7 +4,7 @@
  */
 
 const {
-  patchOperations
+  patchOperations,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { patchRequestContentType } = require('../functions');
@@ -18,6 +18,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: patchRequestContentType
-  }
+    function: patchRequestContentType,
+  },
 };

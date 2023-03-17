@@ -47,9 +47,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           message: {
             type: 'integer',
             description: 'Main message of the movie.',
-            deprecated: true
-          }
-        }
+            deprecated: true,
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -69,14 +69,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     code: {
                       type: 'integer',
-                      description: 'Integer code'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Integer code',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       testDocument.paths['/v1/songs'] = {
@@ -90,14 +90,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     code: {
                       type: 'boolean',
-                      description: 'Boolean code'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Boolean code',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -118,14 +118,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     default: {
                       type: 'integer',
-                      description: 'Integer default'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Integer default',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       testDocument.paths['/v1/songs'] = {
@@ -139,14 +139,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     default: {
                       type: 'boolean',
-                      description: 'Boolean default'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Boolean default',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -167,14 +167,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     type: {
                       type: 'integer',
-                      description: 'Integer type'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Integer type',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       testDocument.paths['/v1/songs'] = {
@@ -188,14 +188,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     type: {
                       type: 'boolean',
-                      description: 'Boolean type'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Boolean type',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -216,14 +216,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     value: {
                       type: 'integer',
-                      description: 'Integer value'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Integer value',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       testDocument.paths['/v1/songs'] = {
@@ -237,14 +237,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     value: {
                       type: 'boolean',
-                      description: 'Boolean value'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Boolean value',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -267,14 +267,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     running_time: {
                       type: 'string',
-                      description: 'Running time of the audiobook form.'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Running time of the audiobook form.',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -315,14 +315,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     running_time: {
                       type: 'string',
-                      description: 'Running time of the audiobook form.'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Running time of the audiobook form.',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       testDocument.paths['/v1/songs'] = {
@@ -336,14 +336,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   properties: {
                     running_time: {
                       type: 'boolean',
-                      description: 'Running time of the song.'
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }
+                      description: 'Running time of the song.',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

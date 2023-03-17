@@ -22,7 +22,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/movies'].get.parameters[0].schema.enum = [
-        'snake_case_value'
+        'snake_case_value',
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -37,7 +37,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/movies'].get.parameters[0].schema.enum = [
         'valueOne',
         'valueTwo',
-        'value_three'
+        'value_three',
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -62,7 +62,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['Juice'].properties['type'].enum = [
         'juicyJuice',
         'not_enough_juice',
-        'orangeJuice'
+        'orangeJuice',
       ];
 
       const results = await testRule(ruleId, rule, testDocument);

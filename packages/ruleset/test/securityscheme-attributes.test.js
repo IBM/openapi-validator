@@ -63,7 +63,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.components.securitySchemes.MovieScheme = {
-          name: 'Authorization'
+          name: 'Authorization',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -81,7 +81,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.components.securitySchemes.MovieScheme = {
-          type: 'bad type'
+          type: 'bad type',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -101,7 +101,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.components.securitySchemes.Basic = {
-          type: 'http'
+          type: 'http',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -122,7 +122,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.securitySchemes.IAM = {
           type: 'apiKey',
-          name: 'Authorization'
+          name: 'Authorization',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -142,7 +142,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.securitySchemes.IAM = {
           type: 'apiKey',
           name: 'Authorization',
-          in: 'bad-value'
+          in: 'bad-value',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -161,7 +161,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.securitySchemes.IAM = {
           type: 'apiKey',
-          in: 'header'
+          in: 'header',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -181,7 +181,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.components.securitySchemes.OpenIdScheme = {
-          type: 'openIdConnect'
+          type: 'openIdConnect',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -200,7 +200,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.securitySchemes.OpenIdScheme = {
           type: 'openIdConnect',
-          openIdConnectUrl: 'not a valid URL'
+          openIdConnectUrl: 'not a valid URL',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -220,7 +220,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.components.securitySchemes.DrinkScheme = {
-          type: 'oauth2'
+          type: 'oauth2',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -239,7 +239,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.securitySchemes.DrinkScheme = {
           type: 'oauth2',
-          flows: {}
+          flows: {},
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -257,7 +257,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         it('Empty implicit flow', async () => {
           const testDocument = makeCopy(rootDocument);
 
-          testDocument.components.securitySchemes.DrinkScheme.flows.implicit = {};
+          testDocument.components.securitySchemes.DrinkScheme.flows.implicit =
+            {};
 
           const results = await testRule(ruleId, rule, testDocument);
           expect(results).toHaveLength(2);
@@ -281,8 +282,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
           testDocument.components.securitySchemes.DrinkScheme.flows.implicit = {
             authorizationUrl: 'bad url',
             scopes: {
-              mixologist: 'Can create Drinks'
-            }
+              mixologist: 'Can create Drinks',
+            },
           };
 
           const results = await testRule(ruleId, rule, testDocument);
@@ -301,7 +302,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         it('Empty authorizationCode flow', async () => {
           const testDocument = makeCopy(rootDocument);
 
-          testDocument.components.securitySchemes.DrinkScheme.flows.authorizationCode = {};
+          testDocument.components.securitySchemes.DrinkScheme.flows.authorizationCode =
+            {};
 
           const results = await testRule(ruleId, rule, testDocument);
           expect(results).toHaveLength(3);
@@ -325,13 +327,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
         it('Invalid authorizationCode flow', async () => {
           const testDocument = makeCopy(rootDocument);
 
-          testDocument.components.securitySchemes.DrinkScheme.flows.authorizationCode = {
-            authorizationUrl: 'bad url',
-            tokenUrl: 'bad url',
-            scopes: {
-              mixologist: 'Can create Drinks'
-            }
-          };
+          testDocument.components.securitySchemes.DrinkScheme.flows.authorizationCode =
+            {
+              authorizationUrl: 'bad url',
+              tokenUrl: 'bad url',
+              scopes: {
+                mixologist: 'Can create Drinks',
+              },
+            };
 
           const results = await testRule(ruleId, rule, testDocument);
           expect(results).toHaveLength(2);
@@ -357,7 +360,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         it('Empty clientCredentials flow', async () => {
           const testDocument = makeCopy(rootDocument);
 
-          testDocument.components.securitySchemes.DrinkScheme.flows.clientCredentials = {};
+          testDocument.components.securitySchemes.DrinkScheme.flows.clientCredentials =
+            {};
 
           const results = await testRule(ruleId, rule, testDocument);
           expect(results).toHaveLength(2);
@@ -378,12 +382,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
         it('Invalid clientCredentials flow', async () => {
           const testDocument = makeCopy(rootDocument);
 
-          testDocument.components.securitySchemes.DrinkScheme.flows.clientCredentials = {
-            tokenUrl: 'bad url',
-            scopes: {
-              mixologist: 'Can create Drinks'
-            }
-          };
+          testDocument.components.securitySchemes.DrinkScheme.flows.clientCredentials =
+            {
+              tokenUrl: 'bad url',
+              scopes: {
+                mixologist: 'Can create Drinks',
+              },
+            };
 
           const results = await testRule(ruleId, rule, testDocument);
           expect(results).toHaveLength(1);
@@ -401,7 +406,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         it('Empty password flow', async () => {
           const testDocument = makeCopy(rootDocument);
 
-          testDocument.components.securitySchemes.DrinkScheme.flows.password = {};
+          testDocument.components.securitySchemes.DrinkScheme.flows.password =
+            {};
 
           const results = await testRule(ruleId, rule, testDocument);
           expect(results).toHaveLength(2);
@@ -425,8 +431,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
           testDocument.components.securitySchemes.DrinkScheme.flows.password = {
             tokenUrl: 'bad url',
             scopes: {
-              mixologist: 'Can create Drinks'
-            }
+              mixologist: 'Can create Drinks',
+            },
           };
 
           const results = await testRule(ruleId, rule, testDocument);

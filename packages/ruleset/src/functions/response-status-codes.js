@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(operation, _opts, context) {
+module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -58,7 +58,7 @@ function responseStatusCodes(operation, path, apidef) {
       errors.push({
         message:
           'Operation `responses` should use status code 400 instead of 422 for invalid request payloads.',
-        path: [...path, 'responses', '422']
+        path: [...path, 'responses', '422'],
       });
     }
 
@@ -67,7 +67,7 @@ function responseStatusCodes(operation, path, apidef) {
       errors.push({
         message:
           'Operation `responses` should use status code 303 or 307 instead of 302.',
-        path: [...path, 'responses', '302']
+        path: [...path, 'responses', '302'],
       });
     }
 
@@ -76,7 +76,7 @@ function responseStatusCodes(operation, path, apidef) {
       errors.push({
         message:
           'Operation `responses` should include at least one success status code (2xx).',
-        path: [...path, 'responses']
+        path: [...path, 'responses'],
       });
     }
 
@@ -85,7 +85,7 @@ function responseStatusCodes(operation, path, apidef) {
       errors.push({
         message:
           'Operation `responses` should not include status code 101 when success status codes (2xx) are present.',
-        path: [...path, 'responses', '101']
+        path: [...path, 'responses', '101'],
       });
     }
 
@@ -95,7 +95,7 @@ function responseStatusCodes(operation, path, apidef) {
       errors.push({
         message:
           'A 204 response must not include a response body. Use a different status code for responses with content.',
-        path: [...path, 'responses', '204', 'content']
+        path: [...path, 'responses', '204', 'content'],
       });
     }
 
@@ -106,7 +106,7 @@ function responseStatusCodes(operation, path, apidef) {
         errors.push({
           message:
             "A 201 or 202 status code should be returned by a 'create' operation.",
-          path: [...path, 'responses']
+          path: [...path, 'responses'],
         });
       }
     }
@@ -116,7 +116,7 @@ function responseStatusCodes(operation, path, apidef) {
       errors.push({
         message:
           'An operation that returns a 202 status code should not return any other 2xx status codes.',
-        path: [...path, 'responses']
+        path: [...path, 'responses'],
       });
     }
   }
@@ -136,20 +136,13 @@ function isCreateOperation(operation, path, apidef) {
   // 1. If operationId starts with "create", we'll assume it's a create operation.
   if (
     operation.operationId &&
-    operation.operationId
-      .toString()
-      .trim()
-      .toLowerCase()
-      .startsWith('create')
+    operation.operationId.toString().trim().toLowerCase().startsWith('create')
   ) {
     return true;
   }
 
   // 2. If not a POST, then it's not a create operation.
-  const method = path[path.length - 1]
-    .toString()
-    .trim()
-    .toLowerCase();
+  const method = path[path.length - 1].toString().trim().toLowerCase();
   if (method !== 'post') {
     return false;
   }

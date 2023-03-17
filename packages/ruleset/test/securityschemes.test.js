@@ -67,7 +67,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'paths./v1/movies/{movie_id}.put.security.0.MovieScheme',
         'paths./v1/cars.post.security.0.IAM',
         'paths./v1/cars/{car_id}.get.security.0.IAM',
-        'paths./v1/cars/{car_id}.patch.security.0.IAM'
+        'paths./v1/cars/{car_id}.patch.security.0.IAM',
       ];
 
       for (let i = 0; i < results.length; i++) {
@@ -83,7 +83,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Add "InvalidScheme" to the global security list.
       testDocument.security.push({
-        InvalidScheme: []
+        InvalidScheme: [],
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -99,7 +99,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Add "InvalidScheme" to an existing security list.
       testDocument.paths['/v1/drinks'].get.security.push({
-        InvalidScheme: []
+        InvalidScheme: [],
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -117,7 +117,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Reference undefined scope in global security requirement object.
       testDocument.security.push({
-        DrinkScheme: ['brewer']
+        DrinkScheme: ['brewer'],
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -154,7 +154,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         in: 'header',
         name: 'Authorization',
         type: 'http',
-        scheme: 'Basic'
+        scheme: 'Basic',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

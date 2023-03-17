@@ -32,8 +32,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
           description: 'A string used to filter the results.',
           required: true,
           schema: {
-            type: 'string'
-          }
+            type: 'string',
+          },
         },
         {
           name: 'max_pages',
@@ -41,9 +41,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           description: 'The max number of pages to return.',
           required: true,
           schema: {
-            type: 'integer'
-          }
-        }
+            type: 'integer',
+          },
+        },
       ];
       testDocument.paths['/v1/drinks'].get.parameters.push(...newParams);
 
@@ -72,12 +72,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
         description: 'A string used to filter the results.',
         required: true,
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       };
 
       testDocument.paths['/v1/drinks'].get.parameters.push({
-        $ref: '#/components/parameters/FilterParam'
+        $ref: '#/components/parameters/FilterParam',
       });
 
       const results = await testRule(ruleId, rule, testDocument);

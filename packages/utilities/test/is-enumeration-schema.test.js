@@ -41,14 +41,14 @@ describe('Utility function: isEnumerationSchema()', () => {
               {
                 anyOf: [
                   { type: 'string', enum: ['one'] },
-                  { type: 'string', enum: ['two'] }
-                ]
+                  { type: 'string', enum: ['two'] },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'string', enum: ['three'] }
-        ]
+          { type: 'string', enum: ['three'] },
+        ],
       })
     ).toBe(true);
   });

@@ -13,6 +13,6 @@ module.exports = {
   formats: [oas3],
   given: '$.servers[*][variables][*][default]',
   then: {
-    function: truthy
-  }
+    function: truthy,
+  },
 };

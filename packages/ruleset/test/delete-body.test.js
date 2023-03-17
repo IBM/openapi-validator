@@ -32,19 +32,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
           content: {
             'text/html': {
               schema: {
-                type: 'string'
-              }
-            }
-          }
+                type: 'string',
+              },
+            },
+          },
         },
         responses: {
-          '204': {
-            description: 'Drink successfully poured!'
+          204: {
+            description: 'Drink successfully poured!',
           },
-          '400': {
-            $ref: '#/components/responses/BarIsClosed'
-          }
-        }
+          400: {
+            $ref: '#/components/responses/BarIsClosed',
+          },
+        },
       };
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);

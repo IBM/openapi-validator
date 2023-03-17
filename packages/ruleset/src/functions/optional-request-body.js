@@ -5,7 +5,7 @@
 
 const { getCompositeSchemaAttribute } = require('../utils');
 
-module.exports = function(schema, _opts, { path }) {
+module.exports = function (schema, _opts, { path }) {
   return checkOptionalRequestBodySchema(schema, path);
 };
 
@@ -18,8 +18,8 @@ function checkOptionalRequestBodySchema(schema, path) {
         message: '',
 
         // Return the path to the requestBody, not the schema.
-        path: path.slice(0, 4)
-      }
+        path: path.slice(0, 4),
+      },
     ];
   }
 

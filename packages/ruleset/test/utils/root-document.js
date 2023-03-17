@@ -8,26 +8,26 @@ module.exports = {
   info: {
     title: 'Root Test Definition',
     description: 'API definition for testing custom Spectral rules.',
-    version: '1.0.0'
+    version: '1.0.0',
   },
   servers: [
     {
-      url: 'https://some-madeup-url.com/api'
-    }
+      url: 'https://some-madeup-url.com/api',
+    },
   ],
   security: [
     {
-      IAM: []
+      IAM: [],
     },
     {
-      OpenIdScheme: ['openid:admin']
-    }
+      OpenIdScheme: ['openid:admin'],
+    },
   ],
   tags: [
     {
       name: 'TestTag',
-      description: 'A tag used for testing.'
-    }
+      description: 'A tag used for testing.',
+    },
   ],
   paths: {
     '/v1/drinks': {
@@ -38,8 +38,8 @@ module.exports = {
         tags: ['TestTag'],
         security: [
           {
-            DrinkScheme: ['mixologist']
-          }
+            DrinkScheme: ['mixologist'],
+          },
         ],
         'x-codegen-request-body-name': 'drink',
         requestBody: {
@@ -47,33 +47,33 @@ module.exports = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Drink'
-              }
-            }
-          }
+                $ref: '#/components/schemas/Drink',
+              },
+            },
+          },
         },
         responses: {
-          '201': {
+          201: {
             description: 'Success!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            }
+                  $ref: '#/components/schemas/Drink',
+                },
+              },
+            },
           },
-          '400': {
+          400: {
             description: 'Error!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/ErrorContainer'
-                }
-              }
-            }
-          }
-        }
+                  $ref: '#/components/schemas/ErrorContainer',
+                },
+              },
+            },
+          },
+        },
       },
       get: {
         operationId: 'list_drinks',
@@ -83,8 +83,8 @@ module.exports = {
         security: [
           {
             Basic: [],
-            DrinkScheme: ['drinker']
-          }
+            DrinkScheme: ['drinker'],
+          },
         ],
         parameters: [
           {
@@ -95,8 +95,8 @@ module.exports = {
             schema: {
               type: 'integer',
               format: 'int32',
-              minimum: 0
-            }
+              minimum: 0,
+            },
           },
           {
             name: 'limit',
@@ -108,39 +108,39 @@ module.exports = {
               format: 'int32',
               minimum: 0,
               maximum: 100,
-              default: 10
-            }
-          }
+              default: 10,
+            },
+          },
         ],
         responses: {
-          '200': {
+          200: {
             description: 'Success!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/DrinkCollection'
-                }
-              }
-            }
+                  $ref: '#/components/schemas/DrinkCollection',
+                },
+              },
+            },
           },
-          '400': {
+          400: {
             description: 'Error!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/ErrorContainer'
-                }
-              }
-            }
-          }
-        }
-      }
+                  $ref: '#/components/schemas/ErrorContainer',
+                },
+              },
+            },
+          },
+        },
+      },
     },
     '/v1/drinks/{drink_id}': {
       parameters: [
         {
-          $ref: '#/components/parameters/DrinkIdParam'
-        }
+          $ref: '#/components/parameters/DrinkIdParam',
+        },
       ],
       get: {
         operationId: 'get_drink',
@@ -149,23 +149,23 @@ module.exports = {
         tags: ['TestTag'],
         security: [
           {
-            DrinkScheme: []
-          }
+            DrinkScheme: [],
+          },
         ],
         parameters: [
           {
-            $ref: '#/components/parameters/VerboseParam'
-          }
+            $ref: '#/components/parameters/VerboseParam',
+          },
         ],
         responses: {
-          '200': {
-            $ref: '#/components/responses/ConsumedDrink'
+          200: {
+            $ref: '#/components/responses/ConsumedDrink',
           },
-          '400': {
-            $ref: '#/components/responses/BarIsClosed'
-          }
-        }
-      }
+          400: {
+            $ref: '#/components/responses/BarIsClosed',
+          },
+        },
+      },
     },
     '/v1/drinks/menu': {
       get: {
@@ -174,7 +174,7 @@ module.exports = {
         description: 'Retrieve a document containing the drinks menu.',
         tags: ['TestTag'],
         responses: {
-          '200': {
+          200: {
             content: {
               'application/octet-stream': {
                 schema: {
@@ -182,12 +182,12 @@ module.exports = {
                   type: 'string',
                   format: 'binary',
                   minLength: 0,
-                  maxLength: 1024000
-                }
-              }
-            }
-          }
-        }
+                  maxLength: 1024000,
+                },
+              },
+            },
+          },
+        },
       },
       put: {
         operationId: 'replace_menu',
@@ -205,8 +205,8 @@ module.exports = {
               type: 'string',
               pattern: '[a-z0-9]*.pdf',
               minLength: 0,
-              maxLength: 1024000
-            }
+              maxLength: 1024000,
+            },
           },
           {
             in: 'query',
@@ -217,11 +217,11 @@ module.exports = {
                 schema: {
                   description: 'valid document types',
                   type: 'string',
-                  enum: ['pdf', 'odt', 'doc']
-                }
-              }
-            }
-          }
+                  enum: ['pdf', 'odt', 'doc'],
+                },
+              },
+            },
+          },
         ],
         requestBody: {
           required: true,
@@ -232,13 +232,13 @@ module.exports = {
                 type: 'string',
                 format: 'binary',
                 minLength: 0,
-                maxLength: 1024000
-              }
-            }
-          }
+                maxLength: 1024000,
+              },
+            },
+          },
         },
         responses: {
-          '200': {
+          200: {
             description: 'Upload confirmed!',
             content: {
               'text/plain': {
@@ -246,13 +246,13 @@ module.exports = {
                   description: 'String response for upload request.',
                   type: 'string',
                   minLength: 0,
-                  maxLength: 512
-                }
-              }
-            }
-          }
-        }
-      }
+                  maxLength: 512,
+                },
+              },
+            },
+          },
+        },
+      },
     },
     '/v1/movies': {
       post: {
@@ -262,41 +262,41 @@ module.exports = {
         tags: ['TestTag'],
         security: [
           {
-            MovieScheme: ['director']
-          }
+            MovieScheme: ['director'],
+          },
         ],
         requestBody: {
           required: true,
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Movie'
-              }
-            }
-          }
+                $ref: '#/components/schemas/Movie',
+              },
+            },
+          },
         },
         responses: {
-          '201': {
+          201: {
             description: 'Success!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Movie'
-                }
-              }
-            }
+                  $ref: '#/components/schemas/Movie',
+                },
+              },
+            },
           },
-          '400': {
+          400: {
             description: 'Error!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/ErrorContainer'
-                }
-              }
-            }
-          }
-        }
+                  $ref: '#/components/schemas/ErrorContainer',
+                },
+              },
+            },
+          },
+        },
       },
       get: {
         operationId: 'list_movies',
@@ -306,8 +306,8 @@ module.exports = {
         tags: ['TestTag'],
         security: [
           {
-            MovieScheme: ['moviegoer']
-          }
+            MovieScheme: ['moviegoer'],
+          },
         ],
         parameters: [
           {
@@ -317,8 +317,8 @@ module.exports = {
             in: 'query',
             schema: {
               type: 'string',
-              enum: ['comedy', 'drama', 'action', 'musical', 'documentary']
-            }
+              enum: ['comedy', 'drama', 'action', 'musical', 'documentary'],
+            },
           },
           {
             name: 'start',
@@ -329,8 +329,8 @@ module.exports = {
               type: 'string',
               pattern: '[a-zA-Z0-9 ]+',
               minLength: 1,
-              maxLength: 128
-            }
+              maxLength: 128,
+            },
           },
           {
             name: 'limit',
@@ -342,44 +342,44 @@ module.exports = {
               format: 'int32',
               minimum: 0,
               maximum: 100,
-              default: 10
-            }
-          }
+              default: 10,
+            },
+          },
         ],
         responses: {
-          '200': {
+          200: {
             description: 'Success!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/MovieCollection'
+                  $ref: '#/components/schemas/MovieCollection',
                 },
                 example: {
                   offset: 0,
                   limit: 2,
                   total_count: 2,
                   first: {
-                    href: 'first page'
+                    href: 'first page',
                   },
                   last: {
-                    href: 'last page'
+                    href: 'last page',
                   },
                   movies: [
                     { id: '1234', name: 'The Fellowship of the Ring' },
-                    { id: '5678', name: 'The Two Towers' }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
+                    { id: '5678', name: 'The Two Towers' },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
     },
     '/v1/movies/{movie_id}': {
       parameters: [
         {
-          $ref: '#/components/parameters/MovieIdParam'
-        }
+          $ref: '#/components/parameters/MovieIdParam',
+        },
       ],
       get: {
         operationId: 'get_movie',
@@ -388,24 +388,24 @@ module.exports = {
         tags: ['TestTag'],
         security: [
           {
-            MovieScheme: ['moviegoer']
-          }
+            MovieScheme: ['moviegoer'],
+          },
         ],
         responses: {
-          '200': {
-            $ref: '#/components/responses/MovieWithETag'
+          200: {
+            $ref: '#/components/responses/MovieWithETag',
           },
-          '400': {
+          400: {
             description: 'Didnt work!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/ErrorContainer'
-                }
-              }
-            }
-          }
-        }
+                  $ref: '#/components/schemas/ErrorContainer',
+                },
+              },
+            },
+          },
+        },
       },
       put: {
         operationId: 'replace_movie',
@@ -414,13 +414,13 @@ module.exports = {
         tags: ['TestTag'],
         parameters: [
           {
-            $ref: '#/components/parameters/IfMatchParam'
-          }
+            $ref: '#/components/parameters/IfMatchParam',
+          },
         ],
         security: [
           {
-            MovieScheme: ['director']
-          }
+            MovieScheme: ['director'],
+          },
         ],
         'x-codegen-request-body-name': 'movie',
         requestBody: {
@@ -428,37 +428,37 @@ module.exports = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Movie'
-              }
-            }
-          }
+                $ref: '#/components/schemas/Movie',
+              },
+            },
+          },
         },
         responses: {
-          '204': {
-            description: 'The movie was successfully updated.'
+          204: {
+            description: 'The movie was successfully updated.',
           },
-          '400': {
+          400: {
             description: 'Didnt work!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/ErrorContainer'
-                }
-              }
-            }
+                  $ref: '#/components/schemas/ErrorContainer',
+                },
+              },
+            },
           },
-          '409': {
+          409: {
             description: 'Resource conflict!',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/ErrorContainer'
-                }
-              }
-            }
-          }
-        }
-      }
+                  $ref: '#/components/schemas/ErrorContainer',
+                },
+              },
+            },
+          },
+        },
+      },
     },
     '/v1/cars': {
       post: {
@@ -468,50 +468,50 @@ module.exports = {
         tags: ['TestTag'],
         parameters: [
           {
-            $ref: '#/components/parameters/ExpediteParam'
-          }
+            $ref: '#/components/parameters/ExpediteParam',
+          },
         ],
         security: [
           {
-            IAM: []
-          }
+            IAM: [],
+          },
         ],
         'x-codegen-request-body-name': 'car',
         requestBody: {
-          $ref: '#/components/requestBodies/CarRequest'
+          $ref: '#/components/requestBodies/CarRequest',
         },
         responses: {
-          '201': {
+          201: {
             description: 'The car instance was returned in the response.',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Car'
+                  $ref: '#/components/schemas/Car',
                 },
                 examples: {
                   ResponseExample: {
-                    $ref: '#/components/examples/CarExample'
-                  }
-                }
-              }
+                    $ref: '#/components/examples/CarExample',
+                  },
+                },
+              },
             },
             links: {
               CarId: {
-                $ref: '#/components/links/CarIdLink'
-              }
-            }
+                $ref: '#/components/links/CarIdLink',
+              },
+            },
           },
-          '400': {
-            $ref: '#/components/responses/ErrorResponse'
-          }
-        }
-      }
+          400: {
+            $ref: '#/components/responses/ErrorResponse',
+          },
+        },
+      },
     },
     '/v1/cars/{car_id}': {
       parameters: [
         {
-          $ref: '#/components/parameters/CarIdParam'
-        }
+          $ref: '#/components/parameters/CarIdParam',
+        },
       ],
       get: {
         operationId: 'get_car',
@@ -520,17 +520,17 @@ module.exports = {
         tags: ['TestTag'],
         security: [
           {
-            IAM: []
-          }
+            IAM: [],
+          },
         ],
         responses: {
-          '200': {
-            $ref: '#/components/responses/CarResponse'
+          200: {
+            $ref: '#/components/responses/CarResponse',
           },
-          '400': {
-            $ref: '#/components/responses/ErrorResponse'
-          }
-        }
+          400: {
+            $ref: '#/components/responses/ErrorResponse',
+          },
+        },
       },
       patch: {
         operationId: 'update_car',
@@ -539,34 +539,34 @@ module.exports = {
         tags: ['TestTag'],
         security: [
           {
-            IAM: []
-          }
+            IAM: [],
+          },
         ],
         requestBody: {
-          $ref: '#/components/requestBodies/UpdateCarRequest'
+          $ref: '#/components/requestBodies/UpdateCarRequest',
         },
         responses: {
-          '200': {
+          200: {
             description: 'The car instance was updated successfully.',
             content: {
               'application/json': {
                 schema: {
-                  $ref: '#/components/schemas/Car'
+                  $ref: '#/components/schemas/Car',
                 },
                 examples: {
                   ResponseExample: {
-                    $ref: '#/components/examples/CarExample'
-                  }
-                }
-              }
-            }
+                    $ref: '#/components/examples/CarExample',
+                  },
+                },
+              },
+            },
           },
-          '400': {
-            $ref: '#/components/responses/ErrorResponse'
-          }
-        }
-      }
-    }
+          400: {
+            $ref: '#/components/responses/ErrorResponse',
+          },
+        },
+      },
+    },
   },
   components: {
     parameters: {
@@ -579,8 +579,8 @@ module.exports = {
           type: 'string',
           pattern: '[a-zA-Z0-9 ]+',
           minLength: 1,
-          maxLength: 30
-        }
+          maxLength: 30,
+        },
       },
       MovieIdParam: {
         name: 'movie_id',
@@ -591,8 +591,8 @@ module.exports = {
           type: 'string',
           pattern: '[a-zA-Z0-9 ]+',
           minLength: 1,
-          maxLength: 30
-        }
+          maxLength: 30,
+        },
       },
       VerboseParam: {
         description: 'An optional verbose parameter.',
@@ -600,8 +600,8 @@ module.exports = {
         required: false,
         in: 'query',
         schema: {
-          type: 'boolean'
-        }
+          type: 'boolean',
+        },
       },
       ExpediteParam: {
         description:
@@ -610,8 +610,8 @@ module.exports = {
         required: false,
         in: 'query',
         schema: {
-          type: 'boolean'
-        }
+          type: 'boolean',
+        },
       },
       CarIdParam: {
         description: 'A car id.',
@@ -622,8 +622,8 @@ module.exports = {
           type: 'string',
           pattern: '[a-zA-Z0-9 ]+',
           minLength: 1,
-          maxLength: 30
-        }
+          maxLength: 30,
+        },
       },
       IfMatchParam: {
         description: 'The If-Match header param.',
@@ -634,9 +634,9 @@ module.exports = {
           type: 'string',
           pattern: '[a-zA-Z0-9 ]+',
           minLength: 1,
-          maxLength: 64
-        }
-      }
+          maxLength: 64,
+        },
+      },
     },
     schemas: {
       Movie: {
@@ -645,35 +645,35 @@ module.exports = {
         required: ['id', 'name'],
         properties: {
           id: {
-            $ref: '#/components/schemas/IdString'
+            $ref: '#/components/schemas/IdString',
           },
           name: {
-            $ref: '#/components/schemas/NormalString'
+            $ref: '#/components/schemas/NormalString',
           },
           director: {
-            $ref: '#/components/schemas/NormalString'
+            $ref: '#/components/schemas/NormalString',
           },
           running_time: {
             type: 'integer',
             format: 'int32',
-            description: 'The length of the movie, in minutes.'
+            description: 'The length of the movie, in minutes.',
           },
           imdb_url: {
-            $ref: '#/components/schemas/UrlString'
+            $ref: '#/components/schemas/UrlString',
           },
           trailer: {
             type: 'string',
             format: 'byte',
             description: 'A short trailer for the movie.',
             minLength: 0,
-            maxLength: 1024
-          }
+            maxLength: 1024,
+          },
         },
         example: {
           name: 'The Two Towers',
           director: 'Peter Jackson',
-          running_time: 179
-        }
+          running_time: 179,
+        },
       },
       Drink: {
         type: 'object',
@@ -681,19 +681,19 @@ module.exports = {
           'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
         oneOf: [
           {
-            $ref: '#/components/schemas/Juice'
+            $ref: '#/components/schemas/Juice',
           },
           {
-            $ref: '#/components/schemas/Soda'
-          }
+            $ref: '#/components/schemas/Soda',
+          },
         ],
         discriminator: {
-          propertyName: 'type'
+          propertyName: 'type',
         },
         example: {
           type: 'soda',
-          name: 'Root Beer'
-        }
+          name: 'Root Beer',
+        },
       },
       Soda: {
         description: 'Do you really not know what a Soda is?',
@@ -703,12 +703,12 @@ module.exports = {
           type: {
             description: 'The drink type - should be "soda".',
             type: 'string',
-            enum: ['soda']
+            enum: ['soda'],
           },
           name: {
-            $ref: '#/components/schemas/NormalString'
-          }
-        }
+            $ref: '#/components/schemas/NormalString',
+          },
+        },
       },
       Juice: {
         description: 'Juice box!',
@@ -718,19 +718,19 @@ module.exports = {
           type: {
             description: 'The drink type - should be "juice".',
             type: 'string',
-            enum: ['juice']
+            enum: ['juice'],
           },
           fruit: {
-            $ref: '#/components/schemas/NormalString'
-          }
-        }
+            $ref: '#/components/schemas/NormalString',
+          },
+        },
       },
       NormalString: {
         description: 'This is a normal string.',
         type: 'string',
         pattern: '[a-zA-Z0-9 ]+',
         minLength: 1,
-        maxLength: 30
+        maxLength: 30,
       },
       IdString: {
         description: 'An identifier of some sort.',
@@ -738,20 +738,20 @@ module.exports = {
         readOnly: true,
         pattern: '[a-zA-Z0-9]+',
         minLength: 1,
-        maxLength: 10
+        maxLength: 10,
       },
       UrlString: {
         description: 'A URL of some sort.',
         type: 'string',
         format: 'url',
-        maxLength: 1024
+        maxLength: 1024,
       },
       DrinkCollection: {
         type: 'object',
         description: 'A single page of results containing Drink instances.',
         allOf: [
           {
-            $ref: '#/components/schemas/OffsetPaginationBase'
+            $ref: '#/components/schemas/OffsetPaginationBase',
           },
           {
             type: 'object',
@@ -764,42 +764,42 @@ module.exports = {
                 minItems: 0,
                 maxItems: 50,
                 items: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/Drink',
+                },
+              },
+            },
+          },
         ],
         example: {
           offset: 0,
           limit: 1,
           total_count: 1,
           first: {
-            href: 'first page'
+            href: 'first page',
           },
           next: {
-            href: 'next page'
+            href: 'next page',
           },
           previous: {
-            href: 'previous page'
+            href: 'previous page',
           },
           last: {
-            href: 'last page'
+            href: 'last page',
           },
           drinks: [
             {
               type: 'soda',
-              name: 'Root Beer'
-            }
-          ]
-        }
+              name: 'Root Beer',
+            },
+          ],
+        },
       },
       MovieCollection: {
         type: 'object',
         description: 'A single page of results containing Movie instances.',
         allOf: [
           {
-            $ref: '#/components/schemas/TokenPaginationBase'
+            $ref: '#/components/schemas/TokenPaginationBase',
           },
           {
             type: 'object',
@@ -812,35 +812,35 @@ module.exports = {
                 minItems: 0,
                 maxItems: 50,
                 items: {
-                  $ref: '#/components/schemas/Movie'
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/Movie',
+                },
+              },
+            },
+          },
         ],
         example: {
           limit: 1,
           total_count: 1,
           first: {
-            href: 'first page'
+            href: 'first page',
           },
           next: {
-            href: 'next page'
+            href: 'next page',
           },
           previous: {
-            href: 'previous page'
+            href: 'previous page',
           },
           last: {
-            href: 'last page'
+            href: 'last page',
           },
           movies: [
             {
               name: 'The Two Towers',
               director: 'Peter Jackson',
-              running_time: 179
-            }
-          ]
-        }
+              running_time: 179,
+            },
+          ],
+        },
       },
       Car: {
         description: 'Information about a car.',
@@ -852,19 +852,19 @@ module.exports = {
             type: 'string',
             minLength: 1,
             maxLength: 64,
-            pattern: '[0-9]+'
+            pattern: '[0-9]+',
           },
           make: {
             description: 'The car make.',
             type: 'string',
             minLength: 1,
             maxLength: 32,
-            pattern: '.*'
+            pattern: '.*',
           },
           model: {
-            $ref: '#/components/schemas/CarModelType'
-          }
-        }
+            $ref: '#/components/schemas/CarModelType',
+          },
+        },
       },
       CarPatch: {
         description: 'Information about a car.',
@@ -875,26 +875,26 @@ module.exports = {
             type: 'string',
             minLength: 1,
             maxLength: 64,
-            pattern: '[0-9]+'
+            pattern: '[0-9]+',
           },
           make: {
             description: 'The car make.',
             type: 'string',
             minLength: 1,
             maxLength: 32,
-            pattern: '.*'
+            pattern: '.*',
           },
           model: {
-            $ref: '#/components/schemas/CarModelType'
-          }
-        }
+            $ref: '#/components/schemas/CarModelType',
+          },
+        },
       },
       CarModelType: {
         description: 'The car model.',
         type: 'string',
         minLength: 1,
         maxLength: 32,
-        pattern: '.*'
+        pattern: '.*',
       },
       OffsetPaginationBase: {
         description:
@@ -906,31 +906,31 @@ module.exports = {
             description:
               'The offset (origin 0) of the first item returned in the result page.',
             type: 'integer',
-            format: 'int32'
+            format: 'int32',
           },
           limit: {
             description: 'The number of items returned in the result page.',
             type: 'integer',
-            format: 'int32'
+            format: 'int32',
           },
           total_count: {
             description: 'The total number of items across all result pages.',
             type: 'integer',
-            format: 'int32'
+            format: 'int32',
           },
           first: {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           next: {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           previous: {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           last: {
-            $ref: '#/components/schemas/PageLink'
-          }
-        }
+            $ref: '#/components/schemas/PageLink',
+          },
+        },
       },
       TokenPaginationBase: {
         description:
@@ -942,33 +942,33 @@ module.exports = {
             description:
               'The number of items returned in this page of results.',
             type: 'integer',
-            format: 'int32'
+            format: 'int32',
           },
           total_count: {
             description: 'The total number of items across all result pages.',
             type: 'integer',
-            format: 'int32'
+            format: 'int32',
           },
           first: {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           next: {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           previous: {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           last: {
             allOf: [
               {
-                $ref: '#/components/schemas/PageLink'
+                $ref: '#/components/schemas/PageLink',
               },
               {
-                description: 'Link to the last page of results.'
-              }
-            ]
-          }
-        }
+                description: 'Link to the last page of results.',
+              },
+            ],
+          },
+        },
       },
       PageLink: {
         description: 'Contains a link to a page of paginated results',
@@ -979,9 +979,9 @@ module.exports = {
             type: 'string',
             pattern: '[a-zA-Z0-9 ]+',
             minLength: 1,
-            maxLength: 30
-          }
-        }
+            maxLength: 30,
+          },
+        },
       },
       ErrorContainer: {
         description: 'An error response for an operation.',
@@ -994,19 +994,19 @@ module.exports = {
             description:
               'The array of error entries associated with the error response',
             items: {
-              $ref: '#/components/schemas/Error'
-            }
+              $ref: '#/components/schemas/Error',
+            },
           },
           status_code: {
             type: 'integer',
-            description: 'The HTTP status code.'
+            description: 'The HTTP status code.',
           },
           trace: {
             description: 'The error trace information.',
             type: 'string',
-            format: 'uuid'
-          }
-        }
+            format: 'uuid',
+          },
+        },
       },
       Error: {
         description: 'An error response entry.',
@@ -1015,20 +1015,20 @@ module.exports = {
           code: {
             description: 'The error code.',
             type: 'string',
-            enum: ['bad_request', 'not_authorized', 'no_need_to_know']
+            enum: ['bad_request', 'not_authorized', 'no_need_to_know'],
           },
           message: {
             description: 'The error message.',
-            type: 'string'
+            type: 'string',
           },
           more_info: {
             description: 'Additional info about the error.',
-            type: 'string'
+            type: 'string',
           },
           target: {
-            $ref: '#/components/schemas/ErrorTarget'
-          }
-        }
+            $ref: '#/components/schemas/ErrorTarget',
+          },
+        },
       },
       ErrorTarget: {
         description: 'An error target (a field, header or query parameter).',
@@ -1037,15 +1037,15 @@ module.exports = {
           type: {
             description: 'The error target type.',
             type: 'string',
-            enum: ['field', 'header', 'parameter']
+            enum: ['field', 'header', 'parameter'],
           },
           name: {
             description:
               'The name of the field/header/query parameter associated with the error.',
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     },
     securitySchemes: {
       IAM: {
@@ -1053,13 +1053,13 @@ module.exports = {
         description:
           'An IAM access token provided via the Authorization header',
         in: 'header',
-        name: 'Authorization'
+        name: 'Authorization',
       },
       Basic: {
         type: 'http',
         description: 'A basic-auth type Authorization header',
         scheme: 'Basic',
-        bearerFormat: 'bearer'
+        bearerFormat: 'bearer',
       },
       DrinkScheme: {
         type: 'oauth2',
@@ -1070,17 +1070,17 @@ module.exports = {
             tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
               mixologist: 'Can create Drinks',
-              drinker: 'Can consume beverages'
-            }
+              drinker: 'Can consume beverages',
+            },
           },
           authorizationCode: {
             authorizationUrl: 'https://myoauthserver.com/auth',
             tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
-              mixologist: 'Can create Drinks'
-            }
-          }
-        }
+              mixologist: 'Can create Drinks',
+            },
+          },
+        },
       },
       MovieScheme: {
         type: 'oauth2',
@@ -1091,35 +1091,35 @@ module.exports = {
             tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
               director: 'Can create Movies',
-              moviegoer: 'Can view Movies'
-            }
+              moviegoer: 'Can view Movies',
+            },
           },
           authorizationCode: {
             authorizationUrl: 'https://myoauthserver.com/auth',
             tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
-              director: 'Can create Movies'
-            }
+              director: 'Can create Movies',
+            },
           },
           clientCredentials: {
             tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
-              moviegoer: 'Can view Movies'
-            }
+              moviegoer: 'Can view Movies',
+            },
           },
           password: {
             tokenUrl: 'https://myoauthserver.com/token',
             scopes: {
-              moviegoer: 'Can view Movies'
-            }
-          }
-        }
+              moviegoer: 'Can view Movies',
+            },
+          },
+        },
       },
       OpenIdScheme: {
         type: 'openIdConnect',
         description: 'An openid-connect authorization scheme',
-        openIdConnectUrl: 'https://myopenidserver.com/auth'
-      }
+        openIdConnectUrl: 'https://myopenidserver.com/auth',
+      },
     },
     responses: {
       ConsumedDrink: {
@@ -1127,64 +1127,64 @@ module.exports = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Drink'
-            }
-          }
-        }
+              $ref: '#/components/schemas/Drink',
+            },
+          },
+        },
       },
       MovieWithETag: {
         description: 'Success, we retrieved a movie!',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Movie'
-            }
-          }
+              $ref: '#/components/schemas/Movie',
+            },
+          },
         },
         headers: {
           ETag: {
             description: 'The unique version identifier of the movie.',
             schema: {
-              $ref: '#/components/schemas/IdString'
-            }
-          }
-        }
+              $ref: '#/components/schemas/IdString',
+            },
+          },
+        },
       },
       BarIsClosed: {
         description: 'Error, no drinks to be had!',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/ErrorContainer'
-            }
-          }
-        }
+              $ref: '#/components/schemas/ErrorContainer',
+            },
+          },
+        },
       },
       CarResponse: {
         description: 'The car instance was returned in the response.',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Car'
+              $ref: '#/components/schemas/Car',
             },
             examples: {
               ResponseExample: {
-                $ref: '#/components/examples/CarExample'
-              }
-            }
-          }
-        }
+                $ref: '#/components/examples/CarExample',
+              },
+            },
+          },
+        },
       },
       ErrorResponse: {
         description: 'An error occurred.',
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/ErrorContainer'
-            }
-          }
-        }
-      }
+              $ref: '#/components/schemas/ErrorContainer',
+            },
+          },
+        },
+      },
     },
     requestBodies: {
       CarRequest: {
@@ -1192,31 +1192,31 @@ module.exports = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Car'
+              $ref: '#/components/schemas/Car',
             },
             examples: {
               RequestExample: {
-                $ref: '#/components/examples/CarExample'
-              }
-            }
-          }
-        }
+                $ref: '#/components/examples/CarExample',
+              },
+            },
+          },
+        },
       },
       UpdateCarRequest: {
         required: true,
         content: {
           'application/merge-patch+json; charset=utf-8': {
             schema: {
-              $ref: '#/components/schemas/CarPatch'
+              $ref: '#/components/schemas/CarPatch',
             },
             examples: {
               RequestExample: {
-                $ref: '#/components/examples/CarExample'
-              }
-            }
-          }
-        }
-      }
+                $ref: '#/components/examples/CarExample',
+              },
+            },
+          },
+        },
+      },
     },
     examples: {
       CarExample: {
@@ -1224,9 +1224,9 @@ module.exports = {
         value: {
           id: '1',
           make: 'Ford',
-          model: 'F150 Lariat'
-        }
-      }
+          model: 'F150 Lariat',
+        },
+      },
     },
     links: {
       CarIdLink: {
@@ -1234,11 +1234,11 @@ module.exports = {
           'Link the `create_car` response `id` property to the `get_car` path parameter named `car_id`.',
         operationId: 'get_car',
         parameters: {
-          car_id: '$response.body#/id'
-        }
-      }
+          car_id: '$response.body#/id',
+        },
+      },
     },
     callbacks: {},
-    headers: {}
-  }
+    headers: {},
+  },
 };

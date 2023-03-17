@@ -14,6 +14,6 @@ module.exports = {
   formats: [oas2, oas3],
   resolved: true,
   then: {
-    function: operationIdNamingConvention
-  }
+    function: operationIdNamingConvention,
+  },
 };

@@ -114,12 +114,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.parameters.MovieIdParam.examples = {
         good: {
           description: 'A good example',
-          value: '88adez-01abdfe'
+          value: '88adez-01abdfe',
         },
         bad: {
           description: 'A bad example',
-          value: 'crn:88adez-01abdfe'
-        }
+          value: 'crn:88adez-01abdfe',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

@@ -42,7 +42,7 @@ describe('Utility function: schemaHasConstraint()', () => {
 
   it('should return `true` for a schema with all-compliant `oneOf` schemas', async () => {
     const schemaWithAllCompliantOneOfs = {
-      oneOf: [{ fred: null }, { fred: null }, { fred: null }]
+      oneOf: [{ fred: null }, { fred: null }, { fred: null }],
     };
     expect(schemaHasConstraint(schemaWithAllCompliantOneOfs, fredIsNull)).toBe(
       true
@@ -51,7 +51,7 @@ describe('Utility function: schemaHasConstraint()', () => {
 
   it('should return `true` for a schema with all-compliant `anyOf` schemas', async () => {
     const schemaWithAllCompliantAnyOfs = {
-      anyOf: [{ fred: null }, { fred: null }, { fred: null }]
+      anyOf: [{ fred: null }, { fred: null }, { fred: null }],
     };
     expect(schemaHasConstraint(schemaWithAllCompliantAnyOfs, fredIsNull)).toBe(
       true
@@ -60,7 +60,7 @@ describe('Utility function: schemaHasConstraint()', () => {
 
   it('should return `true` for a schema with one of many compliant `allOf` schemas', async () => {
     const schemaWithOneCompliantAllOf = {
-      allOf: [{}, { fred: null }, {}]
+      allOf: [{}, { fred: null }, {}],
     };
     expect(schemaHasConstraint(schemaWithOneCompliantAllOf, fredIsNull)).toBe(
       true
@@ -69,7 +69,7 @@ describe('Utility function: schemaHasConstraint()', () => {
 
   it('should return `false` for a schema with one of many compliant `oneOf` schemas', async () => {
     const schemaWithOneCompliantOneOf = {
-      anyOf: [{}, { fred: null }, {}]
+      anyOf: [{}, { fred: null }, {}],
     };
     expect(schemaHasConstraint(schemaWithOneCompliantOneOf, fredIsNull)).toBe(
       false
@@ -78,7 +78,7 @@ describe('Utility function: schemaHasConstraint()', () => {
 
   it('should return `false` for a schema with one of many compliant `anyOf` schemas', async () => {
     const schemaWithOneCompliantAnyOf = {
-      anyOf: [{}, { fred: null }, {}]
+      anyOf: [{}, { fred: null }, {}],
     };
     expect(schemaHasConstraint(schemaWithOneCompliantAnyOf, fredIsNull)).toBe(
       false
@@ -89,7 +89,7 @@ describe('Utility function: schemaHasConstraint()', () => {
     const schemaWithOnlyOneOfCompliance = {
       oneOf: [{ fred: null }, { fred: null }],
       anyOf: [{ fred: null }, {}],
-      allOf: [{}, {}]
+      allOf: [{}, {}],
     };
     expect(schemaHasConstraint(schemaWithOnlyOneOfCompliance, fredIsNull)).toBe(
       true
@@ -100,7 +100,7 @@ describe('Utility function: schemaHasConstraint()', () => {
     const schemaWithOnlyAnyOfCompliance = {
       anyOf: [{ fred: null }, { fred: null }],
       oneOf: [{ fred: null }, {}],
-      allOf: [{}, {}]
+      allOf: [{}, {}],
     };
     expect(schemaHasConstraint(schemaWithOnlyAnyOfCompliance, fredIsNull)).toBe(
       true
@@ -111,7 +111,7 @@ describe('Utility function: schemaHasConstraint()', () => {
     const schemaWithOnlyAllOfCompliance = {
       allOf: [{}, { fred: null }, {}],
       oneOf: [{}, { fred: null }],
-      anyOf: [{ fred: null }, {}]
+      anyOf: [{ fred: null }, {}],
     };
     expect(schemaHasConstraint(schemaWithOnlyAllOfCompliance, fredIsNull)).toBe(
       true
@@ -122,10 +122,10 @@ describe('Utility function: schemaHasConstraint()', () => {
     const schemaWithAllOfInOneOf = {
       oneOf: [
         {
-          allOf: [{ fred: null }, {}]
+          allOf: [{ fred: null }, {}],
         },
-        { fred: null }
-      ]
+        { fred: null },
+      ],
     };
     expect(schemaHasConstraint(schemaWithAllOfInOneOf, fredIsNull)).toBe(true);
   });
@@ -134,10 +134,10 @@ describe('Utility function: schemaHasConstraint()', () => {
     const schemaWithAnyOfInAllOf = {
       allOf: [
         {
-          anyOf: [{ fred: null }, { fred: null }]
+          anyOf: [{ fred: null }, { fred: null }],
         },
-        {}
-      ]
+        {},
+      ],
     };
     expect(schemaHasConstraint(schemaWithAnyOfInAllOf, fredIsNull)).toBe(true);
   });
@@ -146,10 +146,10 @@ describe('Utility function: schemaHasConstraint()', () => {
     const schemaWithAnyOfInAllOf = {
       anyOf: [
         {
-          oneOf: [{ fred: null }, { fred: null }]
+          oneOf: [{ fred: null }, { fred: null }],
         },
-        { fred: null }
-      ]
+        { fred: null },
+      ],
     };
     expect(schemaHasConstraint(schemaWithAnyOfInAllOf, fredIsNull)).toBe(true);
   });

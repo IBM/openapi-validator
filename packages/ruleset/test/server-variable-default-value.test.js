@@ -24,10 +24,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
         variables: {
           name: {
             description: 'this variable should have a non-empty default value',
-            default: ''
-          }
-        }
-      }
+            default: '',
+          },
+        },
+      },
     ];
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -44,7 +44,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       '0',
       'variables',
       'name',
-      'default'
+      'default',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });

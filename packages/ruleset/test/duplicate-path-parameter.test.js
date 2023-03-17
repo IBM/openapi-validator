@@ -24,8 +24,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}'].get.parameters = [
         {
-          $ref: '#/components/parameters/DrinkIdParam'
-        }
+          $ref: '#/components/parameters/DrinkIdParam',
+        },
       ];
       delete testDocument.paths['/v1/drinks/{drink_id}'].parameters;
 
@@ -47,9 +47,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'string',
             pattern: '[a-zA-Z0-9 ]+',
             minLength: 1,
-            maxLength: 30
-          }
-        }
+            maxLength: 30,
+          },
+        },
       ];
       testDocument.paths['/v1/drinks/{drink_id}'].delete = {
         operationId: 'delete_drink',
@@ -63,10 +63,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
               type: 'string',
               pattern: '[a-zA-Z0-9 ]+',
               minLength: 3,
-              maxLength: 60
-            }
-          }
-        ]
+              maxLength: 60,
+            },
+          },
+        ],
       };
       delete testDocument.paths['/v1/drinks/{drink_id}'].parameters;
 
@@ -82,16 +82,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
       // Add same path param to two operations and remove from path item.
       testDocument.paths['/v1/drinks/{drink_id}'].get.parameters = [
         {
-          $ref: '#/components/parameters/DrinkIdParam'
-        }
+          $ref: '#/components/parameters/DrinkIdParam',
+        },
       ];
       testDocument.paths['/v1/drinks/{drink_id}'].delete = {
         operationId: 'delete_drink',
         parameters: [
           {
-            $ref: '#/components/parameters/DrinkIdParam'
-          }
-        ]
+            $ref: '#/components/parameters/DrinkIdParam',
+          },
+        ],
       };
       delete testDocument.paths['/v1/drinks/{drink_id}'].parameters;
 
@@ -115,13 +115,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       // Add redundant path parm to the get operation.
       testDocument.paths['/v1/drinks/{drink_id}'].get.parameters = [
         {
-          $ref: '#/components/parameters/DrinkIdParam'
-        }
+          $ref: '#/components/parameters/DrinkIdParam',
+        },
       ];
 
       // Add a second operation to this path with no path params.
       testDocument.paths['/v1/drinks/{drink_id}'].delete = {
-        operationId: 'delete_drink'
+        operationId: 'delete_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

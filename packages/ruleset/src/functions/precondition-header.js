@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(operation, _opts, context) {
+module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -38,7 +38,7 @@ function preconditionHeader(operation, path) {
       'If-Match',
       'If-None-Match',
       'If-Modified-Since',
-      'If-Unmodified-Since'
+      'If-Unmodified-Since',
     ];
     let found = false;
     for (const k in operation.parameters) {
@@ -56,8 +56,8 @@ function preconditionHeader(operation, path) {
         {
           message:
             'An operation that returns a 412 status code must support at least one conditional header',
-          path: [...path, 'resonses']
-        }
+          path: [...path, 'resonses'],
+        },
       ];
     }
   }

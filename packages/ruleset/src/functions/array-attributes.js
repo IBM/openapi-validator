@@ -6,14 +6,14 @@
 const isPlainObject = require('lodash/isPlainObject');
 const {
   validateNestedSchemas,
-  isArraySchema
+  isArraySchema,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { getCompositeSchemaAttribute, LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -41,7 +41,7 @@ function arrayAttributeErrors(schema, path) {
       logger.debug('minItems field is missing!');
       errors.push({
         message: 'Array schemas should define a numeric minItems field',
-        path
+        path,
       });
     }
 
@@ -51,7 +51,7 @@ function arrayAttributeErrors(schema, path) {
       logger.debug('maxItems field is missing!');
       errors.push({
         message: 'Array schemas should define a numeric maxItems field',
-        path
+        path,
       });
     }
 
@@ -60,7 +60,7 @@ function arrayAttributeErrors(schema, path) {
       logger.debug('minItems > maxItems!');
       errors.push({
         message: 'minItems cannot be greater than maxItems',
-        path
+        path,
       });
     }
 
@@ -71,8 +71,8 @@ function arrayAttributeErrors(schema, path) {
       return [
         {
           message: 'Array schemas must specify the items field',
-          path
-        }
+          path,
+        },
       ];
     }
   } else {
@@ -80,13 +80,13 @@ function arrayAttributeErrors(schema, path) {
     if (schema.minItems) {
       errors.push({
         message: 'minItems should not be defined for a non-array schema',
-        path: [...path, 'minItems']
+        path: [...path, 'minItems'],
       });
     }
     if (schema.maxItems) {
       errors.push({
         message: 'maxItems should not be defined for a non-array schema',
-        path: [...path, 'maxItems']
+        path: [...path, 'maxItems'],
       });
     }
   }

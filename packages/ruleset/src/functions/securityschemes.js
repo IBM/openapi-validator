@@ -8,7 +8,7 @@ const { LoggerFactory, operationMethods } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(rootDocument, _opts, context) {
+module.exports = function (rootDocument, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -67,7 +67,7 @@ function checkSecuritySchemes(rootDocument) {
       const usageEntry = {
         used: false,
         type: scheme.type,
-        scopeUsage: {}
+        scopeUsage: {},
       };
 
       // If applicable, set up the "scopeUsage" object for any scopes that are defined.
@@ -83,7 +83,7 @@ function checkSecuritySchemes(rootDocument) {
               if (!usageEntry.scopeUsage[scope]) {
                 usageEntry.scopeUsage[scope] = {
                   used: false,
-                  flow: flowType
+                  flow: flowType,
                 };
               }
             }
@@ -129,7 +129,7 @@ function checkSecuritySchemes(rootDocument) {
               'paths',
               pathStr,
               methodName,
-              'security'
+              'security',
             ])
           );
         }
@@ -146,7 +146,7 @@ function checkSecuritySchemes(rootDocument) {
       );
       errors.push({
         message: 'A security scheme is defined but never used',
-        path: ['components', 'securitySchemes', schemeName]
+        path: ['components', 'securitySchemes', schemeName],
       });
     }
 
@@ -163,8 +163,8 @@ function checkSecuritySchemes(rootDocument) {
             'flows',
             scopeUsageEntry.flow,
             'scopes',
-            scope
-          ]
+            scope,
+          ],
         });
       }
     }
@@ -217,8 +217,8 @@ function recordUsage(securityList, usageInfo, path) {
                     ...path,
                     securityIndex.toString(),
                     schemeName,
-                    scopeIndex
-                  ]
+                    scopeIndex,
+                  ],
                 });
               }
             }
@@ -231,7 +231,7 @@ function recordUsage(securityList, usageInfo, path) {
             errors.push({
               message:
                 'For security scheme types that do not support scopes, the value must be an empty array',
-              path: [...path, securityIndex.toString(), schemeName]
+              path: [...path, securityIndex.toString(), schemeName],
             });
           }
         }
@@ -241,7 +241,7 @@ function recordUsage(securityList, usageInfo, path) {
         );
         errors.push({
           message: 'An undefined security scheme is referenced',
-          path: [...path, securityIndex.toString(), schemeName]
+          path: [...path, securityIndex.toString(), schemeName],
         });
       }
     }

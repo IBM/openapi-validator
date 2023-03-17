@@ -26,7 +26,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/movies'].post.responses['201'].content[
         'application/json'
       ].schema = {
-        type: 'string'
+        type: 'string',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -45,11 +45,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'object',
             properties: {
               test_prop: {
-                type: 'string'
-              }
-            }
-          }
-        }
+                type: 'string',
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -77,8 +77,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ].schema = {
         type: 'array',
         items: {
-          type: 'integer'
-        }
+          type: 'integer',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -93,8 +93,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ].schema = {
         type: 'array',
         items: {
-          $ref: '#/components/schemas/Error'
-        }
+          $ref: '#/components/schemas/Error',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -109,14 +109,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ].schema = {
         allOf: [
           {
-            $ref: '#/components/schemas/Movie'
+            $ref: '#/components/schemas/Movie',
           },
           {
             description: 'The create_movie operation returns a Movie instance.',
             nullable: false,
-            example: 'foo'
-          }
-        ]
+            example: 'foo',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -131,12 +131,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ].schema = {
         allOf: [
           {
-            $ref: '#/components/schemas/Movie'
-          }
+            $ref: '#/components/schemas/Movie',
+          },
         ],
         description: 'The create_movie operation returns a Movie instance.',
         nullable: false,
-        example: 'foo'
+        example: 'foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -151,12 +151,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ].schema = {
         oneOf: [
           {
-            type: 'string'
+            type: 'string',
           },
           {
-            type: 'string'
-          }
-        ]
+            type: 'string',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -182,15 +182,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description:
               'The array of error entries associated with the error response',
             items: {
-              $ref: '#/components/schemas/Error'
-            }
+              $ref: '#/components/schemas/Error',
+            },
           },
           trace: {
             description: 'The error trace information.',
             type: 'string',
-            format: 'uuid'
-          }
-        }
+            format: 'uuid',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -288,13 +288,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ].schema = {
         allOf: [
           {
-            $ref: '#/components/schemas/Movie'
+            $ref: '#/components/schemas/Movie',
           },
           {
             description: 'Not a ref-sibling!',
-            minProperties: 1
-          }
-        ]
+            minProperties: 1,
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -316,11 +316,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ].schema = {
         allOf: [
           {
-            $ref: '#/components/schemas/Movie'
-          }
+            $ref: '#/components/schemas/Movie',
+          },
         ],
         description: 'Still not a ref-sibling!',
-        pattern: '.*'
+        pattern: '.*',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

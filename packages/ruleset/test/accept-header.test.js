@@ -29,9 +29,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           required: true,
           in: 'query',
           schema: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -48,9 +48,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           required: true,
           in: 'path',
           schema: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -69,9 +69,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           required: true,
           in: 'header',
           schema: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);

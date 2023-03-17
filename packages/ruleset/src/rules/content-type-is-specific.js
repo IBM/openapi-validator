@@ -13,10 +13,10 @@ module.exports = {
   resolved: true,
   given: [
     '$.paths[*][*][parameters,responses][*].content',
-    '$.paths[*][*][requestBody].content'
+    '$.paths[*][*][requestBody].content',
   ],
   then: {
     field: '*/*',
-    function: falsy
-  }
+    function: falsy,
+  },
 };

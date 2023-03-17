@@ -69,5 +69,5 @@ module.exports = {
   summarySentenceStyle: require('./summary-sentence-style'),
   unusedTags: require('./unused-tags'),
   validPathSegments: require('./valid-path-segments'),
-  schemaTypeFormat: require('./schema-type-format')
+  schemaTypeFormat: require('./schema-type-format'),
 };

@@ -48,7 +48,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas[
         'MovieCollection'
       ].allOf[1].properties.movies = {
-        type: 'string'
+        type: 'string',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

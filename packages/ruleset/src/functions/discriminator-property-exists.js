@@ -21,7 +21,7 @@
 
 const {
   schemaHasProperty,
-  validateSubschemas
+  validateSubschemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const { LoggerFactory } = require('../utils');
@@ -29,7 +29,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -55,7 +55,7 @@ function validateDiscriminators(schema, path) {
     errors.push({
       message:
         'The discriminator property name used must be defined in this schema',
-      path: [...path, 'discriminator', 'propertyName']
+      path: [...path, 'discriminator', 'propertyName'],
     });
   }
 

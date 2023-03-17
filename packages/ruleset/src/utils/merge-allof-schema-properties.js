@@ -31,7 +31,7 @@ function mergeAllOfSchemaProperties(schema) {
     // target schema, one at a time.
     // The 'customizer' function will contatenate arrays
     // instead of overwriting.
-    allOfArr.forEach(function(allOfSchema) {
+    allOfArr.forEach(function (allOfSchema) {
       mergeWith(targetSchema, allOfSchema, customizer);
     });
   }

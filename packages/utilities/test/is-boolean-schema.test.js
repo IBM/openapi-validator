@@ -36,10 +36,10 @@ describe('Utility function: isBooleanSchema()', () => {
       isBooleanSchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ type: 'boolean' }, { type: 'boolean' }] }, {}]
+            allOf: [{ anyOf: [{ type: 'boolean' }, { type: 'boolean' }] }, {}],
           },
-          { type: 'boolean' }
-        ]
+          { type: 'boolean' },
+        ],
       })
     ).toBe(true);
   });

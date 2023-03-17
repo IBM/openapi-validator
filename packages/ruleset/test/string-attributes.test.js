@@ -25,9 +25,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           in: 'query',
           schema: {
             type: 'string',
-            enum: ['fiction', 'nonfiction']
-          }
-        }
+            enum: ['fiction', 'nonfiction'],
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -43,10 +43,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
           schema: {
             type: 'integer',
             not: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -63,8 +63,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'string',
             format: 'binary',
             minLength: 0,
-            maxLength: 15
-          }
+            maxLength: 15,
+          },
         },
         {
           name: 'trailer',
@@ -73,16 +73,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'string',
             format: 'byte',
             minLength: 0,
-            maxLength: 1024
-          }
+            maxLength: 1024,
+          },
         },
         {
           name: 'before_date',
           in: 'query',
           schema: {
             type: 'string',
-            format: 'date'
-          }
+            format: 'date',
+          },
         },
         {
           name: 'after_date',
@@ -91,8 +91,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'string',
             format: 'date-time',
             minLength: 1,
-            maxLength: 15
-          }
+            maxLength: 15,
+          },
         },
         {
           name: 'imdb_url',
@@ -100,9 +100,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           schema: {
             type: 'string',
             format: 'url',
-            maxLength: 1024
-          }
-        }
+            maxLength: 1024,
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -116,9 +116,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           name: 'ruleTester',
           in: 'query',
           schema: {
-            $ref: '#/components/schemas/RuleTester'
-          }
-        }
+            $ref: '#/components/schemas/RuleTester',
+          },
+        },
       ];
 
       testDocument.components.schemas['RuleTester'] = {
@@ -128,16 +128,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
         maxLength: 38,
         oneOf: [
           {
-            pattern: 'pattern1'
+            pattern: 'pattern1',
           },
           {
-            pattern: 'pattern2'
+            pattern: 'pattern2',
           },
           {
-            pattern: 'pattern3'
-          }
+            pattern: 'pattern3',
+          },
         ],
-        example: 'example string'
+        example: 'example string',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -151,9 +151,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           name: 'ruleTester',
           in: 'query',
           schema: {
-            $ref: '#/components/schemas/RuleTester'
-          }
-        }
+            $ref: '#/components/schemas/RuleTester',
+          },
+        },
       ];
 
       testDocument.components.schemas['RuleTester'] = {
@@ -163,16 +163,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
         maxLength: 38,
         allOf: [
           {
-            minLength: 1
+            minLength: 1,
           },
           {
-            maxLength: 38
+            maxLength: 38,
           },
           {
-            pattern: 'id:.*'
-          }
+            pattern: 'id:.*',
+          },
         ],
-        example: 'example string'
+        example: 'example string',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -190,9 +190,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           schema: {
             type: 'string',
             minLength: 1,
-            maxLength: 15
-          }
-        }
+            maxLength: 15,
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -219,11 +219,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
               schema: {
                 type: 'string',
                 pattern: '[a-zA-Z0-9]+',
-                maxLength: 15
-              }
-            }
-          }
-        }
+                maxLength: 15,
+              },
+            },
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -241,15 +241,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     it('String schema is missing a `maxLength` field', async () => {
       const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies'].post.requestBody.content[
-        'text/plain'
-      ] = {
-        schema: {
-          type: 'string',
-          pattern: '[a-zA-Z0-9]+',
-          minLength: 15
-        }
-      };
+      testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
+        {
+          schema: {
+            type: 'string',
+            pattern: '[a-zA-Z0-9]+',
+            minLength: 15,
+          },
+        };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
@@ -266,14 +265,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     it('Non-string schema defines a `pattern` field', async () => {
       const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies'].post.requestBody.content[
-        'text/plain'
-      ] = {
-        schema: {
-          type: 'integer',
-          pattern: '.*'
-        }
-      };
+      testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
+        {
+          schema: {
+            type: 'integer',
+            pattern: '.*',
+          },
+        };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
@@ -290,14 +288,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     it('Non-string schema defines a `minLength` field', async () => {
       const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies'].post.requestBody.content[
-        'text/plain'
-      ] = {
-        schema: {
-          type: 'integer',
-          minLength: 15
-        }
-      };
+      testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
+        {
+          schema: {
+            type: 'integer',
+            minLength: 15,
+          },
+        };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
@@ -314,14 +311,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     it('Non-string schema defines a `maxLength` field', async () => {
       const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies'].post.requestBody.content[
-        'text/plain'
-      ] = {
-        schema: {
-          type: 'integer',
-          maxLength: 15
-        }
-      };
+      testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
+        {
+          schema: {
+            type: 'integer',
+            maxLength: 15,
+          },
+        };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
@@ -338,16 +334,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     it('String schema has a `minLength` value greater than the `maxLength` value', async () => {
       const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies'].post.requestBody.content[
-        'text/plain'
-      ] = {
-        schema: {
-          type: 'string',
-          pattern: '[a-zA-Z0-9]+',
-          maxLength: 10,
-          minLength: 15
-        }
-      };
+      testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
+        {
+          schema: {
+            type: 'string',
+            pattern: '[a-zA-Z0-9]+',
+            maxLength: 10,
+            minLength: 15,
+          },
+        };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
@@ -364,37 +359,36 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     it('Invalid string schema is part of a composed schema', async () => {
       const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies'].post.requestBody.content[
-        'text/plain'
-      ] = {
-        schema: {
-          allOf: [
-            {
-              type: 'string',
-              maxLength: 10,
-              minLength: 1
-            },
-            {
-              anyOf: [
-                {
-                  type: 'string',
-                  maxLength: 10,
-                  minLength: 1
-                },
-                {
-                  oneOf: [
-                    {
-                      type: 'string',
-                      maxLength: 10,
-                      minLength: 1
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      };
+      testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
+        {
+          schema: {
+            allOf: [
+              {
+                type: 'string',
+                maxLength: 10,
+                minLength: 1,
+              },
+              {
+                anyOf: [
+                  {
+                    type: 'string',
+                    maxLength: 10,
+                    minLength: 1,
+                  },
+                  {
+                    oneOf: [
+                      {
+                        type: 'string',
+                        maxLength: 10,
+                        minLength: 1,
+                      },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
@@ -417,9 +411,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           schema: {
             type: 'string',
             minLength: 1,
-            maxLength: 15
-          }
-        }
+            maxLength: 15,
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -442,9 +436,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           name: 'ruleTester',
           in: 'query',
           schema: {
-            $ref: '#/components/schemas/RuleTester'
-          }
-        }
+            $ref: '#/components/schemas/RuleTester',
+          },
+        },
       ];
 
       testDocument.components.schemas['RuleTester'] = {
@@ -454,16 +448,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
         pattern: '.*',
         oneOf: [
           {
-            maxLength: 38
+            maxLength: 38,
           },
           {
-            maxLength: 74
+            maxLength: 74,
           },
           {
-            description: 'No maxLength field in this schema'
-          }
+            description: 'No maxLength field in this schema',
+          },
         ],
-        example: 'example string'
+        example: 'example string',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -486,9 +480,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           name: 'ruleTester',
           in: 'query',
           schema: {
-            $ref: '#/components/schemas/RuleTester'
-          }
-        }
+            $ref: '#/components/schemas/RuleTester',
+          },
+        },
       ];
 
       testDocument.components.schemas['RuleTester'] = {
@@ -498,16 +492,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
         maxLength: 38,
         oneOf: [
           {
-            pattern: '.*'
+            pattern: '.*',
           },
           {
-            pattern: 'id-[0-9]+.*'
+            pattern: 'id-[0-9]+.*',
           },
           {
-            description: 'No pattern field in this schema'
-          }
+            description: 'No pattern field in this schema',
+          },
         ],
-        example: 'example string'
+        example: 'example string',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

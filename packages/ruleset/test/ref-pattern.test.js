@@ -22,7 +22,7 @@ const expectedMsgs = {
   responses: "$refs to responses should start with '#/components/responses/'",
   schemas: "$refs to schemas should start with '#/components/schemas/'",
   securitySchemes:
-    "$refs to securitySchemes should start with '#/components/securitySchemes/'"
+    "$refs to securitySchemes should start with '#/components/securitySchemes/'",
 };
 
 describe(`Spectral rule: ${ruleId}`, () => {
@@ -40,7 +40,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       // Move the CarIdParam from components.parameters to
       // components.params.
       testDocument.components.params = {
-        CarIdParam: testDocument.components.parameters.CarIdParam
+        CarIdParam: testDocument.components.parameters.CarIdParam,
       };
       delete testDocument.components.parameters.CarIdParam;
 
@@ -63,7 +63,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Create a simple schema under "components.definitions".
       testDocument.components.definitions = {
-        StringType: testDocument.components.schemas.IdString
+        StringType: testDocument.components.schemas.IdString,
       };
 
       // Create a reference to this mis-located schema.
@@ -85,7 +85,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Move a named response from "components.responses" to "components.answers".
       testDocument.components.answers = {
-        CarResponse: testDocument.components.responses.CarResponse
+        CarResponse: testDocument.components.responses.CarResponse,
       };
 
       // Create a reference to this mis-located response.
@@ -107,7 +107,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Move a named requestBody from "components.requestBodies" to "components.requests".
       testDocument.components.requests = {
-        CarRequest: testDocument.components.requestBodies.CarRequest
+        CarRequest: testDocument.components.requestBodies.CarRequest,
       };
 
       // Create a reference to this mis-located response.
@@ -129,7 +129,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Move a named example from "components.examples" to "samples".
       testDocument.samples = {
-        CarSample: testDocument.components.examples.CarExample
+        CarSample: testDocument.components.examples.CarExample,
       };
 
       // Create a reference to this mis-located example.
@@ -152,7 +152,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Move a named link from "components.links" to "relationships".
       testDocument.relationships = {
-        CarIdLinkage: testDocument.components.links.CarIdLink
+        CarIdLinkage: testDocument.components.links.CarIdLink,
       };
 
       // Create a reference to this mis-located link.
@@ -178,13 +178,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
           in: 'header',
           name: 'Protected',
           type: 'http',
-          scheme: 'MobRule'
-        }
+          scheme: 'MobRule',
+        },
       };
 
       // Create a reference to this mis-located security scheme.
       testDocument.components.securitySchemes.VinnysCrew = {
-        $ref: '#/components/protection/VinnysCrew'
+        $ref: '#/components/protection/VinnysCrew',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

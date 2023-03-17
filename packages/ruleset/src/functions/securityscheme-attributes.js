@@ -9,7 +9,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(securityScheme, _opts, context) {
+module.exports = function (securityScheme, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -58,21 +58,21 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
   if (!type) {
     errors.push({
       message: `security scheme is missing required property: type`,
-      path
+      path,
     });
   } else if (!validTypes.includes(type)) {
     errors.push({
       message: `security scheme 'type' property must be one of: ${validTypes.join(
         ', '
       )}`,
-      path: [...path, 'type']
+      path: [...path, 'type'],
     });
   } else if (type === HTTP) {
     // http validation
     if (!securityScheme.scheme) {
       errors.push({
         message: `security scheme with type '${HTTP}' is missing required property: scheme`,
-        path
+        path,
       });
     }
   } else if (type === API_KEY) {
@@ -81,21 +81,21 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
     if (!authIn) {
       errors.push({
         message: `security scheme with type '${API_KEY}' is missing required property: in`,
-        path
+        path,
       });
     } else if (!validIns.includes(authIn)) {
       errors.push({
         message: `security scheme 'in' property must be one of: ${validIns.join(
           ', '
         )}`,
-        path: [...path, 'in']
+        path: [...path, 'in'],
       });
     }
 
     if (!securityScheme.name) {
       errors.push({
         message: `security scheme with type '${API_KEY}' is missing required property: name`,
-        path
+        path,
       });
     }
   } else if (type == OPENID_CONNECT) {
@@ -104,12 +104,12 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
     if (!openIdConnectUrl) {
       errors.push({
         message: `security scheme with type '${OPENID_CONNECT}' is missing required property: openIdConnectUrl`,
-        path
+        path,
       });
     } else if (!isValidUrl(openIdConnectUrl, serviceUrl)) {
       errors.push({
         message: `security scheme 'openIdConnectUrl' property must be a valid URL`,
-        path: [...path, 'openIdConnectUrl']
+        path: [...path, 'openIdConnectUrl'],
       });
     }
   } else if (type === OAUTH2) {
@@ -118,7 +118,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
     if (!flows) {
       errors.push({
         message: `security scheme with type '${OAUTH2}' is missing required property: flows`,
-        path
+        path,
       });
     } else {
       // Validate the flows object.
@@ -132,7 +132,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
       ) {
         errors.push({
           message: `oauth2 flow object must specify one or more of the following properties: implicit, password, clientCredentials or authorizationCode`,
-          path: [...path, 'flows']
+          path: [...path, 'flows'],
         });
       }
 
@@ -142,31 +142,31 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
         if (!flow.tokenUrl) {
           errors.push({
             message: `oauth2 'authorizationCode' flow is missing required property: tokenUrl`,
-            path: [...path, 'flows', 'authorizationCode']
+            path: [...path, 'flows', 'authorizationCode'],
           });
         } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'tokenUrl' property must be a valid URL`,
-            path: [...path, 'flows', 'authorizationCode', 'tokenUrl']
+            path: [...path, 'flows', 'authorizationCode', 'tokenUrl'],
           });
         }
 
         if (!flow.authorizationUrl) {
           errors.push({
             message: `oauth2 'authorizationCode' flow is missing required property: authorizationUrl`,
-            path: [...path, 'flows', 'authorizationCode']
+            path: [...path, 'flows', 'authorizationCode'],
           });
         } else if (!isValidUrl(flow.authorizationUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'authorizationUrl' property must be a valid URL`,
-            path: [...path, 'flows', 'authorizationCode', 'authorizationUrl']
+            path: [...path, 'flows', 'authorizationCode', 'authorizationUrl'],
           });
         }
 
         if (!flow.scopes) {
           errors.push({
             message: `oauth2 'authorizationCode' flow is missing required property: scopes`,
-            path: [...path, 'flows', 'authorizationCode']
+            path: [...path, 'flows', 'authorizationCode'],
           });
         }
       }
@@ -177,19 +177,19 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
         if (!flow.tokenUrl) {
           errors.push({
             message: `oauth2 'password' flow is missing required property: tokenUrl`,
-            path: [...path, 'flows', 'password']
+            path: [...path, 'flows', 'password'],
           });
         } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'tokenUrl' property must be a valid URL`,
-            path: [...path, 'flows', 'password', 'tokenUrl']
+            path: [...path, 'flows', 'password', 'tokenUrl'],
           });
         }
 
         if (!flow.scopes) {
           errors.push({
             message: `oauth2 'password' flow is missing required property: scopes`,
-            path: [...path, 'flows', 'password']
+            path: [...path, 'flows', 'password'],
           });
         }
       }
@@ -200,19 +200,19 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
         if (!flow.tokenUrl) {
           errors.push({
             message: `oauth2 'clientCredentials' flow is missing required property: tokenUrl`,
-            path: [...path, 'flows', 'clientCredentials']
+            path: [...path, 'flows', 'clientCredentials'],
           });
         } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'tokenUrl' property must be a valid URL`,
-            path: [...path, 'flows', 'clientCredentials', 'tokenUrl']
+            path: [...path, 'flows', 'clientCredentials', 'tokenUrl'],
           });
         }
 
         if (!flow.scopes) {
           errors.push({
             message: `oauth2 'clientCredentials' flow is missing required property: scopes`,
-            path: [...path, 'flows', 'clientCredentials']
+            path: [...path, 'flows', 'clientCredentials'],
           });
         }
       }
@@ -223,19 +223,19 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
         if (!flow.authorizationUrl) {
           errors.push({
             message: `oauth2 'implicit' flow is missing required property: authorizationUrl`,
-            path: [...path, 'flows', 'implicit']
+            path: [...path, 'flows', 'implicit'],
           });
         } else if (!isValidUrl(flow.authorizationUrl, serviceUrl)) {
           errors.push({
             message: `security scheme 'authorizationUrl' property must be a valid URL`,
-            path: [...path, 'flows', 'implicit', 'authorizationUrl']
+            path: [...path, 'flows', 'implicit', 'authorizationUrl'],
           });
         }
 
         if (!flow.scopes) {
           errors.push({
             message: `oauth2 'implicit' flow is missing required property: scopes`,
-            path: [...path, 'flows', 'implicit']
+            path: [...path, 'flows', 'implicit'],
           });
         }
       }

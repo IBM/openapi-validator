@@ -10,7 +10,7 @@ const { isDeprecated, LoggerFactory } = require('../utils');
 const errorMsgPrefix = {
   query: 'Query parameter names ',
   path: 'Path parameter names ',
-  header: 'Header parameter names '
+  header: 'Header parameter names ',
 };
 
 const errorMsgNoName = 'Parameters must have a name';
@@ -19,7 +19,7 @@ const errorMsgNoIn = "Parameters must have a valid 'in' value";
 let ruleId;
 let logger;
 
-module.exports = function(param, options, context) {
+module.exports = function (param, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -55,7 +55,7 @@ function parameterCasingConvention(param, path, casingConfig) {
   if (!isNonEmptyString(param.name)) {
     errors.push({
       message: errorMsgNoName,
-      path
+      path,
     });
     hasName = false;
     logger.debug(`${ruleId}: param has no name!`);
@@ -63,7 +63,7 @@ function parameterCasingConvention(param, path, casingConfig) {
   if (!isNonEmptyString(param.in)) {
     errors.push({
       message: errorMsgNoIn,
-      path
+      path,
     });
     hasIn = false;
     logger.debug(`${ruleId}: param has no in!`);
@@ -71,10 +71,7 @@ function parameterCasingConvention(param, path, casingConfig) {
 
   // If we have 'name' and 'in' properties, then check for the proper casing.
   if (hasName && hasIn) {
-    const paramIn = param.in
-      .toString()
-      .trim()
-      .toLowerCase();
+    const paramIn = param.in.toString().trim().toLowerCase();
 
     // Retrieve the config for the appropriate param type and then use it
     // to invoke the casing() function.
@@ -91,7 +88,7 @@ function parameterCasingConvention(param, path, casingConfig) {
       if (result) {
         errors.push({
           message: msgPrefix + result[0].message,
-          path
+          path,
         });
         logger.debug(`${ruleId}: FAILED: ${JSON.stringify(result, null, 2)}`);
       } else {

@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(apiDef, _opts, context) {
+module.exports = function (apiDef, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -67,8 +67,8 @@ function checkMajorVersion(apiDef) {
             message:
               'Major version segments of urls in servers object do not match. Found ' +
               uniqueVersions.join(', '),
-            path: ['servers']
-          }
+            path: ['servers'],
+          },
         ];
       }
 
@@ -115,8 +115,8 @@ function checkMajorVersion(apiDef) {
           message:
             'Major version segments of paths object do not match. Found ' +
             uniqueVersions.join(', '),
-          path: ['paths']
-        }
+          path: ['paths'],
+        },
       ];
     }
 
@@ -136,8 +136,8 @@ function checkMajorVersion(apiDef) {
     return [
       {
         message:
-          'Major version segment not present in either server URLs or paths'
-      }
+          'Major version segment not present in either server URLs or paths',
+      },
     ];
   } else {
     logger.debug(
@@ -145,8 +145,9 @@ function checkMajorVersion(apiDef) {
     );
     return [
       {
-        message: 'Major version segment not present in either basePath or paths'
-      }
+        message:
+          'Major version segment not present in either basePath or paths',
+      },
     ];
   }
 }

@@ -50,14 +50,14 @@ describe('Utility function: isInt32Schema()', () => {
               {
                 anyOf: [
                   { type: 'integer', format: 'int32' },
-                  { type: 'integer', format: 'int32' }
-                ]
+                  { type: 'integer', format: 'int32' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'integer', format: 'int32' }
-        ]
+          { type: 'integer', format: 'int32' },
+        ],
       })
     ).toBe(true);
   });

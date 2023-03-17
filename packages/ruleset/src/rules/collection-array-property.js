@@ -16,6 +16,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: collectionArrayProperty
-  }
+    function: collectionArrayProperty,
+  },
 };

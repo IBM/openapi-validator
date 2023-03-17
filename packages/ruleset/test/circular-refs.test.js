@@ -32,7 +32,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie = {
-        $ref: '#/components/schemas/Movie'
+        $ref: '#/components/schemas/Movie',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -50,7 +50,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.properties.related_movie = {
-        $ref: '#/components/schemas/Movie'
+        $ref: '#/components/schemas/Movie',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -69,7 +69,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.properties.related_movies = {
-        $ref: '#/components/schemas/MovieCollection'
+        $ref: '#/components/schemas/MovieCollection',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -93,8 +93,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.Movie.properties.related_movies = {
         type: 'array',
         items: {
-          $ref: '#/components/schemas/Movie'
-        }
+          $ref: '#/components/schemas/Movie',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -113,7 +113,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.additionalProperties = {
-        $ref: '#/components/schemas/Movie'
+        $ref: '#/components/schemas/Movie',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -132,7 +132,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.DrinkCollection.allOf.push({
-        $ref: '#/components/schemas/DrinkCollection'
+        $ref: '#/components/schemas/DrinkCollection',
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -153,9 +153,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.Drink = {
         anyOf: [
           {
-            $ref: '#/components/schemas/DrinkCollection'
-          }
-        ]
+            $ref: '#/components/schemas/DrinkCollection',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -177,7 +177,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Soda.properties.next_drink = {
-        $ref: '#/components/schemas/Drink'
+        $ref: '#/components/schemas/Drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -199,7 +199,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.parameters.DrinkIdParam = {
-        $ref: '#/components/parameters/DrinkIdParam'
+        $ref: '#/components/parameters/DrinkIdParam',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -218,7 +218,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.requestBodies.CarRequest = {
-        $ref: '#/components/requestBodies/CarRequest'
+        $ref: '#/components/requestBodies/CarRequest',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -237,7 +237,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.responses.CarResponse = {
-        $ref: '#/components/responses/CarResponse'
+        $ref: '#/components/responses/CarResponse',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -256,7 +256,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.examples.CarExample = {
-        $ref: '#/components/examples/CarExample'
+        $ref: '#/components/examples/CarExample',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -275,7 +275,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.securitySchemes.CircularScheme = {
-        $ref: '#/components/securitySchemes/CircularScheme'
+        $ref: '#/components/securitySchemes/CircularScheme',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -294,7 +294,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.links.CarIdLink = {
-        $ref: '#/components/links/CarIdLink'
+        $ref: '#/components/links/CarIdLink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

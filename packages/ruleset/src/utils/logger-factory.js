@@ -42,7 +42,7 @@ module.exports = class LoggerFactory {
     checkLevel(logLevel);
     this.loggerSettings.push({
       loggerName: name,
-      logLevel
+      logLevel,
     });
     this.applySettingsToAllLoggers();
   }

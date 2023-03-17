@@ -163,6 +163,6 @@ module.exports = {
     'ibm-string-attributes': ibmRules.stringAttributes,
     'ibm-summary-sentence-style': ibmRules.summarySentenceStyle,
     'ibm-unused-tags': ibmRules.unusedTags,
-    'ibm-valid-path-segments': ibmRules.validPathSegments
-  }
+    'ibm-valid-path-segments': ibmRules.validPathSegments,
+  },
 };
