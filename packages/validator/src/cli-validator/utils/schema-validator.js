@@ -31,5 +31,5 @@ function validate(data, schema) {
 }
 
 module.exports = {
-  validate
+  validate,
 };

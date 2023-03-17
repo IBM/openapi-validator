@@ -14,6 +14,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: securitySchemes
-  }
+    function: securitySchemes,
+  },
 };

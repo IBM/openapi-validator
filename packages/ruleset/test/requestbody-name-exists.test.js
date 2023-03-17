@@ -30,8 +30,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/octet-stream'
       ] = {
         schema: {
-          $ref: '#/components/schemas/Movie'
-        }
+          $ref: '#/components/schemas/Movie',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -55,7 +55,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/movies'].post['x-codegen-request-body-name'] =
         'movie';
       testDocument.components.schemas.Movie.discriminator = {
-        propertyName: 'type'
+        propertyName: 'type',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -71,9 +71,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/octet-stream': {
           schema: {
             type: 'string',
-            format: 'binary'
-          }
-        }
+            format: 'binary',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -90,10 +90,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
           schema: {
             type: 'array',
             items: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -109,18 +109,18 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'object',
             properties: {
               form_param_1: {
-                $ref: '#/components/schemas/NormalString'
+                $ref: '#/components/schemas/NormalString',
               },
               form_param_2: {
-                $ref: '#/components/schemas/NormalString'
+                $ref: '#/components/schemas/NormalString',
               },
               form_param_3: {
                 type: 'string',
-                format: 'binary'
-              }
-            }
-          }
-        }
+                format: 'binary',
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -137,8 +137,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/octet-stream'
       ] = {
         schema: {
-          $ref: '#/components/schemas/Movie'
-        }
+          $ref: '#/components/schemas/Movie',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -183,7 +183,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.discriminator = {
-        propertyName: 'type'
+        propertyName: 'type',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -201,9 +201,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/octet-stream': {
           schema: {
             type: 'string',
-            format: 'binary'
-          }
-        }
+            format: 'binary',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -222,10 +222,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
           schema: {
             type: 'array',
             items: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

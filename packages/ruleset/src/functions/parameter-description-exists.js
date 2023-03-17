@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(param, _opts, context) {
+module.exports = function (param, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -28,8 +28,8 @@ function parameterDescription(param, path) {
     return [
       {
         message: 'Parameter should have a non-empty description',
-        path
-      }
+        path,
+      },
     ];
   }
 

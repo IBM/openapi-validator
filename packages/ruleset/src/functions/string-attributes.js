@@ -6,14 +6,14 @@
 const {
   schemaHasConstraint,
   isStringSchema,
-  validateNestedSchemas
+  validateNestedSchemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const { getCompositeSchemaAttribute, LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -32,7 +32,7 @@ module.exports = function(schema, _opts, context) {
 const bypassFormats = {
   pattern: ['binary', 'byte', 'date', 'date-time', 'url'],
   minLength: ['date', 'identifier', 'url'],
-  maxLength: ['date']
+  maxLength: ['date'],
 };
 
 /**
@@ -63,19 +63,19 @@ function stringBoundaryErrors(schema, path) {
       if (!isDefined(pattern) && !bypassFormats.pattern.includes(format)) {
         errors.push({
           message: 'Should define a pattern for a valid string',
-          path
+          path,
         });
       }
       if (!isDefined(minLength) && !bypassFormats.minLength.includes(format)) {
         errors.push({
           message: 'Should define a minLength for a valid string',
-          path
+          path,
         });
       }
       if (!isDefined(maxLength) && !bypassFormats.maxLength.includes(format)) {
         errors.push({
           message: 'Should define a maxLength for a valid string',
-          path
+          path,
         });
       }
       if (
@@ -85,7 +85,7 @@ function stringBoundaryErrors(schema, path) {
       ) {
         errors.push({
           message: 'minLength cannot be greater than maxLength',
-          path
+          path,
         });
       }
     }
@@ -94,19 +94,19 @@ function stringBoundaryErrors(schema, path) {
     if (schemaContainsAttribute(schema, 'pattern')) {
       errors.push({
         message: 'pattern should not be defined for a non-string schema',
-        path: [...path, 'pattern']
+        path: [...path, 'pattern'],
       });
     }
     if (schemaContainsAttribute(schema, 'minLength')) {
       errors.push({
         message: 'minLength should not be defined for a non-string schema',
-        path: [...path, 'minLength']
+        path: [...path, 'minLength'],
       });
     }
     if (schemaContainsAttribute(schema, 'maxLength')) {
       errors.push({
         message: 'maxLength should not be defined for a non-string schema',
-        path: [...path, 'maxLength']
+        path: [...path, 'maxLength'],
       });
     }
   }

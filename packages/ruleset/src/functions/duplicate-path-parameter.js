@@ -11,7 +11,7 @@ const { operationMethods, LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(pathItem, _opts, context) {
+module.exports = function (pathItem, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -89,7 +89,7 @@ function duplicatePathParameter(pathItem, path) {
                 errors.push({
                   message:
                     'Common path parameters should be defined on path object',
-                  path: [...path, opKey, 'parameters', paramIndex.toString()]
+                  path: [...path, opKey, 'parameters', paramIndex.toString()],
                 });
               }
             }

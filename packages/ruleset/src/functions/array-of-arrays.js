@@ -5,13 +5,13 @@
 
 const {
   isArraySchema,
-  validateSubschemas
+  validateSubschemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -30,7 +30,7 @@ function arrayOfArrays(schema, path) {
       logger.debug('Found an array of arrays!');
       errors.push({
         message: 'Array schemas should avoid having items of type array.',
-        path
+        path,
       });
     }
   }

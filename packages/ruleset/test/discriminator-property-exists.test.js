@@ -25,19 +25,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             type: {
-              type: 'string'
-            }
-          }
+              type: 'string',
+            },
+          },
         },
         {
           type: 'object',
           properties: {
             type: {
-              type: 'string'
-            }
-          }
-        }
-      ]
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -53,19 +53,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             type: {
-              type: 'string'
-            }
-          }
+              type: 'string',
+            },
+          },
         },
         {
           type: 'object',
           properties: {
             type: {
-              type: 'string'
-            }
-          }
-        }
-      ]
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -81,19 +81,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             name: {
-              type: 'string'
-            }
-          }
+              type: 'string',
+            },
+          },
         },
         {
           type: 'object',
           properties: {
             type: {
-              type: 'string'
-            }
-          }
-        }
-      ]
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -106,15 +106,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
     testDocument.components.schemas.Drink = {
       anyOf: [
         {
-          $ref: '#/components/schemas/Juice'
+          $ref: '#/components/schemas/Juice',
         },
         {
-          $ref: '#/components/schemas/Soda'
-        }
+          $ref: '#/components/schemas/Soda',
+        },
       ],
       discriminator: {
-        propertyName: 'type'
-      }
+        propertyName: 'type',
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -129,9 +129,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       required: ['name'],
       properties: {
         name: {
-          $ref: '#/components/schemas/NormalString'
-        }
-      }
+          $ref: '#/components/schemas/NormalString',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -154,7 +154,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'application/json',
       'schema',
       'discriminator',
-      'propertyName'
+      'propertyName',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });
@@ -164,15 +164,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
     testDocument.components.schemas.Drink = {
       anyOf: [
         {
-          $ref: '#/components/schemas/Juice'
+          $ref: '#/components/schemas/Juice',
         },
         {
-          $ref: '#/components/schemas/Soda'
-        }
+          $ref: '#/components/schemas/Soda',
+        },
       ],
       discriminator: {
-        propertyName: 'type'
-      }
+        propertyName: 'type',
+      },
     };
 
     testDocument.components.schemas.Juice = {
@@ -180,9 +180,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       required: ['fruit'],
       properties: {
         fruit: {
-          $ref: '#/components/schemas/NormalString'
-        }
-      }
+          $ref: '#/components/schemas/NormalString',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -202,7 +202,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'application/json',
       'schema',
       'discriminator',
-      'propertyName'
+      'propertyName',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });
@@ -215,19 +215,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             brand: {
-              type: 'string'
-            }
-          }
+              type: 'string',
+            },
+          },
         },
         {
           type: 'object',
           properties: {
             type: {
-              type: 'string'
-            }
-          }
-        }
-      ]
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -247,7 +247,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'application/json',
       'schema',
       'discriminator',
-      'propertyName'
+      'propertyName',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });
@@ -260,19 +260,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             brand: {
-              type: 'string'
-            }
-          }
+              type: 'string',
+            },
+          },
         },
         {
           type: 'object',
           properties: {
             type: {
-              type: 'string'
-            }
-          }
-        }
-      ]
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -292,7 +292,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'application/json',
       'schema',
       'discriminator',
-      'propertyName'
+      'propertyName',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });
@@ -305,19 +305,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             brand: {
-              type: 'string'
-            }
-          }
+              type: 'string',
+            },
+          },
         },
         {
           type: 'object',
           properties: {
             flavor: {
-              type: 'string'
-            }
-          }
-        }
-      ]
+              type: 'string',
+            },
+          },
+        },
+      ],
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -337,7 +337,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'application/json',
       'schema',
       'discriminator',
-      'propertyName'
+      'propertyName',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });

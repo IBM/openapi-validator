@@ -13,7 +13,7 @@ const validTypes = [
   'integer',
   'number',
   'object',
-  'string'
+  'string',
 ];
 
 // Valid format values for selected schema types.
@@ -29,7 +29,7 @@ const validStringFormats = [
   'identifier',
   'password',
   'url',
-  'uuid'
+  'uuid',
 ];
 
 // Pre-define some error messages that we can re-use later.
@@ -50,7 +50,7 @@ const stringFormatErrorMsg = `Schema of type string should use one of the follow
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -74,7 +74,7 @@ function typeFormatErrors(schema, path) {
     if (schema.format) {
       errors.push({
         message: formatButNoTypeErrorMsg,
-        path
+        path,
       });
     }
   } else if (typeof schema.type === 'string') {
@@ -86,7 +86,7 @@ function typeFormatErrors(schema, path) {
     if (!validTypes.includes(schema.type.toLowerCase())) {
       errors.push({
         message: invalidTypeErrorMsg,
-        path
+        path,
       });
     } else {
       // Type is valid, let's make sure format is valid for this type.
@@ -98,7 +98,7 @@ function typeFormatErrors(schema, path) {
           ) {
             errors.push({
               message: integerFormatErrorMsg,
-              path
+              path,
             });
           }
           break;
@@ -109,7 +109,7 @@ function typeFormatErrors(schema, path) {
           ) {
             errors.push({
               message: numberFormatErrorMsg,
-              path
+              path,
             });
           }
           break;
@@ -120,7 +120,7 @@ function typeFormatErrors(schema, path) {
           ) {
             errors.push({
               message: stringFormatErrorMsg,
-              path
+              path,
             });
           }
           break;
@@ -131,7 +131,7 @@ function typeFormatErrors(schema, path) {
           if (schema.format !== undefined) {
             errors.push({
               message: `Schema of type ${schema.type} should not have a format.`,
-              path
+              path,
             });
           }
           break;

@@ -20,9 +20,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     testDocument.paths['/v1/movies'].post.responses['500'] = {
       content: {
         'text/plain': {
-          description: 'just error text'
-        }
-      }
+          description: 'just error text',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -40,7 +40,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'post',
       'responses',
       '500',
-      'content'
+      'content',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });

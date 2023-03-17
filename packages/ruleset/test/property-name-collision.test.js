@@ -21,10 +21,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     testDocument.components.schemas.Movie.properties.IMDBRating = {
       type: 'string',
-      deprecated: true
+      deprecated: true,
     };
     testDocument.components.schemas.Movie.properties.IDMB_rating = {
-      type: 'string'
+      type: 'string',
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -36,10 +36,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
 
     testDocument.components.schemas.Movie.properties.IMDBRating = {
-      type: 'string'
+      type: 'string',
     };
     testDocument.components.schemas.Movie.properties.IMDB_rating = {
-      type: 'string'
+      type: 'string',
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -60,7 +60,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'application/json',
       'schema',
       'properties',
-      'IMDB_rating'
+      'IMDB_rating',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });

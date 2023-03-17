@@ -6,13 +6,13 @@
 const {
   isJsonPatchMimeType,
   isMergePatchMimeType,
-  LoggerFactory
+  LoggerFactory,
 } = require('../utils');
 
 let ruleId;
 let logger;
 
-module.exports = function(operation, _opts, context) {
+module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -63,7 +63,7 @@ function patchRequestContentType(operation, path) {
         logger.debug(`${ruleId}: unexpected content type: ${contentType}`);
         errors.push({
           message: '',
-          path: [...path, 'requestBody', 'content', contentType]
+          path: [...path, 'requestBody', 'content', contentType],
         });
       }
     }
@@ -90,8 +90,8 @@ function patchRequestContentType(operation, path) {
     return [
       {
         message: '',
-        path: errorPath
-      }
+        path: errorPath,
+      },
     ];
   }
 

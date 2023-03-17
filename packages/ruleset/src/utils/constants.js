@@ -12,7 +12,7 @@ const operationMethods = [
   'patch',
   'delete',
   'options',
-  'trace'
+  'trace',
 ];
 
 module.exports = operationMethods;

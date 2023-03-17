@@ -35,7 +35,7 @@ describe('Utility function: isRefSiblingSchema()', () => {
 
     it('empty allOf list', async () => {
       const s = {
-        allOf: []
+        allOf: [],
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -44,12 +44,12 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            description: 'non-ref schema'
+            description: 'non-ref schema',
           },
           {
-            example: 'foo'
-          }
-        ]
+            example: 'foo',
+          },
+        ],
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -58,12 +58,12 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
+            $ref: '#/components/schemas/Foo',
           },
           {
-            minLength: 1
-          }
-        ]
+            minLength: 1,
+          },
+        ],
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -72,15 +72,15 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
+            $ref: '#/components/schemas/Foo',
           },
           {
-            description: 'this is starting to look like a ref-sibling'
+            description: 'this is starting to look like a ref-sibling',
           },
           {
-            description: 'nope not a ref-sibling now'
-          }
-        ]
+            description: 'nope not a ref-sibling now',
+          },
+        ],
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -89,13 +89,13 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
+            $ref: '#/components/schemas/Foo',
           },
           {
-            description: 'Overridden description'
-          }
+            description: 'Overridden description',
+          },
         ],
-        oneOf: []
+        oneOf: [],
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -104,13 +104,13 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
+            $ref: '#/components/schemas/Foo',
           },
           {
-            description: 'Overridden description'
-          }
+            description: 'Overridden description',
+          },
         ],
-        anyOf: []
+        anyOf: [],
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -119,15 +119,15 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
+            $ref: '#/components/schemas/Foo',
           },
           {
             description: 'Overridden description',
             nullable: true,
             example: 'foo',
-            minProperties: 1
-          }
-        ]
+            minProperties: 1,
+          },
+        ],
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -136,11 +136,11 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
-          }
+            $ref: '#/components/schemas/Foo',
+          },
         ],
         description: 'Overridden description',
-        minProperties: 1
+        minProperties: 1,
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -149,9 +149,9 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
-          }
-        ]
+            $ref: '#/components/schemas/Foo',
+          },
+        ],
       };
       expect(isRefSiblingSchema(s)).toBe(false);
     });
@@ -162,12 +162,12 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
+            $ref: '#/components/schemas/Foo',
           },
           {
-            description: 'Overridden description'
-          }
-        ]
+            description: 'Overridden description',
+          },
+        ],
       };
       expect(isRefSiblingSchema(s)).toBe(true);
     });
@@ -176,14 +176,14 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
+            $ref: '#/components/schemas/Foo',
           },
           {
             description: 'Overridden description',
             nullable: true,
-            example: 'foo'
-          }
-        ]
+            example: 'foo',
+          },
+        ],
       };
       expect(isRefSiblingSchema(s)).toBe(true);
     });
@@ -192,10 +192,10 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
-          }
+            $ref: '#/components/schemas/Foo',
+          },
         ],
-        description: 'Overridden description'
+        description: 'Overridden description',
       };
       expect(isRefSiblingSchema(s)).toBe(true);
     });
@@ -204,12 +204,12 @@ describe('Utility function: isRefSiblingSchema()', () => {
       const s = {
         allOf: [
           {
-            $ref: '#/components/schemas/Foo'
-          }
+            $ref: '#/components/schemas/Foo',
+          },
         ],
         description: 'Overridden description',
         nullable: false,
-        example: 'foo'
+        example: 'foo',
       };
       expect(isRefSiblingSchema(s)).toBe(true);
     });

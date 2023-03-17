@@ -9,5 +9,5 @@ const testRule = require('./test-rule');
 
 module.exports = {
   allSchemasDocument,
-  testRule
+  testRule,
 };

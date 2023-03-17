@@ -36,10 +36,10 @@ describe('Utility function: isIntegerSchema()', () => {
       isIntegerSchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ type: 'integer' }, { type: 'integer' }] }, {}]
+            allOf: [{ anyOf: [{ type: 'integer' }, { type: 'integer' }] }, {}],
           },
-          { type: 'integer' }
-        ]
+          { type: 'integer' },
+        ],
       })
     ).toBe(true);
   });

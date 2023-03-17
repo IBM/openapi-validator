@@ -19,7 +19,7 @@ const { LoggerFactory } = require('../utils');
  * @param {*} headerName the name of the header parameter to check for
  * @returns an array of size one if 'param' is flagged, or an empty array otherwise
  */
-module.exports = function(param, options, context) {
+module.exports = function (param, options, context) {
   const ruleId = context.rule.name;
   const logger = LoggerFactory.getInstance().getLogger(ruleId);
 
@@ -54,8 +54,8 @@ function checkHeaderParam(logger, ruleId, param, path, headerName) {
         {
           // This is a default message. We expect the rule definition to supply a message.
           message: `Header parameter "${headerName}" should not be explicitly defined.`,
-          path
-        }
+          path,
+        },
       ];
     }
   }

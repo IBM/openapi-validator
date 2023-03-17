@@ -4,7 +4,7 @@
  */
 
 const {
-  schemas
+  schemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { arrayAttributes } = require('../functions');
@@ -17,6 +17,6 @@ module.exports = {
   resolved: true,
   given: schemas,
   then: {
-    function: arrayAttributes
-  }
+    function: arrayAttributes,
+  },
 };

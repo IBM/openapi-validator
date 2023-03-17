@@ -30,7 +30,7 @@ const SchemaType = {
   NUMBER: Symbol('number'),
   OBJECT: Symbol('object'),
   STRING: Symbol('string'),
-  UNKNOWN: Symbol('unknown')
+  UNKNOWN: Symbol('unknown'),
 };
 
 /**
@@ -332,5 +332,5 @@ module.exports = {
   isNumberSchema,
   isObjectSchema,
   isPrimitiveSchema,
-  isStringSchema
+  isStringSchema,
 };

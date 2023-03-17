@@ -24,9 +24,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       description: 'this is implicitly an object',
       properties: {
         foo: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -40,9 +40,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'application/json; charset=utf-8': {
         schema: {
           type: 'array',
-          description: 'this should be an object'
-        }
-      }
+          description: 'this should be an object',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -62,7 +62,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'content',
       'application/json; charset=utf-8',
       'schema',
-      'type'
+      'type',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });

@@ -21,7 +21,7 @@ describe('Utility function: schemaRequiresProperty()', () => {
   it('should return `true` for a compliant simple schema', async () => {
     const compliantSimpleSchema = {
       required: ['fungibility'],
-      properties: { fungibility: {} }
+      properties: { fungibility: {} },
     };
     expect(schemaRequiresProperty(compliantSimpleSchema, 'fungibility')).toBe(
       true
@@ -54,8 +54,8 @@ describe('Utility function: schemaRequiresProperty()', () => {
       oneOf: [
         { required: ['fungibility'], properties: { fungibility: {} } },
         { required: ['fungibility'], properties: { fungibility: {} } },
-        { required: ['fungibility'], properties: { fungibility: {} } }
-      ]
+        { required: ['fungibility'], properties: { fungibility: {} } },
+      ],
     };
     expect(
       schemaRequiresProperty(schemaWithAllCompliantOneOfs, 'fungibility')
@@ -67,8 +67,8 @@ describe('Utility function: schemaRequiresProperty()', () => {
       anyOf: [
         { required: ['fungibility'], properties: { fungibility: {} } },
         { required: ['fungibility'], properties: { fungibility: {} } },
-        { required: ['fungibility'], properties: { fungibility: {} } }
-      ]
+        { required: ['fungibility'], properties: { fungibility: {} } },
+      ],
     };
     expect(
       schemaRequiresProperty(schemaWithAllCompliantAnyOfs, 'fungibility')
@@ -80,8 +80,8 @@ describe('Utility function: schemaRequiresProperty()', () => {
       allOf: [
         {},
         { required: ['fungibility'], properties: { fungibility: {} } },
-        {}
-      ]
+        {},
+      ],
     };
     expect(
       schemaRequiresProperty(schemaWithOneCompliantAllOf, 'fungibility')
@@ -93,8 +93,8 @@ describe('Utility function: schemaRequiresProperty()', () => {
       anyOf: [
         {},
         { required: ['fungibility'], properties: { fungibility: {} } },
-        {}
-      ]
+        {},
+      ],
     };
     expect(
       schemaRequiresProperty(schemaWithOneCompliantOneOf, 'fungibility')
@@ -103,7 +103,7 @@ describe('Utility function: schemaRequiresProperty()', () => {
 
   it('should return `false` for a schema with one of many compliant `anyOf` schemas', async () => {
     const schemaWithOneCompliantAnyOf = {
-      anyOf: [{}, { required: ['fungibility'] }, {}]
+      anyOf: [{}, { required: ['fungibility'] }, {}],
     };
     expect(
       schemaRequiresProperty(schemaWithOneCompliantAnyOf, 'fungibility')
@@ -114,13 +114,13 @@ describe('Utility function: schemaRequiresProperty()', () => {
     const schemaWithOnlyOneOfCompliance = {
       oneOf: [
         { required: ['fungibility'], properties: { fungibility: {} } },
-        { required: ['fungibility'], properties: { fungibility: {} } }
+        { required: ['fungibility'], properties: { fungibility: {} } },
       ],
       anyOf: [
         { required: ['fungibility'], properties: { fungibility: {} } },
-        {}
+        {},
       ],
-      allOf: [{}, {}]
+      allOf: [{}, {}],
     };
     expect(
       schemaRequiresProperty(schemaWithOnlyOneOfCompliance, 'fungibility')
@@ -131,13 +131,13 @@ describe('Utility function: schemaRequiresProperty()', () => {
     const schemaWithOnlyAnyOfCompliance = {
       anyOf: [
         { required: ['fungibility'], properties: { fungibility: {} } },
-        { required: ['fungibility'], properties: { fungibility: {} } }
+        { required: ['fungibility'], properties: { fungibility: {} } },
       ],
       oneOf: [
         { required: ['fungibility'], properties: { fungibility: {} } },
-        {}
+        {},
       ],
-      allOf: [{}, {}]
+      allOf: [{}, {}],
     };
     expect(
       schemaRequiresProperty(schemaWithOnlyAnyOfCompliance, 'fungibility')
@@ -149,16 +149,16 @@ describe('Utility function: schemaRequiresProperty()', () => {
       allOf: [
         {},
         { required: ['fungibility'], properties: { fungibility: {} } },
-        {}
+        {},
       ],
       oneOf: [
         {},
-        { required: ['fungibility'], properties: { fungibility: {} } }
+        { required: ['fungibility'], properties: { fungibility: {} } },
       ],
       anyOf: [
         { required: ['fungibility'], properties: { fungibility: {} } },
-        {}
-      ]
+        {},
+      ],
     };
     expect(
       schemaRequiresProperty(schemaWithOnlyAllOfCompliance, 'fungibility')
@@ -171,11 +171,11 @@ describe('Utility function: schemaRequiresProperty()', () => {
         {
           allOf: [
             { required: ['fungibility'], properties: { fungibility: {} } },
-            {}
-          ]
+            {},
+          ],
         },
-        { required: ['fungibility'], properties: { fungibility: {} } }
-      ]
+        { required: ['fungibility'], properties: { fungibility: {} } },
+      ],
     };
     expect(schemaRequiresProperty(schemaWithAllOfInOneOf, 'fungibility')).toBe(
       true
@@ -188,11 +188,11 @@ describe('Utility function: schemaRequiresProperty()', () => {
         {
           anyOf: [
             { required: ['fungibility'], properties: { fungibility: {} } },
-            { required: ['fungibility'], properties: { fungibility: {} } }
-          ]
+            { required: ['fungibility'], properties: { fungibility: {} } },
+          ],
         },
-        {}
-      ]
+        {},
+      ],
     };
     expect(schemaRequiresProperty(schemaWithAnyOfInAllOf, 'fungibility')).toBe(
       true
@@ -205,11 +205,11 @@ describe('Utility function: schemaRequiresProperty()', () => {
         {
           oneOf: [
             { required: ['fungibility'], properties: { fungibility: {} } },
-            { required: ['fungibility'], properties: { fungibility: {} } }
-          ]
+            { required: ['fungibility'], properties: { fungibility: {} } },
+          ],
         },
-        { required: ['fungibility'], properties: { fungibility: {} } }
-      ]
+        { required: ['fungibility'], properties: { fungibility: {} } },
+      ],
     };
     expect(schemaRequiresProperty(schemaWithAnyOfInAllOf, 'fungibility')).toBe(
       true

@@ -48,10 +48,10 @@ describe('Utility function: isArraySchema()', () => {
       isArraySchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ items: {} }, { type: 'array' }] }, {}]
+            allOf: [{ anyOf: [{ items: {} }, { type: 'array' }] }, {}],
           },
-          { type: 'array' }
-        ]
+          { type: 'array' },
+        ],
       })
     ).toBe(true);
   });

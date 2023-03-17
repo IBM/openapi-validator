@@ -34,12 +34,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['Drink'] = {
         oneOf: [
           {
-            $ref: '#/components/schemas/Juice'
+            $ref: '#/components/schemas/Juice',
           },
           {
-            $ref: '#/components/schemas/Soda'
-          }
-        ]
+            $ref: '#/components/schemas/Soda',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -53,12 +53,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['Drink'] = {
         anyOf: [
           {
-            $ref: '#/components/schemas/Juice'
+            $ref: '#/components/schemas/Juice',
           },
           {
-            $ref: '#/components/schemas/Soda'
-          }
-        ]
+            $ref: '#/components/schemas/Soda',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -76,16 +76,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description: 'List of movie names.',
             type: 'array',
             items: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
 
       testDocument.paths['/v1/movies'].get.responses['200'].content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/MovieNameList'
+        $ref: '#/components/schemas/MovieNameList',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -100,9 +100,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/drinks'].post.requestBody.content = {
         'text/html': {
           schema: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -131,15 +131,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description:
               'The array of error entries associated with the error response',
             items: {
-              $ref: '#/components/schemas/Error'
-            }
+              $ref: '#/components/schemas/Error',
+            },
           },
           trace: {
             description: 'The error trace information.',
             type: 'string',
-            format: 'uuid'
-          }
-        }
+            format: 'uuid',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -162,7 +162,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/drinks'].post.responses['201'].content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Soda'
+        $ref: '#/components/schemas/Soda',
       };
 
       // We should get back a warning ONLY due to the Soda reference in the response (not the oneOf).

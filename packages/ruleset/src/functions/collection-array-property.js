@@ -6,14 +6,14 @@
 const {
   schemaHasConstraint,
   isArraySchema,
-  isObject
+  isObject,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -54,8 +54,8 @@ function collectionArrayProperty(schema, path, apidef) {
       return [
         {
           message: `Collection list operation response schema should define array property with name '${propertyName}'`,
-          path
-        }
+          path,
+        },
       ];
     }
   }

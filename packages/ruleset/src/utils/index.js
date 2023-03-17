@@ -12,5 +12,5 @@ module.exports = {
   mergeAllOfSchemaProperties: require('./merge-allof-schema-properties'),
   ...require('./mimetype-utils'),
   operationMethods: require('./constants'),
-  pathMatchesRegexp: require('./path-matches-regexp')
+  pathMatchesRegexp: require('./path-matches-regexp'),
 };

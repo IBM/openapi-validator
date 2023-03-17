@@ -8,7 +8,7 @@ const { mergeAllOfSchemaProperties, LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(pathObj, _opts, context) {
+module.exports = function (pathObj, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -102,7 +102,7 @@ function paginationStyle(pathItem, path) {
     'token',
     'cursor',
     'page',
-    'page_token'
+    'page_token',
   ];
   const pageTokenParamIndex = params.findIndex(
     param =>
@@ -152,8 +152,8 @@ function paginationStyle(pathItem, path) {
           pathStr,
           'get',
           'parameters',
-          limitParamIndex.toString()
-        ]
+          limitParamIndex.toString(),
+        ],
       });
     }
   }
@@ -174,8 +174,8 @@ function paginationStyle(pathItem, path) {
           pathStr,
           'get',
           'parameters',
-          offsetParamIndex.toString()
-        ]
+          offsetParamIndex.toString(),
+        ],
       });
     }
   }
@@ -186,7 +186,7 @@ function paginationStyle(pathItem, path) {
   if (offsetParamIndex >= 0 && limitParamIndex < 0) {
     results.push({
       message: `The operation must define a "limit" query parameter if the "offset" query parameter is defined`,
-      path: ['paths', pathStr, 'get']
+      path: ['paths', pathStr, 'get'],
     });
   }
 
@@ -203,8 +203,8 @@ function paginationStyle(pathItem, path) {
           pathStr,
           'get',
           'parameters',
-          pageTokenParamIndex.toString()
-        ]
+          pageTokenParamIndex.toString(),
+        ],
       });
     }
     if (
@@ -219,8 +219,8 @@ function paginationStyle(pathItem, path) {
           pathStr,
           'get',
           'parameters',
-          pageTokenParamIndex.toString()
-        ]
+          pageTokenParamIndex.toString(),
+        ],
       });
     }
   }
@@ -245,7 +245,7 @@ function paginationStyle(pathItem, path) {
     successCode,
     'content',
     'application/json',
-    'schema'
+    'schema',
   ];
 
   // Check #5: If the operation defines the "limit" query param, then the response body must also
@@ -259,7 +259,7 @@ function paginationStyle(pathItem, path) {
       results.push({
         message:
           'A paginated list operation with a "limit" query parameter must include a "limit" property in the response body schema',
-        path: responseSchemaPath
+        path: responseSchemaPath,
       });
     } else if (
       limitProp.type !== 'integer' ||
@@ -269,7 +269,7 @@ function paginationStyle(pathItem, path) {
       results.push({
         message:
           'The "limit" property in the response body of a paginated list operation must be of type integer and required',
-        path: [...responseSchemaPath, 'properties', 'limit']
+        path: [...responseSchemaPath, 'properties', 'limit'],
       });
     }
   }
@@ -283,7 +283,7 @@ function paginationStyle(pathItem, path) {
       results.push({
         message:
           'A paginated list operation with an "offset" query parameter must include an "offset" property in the response body schema',
-        path: responseSchemaPath
+        path: responseSchemaPath,
       });
     } else if (
       offsetProp.type !== 'integer' ||
@@ -293,7 +293,7 @@ function paginationStyle(pathItem, path) {
       results.push({
         message:
           'The "offset" property in the response body of a paginated list operation must be of type integer and required',
-        path: [...responseSchemaPath, 'properties', 'offset']
+        path: [...responseSchemaPath, 'properties', 'offset'],
       });
     }
   }
@@ -327,7 +327,7 @@ function paginationStyle(pathItem, path) {
       results.push({
         message:
           'The "total_count" property in the response body of a paginated list operation must be of type integer and required',
-        path: [...responseSchemaPath, 'properties', 'total_count']
+        path: [...responseSchemaPath, 'properties', 'total_count'],
       });
     }
   }
@@ -385,13 +385,13 @@ function checkPageLink(path, responseSchema, name, isRequired) {
     ) {
       results.push({
         message: `The "${name}" property should be an object with an "href" string property`,
-        path: [...path, 'properties', name]
+        path: [...path, 'properties', name],
       });
     }
   } else if (isRequired) {
     results.push({
       message: `A paginated list operation should include a "${name}" property in the response body schema`,
-      path
+      path,
     });
   }
 

@@ -45,12 +45,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
           description: 'An invalid limit param',
           required: true,
           schema: {
-            type: 'boolean'
-          }
-        }
+            type: 'boolean',
+          },
+        },
       ];
       testDocument.paths['/v1/drinks/limitcheck'] = {
-        post: newPost
+        post: newPost,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -65,7 +65,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Next, add this invalid get operation to a new path that will be excluded.
       testDocument.paths['/v1/drinks/invalid/{path_param}'] = {
-        get: invalidGet
+        get: invalidGet,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -120,8 +120,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'text/plain'
       ] = {
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       };
       delete testDocument.paths['/v1/drinks'].get.responses['200'].content[
         'application/json'
@@ -141,7 +141,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json'
       ].schema = {
         type: 'object',
-        additionalProperties: true
+        additionalProperties: true,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -160,9 +160,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'object',
         properties: {
           not_an_array: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -181,9 +181,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           description: 'An invalid limit param',
           required: true,
           schema: {
-            type: 'boolean'
-          }
-        }
+            type: 'boolean',
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -224,7 +224,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.paths['/v1/drinks'].get.parameters[1].schema = {
-          type: 'boolean'
+          type: 'boolean',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -282,7 +282,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.paths['/v1/drinks'].get.parameters[0].schema = {
-          type: 'string'
+          type: 'string',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -328,7 +328,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.paths['/v1/movies'].get.parameters[1].schema = {
-          type: 'integer'
+          type: 'integer',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -393,7 +393,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.schemas[
           'OffsetPaginationBase'
         ].properties.limit = {
-          type: 'string'
+          type: 'string',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -412,7 +412,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         // Remove "limit" from required list.
         testDocument.components.schemas['OffsetPaginationBase'].required = [
           'offset',
-          'total_count'
+          'total_count',
         ];
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -449,7 +449,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.schemas[
           'OffsetPaginationBase'
         ].properties.offset = {
-          type: 'boolean'
+          type: 'boolean',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -468,7 +468,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         // Remove "offset" from required list.
         testDocument.components.schemas['OffsetPaginationBase'].required = [
           'limit',
-          'total_count'
+          'total_count',
         ];
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -489,7 +489,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.schemas[
           'OffsetPaginationBase'
         ].properties.total_count = {
-          type: 'boolean'
+          type: 'boolean',
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -508,7 +508,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         // Remove "total_count" from required list.
         testDocument.components.schemas['OffsetPaginationBase'].required = [
           'limit',
-          'offset'
+          'offset',
         ];
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -554,19 +554,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         // Define new pagelink properties as strings.
         const stringSchema = {
-          type: 'string'
+          type: 'string',
         };
         const newPageLinks = {
           first: stringSchema,
           last: stringSchema,
           previous: stringSchema,
-          next: stringSchema
+          next: stringSchema,
         };
 
         // Overlay the new pagelink properties onto the schema.
         testDocument.components.schemas['OffsetPaginationBase'].properties = {
           ...paginationProps,
-          ...newPageLinks
+          ...newPageLinks,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -588,19 +588,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         // Define pagelink properties as objects with no properties.
         const pageLinkSchema = {
-          type: 'object'
+          type: 'object',
         };
         const newPageLinks = {
           first: pageLinkSchema,
           last: pageLinkSchema,
           previous: pageLinkSchema,
-          next: pageLinkSchema
+          next: pageLinkSchema,
         };
 
         // Overlay the new pagelink properties onto the schema.
         testDocument.components.schemas['OffsetPaginationBase'].properties = {
           ...paginationProps,
-          ...newPageLinks
+          ...newPageLinks,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -625,21 +625,21 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             not_href: {
-              type: 'string'
-            }
-          }
+              type: 'string',
+            },
+          },
         };
         const newPageLinks = {
           first: pageLinkSchema,
           last: pageLinkSchema,
           previous: pageLinkSchema,
-          next: pageLinkSchema
+          next: pageLinkSchema,
         };
 
         // Overlay the new pagelink properties onto the schema.
         testDocument.components.schemas['OffsetPaginationBase'].properties = {
           ...paginationProps,
-          ...newPageLinks
+          ...newPageLinks,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -664,21 +664,21 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             not_href: {
-              type: 'boolean'
-            }
-          }
+              type: 'boolean',
+            },
+          },
         };
         const newPageLinks = {
           first: pageLinkSchema,
           last: pageLinkSchema,
           previous: pageLinkSchema,
-          next: pageLinkSchema
+          next: pageLinkSchema,
         };
 
         // Overlay the new pagelink properties onto the schema.
         testDocument.components.schemas['OffsetPaginationBase'].properties = {
           ...paginationProps,
-          ...newPageLinks
+          ...newPageLinks,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -717,5 +717,7 @@ const expectedMsgStartParamName =
   'The "page_token" parameter should be named "start"';
 const expectedMsgTotalCountProp =
   'The "total_count" property in the response body of a paginated list operation must be of type integer and required';
-const expectedMsgPagelinkRE = /A paginated list operation should include a ".*" property in the response body schema/;
-const expectedMsgPagelinkObjectRE = /The ".*" property should be an object with an "href" string property/;
+const expectedMsgPagelinkRE =
+  /A paginated list operation should include a ".*" property in the response body schema/;
+const expectedMsgPagelinkObjectRE =
+  /The ".*" property should be an object with an "href" string property/;

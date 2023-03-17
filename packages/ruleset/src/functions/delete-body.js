@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(operation, _opts, context) {
+module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -29,8 +29,8 @@ function deleteBody(operation, path) {
     return [
       {
         message: '"delete" operation should not contain a requestBody.',
-        path: [...path, 'requestBody']
-      }
+        path: [...path, 'requestBody'],
+      },
     ];
   }
 

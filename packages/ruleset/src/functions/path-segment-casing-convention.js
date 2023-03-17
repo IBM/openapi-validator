@@ -10,7 +10,7 @@ let casingConfig;
 let ruleId;
 let logger;
 
-module.exports = function(pathItem, options, context) {
+module.exports = function (pathItem, options, context) {
   // Save this rule's "functionOptions" value since we need
   // to pass it on to Spectral's "casing" function.
   casingConfig = options;

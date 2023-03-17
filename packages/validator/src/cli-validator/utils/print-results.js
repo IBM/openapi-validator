@@ -20,7 +20,7 @@ module.exports = function print(context, results) {
     error: 'bgRed',
     warning: 'bgYellow',
     info: 'bgGrey',
-    hint: 'bgGreen'
+    hint: 'bgGreen',
   };
 
   types.forEach(type => {

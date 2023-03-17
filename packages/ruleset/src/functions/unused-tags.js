@@ -8,7 +8,7 @@ const { LoggerFactory, operationMethods } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(rootDocument, _opts, context) {
+module.exports = function (rootDocument, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -66,7 +66,7 @@ function checkUnusedTags(rootDocument) {
       logger.debug(`${ruleId}: tag '${globalTags[i].name} is unused!`);
       errors.push({
         message: `A tag is defined but never used: ${globalTags[i].name}`,
-        path: ['tags', i.toString()]
+        path: ['tags', i.toString()],
       });
     }
   }

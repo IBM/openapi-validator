@@ -7,7 +7,7 @@ const {
   isJsonMimeType,
   isJsonPatchMimeType,
   isMergePatchMimeType,
-  isFormMimeType
+  isFormMimeType,
 } = require('../src/utils');
 
 describe('MimeType utility functions', () => {

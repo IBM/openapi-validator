@@ -99,7 +99,7 @@ function createCLIOptions() {
   // and can be captured properly during testing.
   command.configureOutput({
     writeOut: s => console.log(s),
-    writeErr: s => console.error(s)
+    writeErr: s => console.error(s),
   });
 
   return command;

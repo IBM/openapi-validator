@@ -4,7 +4,7 @@
  */
 
 const {
-  schemas
+  schemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { propertyConsistentNameAndType } = require('../functions');
@@ -20,7 +20,7 @@ module.exports = {
   then: {
     function: propertyConsistentNameAndType,
     functionOptions: {
-      excludedProperties: ['code', 'default', 'type', 'value']
-    }
-  }
+      excludedProperties: ['code', 'default', 'type', 'value'],
+    },
+  },
 };

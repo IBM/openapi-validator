@@ -17,9 +17,9 @@ module.exports = {
     '$.paths[*][parameters][*].content[*].schema',
     '$.paths[*][*][parameters][*].schema',
     '$.paths[*][*][parameters][*].content[*].schema',
-    '$.paths[*][*].requestBody.content[*].schema'
+    '$.paths[*][*].requestBody.content[*].schema',
   ],
   then: {
-    function: stringAttributes
-  }
+    function: stringAttributes,
+  },
 };

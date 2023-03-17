@@ -23,7 +23,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'integer',
-          minimum: 3
+          minimum: 3,
         };
 
         const results = await testRule(ruleId, rule, rootDocument);
@@ -34,7 +34,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'integer',
-          maximum: 3
+          maximum: 3,
         };
 
         const results = await testRule(ruleId, rule, rootDocument);
@@ -46,7 +46,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'integer',
           minimum: 3,
-          maximum: 4
+          maximum: 4,
         };
 
         const results = await testRule(ruleId, rule, rootDocument);
@@ -60,7 +60,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'object',
-          minProperties: 3
+          minProperties: 3,
         };
 
         const results = await testRule(ruleId, rule, rootDocument);
@@ -71,7 +71,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'object',
-          maxProperties: 3
+          maxProperties: 3,
         };
 
         const results = await testRule(ruleId, rule, rootDocument);
@@ -83,7 +83,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'object',
           minProperties: 3,
-          maxProperties: 10
+          maxProperties: 10,
         };
 
         const results = await testRule(ruleId, rule, rootDocument);
@@ -100,7 +100,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'integer',
           minimum: 4,
-          maximum: 3
+          maximum: 3,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -109,7 +109,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minimum',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minimum',
           'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minimum',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minimum'
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minimum',
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -125,7 +125,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'string',
-          minimum: 4
+          minimum: 4,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -134,7 +134,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minimum',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minimum',
           'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minimum',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minimum'
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minimum',
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -150,7 +150,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'object',
-          maximum: 4
+          maximum: 4,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -159,7 +159,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.maximum',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.maximum',
           'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maximum',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maximum'
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maximum',
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -179,7 +179,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'object',
           minProperties: 5,
-          maxProperties: 4
+          maxProperties: 4,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -188,7 +188,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minProperties',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minProperties',
           'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minProperties',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minProperties'
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minProperties',
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -204,7 +204,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'integer',
-          minProperties: 3
+          minProperties: 3,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -213,7 +213,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minProperties',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minProperties',
           'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minProperties',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minProperties'
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minProperties',
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
@@ -230,7 +230,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         testDocument.components.schemas.Car.properties['wheel_count'] = {
           type: 'number',
           format: 'double',
-          maxProperties: 3
+          maxProperties: 3,
         };
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -239,7 +239,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.maxProperties',
           'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.maxProperties',
           'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maxProperties',
-          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maxProperties'
+          'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maxProperties',
         ];
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);

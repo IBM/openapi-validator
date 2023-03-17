@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(operation, _opts, context) {
+module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -40,7 +40,7 @@ function parameterOrder(op, path) {
           errors.push({
             message:
               'Required parameters should appear before optional parameters.',
-            path: [...path, 'parameters', index.toString()]
+            path: [...path, 'parameters', index.toString()],
           });
         }
       } else {

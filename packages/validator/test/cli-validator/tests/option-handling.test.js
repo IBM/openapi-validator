@@ -7,14 +7,14 @@ const stripAnsiFrom = require('strip-ansi');
 const {
   getCapturedText,
   getCapturedTextWithColor,
-  testValidator
+  testValidator,
 } = require('../../test-utils');
 const {
-  validate
+  validate,
 } = require('../../../src/cli-validator/utils/schema-validator');
 const { readYaml } = require('../../../src/cli-validator/utils/read-yaml');
 
-describe('cli tool - test option handling', function() {
+describe('cli tool - test option handling', function () {
   let consoleSpy;
   const originalWarn = console.warn;
   const originalError = console.error;
@@ -34,14 +34,14 @@ describe('cli tool - test option handling', function() {
     console.info = originalInfo;
   });
 
-  it('should colorize output by default @skip-ci', async function() {
+  it('should colorize output by default @skip-ci', async function () {
     await testValidator([
-      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
     ]);
     const capturedText = getCapturedTextWithColor(consoleSpy.mock.calls);
     // originalError('Captured text:\n', capturedText);
 
-    capturedText.forEach(function(line) {
+    capturedText.forEach(function (line) {
       if (line) {
         expect(line).not.toEqual(stripAnsiFrom(line));
       }
@@ -50,41 +50,41 @@ describe('cli tool - test option handling', function() {
 
   it.each(['-n', '--no-colors'])(
     'should not colorize output when -n/--no-colors option is specified',
-    async function(option) {
+    async function (option) {
       await testValidator([
         option,
-        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
 
-      capturedText.forEach(function(line) {
+      capturedText.forEach(function (line) {
         expect(line).toEqual(stripAnsiFrom(line));
       });
     }
   );
 
-  it('should not print validator source file by default', async function() {
+  it('should not print validator source file by default', async function () {
     await testValidator([
-      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
     ]);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
-    capturedText.forEach(function(line) {
+    capturedText.forEach(function (line) {
       expect(line.includes('Validator')).toEqual(false);
     });
   });
 
   it.each(['-e', '--errors-only'])(
     'should print only errors when the -e/--errors-only option is specified',
-    async function(option) {
+    async function (option) {
       await testValidator([
         option,
-        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
 
-      capturedText.forEach(function(line) {
+      capturedText.forEach(function (line) {
         expect(line.includes('warnings')).toEqual(false);
       });
     }
@@ -92,10 +92,10 @@ describe('cli tool - test option handling', function() {
 
   it.each(['-s', '--summary-only'])(
     'should print only the summary when -s/--summary-only option is specified',
-    async function(option) {
+    async function (option) {
       await testValidator([
         option,
-        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       // This can be uncommented to display the output when adjustments to
@@ -108,7 +108,7 @@ describe('cli tool - test option handling', function() {
 
       let summaryReported = false;
 
-      capturedText.forEach(function(line) {
+      capturedText.forEach(function (line) {
         if (line.includes('summary')) {
           summaryReported = true;
         }
@@ -173,10 +173,10 @@ describe('cli tool - test option handling', function() {
 
   it.each(['-j', '--json'])(
     'should print json output when -j/--json option is specified',
-    async function(option) {
+    async function (option) {
       await testValidator([
         option,
-        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
       ]);
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       // originalError(`Captured text: ${capturedText}`);
@@ -199,11 +199,11 @@ describe('cli tool - test option handling', function() {
     }
   );
 
-  it('should print only errors as json output when -j and -e options are specified together', async function() {
+  it('should print only errors as json output when -j and -e options are specified together', async function () {
     await testValidator([
       '-j',
       '-e',
-      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
     ]);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
@@ -216,11 +216,11 @@ describe('cli tool - test option handling', function() {
     });
   });
 
-  it('should not include results in json output when -j and -s options are specified together', async function() {
+  it('should not include results in json output when -j and -s options are specified together', async function () {
     await testValidator([
       '-j',
       '-s',
-      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
     ]);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
 
@@ -235,8 +235,8 @@ describe('cli tool - test option handling', function() {
     expect(outputObject.warning.summary.total).toBeGreaterThan(0);
   });
 
-  describe('test unknown option handling', function() {
-    it('should return an error and help text when there is an unknown option', async function() {
+  describe('test unknown option handling', function () {
+    it('should return an error and help text when there is an unknown option', async function () {
       let caughtException = false;
       let exception;
       try {
@@ -266,15 +266,16 @@ describe('cli tool - test option handling', function() {
     '-lerror',
     '-lroot=error',
     '--log-level=error',
-    '--log-level=root=error'
-  ])('should not print anything when loglevel is error', async function(
-    option
-  ) {
-    await testValidator([
-      option,
-      './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
-    ]);
-    const capturedText = getCapturedText(consoleSpy.mock.calls);
-    expect(capturedText).toHaveLength(0);
-  });
+    '--log-level=root=error',
+  ])(
+    'should not print anything when loglevel is error',
+    async function (option) {
+      await testValidator([
+        option,
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
+      ]);
+      const capturedText = getCapturedText(consoleSpy.mock.calls);
+      expect(capturedText).toHaveLength(0);
+    }
+  );
 });

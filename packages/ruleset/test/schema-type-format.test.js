@@ -11,9 +11,12 @@ const ruleId = 'ibm-schema-type-format';
 const expectedSeverity = severityCodes.error;
 
 const errorMsgInvalidType = /^Invalid type. Valid types are:.*$/;
-const errorMsgStringFormat = /^Schema of type string should use one of the following formats:.*$/;
-const errorMsgIntegerFormat = /^Schema of type integer should use one of the following formats:.*$/;
-const errorMsgNumberFormat = /^Schema of type number should use one of the following formats:.*$/;
+const errorMsgStringFormat =
+  /^Schema of type string should use one of the following formats:.*$/;
+const errorMsgIntegerFormat =
+  /^Schema of type integer should use one of the following formats:.*$/;
+const errorMsgNumberFormat =
+  /^Schema of type number should use one of the following formats:.*$/;
 const errorMsgNoFormat = /^Schema of type .* should not have a format.*$/;
 const errorMsgFormatButNoType = /^Format defined without a type.$/;
 
@@ -22,94 +25,94 @@ const validPropertiesNoFormat = {
   array_prop: {
     type: 'array',
     items: {
-      type: 'string'
-    }
+      type: 'string',
+    },
   },
   bool_prop: {
-    type: 'boolean'
+    type: 'boolean',
   },
   int_prop: {
-    type: 'integer'
+    type: 'integer',
   },
   number_prop: {
-    type: 'number'
+    type: 'number',
   },
   object_prop: {
     type: 'object',
     properties: {
       prop1: {
-        type: 'string'
-      }
-    }
+        type: 'string',
+      },
+    },
   },
   string_prop: {
-    type: 'string'
-  }
+    type: 'string',
+  },
 };
 
 const validStringProperties = {
   binary_prop: {
     type: 'string',
-    format: 'binary'
+    format: 'binary',
   },
   byte_prop: {
     type: 'string',
-    format: 'byte'
+    format: 'byte',
   },
   crn_prop: {
     type: 'string',
-    format: 'crn'
+    format: 'crn',
   },
   date_prop: {
     type: 'string',
-    format: 'date'
+    format: 'date',
   },
   datetime_prop: {
     type: 'string',
-    format: 'date-time'
+    format: 'date-time',
   },
   email_prop: {
     type: 'string',
-    format: 'email'
+    format: 'email',
   },
   id_prop: {
     type: 'string',
-    format: 'identifier'
+    format: 'identifier',
   },
   pw: {
     type: 'string',
-    format: 'password'
+    format: 'password',
   },
   url_prop: {
     type: 'string',
-    format: 'url'
+    format: 'url',
   },
   uuid_prop: {
     type: 'string',
-    format: 'uuid'
-  }
+    format: 'uuid',
+  },
 };
 
 const validIntegerProperties = {
   int_prop: {
     type: 'integer',
-    format: 'int32'
+    format: 'int32',
   },
   long_prop: {
     type: 'integer',
-    format: 'int64'
-  }
+    format: 'int64',
+  },
 };
 
 const validNumberProperties = {
   float_prop: {
     type: 'number',
-    format: 'float'
+    format: 'float',
   },
   double_prop: {
     type: 'number',
-    format: 'double'
-  }
+    format: 'double',
+  },
 };
 
 describe(`Spectral rule: ${ruleId}`, () => {
@@ -124,12 +127,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['Foo'] = {
         type: 'object',
-        properties: validPropertiesNoFormat
+        properties: validPropertiesNoFormat,
       };
       testDocument.paths['/v1/drinks'].post.requestBody.content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -143,7 +146,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json'
       ].schema = {
         type: 'object',
-        properties: validPropertiesNoFormat
+        properties: validPropertiesNoFormat,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -157,7 +160,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json'
       ].schema = {
         type: 'object',
-        properties: validStringProperties
+        properties: validStringProperties,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -169,12 +172,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['Foo'] = {
         type: 'object',
-        properties: validIntegerProperties
+        properties: validIntegerProperties,
       };
       testDocument.paths['/v1/drinks'].post.responses['201'].content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -186,10 +189,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['Foo'] = {
         type: 'object',
-        properties: validNumberProperties
+        properties: validNumberProperties,
       };
       testDocument.components.schemas['Movie'].properties['foo_prop'] = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -202,11 +205,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'array',
         items: {
           type: 'number',
-          format: 'double'
-        }
+          format: 'double',
+        },
       };
       testDocument.components.schemas['Movie'].properties['foo_prop'] = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -221,7 +224,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/drinks'].post.requestBody.content[
         'application/json'
       ].schema = {
-        type: 'invalid_type'
+        type: 'invalid_type',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -236,7 +239,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -249,9 +252,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'object',
         properties: {
           invalid_prop: {
-            type: 'invalid_type'
-          }
-        }
+            type: 'invalid_type',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -269,7 +272,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'invalid_prop'
+        'invalid_prop',
       ]);
     });
 
@@ -279,13 +282,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['Foo'] = {
         type: 'array',
         items: {
-          type: 'invalid_type'
-        }
+          type: 'invalid_type',
+        },
       };
       testDocument.paths['/v1/drinks'].post.requestBody.content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -301,7 +304,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'content',
         'application/json',
         'schema',
-        'items'
+        'items',
       ]);
     });
 
@@ -312,7 +315,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json'
       ].schema = {
         type: 'object',
-        format: 'notanobject'
+        format: 'notanobject',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -327,7 +330,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -338,13 +341,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'array',
         format: 'notanarray',
         items: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       };
       testDocument.paths['/v1/drinks'].post.requestBody.content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -359,7 +362,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -368,12 +371,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['Foo'] = {
         type: 'boolean',
-        format: 'notaboolean'
+        format: 'notaboolean',
       };
       testDocument.paths['/v1/drinks'].post.responses['201'].content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -389,7 +392,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '201',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -397,17 +400,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas['Foo'] = {
-        format: 'date'
+        format: 'date',
       };
       testDocument.components.responses.FooResponse = {
         schema: {
-          $ref: '#/components/schemas/Foo'
-        }
+          $ref: '#/components/schemas/Foo',
+        },
       };
       testDocument.paths['/v1/drinks'].post.responses['201'].content[
         'application/json'
       ] = {
-        $ref: '#/components/responses/FooResponse'
+        $ref: '#/components/responses/FooResponse',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -423,7 +426,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '201',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -435,13 +438,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
           'application/json': {
             schema: {
               type: 'string',
-              format: 'notastring'
-            }
-          }
-        }
+              format: 'notastring',
+            },
+          },
+        },
       };
       testDocument.paths['/v1/drinks'].post.requestBody = {
-        $ref: '#/components/requestBodies/FooRequestBody'
+        $ref: '#/components/requestBodies/FooRequestBody',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -456,7 +459,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -465,11 +468,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['BadIntProp'] = {
         type: 'integer',
-        format: 'notaninteger'
+        format: 'notaninteger',
       };
 
       testDocument.components.schemas['Movie'].properties['bad_int_prop'] = {
-        $ref: '#/components/schemas/BadIntProp'
+        $ref: '#/components/schemas/BadIntProp',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -488,7 +491,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'bad_int_prop'
+        'bad_int_prop',
       ]);
       expect(results[1].path).toStrictEqual([
         'paths',
@@ -500,7 +503,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'bad_int_prop'
+        'bad_int_prop',
       ]);
       expect(results[2].path).toStrictEqual([
         'paths',
@@ -517,7 +520,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'movies',
         'items',
         'properties',
-        'bad_int_prop'
+        'bad_int_prop',
       ]);
       expect(results[3].path).toStrictEqual([
         'paths',
@@ -529,7 +532,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'bad_int_prop'
+        'bad_int_prop',
       ]);
       expect(results[4].path).toStrictEqual([
         'paths',
@@ -540,7 +543,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'bad_int_prop'
+        'bad_int_prop',
       ]);
     });
     it('Number schema with invalid format - inline response schema', async () => {
@@ -553,9 +556,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         properties: {
           bad_number_prop: {
             type: 'number',
-            format: 'notanumber'
-          }
-        }
+            format: 'notanumber',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -573,7 +576,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'bad_number_prop'
+        'bad_number_prop',
       ]);
     });
   });

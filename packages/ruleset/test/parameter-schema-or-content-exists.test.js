@@ -23,9 +23,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         name: 'filter',
         in: 'query',
         schema: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     ];
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -41,11 +41,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
         content: {
           'application/json': {
             schema: {
-              type: 'object'
-            }
-          }
-        }
-      }
+              type: 'object',
+            },
+          },
+        },
+      },
     ];
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -57,8 +57,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
     testDocument.paths['/v1/movies'].post.parameters = [
       {
         name: 'filter',
-        in: 'query'
-      }
+        in: 'query',
+      },
     ];
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -74,7 +74,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       '/v1/movies',
       'post',
       'parameters',
-      '0'
+      '0',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });

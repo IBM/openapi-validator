@@ -12,5 +12,5 @@ module.exports = {
   schemaRequiresProperty: require('./schema-requires-property'),
   validateComposedSchemas: require('./validate-composed-schemas'),
   validateNestedSchemas: require('./validate-nested-schemas'),
-  validateSubschemas: require('./validate-subschemas')
+  validateSubschemas: require('./validate-subschemas'),
 };

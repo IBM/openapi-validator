@@ -4,7 +4,7 @@
  */
 
 const {
-  schemas
+  schemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { enumCasingConvention } = require('../functions');
@@ -18,7 +18,7 @@ module.exports = {
   then: {
     function: enumCasingConvention,
     functionOptions: {
-      type: 'snake'
-    }
-  }
+      type: 'snake',
+    },
+  },
 };

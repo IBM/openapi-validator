@@ -9,16 +9,16 @@ describe('Spectral behavior dependencies', () => {
           Parent: {
             properties: {
               one: {
-                $ref: '#/components/schemas/Same'
+                $ref: '#/components/schemas/Same',
               },
               two: {
-                $ref: '#/components/schemas/Same'
-              }
-            }
+                $ref: '#/components/schemas/Same',
+              },
+            },
           },
-          Same: {}
-        }
-      }
+          Same: {},
+        },
+      },
     };
 
     let ruleWasExecuted = false;
@@ -37,8 +37,8 @@ describe('Spectral behavior dependencies', () => {
       resolved: true,
       given: '$.components.schemas.Parent',
       then: {
-        function: checkReferencesFunction
-      }
+        function: checkReferencesFunction,
+      },
     };
 
     await testRule('resolved-references', resolvedRefsRule, twoRefsDocument);

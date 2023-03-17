@@ -8,10 +8,13 @@ module.exports = {
   },
   'parser': 'babel-eslint',
   'rules': {
-    'prettier/prettier': ['error', {'singleQuote': true}],
+    'prettier/prettier': ['error', {
+      'singleQuote': true,
+      'arrowParens': 'avoid',
+    }],
     'no-console': 0,
     'no-var': 'error',
     'prefer-const': 'error',
   },
-  'extends': ['prettier', 'eslint:recommended']
+  'extends': ['prettier', 'eslint:recommended'],
 };

@@ -36,10 +36,10 @@ describe('Utility function: isNumberSchema()', () => {
       isNumberSchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ type: 'number' }, { type: 'number' }] }, {}]
+            allOf: [{ anyOf: [{ type: 'number' }, { type: 'number' }] }, {}],
           },
-          { type: 'number' }
-        ]
+          { type: 'number' },
+        ],
       })
     ).toBe(true);
   });

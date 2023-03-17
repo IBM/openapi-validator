@@ -64,17 +64,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
             schema: {
               allOf: [
                 {
-                  $ref: '#/components/schemas/Car'
-                }
-              ]
+                  $ref: '#/components/schemas/Car',
+                },
+              ],
             },
             examples: {
               RequestExample: {
-                $ref: '#/components/examples/CarExample'
-              }
-            }
-          }
-        }
+                $ref: '#/components/examples/CarExample',
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

@@ -32,8 +32,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         required: false,
         in: 'query',
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -49,8 +49,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         required: false,
         in: 'query',
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -67,9 +67,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           required: false,
           in: 'path',
           schema: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -85,8 +85,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         required: false,
         in: 'header',
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -103,8 +103,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         in: 'query',
         deprecated: true,
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -121,8 +121,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         in: 'path',
         deprecated: true,
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -139,8 +139,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         in: 'header',
         deprecated: true,
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -188,8 +188,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         name: 'moveRating',
         in: 'query',
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       });
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -241,8 +241,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         name: 'moveRating',
         in: 'header',
         schema: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       });
 
       const results = await testRule(ruleId, rule, testDocument);

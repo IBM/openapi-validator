@@ -4,7 +4,7 @@
  */
 
 const {
-  operations
+  operations,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { operationIdCasingConvention } = require('../functions');
@@ -18,7 +18,7 @@ module.exports = {
   then: {
     function: operationIdCasingConvention,
     functionOptions: {
-      type: 'snake'
-    }
-  }
+      type: 'snake',
+    },
+  },
 };

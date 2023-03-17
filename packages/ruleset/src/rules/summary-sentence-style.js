@@ -15,7 +15,7 @@ module.exports = {
   then: {
     function: pattern,
     functionOptions: {
-      notMatch: '\\.$'
-    }
-  }
+      notMatch: '\\.$',
+    },
+  },
 };

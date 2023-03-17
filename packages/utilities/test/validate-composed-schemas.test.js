@@ -33,7 +33,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should validate a composed schema even if `includeSelf` is `false`', async () => {
     const schema = {
-      allOf: [{}]
+      allOf: [{}],
     };
 
     const visitedPaths = validateComposedSchemas(
@@ -50,7 +50,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should validate `allOf` schemas', async () => {
     const schema = {
-      allOf: [{}, {}]
+      allOf: [{}, {}],
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
@@ -62,7 +62,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should validate `oneOf` schemas', async () => {
     const schema = {
-      oneOf: [{}, {}]
+      oneOf: [{}, {}],
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
@@ -74,7 +74,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should validate `anyOf` schemas', async () => {
     const schema = {
-      anyOf: [{}, {}]
+      anyOf: [{}, {}],
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
@@ -86,7 +86,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should validate `not` schema', async () => {
     const schema = {
-      not: {}
+      not: {},
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
@@ -98,7 +98,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should not validate `not` schema if `includeNot` is false', async () => {
     const schema = {
-      not: {}
+      not: {},
     };
 
     const visitedPaths = validateComposedSchemas(
@@ -116,7 +116,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should recurse through `allOf`, `oneOf`, `anyOf`, and `not`', async () => {
     const schema = {
-      allOf: [{ oneOf: [{ anyOf: [{ not: {} }] }] }]
+      allOf: [{ oneOf: [{ anyOf: [{ not: {} }] }] }],
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
@@ -129,14 +129,14 @@ describe('Utility function: validateComposedSchemas()', () => {
         'allOf.0',
         'allOf.0.oneOf.0',
         'allOf.0.oneOf.0.anyOf.0',
-        'allOf.0.oneOf.0.anyOf.0.not'
+        'allOf.0.oneOf.0.anyOf.0.not',
       ].sort()
     );
   });
 
   it('recorded paths are accurate for each schema', async () => {
     const schema = {
-      allOf: [{ oneOf: [{ anyOf: [{ not: {} }] }] }]
+      allOf: [{ oneOf: [{ anyOf: [{ not: {} }] }] }],
     };
 
     function getObjectByPath(object, path) {
@@ -159,8 +159,8 @@ describe('Utility function: validateComposedSchemas()', () => {
       properties: {
         one: {},
         two: {},
-        three: {}
-      }
+        three: {},
+      },
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
@@ -172,7 +172,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should not validate `additionalProperties` schema', async () => {
     const schema = {
-      additionalProperties: {}
+      additionalProperties: {},
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
@@ -184,7 +184,7 @@ describe('Utility function: validateComposedSchemas()', () => {
 
   it('should not validate `items` schema', async () => {
     const schema = {
-      items: {}
+      items: {},
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
@@ -198,10 +198,10 @@ describe('Utility function: validateComposedSchemas()', () => {
     const schema = {
       allOf: [
         {
-          $ref: '#/components/schemas/SomeSchema'
+          $ref: '#/components/schemas/SomeSchema',
         },
-        {}
-      ]
+        {},
+      ],
     };
 
     const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {

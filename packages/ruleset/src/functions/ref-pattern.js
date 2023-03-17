@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function($ref, _opts, context) {
+module.exports = function ($ref, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -25,41 +25,42 @@ module.exports = function($ref, _opts, context) {
 // The entries of this object are ordered in descending order of presumed prevalence.
 const validRefPrefixes = {
   schemas: {
-    refPathRegex: /,((schema)|(properties,[^,]+)|(items)|(additionalProperties)|((allOf|anyOf|oneOf),\d+))$/,
-    prefix: '#/components/schemas/'
+    refPathRegex:
+      /,((schema)|(properties,[^,]+)|(items)|(additionalProperties)|((allOf|anyOf|oneOf),\d+))$/,
+    prefix: '#/components/schemas/',
   },
   parameters: {
     refPathRegex: /,parameters,\d+$/,
-    prefix: '#/components/parameters/'
+    prefix: '#/components/parameters/',
   },
   responses: {
     refPathRegex: /,responses,[^,]+$/,
-    prefix: '#/components/responses/'
+    prefix: '#/components/responses/',
   },
   requestBodies: {
     refPathRegex: /,requestBody$/,
-    prefix: '#/components/requestBodies/'
+    prefix: '#/components/requestBodies/',
   },
   links: {
     refPathRegex: /,links,[^,]+$/,
-    prefix: '#/components/links/'
+    prefix: '#/components/links/',
   },
   examples: {
     refPathRegex: /,examples,[^,]+$/,
-    prefix: '#/components/examples/'
+    prefix: '#/components/examples/',
   },
   headers: {
     refPathRegex: /,headers,[^,]+$/,
-    prefix: '#/components/headers/'
+    prefix: '#/components/headers/',
   },
   securitySchemes: {
     refPathRegex: /,securitySchemes,[^,]+$/,
-    prefix: '#/components/securitySchemes/'
+    prefix: '#/components/securitySchemes/',
   },
   callbacks: {
     refPathRegex: /,callbacks,[^,]+$/,
-    prefix: '#/components/callbacks/'
-  }
+    prefix: '#/components/callbacks/',
+  },
 };
 
 function checkRefPattern($ref, path) {
@@ -90,8 +91,8 @@ function checkRefPattern($ref, path) {
         return [
           {
             message: `$refs to ${refType} should start with '${entry.prefix}'`,
-            path
-          }
+            path,
+          },
         ];
       }
 

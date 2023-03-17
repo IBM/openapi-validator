@@ -8,13 +8,13 @@ const { isBinarySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
 const {
   isJsonMimeType,
   pathMatchesRegexp,
-  LoggerFactory
+  LoggerFactory,
 } = require('../utils');
 
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -69,8 +69,8 @@ function binarySchemaCheck(schema, path) {
       {
         message:
           'Parameters should not contain binary values (type: string, format: binary).',
-        path
-      }
+        path,
+      },
     ];
   }
 
@@ -85,8 +85,8 @@ function binarySchemaCheck(schema, path) {
       {
         message:
           'Request bodies with JSON content should not contain binary values (type: string, format: binary).',
-        path
-      }
+        path,
+      },
     ];
   }
 
@@ -101,8 +101,8 @@ function binarySchemaCheck(schema, path) {
       {
         message:
           'Responses with JSON content should not contain binary values (type: string, format: binary).',
-        path
-      }
+        path,
+      },
     ];
   }
 

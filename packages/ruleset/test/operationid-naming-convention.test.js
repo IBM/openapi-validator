@@ -9,7 +9,8 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = operationIdNamingConvention;
 const ruleId = 'ibm-operation-id-naming-convention';
 const expectedSeverity = severityCodes.warning;
-const expectedMsgPrefix = /^operationIds should follow naming convention: operationId verb should be.*$/;
+const expectedMsgPrefix =
+  /^operationIds should follow naming convention: operationId verb should be.*$/;
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
@@ -24,7 +25,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const newGet = makeCopy(testDocument.paths['/v1/drinks/{drink_id}'].get);
       newGet.operationId = 'check_glass';
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
-        get: newGet
+        get: newGet,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -37,7 +38,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const newGet = makeCopy(testDocument.paths['/v1/drinks/{drink_id}'].get);
       newGet.operationId = 'get_glass';
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
-        get: newGet
+        get: newGet,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -50,7 +51,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const newGet = makeCopy(testDocument.paths['/v1/drinks/{drink_id}'].get);
       newGet.operationId = 'anything_goes';
       testDocument.paths['/v1/drinks/{drink_id}/glass'] = {
-        get: newGet
+        get: newGet,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -61,7 +62,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].post = {
-        operationId: 'create_drink'
+        operationId: 'create_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -72,7 +73,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].put = {
-        operationId: 'replace_drinks'
+        operationId: 'replace_drinks',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -83,7 +84,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].put = {
-        operationId: 'replace_drink'
+        operationId: 'replace_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -96,8 +97,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       // This should not fail as it is not considered to be "resource-oriented".
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         put: {
-          operationId: 'replace_glasses'
-        }
+          operationId: 'replace_glasses',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -109,8 +110,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         put: {
-          operationId: 'set_drink_glass'
-        }
+          operationId: 'set_drink_glass',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -122,8 +123,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         put: {
-          operationId: 'add_drink_glass'
-        }
+          operationId: 'add_drink_glass',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -134,7 +135,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].delete = {
-        operationId: 'delete_drink'
+        operationId: 'delete_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -146,8 +147,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         delete: {
-          operationId: 'unset_glasses'
-        }
+          operationId: 'unset_glasses',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -159,15 +160,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         delete: {
-          operationId: 'delete_drink_glasses'
-        }
+          operationId: 'delete_drink_glasses',
+        },
       };
 
       // Add another path so this API will be resource-oriented.
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         get: {
-          operationId: 'get_drink_glass'
-        }
+          operationId: 'get_drink_glass',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -179,8 +180,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         delete: {
-          operationId: 'remove_drink_glass'
-        }
+          operationId: 'remove_drink_glass',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -228,7 +229,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const newGet = makeCopy(testDocument.paths['/v1/drinks/{drink_id}'].get);
       newGet.operationId = 'empty_glass';
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
-        get: newGet
+        get: newGet,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -261,7 +262,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].post = {
-        operationId: 'top_off_drink'
+        operationId: 'top_off_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -280,7 +281,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].patch = {
-        operationId: 'refill_drink'
+        operationId: 'refill_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -299,7 +300,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].put = {
-        operationId: 'stole_my_drink'
+        operationId: 'stole_my_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -318,7 +319,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].put = {
-        operationId: 'move_drinks'
+        operationId: 'move_drinks',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -335,7 +336,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].put = {
-        operationId: 'take_a_drink'
+        operationId: 'take_a_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -355,8 +356,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         put: {
-          operationId: 'smash_drink_glasses'
-        }
+          operationId: 'smash_drink_glasses',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -376,8 +377,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         put: {
-          operationId: 'smash_drink_glass'
-        }
+          operationId: 'smash_drink_glass',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -396,7 +397,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].delete = {
-        operationId: 'eliminate_drink'
+        operationId: 'eliminate_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -416,8 +417,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         delete: {
-          operationId: 'remove_drink_glass'
-        }
+          operationId: 'remove_drink_glass',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -437,8 +438,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         delete: {
-          operationId: 'smash_drink_glass'
-        }
+          operationId: 'smash_drink_glass',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
