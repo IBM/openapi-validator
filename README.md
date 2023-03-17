@@ -666,7 +666,7 @@ controlled with the `-j`/`--json` command-line option or `outputFormat` configur
 ### Text
 Here is an example of text output:
 ```
-IBM OpenAPI Validator (validator: 0.97.5; ruleset: 0.45.5), @Copyright IBM Corporation 2017, 2023.
+IBM OpenAPI Validator (validator: 1.0.0; ruleset: 1.0.0), @Copyright IBM Corporation 2017, 2023.
 
 errors
 
