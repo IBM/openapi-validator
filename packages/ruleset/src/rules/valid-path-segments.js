@@ -4,7 +4,7 @@
  */
 
 const {
-  paths
+  paths,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { validatePathSegments } = require('../functions');
@@ -17,6 +17,6 @@ module.exports = {
   severity: 'error',
   resolved: true,
   then: {
-    function: validatePathSegments
-  }
+    function: validatePathSegments,
+  },
 };

@@ -4,7 +4,7 @@
  */
 
 const {
-  parameters
+  parameters,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas2, oas3 } = require('@stoplight/spectral-formats');
 const { parameterDefault } = require('../functions');
@@ -17,6 +17,6 @@ module.exports = {
   formats: [oas2, oas3],
   resolved: true,
   then: {
-    function: parameterDefault
-  }
+    function: parameterDefault,
+  },
 };

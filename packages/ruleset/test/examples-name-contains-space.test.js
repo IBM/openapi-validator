@@ -21,7 +21,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     testDocument.paths['v1/books'] = {
       post: {
         responses: {
-          '201': {
+          201: {
             description: 'The created book',
             content: {
               'application/json': {
@@ -29,27 +29,27 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   type: 'object',
                   properties: {
                     title: {
-                      type: 'string'
+                      type: 'string',
                     },
                     author: {
-                      type: 'string'
+                      type: 'string',
                     },
                     length: {
-                      type: 'integer'
-                    }
-                  }
+                      type: 'integer',
+                    },
+                  },
                 },
                 examples: {
                   'create book response example': {
                     value:
-                      '{"title": "Dune", "author": "Frank Herbert", length: 412 }'
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
+                      '{"title": "Dune", "author": "Frank Herbert", length: 412 }',
+                  },
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -68,7 +68,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'content',
       'application/json',
       'examples',
-      'create book response example'
+      'create book response example',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });

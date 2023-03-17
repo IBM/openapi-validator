@@ -54,5 +54,5 @@ module.exports = {
   securitySchemes: require('./securityschemes'),
   stringAttributes: require('./string-attributes'),
   unusedTags: require('./unused-tags'),
-  validatePathSegments: require('./valid-path-segments')
+  validatePathSegments: require('./valid-path-segments'),
 };

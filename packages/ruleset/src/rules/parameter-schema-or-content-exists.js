@@ -14,6 +14,6 @@ module.exports = {
   resolved: true,
   given: '$.paths[*][*].parameters[*]',
   then: {
-    function: schemaOrContentProvided
-  }
+    function: schemaOrContentProvided,
+  },
 };

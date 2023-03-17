@@ -14,6 +14,6 @@ module.exports = {
   given: '$',
   severity: 'warn',
   then: {
-    function: checkMajorVersion
-  }
+    function: checkMajorVersion,
+  },
 };

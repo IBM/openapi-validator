@@ -50,14 +50,14 @@ describe('Utility function: isFloatSchema()', () => {
               {
                 anyOf: [
                   { type: 'number', format: 'float' },
-                  { type: 'number', format: 'float' }
-                ]
+                  { type: 'number', format: 'float' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'number', format: 'float' }
-        ]
+          { type: 'number', format: 'float' },
+        ],
       })
     ).toBe(true);
   });

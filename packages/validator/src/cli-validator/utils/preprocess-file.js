@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = function(originalFile) {
+module.exports = function (originalFile) {
   let processedFile;
 
   // replace all tabs characters (\t) in the original file with 2 spaces

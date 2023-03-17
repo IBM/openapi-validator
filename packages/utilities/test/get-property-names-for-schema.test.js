@@ -24,8 +24,8 @@ describe('Utility function: getPropertyNamesForSchema()', () => {
         properties: {
           one: {},
           two: {},
-          three: {}
-        }
+          three: {},
+        },
       }).sort()
     ).toEqual(['three', 'two', 'one'].sort());
   });
@@ -34,29 +34,29 @@ describe('Utility function: getPropertyNamesForSchema()', () => {
     expect(
       getPropertyNamesForSchema({
         properties: {
-          one: {}
+          one: {},
         },
         allOf: [
           {
             properties: {
-              two: {}
-            }
-          }
+              two: {},
+            },
+          },
         ],
         oneOf: [
           {
             properties: {
-              three: {}
-            }
-          }
+              three: {},
+            },
+          },
         ],
         anyOf: [
           {
             properties: {
-              four: {}
-            }
-          }
-        ]
+              four: {},
+            },
+          },
+        ],
       }).sort()
     ).toEqual(['four', 'three', 'two', 'one'].sort());
   });
@@ -65,29 +65,29 @@ describe('Utility function: getPropertyNamesForSchema()', () => {
     expect(
       getPropertyNamesForSchema({
         properties: {
-          one: {}
+          one: {},
         },
         allOf: [
           {
             properties: {
-              two: {}
+              two: {},
             },
             oneOf: [
               {
                 properties: {
-                  three: {}
+                  three: {},
                 },
                 anyOf: [
                   {
                     properties: {
-                      four: {}
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                      four: {},
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       }).sort()
     ).toEqual(['four', 'three', 'two', 'one'].sort());
   });
@@ -96,15 +96,15 @@ describe('Utility function: getPropertyNamesForSchema()', () => {
     expect(
       getPropertyNamesForSchema({
         properties: {
-          one: {}
+          one: {},
         },
         allOf: [
           {
             properties: {
-              one: {}
-            }
-          }
-        ]
+              one: {},
+            },
+          },
+        ],
       })
     ).toEqual(['one']);
   });
@@ -116,8 +116,8 @@ describe('Utility function: getPropertyNamesForSchema()', () => {
           properties: {
             one: {},
             two: {},
-            three: {}
-          }
+            three: {},
+          },
         },
         name => name.indexOf('o') !== -1
       ).sort()
@@ -131,8 +131,8 @@ describe('Utility function: getPropertyNamesForSchema()', () => {
           properties: {
             one: {},
             two: {},
-            three: { nullable: true }
-          }
+            three: { nullable: true },
+          },
         },
         (_, schema) => schema.nullable === true
       )

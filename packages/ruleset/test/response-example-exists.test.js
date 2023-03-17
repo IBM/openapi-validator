@@ -38,8 +38,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'application/json'
     ] = {
       schema: {
-        type: 'object'
-      }
+        type: 'object',
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -58,7 +58,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'responses',
       '201',
       'content',
-      'application/json'
+      'application/json',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });

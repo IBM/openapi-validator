@@ -13,9 +13,9 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
       required: ['prop1'],
       properties: {
         prop1: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(schema);
   });
@@ -27,10 +27,10 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
       required: ['prop1'],
       properties: {
         prop1: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
-      allOf: []
+      allOf: [],
     };
 
     const result = mergeAllOfSchemaProperties(schema);
@@ -45,8 +45,8 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
       required: ['prop1'],
       properties: {
         prop1: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
       allOf: [
         {
@@ -55,20 +55,20 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
           required: ['prop2'],
           properties: {
             prop2: {
-              type: 'integer'
-            }
-          }
+              type: 'integer',
+            },
+          },
         },
         {
           type: 'object',
           description: 'allOf[1]',
           properties: {
             prop3: {
-              type: 'boolean'
-            }
-          }
-        }
-      ]
+              type: 'boolean',
+            },
+          },
+        },
+      ],
     };
 
     const expectedResult = {
@@ -77,15 +77,15 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
       required: ['prop2', 'prop1'],
       properties: {
         prop1: {
-          type: 'string'
+          type: 'string',
         },
         prop2: {
-          type: 'integer'
+          type: 'integer',
         },
         prop3: {
-          type: 'boolean'
-        }
-      }
+          type: 'boolean',
+        },
+      },
     };
 
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);
@@ -102,17 +102,17 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
             href: {
               type: 'string',
               description: 'the href property',
-              example: 'the wrong href example'
-            }
-          }
-        }
+              example: 'the wrong href example',
+            },
+          },
+        },
       ],
       description: 'a link to the first page of results',
       properties: {
         href: {
-          example: 'the correct href example'
-        }
-      }
+          example: 'the correct href example',
+        },
+      },
     };
 
     const expectedResult = {
@@ -123,9 +123,9 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
         href: {
           type: 'string',
           description: 'the href property',
-          example: 'the correct href example'
-        }
-      }
+          example: 'the correct href example',
+        },
+      },
     };
 
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);
@@ -144,15 +144,15 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
               type: 'integer',
               default: 10,
               minimum: 1,
-              maximum: 100
+              maximum: 100,
             },
             offset: {
               description: 'The offset.',
               type: 'integer',
               default: 0,
-              minimum: 0
-            }
-          }
+              minimum: 0,
+            },
+          },
         },
         {
           type: 'object',
@@ -163,12 +163,12 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
               description: 'The resources contained in a page of list results.',
               type: 'array',
               items: {
-                type: 'string'
-              }
-            }
-          }
-        }
-      ]
+                type: 'string',
+              },
+            },
+          },
+        },
+      ],
     };
 
     const expectedResult = {
@@ -181,22 +181,22 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
           type: 'integer',
           default: 10,
           minimum: 1,
-          maximum: 100
+          maximum: 100,
         },
         offset: {
           description: 'The offset.',
           type: 'integer',
           default: 0,
-          minimum: 0
+          minimum: 0,
         },
         resources: {
           description: 'The resources contained in a page of list results.',
           type: 'array',
           items: {
-            type: 'string'
-          }
-        }
-      }
+            type: 'string',
+          },
+        },
+      },
     };
 
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);
@@ -209,8 +209,8 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
       required: ['prop1'],
       properties: {
         prop1: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       },
       allOf: [
         {
@@ -219,48 +219,48 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
           required: ['prop2'],
           properties: {
             prop2: {
-              type: 'integer'
-            }
+              type: 'integer',
+            },
           },
           allOf: [
             {
               description: 'allOf[0][0]',
               properties: {
                 prop2a: {
-                  type: 'string'
-                }
+                  type: 'string',
+                },
               },
               allOf: [
                 {
                   description: 'allOf[0][0][0]',
                   properties: {
                     prop2aa: {
-                      type: 'string'
-                    }
-                  }
-                }
-              ]
+                      type: 'string',
+                    },
+                  },
+                },
+              ],
             },
             {
               description: 'allOf[0][1]',
               properties: {
                 prop2b: {
-                  type: 'integer'
-                }
-              }
-            }
-          ]
+                  type: 'integer',
+                },
+              },
+            },
+          ],
         },
         {
           type: 'object',
           description: 'allOf[1]',
           properties: {
             prop3: {
-              type: 'boolean'
-            }
-          }
-        }
-      ]
+              type: 'boolean',
+            },
+          },
+        },
+      ],
     };
 
     const expectedResult = {
@@ -269,24 +269,24 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
       required: ['prop2', 'prop1'],
       properties: {
         prop1: {
-          type: 'string'
+          type: 'string',
         },
         prop2: {
-          type: 'integer'
+          type: 'integer',
         },
         prop2a: {
-          type: 'string'
+          type: 'string',
         },
         prop2aa: {
-          type: 'string'
+          type: 'string',
         },
         prop2b: {
-          type: 'integer'
+          type: 'integer',
         },
         prop3: {
-          type: 'boolean'
-        }
-      }
+          type: 'boolean',
+        },
+      },
     };
 
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);

@@ -5,7 +5,7 @@
 
 const { getCapturedText, testValidator } = require('../../test-utils');
 
-describe('cli tool - test error handling', function() {
+describe('cli tool - test error handling', function () {
   let consoleSpy;
   const originalWarn = console.warn;
   const originalError = console.error;
@@ -25,7 +25,7 @@ describe('cli tool - test error handling', function() {
     console.info = originalInfo;
   });
 
-  it('should display help text and return an error when no filename is given', async function() {
+  it('should display help text and return an error when no filename is given', async function () {
     let exitCode;
     try {
       exitCode = await testValidator([]);
@@ -45,7 +45,7 @@ describe('cli tool - test error handling', function() {
     expect(capturedText[0]).toMatch(/-h, --help +display help for command/);
   });
 
-  it('should return an error when there is no file extension', async function() {
+  it('should return an error when there is no file extension', async function () {
     let exitCode;
     try {
       exitCode = await testValidator(['json']);
@@ -67,7 +67,7 @@ describe('cli tool - test error handling', function() {
     expect(capturedText[2].trim()).toEqual('[Error] No files to validate.');
   });
 
-  it('should return an error when there is an invalid file extension', async function() {
+  it('should return an error when there is an invalid file extension', async function () {
     let exitCode;
     try {
       exitCode = await testValidator(['badExtension.jsob']);
@@ -89,11 +89,11 @@ describe('cli tool - test error handling', function() {
     expect(capturedText[2].trim()).toEqual('[Error] No files to validate.');
   });
 
-  it('should return an error when a file contains an invalid object', async function() {
+  it('should return an error when a file contains an invalid object', async function () {
     let exitCode;
     try {
       exitCode = await testValidator([
-        './test/cli-validator/mock-files/bad-json.json'
+        './test/cli-validator/mock-files/bad-json.json',
       ]);
     } catch (err) {
       exitCode = err;
@@ -112,11 +112,11 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when a json file has duplicated key mappings', async function() {
+  it('should return an error when a json file has duplicated key mappings', async function () {
     let exitCode;
     try {
       exitCode = await testValidator([
-        './test/cli-validator/mock-files/oas3/duplicate-keys.json'
+        './test/cli-validator/mock-files/oas3/duplicate-keys.json',
       ]);
     } catch (err) {
       exitCode = err;
@@ -135,11 +135,11 @@ describe('cli tool - test error handling', function() {
     );
   });
 
-  it('should return an error when a JSON document contains a trailing comma', async function() {
+  it('should return an error when a JSON document contains a trailing comma', async function () {
     let exitCode;
     try {
       exitCode = await testValidator([
-        './test/cli-validator/mock-files/oas3/trailing-comma.json'
+        './test/cli-validator/mock-files/oas3/trailing-comma.json',
       ]);
     } catch (err) {
       exitCode = err;

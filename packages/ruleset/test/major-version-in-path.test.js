@@ -23,16 +23,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
         url: 'https://some-madeup-url.com:{port}/api/{apiVersion}',
         variables: {
           port: {
-            default: '443'
+            default: '443',
           },
           apiVersion: {
-            default: 'v1'
-          }
-        }
+            default: 'v1',
+          },
+        },
       },
       {
-        url: 'https://some-madeup-url.com:443/api/v1'
-      }
+        url: 'https://some-madeup-url.com:443/api/v1',
+      },
     ];
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -47,13 +47,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
         url: 'https://some-madeup-url.com:{port}/api/{apiVersion}',
         variables: {
           port: {
-            description: 'No default value for this one'
+            description: 'No default value for this one',
           },
           apiVersion: {
-            default: 'v1'
-          }
-        }
-      }
+            default: 'v1',
+          },
+        },
+      },
     ];
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -65,11 +65,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.servers = [
       {
-        url: 'https://some-madeup-url.com/api/v1'
+        url: 'https://some-madeup-url.com/api/v1',
       },
       {
-        url: 'https://some-madeup-url.com/api/v2'
-      }
+        url: 'https://some-madeup-url.com/api/v2',
+      },
     ];
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -106,7 +106,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     delete testDocument.paths;
     testDocument.paths = {
-      '/movies': {}
+      '/movies': {},
     };
 
     const results = await testRule(ruleId, rule, testDocument);

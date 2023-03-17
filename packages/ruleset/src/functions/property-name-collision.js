@@ -9,7 +9,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -42,7 +42,7 @@ function propertyNameCollision(schema, path) {
       );
       errors.push({
         message: errorMsg,
-        path: [...path, 'properties', propName]
+        path: [...path, 'properties', propName],
       });
     } else {
       prevProps.push(caselessPropName);

@@ -33,21 +33,21 @@ describe(`Spectral rule: ${ruleId}`, () => {
                 properties: {
                   prop1: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               },
               {
                 properties: {
                   prop2: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -73,32 +73,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
                     properties: {
                       prop1: {
                         description: 'a description',
-                        type: 'string'
-                      }
-                    }
+                        type: 'string',
+                      },
+                    },
                   },
                   {
                     description: 'a description',
                     properties: {
                       prop2: {
                         description: 'a description',
-                        type: 'string'
-                      }
-                    }
-                  }
-                ]
+                        type: 'string',
+                      },
+                    },
+                  },
+                ],
               },
               {
                 properties: {
                   prop3: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -114,13 +114,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       // for the create operation only.
       const movie2 = makeCopy(testDocument.components.schemas['Movie']);
       movie2.properties['director'] = {
-        type: 'string'
+        type: 'string',
       };
       testDocument.components.schemas['Movie2'] = movie2;
       testDocument.paths['/v1/movies'].post.responses['201'].content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Movie2'
+        $ref: '#/components/schemas/Movie2',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -149,15 +149,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description:
               'The array of error entries associated with the error response',
             items: {
-              $ref: '#/components/schemas/Error'
-            }
+              $ref: '#/components/schemas/Error',
+            },
           },
           trace: {
             description: '   ',
             type: 'string',
-            format: 'uuid'
-          }
-        }
+            format: 'uuid',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -213,21 +213,21 @@ describe(`Spectral rule: ${ruleId}`, () => {
                 properties: {
                   prop1: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               },
               {
                 properties: {
                   prop2: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -254,22 +254,22 @@ describe(`Spectral rule: ${ruleId}`, () => {
                 properties: {
                   prop1: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               },
               {
                 description: 'a description',
                 properties: {
                   prop2: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -296,22 +296,22 @@ describe(`Spectral rule: ${ruleId}`, () => {
                 properties: {
                   prop1: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               },
               {
                 description: 'a description',
                 properties: {
                   prop2: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -340,32 +340,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
                     properties: {
                       prop1a: {
                         description: 'a description',
-                        type: 'string'
-                      }
-                    }
+                        type: 'string',
+                      },
+                    },
                   },
                   {
                     properties: {
                       prop1b: {
                         description: 'a description',
-                        type: 'string'
-                      }
-                    }
-                  }
-                ]
+                        type: 'string',
+                      },
+                    },
+                  },
+                ],
               },
               {
                 description: 'a description',
                 properties: {
                   prop2: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -394,32 +394,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
                     properties: {
                       prop1a: {
                         description: 'a description',
-                        type: 'string'
-                      }
-                    }
+                        type: 'string',
+                      },
+                    },
                   },
                   {
                     properties: {
                       prop1b: {
                         description: 'a description',
-                        type: 'string'
-                      }
-                    }
-                  }
-                ]
+                        type: 'string',
+                      },
+                    },
+                  },
+                ],
               },
               {
                 description: 'a description',
                 properties: {
                   prop2: {
                     description: 'a description',
-                    type: 'string'
-                  }
-                }
-              }
-            ]
-          }
-        }
+                    type: 'string',
+                  },
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(operation, _opts, context) {
+module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -27,8 +27,8 @@ function operationSummary(operation, path) {
         message: 'Each operation must have a non-empty summary.',
 
         // If the 'summary' field is defined, then include it in the error path.
-        path: 'summary' in operation ? [...path, 'summary'] : path
-      }
+        path: 'summary' in operation ? [...path, 'summary'] : path,
+      },
     ];
   }
 

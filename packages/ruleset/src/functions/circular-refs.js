@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function($ref, _opts, context) {
+module.exports = function ($ref, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -74,8 +74,8 @@ function checkForCircularRef($ref, path) {
     return [
       {
         message: 'API definition should not contain circular references.',
-        path
-      }
+        path,
+      },
     ];
   }
 

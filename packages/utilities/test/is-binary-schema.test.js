@@ -50,14 +50,14 @@ describe('Utility function: isBinarySchema()', () => {
               {
                 anyOf: [
                   { type: 'string', format: 'binary' },
-                  { type: 'string', format: 'binary' }
-                ]
+                  { type: 'string', format: 'binary' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'string', format: 'binary' }
-        ]
+          { type: 'string', format: 'binary' },
+        ],
       })
     ).toBe(true);
   });

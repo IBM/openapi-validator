@@ -15,7 +15,7 @@ describe('Test pathMatchesRegexp() function', () => {
       '200',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ];
     const path2 = ['components', 'schemas', 'Foo', 'properties', 'foo_prop'];
     const path3 = [
@@ -25,7 +25,7 @@ describe('Test pathMatchesRegexp() function', () => {
       'allOf',
       '0',
       'properties',
-      'foo_prop'
+      'foo_prop',
     ];
     const path4 = [
       'components',
@@ -33,7 +33,7 @@ describe('Test pathMatchesRegexp() function', () => {
       'FooRequest',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ];
     const path5 = ['paths', '/v1/drinks', 'get', 'parameters', '0', 'schema'];
 

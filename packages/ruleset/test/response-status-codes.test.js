@@ -21,9 +21,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].get.responses = {
-        '101': {
-          description: 'protocol-switching response'
-        }
+        101: {
+          description: 'protocol-switching response',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -44,7 +44,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks'].post.operationId = 'pour_drink';
       testDocument.paths['/v1/drinks'].post.responses['202'] = {
-        description: 'Request to create new resource was accepted'
+        description: 'Request to create new resource was accepted',
       };
       delete testDocument.paths['/v1/drinks'].post.responses['201'];
 
@@ -95,7 +95,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks'].get.operationId = 'create_drink';
       testDocument.paths['/v1/drinks'].get.responses['202'] = {
-        description: 'Request to create new resource was accepted'
+        description: 'Request to create new resource was accepted',
       };
       delete testDocument.paths['/v1/drinks'].get.responses['200'];
 
@@ -129,7 +129,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].post.responses['302'] = {
-        description: 'response for "Found"'
+        description: 'response for "Found"',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -149,7 +149,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].post.responses['101'] = {
-        description: 'protocol switcheroo'
+        description: 'protocol switcheroo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

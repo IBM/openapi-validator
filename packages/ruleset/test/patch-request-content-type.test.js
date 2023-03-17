@@ -25,14 +25,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.requestBodies.UpdateCarRequest.content = {
         'application/json-patch+json; blah': {
           schema: {
-            $ref: '#/components/schemas/Car'
+            $ref: '#/components/schemas/Car',
           },
           examples: {
             RequestExample: {
-              $ref: '#/components/examples/CarExample'
-            }
-          }
-        }
+              $ref: '#/components/examples/CarExample',
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -47,14 +47,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.requestBodies.UpdateCarRequest.content = {
         'application/json': {
           schema: {
-            $ref: '#/components/schemas/Car'
+            $ref: '#/components/schemas/Car',
           },
           examples: {
             RequestExample: {
-              $ref: '#/components/examples/CarExample'
-            }
-          }
-        }
+              $ref: '#/components/examples/CarExample',
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

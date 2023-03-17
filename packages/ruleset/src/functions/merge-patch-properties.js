@@ -9,7 +9,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -39,8 +39,8 @@ function mergePatchOptionalProperties(schema, path) {
       {
         // The rule's description field is used as the error message.
         message: '',
-        path
-      }
+        path,
+      },
     ];
   }
 

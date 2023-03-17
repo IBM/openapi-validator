@@ -11,12 +11,12 @@ module.exports = {
   formats: [oas3],
   given: [
     '$.paths[*][post,put,patch].requestBody.content[*]',
-    '$.paths[*][get,post,put,patch,delete][parameters,responses][*].content[*]'
+    '$.paths[*][get,post,put,patch,delete][parameters,responses][*].content[*]',
   ],
   severity: 'warn',
   resolved: true,
   then: {
     field: 'schema',
-    function: truthy
-  }
+    function: truthy,
+  },
 };

@@ -6,20 +6,20 @@
 const {
   isArraySchema,
   isPrimitiveSchema,
-  validateSubschemas
+  validateSubschemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const {
   getCompositeSchemaAttribute,
   isJsonMimeType,
   isEmptyObjectSchema,
-  isRefSiblingSchema
+  isRefSiblingSchema,
 } = require('../utils');
 
 module.exports = {
   inlinePropertySchema,
   inlineResponseSchema,
-  inlineRequestSchema
+  inlineRequestSchema,
 };
 
 /**
@@ -51,8 +51,8 @@ function inlineResponseSchema(schema, options, { path }) {
       {
         message:
           'Response schemas should be defined as a $ref to a named schema.',
-        path
-      }
+        path,
+      },
     ];
   }
 
@@ -92,8 +92,8 @@ function inlineRequestSchema(schema, options, { path }) {
       {
         message:
           'Request body schemas should be defined as a $ref to a named schema.',
-        path: errPath
-      }
+        path: errPath,
+      },
     ];
   }
 
@@ -178,8 +178,8 @@ function checkForInlineNestedObjectSchema(schema, path) {
   return [
     {
       message: 'Nested objects should be defined as a $ref to a named schema.',
-      path
-    }
+      path,
+    },
   ];
 }
 

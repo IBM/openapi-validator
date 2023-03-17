@@ -9,7 +9,7 @@ const { LoggerFactory, mergeAllOfSchemaProperties } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -40,8 +40,8 @@ function schemaTypeExists(schema, path) {
     return [
       {
         message: 'Schema should have a non-empty `type` field.',
-        path
-      }
+        path,
+      },
     ];
   }
 

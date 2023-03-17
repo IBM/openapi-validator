@@ -24,10 +24,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
         in: 'header',
         content: {
           '*/*': {
-            description: 'maybe not *all* content types'
-          }
-        }
-      }
+            description: 'maybe not *all* content types',
+          },
+        },
+      },
     ];
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -46,7 +46,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'parameters',
       '0',
       'content',
-      '*/*'
+      '*/*',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });
@@ -56,9 +56,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     testDocument.paths['/v1/movies'].post.requestBody = {
       content: {
         '*/*': {
-          description: 'maybe not *all* content types'
-        }
-      }
+          description: 'maybe not *all* content types',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -76,7 +76,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'post',
       'requestBody',
       'content',
-      '*/*'
+      '*/*',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });
@@ -84,13 +84,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
   it('should error if a responses content has a wildcard content type', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post.responses = {
-      '201': {
+      201: {
         content: {
           '*/*': {
-            description: 'maybe not *all* content types'
-          }
-        }
-      }
+            description: 'maybe not *all* content types',
+          },
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -109,7 +109,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'responses',
       '201',
       'content',
-      '*/*'
+      '*/*',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });

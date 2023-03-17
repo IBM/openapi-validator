@@ -10,7 +10,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -29,15 +29,12 @@ function descriptionMentionsJSON(schema, path) {
 
   if (
     schema.description &&
-    schema.description
-      .toString()
-      .toLowerCase()
-      .includes('json')
+    schema.description.toString().toLowerCase().includes('json')
   ) {
     logger.debug('Found JSON reference!');
     results.push({
       message: errorMsg,
-      path
+      path,
     });
   }
 

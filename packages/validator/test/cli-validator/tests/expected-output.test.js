@@ -9,7 +9,7 @@ const count = (array, regex) => {
   return array.reduce((a, v) => (v.match(regex) ? a + 1 : a), 0);
 };
 
-describe('Expected output tests', function() {
+describe('Expected output tests', function () {
   let consoleSpy;
   const originalWarn = console.warn;
   const originalError = console.error;
@@ -29,10 +29,10 @@ describe('Expected output tests', function() {
     console.info = originalInfo;
   });
 
-  describe('OpenAPI 3', function() {
-    it('should not produce any errors or warnings from a clean file', async function() {
+  describe('OpenAPI 3', function () {
+    it('should not produce any errors or warnings from a clean file', async function () {
       const exitCode = await testValidator([
-        './test/cli-validator/mock-files/oas3/clean.yml'
+        './test/cli-validator/mock-files/oas3/clean.yml',
       ]);
       expect(exitCode).toEqual(0);
 
@@ -44,9 +44,9 @@ describe('Expected output tests', function() {
       );
     });
 
-    it('should produce errors, then warnings from mock-files/oas3/err-and-warn.yaml', async function() {
+    it('should produce errors, then warnings from mock-files/oas3/err-and-warn.yaml', async function () {
       const exitCode = await testValidator([
-        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
       ]);
 
       const capturedText = getCapturedText(consoleSpy.mock.calls);
@@ -55,7 +55,7 @@ describe('Expected output tests', function() {
       expect(exitCode).toEqual(1);
 
       const whichProblems = [];
-      capturedText.forEach(function(line) {
+      capturedText.forEach(function (line) {
         if (line.includes('errors')) {
           whichProblems.push('errors');
         }
@@ -68,9 +68,9 @@ describe('Expected output tests', function() {
       expect(whichProblems[1]).toEqual('warnings');
     });
 
-    it('should print the correct line numbers for each error/warning', async function() {
+    it('should print the correct line numbers for each error/warning', async function () {
       const exitCode = await testValidator([
-        './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
       ]);
       expect(exitCode).toEqual(1);
 
@@ -120,9 +120,9 @@ describe('Expected output tests', function() {
       expect(capturedText[160].match(/\S+/g)[2]).toEqual('213');
     });
 
-    it('should catch problems in a multi-file spec from an outside directory', async function() {
+    it('should catch problems in a multi-file spec from an outside directory', async function () {
       const exitCode = await testValidator([
-        './test/cli-validator/mock-files/multi-file-spec/main.yaml'
+        './test/cli-validator/mock-files/multi-file-spec/main.yaml',
       ]);
       expect(exitCode).toEqual(1);
 
@@ -138,11 +138,11 @@ describe('Expected output tests', function() {
       );
     });
 
-    it('should handle an array of file names', async function() {
+    it('should handle an array of file names', async function () {
       const args = [
         './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
         'notAFile.json',
-        './test/cli-validator/mock-files/oas3/clean.yml'
+        './test/cli-validator/mock-files/oas3/clean.yml',
       ];
       const exitCode = await testValidator(args);
       expect(exitCode).toEqual(1);
@@ -169,9 +169,9 @@ describe('Expected output tests', function() {
       ).toEqual(true);
     });
 
-    it('should not produce any errors or warnings from mock-files/oas3/clean-with-tabs.yml', async function() {
+    it('should not produce any errors or warnings from mock-files/oas3/clean-with-tabs.yml', async function () {
       const exitCode = await testValidator([
-        './test/cli-validator/mock-files/oas3/clean-with-tabs.yml'
+        './test/cli-validator/mock-files/oas3/clean-with-tabs.yml',
       ]);
       expect(exitCode).toEqual(0);
 
@@ -186,10 +186,10 @@ describe('Expected output tests', function() {
 
     it.each(['-v', '--verbose'])(
       'should display the associated rule with each error and warning',
-      async function(option) {
+      async function (option) {
         const exitCode = await testValidator([
           option,
-          './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+          './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
         ]);
         expect(exitCode).toEqual(1);
 
@@ -203,10 +203,10 @@ describe('Expected output tests', function() {
 
     it.each(['-j', '--json'])(
       'should include the associated rule with each error and warning in JSON output',
-      async function(option) {
+      async function (option) {
         const exitCode = await testValidator([
           option,
-          './test/cli-validator/mock-files/oas3/err-and-warn.yaml'
+          './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
         ]);
         expect(exitCode).toEqual(1);
 
@@ -229,9 +229,9 @@ describe('Expected output tests', function() {
       }
     );
 
-    it('should return exit code of 0 if there are only warnings', async function() {
+    it('should return exit code of 0 if there are only warnings', async function () {
       const exitCode = await testValidator([
-        './test/cli-validator/mock-files/oas3/just-warn.yml'
+        './test/cli-validator/mock-files/oas3/just-warn.yml',
       ]);
       expect(exitCode).toEqual(0);
 
@@ -242,10 +242,10 @@ describe('Expected output tests', function() {
 
     it.each(['-v', '--verbose'])(
       'should include the path to the component (if it exists) when in verbose mode',
-      async function(option) {
+      async function (option) {
         const exitCode = await testValidator([
           option,
-          './test/cli-validator/mock-files/oas3/component-path-example.yaml'
+          './test/cli-validator/mock-files/oas3/component-path-example.yaml',
         ]);
         expect(exitCode).toEqual(0);
 
@@ -256,11 +256,11 @@ describe('Expected output tests', function() {
       }
     );
 
-    it('should include the path to the component (if it exists) when in verbose mode and json mode', async function() {
+    it('should include the path to the component (if it exists) when in verbose mode and json mode', async function () {
       const exitCode = await testValidator([
         '-j',
         '-v',
-        './test/cli-validator/mock-files/oas3/component-path-example.yaml'
+        './test/cli-validator/mock-files/oas3/component-path-example.yaml',
       ]);
       expect(exitCode).toEqual(0);
 

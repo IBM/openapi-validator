@@ -13,11 +13,11 @@ module.exports = {
   formats: [oas3],
   given: [
     '$.paths[*].parameters[?(@.in === "path")]',
-    '$.paths[*][get,put,post,delete,options,head,patch,trace].parameters[?(@.in === "path")]'
+    '$.paths[*][get,put,post,delete,options,head,patch,trace].parameters[?(@.in === "path")]',
   ],
   severity: 'warn',
   resolved: true,
   then: {
-    function: pathParameterNotCRN
-  }
+    function: pathParameterNotCRN,
+  },
 };

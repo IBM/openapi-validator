@@ -16,7 +16,7 @@ describe('Utility function: getCompositeSchemaAttribute()', () => {
   it('Should return attribute within non-composed schema', async () => {
     const schema = {
       type: 'string',
-      format: 'date-time'
+      format: 'date-time',
     };
     expect(getCompositeSchemaAttribute(schema, 'format')).toBe('date-time');
     expect(getCompositeSchemaAttribute(schema, 'type')).toBe('string');
@@ -41,12 +41,12 @@ describe('Utility function: getCompositeSchemaAttribute()', () => {
     const schema = {
       allOf: [
         {
-          type: 'string'
+          type: 'string',
         },
         {
-          format: 'byte'
-        }
-      ]
+          format: 'byte',
+        },
+      ],
     };
     expect(getCompositeSchemaAttribute(schema, 'type')).toBe('string');
     expect(getCompositeSchemaAttribute(schema, 'format')).toBe('byte');
@@ -57,12 +57,12 @@ describe('Utility function: getCompositeSchemaAttribute()', () => {
       anyOf: [
         {
           type: 'string',
-          format: 'byte'
+          format: 'byte',
         },
         {
-          type: 'string'
-        }
-      ]
+          type: 'string',
+        },
+      ],
     };
     expect(getCompositeSchemaAttribute(schema, 'type')).toBe('string');
     expect(getCompositeSchemaAttribute(schema, 'format')).toBe(undefined);
@@ -73,12 +73,12 @@ describe('Utility function: getCompositeSchemaAttribute()', () => {
       oneOf: [
         {
           type: 'string',
-          format: 'byte'
+          format: 'byte',
         },
         {
-          type: 'string'
-        }
-      ]
+          type: 'string',
+        },
+      ],
     };
     expect(getCompositeSchemaAttribute(schema, 'type')).toBe('string');
     expect(getCompositeSchemaAttribute(schema, 'format')).toBe(undefined);
@@ -88,12 +88,12 @@ describe('Utility function: getCompositeSchemaAttribute()', () => {
     const schema = {
       oneOf: [
         {
-          allOf: [{ type: 'string' }, { format: 'byte' }]
+          allOf: [{ type: 'string' }, { format: 'byte' }],
         },
         {
-          type: 'string'
-        }
-      ]
+          type: 'string',
+        },
+      ],
     };
     expect(getCompositeSchemaAttribute(schema, 'type')).toBe('string');
     expect(getCompositeSchemaAttribute(schema, 'format')).toBe(undefined);
@@ -103,12 +103,12 @@ describe('Utility function: getCompositeSchemaAttribute()', () => {
     const schema = {
       anyOf: [
         {
-          allOf: [{ type: 'string' }, { format: 'byte' }]
+          allOf: [{ type: 'string' }, { format: 'byte' }],
         },
         {
-          type: 'string'
-        }
-      ]
+          type: 'string',
+        },
+      ],
     };
     expect(getCompositeSchemaAttribute(schema, 'type')).toBe('string');
     expect(getCompositeSchemaAttribute(schema, 'format')).toBe(undefined);
@@ -118,12 +118,12 @@ describe('Utility function: getCompositeSchemaAttribute()', () => {
     const schema = {
       allOf: [
         {
-          oneOf: [{ type: 'string', format: 'uri' }, { type: 'string' }]
+          oneOf: [{ type: 'string', format: 'uri' }, { type: 'string' }],
         },
         {
-          format: 'byte'
-        }
-      ]
+          format: 'byte',
+        },
+      ],
     };
     expect(getCompositeSchemaAttribute(schema, 'type')).toBe('string');
     expect(getCompositeSchemaAttribute(schema, 'format')).toBe('byte');

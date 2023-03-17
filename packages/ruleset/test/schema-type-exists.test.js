@@ -40,19 +40,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
               {
                 allOf: [
                   {
-                    description: 'nested allOf definition'
+                    description: 'nested allOf definition',
                   },
                   {
-                    type: 'string'
-                  }
-                ]
+                    type: 'string',
+                  },
+                ],
               },
               {
-                description: 'overridden description, but no type'
-              }
-            ]
-          }
-        }
+                description: 'overridden description, but no type',
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -67,9 +67,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/drinks'].post.requestBody.content = {
         'text/html': {
           schema: {
-            description: 'a string schema, obviously'
-          }
-        }
+            description: 'a string schema, obviously',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -97,15 +97,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description:
               'The array of error entries associated with the error response',
             items: {
-              $ref: '#/components/schemas/Error'
-            }
+              $ref: '#/components/schemas/Error',
+            },
           },
           trace: {
             description: 'The error trace information.',
             type: 'string',
-            format: 'uuid'
-          }
-        }
+            format: 'uuid',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -128,11 +128,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description: 'under-specified request body object',
             properties: {
               important_property: {
-                description: 'what type am i?'
-              }
-            }
-          }
-        }
+                description: 'what type am i?',
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -158,16 +158,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
                 description: 'no type in allOf element',
                 properties: {
                   has_a_type: {
-                    type: 'string'
-                  }
-                }
+                    type: 'string',
+                  },
+                },
               },
               {
-                description: 'overridden description, but no type'
-              }
-            ]
-          }
-        }
+                description: 'overridden description, but no type',
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -192,16 +192,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
               {
                 allOf: [
                   {
-                    description: 'nested allOf definition'
-                  }
-                ]
+                    description: 'nested allOf definition',
+                  },
+                ],
               },
               {
-                description: 'overridden description, but no type'
-              }
-            ]
-          }
-        }
+                description: 'overridden description, but no type',
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

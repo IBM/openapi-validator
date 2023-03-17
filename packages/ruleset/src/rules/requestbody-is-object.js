@@ -14,7 +14,7 @@ module.exports = {
     field: 'type',
     function: enumeration,
     functionOptions: {
-      values: ['object']
-    }
-  }
+      values: ['object'],
+    },
+  },
 };

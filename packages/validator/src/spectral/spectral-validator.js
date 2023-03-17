@@ -6,11 +6,11 @@
 const { Document, Spectral } = require('@stoplight/spectral-core');
 const Parsers = require('@stoplight/spectral-parsers');
 const {
-  getRuleset
+  getRuleset,
 } = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
 const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const {
-  getFileExtension
+  getFileExtension,
 } = require('../cli-validator/utils/file-extension-validator');
 const findUp = require('find-up');
 
@@ -26,7 +26,7 @@ const findUp = require('find-up');
  * @param {*} opts.originalFile
  * @returns the formatted results
  */
-const runSpectral = async function({ originalFile, validFile }, context) {
+const runSpectral = async function ({ originalFile, validFile }, context) {
   const spectral = await setup(context);
 
   const fileExtension = getFileExtension(validFile);
@@ -49,7 +49,7 @@ function convertResults(spectralResults, { config, logger }) {
     warning: { results: [], summary: { total: 0, entries: [] } },
     info: { results: [], summary: { total: 0, entries: [] } },
     hint: { results: [], summary: { total: 0, entries: [] } },
-    hasResults: false
+    hasResults: false,
   };
 
   // use this object to count the occurance of each validation
@@ -80,7 +80,7 @@ function convertResults(spectralResults, { config, logger }) {
         message: r.message,
         path: r.path,
         rule: r.code,
-        line: r.range.start.line + 1
+        line: r.range.start.line + 1,
       });
     }
 
@@ -101,7 +101,7 @@ function convertResults(spectralResults, { config, logger }) {
         percentage: Math.round(
           (summaryHelper[sev][field] / finalResultsObject[sev].summary.total) *
             100
-        )
+        ),
       });
     }
   }
@@ -149,7 +149,7 @@ async function setup({ chalk, config, logger }) {
 }
 
 module.exports = {
-  runSpectral
+  runSpectral,
 };
 
 function checkGetRulesetError(logger, error, chalk) {
@@ -210,7 +210,7 @@ async function lookForSpectralRuleset() {
     '.spectral.yaml',
     '.spectral.yml',
     '.spectral.json',
-    '.spectral.js'
+    '.spectral.js',
   ];
 
   let rulesetFile = null;

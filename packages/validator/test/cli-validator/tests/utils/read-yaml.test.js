@@ -5,7 +5,7 @@
 
 const { readYaml } = require('../../../../src/cli-validator/utils/read-yaml');
 
-describe('Read YAML tests', function() {
+describe('Read YAML tests', function () {
   it('should read a yaml file and return an object representing the contents', async () => {
     const filepath = __dirname + '/../../../../src/schemas/results-object.yaml';
     const obj = await readYaml(filepath);

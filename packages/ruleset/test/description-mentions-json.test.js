@@ -27,9 +27,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'text/html': {
           schema: {
             type: 'string',
-            description: 'Not a JSON object.'
-          }
-        }
+            description: 'Not a JSON object.',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -44,7 +44,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'text/html',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -68,7 +68,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
       expect(results[1].path).toStrictEqual([
         'paths',
@@ -78,7 +78,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '201',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
       expect(results[2].path).toStrictEqual([
         'paths',
@@ -93,7 +93,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '1',
         'properties',
         'drinks',
-        'items'
+        'items',
       ]);
       expect(results[3].path).toStrictEqual([
         'paths',
@@ -103,7 +103,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '200',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -123,15 +123,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description:
               'The array of error entries associated with the error response',
             items: {
-              $ref: '#/components/schemas/Error'
-            }
+              $ref: '#/components/schemas/Error',
+            },
           },
           trace: {
             description: 'The error trace information.',
             type: 'string',
-            format: 'uuid'
-          }
-        }
+            format: 'uuid',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -147,7 +147,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '400',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -162,7 +162,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/drinks'].post.responses['201'].content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Soda'
+        $ref: '#/components/schemas/Soda',
       };
 
       // We should get back a warning ONLY due to the Soda reference in the response (not the oneOf).
@@ -182,7 +182,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'oneOf',
-        '1'
+        '1',
       ]);
       expect(results[1].path).toStrictEqual([
         'paths',
@@ -192,7 +192,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '201',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
       expect(results[2].path).toStrictEqual([
         'paths',
@@ -209,7 +209,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'drinks',
         'items',
         'oneOf',
-        '1'
+        '1',
       ]);
       expect(results[3].path).toStrictEqual([
         'paths',
@@ -221,7 +221,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'oneOf',
-        '1'
+        '1',
       ]);
     });
 
@@ -247,7 +247,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'id'
+        'id',
       ]);
       expect(results[1].path).toStrictEqual([
         'paths',
@@ -259,7 +259,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'id'
+        'id',
       ]);
       expect(results[2].path).toStrictEqual([
         'paths',
@@ -276,7 +276,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'movies',
         'items',
         'properties',
-        'id'
+        'id',
       ]);
       expect(results[3].path).toStrictEqual([
         'paths',
@@ -288,7 +288,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'id'
+        'id',
       ]);
       expect(results[4].path).toStrictEqual([
         'paths',
@@ -298,7 +298,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '200',
         'headers',
         'ETag',
-        'schema'
+        'schema',
       ]);
       expect(results[5].path).toStrictEqual([
         'paths',
@@ -309,7 +309,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'id'
+        'id',
       ]);
     });
 
@@ -326,7 +326,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'x-not-an-extension'
       ] = {
         type: 'string',
-        description: 'This is not a JsOn object!'
+        description: 'This is not a JsOn object!',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -345,7 +345,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'x-not-an-extension'
+        'x-not-an-extension',
       ]);
       expect(results[1].path).toStrictEqual([
         'paths',
@@ -357,7 +357,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'x-not-an-extension'
+        'x-not-an-extension',
       ]);
       expect(results[2].path).toStrictEqual([
         'paths',
@@ -374,7 +374,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'movies',
         'items',
         'properties',
-        'x-not-an-extension'
+        'x-not-an-extension',
       ]);
       expect(results[3].path).toStrictEqual([
         'paths',
@@ -386,7 +386,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'x-not-an-extension'
+        'x-not-an-extension',
       ]);
       expect(results[4].path).toStrictEqual([
         'paths',
@@ -397,7 +397,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'x-not-an-extension'
+        'x-not-an-extension',
       ]);
     });
   });

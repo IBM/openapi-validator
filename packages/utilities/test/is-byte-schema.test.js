@@ -50,14 +50,14 @@ describe('Utility function: isByteSchema()', () => {
               {
                 anyOf: [
                   { type: 'string', format: 'byte' },
-                  { type: 'string', format: 'byte' }
-                ]
+                  { type: 'string', format: 'byte' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'string', format: 'byte' }
-        ]
+          { type: 'string', format: 'byte' },
+        ],
       })
     ).toBe(true);
   });

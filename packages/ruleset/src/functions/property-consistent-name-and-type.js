@@ -6,7 +6,7 @@
 const {
   getSchemaType,
   validateSubschemas,
-  SchemaType
+  SchemaType,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
@@ -19,7 +19,7 @@ let excludedProperties;
 let ruleId;
 let logger;
 
-module.exports = function(schema, options, context) {
+module.exports = function (schema, options, context) {
   excludedProperties = options.excludedProperties;
 
   if (!logger) {
@@ -62,14 +62,14 @@ function propertyConsistentNameAndType(schema, path) {
             visitedProperties[propName].flagged = true;
             errors.push({
               message: `Properties with the same name have inconsistent types: ${propName}.`,
-              path: visitedProperties[propName].path
+              path: visitedProperties[propName].path,
             });
           }
           // flag the rest of the properties that have the
           // same name but a different type as the first
           errors.push({
             message: `Properties with the same name have inconsistent types: ${propName}.`,
-            path: [...path, 'properties', propName]
+            path: [...path, 'properties', propName],
           });
         }
       } else {
@@ -80,7 +80,7 @@ function propertyConsistentNameAndType(schema, path) {
             visitedProperties[propName] = {
               type: propertyType,
               path: [...path, 'properties', propName],
-              flagged: false
+              flagged: false,
             };
             logger.debug(
               `${ruleId}: added property '${propName}' (type '${propertyType}') to cache.`

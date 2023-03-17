@@ -4,85 +4,85 @@
  */
 
 const {
-  validate
+  validate,
 } = require('../../../../src/cli-validator/utils/schema-validator');
 const {
-  getConfigFileSchema
+  getConfigFileSchema,
 } = require('../../../../src/cli-validator/utils/configuration-manager');
 
-describe('Schema validator tests', function() {
+describe('Schema validator tests', function () {
   let configFileSchema;
   beforeAll(async () => {
     configFileSchema = await getConfigFileSchema();
   });
 
-  it('correct object should validate clean', function() {
+  it('correct object should validate clean', function () {
     const schema = {
       type: 'object',
       properties: {
         foo: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
 
     const fooObj = {
-      foo: 'bar'
+      foo: 'bar',
     };
 
     const results = validate(fooObj, schema);
     expect(results).toHaveLength(0);
   });
 
-  it('empty config object should validate clean', function() {
+  it('empty config object should validate clean', function () {
     const configObj = {};
 
     const results = validate(configObj, configFileSchema);
     expect(results).toHaveLength(0);
   });
 
-  it('valid config object should validate clean', function() {
+  it('valid config object should validate clean', function () {
     const configObj = {
       logLevels: {
-        root: 'debug'
+        root: 'debug',
       },
       limits: {
-        warnings: 10
+        warnings: 10,
       },
-      ignoreFiles: ['file1']
+      ignoreFiles: ['file1'],
     };
 
     const results = validate(configObj, configFileSchema);
     expect(results).toHaveLength(0);
   });
 
-  it('incorrect object should return an error', function() {
+  it('incorrect object should return an error', function () {
     const schema = {
       type: 'object',
       properties: {
         foo: {
-          type: 'string'
-        }
-      }
+          type: 'string',
+        },
+      },
     };
 
     const fooObj = {
-      foo: 38
+      foo: 38,
     };
 
     const results = validate(fooObj, schema);
     expect(results).toHaveLength(1);
   });
 
-  it('invalid config object should return errors', function() {
+  it('invalid config object should return errors', function () {
     const configObj = {
       xlogLevels: {
-        root: 'debug'
+        root: 'debug',
       },
       limits: {
-        xwarnings: 10
+        xwarnings: 10,
       },
-      ignoreFiles: ['file1']
+      ignoreFiles: ['file1'],
     };
 
     const results = validate(configObj, configFileSchema);

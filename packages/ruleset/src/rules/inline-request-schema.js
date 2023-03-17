@@ -4,7 +4,7 @@
  */
 
 const {
-  unresolvedRequestBodySchemas
+  unresolvedRequestBodySchemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { inlineRequestSchema } = require('../functions');
@@ -18,6 +18,6 @@ module.exports = {
   severity: 'warn',
   resolved: false,
   then: {
-    function: inlineRequestSchema
-  }
+    function: inlineRequestSchema,
+  },
 };

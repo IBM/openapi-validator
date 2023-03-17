@@ -16,15 +16,15 @@ const expectedMessage =
 const arrayOfString = {
   type: 'array',
   items: {
-    type: 'string'
-  }
+    type: 'string',
+  },
 };
 
 const arrayOfInt = {
   type: 'array',
   items: {
-    type: 'integer'
-  }
+    type: 'integer',
+  },
 };
 
 const arrayOfArrayOfString = {
@@ -32,9 +32,9 @@ const arrayOfArrayOfString = {
   items: {
     type: 'array',
     items: {
-      type: 'string'
-    }
-  }
+      type: 'string',
+    },
+  },
 };
 
 const arrayOfArrayOfInt = {
@@ -42,9 +42,9 @@ const arrayOfArrayOfInt = {
   items: {
     type: 'array',
     items: {
-      type: 'integer'
-    }
-  }
+      type: 'integer',
+    },
+  },
 };
 
 describe(`Spectral rule: ${ruleId}`, () => {
@@ -59,7 +59,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['Foo'] = arrayOfString;
       testDocument.components.schemas['Movie'].properties['array_prop'] = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -70,9 +70,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas['Foo'] = arrayOfString;
-      testDocument.components.schemas['Movie'].properties[
-        'array_prop'
-      ] = arrayOfString;
+      testDocument.components.schemas['Movie'].properties['array_prop'] =
+        arrayOfString;
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
@@ -83,7 +82,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['Foo'] = arrayOfInt;
       testDocument.components.schemas['Juice'].properties['array_prop'] = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -132,7 +131,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -141,7 +140,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['Foo'] = arrayOfArrayOfString;
       testDocument.components.schemas['Movie'].properties['array_prop'] = {
-        $ref: '#/components/schemas/Foo'
+        $ref: '#/components/schemas/Foo',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -161,7 +160,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'array_prop'
+        'array_prop',
       ]);
 
       expect(results[1].path).toStrictEqual([
@@ -174,7 +173,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'array_prop'
+        'array_prop',
       ]);
 
       expect(results[2].path).toStrictEqual([
@@ -192,7 +191,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'movies',
         'items',
         'properties',
-        'array_prop'
+        'array_prop',
       ]);
 
       expect(results[3].path).toStrictEqual([
@@ -205,7 +204,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'array_prop'
+        'array_prop',
       ]);
 
       expect(results[4].path).toStrictEqual([
@@ -217,7 +216,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json',
         'schema',
         'properties',
-        'array_prop'
+        'array_prop',
       ]);
     });
 
@@ -230,9 +229,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
           name: 'array_param',
           in: 'query',
           schema: {
-            $ref: '#/components/schemas/Foo'
-          }
-        }
+            $ref: '#/components/schemas/Foo',
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -245,7 +244,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '/v1/drinks',
         'parameters',
         '0',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -256,12 +255,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
         name: 'array_param',
         description: 'the array parameter',
         in: 'header',
-        schema: arrayOfArrayOfInt
+        schema: arrayOfArrayOfInt,
       };
       testDocument.paths['/v1/drinks'].post.parameters = [
         {
-          $ref: '#/components/parameters/ArrayParam'
-        }
+          $ref: '#/components/parameters/ArrayParam',
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -275,7 +274,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'post',
         'parameters',
         '0',
-        'schema'
+        'schema',
       ]);
     });
 
@@ -289,14 +288,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
         schema: {
           type: 'array',
           items: {
-            $ref: '#/components/schemas/ArrayOfString'
-          }
-        }
+            $ref: '#/components/schemas/ArrayOfString',
+          },
+        },
       };
       testDocument.paths['/v1/drinks'].post.parameters = [
         {
-          $ref: '#/components/parameters/ArrayParam'
-        }
+          $ref: '#/components/parameters/ArrayParam',
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -310,7 +309,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'post',
         'parameters',
         '0',
-        'schema'
+        'schema',
       ]);
     });
   });

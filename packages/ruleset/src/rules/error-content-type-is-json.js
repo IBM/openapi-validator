@@ -12,10 +12,10 @@ module.exports = {
   severity: 'warn',
   resolved: true,
   given: [
-    '$.paths[*][*].responses[?(@property >= 400 && @property < 600)].content'
+    '$.paths[*][*].responses[?(@property >= 400 && @property < 600)].content',
   ],
   then: {
     field: 'application/json',
-    function: truthy
-  }
+    function: truthy,
+  },
 };

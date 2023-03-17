@@ -4,7 +4,7 @@
  */
 
 const {
-  parameters
+  parameters,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { disallowedHeaderParameter } = require('../functions');
@@ -19,7 +19,7 @@ module.exports = {
   then: {
     function: disallowedHeaderParameter,
     functionOptions: {
-      headerName: 'Authorization'
-    }
-  }
+      headerName: 'Authorization',
+    },
+  },
 };

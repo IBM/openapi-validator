@@ -33,11 +33,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
               type: 'array',
               items: {
                 type: 'string',
-                format: 'binary'
-              }
-            }
-          }
-        }
+                format: 'binary',
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -48,7 +48,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/menu'].get.responses = {
-        '200': {
+        200: {
           content: {
             'application/octet-stream': {
               schema: {
@@ -57,13 +57,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   type: 'array',
                   items: {
                     type: 'string',
-                    format: 'binary'
-                  }
-                }
-              }
-            }
-          }
-        }
+                    format: 'binary',
+                  },
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -77,9 +77,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/octet-stream': {
           schema: {
             type: 'string',
-            format: 'binary'
-          }
-        }
+            format: 'binary',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -95,8 +95,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'array',
         items: {
           type: 'string',
-          format: 'binary'
-        }
+          format: 'binary',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -118,8 +118,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'array',
         items: {
           type: 'string',
-          format: 'binary'
-        }
+          format: 'binary',
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -140,10 +140,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
           'application/json; charset=utf-8': {
             schema: {
               type: 'string',
-              format: 'binary'
-            }
-          }
-        }
+              format: 'binary',
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -160,16 +160,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/menu'].get.responses = {
-        '200': {
+        200: {
           content: {
             'application/json': {
               schema: {
                 type: 'string',
-                format: 'binary'
-              }
-            }
-          }
-        }
+                format: 'binary',
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

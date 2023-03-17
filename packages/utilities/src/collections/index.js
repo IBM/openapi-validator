@@ -19,7 +19,7 @@ const schemas = [
   '$.paths[*][*][parameters][*].schema',
   '$.paths[*][*][parameters,responses][*].content[*].schema',
   '$.paths[*][*].responses[*].headers[*].schema',
-  '$.paths[*][*][requestBody].content[*].schema'
+  '$.paths[*][*][requestBody].content[*].schema',
 ];
 
 // A collection of locations where a parameter object might be defined.
@@ -27,7 +27,7 @@ const schemas = [
 // should be used with resolved=true and we want to avoid duplication.
 const parameters = [
   '$.paths[*].parameters[*]',
-  '$.paths[*][get,put,post,delete,options,head,patch,trace].parameters[*]'
+  '$.paths[*][get,put,post,delete,options,head,patch,trace].parameters[*]',
 ];
 
 const paths = ['$.paths[*]'];
@@ -40,14 +40,14 @@ const patchOperations = ['$.paths[*][patch]'];
 // within an unresolved API definition.
 const unresolvedResponseSchemas = [
   '$.paths[*][*].responses[*].content[*].schema',
-  '$.components.responses[*].content[*].schema'
+  '$.components.responses[*].content[*].schema',
 ];
 
 // A collection of locations where a requestBody schema could be defined
 // within an unresolved API definition.
 const unresolvedRequestBodySchemas = [
   '$.paths[*][*].requestBody.content[*].schema',
-  '$.components.requestBodies[*].content[*].schema'
+  '$.components.requestBodies[*].content[*].schema',
 ];
 
 // A collection of locations where a schema object could be defined
@@ -74,7 +74,7 @@ const unresolvedSchemas = [
   '$.components.headers[*].schema',
   '$.components.headers[*].content[*].schema',
   '$.components.responses[*].headers[*].schema',
-  '$.components.responses[*].headers[*].content[*].schema'
+  '$.components.responses[*].headers[*].content[*].schema',
 ];
 
 const securitySchemes = ['$.components.securitySchemes[*]'];
@@ -89,5 +89,5 @@ module.exports = {
   unresolvedResponseSchemas,
   unresolvedSchemas,
   schemas,
-  securitySchemes
+  securitySchemes,
 };

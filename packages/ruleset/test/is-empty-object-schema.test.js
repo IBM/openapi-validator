@@ -29,21 +29,21 @@ describe('Utility function: isEmptyObjectSchema()', () => {
 
     it('empty allOf list', async () => {
       const s = {
-        allOf: []
+        allOf: [],
       };
       expect(isEmptyObjectSchema(s)).toBe(false);
     });
 
     it('empty anyOf list', async () => {
       const s = {
-        anyOf: []
+        anyOf: [],
       };
       expect(isEmptyObjectSchema(s)).toBe(false);
     });
 
     it('empty oneOf list', async () => {
       const s = {
-        oneOf: []
+        oneOf: [],
       };
       expect(isEmptyObjectSchema(s)).toBe(false);
     });
@@ -53,9 +53,9 @@ describe('Utility function: isEmptyObjectSchema()', () => {
         type: 'object',
         properties: {
           foo: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
       expect(isEmptyObjectSchema(s)).toBe(false);
     });
@@ -65,7 +65,7 @@ describe('Utility function: isEmptyObjectSchema()', () => {
         type: 'object',
         description: 'almost empty object schema',
         additionalProperties: true,
-        minLength: 1
+        minLength: 1,
       };
       expect(isEmptyObjectSchema(s)).toBe(false);
     });
@@ -74,7 +74,7 @@ describe('Utility function: isEmptyObjectSchema()', () => {
       const s = {
         type: 'object',
         description: 'nearly an object schema',
-        additionalProperties: false
+        additionalProperties: false,
       };
       expect(isEmptyObjectSchema(s)).toBe(false);
     });
@@ -85,14 +85,14 @@ describe('Utility function: isEmptyObjectSchema()', () => {
       const s = {
         type: 'object',
         description: 'empty object schema',
-        additionalProperties: true
+        additionalProperties: true,
       };
       expect(isEmptyObjectSchema(s)).toBe(true);
     });
 
     it('empty object schema w/only type', async () => {
       const s = {
-        type: 'object'
+        type: 'object',
       };
       expect(isEmptyObjectSchema(s)).toBe(true);
     });
@@ -100,7 +100,7 @@ describe('Utility function: isEmptyObjectSchema()', () => {
     it('empty object schema w/only type,description', async () => {
       const s = {
         type: 'object',
-        description: 'empty object schema'
+        description: 'empty object schema',
       };
       expect(isEmptyObjectSchema(s)).toBe(true);
     });
@@ -109,7 +109,7 @@ describe('Utility function: isEmptyObjectSchema()', () => {
       const s = {
         'type': 'object',
         'description': 'empty object schema',
-        'x-foo': 'bar'
+        'x-foo': 'bar',
       };
       expect(isEmptyObjectSchema(s)).toBe(true);
     });

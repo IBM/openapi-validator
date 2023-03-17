@@ -50,14 +50,14 @@ describe('Utility function: isDoubleSchema()', () => {
               {
                 anyOf: [
                   { type: 'number', format: 'double' },
-                  { type: 'number', format: 'double' }
-                ]
+                  { type: 'number', format: 'double' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'number', format: 'double' }
-        ]
+          { type: 'number', format: 'double' },
+        ],
       })
     ).toBe(true);
   });

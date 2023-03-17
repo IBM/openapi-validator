@@ -17,8 +17,8 @@ module.exports = {
     function: schema,
     functionOptions: {
       schema: {
-        $ref: '../schemas/x-sdk-operations.json'
-      }
-    }
-  }
+        $ref: '../schemas/x-sdk-operations.json',
+      },
+    },
+  },
 };

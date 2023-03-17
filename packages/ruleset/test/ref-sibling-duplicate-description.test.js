@@ -23,15 +23,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.TokenPaginationBase.properties.last = {
         allOf: [
           {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           {
-            description: testDocument.components.schemas.PageLink.description
+            description: testDocument.components.schemas.PageLink.description,
           },
           {
-            description: 'Not a duplicate'
-          }
-        ]
+            description: 'Not a duplicate',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -46,12 +46,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.TokenPaginationBase.properties.last = {
         allOf: [
           {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           {
-            description: testDocument.components.schemas.PageLink.description
-          }
-        ]
+            description: testDocument.components.schemas.PageLink.description,
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -69,15 +69,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.TokenPaginationBase.properties.last = {
         allOf: [
           {
-            $ref: '#/components/schemas/PageLink'
+            $ref: '#/components/schemas/PageLink',
           },
           {
-            description: 'foo'
+            description: 'foo',
           },
           {
-            description: testDocument.components.schemas.PageLink.description
-          }
-        ]
+            description: testDocument.components.schemas.PageLink.description,
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -95,10 +95,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.TokenPaginationBase.properties.last = {
         allOf: [
           {
-            $ref: '#/components/schemas/PageLink'
-          }
+            $ref: '#/components/schemas/PageLink',
+          },
         ],
-        description: testDocument.components.schemas.PageLink.description
+        description: testDocument.components.schemas.PageLink.description,
       };
 
       const results = await testRule(ruleId, rule, testDocument);

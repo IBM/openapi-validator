@@ -6,7 +6,7 @@
 const path = require('path');
 const {
   getFileExtension,
-  supportedFileExtension
+  supportedFileExtension,
 } = require('./file-extension-validator');
 const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
 const { validate } = require('./schema-validator');
@@ -30,7 +30,7 @@ const defaultConfig = {
     // 'my-api.yaml'
   ],
   limits: {
-    warnings: -1
+    warnings: -1,
   },
   ignoreFiles: [
     // '/full/path/to/file/ignoreMe.json'
@@ -42,7 +42,7 @@ const defaultConfig = {
   outputFormat: 'text',
   ruleset: null,
   summaryOnly: false,
-  verbose: false
+  verbose: false,
 };
 
 const supportedConfigFileTypes = ['json', 'yaml', 'yml', 'js'];
@@ -153,7 +153,7 @@ async function processArgs(args, cliParseOptions) {
   // "context" will serve as a container for the validator's configuration
   // and state information.
   const context = {
-    logger
+    logger,
   };
 
   // Retrieve the options that were set by the user on the command-line.
@@ -265,5 +265,5 @@ module.exports = {
   getConfigFileSchema,
   getDefaultConfig,
   loadConfig,
-  processArgs
+  processArgs,
 };
