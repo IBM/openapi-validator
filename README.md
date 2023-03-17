@@ -53,6 +53,7 @@ The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to t
 - [Validator Output](#validator-output)
   * [Text](#text)
   * [JSON](#json)
+- [Logging](#logging)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -790,6 +791,39 @@ Here is an example of JSON output:
 ```
 The JSON output is also affected by the `-s`/`--summary-only` and `-e`/`--errors-only` options as well as the `summaryOnly` and `errorsOnly`
 configuration properties.
+
+## Logging
+The validator uses a *logger* for displaying messages on the console.
+The core validator uses a single logger named `root`, while each of the rules contained in the
+IBM Cloud Validation Ruleset uses their own unique logger whose name will match the rule's id
+(e.g. `ibm-accept-header`, `ibm-schema-description-exists`, etc.).
+
+Each logger has a logging level associated with it: `error`, `warn`, `info`, and `debug`.
+Each of these levels implicitly includes the levels that precede it in the list.
+For example, if you set the logging level of a logger to `info`, then all messages of type
+`info`, `warn`, and `error` will be displayed, but `debug` messages will not.
+
+To set the level of the `root` logger to `info`, you could use this option: `--log-level root=info`.
+
+To set the level of the logger used by the `ibm-accept-header` rule to `debug`,
+you could use this option: `-l ibm-accept-header=debug`.
+
+You can also use a glob-like value for a logger name to set the level on multiple loggers.
+For example, to set the level for *all* loggers whose name starts with `ibm-property`, try this:
+`-l ibm-property*=debug`.
+
+Enabling debug logging for a specific rule might be useful in a situation where the rule is
+reporting violations which seem to be inexplicable. In this case, additional debug information
+might be helpful in determining why the violations are occurring, and could possibly lead to a solution.
+For example, suppose the `ibm-pagination-style` rule is reporting several violations,
+but yet at first glance it's not obvious why these violations are occurring.
+To enable debug logging for this rule, use a command like this:
+```
+lint_openapi -l ibm-pagination-style=debug my-new-api.yaml
+```
+
+The default log level for the `root` logger is `info`, while the default log level for
+rule-specific loggers is `warn`.
 
 ## Contributing
 
