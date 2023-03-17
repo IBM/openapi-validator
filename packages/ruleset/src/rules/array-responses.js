@@ -4,7 +4,7 @@
  */
 
 const {
-  operations
+  operations,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { arrayResponses } = require('../functions');
@@ -18,6 +18,6 @@ module.exports = {
   formats: [oas3],
   resolved: true,
   then: {
-    function: arrayResponses
-  }
+    function: arrayResponses,
+  },
 };

@@ -4,7 +4,7 @@
  */
 
 const {
-  paths
+  paths,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { consecutivePathSegments } = require('../functions');
@@ -18,6 +18,6 @@ module.exports = {
   severity: 'error',
   resolved: true,
   then: {
-    function: consecutivePathSegments
-  }
+    function: consecutivePathSegments,
+  },
 };

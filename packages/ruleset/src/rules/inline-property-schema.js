@@ -4,7 +4,7 @@
  */
 
 const {
-  unresolvedSchemas
+  unresolvedSchemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { inlinePropertySchema } = require('../functions');
@@ -17,6 +17,6 @@ module.exports = {
   severity: 'warn',
   resolved: false,
   then: {
-    function: inlinePropertySchema
-  }
+    function: inlinePropertySchema,
+  },
 };

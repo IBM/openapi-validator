@@ -73,14 +73,14 @@ describe('Utility function: isPrimitiveSchema()', () => {
               {
                 anyOf: [
                   { type: 'integer', format: 'int32' },
-                  { type: 'integer', format: 'int32' }
-                ]
+                  { type: 'integer', format: 'int32' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'integer', format: 'int32' }
-        ]
+          { type: 'integer', format: 'int32' },
+        ],
       })
     ).toBe(true);
   });
@@ -94,14 +94,14 @@ describe('Utility function: isPrimitiveSchema()', () => {
               {
                 anyOf: [
                   { type: 'number', format: 'double' },
-                  { type: 'number', format: 'double' }
-                ]
+                  { type: 'number', format: 'double' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'number', format: 'double' }
-        ]
+          { type: 'number', format: 'double' },
+        ],
       })
     ).toBe(true);
   });
@@ -111,10 +111,10 @@ describe('Utility function: isPrimitiveSchema()', () => {
       isPrimitiveSchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ type: 'number' }, { type: 'number' }] }, {}]
+            allOf: [{ anyOf: [{ type: 'number' }, { type: 'number' }] }, {}],
           },
-          { type: 'number' }
-        ]
+          { type: 'number' },
+        ],
       })
     ).toBe(true);
   });
@@ -124,10 +124,10 @@ describe('Utility function: isPrimitiveSchema()', () => {
       isPrimitiveSchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ type: 'boolean' }, { type: 'boolean' }] }, {}]
+            allOf: [{ anyOf: [{ type: 'boolean' }, { type: 'boolean' }] }, {}],
           },
-          { type: 'boolean' }
-        ]
+          { type: 'boolean' },
+        ],
       })
     ).toBe(true);
   });
@@ -137,10 +137,10 @@ describe('Utility function: isPrimitiveSchema()', () => {
       isPrimitiveSchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ type: 'string' }, { type: 'string' }] }, {}]
+            allOf: [{ anyOf: [{ type: 'string' }, { type: 'string' }] }, {}],
           },
-          { type: 'string' }
-        ]
+          { type: 'string' },
+        ],
       })
     ).toBe(true);
   });

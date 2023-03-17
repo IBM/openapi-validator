@@ -4,7 +4,7 @@
  */
 
 const {
-  operations
+  operations,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { preconditionHeader } = require('../functions');
@@ -18,6 +18,6 @@ module.exports = {
   severity: 'error',
   resolved: true,
   then: {
-    function: preconditionHeader
-  }
+    function: preconditionHeader,
+  },
 };

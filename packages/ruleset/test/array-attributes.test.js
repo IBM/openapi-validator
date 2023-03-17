@@ -34,17 +34,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
                 type: 'array',
                 description: 'a description',
                 items: {
-                  type: 'string'
-                }
+                  type: 'string',
+                },
               },
               {
                 type: 'array',
                 minItems: 12,
-                maxItems: 42
-              }
-            ]
-          }
-        }
+                maxItems: 42,
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -68,24 +68,24 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   {
                     type: 'array',
                     minItems: 45,
-                    maxItems: 100000
+                    maxItems: 100000,
                   },
                   {
                     type: 'array',
                     minItems: 100001,
-                    maxItems: 100500
-                  }
-                ]
+                    maxItems: 100500,
+                  },
+                ],
               },
               {
                 type: 'array',
                 items: {
-                  type: 'string'
-                }
-              }
-            ]
-          }
-        }
+                  type: 'string',
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -100,8 +100,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         minItems: 3,
         maxItems: 4,
         items: {
-          type: 'integer'
-        }
+          type: 'integer',
+        },
       };
 
       const results = await testRule(ruleId, rule, rootDocument);
@@ -116,8 +116,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         minItems: 3,
         maxItems: 3,
         items: {
-          type: 'integer'
-        }
+          type: 'integer',
+        },
       };
 
       const results = await testRule(ruleId, rule, rootDocument);
@@ -135,14 +135,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       movie2.properties['production_crew'] = {
         type: 'array',
         items: {
-          type: 'string'
-        }
+          type: 'string',
+        },
       };
       testDocument.components.schemas['Movie2'] = movie2;
       testDocument.paths['/v1/movies'].post.responses['201'].content[
         'application/json'
       ].schema = {
-        $ref: '#/components/schemas/Movie2'
+        $ref: '#/components/schemas/Movie2',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -177,15 +177,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description:
               'The array of error entries associated with the error response',
             items: {
-              $ref: '#/components/schemas/Error'
-            }
+              $ref: '#/components/schemas/Error',
+            },
           },
           trace: {
             description: 'The error trace information.',
             type: 'string',
-            format: 'uuid'
-          }
-        }
+            format: 'uuid',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -211,15 +211,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
               {
                 type: 'array',
                 items: {
-                  type: 'string'
-                }
+                  type: 'string',
+                },
               },
               {
-                type: 'array'
-              }
-            ]
-          }
-        }
+                type: 'array',
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -252,20 +252,20 @@ describe(`Spectral rule: ${ruleId}`, () => {
               {
                 type: 'array',
                 items: {
-                  type: 'string'
+                  type: 'string',
                 },
-                minItems: 0
+                minItems: 0,
               },
               {
                 type: 'array',
                 items: {
-                  type: 'string'
+                  type: 'string',
                 },
-                maxItems: 5
-              }
-            ]
-          }
-        }
+                maxItems: 5,
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -298,20 +298,20 @@ describe(`Spectral rule: ${ruleId}`, () => {
               {
                 type: 'array',
                 items: {
-                  type: 'string'
+                  type: 'string',
                 },
-                minItems: 0
+                minItems: 0,
               },
               {
                 type: 'array',
                 items: {
-                  type: 'string'
+                  type: 'string',
                 },
-                maxItems: 5
-              }
-            ]
-          }
-        }
+                maxItems: 5,
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -346,26 +346,26 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   {
                     type: 'array',
                     minItems: 0,
-                    maxItems: 4
+                    maxItems: 4,
                   },
                   {
                     type: 'array',
                     items: {
-                      type: 'string'
-                    }
-                  }
-                ]
+                      type: 'string',
+                    },
+                  },
+                ],
               },
               {
                 type: 'array',
                 minItems: 0,
                 items: {
-                  type: 'string'
-                }
-              }
-            ]
-          }
-        }
+                  type: 'string',
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -393,26 +393,26 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   {
                     type: 'array',
                     minItems: 0,
-                    maxItems: 4
+                    maxItems: 4,
                   },
                   {
                     type: 'array',
                     items: {
-                      type: 'string'
-                    }
-                  }
-                ]
+                      type: 'string',
+                    },
+                  },
+                ],
               },
               {
                 type: 'array',
                 maxItems: 1600,
                 items: {
-                  type: 'string'
-                }
-              }
-            ]
-          }
-        }
+                  type: 'string',
+                },
+              },
+            ],
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -447,14 +447,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'allOf',
         '1',
         'properties',
-        'drinks'
+        'drinks',
       ]);
     });
     it('Response schema without items property', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.MovieCollection = {
-        type: 'array'
+        type: 'array',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -470,7 +470,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         '200',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
     it('Request schema without items property', async () => {
@@ -479,7 +479,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/movies'].post.requestBody.content[
         'application/json'
       ].schema = {
-        type: 'array'
+        type: 'array',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -494,7 +494,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
     it('Request schema with non-object items property', async () => {
@@ -504,7 +504,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'application/json'
       ].schema = {
         type: 'array',
-        items: 'not a schema!'
+        items: 'not a schema!',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -519,14 +519,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'requestBody',
         'content',
         'application/json',
-        'schema'
+        'schema',
       ]);
     });
     it('additionalProperties schema without items property', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.additionalProperties = {
-        type: 'array'
+        type: 'array',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -544,7 +544,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'content',
         'application/json',
         'schema',
-        'additionalProperties'
+        'additionalProperties',
       ]);
       expect(results[1].path).toStrictEqual([
         'paths',
@@ -555,7 +555,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'content',
         'application/json',
         'schema',
-        'additionalProperties'
+        'additionalProperties',
       ]);
       expect(results[2].path).toStrictEqual([
         'paths',
@@ -571,7 +571,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'properties',
         'movies',
         'items',
-        'additionalProperties'
+        'additionalProperties',
       ]);
       expect(results[3].path).toStrictEqual([
         'paths',
@@ -582,7 +582,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'content',
         'application/json',
         'schema',
-        'additionalProperties'
+        'additionalProperties',
       ]);
       expect(results[4].path).toStrictEqual([
         'paths',
@@ -592,7 +592,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'content',
         'application/json',
         'schema',
-        'additionalProperties'
+        'additionalProperties',
       ]);
     });
     it('minItems > maxItems', async () => {
@@ -602,10 +602,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'array',
 
         items: {
-          type: 'integer'
+          type: 'integer',
         },
         minItems: 5,
-        maxItems: 4
+        maxItems: 4,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -614,7 +614,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count',
         'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count',
-        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count'
+        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count',
       ];
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);
@@ -630,7 +630,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas.Car.properties['wheel_count'] = {
         type: 'object',
-        minItems: 3
+        minItems: 3,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -639,7 +639,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minItems',
         'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minItems',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minItems',
-        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minItems'
+        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minItems',
       ];
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);
@@ -655,7 +655,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas.Car.properties['wheel_count'] = {
         type: 'integer',
-        maxItems: 3
+        maxItems: 3,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -664,7 +664,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.maxItems',
         'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.maxItems',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maxItems',
-        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maxItems'
+        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maxItems',
       ];
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);

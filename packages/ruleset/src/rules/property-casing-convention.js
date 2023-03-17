@@ -4,7 +4,7 @@
  */
 
 const {
-  schemas
+  schemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { propertyCasingConvention } = require('../functions');
@@ -18,7 +18,7 @@ module.exports = {
   then: {
     function: propertyCasingConvention,
     functionOptions: {
-      type: 'snake'
-    }
-  }
+      type: 'snake',
+    },
+  },
 };

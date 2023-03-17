@@ -65,7 +65,7 @@ function isFormMimeType(mimeType) {
     /^multipart\/form-data(\s*;.*)?$/i,
     /^multipart\/related(\s*;.*)?$/i,
     /^multipart\/mixed(\s*;.*)?$/i,
-    /^application\/x-www-form-urlencoded(\s*;.*)?$/i
+    /^application\/x-www-form-urlencoded(\s*;.*)?$/i,
   ];
 
   return !!formMimeTypeREs.find(re => re.test(mimeType));
@@ -75,5 +75,5 @@ module.exports = {
   isFormMimeType,
   isJsonMimeType,
   isJsonPatchMimeType,
-  isMergePatchMimeType
+  isMergePatchMimeType,
 };

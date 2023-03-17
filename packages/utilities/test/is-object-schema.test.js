@@ -56,10 +56,10 @@ describe('Utility function: isObjectSchema()', () => {
       isObjectSchema({
         oneOf: [
           {
-            allOf: [{ properties: {} }, {}]
+            allOf: [{ properties: {} }, {}],
           },
-          { type: 'object' }
-        ]
+          { type: 'object' },
+        ],
       })
     ).toBe(true);
   });
@@ -69,12 +69,12 @@ describe('Utility function: isObjectSchema()', () => {
       isObjectSchema({
         oneOf: [
           {
-            allOf: [{ properties: {} }, {}]
+            allOf: [{ properties: {} }, {}],
           },
           {
-            properties: {}
-          }
-        ]
+            properties: {},
+          },
+        ],
       })
     ).toBe(true);
   });
@@ -84,12 +84,12 @@ describe('Utility function: isObjectSchema()', () => {
       isObjectSchema({
         allOf: [
           {
-            allOf: [{ properties: {} }, {}]
+            allOf: [{ properties: {} }, {}],
           },
           {
-            properties: {}
-          }
-        ]
+            properties: {},
+          },
+        ],
       })
     ).toBe(true);
   });

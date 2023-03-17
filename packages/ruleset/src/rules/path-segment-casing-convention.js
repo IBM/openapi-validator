@@ -4,7 +4,7 @@
  */
 
 const {
-  paths
+  paths,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { pathSegmentCasingConvention } = require('../functions');
@@ -18,7 +18,7 @@ module.exports = {
   then: {
     function: pathSegmentCasingConvention,
     functionOptions: {
-      type: 'snake'
-    }
-  }
+      type: 'snake',
+    },
+  },
 };

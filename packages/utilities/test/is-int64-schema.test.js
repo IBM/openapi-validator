@@ -50,14 +50,14 @@ describe('Utility function: isInt64Schema()', () => {
               {
                 anyOf: [
                   { type: 'integer', format: 'int64' },
-                  { type: 'integer', format: 'int64' }
-                ]
+                  { type: 'integer', format: 'int64' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'integer', format: 'int64' }
-        ]
+          { type: 'integer', format: 'int64' },
+        ],
       })
     ).toBe(true);
   });

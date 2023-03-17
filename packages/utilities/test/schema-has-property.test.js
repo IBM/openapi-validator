@@ -43,8 +43,8 @@ describe('Utility function: schemaHasProperty()', () => {
       oneOf: [
         { properties: { my_property: {} } },
         { properties: { my_property: {} } },
-        { properties: { my_property: {} } }
-      ]
+        { properties: { my_property: {} } },
+      ],
     };
     expect(schemaHasProperty(schemaWithAllCompliantOneOfs, 'my_property')).toBe(
       true
@@ -56,8 +56,8 @@ describe('Utility function: schemaHasProperty()', () => {
       anyOf: [
         { properties: { my_property: {} } },
         { properties: { my_property: {} } },
-        { properties: { my_property: {} } }
-      ]
+        { properties: { my_property: {} } },
+      ],
     };
     expect(schemaHasProperty(schemaWithAllCompliantAnyOfs, 'my_property')).toBe(
       true
@@ -66,7 +66,7 @@ describe('Utility function: schemaHasProperty()', () => {
 
   it('should return `true` for a schema with one of many compliant `allOf` schemas', async () => {
     const schemaWithOneCompliantAllOf = {
-      allOf: [{}, { properties: { my_property: {} } }, {}]
+      allOf: [{}, { properties: { my_property: {} } }, {}],
     };
     expect(schemaHasProperty(schemaWithOneCompliantAllOf, 'my_property')).toBe(
       true
@@ -75,7 +75,7 @@ describe('Utility function: schemaHasProperty()', () => {
 
   it('should return `false` for a schema with one of many compliant `oneOf` schemas', async () => {
     const schemaWithOneCompliantOneOf = {
-      anyOf: [{}, { properties: { my_property: {} } }, {}]
+      anyOf: [{}, { properties: { my_property: {} } }, {}],
     };
     expect(schemaHasProperty(schemaWithOneCompliantOneOf, 'my_property')).toBe(
       false
@@ -84,7 +84,7 @@ describe('Utility function: schemaHasProperty()', () => {
 
   it('should return `false` for a schema with one of many compliant `anyOf` schemas', async () => {
     const schemaWithOneCompliantAnyOf = {
-      anyOf: [{}, { properties: { my_property: {} } }, {}]
+      anyOf: [{}, { properties: { my_property: {} } }, {}],
     };
     expect(schemaHasProperty(schemaWithOneCompliantAnyOf, 'my_property')).toBe(
       false
@@ -95,10 +95,10 @@ describe('Utility function: schemaHasProperty()', () => {
     const schemaWithOnlyOneOfCompliance = {
       oneOf: [
         { properties: { my_property: {} } },
-        { properties: { my_property: {} } }
+        { properties: { my_property: {} } },
       ],
       anyOf: [{ properties: { my_property: {} } }, {}],
-      allOf: [{}, {}]
+      allOf: [{}, {}],
     };
     expect(
       schemaHasProperty(schemaWithOnlyOneOfCompliance, 'my_property')
@@ -109,10 +109,10 @@ describe('Utility function: schemaHasProperty()', () => {
     const schemaWithOnlyAnyOfCompliance = {
       anyOf: [
         { properties: { my_property: {} } },
-        { properties: { my_property: {} } }
+        { properties: { my_property: {} } },
       ],
       oneOf: [{ properties: { my_property: {} } }, {}],
-      allOf: [{}, {}]
+      allOf: [{}, {}],
     };
     expect(
       schemaHasProperty(schemaWithOnlyAnyOfCompliance, 'my_property')
@@ -123,7 +123,7 @@ describe('Utility function: schemaHasProperty()', () => {
     const schemaWithOnlyAllOfCompliance = {
       allOf: [{}, { properties: { my_property: {} } }, {}],
       oneOf: [{}, { properties: { my_property: {} } }],
-      anyOf: [{ properties: { my_property: {} } }, {}]
+      anyOf: [{ properties: { my_property: {} } }, {}],
     };
     expect(
       schemaHasProperty(schemaWithOnlyAllOfCompliance, 'my_property')
@@ -134,10 +134,10 @@ describe('Utility function: schemaHasProperty()', () => {
     const schemaWithAllOfInOneOf = {
       oneOf: [
         {
-          allOf: [{ properties: { my_property: {} } }, {}]
+          allOf: [{ properties: { my_property: {} } }, {}],
         },
-        { properties: { my_property: {} } }
-      ]
+        { properties: { my_property: {} } },
+      ],
     };
     expect(schemaHasProperty(schemaWithAllOfInOneOf, 'my_property')).toBe(true);
   });
@@ -148,11 +148,11 @@ describe('Utility function: schemaHasProperty()', () => {
         {
           anyOf: [
             { properties: { my_property: {} } },
-            { properties: { my_property: {} } }
-          ]
+            { properties: { my_property: {} } },
+          ],
         },
-        {}
-      ]
+        {},
+      ],
     };
     expect(schemaHasProperty(schemaWithAnyOfInAllOf, 'my_property')).toBe(true);
   });
@@ -163,11 +163,11 @@ describe('Utility function: schemaHasProperty()', () => {
         {
           oneOf: [
             { properties: { my_property: {} } },
-            { properties: { my_property: {} } }
-          ]
+            { properties: { my_property: {} } },
+          ],
         },
-        { properties: { my_property: {} } }
-      ]
+        { properties: { my_property: {} } },
+      ],
     };
     expect(schemaHasProperty(schemaWithAnyOfInAllOf, 'my_property')).toBe(true);
   });

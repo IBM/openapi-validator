@@ -36,10 +36,10 @@ describe('Utility function: isStringSchema()', () => {
       isStringSchema({
         oneOf: [
           {
-            allOf: [{ anyOf: [{ type: 'string' }, { type: 'string' }] }, {}]
+            allOf: [{ anyOf: [{ type: 'string' }, { type: 'string' }] }, {}],
           },
-          { type: 'string' }
-        ]
+          { type: 'string' },
+        ],
       })
     ).toBe(true);
   });

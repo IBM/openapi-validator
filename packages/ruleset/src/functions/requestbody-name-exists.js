@@ -9,13 +9,13 @@ const {
   isFormMimeType,
   isJsonPatchMimeType,
   isMergePatchMimeType,
-  LoggerFactory
+  LoggerFactory,
 } = require('../utils');
 
 let ruleId;
 let logger;
 
-module.exports = function(operation, _opts, context) {
+module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -66,8 +66,8 @@ function requestBodyNameExists(op, path) {
       return [
         {
           message: `Operation with non-form requestBody should set a name with the ${EXTENSION_NAME} extension.`,
-          path
-        }
+          path,
+        },
       ];
     } else {
       logger.debug(`${ruleId}: found the extension!`);

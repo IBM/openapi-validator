@@ -50,14 +50,14 @@ describe('Utility function: isDateSchema()', () => {
               {
                 anyOf: [
                   { type: 'string', format: 'date' },
-                  { type: 'string', format: 'date' }
-                ]
+                  { type: 'string', format: 'date' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'string', format: 'date' }
-        ]
+          { type: 'string', format: 'date' },
+        ],
       })
     ).toBe(true);
   });

@@ -17,8 +17,8 @@ module.exports = async (ruleName, rule, doc) => {
 
   spectral.setRuleset({
     rules: {
-      [ruleName]: rule
-    }
+      [ruleName]: rule,
+    },
   });
 
   try {

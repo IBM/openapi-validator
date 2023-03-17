@@ -9,7 +9,7 @@ const merge = require('lodash/merge');
 const each = require('lodash/each');
 const { operationMethods } = require('../utils');
 
-module.exports = function(rootDocument) {
+module.exports = function (rootDocument) {
   return operationIdNamingConvention(rootDocument);
 };
 
@@ -28,7 +28,7 @@ function operationIdNamingConvention(resolvedSpec) {
               pathKey: `${pathKey}`,
               opKey: `${opKey}`,
               path: ['paths', `${pathKey}`, `${opKey}`],
-              allPathOperations
+              allPathOperations,
             },
             op
           )
@@ -74,7 +74,7 @@ function operationIdNamingConvention(resolvedSpec) {
           message: `operationIds should follow naming convention: operationId verb should be ${verbs.join(
             ' or '
           )}`,
-          path: [...op.path, 'operationId']
+          path: [...op.path, 'operationId'],
         });
       }
     }

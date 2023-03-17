@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(pathItem, options, context) {
+module.exports = function (pathItem, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -36,8 +36,8 @@ function consecutivePathSegments(path) {
     return [
       {
         message: `Path contains two or more consecutive path parameter references: ${pathStr}`,
-        path
-      }
+        path,
+      },
     ];
   }
 

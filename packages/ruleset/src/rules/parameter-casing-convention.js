@@ -4,7 +4,7 @@
  */
 
 const {
-  parameters
+  parameters,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { parameterCasingConvention } = require('../functions');
@@ -33,22 +33,22 @@ module.exports = {
       query: {
         type: 'snake',
         separator: {
-          char: '.'
-        }
+          char: '.',
+        },
       },
 
       // Allow snake case for path parameter names.
       path: {
-        type: 'snake'
+        type: 'snake',
       },
 
       // Allow header parameter names to be in canonical header name form (e.g. X-My-Header).
       header: {
         type: 'pascal',
         separator: {
-          char: '-'
-        }
-      }
-    }
-  }
+          char: '-',
+        },
+      },
+    },
+  },
 };

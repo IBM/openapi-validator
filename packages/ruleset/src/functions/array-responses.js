@@ -7,7 +7,7 @@ const { LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
-module.exports = function(operation, _opts, context) {
+module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -50,8 +50,8 @@ function checkForArrayResponses(op, path) {
             responseCode,
             'content',
             mimeType,
-            'schema'
-          ]
+            'schema',
+          ],
         });
       }
     }

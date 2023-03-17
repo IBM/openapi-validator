@@ -25,40 +25,40 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].get.responses = {
-        '200': {
+        200: {
           description: 'Good response',
           content: {
             'application/json': {
               schema: {
                 type: 'array',
                 items: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
+                  $ref: '#/components/schemas/Drink',
+                },
+              },
             },
             'someother/type': {
               schema: {
                 type: 'array',
                 items: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/Drink',
+                },
+              },
+            },
+          },
         },
-        '400': {
+        400: {
           description: 'Error response',
           content: {
             'application/json': {
               schema: {
                 type: 'array',
                 items: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -84,23 +84,23 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // Create a named response with an array schema.
       testDocument.components.responses.DrinksResponse = {
-        '200': {
+        200: {
           description: 'Good response',
           content: {
             'application/json': {
               schema: {
                 type: 'array',
                 items: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            }
-          }
-        }
+                  $ref: '#/components/schemas/Drink',
+                },
+              },
+            },
+          },
+        },
       };
 
       testDocument.paths['/v1/drinks'].get.responses = {
-        $ref: '#/components/responses/DrinksResponse'
+        $ref: '#/components/responses/DrinksResponse',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -117,18 +117,18 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].get.responses = {
-        '200': {
+        200: {
           description: 'Good response',
           content: {
             'application/json': {
               schema: {
                 items: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            }
-          }
-        }
+                  $ref: '#/components/schemas/Drink',
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -147,32 +147,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks'].get['x-sdk-exclude'] = true;
       testDocument.paths['/v1/drinks'].get.responses = {
-        '200': {
+        200: {
           description: 'Good response',
           content: {
             'application/json': {
               schema: {
                 type: 'array',
                 items: {
-                  $ref: '#/components/schemas/Drink'
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/Drink',
+                },
+              },
+            },
+          },
         },
-        '400': {
+        400: {
           description: 'Error response',
           content: {
             'application/json': {
               schema: {
                 type: 'array',
                 items: {
-                  type: 'string'
-                }
-              }
-            }
-          }
-        }
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);

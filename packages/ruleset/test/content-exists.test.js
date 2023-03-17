@@ -20,10 +20,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].delete = {
       responses: {
-        '204': {
-          description: 'No content'
-        }
-      }
+        204: {
+          description: 'No content',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -35,10 +35,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].delete = {
       responses: {
-        '202': {
-          description: 'No content'
-        }
-      }
+        202: {
+          description: 'No content',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -50,10 +50,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].delete = {
       responses: {
-        '101': {
-          description: 'No content'
-        }
-      }
+        101: {
+          description: 'No content',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -65,10 +65,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].delete = {
       responses: {
-        '304': {
-          description: 'No content'
-        }
-      }
+        304: {
+          description: 'No content',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -80,10 +80,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].head = {
       responses: {
-        '200': {
-          description: 'No content'
-        }
-      }
+        200: {
+          description: 'No content',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -95,10 +95,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].options = {
       responses: {
-        '200': {
-          description: 'No content'
-        }
-      }
+        200: {
+          description: 'No content',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -110,10 +110,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].trace = {
       responses: {
-        '200': {
-          description: 'No content'
-        }
-      }
+        200: {
+          description: 'No content',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -125,10 +125,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post = {
       responses: {
-        '201': {
-          description: 'No content'
-        }
-      }
+        201: {
+          description: 'No content',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -145,7 +145,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       '/v1/movies',
       'post',
       'responses',
-      '201'
+      '201',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });
@@ -154,8 +154,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['/v1/movies'].post = {
       requestBody: {
-        description: 'No content'
-      }
+        description: 'No content',
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -171,7 +171,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'paths',
       '/v1/movies',
       'post',
-      'requestBody'
+      'requestBody',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });

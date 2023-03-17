@@ -4,7 +4,7 @@
  */
 
 const {
-  operations
+  operations,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { deleteBody } = require('../functions');
@@ -17,6 +17,6 @@ module.exports = {
   resolved: true,
   given: operations,
   then: {
-    function: deleteBody
-  }
+    function: deleteBody,
+  },
 };

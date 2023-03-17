@@ -24,29 +24,29 @@ describe(`Spectral rule: ${ruleId}`, () => {
         requestBody: {
           content: {
             'application/json': {
-              description: 'should have a schema'
-            }
-          }
-        }
+              description: 'should have a schema',
+            },
+          },
+        },
       },
       put: {
         requestBody: {
           content: {
             'application/json': {
-              description: 'should have a schema'
-            }
-          }
-        }
+              description: 'should have a schema',
+            },
+          },
+        },
       },
       patch: {
         requestBody: {
           content: {
             'application/json': {
-              description: 'should have a schema'
-            }
-          }
-        }
-      }
+              description: 'should have a schema',
+            },
+          },
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -65,7 +65,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'post',
       'requestBody',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[1].path).toStrictEqual([
@@ -74,7 +74,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'put',
       'requestBody',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[2].path).toStrictEqual([
@@ -83,7 +83,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'patch',
       'requestBody',
       'content',
-      'application/json'
+      'application/json',
     ]);
   });
 
@@ -98,11 +98,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
             in: 'header',
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        ]
+                description: 'this should have a schema',
+              },
+            },
+          },
+        ],
       },
       put: {
         parameters: [
@@ -111,11 +111,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
             in: 'header',
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        ]
+                description: 'this should have a schema',
+              },
+            },
+          },
+        ],
       },
       patch: {
         parameters: [
@@ -124,11 +124,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
             in: 'header',
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        ]
+                description: 'this should have a schema',
+              },
+            },
+          },
+        ],
       },
       get: {
         parameters: [
@@ -137,11 +137,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
             in: 'header',
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        ]
+                description: 'this should have a schema',
+              },
+            },
+          },
+        ],
       },
       delete: {
         parameters: [
@@ -150,12 +150,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
             in: 'header',
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        ]
-      }
+                description: 'this should have a schema',
+              },
+            },
+          },
+        ],
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -175,7 +175,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'parameters',
       '0',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[1].path).toStrictEqual([
@@ -185,7 +185,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'parameters',
       '0',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[2].path).toStrictEqual([
@@ -195,7 +195,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'parameters',
       '0',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[3].path).toStrictEqual([
@@ -205,7 +205,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'parameters',
       '0',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[4].path).toStrictEqual([
@@ -215,7 +215,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'parameters',
       '0',
       'content',
-      'application/json'
+      'application/json',
     ]);
   });
 
@@ -225,59 +225,59 @@ describe(`Spectral rule: ${ruleId}`, () => {
     testDocument.paths['/v1/books'] = {
       post: {
         responses: {
-          '200': {
+          200: {
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        }
+                description: 'this should have a schema',
+              },
+            },
+          },
+        },
       },
       put: {
         responses: {
-          '200': {
+          200: {
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        }
+                description: 'this should have a schema',
+              },
+            },
+          },
+        },
       },
       patch: {
         responses: {
-          '200': {
+          200: {
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        }
+                description: 'this should have a schema',
+              },
+            },
+          },
+        },
       },
       get: {
         responses: {
-          '200': {
+          200: {
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        }
+                description: 'this should have a schema',
+              },
+            },
+          },
+        },
       },
       delete: {
         responses: {
-          '200': {
+          200: {
             content: {
               'application/json': {
-                description: 'this should have a schema'
-              }
-            }
-          }
-        }
-      }
+                description: 'this should have a schema',
+              },
+            },
+          },
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -297,7 +297,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'responses',
       '200',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[1].path).toStrictEqual([
@@ -307,7 +307,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'responses',
       '200',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[2].path).toStrictEqual([
@@ -317,7 +317,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'responses',
       '200',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[3].path).toStrictEqual([
@@ -327,7 +327,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'responses',
       '200',
       'content',
-      'application/json'
+      'application/json',
     ]);
 
     expect(results[4].path).toStrictEqual([
@@ -337,7 +337,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'responses',
       '200',
       'content',
-      'application/json'
+      'application/json',
     ]);
   });
 });

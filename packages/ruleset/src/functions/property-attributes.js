@@ -9,13 +9,13 @@ const {
   isIntegerSchema,
   isFloatSchema,
   isDoubleSchema,
-  isObjectSchema
+  isObjectSchema,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
-module.exports = function(schema, _opts, context) {
+module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -50,7 +50,7 @@ function checkPropertyAttributes(schema, path) {
     if (schema.minimum && schema.maximum && schema.minimum > schema.maximum) {
       errors.push({
         message: 'minimum cannot be greater than maximum',
-        path: [...path, 'minimum']
+        path: [...path, 'minimum'],
       });
     }
   } else {
@@ -58,13 +58,13 @@ function checkPropertyAttributes(schema, path) {
     if (schema.minimum) {
       errors.push({
         message: 'minimum should not be defined for a non-numeric schema',
-        path: [...path, 'minimum']
+        path: [...path, 'minimum'],
       });
     }
     if (schema.maximum) {
       errors.push({
         message: 'maximum should not be defined for a non-numeric schema',
-        path: [...path, 'maximum']
+        path: [...path, 'maximum'],
       });
     }
   }
@@ -80,7 +80,7 @@ function checkPropertyAttributes(schema, path) {
     ) {
       errors.push({
         message: 'minProperties cannot be greater than maxProperties',
-        path: [...path, 'minProperties']
+        path: [...path, 'minProperties'],
       });
     }
   } else {
@@ -88,13 +88,13 @@ function checkPropertyAttributes(schema, path) {
     if (schema.minProperties) {
       errors.push({
         message: 'minProperties should not be defined for a non-object schema',
-        path: [...path, 'minProperties']
+        path: [...path, 'minProperties'],
       });
     }
     if (schema.maxProperties) {
       errors.push({
         message: 'maxProperties should not be defined for a non-object schema',
-        path: [...path, 'maxProperties']
+        path: [...path, 'maxProperties'],
       });
     }
   }

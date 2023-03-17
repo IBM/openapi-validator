@@ -14,5 +14,5 @@ module.exports = {
   makeCopy,
   rootDocument,
   testRule,
-  severityCodes
+  severityCodes,
 };

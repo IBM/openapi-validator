@@ -34,23 +34,23 @@ describe(`Spectral rule: ${ruleId}`, () => {
                       type: 'object',
                       properties: {
                         foo: {
-                          type: 'string'
-                        }
-                      }
+                          type: 'string',
+                        },
+                      },
                     },
                     {
                       type: 'object',
                       properties: {
                         bar: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
         ],
         requestBody: {
           content: {
@@ -63,31 +63,31 @@ describe(`Spectral rule: ${ruleId}`, () => {
                     type: 'object',
                     properties: {
                       foo: {
-                        type: 'string'
+                        type: 'string',
                       },
                       bar: {
-                        type: 'string'
-                      }
-                    }
+                        type: 'string',
+                      },
+                    },
                   },
                   {
                     type: 'object',
                     properties: {
                       foo: {
-                        type: 'string'
+                        type: 'string',
                       },
                       baz: {
-                        type: 'string'
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
+                        type: 'string',
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
         },
         responses: {
-          '201': {
+          201: {
             content: {
               'application/json': {
                 schema: {
@@ -98,31 +98,31 @@ describe(`Spectral rule: ${ruleId}`, () => {
                       type: 'object',
                       properties: {
                         foo: {
-                          type: 'string'
+                          type: 'string',
                         },
                         bar: {
-                          type: 'string'
-                        }
-                      }
+                          type: 'string',
+                        },
+                      },
                     },
                     {
                       type: 'object',
                       properties: {
                         foo: {
-                          type: 'string'
+                          type: 'string',
                         },
                         baz: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -147,16 +147,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
                     required: ['foo'],
                     properties: {
                       baz: {
-                        type: 'string'
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        ]
-      }
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        ],
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -183,25 +183,25 @@ describe(`Spectral rule: ${ruleId}`, () => {
                       type: 'object',
                       properties: {
                         baz: {
-                          type: 'string'
-                        }
-                      }
+                          type: 'string',
+                        },
+                      },
                     },
                     {
                       type: 'object',
                       properties: {
                         bar: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        ]
-      }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -221,7 +221,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       '0',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });
@@ -242,27 +242,27 @@ describe(`Spectral rule: ${ruleId}`, () => {
                     type: 'object',
                     properties: {
                       foo: {
-                        type: 'string'
+                        type: 'string',
                       },
                       bar: {
-                        type: 'string'
-                      }
-                    }
+                        type: 'string',
+                      },
+                    },
                   },
                   {
                     type: 'object',
                     properties: {
                       baz: {
-                        type: 'string'
-                      }
-                    }
-                  }
-                ]
-              }
-            }
-          }
-        }
-      }
+                        type: 'string',
+                      },
+                    },
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -281,7 +281,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'requestBody',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });
@@ -291,7 +291,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     testDocument.paths['v1/books'] = {
       post: {
         responses: {
-          '201': {
+          201: {
             content: {
               'application/json': {
                 schema: {
@@ -303,28 +303,28 @@ describe(`Spectral rule: ${ruleId}`, () => {
                       type: 'object',
                       properties: {
                         foo: {
-                          type: 'string'
+                          type: 'string',
                         },
                         bar: {
-                          type: 'string'
-                        }
-                      }
+                          type: 'string',
+                        },
+                      },
                     },
                     {
                       type: 'object',
                       properties: {
                         baz: {
-                          type: 'string'
-                        }
-                      }
-                    }
-                  ]
-                }
-              }
-            }
-          }
-        }
-      }
+                          type: 'string',
+                        },
+                      },
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -344,7 +344,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       '201',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ]);
     expect(validation.severity).toBe(severityCodes.error);
   });
@@ -362,11 +362,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
                 schema: {
                   type: 'object',
                   required: ['foo'],
-                  properties: {}
-                }
-              }
-            }
-          }
+                  properties: {},
+                },
+              },
+            },
+          },
         ],
         requestBody: {
           content: {
@@ -374,25 +374,25 @@ describe(`Spectral rule: ${ruleId}`, () => {
               schema: {
                 type: 'object',
                 required: ['foo'],
-                properties: {}
-              }
-            }
-          }
+                properties: {},
+              },
+            },
+          },
         },
         responses: {
-          '201': {
+          201: {
             content: {
               'application/json': {
                 schema: {
                   type: 'object',
                   required: ['foo'],
-                  properties: {}
-                }
-              }
-            }
-          }
-        }
-      }
+                  properties: {},
+                },
+              },
+            },
+          },
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -413,7 +413,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       '0',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ]);
 
     expect(results[1].path).toStrictEqual([
@@ -423,7 +423,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'requestBody',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ]);
 
     expect(results[2].path).toStrictEqual([
@@ -434,7 +434,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       '201',
       'content',
       'application/json',
-      'schema'
+      'schema',
     ]);
   });
 });

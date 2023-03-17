@@ -34,8 +34,8 @@ describe('Utility function: validateNestedSchemas()', () => {
   it('should validate a nested schema even if `includeSelf` is `false`', async () => {
     const schema = {
       properties: {
-        nested_property: {}
-      }
+        nested_property: {},
+      },
     };
 
     const visitedPaths = validateNestedSchemas(
@@ -55,8 +55,8 @@ describe('Utility function: validateNestedSchemas()', () => {
       properties: {
         one: {},
         two: {},
-        three: {}
-      }
+        three: {},
+      },
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
@@ -70,7 +70,7 @@ describe('Utility function: validateNestedSchemas()', () => {
 
   it('should validate `additionalProperties` schema', async () => {
     const schema = {
-      additionalProperties: {}
+      additionalProperties: {},
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
@@ -82,7 +82,7 @@ describe('Utility function: validateNestedSchemas()', () => {
 
   it('should validate `items` schema', async () => {
     const schema = {
-      items: {}
+      items: {},
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
@@ -94,7 +94,7 @@ describe('Utility function: validateNestedSchemas()', () => {
 
   it('should validate through `allOf` schema', async () => {
     const schema = {
-      allOf: [{ properties: { inside_all_of: {} } }]
+      allOf: [{ properties: { inside_all_of: {} } }],
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
@@ -108,7 +108,7 @@ describe('Utility function: validateNestedSchemas()', () => {
 
   it('should validate through `oneOf` schema', async () => {
     const schema = {
-      oneOf: [{ properties: { inside_one_of: {} } }]
+      oneOf: [{ properties: { inside_one_of: {} } }],
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
@@ -122,7 +122,7 @@ describe('Utility function: validateNestedSchemas()', () => {
 
   it('should validate through `anyOf` schema', async () => {
     const schema = {
-      anyOf: [{ properties: { inside_any_of: {} } }]
+      anyOf: [{ properties: { inside_any_of: {} } }],
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
@@ -136,7 +136,7 @@ describe('Utility function: validateNestedSchemas()', () => {
 
   it('should not validate through `not` schema by default', async () => {
     const schema = {
-      not: { properties: { inside_not: {} } }
+      not: { properties: { inside_not: {} } },
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
@@ -148,7 +148,7 @@ describe('Utility function: validateNestedSchemas()', () => {
 
   it('should validate through `not` schema if `includeNot` is true', async () => {
     const schema = {
-      not: { properties: { inside_not: {} } }
+      not: { properties: { inside_not: {} } },
     };
 
     const visitedPaths = validateNestedSchemas(
@@ -166,7 +166,9 @@ describe('Utility function: validateNestedSchemas()', () => {
 
   it('should recurse through `allOf`, `oneOf`, and `anyOf`', async () => {
     const schema = {
-      allOf: [{ oneOf: [{ anyOf: [{ properties: { can_you_find_me: {} } }] }] }]
+      allOf: [
+        { oneOf: [{ anyOf: [{ properties: { can_you_find_me: {} } }] }] },
+      ],
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {
@@ -182,15 +184,15 @@ describe('Utility function: validateNestedSchemas()', () => {
     const schema = {
       allOf: [{ properties: { inside_all_of: {} } }],
       properties: {
-        nested_property: {}
+        nested_property: {},
       },
       additionalProperties: {
         oneOf: [
           {
-            items: {}
-          }
-        ]
-      }
+            items: {},
+          },
+        ],
+      },
     };
 
     function getObjectByPath(object, path) {
@@ -214,9 +216,9 @@ describe('Utility function: validateNestedSchemas()', () => {
         one: {},
         two: {},
         three: {
-          $ref: '#/components/schemas/Three'
-        }
-      }
+          $ref: '#/components/schemas/Three',
+        },
+      },
     };
 
     const visitedPaths = validateNestedSchemas(schema, [], (s, p) => {

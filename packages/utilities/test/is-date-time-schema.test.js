@@ -52,14 +52,14 @@ describe('Utility function: isDateTimeSchema()', () => {
               {
                 anyOf: [
                   { type: 'string', format: 'date-time' },
-                  { type: 'string', format: 'date-time' }
-                ]
+                  { type: 'string', format: 'date-time' },
+                ],
               },
-              {}
-            ]
+              {},
+            ],
           },
-          { type: 'string', format: 'date-time' }
-        ]
+          { type: 'string', format: 'date-time' },
+        ],
       })
     ).toBe(true);
   });

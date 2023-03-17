@@ -44,9 +44,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/movies'].get.responses['400'] = {
         content: {
           'application/json': {
-            schema: {}
-          }
-        }
+            schema: {},
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -86,7 +86,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.ErrorContainer.properties.trace = {
-        type: 'integer'
+        type: 'integer',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -185,7 +185,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('errors array items not an object', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.components.schemas.ErrorContainer.properties.errors.items = {};
+      testDocument.components.schemas.ErrorContainer.properties.errors.items =
+        {};
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(10);
@@ -224,7 +225,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Error.properties.code = {
-        type: 'integer'
+        type: 'integer',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -302,7 +303,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Error.properties.message = {
-        type: 'integer'
+        type: 'integer',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -342,7 +343,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Error.properties.more_info = {
-        type: 'integer'
+        type: 'integer',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -363,7 +364,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Error.properties.target = {
-        type: 'integer'
+        type: 'integer',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -403,7 +404,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.ErrorTarget.properties.type = {
-        type: 'integer'
+        type: 'integer',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -445,7 +446,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.ErrorTarget.properties.type.enum = [
         'property',
         'queryParam',
-        'headerParam'
+        'headerParam',
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -485,7 +486,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.ErrorTarget.properties.name = {
-        type: 'integer'
+        type: 'integer',
       };
 
       const results = await testRule(ruleId, rule, testDocument);

@@ -13,6 +13,6 @@ module.exports = {
   severity: 'warn',
   resolved: true,
   then: {
-    function: responseExampleExists
-  }
+    function: responseExampleExists,
+  },
 };

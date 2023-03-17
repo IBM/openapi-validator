@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(pathItem, options, context) {
+module.exports = function (pathItem, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -49,8 +49,8 @@ function etagHeaderCheck(pathItem, path) {
       {
         message:
           'ETag response header is required, but no "get" operation is defined',
-        path
-      }
+        path,
+      },
     ];
   }
 
@@ -84,7 +84,7 @@ function etagHeaderCheck(pathItem, path) {
           }
           errors.push({
             message: 'ETag response header is required',
-            path: errorPath
+            path: errorPath,
           });
         } else {
           logger.debug(`${ruleId}: found etag header!`);
@@ -99,7 +99,7 @@ function etagHeaderCheck(pathItem, path) {
     errors.push({
       message:
         'ETag response header is required, but "get" operation defines no success responses',
-      path: [...path, 'get']
+      path: [...path, 'get'],
     });
   }
 

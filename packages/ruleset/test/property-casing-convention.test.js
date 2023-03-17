@@ -27,9 +27,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         plotSummary: {
           type: 'string',
           description: 'Synopsis of the movie',
-          deprecated: true
-        }
-      }
+          deprecated: true,
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);
@@ -46,9 +46,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       properties: {
         plotSummary: {
           type: 'string',
-          description: 'Synopsis of the movie'
-        }
-      }
+          description: 'Synopsis of the movie',
+        },
+      },
     };
 
     const results = await testRule(ruleId, rule, testDocument);

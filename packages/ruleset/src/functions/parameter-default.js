@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(param, _opts, context) {
+module.exports = function (param, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -26,8 +26,8 @@ function parameterDefault(param, path) {
     return [
       {
         message: errorMsg,
-        path
-      }
+        path,
+      },
     ];
   }
 

@@ -26,7 +26,7 @@ describe('Utility: validateSubschemas', () => {
     '$.paths[*][*][parameters][*].schema',
     '$.paths[*][*][parameters,responses][*].content[*].schema',
     '$.paths[*][*].responses[*].headers[*].schema',
-    '$.paths[*][*][requestBody].content[*].schema'
+    '$.paths[*][*][requestBody].content[*].schema',
   ];
 
   // this needs to be executed as a spectral rule to resolve the document
@@ -34,8 +34,8 @@ describe('Utility: validateSubschemas', () => {
     given: schemas,
     resolved: true,
     then: {
-      function: ruleFunction
-    }
+      function: ruleFunction,
+    },
   };
 
   it('should find all subschemas', async () => {

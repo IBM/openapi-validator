@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function(pathItem, options, context) {
+module.exports = function (pathItem, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -50,7 +50,7 @@ function validatePathSegments(path) {
         logger.debug(`${ruleId}: path segment failed check: '${segment}'`);
         errors.push({
           message: `Invalid path parameter reference within path segment: ${segment}`,
-          path
+          path,
         });
       }
     }

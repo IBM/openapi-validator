@@ -31,7 +31,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'paths',
       '/v1/movies',
       'post',
-      'summary'
+      'summary',
     ]);
     expect(validation.severity).toBe(severityCodes.warning);
   });

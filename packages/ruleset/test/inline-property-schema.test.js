@@ -24,13 +24,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       // empty object
       testDocument.components.schemas.Car.properties['inline_prop1'] = {
-        type: 'object'
+        type: 'object',
       };
 
       // any object
       testDocument.components.schemas.Car.properties['inline_prop2'] = {
         type: 'object',
-        additionalProperties: true
+        additionalProperties: true,
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -43,14 +43,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       // empty object
       testDocument.components.schemas.Car.properties['inline_prop1'] = {
         'type': 'object',
-        'x-foo': 'bar'
+        'x-foo': 'bar',
       };
 
       // any object
       testDocument.components.schemas.Car.properties['inline_prop2'] = {
         'type': 'object',
         'additionalProperties': true,
-        'x-terraform-sensitive': 'bar'
+        'x-terraform-sensitive': 'bar',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -63,12 +63,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.Car.properties['inline_prop'] = {
         allOf: [
           {
-            $ref: '#/components/schemas/CarPatch'
+            $ref: '#/components/schemas/CarPatch',
           },
           {
-            description: 'An instance of a patched car.'
-          }
-        ]
+            description: 'An instance of a patched car.',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -81,12 +81,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.Car.properties['inline_prop'] = {
         oneOf: [
           {
-            type: 'string'
+            type: 'string',
           },
           {
-            type: 'string'
-          }
-        ]
+            type: 'string',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -102,9 +102,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'object',
         properties: {
           nested_prop: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -126,14 +126,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
           {
             properties: {
               nested_prop: {
-                type: 'string'
-              }
-            }
+                type: 'string',
+              },
+            },
           },
           {
-            description: 'A nested property.'
-          }
-        ]
+            description: 'A nested property.',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -156,15 +156,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
             description: 'A nested property.',
             properties: {
               nested_prop: {
-                type: 'string'
-              }
-            }
+                type: 'string',
+              },
+            },
           },
           {
             description: 'An alternative string representation.',
-            type: 'string'
-          }
-        ]
+            type: 'string',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -190,17 +190,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
         oneOf: [
           {
             description: 'An alternative string representation.',
-            type: 'string'
+            type: 'string',
           },
           {
             description: 'A nested property.',
             properties: {
               nested_prop: {
-                type: 'string'
-              }
-            }
-          }
-        ]
+                type: 'string',
+              },
+            },
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -228,10 +228,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
           type: 'object',
           properties: {
             element: {
-              type: 'string'
-            }
-          }
-        }
+              type: 'string',
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -252,9 +252,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         description: 'Inline object schema within additionalProperties',
         properties: {
           prop1: {
-            type: 'string'
-          }
-        }
+            type: 'string',
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -274,12 +274,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.Car.properties['inline_prop'] = {
         allOf: [
           {
-            $ref: '#/components/schemas/Drink'
+            $ref: '#/components/schemas/Drink',
           },
           {
-            $ref: '#/components/schemas/Car'
-          }
-        ]
+            $ref: '#/components/schemas/Car',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -299,13 +299,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.Car.additionalProperties = {
         oneOf: [
           {
-            $ref: '#/components/schemas/Drink'
+            $ref: '#/components/schemas/Drink',
           },
           {
             description:
-              'This is an alternate description for the Drink schema.'
-          }
-        ]
+              'This is an alternate description for the Drink schema.',
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -330,12 +330,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.Car.additionalProperties = {
         allOf: [
           {
-            $ref: '#/components/schemas/Drink'
+            $ref: '#/components/schemas/Drink',
           },
           {
-            required: ['type']
-          }
-        ]
+            required: ['type'],
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);

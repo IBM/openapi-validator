@@ -24,14 +24,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.requestBodies.UpdateCarRequest.content = {
         'application/json': {
           schema: {
-            $ref: '#/components/schemas/Car'
+            $ref: '#/components/schemas/Car',
           },
           examples: {
             RequestExample: {
-              $ref: '#/components/examples/CarExample'
-            }
-          }
-        }
+              $ref: '#/components/examples/CarExample',
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -46,14 +46,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.requestBodies.UpdateCarRequest.content = {
         'application/merge-patch+json; charset=utf-8': {
           schema: {
-            $ref: '#/components/schemas/Car'
+            $ref: '#/components/schemas/Car',
           },
           examples: {
             RequestExample: {
-              $ref: '#/components/examples/CarExample'
-            }
-          }
-        }
+              $ref: '#/components/examples/CarExample',
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -91,12 +91,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['CarPatch'] = {
         allOf: [
           {
-            $ref: '#/components/schemas/CarPatchProperties'
+            $ref: '#/components/schemas/CarPatchProperties',
           },
           {
-            required: ['make', 'model']
-          }
-        ]
+            required: ['make', 'model'],
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -118,12 +118,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['CarPatch'] = {
         allOf: [
           {
-            $ref: '#/components/schemas/CarPatchProperties'
+            $ref: '#/components/schemas/CarPatchProperties',
           },
           {
-            minProperties: 1
-          }
-        ]
+            minProperties: 1,
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -145,20 +145,20 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['CarPatch'] = {
         allOf: [
           {
-            $ref: '#/components/schemas/CarPatchProperties'
+            $ref: '#/components/schemas/CarPatchProperties',
           },
           {
             allOf: [
               {
                 allOf: [
                   {
-                    required: ['make', 'model']
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    required: ['make', 'model'],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -180,20 +180,20 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['CarPatch'] = {
         allOf: [
           {
-            $ref: '#/components/schemas/CarPatchProperties'
+            $ref: '#/components/schemas/CarPatchProperties',
           },
           {
             allOf: [
               {
                 allOf: [
                   {
-                    minProperties: 1
-                  }
-                ]
-              }
-            ]
-          }
-        ]
+                    minProperties: 1,
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
