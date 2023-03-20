@@ -118,7 +118,7 @@ function convertResults(spectralResults, { config, logger }) {
  * @param {string} context.config.ruleset an optional ruleset filename
  * @returns the new Spectral instance
  */
-async function setup({ chalk, config, logger }) {
+async function setup({ config, logger }) {
   const spectral = new Spectral();
 
   // Spectral only supports reading a config file in the working directory,
@@ -133,14 +133,14 @@ async function setup({ chalk, config, logger }) {
   let ruleset = ibmRuleset;
   try {
     ruleset = await getRuleset(rulesetFileOverride);
-    logger.debug(`[Debug] Using Spectral ruleset file: ${rulesetFileOverride}`);
+    logger.debug(`Using Spectral ruleset file: ${rulesetFileOverride}`);
   } catch (e) {
     // Check error for common issues but do nothing.
     // We get here anytime the user doesn't define a valid Spectral config,
     // which is fine. We just use our default in that case.
     // In certain cases, we help the user understand what is happening by
     // logging informative messages.
-    checkGetRulesetError(logger, e, chalk);
+    checkGetRulesetError(logger, e);
   }
 
   spectral.setRuleset(ruleset);
@@ -152,7 +152,7 @@ module.exports = {
   runSpectral,
 };
 
-function checkGetRulesetError(logger, error, chalk) {
+function checkGetRulesetError(logger, error) {
   // This first check is to help users migrate to the new version of Spectral.
   // If they try to extend our old ruleset name, Spectral will reject the ruleset.
   // We should let the user know what they need to change.
@@ -161,24 +161,23 @@ function checkGetRulesetError(logger, error, chalk) {
     error.message.includes('ibm:oas')
   ) {
     logger.warn(
-      chalk.yellow('\n[Warning]') +
-        ' The IBM ruleset name has changed and the old one is invalid.\n' +
-        'Change your ruleset to extend `@ibm-cloud/openapi-ruleset` instead of `ibm:oas`\n' +
-        'to use your custom ruleset. For now, the IBM Spectral rules will run in their default configuration.'
+      'The IBM ruleset name has changed and the old name is invalid.'
+    );
+    logger.warn(
+      'Change your ruleset to extend `@ibm-cloud/openapi-ruleset` instead of `ibm:oas`'
+    );
+    logger.warn(
+      'to use your custom ruleset. For now, the IBM Spectral rules will run in their default configuration.'
     );
   } else if (
     error.message.endsWith('Cannot parse null because it is not a string')
   ) {
     logger.debug(
-      `${chalk.magenta(
-        '[Info]'
-      )} No Spectral ruleset file found, using the default IBM Cloud OpenAPI Ruleset.`
+      `No Spectral ruleset file found, using the default IBM Cloud OpenAPI Ruleset.`
     );
   } else {
     logger.debug(
-      `${chalk.magenta(
-        '[Info]'
-      )} Problem reading Spectral ruleset file, using the default IBM Cloud OpenAPI Ruleset. Cause for error:`
+      `Problem reading Spectral ruleset file, using the default IBM Cloud OpenAPI Ruleset. Cause for error:`
     );
     logger.debug(error.message);
   }

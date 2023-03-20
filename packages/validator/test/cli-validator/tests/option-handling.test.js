@@ -13,12 +13,14 @@ const {
   validate,
 } = require('../../../src/cli-validator/utils/schema-validator');
 const { readYaml } = require('../../../src/cli-validator/utils/read-yaml');
+const getCopyrightString = require('../../../src/cli-validator/utils/get-copyright-string');
 
 describe('cli tool - test option handling', function () {
   let consoleSpy;
   const originalWarn = console.warn;
   const originalError = console.error;
   const originalInfo = console.info;
+  const copyrightString = getCopyrightString();
 
   beforeEach(() => {
     consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
@@ -42,7 +44,7 @@ describe('cli tool - test option handling', function () {
     // originalError('Captured text:\n', capturedText);
 
     capturedText.forEach(function (line) {
-      if (line) {
+      if (line && line !== copyrightString) {
         expect(line).not.toEqual(stripAnsiFrom(line));
       }
     });
@@ -62,17 +64,6 @@ describe('cli tool - test option handling', function () {
       });
     }
   );
-
-  it('should not print validator source file by default', async function () {
-    await testValidator([
-      './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
-    ]);
-    const capturedText = getCapturedText(consoleSpy.mock.calls);
-
-    capturedText.forEach(function (line) {
-      expect(line.includes('Validator')).toEqual(false);
-    });
-  });
 
   it.each(['-e', '--errors-only'])(
     'should print only errors when the -e/--errors-only option is specified',
@@ -109,7 +100,7 @@ describe('cli tool - test option handling', function () {
       let summaryReported = false;
 
       capturedText.forEach(function (line) {
-        if (line.includes('summary')) {
+        if (line.includes('Summary:')) {
           summaryReported = true;
         }
       });
@@ -118,56 +109,68 @@ describe('cli tool - test option handling', function () {
       //   example output would be [ '33%', ':', 'operationIds', 'must', 'be', 'unique' ]
       expect(summaryReported).toEqual(true);
 
-      const sumSection = capturedText.findIndex(x => x.includes('summary'));
-      expect(sumSection).toBe(0);
+      const sumSection = capturedText.findIndex(x => x.includes('Summary:'));
+      expect(sumSection).toBe(4);
 
       // totals
-      expect(capturedText[1].match(/\S+/g)[5]).toEqual('3');
-      expect(capturedText[2].match(/\S+/g)[5]).toEqual('29');
+      expect(capturedText[sumSection + 2].match(/\S+/g)[5]).toEqual('3');
+      expect(capturedText[sumSection + 3].match(/\S+/g)[5]).toEqual('29');
 
       // errors
-      expect(capturedText[5].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[5].match(/\S+/g)[1]).toEqual('(33%)');
+      const errorSection = 9;
+      expect(capturedText[errorSection + 1].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[errorSection + 1].match(/\S+/g)[1]).toEqual('(33%)');
 
-      expect(capturedText[6].match(/\S+/g)[0]).toEqual('2');
-      expect(capturedText[6].match(/\S+/g)[1]).toEqual('(67%)');
+      expect(capturedText[errorSection + 2].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[errorSection + 2].match(/\S+/g)[1]).toEqual('(67%)');
 
       // warnings
-      expect(capturedText[9].match(/\S+/g)[0]).toEqual('2');
-      expect(capturedText[9].match(/\S+/g)[1]).toEqual('(7%)');
+      const warningSection = 13;
+      expect(capturedText[warningSection + 1].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[warningSection + 1].match(/\S+/g)[1]).toEqual('(7%)');
 
-      expect(capturedText[10].match(/\S+/g)[0]).toEqual('2');
-      expect(capturedText[10].match(/\S+/g)[1]).toEqual('(7%)');
+      expect(capturedText[warningSection + 2].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[warningSection + 2].match(/\S+/g)[1]).toEqual('(7%)');
 
-      expect(capturedText[11].match(/\S+/g)[0]).toEqual('5');
-      expect(capturedText[11].match(/\S+/g)[1]).toEqual('(17%)');
+      expect(capturedText[warningSection + 3].match(/\S+/g)[0]).toEqual('5');
+      expect(capturedText[warningSection + 3].match(/\S+/g)[1]).toEqual(
+        '(17%)'
+      );
 
-      expect(capturedText[12].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[12].match(/\S+/g)[1]).toEqual('(3%)');
+      expect(capturedText[warningSection + 4].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[warningSection + 4].match(/\S+/g)[1]).toEqual('(3%)');
 
-      expect(capturedText[13].match(/\S+/g)[0]).toEqual('2');
-      expect(capturedText[13].match(/\S+/g)[1]).toEqual('(7%)');
+      expect(capturedText[warningSection + 5].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[warningSection + 5].match(/\S+/g)[1]).toEqual('(7%)');
 
-      expect(capturedText[14].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[14].match(/\S+/g)[1]).toEqual('(3%)');
+      expect(capturedText[warningSection + 6].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[warningSection + 6].match(/\S+/g)[1]).toEqual('(3%)');
 
-      expect(capturedText[15].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[15].match(/\S+/g)[1]).toEqual('(3%)');
+      expect(capturedText[warningSection + 7].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[warningSection + 7].match(/\S+/g)[1]).toEqual('(3%)');
 
-      expect(capturedText[16].match(/\S+/g)[0]).toEqual('2');
-      expect(capturedText[16].match(/\S+/g)[1]).toEqual('(7%)');
+      expect(capturedText[warningSection + 8].match(/\S+/g)[0]).toEqual('2');
+      expect(capturedText[warningSection + 8].match(/\S+/g)[1]).toEqual('(7%)');
 
-      expect(capturedText[17].match(/\S+/g)[0]).toEqual('4');
-      expect(capturedText[17].match(/\S+/g)[1]).toEqual('(14%)');
+      expect(capturedText[warningSection + 9].match(/\S+/g)[0]).toEqual('4');
+      expect(capturedText[warningSection + 9].match(/\S+/g)[1]).toEqual(
+        '(14%)'
+      );
 
-      expect(capturedText[18].match(/\S+/g)[0]).toEqual('4');
-      expect(capturedText[18].match(/\S+/g)[1]).toEqual('(14%)');
+      expect(capturedText[warningSection + 10].match(/\S+/g)[0]).toEqual('4');
+      expect(capturedText[warningSection + 10].match(/\S+/g)[1]).toEqual(
+        '(14%)'
+      );
 
-      expect(capturedText[19].match(/\S+/g)[0]).toEqual('4');
-      expect(capturedText[19].match(/\S+/g)[1]).toEqual('(14%)');
+      expect(capturedText[warningSection + 11].match(/\S+/g)[0]).toEqual('4');
+      expect(capturedText[warningSection + 11].match(/\S+/g)[1]).toEqual(
+        '(14%)'
+      );
 
-      expect(capturedText[20].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[20].match(/\S+/g)[1]).toEqual('(3%)');
+      expect(capturedText[warningSection + 12].match(/\S+/g)[0]).toEqual('1');
+      expect(capturedText[warningSection + 12].match(/\S+/g)[1]).toEqual(
+        '(3%)'
+      );
     }
   );
 
@@ -261,21 +264,4 @@ describe('cli tool - test option handling', function () {
       expect(capturedText[3]).toMatch(/Usage: lint-openapi/);
     });
   });
-
-  it.each([
-    '-lerror',
-    '-lroot=error',
-    '--log-level=error',
-    '--log-level=root=error',
-  ])(
-    'should not print anything when loglevel is error',
-    async function (option) {
-      await testValidator([
-        option,
-        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
-      ]);
-      const capturedText = getCapturedText(consoleSpy.mock.calls);
-      expect(capturedText).toHaveLength(0);
-    }
-  );
 });

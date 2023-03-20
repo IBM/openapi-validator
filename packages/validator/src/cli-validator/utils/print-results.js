@@ -8,7 +8,7 @@ const pad = require('pad');
 
 // this function prints all of the output
 module.exports = function print(context, results) {
-  const { chalk, config, logger } = context;
+  const { chalk, config } = context;
   const types = ['error', 'warning', 'info', 'hint'];
 
   if (config.summaryOnly) {
@@ -17,10 +17,10 @@ module.exports = function print(context, results) {
   }
 
   const colors = {
-    error: 'bgRed',
-    warning: 'bgYellow',
-    info: 'bgGrey',
-    hint: 'bgGreen',
+    error: 'red',
+    warning: 'yellow',
+    info: 'green',
+    hint: 'grey',
   };
 
   types.forEach(type => {
@@ -28,18 +28,18 @@ module.exports = function print(context, results) {
       return; // continue
     }
 
-    let color = colors[type];
-    logger.info(chalk[color].bold(`${type}s\n`));
-    // convert 'color' from a background color to foreground color
-    color = color.slice(2).toLowerCase(); // i.e. 'bgRed' -> 'red'
+    const typeLabel = type.charAt(0).toUpperCase() + type.slice(1) + 's';
+    const color = colors[type];
+    console.log('');
+    console.log(chalk[color](`${typeLabel}:`));
 
     each(results[type].results, result => {
       // print the path array as a dot-separated string
-      logger.info(chalk[color](`  Message :   ${result.message}`));
-      logger.info(chalk[color](`  Rule    :   ${result.rule}`));
-      logger.info(chalk[color](`  Path    :   ${result.path.join('.')}`));
-      logger.info(chalk[color](`  Line    :   ${result.line}`));
-      logger.info('');
+      console.log('');
+      console.log(chalk[color](`  Message :   ${result.message}`));
+      console.log(chalk[color](`  Rule    :   ${result.rule}`));
+      console.log(chalk[color](`  Path    :   ${result.path.join('.')}`));
+      console.log(chalk[color](`  Line    :   ${result.line}`));
     });
   });
 
@@ -47,35 +47,38 @@ module.exports = function print(context, results) {
   printSummary(results, types, context);
 };
 
-function printSummary(results, types, { logger, chalk, config }) {
-  logger.info(chalk.bgCyan('summary\n'));
+function printSummary(results, types, { chalk, config }) {
+  console.log('');
+  console.log(chalk.cyan('Summary:'));
+  console.log('');
 
-  logger.info(
+  console.log(
     chalk.cyan(`  Total number of errors   : ${results.error.summary.total}`)
   );
   if (!config.errorsOnly) {
-    logger.info(
+    console.log(
       chalk.cyan(
         `  Total number of warnings : ${results.warning.summary.total}`
       )
     );
   }
   if (results.info.summary.total > 0) {
-    logger.info(
+    console.log(
       chalk.cyan(`  Total number of infos    : ${results.info.summary.total}`)
     );
   }
   if (results.hint.summary.total > 0) {
-    logger.info(
+    console.log(
       chalk.cyan(`  Total number of hints    : ${results.hint.summary.total}`)
     );
   }
-  logger.info('');
 
   types.forEach(type => {
     // print the type, either error or warning
     if (results[type].summary.total) {
-      logger.info('  ' + chalk.underline.cyan(type + 's'));
+      const typeLabel = type.charAt(0).toUpperCase() + type.slice(1) + 's';
+      console.log('');
+      console.log('  ' + chalk.underline.cyan(typeLabel + ':'));
     }
 
     results[type].summary.entries.forEach(entry => {
@@ -86,14 +89,11 @@ function printSummary(results, types, { logger, chalk, config }) {
       // use 6 for largest case of '(100%)'
       const frequencyString = pad(6, `(${entry.percentage}%)`);
 
-      logger.info(
+      console.log(
         chalk.cyan(
           `${numberString} ${frequencyString} : ${entry.generalizedMessage}`
         )
       );
     });
-    if (results[type].summary.total) {
-      logger.info('');
-    }
   });
 }
