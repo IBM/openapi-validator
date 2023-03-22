@@ -5,12 +5,9 @@ to the new version 1.0 official release.
 ## Minimum Node version
 The minimum supported version of Node.js remains at version 14.x.
 
-## API
-The v0.x pre-release validator supported an API to enable users to invoke the validator programmatically
-from a javascript application.
-This API is no longer supported in the v1.x validator; however, if there is a need to enable the
-validator to be invoked programmatically from the user's application, then it could be considered
-for a future release.
+## Supported OpenAPI versions
+The old v0.x pre-release validator supported both Swagger 2.x and OpenAPI 3.x documents.
+The new v1.x validator supports only OpenAPI 3.x documents.
 
 ## CLI Changes
 Changes were made to the command-line options supported by the validator:  
@@ -63,8 +60,106 @@ Also, the new 1.x validator will honor the `--errors-only` and `--summary-only` 
 the v0.x pre-release validator did not.
 More details related to validator output can be found [here](README.md#validator-output).
 
+## API
+The v0.x pre-release validator supported an API to enable users to invoke the validator programmatically
+from a javascript application.
+This API is no longer supported in the v1.x validator; however, the Spectral validator (on which the 
+IBM OpenAPI Validator is based) provides a [programmatic API](https://meta.stoplight.io/docs/spectral/eb68e7afd463e-spectral-in-java-script)
+for invoking Spectral from your javascript application code.
+
 ## Ruleset Changes
 This section contains information about changes that were made to the
 rules contained in the IBM Cloud Validation Ruleset.
 
-TBD
+### Rule Id Changes
+In the new v1.x validator, the rule id's were changed so that they now follow a more consistent
+naming convention.  The following table provides a detailed mapping of old vs new rule id, along with any other
+change-related notes:
+
+| Previous Rule Id | New Rule Id | Notes |
+|------------------|-------------|-------|
+| accept-parameter                    | ibm-accept-header                          | |
+| array-boundary                      | ibm-array-attributes                       | old rules 'array-boundary' and 'array-items' were combined into the new 'ibm-array-attributes' rule |
+| array-items                         | ibm-array-attributes                       | |
+| array-of-arrays                     | ibm-array-of-arrays                        | |
+| array-responses                     | ibm-array-responses                        | |
+| authorization-parameter             | ibm-authorization-header                   | |
+| binary-schemas                      | ibm-binary-schemas                         | |
+| circular-refs                       | ibm-circular-refs                          | |
+| collection-array-property           | ibm-collection-array-property              | |
+| consecutive-path-param-segments     | ibm-consecutive-path-segments              | |
+| content-entry-contains-schema       | ibm-content-contains-schema                | |
+| content-entry-provided              | ibm-content-exists                         | |
+| content-type-parameter              | ibm-content-type-header                    | |
+| delete-body                         | ibm-delete-body                            | |
+| description-mentions-json           | ibm-description-mentions-json              | |
+| discriminator                       | ibm-discriminator-property-exists          | |
+| duplicate-path-parameter            | ibm-duplicate-path-parameter               | |
+| enum-case-convention                | ibm-enum-casing-convention                 | |
+| examples-name-contains-space        | ibm-examples-name-contains-space           | |
+| ibm-content-type-is-specific        | ibm-content-type-is-specific               | |
+| ibm-error-content-type-is-json      | ibm-error-content-type-is-json             | |
+| ibm-sdk-operations                  | ibm-sdk-operations                         | |
+| if-modified-since-parameter         | ibm-if-modified-since-header               | |
+| if-unmodified-since-parameter       | ibm-if-unmodified-since-header             | |
+| inline-property-schema              | ibm-inline-property-schema                 | |
+| inline-request-schema               | ibm-inline-request-schema                  | |
+| inline-response-schema              | ibm-inline-response-schema                 | |
+| major-version-in-path               | ibm-major-version-in-path                  | |
+| merge-patch-optional-properties     | ibm-merge-patch-properties                 | |
+| missing-required-property           | ibm-required-property-missing              | |
+| no-etag-header                      | ibm-etag-header-exists                     | |
+| operation-id-case-convention        | ibm-operationid-casing-convention          | |
+| operation-id-naming-convention      | ibm-operationid-naming-convention          | |
+| operation-summary                   | ibm-operation-summary-exists               | |
+| optional-request-body               | ibm-optional-requestbody                   | |
+| pagination-style                    | ibm-pagination-style                       | |
+| parameter-case-convention           | ibm-parameter-casing-convention            | |
+| parameter-default                   | ibm-parameter-default                      | |
+| parameter-description               | ibm-parameter-description-exists           | |
+| parameter-order                     | ibm-parameter-order                        | |
+| parameter-schema-or-content         | ibm-parameter-schema-or-content-exists     | |
+| patch-request-content-type          | ibm-patch-request-content-type             | |
+| path-param-not-crn                  | ibm-path-parameter-crn                     | |
+| path-segment-case-convention        | ibm-path-segment-casing-convention         | |
+| precondition-header                 | ibm-precondition-header                    | |
+| prohibit-summary-sentence-style     | ibm-summary-sentence-style                 | |
+| property-attributes                 | ibm-property-attributes                    | |
+| property-case-collision             | ibm-property-name-collision                | |
+| property-case-convention            | ibm-property-casing-convention             | |
+| property-description                | ibm-property-description-exists            | |
+| property-inconsistent-name-and-type | ibm-property-consistent-name-and-type      | |
+| ref-pattern                         | ibm-ref-pattern                            | |
+| ref-sibling-duplicate-description   | ibm-ref-sibling-duplicate-description      | |
+| request-body-name                   | ibm-requestbody-name-exists                | |
+| request-body-object                 | ibm-requestbody-is-object                  | |
+| response-error-response-schema      | ibm-error-response-schemas                 | |
+| response-example-provided           | ibm-response-example-exists                | |
+| response-status-codes               | ibm-response-status-codes                  | |
+| schema-description                  | ibm-schema-description-exists              | |
+| schema-type                         | ibm-schema-type-exists                     | |
+| security-scheme-attributes          | ibm-securityscheme-attributes              | |
+| security-schemes                    | ibm-securityschemes                        | |
+| server-variable-default-value       | ibm-server-variable-default-value          | |
+| string-boundary                     | ibm-string-attributes                      | |
+| unused-tag                          | ibm-unused-tags                            | |
+| valid-path-segments                 | ibm-valid-path-segments                    | |
+| valid-type-format                   | ibm-schema-type-format                     | |
+
+Detailed reference information about each rule can be found [here](./docs/ibm-cloud-rules.md#reference).
+
+### Logging Implemented
+In the new v1.x validator, we've implemented a common message logging facility that is
+described [here](README.md#logging).
+
+One of the benefits of this change is that it is now fairly easy to obtain more detailed
+information (i.e. debug information) from a particular rule.
+Simply set the rule's log-level to be `debug`.  
+
+For example, suppose that the `ibm-pagination-style`
+rule is detecting violations in your API, but you're not quite sure why those violations are being flagged,
+and hence you're not sure how to fix them.  You could add the `--log-level ibm-pagination-style=debug`
+(or `-l ibm-pagination-style=debug`) option to your validator command to enable debug logging for this rule.
+You would then see additional information displayed by the validator as the rule examines your API.  Hopefully this
+can then lead to a solution.
+
