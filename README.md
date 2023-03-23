@@ -49,7 +49,6 @@ The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to t
       - [outputFormat](#outputformat)
       - [ruleset](#ruleset)
       - [summaryOnly](#summaryonly)
-      - [verbose](#verbose)
 - [Validator Output](#validator-output)
   * [Text](#text)
   * [JSON](#json)
@@ -125,7 +124,6 @@ Options:
   -n, --no-colors                disable colorizing of the output (default is false)
   -r, --ruleset <file>           use Spectral ruleset contained in `<file>` (default is IBM Cloud Validation Ruleset)
   -s, --summary-only             include only the summary information and skip individual errors and warnings (default is false)
-  -v, --verbose                  display verbose results (default is false)
   -w, --warnings-limit <number>  set warnings limit to <number> (default is -1)
   --version                      output the version number
   -h, --help                     display help for command
@@ -610,50 +608,6 @@ summaryOnly: true
 <pre>
 module.exports = {
   summaryOnly: true
-};
-</pre>
-</td>
-</tr>
-</table>
-
-##### verbose
-<table border=1>
-<tr>
-<td><b>Description</b></td>
-<td width=25%><b>Default</b></td>
-</tr>
-<tr>
-<td>The <code>verbose</code> configuration property corresponds to the <code>-v</code>/<code>--verbose</code> command-line option.
-If set to true, then the validator will include additional information in its output.</td>
-<td><code>false</code></td>
-</tr>
-</table>
-<b>Examples:</b>
-<table border=1>
-<tr>
-</tr>
-<tr>
-<td><code>.yaml/.yml</code></td>
-<td><code>.json</code></td>
-<td><code>.js</code></td>
-</tr>
-<tr>
-<td>
-<pre>
-verbose: true
-</pre>
-</td>
-<td>
-<pre>
-{
-  "verbose": true
-}
-</pre>
-</td>
-<td>
-<pre>
-module.exports = {
-  verbose: true
 };
 </pre>
 </td>

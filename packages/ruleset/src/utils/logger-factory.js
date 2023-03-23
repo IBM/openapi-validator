@@ -5,6 +5,16 @@
 
 const log = require('loglevel');
 const minimatch = require('minimatch');
+const prefix = require('loglevel-plugin-prefix');
+const chalk = require('chalk');
+
+const colors = {
+  TRACE: chalk.magenta,
+  DEBUG: chalk.cyan,
+  INFO: chalk.green,
+  WARN: chalk.yellow,
+  ERROR: chalk.red,
+};
 
 /**
  * This class serves as a factory for creating loggers implemented by the 'loglevel' package.
@@ -17,6 +27,18 @@ module.exports = class LoggerFactory {
   constructor() {
     this.rootLogger = log;
     this.loggerSettings = [];
+
+    // Register the prefix handler with the loglevel.
+    // This will control the [<level>] message prefixes.
+    prefix.reg(log);
+    prefix.apply(log, {
+      levelFormatter(level) {
+        return level.toUpperCase();
+      },
+      format(level) {
+        return `${colors[level](`[${level}]`)}`;
+      },
+    });
   }
 
   /**

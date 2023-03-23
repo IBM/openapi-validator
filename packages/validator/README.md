@@ -24,7 +24,6 @@ Options:
   -n, --no-colors                disable colorizing of the output (default is false)
   -r, --ruleset <file>           use Spectral ruleset contained in `<file>` (default is IBM Cloud Validation Ruleset)
   -s, --summary-only             include only the summary information and skip individual errors and warnings (default is false)
-  -v, --verbose                  display verbose results (default is false)
   -w, --warnings-limit <number>  set warnings limit to <number> (default is -1)
   --version                      output the version number
   -h, --help                     display help for command

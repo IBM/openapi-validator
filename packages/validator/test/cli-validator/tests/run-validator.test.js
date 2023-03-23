@@ -35,8 +35,8 @@ describe('run-validator tests', function () {
     // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
     expect(exitCode).toEqual(1);
 
-    expect(capturedText[0]).toMatch(
-      /^Number of warnings .* exceeds warnings limit/
+    expect(capturedText[3]).toMatch(
+      /^\[ERROR\] Number of warnings .* exceeds warnings limit/
     );
   });
   it.each(['-w5', '--warnings-limit=5'])(
@@ -50,8 +50,8 @@ describe('run-validator tests', function () {
       // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
       expect(exitCode).toEqual(1);
 
-      expect(capturedText[0]).toMatch(
-        /^Number of warnings .* exceeds warnings limit/
+      expect(capturedText[3]).toMatch(
+        /^\[ERROR\] Number of warnings .* exceeds warnings limit/
       );
     }
   );
