@@ -27,7 +27,13 @@ output is colorized by default).
 4. The `-p`/`--print_validator_modules` option is no longer supported.
 5. The `--debug` option is no longer supported.  In the new v1.x validator, you can achieve something
 similar by simply setting the log-level of the "root" logger to "debug" (e.g. `--log-level debug`).
-6. In the v0.x pre-release validator, multi-word options (e.g. `--report_statistics`) would include `_`
+6. The new v1.x validator will consider it an error if you request JSON output (e.g. `--json`) and specify
+more than one file to be validated on the command line.
+The v0.x pre-release validator did not detect this and would simply display each JSON results object one after
+another on the console, which would technically not be valid JSON.
+The JSON output mode is intended to be used with a single file argument so that only one JSON results object is
+displayed on the console.  Therefore, the new v1.x validator will enforce that restriction.
+7. In the v0.x pre-release validator, multi-word options (e.g. `--report_statistics`) would include `_`
 (underscore) as the word delimiter, but the new v1.x validator uses `-` (dash) as the 
 word delimiter (e.g. `--errors_only` is now `--errors-only`).
 

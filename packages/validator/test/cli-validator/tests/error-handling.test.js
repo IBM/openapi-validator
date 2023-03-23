@@ -38,7 +38,7 @@ describe('cli tool - test error handling', function () {
 
     expect(exitCode).toEqual(2);
     expect(capturedText).toHaveLength(1);
-    expect(capturedText[0]).toMatch(/^IBM OpenAPI Validator/);
+    expect(capturedText[0]).toMatch(/IBM OpenAPI Validator/);
     expect(capturedText[0]).toMatch(
       /Usage: lint-openapi \[options\] \[file...\]/
     );
@@ -57,14 +57,14 @@ describe('cli tool - test error handling', function () {
     // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(3);
-    expect(capturedText[0].trim()).toEqual(
-      '[Warning] Skipping file with unsupported file type: json'
-    );
+    expect(capturedText.length).toEqual(4);
     expect(capturedText[1].trim()).toEqual(
-      'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
+      '[WARN] Skipping file with unsupported file type: json'
     );
-    expect(capturedText[2].trim()).toEqual('[Error] No files to validate.');
+    expect(capturedText[2].trim()).toEqual(
+      '[WARN] Supported file types are JSON (.json) and YAML (.yml, .yaml)'
+    );
+    expect(capturedText[3].trim()).toEqual('[ERROR] No files to validate.');
   });
 
   it('should return an error when there is an invalid file extension', async function () {
@@ -79,14 +79,14 @@ describe('cli tool - test error handling', function () {
     // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(2);
-    expect(capturedText.length).toEqual(3);
-    expect(capturedText[0].trim()).toEqual(
-      '[Warning] Skipping file with unsupported file type: badExtension.jsob'
-    );
+    expect(capturedText.length).toEqual(4);
     expect(capturedText[1].trim()).toEqual(
-      'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
+      '[WARN] Skipping file with unsupported file type: badExtension.jsob'
     );
-    expect(capturedText[2].trim()).toEqual('[Error] No files to validate.');
+    expect(capturedText[2].trim()).toEqual(
+      '[WARN] Supported file types are JSON (.json) and YAML (.yml, .yaml)'
+    );
+    expect(capturedText[3].trim()).toEqual('[ERROR] No files to validate.');
   });
 
   it('should return an error when a file contains an invalid object', async function () {
@@ -103,12 +103,12 @@ describe('cli tool - test error handling', function () {
     // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(2);
-    expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid input file: ./test/cli-validator/mock-files/bad-json.json. See below for details.'
+    expect(capturedText.length).toEqual(5);
+    expect(capturedText[3].trim()).toEqual(
+      '[ERROR] Invalid input file: ./test/cli-validator/mock-files/bad-json.json. See below for details.'
     );
-    expect(capturedText[1].trim()).toEqual(
-      'SyntaxError: Unexpected token ; in JSON at position 14'
+    expect(capturedText[4].trim()).toEqual(
+      '[ERROR] SyntaxError: Unexpected token ; in JSON at position 14'
     );
   });
 
@@ -126,12 +126,12 @@ describe('cli tool - test error handling', function () {
     // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(2);
-    expect(capturedText[0].trim()).toEqual(
-      '[Error] Invalid input file: ./test/cli-validator/mock-files/oas3/duplicate-keys.json. See below for details.'
+    expect(capturedText.length).toEqual(5);
+    expect(capturedText[3].trim()).toEqual(
+      '[ERROR] Invalid input file: ./test/cli-validator/mock-files/oas3/duplicate-keys.json. See below for details.'
     );
-    expect(capturedText[1].trim()).toEqual(
-      'Syntax error: duplicated keys "version" near sion": "1.'
+    expect(capturedText[4].trim()).toEqual(
+      '[ERROR] Syntax error: duplicated keys "version" near sion": "1.'
     );
   });
 
@@ -146,12 +146,39 @@ describe('cli tool - test error handling', function () {
     }
 
     const capturedText = getCapturedText(consoleSpy.mock.calls);
+    // originalError('Captured text:\n', capturedText);
 
     expect(exitCode).toEqual(1);
+    expect(capturedText.length).toEqual(5);
 
-    expect(capturedText[0].trim()).toContain('[Error] Invalid input file');
-    expect(capturedText[1].trim()).toEqual(
-      'SyntaxError: Unexpected token ] in JSON at position 634'
+    expect(capturedText[3].trim()).toContain('[ERROR] Invalid input file');
+    expect(capturedText[4].trim()).toEqual(
+      '[ERROR] SyntaxError: Unexpected token ] in JSON at position 634'
     );
   });
+
+  it.each(['-j', '--json'])(
+    'should return an error if multiple files specified along with --json option',
+    async function (option) {
+      let exitCode;
+      try {
+        exitCode = await testValidator([
+          option,
+          './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
+          './test/cli-validator/mock-files/oas3/clean.yml',
+        ]);
+      } catch (err) {
+        exitCode = err;
+      }
+      expect(exitCode).toEqual(2);
+
+      const capturedText = getCapturedText(consoleSpy.mock.calls);
+      // originalError('Captured text:\n', capturedText);
+
+      expect(capturedText.length).toEqual(1);
+      expect(capturedText[0].trim()).toEqual(
+        '[ERROR] At most one file can be specified when JSON output is requested.'
+      );
+    }
+  );
 });

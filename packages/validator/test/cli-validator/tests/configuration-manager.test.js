@@ -43,7 +43,6 @@ describe('Configuration Manager tests', function () {
       expect(defaultConfig.outputFormat).toBe('text');
       expect(defaultConfig.ruleset).toBe(null);
       expect(defaultConfig.summaryOnly).toBe(false);
-      expect(defaultConfig.verbose).toBe(false);
     });
   });
 
@@ -203,7 +202,6 @@ describe('Configuration Manager tests', function () {
         outputFormat: 'text',
         summaryOnly: false,
         ruleset: null,
-        verbose: false,
       });
     });
 
@@ -223,7 +221,6 @@ describe('Configuration Manager tests', function () {
           '--ruleset',
           'my-rules.yml',
           '--summary-only',
-          '-v',
           '--warnings-limit',
           '-1',
         ],
@@ -246,7 +243,6 @@ describe('Configuration Manager tests', function () {
         },
         ruleset: 'my-rules.yml',
         summaryOnly: true,
-        verbose: true,
       });
     });
 
@@ -284,7 +280,6 @@ describe('Configuration Manager tests', function () {
             },
             outputFormat: 'text',
             summaryOnly: false,
-            verbose: false,
           };
 
           const { context } = await configMgr.processArgs(
@@ -434,27 +429,8 @@ describe('Configuration Manager tests', function () {
         }
       );
 
-      it.each(['-v', '--verbose'])(
-        `should produce correct config with -v/--verbose option`,
-        async function (option) {
-          const expectedConfig = {
-            verbose: true,
-          };
-
-          const { context } = await configMgr.processArgs(
-            [option],
-            cliParseOptions
-          );
-          const capturedText = getCapturedText(consoleSpy.mock.calls);
-          // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
-          expect(capturedText).toHaveLength(0);
-          expect(context).toBeDefined();
-          expect(context.config).toMatchObject(expectedConfig);
-        }
-      );
-
       it.each(['-w', '--warnings-limit'])(
-        `should produce correct config with -v/--verbose option`,
+        `should produce correct config with -2/--warnings-limit option`,
         async function (option) {
           const expectedConfig = {
             limits: {
