@@ -42,7 +42,6 @@ const defaultConfig = {
   outputFormat: 'text',
   ruleset: null,
   summaryOnly: false,
-  verbose: false,
 };
 
 const supportedConfigFileTypes = ['json', 'yaml', 'yml', 'js'];
@@ -85,13 +84,11 @@ async function loadConfig(filename) {
           }
         }
       } catch (err) {
-        throw new Error(
-          `[Error] Unable to load config file '${configFile}': ${err}`
-        );
+        throw new Error(`Unable to load config file '${configFile}': ${err}`);
       }
     } else {
       throw new Error(
-        `[Error] Unsupported config file type: '${configFile}'; supported extensions are: ${supportedConfigFileTypes.join(
+        `Unsupported config file type: '${configFile}'; supported extensions are: ${supportedConfigFileTypes.join(
           ', '
         )}`
       );
@@ -103,7 +100,7 @@ async function loadConfig(filename) {
       const schema = await getConfigFileSchema();
       const results = validate(userConfig, schema);
       if (results.length) {
-        let msg = `[Error] Invalid configuration file '${configFile}' detected:`;
+        let msg = `Invalid configuration file '${configFile}' detected:`;
         results.forEach(result => {
           msg += '\n  ' + result;
         });
@@ -115,7 +112,7 @@ async function loadConfig(filename) {
     // and then return the default configuration object.
     getLogger().error(err.message);
     getLogger().error(
-      `[Error] The validator will use a default config due to the previous error(s).`
+      `The validator will use a default config due to the previous error(s).`
     );
     userConfig = null;
   }
@@ -144,10 +141,10 @@ async function processArgs(args, cliParseOptions) {
 
   command.parse(args, cliParseOptions);
 
-  // Set default loglevel of the root logger to be 'info'.
+  // Set default loglevel of the root logger to be 'warn'.
   // The user can change this via options.
   const loggerFactory = LoggerFactory.getInstance();
-  loggerFactory.addLoggerSetting('root', 'info');
+  loggerFactory.addLoggerSetting('root', 'warn');
   logger = loggerFactory.getLogger('root');
 
   // "context" will serve as a container for the validator's configuration
@@ -233,10 +230,6 @@ async function processArgs(args, cliParseOptions) {
 
   if ('summaryOnly' in opts) {
     configObj.summaryOnly = !!opts.summaryOnly;
-  }
-
-  if ('verbose' in opts) {
-    configObj.verbose = !!opts.verbose;
   }
 
   if ('warningsLimit' in opts) {

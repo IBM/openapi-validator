@@ -72,8 +72,3 @@ properties:
       A flag that causes the validator to display only the summary in the output
     type: boolean
     default: false
-  verbose:
-    description: >
-      A flag that causes the validator to include more details in the output
-    type: boolean
-    default: false

@@ -76,7 +76,6 @@ function createCLIOptions() {
       '-s, --summary-only',
       'include only the summary information and skip individual errors and warnings (default is false)'
     )
-    .option('-v, --verbose', 'display verbose results (default is false)')
     .option(
       '-w, --warnings-limit <number>',
       'set warnings limit to <number> (default is -1)',

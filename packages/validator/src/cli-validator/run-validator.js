@@ -72,8 +72,8 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   context.chalk = chalk;
 
-  if (context.config.verbose && context.config.outputFormat !== 'json') {
-    logger.info(chalk.green(getCopyrightString()));
+  if (context.config.outputFormat !== 'json') {
+    console.log(getCopyrightString());
   }
 
   //
@@ -90,9 +90,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
   // Next, display a message for each user-specified file that is being ignored.
   const ignoredFiles = args.filter(file => !filteredArgs.includes(file));
   ignoredFiles.forEach(file => {
-    logger.warn(
-      chalk.magenta('[Ignored] ') + path.relative(process.cwd(), file)
-    );
+    logger.warn('Ignored ' + path.relative(process.cwd(), file));
   });
 
   args = filteredArgs;
@@ -109,19 +107,12 @@ async function runValidator(cliArgs, parseOptions = {}) {
       filesWithValidExtensions.push(arg);
     } else {
       unsupportedExtensionsFound = true;
-      logger.warn(
-        chalk.yellow('[Warning]') +
-          ` Skipping file with unsupported file type: ${arg}`
-      );
+      logger.warn(`Skipping file with unsupported file type: ${arg}`);
     }
   });
 
   if (unsupportedExtensionsFound) {
-    logger.warn(
-      chalk.magenta(
-        'Supported file types are JSON (.json) and YAML (.yml, .yaml)'
-      )
-    );
+    logger.warn('Supported file types are JSON (.json) and YAML (.yml, .yaml)');
   }
 
   // Globby is used in an unconventional way here.
@@ -136,14 +127,20 @@ async function runValidator(cliArgs, parseOptions = {}) {
     file => !filesToValidate.includes(file)
   );
   nonExistentFiles.forEach(file => {
-    logger.warn(
-      chalk.yellow('[Warning]') + ` Skipping non-existent file: ${file}`
-    );
+    logger.warn(`Skipping non-existent file: ${file}`);
   });
 
   // If no passed in files are valid, exit the program.
   if (!filesToValidate.length) {
-    logError(chalk, 'No files to validate.');
+    logger.error('No files to validate.');
+    return Promise.reject(2);
+  }
+
+  // If multiple files were specified and JSON output is requested, exit with an error.
+  if (filesToValidate.length > 1 && context.config.outputFormat === 'json') {
+    logger.error(
+      'At most one file can be specified when JSON output is requested.'
+    );
     return Promise.reject(2);
   }
 
@@ -160,10 +157,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
     let originalFile;
     let input;
 
-    if (filesToValidate.length > 1) {
-      logger.info(
-        '\n    ' + chalk.underline(`Validation Results for ${validFile}:`)
-      );
+    if (context.config.outputFormat != 'json') {
+      console.log('');
+      console.log(chalk.underline(`Validation Results for ${validFile}:`));
     }
     try {
       originalFile = await readFile(validFile, 'utf8');
@@ -187,11 +183,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
         throw duplicateKeysError;
       }
     } catch (err) {
-      logError(
-        chalk,
-        `Invalid input file: ${chalk.red(validFile)}. See below for details.`,
-        err
-      );
+      logError(`Invalid input file: ${validFile}. See below for details.`, err);
       exitCode = 1;
       continue;
     }
@@ -201,7 +193,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
     try {
       results = await runSpectral({ validFile, originalFile }, context);
     } catch (err) {
-      logError(chalk, 'There was a problem with spectral.', getError(err));
+      logError('There was a problem with spectral.', getError(err));
       logger.error('Additional error details:');
       logger.error(err);
       if (
@@ -240,7 +232,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       if (results.hasResults) {
         print(context, results);
       } else {
-        logger.info(chalk.green(`${validFile} passed the validator`));
+        console.log(`${validFile} passed the validator`);
       }
     }
   }
@@ -255,10 +247,10 @@ function getError(err) {
   return err.message || err;
 }
 
-function logError(chalk, description, message = '') {
-  logger.error(`${chalk.red('[Error]')} ${description}`);
+function logError(description, message = '') {
+  logger.error(`${description}`);
   if (message) {
-    logger.error(chalk.magenta(message));
+    logger.error(`${message}`);
   }
 }
 

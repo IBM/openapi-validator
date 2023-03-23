@@ -12,4 +12,3 @@ logLevels:
   'ibm-schema-description-exists': 'debug'
 outputFormat: 'text'
 summaryOnly: false
-verbose: false
