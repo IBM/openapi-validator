@@ -6,7 +6,7 @@
 const { examplesNameContainsSpace } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const ruleId = 'ibm-examples-name-contains-space';
+const ruleId = 'ibm-no-space-in-example-name';
 const rule = examplesNameContainsSpace;
 
 describe(`Spectral rule: ${ruleId}`, () => {

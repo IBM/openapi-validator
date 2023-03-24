@@ -6,7 +6,7 @@
 const { propertyNameCollision } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const ruleId = 'ibm-property-name-collision';
+const ruleId = 'ibm-avoid-property-name-collision';
 const rule = propertyNameCollision;
 
 describe(`Spectral rule: ${ruleId}`, () => {

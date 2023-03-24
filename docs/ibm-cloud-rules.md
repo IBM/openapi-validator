@@ -42,7 +42,6 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-content-type-is-specific](#ibm-content-type-is-specific)
   * [ibm-content-type-header](#ibm-content-type-header)
   * [ibm-delete-body](#ibm-delete-body)
-  * [ibm-description-mentions-json](#ibm-description-mentions-json)
   * [ibm-discriminator-property-exists](#ibm-discriminator-property-exists)
   * [ibm-duplicate-path-parameter](#ibm-duplicate-path-parameter)
   * [ibm-enum-casing-convention](#ibm-enum-casing-convention)
@@ -206,12 +205,6 @@ which is not allowed.</td>
 <td><a href="#ibm-delete-body">ibm-delete-body</a></td>
 <td>warn</td>
 <td>"delete" operations should not contain a requestBody.</td>
-<td>oas3</td>
-</tr>
-<tr>
-<td><a href="#ibm-description-mentions-json">ibm-description-mentions-json</a></td>
-<td>warn</td>
-<td>Schema descriptions should avoid mentioning <code>JSON</code></td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -1571,61 +1564,6 @@ paths:
       responses:
         '204':
           description: 'The thing was deleted'
-</pre>
-</td>
-</tr>
-</table>
-
-
-### ibm-description-mentions-json
-<table>
-<tr>
-<td><b>Rule id:</b></td>
-<td><b>ibm-description-mentions-json</b></td>
-</tr>
-<tr>
-<td valign=top><b>Description:</b></td>
-<td>Schema and schema property descriptions should avoid mentioning <code>JSON</code>.</td>
-</tr>
-<tr>
-<td><b>Severity:</b></td>
-<td>warn</td>
-</tr>
-<tr>
-<td><b>OAS Versions:</b></td>
-<td>oas3</td>
-</tr>
-<tr>
-<td valign=top><b>Non-compliant example:<b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      description: A JSON object representing a Thing instance.
-      type: object
-      properties:
-        thing_type:
-          type: string
-        thing_version:
-          type: string
-</pre>
-</td>
-</tr>
-<tr>
-<td valign=top><b>Compliant example:</b></td>
-<td>
-<pre>
-components:
-  schemas:
-    Thing:
-      description: An object representing a Thing resource.
-      type: object
-      properties:
-        thing_type:
-          type: string
-        thing_version:
-          type: string
 </pre>
 </td>
 </tr>

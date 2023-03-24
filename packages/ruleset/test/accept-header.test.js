@@ -7,7 +7,7 @@ const { acceptHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = acceptHeader;
-const ruleId = 'ibm-accept-header';
+const ruleId = 'ibm-no-accept-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
   "Operations should not explicitly define the 'Accept' header parameter";

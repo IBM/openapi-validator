@@ -7,7 +7,7 @@ const { parameterDescriptionExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = parameterDescriptionExists;
-const ruleId = 'ibm-parameter-description-exists';
+const ruleId = 'ibm-parameter-description';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Parameter should have a non-empty description';
 

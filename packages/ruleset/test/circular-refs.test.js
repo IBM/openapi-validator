@@ -6,7 +6,7 @@
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 let rule;
-const ruleId = 'ibm-circular-refs';
+const ruleId = 'ibm-no-circular-refs';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'API definition should not contain circular references.';
 
