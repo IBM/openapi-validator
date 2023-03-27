@@ -6,7 +6,7 @@
 const { requiredPropertyMissing } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const ruleId = 'ibm-missing-required-property';
+const ruleId = 'ibm-define-required-properties';
 const rule = requiredPropertyMissing;
 
 describe(`Spectral rule: ${ruleId}`, () => {

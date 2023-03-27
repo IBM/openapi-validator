@@ -6,7 +6,7 @@
 const { parameterSchemaOrContentExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const ruleId = 'ibm-parameter-schema-or-content-exists';
+const ruleId = 'ibm-parameter-schema-or-content';
 const rule = parameterSchemaOrContentExists;
 
 describe(`Spectral rule: ${ruleId}`, () => {

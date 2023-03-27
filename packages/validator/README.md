@@ -22,7 +22,7 @@ Options:
   -j, --json                     produce JSON output (default is text)
   -l, --log-level <loglevel>     set the log level for one or more loggers (e.g. -l root=info -l ibm-schema-description-exists=debug ...)  (default: [])
   -n, --no-colors                disable colorizing of the output (default is false)
-  -r, --ruleset <file>           use Spectral ruleset contained in `<file>` (default is IBM Cloud Validation Ruleset)
+  -r, --ruleset <file>           use Spectral ruleset contained in `<file>` ("default" forces use of default IBM Cloud Validation Ruleset)
   -s, --summary-only             include only the summary information and skip individual errors and warnings (default is false)
   -w, --warnings-limit <number>  set warnings limit to <number> (default is -1)
   --version                      output the version number

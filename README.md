@@ -69,7 +69,13 @@ By default, the validator will use the [IBM Cloud Validation Ruleset](docs/ibm-c
 However, if the validator detects the presence of any of the standard Spectral ruleset files (`spectral.yaml`, `spectral.yml`, `spectral.json`,
 or `spectral.js`) in the current directory (from which the validator is being run) or in any containing directory within the file system,
 then that ruleset file will be used instead.
-To explicitly specify an alternate ruleset, you can use the `-r`/`--ruleset` option (or the `ruleset` configuration property) to specify the name of your custom ruleset file.  Details about these options are provided below in the [Usage](#usage) section.
+To explicitly specify an alternate ruleset, you can use the `-r`/`--ruleset` option (or the `ruleset` configuration property)
+to specify the name of your custom ruleset file.  
+
+If one of the standard Spectral ruleset files are present and you'd like to force the use of the IBM Cloud Validation Ruleset instead,
+you can use `-r default` or `--ruleset default` (or set the `ruleset` configuration property to the value `'default'`).
+
+Details about these options are provided below in the [Usage](#usage) section.
 
 ### Customization
 
@@ -122,7 +128,7 @@ Options:
   -j, --json                     produce JSON output (default is text)
   -l, --log-level <loglevel>     set the log level for one or more loggers (e.g. -l root=info -l ibm-schema-description-exists=debug ...)  (default: [])
   -n, --no-colors                disable colorizing of the output (default is false)
-  -r, --ruleset <file>           use Spectral ruleset contained in `<file>` (default is IBM Cloud Validation Ruleset)
+  -r, --ruleset <file>           use Spectral ruleset contained in `<file>` ("default" forces use of default IBM Cloud Validation Ruleset)
   -s, --summary-only             include only the summary information and skip individual errors and warnings (default is false)
   -w, --warnings-limit <number>  set warnings limit to <number> (default is -1)
   --version                      output the version number
@@ -533,8 +539,18 @@ module.exports = {
 </tr>
 <tr>
 <td>You can use the <code>ruleset</code> configuration property to specify a custom ruleset to be used by the validator.
-This corresponds to the <code>-r</code>/<code>--ruleset</code> command-line option.</td>
-<td><code>null</code>, which implies that the IBM Cloud Validation Ruleset will be used</td>
+This corresponds to the <code>-r</code>/<code>--ruleset</code> command-line option.
+
+By default, the validator will look for the standard Spectral ruleset files (<code>.spectral.yaml</code>, <code>.spectral.yml</code>,
+<code>.spectral.json</code>, or <code>.spectral.js</code>) in the current working directory and
+its parent directories within the filesystem.  If none are found, then the IBM Cloud Validation Ruleset
+will be used.
+
+If you want to force the use of the IBM Cloud Validation Ruleset even if one of the standard Spectral ruleset files are present,
+you can specify <code>'default'</code> for the <code>ruleset</code> configuration property.
+</td>
+<td><code>null</code>, which implies that a standard Spectral ruleset file will be used (if present),
+otherwise the IBM Cloud Validation Ruleset will be used.</td>
 </tr>
 </table>
 <b>Examples:</b>
@@ -621,16 +637,18 @@ controlled with the `-j`/`--json` command-line option or `outputFormat` configur
 ### Text
 Here is an example of text output:
 ```
-IBM OpenAPI Validator (validator: 1.0.0; ruleset: 1.0.0), @Copyright IBM Corporation 2017, 2023.
+IBM OpenAPI Validator (validator: 0.97.5; ruleset: 0.45.5), @Copyright IBM Corporation 2017, 2023.
 
-errors
+Validation Results for /my/directory/my-api.yaml:
+
+Errors:
 
   Message :   Path contains two or more consecutive path parameter references: /v1/clouds/{cloud_id}/{region_id}
-  Rule    :   ibm-consecutive-path-segments
+  Rule    :   ibm-no-consecutive-path-parameter-segments
   Path    :   paths./v1/clouds/{cloud_id}/{region_id}
   Line    :   332
 
-warnings
+Warnings:
 
   Message :   Operation summaries should not have a trailing period
   Rule    :   ibm-summary-sentence-style
@@ -642,15 +660,15 @@ warnings
   Path    :   paths./v1/clouds.get.summary
   Line    :   93
 
-summary
+Summary:
 
   Total number of errors   : 1
   Total number of warnings : 2
 
-  errors
+  Errors:
    1 (100%) : Path contains two or more consecutive path parameter references
 
-  warnings
+  Warnings:
    2 (100%) : Operation summaries should not have a trailing period
 ```
 As you can see, any errors detected by the validator are listed first, then

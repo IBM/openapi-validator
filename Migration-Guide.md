@@ -82,75 +82,333 @@ In the new v1.x validator, the rule id's were changed so that they now follow a 
 naming convention.  The following table provides a detailed mapping of old vs new rule id, along with any other
 change-related notes:
 
-| Previous Rule Id | New Rule Id | Notes |
-|------------------|-------------|-------|
-| accept-parameter                    | ibm-accept-header                          | |
-| array-boundary                      | ibm-array-attributes                       | old rules 'array-boundary' and 'array-items' were combined into the new 'ibm-array-attributes' rule |
-| array-items                         | ibm-array-attributes                       | |
-| array-of-arrays                     | ibm-array-of-arrays                        | |
-| array-responses                     | ibm-array-responses                        | |
-| authorization-parameter             | ibm-authorization-header                   | |
-| binary-schemas                      | ibm-binary-schemas                         | |
-| circular-refs                       | ibm-circular-refs                          | |
-| collection-array-property           | ibm-collection-array-property              | |
-| consecutive-path-param-segments     | ibm-consecutive-path-segments              | |
-| content-entry-contains-schema       | ibm-content-contains-schema                | |
-| content-entry-provided              | ibm-content-exists                         | |
-| content-type-parameter              | ibm-content-type-header                    | |
-| delete-body                         | ibm-delete-body                            | |
-| description-mentions-json           | ibm-description-mentions-json              | |
-| discriminator                       | ibm-discriminator-property-exists          | |
-| duplicate-path-parameter            | ibm-duplicate-path-parameter               | |
-| enum-case-convention                | ibm-enum-casing-convention                 | |
-| examples-name-contains-space        | ibm-examples-name-contains-space           | |
-| ibm-content-type-is-specific        | ibm-content-type-is-specific               | |
-| ibm-error-content-type-is-json      | ibm-error-content-type-is-json             | |
-| ibm-sdk-operations                  | ibm-sdk-operations                         | |
-| if-modified-since-parameter         | ibm-if-modified-since-header               | |
-| if-unmodified-since-parameter       | ibm-if-unmodified-since-header             | |
-| inline-property-schema              | ibm-inline-property-schema                 | |
-| inline-request-schema               | ibm-inline-request-schema                  | |
-| inline-response-schema              | ibm-inline-response-schema                 | |
-| major-version-in-path               | ibm-major-version-in-path                  | |
-| merge-patch-optional-properties     | ibm-merge-patch-properties                 | |
-| missing-required-property           | ibm-required-property-missing              | |
-| no-etag-header                      | ibm-etag-header-exists                     | |
-| operation-id-case-convention        | ibm-operationid-casing-convention          | |
-| operation-id-naming-convention      | ibm-operationid-naming-convention          | |
-| operation-summary                   | ibm-operation-summary-exists               | |
-| optional-request-body               | ibm-optional-requestbody                   | |
-| pagination-style                    | ibm-pagination-style                       | |
-| parameter-case-convention           | ibm-parameter-casing-convention            | |
-| parameter-default                   | ibm-parameter-default                      | |
-| parameter-description               | ibm-parameter-description-exists           | |
-| parameter-order                     | ibm-parameter-order                        | |
-| parameter-schema-or-content         | ibm-parameter-schema-or-content-exists     | |
-| patch-request-content-type          | ibm-patch-request-content-type             | |
-| path-param-not-crn                  | ibm-path-parameter-crn                     | |
-| path-segment-case-convention        | ibm-path-segment-casing-convention         | |
-| precondition-header                 | ibm-precondition-header                    | |
-| prohibit-summary-sentence-style     | ibm-summary-sentence-style                 | |
-| property-attributes                 | ibm-property-attributes                    | |
-| property-case-collision             | ibm-property-name-collision                | |
-| property-case-convention            | ibm-property-casing-convention             | |
-| property-description                | ibm-property-description-exists            | |
-| property-inconsistent-name-and-type | ibm-property-consistent-name-and-type      | |
-| ref-pattern                         | ibm-ref-pattern                            | |
-| ref-sibling-duplicate-description   | ibm-ref-sibling-duplicate-description      | |
-| request-body-name                   | ibm-requestbody-name-exists                | |
-| request-body-object                 | ibm-requestbody-is-object                  | |
-| response-error-response-schema      | ibm-error-response-schemas                 | |
-| response-example-provided           | ibm-response-example-exists                | |
-| response-status-codes               | ibm-response-status-codes                  | |
-| schema-description                  | ibm-schema-description-exists              | |
-| schema-type                         | ibm-schema-type-exists                     | |
-| security-scheme-attributes          | ibm-securityscheme-attributes              | |
-| security-schemes                    | ibm-securityschemes                        | |
-| server-variable-default-value       | ibm-server-variable-default-value          | |
-| string-boundary                     | ibm-string-attributes                      | |
-| unused-tag                          | ibm-unused-tags                            | |
-| valid-path-segments                 | ibm-valid-path-segments                    | |
-| valid-type-format                   | ibm-schema-type-format                     | |
+<table style="width=100%">
+    <tr>
+        <th style="width=35%">Previous Rule Id</th>
+        <th style="width=35%">New Rule Id</th>
+        <th style="width=30%">Notes</th>
+    </tr>
+    <tr>
+        <td>array-boundary, array-items</td>
+        <td>ibm-array-attributes</td>
+        <td>rules 'array-boundary' and 'array-items' were combined into the new 'ibm-array-attributes' rule</td>
+    </tr>
+    <tr>
+        <td>inline-property-schema, inline-request-schema, inline-response-schema</td>
+        <td>ibm-avoid-inline-schemas</td>
+        <td>rules 'inline-property-schema', 'inline-request-schema' and 'inline-response-schema' were combined into the new 'ibm-avoid-inline-schemas' rule</td>
+    </tr>
+    <tr>
+        <td>property-case-collision</td>
+        <td>ibm-avoid-property-name-collision</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>duplicate-path-parameter</td>
+        <td>ibm-avoid-repeating-path-parameters</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>binary-schemas</td>
+        <td>ibm-binary-schemas</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>collection-array-property</td>
+        <td>ibm-collection-array-property</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>content-entry-contains-schema</td>
+        <td>ibm-content-contains-schema</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ibm-content-type-is-specific</td>
+        <td>ibm-content-type-is-specific</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>missing-required-property</td>
+        <td>ibm-define-required-properties</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>discriminator</td>
+        <td>ibm-discriminator-property</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>merge-patch-optional-properties</td>
+        <td>ibm-dont-require-merge-patch-properties</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>enum-case-convention</td>
+        <td>ibm-enum-casing-convention</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ibm-error-content-type-is-json</td>
+        <td>ibm-error-content-type-is-json</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>response-error-response-schema</td>
+        <td>ibm-error-response-schemas</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>no-etag-header</td>
+        <td>ibm-etag-header</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>major-version-in-path</td>
+        <td>ibm-major-version-in-path</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>accept-parameter</td>
+        <td>ibm-no-accept-header</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>array-of-arrays</td>
+        <td>ibm-no-array-of-arrays</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>array-responses</td>
+        <td>ibm-no-array-responses</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>authorization-parameter</td>
+        <td>ibm-no-authorization-header</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>delete-body</td>
+        <td>ibm-no-body-for-delete</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>circular-refs</td>
+        <td>ibm-no-circular-refs</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>consecutive-path-param-segments</td>
+        <td>ibm-no-consecutive-path-parameter-segments</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>content-type-parameter</td>
+        <td>ibm-no-content-type-header</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>path-param-not-crn</td>
+        <td>ibm-no-crn-path-parameters</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>parameter-default</td>
+        <td>ibm-no-default-for-required-parameter</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ref-sibling-duplicate-description</td>
+        <td>ibm-no-duplicate-description-with-ref-sibling</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>if-modified-since-parameter</td>
+        <td>ibm-no-if-modified-since-header</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>if-unmodified-since-parameter</td>
+        <td>ibm-no-if-unmodified-since-header</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>optional-request-body</td>
+        <td>ibm-no-optional-properties-in-required-body</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>examples-name-contains-space</td>
+        <td>ibm-no-space-in-example-name</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>unused-tag</td>
+        <td>ibm-openapi-tags-used</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>operation-summary</td>
+        <td>ibm-operation-summary</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>operation-id-case-convention</td>
+        <td>ibm-operationid-casing-convention</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>operation-id-naming-convention</td>
+        <td>ibm-operationid-naming-convention</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>pagination-style</td>
+        <td>ibm-pagination-style</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>parameter-case-convention</td>
+        <td>ibm-parameter-casing-convention</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>parameter-description</td>
+        <td>ibm-parameter-description</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>parameter-order</td>
+        <td>ibm-parameter-order</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>parameter-schema-or-content</td>
+        <td>ibm-parameter-schema-or-content</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>patch-request-content-type</td>
+        <td>ibm-patch-request-content-type</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>path-segment-case-convention</td>
+        <td>ibm-path-segment-casing-convention</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>precondition-header</td>
+        <td>ibm-precondition-headers</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>property-attributes</td>
+        <td>ibm-property-attributes</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>property-case-convention</td>
+        <td>ibm-property-casing-convention</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>property-inconsistent-name-and-type</td>
+        <td>ibm-property-consistent-name-and-type</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>property-description</td>
+        <td>ibm-property-description</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ref-pattern</td>
+        <td>ibm-ref-pattern</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>content-entry-provided</td>
+        <td>ibm-request-and-response-content</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>request-body-object</td>
+        <td>ibm-requestbody-is-object</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>request-body-name</td>
+        <td>ibm-requestbody-name</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>response-status-codes</td>
+        <td>ibm-response-status-codes</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>schema-description</td>
+        <td>ibm-schema-description</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>schema-type</td>
+        <td>ibm-schema-type</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>valid-type-format</td>
+        <td>ibm-schema-type-format</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>ibm-sdk-operations</td>
+        <td>ibm-sdk-operations</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>security-scheme-attributes</td>
+        <td>ibm-securityscheme-attributes</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>security-schemes</td>
+        <td>ibm-securityschemes</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>server-variable-default-value</td>
+        <td>ibm-server-variable-default-value</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>string-boundary</td>
+        <td>ibm-string-attributes</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>response-example-provided</td>
+        <td>ibm-success-response-example</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>prohibit-summary-sentence-style</td>
+        <td>ibm-summary-sentence-style</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>valid-path-segments</td>
+        <td>ibm-valid-path-segments</td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>description-mentions-json</td>
+        <td>n/a</td>
+        <td>this rule was removed</td>
+    </tr>
+</table>
 
 Detailed reference information about each rule can be found [here](./docs/ibm-cloud-rules.md#reference).
 
