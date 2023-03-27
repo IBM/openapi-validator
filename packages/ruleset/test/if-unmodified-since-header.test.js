@@ -7,7 +7,7 @@ const { ifUnmodifiedSinceHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = ifUnmodifiedSinceHeader;
-const ruleId = 'ibm-if-unmodified-since-header';
+const ruleId = 'ibm-no-if-unmodified-since-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
   'Operations should support the If-Match header parameter instead of If-Unmodified-Since';

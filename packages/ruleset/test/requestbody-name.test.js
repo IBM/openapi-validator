@@ -6,7 +6,7 @@
 const { requestBodyNameExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const ruleId = 'ibm-requestbody-name-exists';
+const ruleId = 'ibm-requestbody-name';
 const rule = requestBodyNameExists;
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =

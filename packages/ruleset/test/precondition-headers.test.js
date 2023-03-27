@@ -7,7 +7,7 @@ const { preconditionHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = preconditionHeader;
-const ruleId = 'ibm-precondition-header';
+const ruleId = 'ibm-precondition-headers';
 const expectedSeverity = severityCodes.error;
 
 describe(`Spectral rule: ${ruleId}`, () => {

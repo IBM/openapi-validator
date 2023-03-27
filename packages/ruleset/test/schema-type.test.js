@@ -12,7 +12,7 @@ const rule = schemaTypeExists;
 const originalSeverity = makeCopy(rule.severity);
 rule.severity = 'warn';
 
-const ruleId = 'ibm-schema-type-exists';
+const ruleId = 'ibm-schema-type';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Schema should have a non-empty `type` field.';
 

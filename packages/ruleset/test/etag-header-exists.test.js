@@ -7,7 +7,7 @@ const { etagHeaderExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = etagHeaderExists;
-const ruleId = 'ibm-etag-header-exists';
+const ruleId = 'ibm-etag-header';
 const expectedSeverity = severityCodes.error;
 
 describe(`Spectral rule: ${ruleId}`, () => {

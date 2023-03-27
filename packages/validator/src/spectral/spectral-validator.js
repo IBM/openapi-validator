@@ -126,21 +126,35 @@ async function setup({ config, logger }) {
   let rulesetFileOverride = config.ruleset;
   if (!rulesetFileOverride) {
     rulesetFileOverride = await lookForSpectralRuleset();
+    if (!rulesetFileOverride) {
+      logger.info(
+        `No Spectral ruleset file found, using the default IBM Cloud OpenAPI Ruleset.`
+      );
+    }
+  }
+
+  // If '--ruleset default' was specified on command-line, then force the use
+  // of our default ruleset.
+  if (rulesetFileOverride === 'default') {
+    rulesetFileOverride = null;
+    logger.info(`Using the default IBM Cloud OpenAPI Ruleset.`);
   }
 
   // We'll use the IBM ruleset by default, but also look for a user-provided
   // ruleset and use that if one was specified.
   let ruleset = ibmRuleset;
-  try {
-    ruleset = await getRuleset(rulesetFileOverride);
-    logger.debug(`Using Spectral ruleset file: ${rulesetFileOverride}`);
-  } catch (e) {
-    // Check error for common issues but do nothing.
-    // We get here anytime the user doesn't define a valid Spectral config,
-    // which is fine. We just use our default in that case.
-    // In certain cases, we help the user understand what is happening by
-    // logging informative messages.
-    checkGetRulesetError(logger, e);
+  if (rulesetFileOverride) {
+    try {
+      ruleset = await getRuleset(rulesetFileOverride);
+      logger.debug(`Using Spectral ruleset file: ${rulesetFileOverride}`);
+    } catch (e) {
+      // Check error for common issues but do nothing.
+      // We get here anytime the user doesn't define a valid Spectral config,
+      // which is fine. We just use our default in that case.
+      // In certain cases, we help the user understand what is happening by
+      // logging informative messages.
+      checkGetRulesetError(logger, e, rulesetFileOverride);
+    }
   }
 
   spectral.setRuleset(ruleset);
@@ -152,10 +166,13 @@ module.exports = {
   runSpectral,
 };
 
-function checkGetRulesetError(logger, error) {
-  // This first check is to help users migrate to the new version of Spectral.
-  // If they try to extend our old ruleset name, Spectral will reject the ruleset.
-  // We should let the user know what they need to change.
+function checkGetRulesetError(logger, error, file) {
+  // Report the error, then check if some additional hints might be needed.
+  logger.error(
+    `Problem reading Spectral ruleset file '${file}': ${error.message}`
+  );
+  logger.error(`Using the default IBM Cloud OpenAPI Ruleset instead.`);
+
   if (
     error.message.startsWith('ENOENT: no such file or directory') &&
     error.message.includes('ibm:oas')
@@ -164,22 +181,11 @@ function checkGetRulesetError(logger, error) {
       'The IBM ruleset name has changed and the old name is invalid.'
     );
     logger.warn(
-      'Change your ruleset to extend `@ibm-cloud/openapi-ruleset` instead of `ibm:oas`'
+      'Change your ruleset to extend `@ibm-cloud/openapi-ruleset` instead of `ibm:oas` to use your custom ruleset.'
     );
     logger.warn(
-      'to use your custom ruleset. For now, the IBM Spectral rules will run in their default configuration.'
+      'For now, the IBM Spectral rules will run in their default configuration.'
     );
-  } else if (
-    error.message.endsWith('Cannot parse null because it is not a string')
-  ) {
-    logger.debug(
-      `No Spectral ruleset file found, using the default IBM Cloud OpenAPI Ruleset.`
-    );
-  } else {
-    logger.debug(
-      `Problem reading Spectral ruleset file, using the default IBM Cloud OpenAPI Ruleset. Cause for error:`
-    );
-    logger.debug(error.message);
   }
 }
 
