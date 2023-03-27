@@ -196,15 +196,6 @@ async function runValidator(cliArgs, parseOptions = {}) {
       logError('There was a problem with spectral.', getError(err));
       logger.error('Additional error details:');
       logger.error(err);
-      if (
-        err.message ==
-        "Cannot use 'in' operator to search for '**' in undefined"
-      ) {
-        logger.error(
-          'This error likely means the API Definition is missing a `servers` field.\n' +
-            'Spectral currently has a bug that prevents it from processing a definition without a `servers` field.'
-        );
-      }
       exitCode = 1;
       continue;
     }

@@ -7,7 +7,7 @@ const { operationSummaryExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = operationSummaryExists;
-const ruleId = 'ibm-operation-summary-exists';
+const ruleId = 'ibm-operation-summary';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Operation "summary" must be present and non-empty string.';
 

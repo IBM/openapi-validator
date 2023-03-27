@@ -7,7 +7,7 @@ const { ifModifiedSinceHeader } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = ifModifiedSinceHeader;
-const ruleId = 'ibm-if-modified-since-header';
+const ruleId = 'ibm-no-if-modified-since-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
   'Operations should support the If-None-Match header parameter instead of If-Modified-Since';

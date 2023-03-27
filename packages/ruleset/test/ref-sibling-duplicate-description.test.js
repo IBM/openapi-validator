@@ -7,7 +7,7 @@ const { refSiblingDuplicateDescription } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = refSiblingDuplicateDescription;
-const ruleId = 'ibm-ref-sibling-duplicate-description';
+const ruleId = 'ibm-no-duplication-description-with-ref-sibling';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Duplicate ref-sibling description is unnecessary';
 

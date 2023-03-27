@@ -6,7 +6,7 @@
 const { responseExampleExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const ruleId = 'ibm-response-example-exists';
+const ruleId = 'ibm-success-response-example';
 const rule = responseExampleExists;
 
 describe(`Spectral rule: ${ruleId}`, () => {

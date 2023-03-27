@@ -20,7 +20,7 @@ module.exports = {
   enumCasingConvention: require('./enum-casing-convention'),
   errorResponseSchemas: require('./error-response-schemas'),
   etagHeaderExists: require('./etag-header-exists'),
-  ...require('./inline-schema-rules'),
+  inlineSchemas: require('./inline-schemas'),
   mergePatchProperties: require('./merge-patch-properties'),
   operationIdCasingConvention: require('./operationid-casing-convention'),
   operationIdNamingConvention: require('./operationid-naming-convention'),

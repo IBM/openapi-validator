@@ -6,7 +6,7 @@
 const { discriminatorPropertyExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
-const ruleId = 'ibm-discriminator-property-exists';
+const ruleId = 'ibm-discriminator-property';
 const rule = discriminatorPropertyExists;
 
 describe(`Spectral rule: ${ruleId}`, () => {

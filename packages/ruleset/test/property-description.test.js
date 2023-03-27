@@ -7,7 +7,7 @@ const { propertyDescriptionExists } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = propertyDescriptionExists;
-const ruleId = 'ibm-property-description-exists';
+const ruleId = 'ibm-property-description';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'Schema property should have a non-empty description';
 

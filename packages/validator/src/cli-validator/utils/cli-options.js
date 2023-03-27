@@ -70,7 +70,7 @@ function createCLIOptions() {
     )
     .option(
       '-r, --ruleset <file>',
-      'use Spectral ruleset contained in `<file>` (default is IBM Cloud Validation Ruleset)'
+      'use Spectral ruleset contained in `<file>` ("default" forces use of default IBM Cloud Validation Ruleset)'
     )
     .option(
       '-s, --summary-only',
