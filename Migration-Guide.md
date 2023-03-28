@@ -3,7 +3,7 @@ This migration guide is intended to help users migrate from the version 0.x pre-
 to the new version 1.0 official release.
 
 ## Minimum Node version
-The minimum supported version of Node.js remains at version 14.x.
+The minimum supported version of Node.js is now version 16.x (formerly 14.x).
 
 ## Supported OpenAPI versions
 The old v0.x pre-release validator supported both Swagger 2.x and OpenAPI 3.x documents.
