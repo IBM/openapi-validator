@@ -38,7 +38,7 @@ function pathParameterNotCRN(pathParam, path) {
     logger.debug(`${ruleId}: it's a CRN value!`);
     return [
       {
-        message: 'Path parameter should not be defined as a CRN value',
+        message: 'Path parameters should not be defined as a CRN value',
         path: [...path, ...subPath],
       },
     ];

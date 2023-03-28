@@ -10,7 +10,7 @@ const rule = authorizationHeader;
 const ruleId = 'ibm-no-authorization-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
-  "Operations should not explicitly define the 'Authorization' header parameter";
+  'Operations should not explicitly define the Authorization header parameter';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

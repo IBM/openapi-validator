@@ -53,7 +53,7 @@ function collectionArrayProperty(schema, path, apidef) {
       logger.debug(`Couldn't find array property named '${propertyName}'`);
       return [
         {
-          message: `Collection list operation response schema should define array property with name '${propertyName}'`,
+          message: `Collection list operation response schema should define array property with name: ${propertyName}`,
           path,
         },
       ];

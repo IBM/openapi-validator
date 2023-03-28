@@ -56,7 +56,7 @@ function preconditionHeader(operation, path) {
         {
           message:
             'An operation that returns a 412 status code must support at least one conditional header',
-          path: [...path, 'resonses'],
+          path: [...path, 'responses'],
         },
       ];
     }

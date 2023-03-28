@@ -56,7 +56,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error container model must be an object with properties'
+        `Error container model must be an object with properties`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/movies.get.responses.400.content.application/json.schema'
@@ -75,7 +75,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error container model should contain property `trace` of type string'
+        `Error container model should contain property 'trace' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties'
@@ -96,7 +96,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error container model should contain property `trace` of type string'
+        `Error container model should contain property 'trace' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.trace'
@@ -116,7 +116,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(severityCodes.warning);
       expect(r.message).toBe(
-        'Error container model property `status_code` must be of type integer'
+        `Error container model property 'status_code' must be of type integer`
       );
       expect(r.path.join('.')).toStrictEqual(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.status_code'
@@ -135,7 +135,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error container model must contain property `errors` which must be an array of error models'
+        `Error container model must contain property 'errors' which must be an array of error models`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties'
@@ -155,7 +155,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(severityCodes.warning);
       expect(r.message).toBe(
-        'Error container model must contain property `errors` which must be an array of error models'
+        `Error container model must contain property 'errors' which must be an array of error models`
       );
       expect(r.path.join('.')).toStrictEqual(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors'
@@ -175,7 +175,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(severityCodes.warning);
       expect(r.message).toBe(
-        'Error container model `errors.items` field must be an object with properties'
+        `Error container model 'errors.items' field must be an object with properties`
       );
       expect(r.path.join('.')).toStrictEqual(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors'
@@ -195,7 +195,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(severityCodes.warning);
       expect(r.message).toBe(
-        'Error container model `errors.items` field must be an object with properties'
+        `Error container model 'errors.items' field must be an object with properties`
       );
       expect(r.path.join('.')).toStrictEqual(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items'
@@ -214,7 +214,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model must contain property `code` of type string'
+        `Error model must contain property 'code' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties'
@@ -235,7 +235,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model must contain property `code` of type string'
+        `Error model must contain property 'code' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.code'
@@ -254,7 +254,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model property `code` must include an enumeration of the valid error codes'
+        `Error model property 'code' must include an enumeration of the valid error codes`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.code'
@@ -273,7 +273,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model property `code` must include an enumeration of the valid error codes'
+        `Error model property 'code' must include an enumeration of the valid error codes`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.code.enum'
@@ -292,7 +292,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model must contain property `message` of type string'
+        `Error model must contain property 'message' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties'
@@ -313,7 +313,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model must contain property `message` of type string'
+        `Error model must contain property 'message' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.message'
@@ -332,7 +332,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model should contain property `more_info` of type string'
+        `Error model should contain property 'more_info' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties'
@@ -353,7 +353,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model should contain property `more_info` of type string'
+        `Error model should contain property 'more_info' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.more_info'
@@ -374,7 +374,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error model property `target` must be a valid error target model object'
+        `Error model property 'target' must be a valid error target model object`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target'
@@ -393,7 +393,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error target model must contain property `type` of type string'
+        `Error target model must contain property 'type' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties'
@@ -414,7 +414,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error target model must contain property `type` of type string'
+        `Error target model must contain property 'type' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties.type'
@@ -433,7 +433,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        "Error target model property `type` must define an enumeration containing ['field', 'header', 'parameter']"
+        `Error target model property 'type' must define an enumeration containing ['field', 'header', 'parameter']`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties.type'
@@ -456,7 +456,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        "Error target model property `type` must define an enumeration containing ['field', 'header', 'parameter']"
+        `Error target model property 'type' must define an enumeration containing ['field', 'header', 'parameter']`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties.type.enum'
@@ -475,7 +475,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error target model must contain property `name` of type string'
+        `Error target model must contain property 'name' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties'
@@ -496,7 +496,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.message).toBe(
-        'Error target model must contain property `name` of type string'
+        `Error target model must contain property 'name' of type string`
       );
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks.post.responses.400.content.application/json.schema.properties.errors.items.properties.target.properties.name'

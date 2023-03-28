@@ -45,7 +45,7 @@ function schemaDescriptionExists(schema, path) {
       logger.debug(`${ruleId}: no description found!`);
       return [
         {
-          message: 'Schema should have a non-empty description',
+          message: 'Schemas should have a non-empty description',
           path,
         },
       ];

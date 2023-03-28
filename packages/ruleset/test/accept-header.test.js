@@ -10,7 +10,7 @@ const rule = acceptHeader;
 const ruleId = 'ibm-no-accept-header';
 const expectedSeverity = severityCodes.warning;
 const expectedErrorMsg =
-  "Operations should not explicitly define the 'Accept' header parameter";
+  'Operations should not explicitly define the Accept header parameter';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

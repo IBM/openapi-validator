@@ -24,7 +24,7 @@ function operationSummary(operation, path) {
     logger.debug(`${ruleId}: no summary found!`);
     return [
       {
-        message: 'Each operation must have a non-empty summary.',
+        message: 'Operations must have a non-empty summary',
 
         // If the 'summary' field is defined, then include it in the error path.
         path: 'summary' in operation ? [...path, 'summary'] : path,

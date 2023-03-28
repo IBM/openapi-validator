@@ -86,7 +86,7 @@ function checkForInlineObjectSchemas(schema, path) {
     return [
       {
         message:
-          'Request body schemas should be defined as a $ref to a named schema.',
+          'Request body schemas should be defined as a $ref to a named schema',
         path,
       },
     ];
@@ -99,7 +99,7 @@ function checkForInlineObjectSchemas(schema, path) {
     return [
       {
         message:
-          'Response schemas should be defined as a $ref to a named schema.',
+          'Response schemas should be defined as a $ref to a named schema',
         path,
       },
     ];
@@ -109,7 +109,7 @@ function checkForInlineObjectSchemas(schema, path) {
       return [
         {
           message:
-            'Nested objects should be defined as a $ref to a named schema.',
+            'Nested objects should be defined as a $ref to a named schema',
           path,
         },
       ];

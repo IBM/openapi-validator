@@ -53,8 +53,7 @@ function validateDiscriminators(schema, path) {
   if (!schemaHasProperty(schema, propertyName)) {
     logger.debug(`Discriminator property is not defined: ${propertyName}`);
     errors.push({
-      message:
-        'The discriminator property name used must be defined in this schema',
+      message: `Discriminator property must be defined in the schema: ${propertyName}`,
       path: [...path, 'discriminator', 'propertyName'],
     });
   }

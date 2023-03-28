@@ -10,11 +10,11 @@ const rule = binarySchemas;
 const ruleId = 'ibm-binary-schemas';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgParam =
-  'Parameters should not contain binary values (type: string, format: binary).';
+  'Parameters should not contain binary values (type: string, format: binary)';
 const expectedMsgReqBody =
-  'Request bodies with JSON content should not contain binary values (type: string, format: binary).';
+  'Request bodies with JSON content should not contain binary values (type: string, format: binary)';
 const expectedMsgResponse =
-  'Responses with JSON content should not contain binary values (type: string, format: binary).';
+  'Responses with JSON content should not contain binary values (type: string, format: binary)';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

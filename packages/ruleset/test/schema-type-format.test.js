@@ -10,15 +10,15 @@ const rule = schemaTypeFormat;
 const ruleId = 'ibm-schema-type-format';
 const expectedSeverity = severityCodes.error;
 
-const errorMsgInvalidType = /^Invalid type. Valid types are:.*$/;
+const errorMsgInvalidType = /^Invalid type; valid types are:.*$/;
 const errorMsgStringFormat =
   /^Schema of type string should use one of the following formats:.*$/;
 const errorMsgIntegerFormat =
   /^Schema of type integer should use one of the following formats:.*$/;
 const errorMsgNumberFormat =
   /^Schema of type number should use one of the following formats:.*$/;
-const errorMsgNoFormat = /^Schema of type .* should not have a format.*$/;
-const errorMsgFormatButNoType = /^Format defined without a type.$/;
+const errorMsgNoFormat = /^Schema of type .* should not have a format*$/;
+const errorMsgFormatButNoType = /^Format defined without a type$/;
 
 // Define a few collections of properties used to build test schemas.
 const validPropertiesNoFormat = {

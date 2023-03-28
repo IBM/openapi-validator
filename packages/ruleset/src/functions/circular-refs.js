@@ -73,7 +73,7 @@ function checkForCircularRef($ref, path) {
     reportedRefValues.add($ref);
     return [
       {
-        message: 'API definition should not contain circular references.',
+        message: 'API definition should not contain circular references',
         path,
       },
     ];

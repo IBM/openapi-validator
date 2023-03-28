@@ -114,7 +114,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
           expect(results[i].message).toBe(
-            'minimum cannot be greater than maximum'
+            `'minimum' cannot be greater than 'maximum'`
           );
           expect(results[i].severity).toBe(expectedSeverity);
           expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -139,7 +139,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
           expect(results[i].message).toBe(
-            'minimum should not be defined for a non-numeric schema'
+            `'minimum' should not be defined for non-numeric schemas`
           );
           expect(results[i].severity).toBe(expectedSeverity);
           expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -164,7 +164,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
           expect(results[i].message).toBe(
-            'maximum should not be defined for a non-numeric schema'
+            `'maximum' should not be defined for non-numeric schemas`
           );
           expect(results[i].severity).toBe(expectedSeverity);
           expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -193,7 +193,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
           expect(results[i].message).toBe(
-            'minProperties cannot be greater than maxProperties'
+            `'minProperties' cannot be greater than 'maxProperties'`
           );
           expect(results[i].severity).toBe(expectedSeverity);
           expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -218,7 +218,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
           expect(results[i].message).toBe(
-            'minProperties should not be defined for a non-object schema'
+            `'minProperties' should not be defined for non-object schemas`
           );
           expect(results[i].severity).toBe(expectedSeverity);
           expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -244,7 +244,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         for (let i = 0; i < results.length; i++) {
           expect(results[i].code).toBe(ruleId);
           expect(results[i].message).toBe(
-            'maxProperties should not be defined for a non-object schema'
+            `'maxProperties' should not be defined for non-object schemas`
           );
           expect(results[i].severity).toBe(expectedSeverity);
           expect(results[i].path.join('.')).toBe(expectedPaths[i]);

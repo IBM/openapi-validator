@@ -9,7 +9,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = parameterDescriptionExists;
 const ruleId = 'ibm-parameter-description';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg = 'Parameter should have a non-empty description';
+const expectedMsg = 'Parameters should have a non-empty description';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

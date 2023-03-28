@@ -39,7 +39,7 @@ function schemaTypeExists(schema, path) {
     );
     return [
       {
-        message: 'Schema should have a non-empty `type` field.',
+        message: 'Schemas should have a non-empty type field',
         path,
       },
     ];

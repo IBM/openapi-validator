@@ -284,7 +284,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       let validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Properties with the same name have inconsistent types: running_time.'
+        'Properties with the same name have inconsistent types: running_time'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.application/json.schema.properties.running_time'
@@ -294,7 +294,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       validation = results[1];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Properties with the same name have inconsistent types: running_time.'
+        'Properties with the same name have inconsistent types: running_time'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/books.post.requestBody.content.application/json.schema.properties.running_time'
@@ -353,7 +353,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       let validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Properties with the same name have inconsistent types: running_time.'
+        'Properties with the same name have inconsistent types: running_time'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.application/json.schema.properties.running_time'
@@ -363,7 +363,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       validation = results[1];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Properties with the same name have inconsistent types: running_time.'
+        'Properties with the same name have inconsistent types: running_time'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/books.post.requestBody.content.application/json.schema.properties.running_time'
@@ -373,7 +373,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       validation = results[2];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Properties with the same name have inconsistent types: running_time.'
+        'Properties with the same name have inconsistent types: running_time'
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/songs.post.requestBody.content.application/json.schema.properties.running_time'

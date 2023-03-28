@@ -39,7 +39,7 @@ function parameterOrder(op, path) {
           );
           errors.push({
             message:
-              'Required parameters should appear before optional parameters.',
+              'Required parameters should appear before optional parameters',
             path: [...path, 'parameters', index.toString()],
           });
         }
