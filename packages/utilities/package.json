@@ -19,7 +19,7 @@
     "jest": "^27.4.5"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "jest": {
     "collectCoverage": true,
