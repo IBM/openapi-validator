@@ -65,7 +65,7 @@ function requestBodyNameExists(op, path) {
 
       return [
         {
-          message: `Operation with non-form requestBody should set a name with the ${EXTENSION_NAME} extension.`,
+          message: `Operations with non-form request bodies should set a name with the '${EXTENSION_NAME}' extension`,
           path,
         },
       ];

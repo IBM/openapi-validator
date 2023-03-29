@@ -79,7 +79,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Major version segments of urls in servers object do not match. Found v1, v2'
+      'Major version segments of urls in servers object do not match. Found: v1, v2'
     );
     expect(validation.path).toStrictEqual(['servers']);
     expect(validation.severity).toBe(severityCodes.warning);
@@ -96,7 +96,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Major version segments of paths object do not match. Found v1, v2'
+      'Major version segments in paths do not match. Found: v1, v2'
     );
     expect(validation.path).toStrictEqual(['paths']);
     expect(validation.severity).toBe(severityCodes.warning);

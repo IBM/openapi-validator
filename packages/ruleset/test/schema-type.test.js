@@ -14,7 +14,7 @@ rule.severity = 'warn';
 
 const ruleId = 'ibm-schema-type';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg = 'Schema should have a non-empty `type` field.';
+const expectedMsg = 'Schemas should have a non-empty type field';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   it('Should originally be set to severity: "off"', () => {

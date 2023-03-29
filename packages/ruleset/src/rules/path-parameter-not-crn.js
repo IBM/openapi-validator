@@ -8,7 +8,7 @@ const { pathParameterNotCRN } = require('../functions');
 
 module.exports = {
   description:
-    'Path parameter should not be defined as a CRN (Cloud Resource Name) value',
+    'Path parameters should not be defined as a CRN (Cloud Resource Name) value',
   message: '{{error}}',
   formats: [oas3],
   given: [

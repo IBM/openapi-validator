@@ -9,7 +9,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = pathParameterNotCRN;
 const ruleId = 'ibm-no-crn-path-parameters';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg = 'Path parameter should not be defined as a CRN value';
+const expectedMsg = 'Path parameters should not be defined as a CRN value';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

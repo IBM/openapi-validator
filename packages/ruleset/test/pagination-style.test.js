@@ -697,27 +697,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
 });
 
 // Expected error messages used by the tests above.
-const expectedMsgLimitParam =
-  'The "limit" parameter must be of type integer and optional with default and maximum values';
-const expectedMsgLimitParamMissing =
-  'The operation must define a "limit" query parameter if the "offset" query parameter is defined';
-const expectedMsgLimitProp =
-  'A paginated list operation with a "limit" query parameter must include a "limit" property in the response body schema';
-const expectedMsgLimitRespProp =
-  'The "limit" property in the response body of a paginated list operation must be of type integer and required';
-const expectedMsgOffsetParam =
-  'The "offset" parameter must be of type integer and optional';
-const expectedMsgOffsetProp =
-  'A paginated list operation with an "offset" query parameter must include an "offset" property in the response body schema';
-const expectedMsgOffsetRespProp =
-  'The "offset" property in the response body of a paginated list operation must be of type integer and required';
-const expectedMsgStartParam =
-  'The "start" parameter must be of type string and optional';
-const expectedMsgStartParamName =
-  'The "page_token" parameter should be named "start"';
-const expectedMsgTotalCountProp =
-  'The "total_count" property in the response body of a paginated list operation must be of type integer and required';
+const expectedMsgLimitParam = `The 'limit' parameter must be of type integer and optional with default and maximum values`;
+const expectedMsgLimitParamMissing = `The operation must define a 'limit' query parameter if the 'offset' query parameter is defined`;
+const expectedMsgLimitProp = `A paginated list operation with a 'limit' query parameter must include a 'limit' property in the response body schema`;
+const expectedMsgLimitRespProp = `The 'limit' property in the response body of a paginated list operation must be of type integer and required`;
+const expectedMsgOffsetParam = `The 'offset' parameter must be of type integer and optional`;
+const expectedMsgOffsetProp = `A paginated list operation with an 'offset' query parameter must include an 'offset' property in the response body schema`;
+const expectedMsgOffsetRespProp = `The 'offset' property in the response body of a paginated list operation must be of type integer and required`;
+const expectedMsgStartParam = `The 'start' parameter must be of type string and optional`;
+const expectedMsgStartParamName = `The 'page_token' parameter should be named 'start'`;
+const expectedMsgTotalCountProp = `The 'total_count' property in the response body of a paginated list operation must be of type integer and required`;
 const expectedMsgPagelinkRE =
-  /A paginated list operation should include a ".*" property in the response body schema/;
+  /A paginated list operation should include a '.*' property in the response body schema/;
 const expectedMsgPagelinkObjectRE =
-  /The ".*" property should be an object with an "href" string property/;
+  /The '.*' property should be an object with an 'href' string property/;

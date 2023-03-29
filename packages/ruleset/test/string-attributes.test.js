@@ -200,7 +200,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Should define a pattern for a valid string'
+        `String schemas should define property 'pattern'`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.parameters.0.schema'
@@ -231,7 +231,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Should define a minLength for a valid string'
+        `String schemas should define property 'minLength'`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.parameters.0.content.text/plain.schema'
@@ -255,7 +255,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Should define a maxLength for a valid string'
+        `String schemas should define property 'maxLength'`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema'
@@ -278,7 +278,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'pattern should not be defined for a non-string schema'
+        `'pattern' should not be defined for non-string schemas`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema.pattern'
@@ -301,7 +301,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'minLength should not be defined for a non-string schema'
+        `'minLength' should not be defined for non-string schemas`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema.minLength'
@@ -324,7 +324,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'maxLength should not be defined for a non-string schema'
+        `'maxLength' should not be defined for non-string schemas`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema.maxLength'
@@ -349,7 +349,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'minLength cannot be greater than maxLength'
+        `'minLength' cannot be greater than 'maxLength'`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.requestBody.content.text/plain.schema'
@@ -394,7 +394,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        'Should define a pattern for a valid string'
+        `String schemas should define property 'pattern'`
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
@@ -421,7 +421,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Should define a pattern for a valid string'
+        `String schemas should define property 'pattern'`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.parameters.0.schema'
@@ -465,7 +465,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Should define a maxLength for a valid string'
+        `String schemas should define property 'maxLength'`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.parameters.0.schema'
@@ -509,7 +509,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const validation = results[0];
       expect(validation.code).toBe(ruleId);
       expect(validation.message).toBe(
-        'Should define a pattern for a valid string'
+        `String schemas should define property 'pattern'`
       );
       expect(validation.path.join('.')).toBe(
         'paths./v1/movies.post.parameters.0.schema'

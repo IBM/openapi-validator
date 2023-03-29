@@ -9,7 +9,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = propertyDescriptionExists;
 const ruleId = 'ibm-property-description';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg = 'Schema property should have a non-empty description';
+const expectedMsg = 'Schema properties should have a non-empty description';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

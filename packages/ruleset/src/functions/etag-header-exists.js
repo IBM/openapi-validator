@@ -47,8 +47,7 @@ function etagHeaderCheck(pathItem, path) {
     logger.debug(`${ruleId}: no GET operation!`);
     return [
       {
-        message:
-          'ETag response header is required, but no "get" operation is defined',
+        message: `'ETag' response header is required, but no GET operation is defined`,
         path,
       },
     ];
@@ -83,7 +82,7 @@ function etagHeaderCheck(pathItem, path) {
             errorPath = [...errorPath, 'headers'];
           }
           errors.push({
-            message: 'ETag response header is required',
+            message: `'ETag' response header is required`,
             path: errorPath,
           });
         } else {
@@ -97,8 +96,7 @@ function etagHeaderCheck(pathItem, path) {
   if (!numSuccessResponses) {
     logger.debug(`${ruleId}: no success responses found!`);
     errors.push({
-      message:
-        'ETag response header is required, but "get" operation defines no success responses',
+      message: `'ETag' response header is required, but GET operation defines no success responses`,
       path: [...path, 'get'],
     });
   }

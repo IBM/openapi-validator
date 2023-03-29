@@ -10,7 +10,7 @@ const rule = patchRequestContentType;
 const ruleId = 'ibm-patch-request-content-type';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
-  'PATCH requests should support content types "application/json-patch+json" or "application/merge-patch+json"';
+  'PATCH operations should support content types application/json-patch+json or application/merge-patch+json';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

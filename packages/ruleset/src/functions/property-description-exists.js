@@ -33,7 +33,7 @@ function propertyDescriptionExists(schema, path) {
     logger.debug(`${ruleId}: no description found!`);
     return [
       {
-        message: 'Schema property should have a non-empty description',
+        message: 'Schema properties should have a non-empty description',
         path,
       },
     ];

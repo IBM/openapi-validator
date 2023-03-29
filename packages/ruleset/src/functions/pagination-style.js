@@ -145,8 +145,7 @@ function paginationStyle(pathItem, path) {
       !limitParam.schema.maximum
     ) {
       results.push({
-        message:
-          'The "limit" parameter must be of type integer and optional with default and maximum values',
+        message: `The 'limit' parameter must be of type integer and optional with default and maximum values`,
         path: [
           'paths',
           pathStr,
@@ -168,7 +167,7 @@ function paginationStyle(pathItem, path) {
       !!offsetParam.required
     ) {
       results.push({
-        message: 'The "offset" parameter must be of type integer and optional',
+        message: `The 'offset' parameter must be of type integer and optional`,
         path: [
           'paths',
           pathStr,
@@ -185,7 +184,7 @@ function paginationStyle(pathItem, path) {
   // Reference: https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-pagination#offset-and-limit-pagination
   if (offsetParamIndex >= 0 && limitParamIndex < 0) {
     results.push({
-      message: `The operation must define a "limit" query parameter if the "offset" query parameter is defined`,
+      message: `The operation must define a 'limit' query parameter if the 'offset' query parameter is defined`,
       path: ['paths', pathStr, 'get'],
     });
   }
@@ -197,7 +196,7 @@ function paginationStyle(pathItem, path) {
     const pageTokenParam = params[pageTokenParamIndex];
     if (pageTokenParam.name !== 'start') {
       results.push({
-        message: `The "${pageTokenParam.name}" parameter should be named "start"`,
+        message: `The '${pageTokenParam.name}' parameter should be named 'start'`,
         path: [
           'paths',
           pathStr,
@@ -213,7 +212,7 @@ function paginationStyle(pathItem, path) {
       !!pageTokenParam.required
     ) {
       results.push({
-        message: `The "${pageTokenParam.name}" parameter must be of type string and optional`,
+        message: `The '${pageTokenParam.name}' parameter must be of type string and optional`,
         path: [
           'paths',
           pathStr,
@@ -257,8 +256,7 @@ function paginationStyle(pathItem, path) {
     const limitProp = responseSchema.properties.limit;
     if (!limitProp) {
       results.push({
-        message:
-          'A paginated list operation with a "limit" query parameter must include a "limit" property in the response body schema',
+        message: `A paginated list operation with a 'limit' query parameter must include a 'limit' property in the response body schema`,
         path: responseSchemaPath,
       });
     } else if (
@@ -267,8 +265,7 @@ function paginationStyle(pathItem, path) {
       responseSchema.required.indexOf('limit') === -1
     ) {
       results.push({
-        message:
-          'The "limit" property in the response body of a paginated list operation must be of type integer and required',
+        message: `The 'limit' property in the response body of a paginated list operation must be of type integer and required`,
         path: [...responseSchemaPath, 'properties', 'limit'],
       });
     }
@@ -281,8 +278,7 @@ function paginationStyle(pathItem, path) {
     const offsetProp = responseSchema.properties.offset;
     if (!offsetProp) {
       results.push({
-        message:
-          'A paginated list operation with an "offset" query parameter must include an "offset" property in the response body schema',
+        message: `A paginated list operation with an 'offset' query parameter must include an 'offset' property in the response body schema`,
         path: responseSchemaPath,
       });
     } else if (
@@ -291,8 +287,7 @@ function paginationStyle(pathItem, path) {
       responseSchema.required.indexOf('offset') === -1
     ) {
       results.push({
-        message:
-          'The "offset" property in the response body of a paginated list operation must be of type integer and required',
+        message: `The 'offset' property in the response body of a paginated list operation must be of type integer and required`,
         path: [...responseSchemaPath, 'properties', 'offset'],
       });
     }
@@ -325,8 +320,7 @@ function paginationStyle(pathItem, path) {
       responseSchema.required.indexOf('total_count') === -1
     ) {
       results.push({
-        message:
-          'The "total_count" property in the response body of a paginated list operation must be of type integer and required',
+        message: `The 'total_count' property in the response body of a paginated list operation must be of type integer and required`,
         path: [...responseSchemaPath, 'properties', 'total_count'],
       });
     }
@@ -384,13 +378,13 @@ function checkPageLink(path, responseSchema, name, isRequired) {
       pageLinkSchema.properties.href.type !== 'string'
     ) {
       results.push({
-        message: `The "${name}" property should be an object with an "href" string property`,
+        message: `The '${name}' property should be an object with an 'href' string property`,
         path: [...path, 'properties', name],
       });
     }
   } else if (isRequired) {
     results.push({
-      message: `A paginated list operation should include a "${name}" property in the response body schema`,
+      message: `A paginated list operation should include a '${name}' property in the response body schema`,
       path,
     });
   }

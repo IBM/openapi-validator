@@ -68,7 +68,7 @@ function binarySchemaCheck(schema, path) {
     return [
       {
         message:
-          'Parameters should not contain binary values (type: string, format: binary).',
+          'Parameters should not contain binary values (type: string, format: binary)',
         path,
       },
     ];
@@ -84,7 +84,7 @@ function binarySchemaCheck(schema, path) {
     return [
       {
         message:
-          'Request bodies with JSON content should not contain binary values (type: string, format: binary).',
+          'Request bodies with JSON content should not contain binary values (type: string, format: binary)',
         path,
       },
     ];
@@ -100,7 +100,7 @@ function binarySchemaCheck(schema, path) {
     return [
       {
         message:
-          'Responses with JSON content should not contain binary values (type: string, format: binary).',
+          'Responses with JSON content should not contain binary values (type: string, format: binary)',
         path,
       },
     ];

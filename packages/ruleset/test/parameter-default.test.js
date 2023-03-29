@@ -9,7 +9,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = parameterDefault;
 const ruleId = 'ibm-no-default-for-required-parameter';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg = 'Required parameter should not define a default value';
+const expectedMsg = 'Required parameters should not define a default value';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

@@ -38,7 +38,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'An operation that returns a 412 status code must support at least one conditional header'
       );
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path.join('.')).toBe('paths./v1/movies/{movie_id}.get');
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.get.responses'
+      );
     });
   });
 });

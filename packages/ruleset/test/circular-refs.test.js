@@ -8,7 +8,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 let rule;
 const ruleId = 'ibm-no-circular-refs';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg = 'API definition should not contain circular references.';
+const expectedMsg = 'API definition should not contain circular references';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   // The implementation of the circular-refs rule uses a global variable

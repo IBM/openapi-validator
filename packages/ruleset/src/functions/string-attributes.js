@@ -62,19 +62,19 @@ function stringBoundaryErrors(schema, path) {
 
       if (!isDefined(pattern) && !bypassFormats.pattern.includes(format)) {
         errors.push({
-          message: 'Should define a pattern for a valid string',
+          message: `String schemas should define property 'pattern'`,
           path,
         });
       }
       if (!isDefined(minLength) && !bypassFormats.minLength.includes(format)) {
         errors.push({
-          message: 'Should define a minLength for a valid string',
+          message: `String schemas should define property 'minLength'`,
           path,
         });
       }
       if (!isDefined(maxLength) && !bypassFormats.maxLength.includes(format)) {
         errors.push({
-          message: 'Should define a maxLength for a valid string',
+          message: `String schemas should define property 'maxLength'`,
           path,
         });
       }
@@ -84,7 +84,7 @@ function stringBoundaryErrors(schema, path) {
         minLength > maxLength
       ) {
         errors.push({
-          message: 'minLength cannot be greater than maxLength',
+          message: `'minLength' cannot be greater than 'maxLength'`,
           path,
         });
       }
@@ -93,19 +93,19 @@ function stringBoundaryErrors(schema, path) {
     // Make sure that string-related fields are not present in a non-string schema.
     if (schemaContainsAttribute(schema, 'pattern')) {
       errors.push({
-        message: 'pattern should not be defined for a non-string schema',
+        message: `'pattern' should not be defined for non-string schemas`,
         path: [...path, 'pattern'],
       });
     }
     if (schemaContainsAttribute(schema, 'minLength')) {
       errors.push({
-        message: 'minLength should not be defined for a non-string schema',
+        message: `'minLength' should not be defined for non-string schemas`,
         path: [...path, 'minLength'],
       });
     }
     if (schemaContainsAttribute(schema, 'maxLength')) {
       errors.push({
-        message: 'maxLength should not be defined for a non-string schema',
+        message: `'maxLength' should not be defined for non-string schemas`,
         path: [...path, 'maxLength'],
       });
     }

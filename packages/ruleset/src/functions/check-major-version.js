@@ -65,7 +65,7 @@ function checkMajorVersion(apiDef) {
         return [
           {
             message:
-              'Major version segments of urls in servers object do not match. Found ' +
+              'Major version segments of urls in servers object do not match. Found: ' +
               uniqueVersions.join(', '),
             path: ['servers'],
           },
@@ -113,7 +113,7 @@ function checkMajorVersion(apiDef) {
       return [
         {
           message:
-            'Major version segments of paths object do not match. Found ' +
+            'Major version segments in paths do not match. Found: ' +
             uniqueVersions.join(', '),
           path: ['paths'],
         },

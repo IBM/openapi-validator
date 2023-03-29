@@ -11,7 +11,7 @@ const { responseStatusCodes } = require('../functions');
 
 module.exports = {
   description:
-    'Performs multiple checks on the status codes used in operation responses.',
+    'Performs multiple checks on the status codes used in operation responses',
   message: '{{error}}',
   formats: [oas3],
   given: operations,

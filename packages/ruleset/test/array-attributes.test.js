@@ -9,9 +9,9 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = arrayAttributes;
 const ruleId = 'ibm-array-attributes';
 const expectedSeverity = severityCodes.warning;
-const expectedMsgMin = 'Array schemas should define a numeric minItems field';
-const expectedMsgMax = 'Array schemas should define a numeric maxItems field';
-const expectedMsgItems = 'Array schemas must specify the items field';
+const expectedMsgMin = `Array schemas should define a numeric 'minItems' field`;
+const expectedMsgMax = `Array schemas should define a numeric 'maxItems' field`;
+const expectedMsgItems = `Array schemas must specify the 'items' field`;
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
@@ -619,7 +619,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toBe(
-          'minItems cannot be greater than maxItems'
+          `'minItems' cannot be greater than 'maxItems'`
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -644,7 +644,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toBe(
-          'minItems should not be defined for a non-array schema'
+          `'minItems' should not be defined for a non-array schema`
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -669,7 +669,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toBe(
-          'maxItems should not be defined for a non-array schema'
+          `'maxItems' should not be defined for a non-array schema`
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);

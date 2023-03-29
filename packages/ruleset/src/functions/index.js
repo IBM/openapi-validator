@@ -13,7 +13,6 @@ module.exports = {
   collectionArrayProperty: require('./collection-array-property'),
   consecutivePathSegments: require('./consecutive-path-segments'),
   deleteBody: require('./delete-body'),
-  descriptionMentionsJSON: require('./description-mentions-json'),
   disallowedHeaderParameter: require('./disallowed-header-parameter'),
   discriminatorPropertyExists: require('./discriminator-property-exists'),
   duplicatePathParameter: require('./duplicate-path-parameter'),

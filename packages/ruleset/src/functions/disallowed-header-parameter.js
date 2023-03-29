@@ -53,7 +53,7 @@ function checkHeaderParam(logger, ruleId, param, path, headerName) {
       return [
         {
           // This is a default message. We expect the rule definition to supply a message.
-          message: `Header parameter "${headerName}" should not be explicitly defined.`,
+          message: `Header parameter should not be explicitly defined: ${headerName}`,
           path,
         },
       ];

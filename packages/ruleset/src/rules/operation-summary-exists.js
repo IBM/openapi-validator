@@ -10,7 +10,7 @@ const { oas3 } = require('@stoplight/spectral-formats');
 const { operationSummaryExists } = require('../functions');
 
 module.exports = {
-  description: 'Operation "summary" must be present and non-empty string.',
+  description: 'Operations must have a non-empty summary',
   given: operations,
   severity: 'warn',
   formats: [oas3],
