@@ -29,7 +29,7 @@ function arrayOfArrays(schema, path) {
     if (isArraySchema(schema.items)) {
       logger.debug('Found an array of arrays!');
       errors.push({
-        message: 'Array schemas should avoid having items of type array.',
+        message: 'Array schemas should avoid having items of type array',
         path,
       });
     }

@@ -10,11 +10,11 @@ const rule = inlineSchemas;
 const ruleId = 'ibm-avoid-inline-schemas';
 const expectedSeverity = severityCodes.warning;
 const expectedMsgProperty =
-  'Nested objects should be defined as a $ref to a named schema.';
+  'Nested objects should be defined as a $ref to a named schema';
 const expectedMsgRequest =
-  'Request body schemas should be defined as a $ref to a named schema.';
+  'Request body schemas should be defined as a $ref to a named schema';
 const expectedMsgResponse =
-  'Response schemas should be defined as a $ref to a named schema.';
+  'Response schemas should be defined as a $ref to a named schema';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

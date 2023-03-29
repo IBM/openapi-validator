@@ -9,8 +9,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = arrayOfArrays;
 const ruleId = 'ibm-no-array-of-arrays';
 const expectedSeverity = severityCodes.warning;
-const expectedMessage =
-  'Array schemas should avoid having items of type array.';
+const expectedMessage = 'Array schemas should avoid having items of type array';
 
 // Create a few array schemas for test data.
 const arrayOfString = {

@@ -43,7 +43,7 @@ function checkForArrayResponses(op, path) {
         logger.debug('Found an array response!');
         errors.push({
           message:
-            'Operations should not return an array as the top-level structure of a response.',
+            'Operations should not return an array as the top-level structure of a response',
           path: [
             ...path,
             'responses',

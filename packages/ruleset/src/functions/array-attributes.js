@@ -40,7 +40,7 @@ function arrayAttributeErrors(schema, path) {
     if (!isDefined(minItems)) {
       logger.debug('minItems field is missing!');
       errors.push({
-        message: 'Array schemas should define a numeric minItems field',
+        message: `Array schemas should define a numeric 'minItems' field`,
         path,
       });
     }
@@ -50,7 +50,7 @@ function arrayAttributeErrors(schema, path) {
     if (!isDefined(maxItems)) {
       logger.debug('maxItems field is missing!');
       errors.push({
-        message: 'Array schemas should define a numeric maxItems field',
+        message: `Array schemas should define a numeric 'maxItems' field`,
         path,
       });
     }
@@ -59,7 +59,7 @@ function arrayAttributeErrors(schema, path) {
     if (isDefined(minItems) && isDefined(maxItems) && minItems > maxItems) {
       logger.debug('minItems > maxItems!');
       errors.push({
-        message: 'minItems cannot be greater than maxItems',
+        message: `'minItems' cannot be greater than 'maxItems'`,
         path,
       });
     }
@@ -70,7 +70,7 @@ function arrayAttributeErrors(schema, path) {
       logger.debug('items field is missing or is not an object!');
       return [
         {
-          message: 'Array schemas must specify the items field',
+          message: `Array schemas must specify the 'items' field`,
           path,
         },
       ];
@@ -79,13 +79,13 @@ function arrayAttributeErrors(schema, path) {
     // minItems/maxItems should not be defined for a non-array schema
     if (schema.minItems) {
       errors.push({
-        message: 'minItems should not be defined for a non-array schema',
+        message: `'minItems' should not be defined for a non-array schema`,
         path: [...path, 'minItems'],
       });
     }
     if (schema.maxItems) {
       errors.push({
-        message: 'maxItems should not be defined for a non-array schema',
+        message: `'maxItems' should not be defined for a non-array schema`,
         path: [...path, 'maxItems'],
       });
     }

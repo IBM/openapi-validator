@@ -40,7 +40,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(result.code).toBe(ruleId);
       expect(result.severity).toBe(expectedSeverity);
       expect(result.message).toBe(
-        'ETag response header is required, but no "get" operation is defined'
+        `'ETag' response header is required, but no GET operation is defined`
       );
       expect(result.path.join('.')).toBe('paths./v1/movies/{movie_id}');
     });
@@ -56,7 +56,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(result.code).toBe(ruleId);
       expect(result.severity).toBe(expectedSeverity);
       expect(result.message).toBe(
-        'ETag response header is required, but "get" operation defines no success responses'
+        `'ETag' response header is required, but GET operation defines no success responses`
       );
       expect(result.path.join('.')).toBe('paths./v1/movies/{movie_id}.get');
     });
@@ -72,7 +72,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(result.code).toBe(ruleId);
       expect(result.severity).toBe(expectedSeverity);
       expect(result.message).toBe(
-        'ETag response header is required, but "get" operation defines no success responses'
+        `'ETag' response header is required, but GET operation defines no success responses`
       );
       expect(result.path.join('.')).toBe('paths./v1/movies/{movie_id}.get');
     });
@@ -87,7 +87,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const result = results[0];
       expect(result.code).toBe(ruleId);
       expect(result.severity).toBe(expectedSeverity);
-      expect(result.message).toBe('ETag response header is required');
+      expect(result.message).toBe(`'ETag' response header is required`);
       expect(result.path.join('.')).toBe(
         'paths./v1/movies/{movie_id}.get.responses.200'
       );
@@ -105,7 +105,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const result = results[0];
       expect(result.code).toBe(ruleId);
       expect(result.severity).toBe(expectedSeverity);
-      expect(result.message).toBe('ETag response header is required');
+      expect(result.message).toBe(`'ETag' response header is required`);
       expect(result.path.join('.')).toBe(
         'paths./v1/movies/{movie_id}.get.responses.200.headers'
       );

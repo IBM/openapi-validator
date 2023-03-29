@@ -16,7 +16,7 @@ module.exports = function (param, _opts, context) {
   return parameterDefault(param, context.path);
 };
 
-const errorMsg = 'Required parameter should not define a default value';
+const errorMsg = 'Required parameters should not define a default value';
 
 function parameterDefault(param, path) {
   logger.debug(`${ruleId}: checking parameter at location: ${path.join('.')}`);

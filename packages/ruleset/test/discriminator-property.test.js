@@ -9,6 +9,8 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const ruleId = 'ibm-discriminator-property';
 const rule = discriminatorPropertyExists;
 
+const expectedMsg = /Discriminator property must be defined in the schema: /;
+
 describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
     // tests oneOf with all properties containing the property
@@ -142,9 +144,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
-    expect(validation.message).toBe(
-      'The discriminator property name used must be defined in this schema'
-    );
+    expect(validation.message).toMatch(expectedMsg);
     expect(validation.path).toStrictEqual([
       'paths',
       '/v1/drinks',
@@ -190,9 +190,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
-    expect(validation.message).toBe(
-      'The discriminator property name used must be defined in this schema'
-    );
+    expect(validation.message).toMatch(expectedMsg);
     expect(validation.path).toStrictEqual([
       'paths',
       '/v1/drinks',
@@ -235,9 +233,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
-    expect(validation.message).toBe(
-      'The discriminator property name used must be defined in this schema'
-    );
+    expect(validation.message).toMatch(expectedMsg);
     expect(validation.path).toStrictEqual([
       'paths',
       '/v1/drinks',
@@ -280,9 +276,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
-    expect(validation.message).toBe(
-      'The discriminator property name used must be defined in this schema'
-    );
+    expect(validation.message).toMatch(expectedMsg);
     expect(validation.path).toStrictEqual([
       'paths',
       '/v1/drinks',
@@ -325,9 +319,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
-    expect(validation.message).toBe(
-      'The discriminator property name used must be defined in this schema'
-    );
+    expect(validation.message).toMatch(expectedMsg);
     expect(validation.path).toStrictEqual([
       'paths',
       '/v1/drinks',

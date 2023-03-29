@@ -211,7 +211,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Required property, foo, must be defined in at least one of the allOf schemas'
+      'Required property must be defined in at least one of the allOf schemas: foo'
     );
     expect(validation.path).toStrictEqual([
       'paths',
@@ -272,7 +272,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Required property, foo, must be defined in all of the anyOf/oneOf schemas'
+      'Required property must be defined in all of the anyOf/oneOf schemas: foo'
     );
     expect(validation.path).toStrictEqual([
       'paths',
@@ -334,7 +334,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Required property, foo, must be defined in all of the anyOf/oneOf schemas'
+      'Required property must be defined in all of the anyOf/oneOf schemas: foo'
     );
     expect(validation.path).toStrictEqual([
       'paths',
@@ -401,7 +401,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     results.forEach(r => {
       expect(r.code).toBe(ruleId);
-      expect(r.message).toBe('Required property, foo, not in the schema');
+      expect(r.message).toBe(
+        'Required property must be defined in the schema: foo'
+      );
       expect(r.severity).toBe(severityCodes.error);
     });
 

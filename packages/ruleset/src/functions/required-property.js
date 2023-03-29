@@ -38,11 +38,11 @@ function checkRequiredProperties(schema, path) {
       if (!schemaHasProperty(schema, requiredPropName)) {
         let message;
         if (schema.allOf) {
-          message = `Required property, ${requiredPropName}, must be defined in at least one of the allOf schemas`;
+          message = `Required property must be defined in at least one of the allOf schemas: ${requiredPropName}`;
         } else if (schema.anyOf || schema.oneOf) {
-          message = `Required property, ${requiredPropName}, must be defined in all of the anyOf/oneOf schemas`;
+          message = `Required property must be defined in all of the anyOf/oneOf schemas: ${requiredPropName}`;
         } else {
-          message = `Required property, ${requiredPropName}, not in the schema`;
+          message = `Required property must be defined in the schema: ${requiredPropName}`;
         }
         logger.debug(`${ruleId}: Uh oh: ${message}`);
         errors.push({

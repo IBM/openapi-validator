@@ -10,7 +10,7 @@ const rule = parameterOrder;
 const ruleId = 'ibm-parameter-order';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg =
-  'Required parameters should appear before optional parameters.';
+  'Required parameters should appear before optional parameters';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
