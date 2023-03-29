@@ -28,7 +28,7 @@ function deleteBody(operation, path) {
     logger.debug(`Found delete operation with a request body!`);
     return [
       {
-        message: '"delete" operation should not contain a requestBody.',
+        message: 'DELETE operations should not contain a requestBody',
         path: [...path, 'requestBody'],
       },
     ];

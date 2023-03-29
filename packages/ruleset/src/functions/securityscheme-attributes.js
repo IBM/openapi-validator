@@ -42,8 +42,8 @@ const validIns = ['query', 'header', 'cookie'];
  * Reference:
  * https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#security-scheme-object
  *
- * @param {*} securityScheme the securitySchema object to be checked
- * @param {*} path the array of path segments indicating the "location" of the securitySchema within the API definition
+ * @param {*} securityScheme the securityScheme object to be checked
+ * @param {*} path the array of path segments indicating the "location" of the securityScheme within the API definition
  * @returns an array containing the violations found or [] if no violations
  */
 function checkSecuritySchemeAttributes(securityScheme, path, doc) {
@@ -57,12 +57,12 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
 
   if (!type) {
     errors.push({
-      message: `security scheme is missing required property: type`,
+      message: `Security scheme is missing required property: type`,
       path,
     });
   } else if (!validTypes.includes(type)) {
     errors.push({
-      message: `security scheme 'type' property must be one of: ${validTypes.join(
+      message: `Security scheme property 'type' must be one of: ${validTypes.join(
         ', '
       )}`,
       path: [...path, 'type'],
@@ -71,7 +71,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
     // http validation
     if (!securityScheme.scheme) {
       errors.push({
-        message: `security scheme with type '${HTTP}' is missing required property: scheme`,
+        message: `Security scheme with type '${HTTP}' is missing required property: scheme`,
         path,
       });
     }
@@ -80,12 +80,12 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
     const authIn = securityScheme.in;
     if (!authIn) {
       errors.push({
-        message: `security scheme with type '${API_KEY}' is missing required property: in`,
+        message: `Security scheme with type '${API_KEY}' is missing required property: in`,
         path,
       });
     } else if (!validIns.includes(authIn)) {
       errors.push({
-        message: `security scheme 'in' property must be one of: ${validIns.join(
+        message: `Security scheme property 'in' must be one of: ${validIns.join(
           ', '
         )}`,
         path: [...path, 'in'],
@@ -94,7 +94,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
 
     if (!securityScheme.name) {
       errors.push({
-        message: `security scheme with type '${API_KEY}' is missing required property: name`,
+        message: `Security scheme with type '${API_KEY}' is missing required property: name`,
         path,
       });
     }
@@ -103,12 +103,12 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
     const openIdConnectUrl = securityScheme.openIdConnectUrl;
     if (!openIdConnectUrl) {
       errors.push({
-        message: `security scheme with type '${OPENID_CONNECT}' is missing required property: openIdConnectUrl`,
+        message: `Security scheme with type '${OPENID_CONNECT}' is missing required property: openIdConnectUrl`,
         path,
       });
     } else if (!isValidUrl(openIdConnectUrl, serviceUrl)) {
       errors.push({
-        message: `security scheme 'openIdConnectUrl' property must be a valid URL`,
+        message: `Security scheme property 'openIdConnectUrl' must be a valid URL`,
         path: [...path, 'openIdConnectUrl'],
       });
     }
@@ -117,7 +117,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
     const flows = securityScheme.flows;
     if (!flows) {
       errors.push({
-        message: `security scheme with type '${OAUTH2}' is missing required property: flows`,
+        message: `Security scheme with type '${OAUTH2}' is missing required property: flows`,
         path,
       });
     } else {
@@ -146,7 +146,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
           });
         } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
-            message: `security scheme 'tokenUrl' property must be a valid URL`,
+            message: `Security scheme property 'tokenUrl' must be a valid URL`,
             path: [...path, 'flows', 'authorizationCode', 'tokenUrl'],
           });
         }
@@ -158,7 +158,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
           });
         } else if (!isValidUrl(flow.authorizationUrl, serviceUrl)) {
           errors.push({
-            message: `security scheme 'authorizationUrl' property must be a valid URL`,
+            message: `Security scheme property 'authorizationUrl' must be a valid URL`,
             path: [...path, 'flows', 'authorizationCode', 'authorizationUrl'],
           });
         }
@@ -181,7 +181,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
           });
         } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
-            message: `security scheme 'tokenUrl' property must be a valid URL`,
+            message: `Security scheme property 'tokenUrl' must be a valid URL`,
             path: [...path, 'flows', 'password', 'tokenUrl'],
           });
         }
@@ -204,7 +204,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
           });
         } else if (!isValidUrl(flow.tokenUrl, serviceUrl)) {
           errors.push({
-            message: `security scheme 'tokenUrl' property must be a valid URL`,
+            message: `Security scheme property 'tokenUrl' must be a valid URL`,
             path: [...path, 'flows', 'clientCredentials', 'tokenUrl'],
           });
         }
@@ -227,7 +227,7 @@ function checkSecuritySchemeAttributes(securityScheme, path, doc) {
           });
         } else if (!isValidUrl(flow.authorizationUrl, serviceUrl)) {
           errors.push({
-            message: `security scheme 'authorizationUrl' property must be a valid URL`,
+            message: `Security scheme property 'authorizationUrl' must be a valid URL`,
             path: [...path, 'flows', 'implicit', 'authorizationUrl'],
           });
         }

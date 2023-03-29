@@ -9,7 +9,7 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = deleteBody;
 const ruleId = 'ibm-no-body-for-delete';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg = '"delete" operation should not contain a requestBody.';
+const expectedMsg = 'DELETE operations should not contain a requestBody';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

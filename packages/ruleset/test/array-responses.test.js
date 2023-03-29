@@ -10,7 +10,7 @@ const rule = arrayResponses;
 const ruleId = 'ibm-no-array-responses';
 const expectedSeverity = severityCodes.error;
 const expectedMsg =
-  'Operations should not return an array as the top-level structure of a response.';
+  'Operations should not return an array as the top-level structure of a response';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

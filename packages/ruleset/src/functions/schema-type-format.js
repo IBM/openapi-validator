@@ -33,19 +33,19 @@ const validStringFormats = [
 ];
 
 // Pre-define some error messages that we can re-use later.
-const formatButNoTypeErrorMsg = 'Format defined without a type.';
-const invalidTypeErrorMsg = `Invalid type. Valid types are: ${validTypes.join(
+const formatButNoTypeErrorMsg = 'Format defined without a type';
+const invalidTypeErrorMsg = `Invalid type; valid types are: ${validTypes.join(
   ', '
-)}.`;
+)}`;
 const integerFormatErrorMsg = `Schema of type integer should use one of the following formats: ${validIntegerFormats.join(
   ', '
-)}.`;
+)}`;
 const numberFormatErrorMsg = `Schema of type number should use one of the following formats: ${validNumberFormats.join(
   ', '
-)}.`;
+)}`;
 const stringFormatErrorMsg = `Schema of type string should use one of the following formats: ${validStringFormats.join(
   ', '
-)}.`;
+)}`;
 
 let ruleId;
 let logger;
@@ -130,7 +130,7 @@ function typeFormatErrors(schema, path) {
           // No valid formats for boolean, format should be undefined
           if (schema.format !== undefined) {
             errors.push({
-              message: `Schema of type ${schema.type} should not have a format.`,
+              message: `Schema of type ${schema.type} should not have a format`,
               path,
             });
           }

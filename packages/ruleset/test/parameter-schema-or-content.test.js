@@ -67,7 +67,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Parameter must provide either a schema or content'
+      'Parameters must provide either a schema or content'
     );
     expect(validation.path).toStrictEqual([
       'paths',

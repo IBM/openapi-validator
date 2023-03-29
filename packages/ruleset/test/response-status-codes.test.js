@@ -117,7 +117,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        'Operation `responses` should use status code 400 instead of 422 for invalid request payloads.'
+        'Operation responses should use status code 400 instead of 422 for invalid request payloads'
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
@@ -137,7 +137,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        'Operation `responses` should use status code 303 or 307 instead of 302.'
+        'Operation responses should use status code 303 or 307 instead of 302'
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
@@ -157,7 +157,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        'Operation `responses` should not include status code 101 when success status codes (2xx) are present.'
+        'Operation responses should not include status code 101 when success status codes (2xx) are present'
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
@@ -177,7 +177,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        'A 204 response must not include a response body. Use a different status code for responses with content.'
+        'A 204 response must not include a response body; use a different status code for responses with content'
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
@@ -195,7 +195,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        'Operation `responses` should include at least one success status code (2xx).'
+        'Operation responses should include at least one success status code (2xx)'
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe('paths./v1/drinks.get.responses');
@@ -211,7 +211,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        "A 201 or 202 status code should be returned by a 'create' operation."
+        "A 201 or 202 status code should be returned by a 'create' operation"
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe('paths./v1/drinks.get.responses');
@@ -230,7 +230,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        "A 201 or 202 status code should be returned by a 'create' operation."
+        "A 201 or 202 status code should be returned by a 'create' operation"
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe('paths./v1/drinks.post.responses');
@@ -247,7 +247,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
-        'An operation that returns a 202 status code should not return any other 2xx status codes.'
+        'An operation that returns a 202 status code should not return any other 2xx status codes'
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe('paths./v1/drinks.get.responses');

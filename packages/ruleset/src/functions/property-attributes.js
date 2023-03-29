@@ -49,7 +49,7 @@ function checkPropertyAttributes(schema, path) {
     // 2) minimum <= maximum
     if (schema.minimum && schema.maximum && schema.minimum > schema.maximum) {
       errors.push({
-        message: 'minimum cannot be greater than maximum',
+        message: `'minimum' cannot be greater than 'maximum'`,
         path: [...path, 'minimum'],
       });
     }
@@ -57,13 +57,13 @@ function checkPropertyAttributes(schema, path) {
     // 1) minimum/maximum should not be defined for a non-numeric (number, integer) schema
     if (schema.minimum) {
       errors.push({
-        message: 'minimum should not be defined for a non-numeric schema',
+        message: `'minimum' should not be defined for non-numeric schemas`,
         path: [...path, 'minimum'],
       });
     }
     if (schema.maximum) {
       errors.push({
-        message: 'maximum should not be defined for a non-numeric schema',
+        message: `'maximum' should not be defined for non-numeric schemas`,
         path: [...path, 'maximum'],
       });
     }
@@ -79,7 +79,7 @@ function checkPropertyAttributes(schema, path) {
       schema.minProperties > schema.maxProperties
     ) {
       errors.push({
-        message: 'minProperties cannot be greater than maxProperties',
+        message: `'minProperties' cannot be greater than 'maxProperties'`,
         path: [...path, 'minProperties'],
       });
     }
@@ -87,13 +87,13 @@ function checkPropertyAttributes(schema, path) {
     // 4) minProperties/maxProperties should not be defined for a non-object schema
     if (schema.minProperties) {
       errors.push({
-        message: 'minProperties should not be defined for a non-object schema',
+        message: `'minProperties' should not be defined for non-object schemas`,
         path: [...path, 'minProperties'],
       });
     }
     if (schema.maxProperties) {
       errors.push({
-        message: 'maxProperties should not be defined for a non-object schema',
+        message: `'maxProperties' should not be defined for non-object schemas`,
         path: [...path, 'maxProperties'],
       });
     }

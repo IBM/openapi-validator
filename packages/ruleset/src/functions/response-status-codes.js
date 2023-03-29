@@ -57,7 +57,7 @@ function responseStatusCodes(operation, path, apidef) {
     if (statusCodes.includes('422')) {
       errors.push({
         message:
-          'Operation `responses` should use status code 400 instead of 422 for invalid request payloads.',
+          'Operation responses should use status code 400 instead of 422 for invalid request payloads',
         path: [...path, 'responses', '422'],
       });
     }
@@ -66,7 +66,7 @@ function responseStatusCodes(operation, path, apidef) {
     if (statusCodes.includes('302')) {
       errors.push({
         message:
-          'Operation `responses` should use status code 303 or 307 instead of 302.',
+          'Operation responses should use status code 303 or 307 instead of 302',
         path: [...path, 'responses', '302'],
       });
     }
@@ -75,7 +75,7 @@ function responseStatusCodes(operation, path, apidef) {
     if (!successCodes.length && !('101' in operation.responses)) {
       errors.push({
         message:
-          'Operation `responses` should include at least one success status code (2xx).',
+          'Operation responses should include at least one success status code (2xx)',
         path: [...path, 'responses'],
       });
     }
@@ -84,7 +84,7 @@ function responseStatusCodes(operation, path, apidef) {
     if (successCodes.length && '101' in operation.responses) {
       errors.push({
         message:
-          'Operation `responses` should not include status code 101 when success status codes (2xx) are present.',
+          'Operation responses should not include status code 101 when success status codes (2xx) are present',
         path: [...path, 'responses', '101'],
       });
     }
@@ -94,7 +94,7 @@ function responseStatusCodes(operation, path, apidef) {
     if (response204 && response204.content) {
       errors.push({
         message:
-          'A 204 response must not include a response body. Use a different status code for responses with content.',
+          'A 204 response must not include a response body; use a different status code for responses with content',
         path: [...path, 'responses', '204', 'content'],
       });
     }
@@ -104,8 +104,7 @@ function responseStatusCodes(operation, path, apidef) {
     if (isCreateOperation(operation, path, apidef)) {
       if (!successCodes.includes('201') && !successCodes.includes('202')) {
         errors.push({
-          message:
-            "A 201 or 202 status code should be returned by a 'create' operation.",
+          message: `A 201 or 202 status code should be returned by a 'create' operation`,
           path: [...path, 'responses'],
         });
       }
@@ -115,7 +114,7 @@ function responseStatusCodes(operation, path, apidef) {
     if (successCodes.includes('202') && successCodes.length > 1) {
       errors.push({
         message:
-          'An operation that returns a 202 status code should not return any other 2xx status codes.',
+          'An operation that returns a 202 status code should not return any other 2xx status codes',
         path: [...path, 'responses'],
       });
     }

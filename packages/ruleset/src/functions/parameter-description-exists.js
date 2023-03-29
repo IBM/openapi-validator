@@ -27,7 +27,7 @@ function parameterDescription(param, path) {
     logger.debug(`${ruleId}: no description found!`);
     return [
       {
-        message: 'Parameter should have a non-empty description',
+        message: 'Parameters should have a non-empty description',
         path,
       },
     ];

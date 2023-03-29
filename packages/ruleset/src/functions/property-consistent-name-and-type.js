@@ -61,14 +61,14 @@ function propertyConsistentNameAndType(schema, path) {
           if (!visitedProperties[propName].flagged) {
             visitedProperties[propName].flagged = true;
             errors.push({
-              message: `Properties with the same name have inconsistent types: ${propName}.`,
+              message: `Properties with the same name have inconsistent types: ${propName}`,
               path: visitedProperties[propName].path,
             });
           }
           // flag the rest of the properties that have the
           // same name but a different type as the first
           errors.push({
-            message: `Properties with the same name have inconsistent types: ${propName}.`,
+            message: `Properties with the same name have inconsistent types: ${propName}`,
             path: [...path, 'properties', propName],
           });
         }

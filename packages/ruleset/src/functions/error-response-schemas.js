@@ -83,8 +83,7 @@ function checkTraceProperty(properties, path) {
   if (!isObject(prop) || !isStringSchema(prop)) {
     return [
       {
-        message:
-          'Error container model should contain property `trace` of type string',
+        message: `Error container model should contain property 'trace' of type string`,
         path,
       },
     ];
@@ -102,8 +101,7 @@ function checkStatusCodeProperty(properties, path) {
   if (!isObject(prop) || !isIntegerSchema(prop)) {
     return [
       {
-        message:
-          'Error container model property `status_code` must be of type integer',
+        message: `Error container model property 'status_code' must be of type integer`,
         path: [...path, 'status_code'],
       },
     ];
@@ -121,8 +119,7 @@ function checkErrorsProperty(properties, path) {
   if (!isObject(prop) || !isArraySchema(prop)) {
     return [
       {
-        message:
-          'Error container model must contain property `errors` which must be an array of error models',
+        message: `Error container model must contain property 'errors' which must be an array of error models`,
         path,
       },
     ];
@@ -135,8 +132,7 @@ function checkErrorsProperty(properties, path) {
   if (!schemaIsObjectWithProperties(items)) {
     return [
       {
-        message:
-          'Error container model `errors.items` field must be an object with properties',
+        message: `Error container model 'errors.items' field must be an object with properties`,
         path,
       },
     ];
@@ -164,7 +160,7 @@ function checkCodeProperty(properties, path) {
   if (!prop) {
     return [
       {
-        message: 'Error model must contain property `code` of type string',
+        message: `Error model must contain property 'code' of type string`,
         path,
       },
     ];
@@ -175,7 +171,7 @@ function checkCodeProperty(properties, path) {
   if (!isStringSchema(prop)) {
     return [
       {
-        message: 'Error model must contain property `code` of type string',
+        message: `Error model must contain property 'code' of type string`,
         path,
       },
     ];
@@ -184,8 +180,7 @@ function checkCodeProperty(properties, path) {
   if (!prop.enum) {
     return [
       {
-        message:
-          'Error model property `code` must include an enumeration of the valid error codes',
+        message: `Error model property 'code' must include an enumeration of the valid error codes`,
         path,
       },
     ];
@@ -196,8 +191,7 @@ function checkCodeProperty(properties, path) {
   if (!Array.isArray(prop.enum)) {
     return [
       {
-        message:
-          'Error model property `code` must include an enumeration of the valid error codes',
+        message: `Error model property 'code' must include an enumeration of the valid error codes`,
         path,
       },
     ];
@@ -214,7 +208,7 @@ function checkMessageProperty(properties, path) {
   if (!isObject(prop) || !isStringSchema(prop)) {
     return [
       {
-        message: 'Error model must contain property `message` of type string',
+        message: `Error model must contain property 'message' of type string`,
         path,
       },
     ];
@@ -230,8 +224,7 @@ function checkMoreInfoProperty(properties, path) {
   if (!isObject(prop) || !isStringSchema(prop)) {
     return [
       {
-        message:
-          'Error model should contain property `more_info` of type string',
+        message: `Error model should contain property 'more_info' of type string`,
         path,
       },
     ];
@@ -252,8 +245,7 @@ function checkTargetProperty(properties, path) {
   if (!schemaIsObjectWithProperties(target)) {
     return [
       {
-        message:
-          'Error model property `target` must be a valid error target model object',
+        message: `Error model property 'target' must be a valid error target model object`,
         path,
       },
     ];
@@ -268,19 +260,18 @@ function checkTargetProperty(properties, path) {
   const typeProp = targetModelProps.type;
   if (!typeProp) {
     errors.push({
-      message: 'Error target model must contain property `type` of type string',
+      message: `Error target model must contain property 'type' of type string`,
       path,
     });
   } else if (!isStringSchema(typeProp)) {
     errors.push({
-      message: 'Error target model must contain property `type` of type string',
+      message: `Error target model must contain property 'type' of type string`,
       path: [...path, 'type'],
     });
   } else {
     // We know that 'type' is a string property. Now make sure its enum complies.
     const enumValue = typeProp.enum;
-    const message =
-      "Error target model property `type` must define an enumeration containing ['field', 'header', 'parameter']";
+    const message = `Error target model property 'type' must define an enumeration containing ['field', 'header', 'parameter']`;
     if (!enumValue) {
       errors.push({
         message,
@@ -306,12 +297,12 @@ function checkTargetProperty(properties, path) {
   const nameProp = targetModelProps.name;
   if (!nameProp) {
     errors.push({
-      message: 'Error target model must contain property `name` of type string',
+      message: `Error target model must contain property 'name' of type string`,
       path,
     });
   } else if (!isStringSchema(nameProp)) {
     errors.push({
-      message: 'Error target model must contain property `name` of type string',
+      message: `Error target model must contain property 'name' of type string`,
       path: [...path, 'name'],
     });
   }

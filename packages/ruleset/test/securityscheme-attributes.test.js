@@ -70,7 +70,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme is missing required property: type`
+          `Security scheme is missing required property: type`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -88,7 +88,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme 'type' property must be one of: apiKey, http, oauth2, openIdConnect`
+          `Security scheme property 'type' must be one of: apiKey, http, oauth2, openIdConnect`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -108,7 +108,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme with type 'http' is missing required property: scheme`
+          `Security scheme with type 'http' is missing required property: scheme`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -129,7 +129,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme with type 'apiKey' is missing required property: in`
+          `Security scheme with type 'apiKey' is missing required property: in`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -149,7 +149,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme 'in' property must be one of: query, header, cookie`
+          `Security scheme property 'in' must be one of: query, header, cookie`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -168,7 +168,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme with type 'apiKey' is missing required property: name`
+          `Security scheme with type 'apiKey' is missing required property: name`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -188,7 +188,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme with type 'openIdConnect' is missing required property: openIdConnectUrl`
+          `Security scheme with type 'openIdConnect' is missing required property: openIdConnectUrl`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -207,7 +207,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme 'openIdConnectUrl' property must be a valid URL`
+          `Security scheme property 'openIdConnectUrl' must be a valid URL`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -227,7 +227,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(1);
         expect(results[0].code).toBe(ruleId);
         expect(results[0].message).toBe(
-          `security scheme with type 'oauth2' is missing required property: flows`
+          `Security scheme with type 'oauth2' is missing required property: flows`
         );
         expect(results[0].severity).toBe(expectedSeverity);
         expect(results[0].path.join('.')).toBe(
@@ -291,7 +291,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           expect(results[0].code).toBe(ruleId);
           expect(results[0].severity).toBe(expectedSeverity);
           expect(results[0].message).toBe(
-            `security scheme 'authorizationUrl' property must be a valid URL`
+            `Security scheme property 'authorizationUrl' must be a valid URL`
           );
           expect(results[0].path.join('.')).toBe(
             'components.securitySchemes.DrinkScheme.flows.implicit.authorizationUrl'
@@ -343,13 +343,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
             expect(r.severity).toBe(expectedSeverity);
           }
           expect(results[0].message).toBe(
-            `security scheme 'authorizationUrl' property must be a valid URL`
+            `Security scheme property 'authorizationUrl' must be a valid URL`
           );
           expect(results[0].path.join('.')).toBe(
             'components.securitySchemes.DrinkScheme.flows.authorizationCode.authorizationUrl'
           );
           expect(results[1].message).toBe(
-            `security scheme 'tokenUrl' property must be a valid URL`
+            `Security scheme property 'tokenUrl' must be a valid URL`
           );
           expect(results[1].path.join('.')).toBe(
             'components.securitySchemes.DrinkScheme.flows.authorizationCode.tokenUrl'
@@ -395,7 +395,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           expect(results[0].code).toBe(ruleId);
           expect(results[0].severity).toBe(expectedSeverity);
           expect(results[0].message).toBe(
-            `security scheme 'tokenUrl' property must be a valid URL`
+            `Security scheme property 'tokenUrl' must be a valid URL`
           );
           expect(results[0].path.join('.')).toBe(
             'components.securitySchemes.DrinkScheme.flows.clientCredentials.tokenUrl'
@@ -440,7 +440,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           expect(results[0].code).toBe(ruleId);
           expect(results[0].severity).toBe(expectedSeverity);
           expect(results[0].message).toBe(
-            `security scheme 'tokenUrl' property must be a valid URL`
+            `Security scheme property 'tokenUrl' must be a valid URL`
           );
           expect(results[0].path.join('.')).toBe(
             'components.securitySchemes.DrinkScheme.flows.password.tokenUrl'

@@ -11,7 +11,7 @@ const { disallowedHeaderParameter } = require('../functions');
 
 module.exports = {
   description:
-    "Operations should not explicitly define the 'Content-Type' header parameter",
+    'Operations should not explicitly define the Content-Type header parameter',
   message: '{{description}}',
   formats: [oas3],
   given: parameters,

@@ -110,14 +110,14 @@ describe('cli tool - test option handling', function () {
       expect(summaryReported).toEqual(true);
 
       const sumSection = capturedText.findIndex(x => x.includes('Summary:'));
-      expect(sumSection).toBe(4);
+      expect(sumSection).toBe(3);
 
       // totals
       expect(capturedText[sumSection + 2].match(/\S+/g)[5]).toEqual('3');
       expect(capturedText[sumSection + 3].match(/\S+/g)[5]).toEqual('29');
 
       // errors
-      const errorSection = 9;
+      const errorSection = 8;
       expect(capturedText[errorSection + 1].match(/\S+/g)[0]).toEqual('1');
       expect(capturedText[errorSection + 1].match(/\S+/g)[1]).toEqual('(33%)');
 
@@ -125,7 +125,7 @@ describe('cli tool - test option handling', function () {
       expect(capturedText[errorSection + 2].match(/\S+/g)[1]).toEqual('(67%)');
 
       // warnings
-      const warningSection = 13;
+      const warningSection = 12;
       expect(capturedText[warningSection + 1].match(/\S+/g)[0]).toEqual('2');
       expect(capturedText[warningSection + 1].match(/\S+/g)[1]).toEqual('(7%)');
 

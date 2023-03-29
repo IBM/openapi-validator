@@ -30,16 +30,16 @@ module.exports = function print(context, results) {
 
     const typeLabel = type.charAt(0).toUpperCase() + type.slice(1) + 's';
     const color = colors[type];
-    console.log('');
     console.log(chalk[color](`${typeLabel}:`));
+    console.log('');
 
     each(results[type].results, result => {
       // print the path array as a dot-separated string
-      console.log('');
       console.log(chalk[color](`  Message :   ${result.message}`));
       console.log(chalk[color](`  Rule    :   ${result.rule}`));
       console.log(chalk[color](`  Path    :   ${result.path.join('.')}`));
       console.log(chalk[color](`  Line    :   ${result.line}`));
+      console.log('');
     });
   });
 
@@ -48,7 +48,6 @@ module.exports = function print(context, results) {
 };
 
 function printSummary(results, types, { chalk, config }) {
-  console.log('');
   console.log(chalk.cyan('Summary:'));
   console.log('');
 
@@ -96,4 +95,5 @@ function printSummary(results, types, { chalk, config }) {
       );
     });
   });
+  console.log('');
 }

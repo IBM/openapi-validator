@@ -81,12 +81,12 @@ describe('Expected output tests', function () {
       // originalError(textOutput);
 
       // errors
-      const errorStart = 4;
+      const errorStart = 3;
       expect(capturedText[errorStart + 5].match(/\S+/g)[2]).toEqual('52');
       expect(capturedText[errorStart + 10].match(/\S+/g)[2]).toEqual('96');
       expect(capturedText[errorStart + 15].match(/\S+/g)[2]).toEqual('103');
       // warnings
-      const warningStart = 21;
+      const warningStart = 20;
       expect(capturedText[warningStart + 5].match(/\S+/g)[2]).toEqual('22');
       expect(capturedText[warningStart + 10].match(/\S+/g)[2]).toEqual('24');
       expect(capturedText[warningStart + 15].match(/\S+/g)[2]).toEqual('40');
