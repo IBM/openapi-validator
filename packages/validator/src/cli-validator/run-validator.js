@@ -159,7 +159,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
     if (context.config.outputFormat != 'json') {
       console.log('');
-      console.log(chalk.underline(`Validation Results for ${validFile}:`));
+      console.log(chalk.underline(`Validation Results for ${validFile}:\n`));
     }
     try {
       originalFile = await readFile(validFile, 'utf8');
@@ -223,7 +223,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
       if (results.hasResults) {
         print(context, results);
       } else {
-        console.log(`${validFile} passed the validator`);
+        console.log(
+          context.chalk.green(`\n${validFile} passed the validator\n`)
+        );
       }
     }
   }
