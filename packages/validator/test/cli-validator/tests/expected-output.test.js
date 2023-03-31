@@ -85,6 +85,7 @@ describe('Expected output tests', function () {
       expect(capturedText[errorStart + 5].match(/\S+/g)[2]).toEqual('52');
       expect(capturedText[errorStart + 10].match(/\S+/g)[2]).toEqual('96');
       expect(capturedText[errorStart + 15].match(/\S+/g)[2]).toEqual('103');
+
       // warnings
       const warningStart = 20;
       expect(capturedText[warningStart + 5].match(/\S+/g)[2]).toEqual('22');
