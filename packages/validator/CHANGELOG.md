@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.0.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.0...ibm-openapi-validator@1.0.1) (2023-03-31)
+
+
+### Bug Fixes
+
+* use node v18 for travis deployment ([#577](https://github.com/IBM/openapi-validator/issues/577)) ([1692f4d](https://github.com/IBM/openapi-validator/commit/1692f4d1d72d0d4e13209d312fea85b0174ece31))
+
 # ibm-openapi-validator [1.0.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.97.5...ibm-openapi-validator@1.0.0) (2023-03-31)
 
 
