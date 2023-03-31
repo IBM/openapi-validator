@@ -3,7 +3,6 @@ dist: jammy
 language: node_js
 
 node_js:
-- 14
 - 16
 - 18
 
@@ -22,5 +21,5 @@ deploy:
   skip_cleanup: true
   script: npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
   on:
-    node: 14
+    node: 18
     branch: main
