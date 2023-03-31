@@ -10,8 +10,6 @@
 
 * Node v16 is now the minimum supported version of Node for running this tool.
 
-Signed-off-by: Dustin Popp <dpopp07@gmail.com>
-
 ## @ibm-cloud/openapi-ruleset-utilities [0.0.2-rc.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@0.0.1...@ibm-cloud/openapi-ruleset-utilities@0.0.2-rc.1) (2023-03-03)
 
 

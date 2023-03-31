@@ -43,29 +43,11 @@
 ### BREAKING CHANGES
 
 * Node v16 is now the minimum supported version of Node for running this tool.
-
-Signed-off-by: Dustin Popp <dpopp07@gmail.com>
 * The 'verbose' option is no longer supported. Use the logger to see additional output.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
 * Support for the .thresholdrc and .validateignore files is removed. Use CLI options or the newly-supported configuration file.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
 * The structure of the JSON output is now different. See the documented JSON Schema for the new structure.
-
-Signed-off-by: Dustin Popp <dpopp07@gmail.com>
-* All rules have been renamed. See the Migration Guide for specific information.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
 * The Node interface of this tool is no longer supported, it is now a CLI tool only.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
 * The 'summary-only', 'debug', 'print-validators' options have been removed.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
-
-
-
 
 
 ### Dependencies
