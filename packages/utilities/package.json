@@ -1,7 +1,7 @@
 {
   "name": "@ibm-cloud/openapi-ruleset-utilities",
   "description": "Programmatic utility functions for creating Spectral-formatted OpenAPI Rulesets",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "license": "Apache-2.0",
   "private": false,
   "main": "./src/index.js",
