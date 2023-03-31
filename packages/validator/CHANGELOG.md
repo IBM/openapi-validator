@@ -1,3 +1,63 @@
+# ibm-openapi-validator [1.0.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.97.5...ibm-openapi-validator@1.0.0) (2023-03-31)
+
+
+### Bug Fixes
+
+* apply config options to all output formats ([#567](https://github.com/IBM/openapi-validator/issues/567)) ([587860e](https://github.com/IBM/openapi-validator/commit/587860effabd567141bad2db0f1f45050727cd56))
+
+
+### Build System
+
+* require node v16 as minimum version ([#574](https://github.com/IBM/openapi-validator/issues/574)) ([dc7c8fe](https://github.com/IBM/openapi-validator/commit/dc7c8fee2bca21ac1c93a7ccbb46eabbafc7eeef))
+
+
+### Code Refactoring
+
+* re-structure results format ([#561](https://github.com/IBM/openapi-validator/issues/561)) ([a04ec0d](https://github.com/IBM/openapi-validator/commit/a04ec0db5510458bc92b9f4288dcbfa72617e5a3))
+* remove validator module API ([#539](https://github.com/IBM/openapi-validator/issues/539)) ([7f54364](https://github.com/IBM/openapi-validator/commit/7f5436448e9c2678b3286dbb44d000a8c3ae1cef))
+* update all rules and rule names ([2520648](https://github.com/IBM/openapi-validator/commit/2520648a331a7a0a3c77d14a5f168dec4bc6071d))
+
+
+### Features
+
+* **logger:** add logger facility to validator core ([#537](https://github.com/IBM/openapi-validator/issues/537)) ([f5aa2fc](https://github.com/IBM/openapi-validator/commit/f5aa2fc42ba886b86b4d861949c035ebe9d48d1a))
+* unify all configuration options ([#559](https://github.com/IBM/openapi-validator/issues/559)) ([ef93371](https://github.com/IBM/openapi-validator/commit/ef9337175feaac95addcb0a8ac0c9a074a1419a9))
+* update command-line options ([53f4fbb](https://github.com/IBM/openapi-validator/commit/53f4fbb07bc97468da30b8af59c90eda83663d87))
+* use consistent format/color for logs ([#572](https://github.com/IBM/openapi-validator/issues/572)) ([1ae158e](https://github.com/IBM/openapi-validator/commit/1ae158edb7d476b2f27ee73e1c25937ea10d2704))
+
+
+### BREAKING CHANGES
+
+* Node v16 is now the minimum supported version of Node for running this tool.
+
+Signed-off-by: Dustin Popp <dpopp07@gmail.com>
+* The 'verbose' option is no longer supported. Use the logger to see additional output.
+
+Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
+* Support for the .thresholdrc and .validateignore files is removed. Use CLI options or the newly-supported configuration file.
+
+Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
+* The structure of the JSON output is now different. See the documented JSON Schema for the new structure.
+
+Signed-off-by: Dustin Popp <dpopp07@gmail.com>
+* All rules have been renamed. See the Migration Guide for specific information.
+
+Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
+* The Node interface of this tool is no longer supported, it is now a CLI tool only.
+
+Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
+* The 'summary-only', 'debug', 'print-validators' options have been removed.
+
+Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.0.0
+
 ## ibm-openapi-validator [0.97.5](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@0.97.4...ibm-openapi-validator@0.97.5) (2023-02-28)
 
 
