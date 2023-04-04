@@ -1,6 +1,5 @@
 [![Build Status](https://travis-ci.com/IBM/openapi-validator.svg?branch=main)](https://travis-ci.com/IBM/openapi-validator)
 [![npm-version](https://img.shields.io/npm/v/ibm-openapi-validator.svg)](https://www.npmjs.com/package/ibm-openapi-validator)
-[![codecov](https://codecov.io/gh/ibm/openapi-validator/branch/main/graph/badge.svg)](https://codecov.io/gh/ibm/openapi-validator)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Gitter](https://badges.gitter.im/openapi-validator/community.svg)](https://gitter.im/openapi-validator/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
@@ -10,7 +9,7 @@
 The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to the [OpenAPI 3.x specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as IBM-defined best practices.
 
 #### Prerequisites
-- Node 14.x
+- Node 16.x
 - NPM 7.x
 
 ## Table of contents
