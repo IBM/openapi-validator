@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.0.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.1...ibm-openapi-validator@1.0.2) (2023-04-04)
+
+
+### Bug Fixes
+
+* avoid sec vulnerability in ajv dependency ([#579](https://github.com/IBM/openapi-validator/issues/579)) ([7285361](https://github.com/IBM/openapi-validator/commit/7285361edc1d6b1a74b431ed7aab7950fd197a88))
+
 ## ibm-openapi-validator [1.0.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.0...ibm-openapi-validator@1.0.1) (2023-03-31)
 
 
