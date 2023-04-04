@@ -13,7 +13,7 @@ const Ajv = require('ajv');
  * containing the error messages.
  */
 function validate(data, schema) {
-  const ajv = new Ajv({ allErrors: true });
+  const ajv = new Ajv({ allErrors: false });
 
   const validate = ajv.compile(schema);
   const valid = validate(data);

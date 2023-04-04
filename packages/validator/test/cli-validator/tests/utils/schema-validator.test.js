@@ -86,15 +86,9 @@ describe('Schema validator tests', function () {
     };
 
     const results = validate(configObj, configFileSchema);
-    expect(results).toHaveLength(3);
+    expect(results).toHaveLength(1);
     expect(results[0]).toBe(
       `schema validation error: must NOT have additional properties`
-    );
-    expect(results[1]).toBe(
-      `schema validation error: '/limits': must have required property 'warnings'`
-    );
-    expect(results[2]).toBe(
-      `schema validation error: '/limits': must NOT have additional properties`
     );
   });
 });

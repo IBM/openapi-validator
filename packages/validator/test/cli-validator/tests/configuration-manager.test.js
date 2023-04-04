@@ -101,15 +101,6 @@ describe('Configuration Manager tests', function () {
       expect(capturedText[0]).toMatch(
         /schema validation error: '\/errorsOnly': must be boolean/
       );
-      expect(capturedText[0]).toMatch(
-        /schema validation error: '\/limits': must have required property 'warnings'/
-      );
-      expect(capturedText[0]).toMatch(
-        /schema validation error: '\/limits': must NOT have additional properties/
-      );
-      expect(capturedText[0]).toMatch(
-        /schema validation error: '\/summaryOnly': must be boolean/
-      );
       expect(capturedText[1]).toMatch(
         /The validator will use a default config/
       );
@@ -161,15 +152,6 @@ describe('Configuration Manager tests', function () {
       expect(capturedText[0]).toMatch(/Invalid configuration file/);
       expect(capturedText[0]).toMatch(
         /schema validation error: '\/errorsOnly': must be boolean/
-      );
-      expect(capturedText[0]).toMatch(
-        /schema validation error: '\/limits': must have required property 'warnings'/
-      );
-      expect(capturedText[0]).toMatch(
-        /schema validation error: '\/limits': must NOT have additional properties/
-      );
-      expect(capturedText[0]).toMatch(
-        /schema validation error: '\/summaryOnly': must be boolean/
       );
       expect(capturedText[1]).toMatch(
         /The validator will use a default config/
