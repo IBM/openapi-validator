@@ -1,3 +1,13 @@
+## Current CHANGELOG Files
+
+**Since v0.51.3, the OpenAPI Ruleset has been shipped as a separate package from the OpenAPI Validator tool. Accordingly, each package has their own individual CHANGELOG file, which are linked here:**
+
+* [OpenAPI Validator](https://github.com/IBM/openapi-validator/blob/main/packages/validator/CHANGELOG.md)
+* [OpenAPI Ruleset](https://github.com/IBM/openapi-validator/blob/main/packages/ruleset/CHANGELOG.md)
+* [OpenAPI Ruleset Utilities](https://github.com/IBM/openapi-validator/blob/main/utilities/validator/CHANGELOG.md)
+
+---
+
 ## [0.51.3](https://github.com/IBM/openapi-validator/compare/v0.51.2...v0.51.3) (2021-10-11)
 
 

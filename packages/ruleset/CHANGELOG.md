@@ -14,29 +14,13 @@
 ### Features
 
 * **logger:** add logger facility to validator core ([#537](https://github.com/IBM/openapi-validator/issues/537)) ([f5aa2fc](https://github.com/IBM/openapi-validator/commit/f5aa2fc42ba886b86b4d861949c035ebe9d48d1a))
-* unify all configuration options ([#559](https://github.com/IBM/openapi-validator/issues/559)) ([ef93371](https://github.com/IBM/openapi-validator/commit/ef9337175feaac95addcb0a8ac0c9a074a1419a9))
-* update command-line options ([53f4fbb](https://github.com/IBM/openapi-validator/commit/53f4fbb07bc97468da30b8af59c90eda83663d87))
-* use consistent format/color for logs ([#572](https://github.com/IBM/openapi-validator/issues/572)) ([1ae158e](https://github.com/IBM/openapi-validator/commit/1ae158edb7d476b2f27ee73e1c25937ea10d2704))
 
 
 ### BREAKING CHANGES
 
 * Node v16 is now the minimum supported version of Node for running this tool.
-
-Signed-off-by: Dustin Popp <dpopp07@gmail.com>
-* The 'verbose' option is no longer supported. Use the logger to see additional output.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
 * Support for the .thresholdrc and .validateignore files is removed. Use CLI options or the newly-supported configuration file.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
 * All rules have been renamed. See the Migration Guide for specific information.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
-* The 'summary-only', 'debug', 'print-validators' options have been removed.
-
-Signed-off-by: Phil Adams <phil_adams@us.ibm.com>
-
 
 
 
