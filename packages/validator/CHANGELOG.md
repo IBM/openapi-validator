@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.0.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.2...ibm-openapi-validator@1.0.3) (2023-04-13)
+
+
+### Bug Fixes
+
+* bump minimum node version to 16 ([#582](https://github.com/IBM/openapi-validator/issues/582)) ([7849314](https://github.com/IBM/openapi-validator/commit/784931457a236297cb509c83bb1d447d9cb08497))
+
 ## ibm-openapi-validator [1.0.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.1...ibm-openapi-validator@1.0.2) (2023-04-04)
 
 
