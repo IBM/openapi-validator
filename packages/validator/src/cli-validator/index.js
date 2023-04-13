@@ -6,8 +6,8 @@
 
 // this module enforces that the user is running a supported version
 // of Node by exiting the process if the version is less than
-// the passed in argument (currently 14.0.0)
-require('./utils/check-version')('14.0.0');
+// the passed in argument (currently 16.0.0)
+require('./utils/check-version')('16.0.0');
 
 const runValidator = require('./run-validator');
 runValidator(process.argv)
