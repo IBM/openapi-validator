@@ -167,10 +167,32 @@ module.exports = {
 };
 
 function checkGetRulesetError(logger, error, file) {
+  const isAggregateError = error instanceof AggregateError;
+
   // Report the error, then check if some additional hints might be needed.
   logger.error(
-    `Problem reading Spectral ruleset file '${file}': ${error.message}`
+    `${
+      isAggregateError ? 'Problems' : 'Problem'
+    } reading Spectral ruleset file '${file}': ${error.message}`
   );
+
+  // Spectral may report an "AggregateError", which could contain multiple errors
+  // and will hide the "message" fields within the individual errors.
+  if (isAggregateError) {
+    error.errors.forEach(err => {
+      // If a validation path is returned, it should be helpful to the user. This formats the path
+      // to add it to the message, e.g. "(rules.enum-case-convention.then)".
+      const errorPathInRuleset = err.path
+        ? ' (' + err.path.join('.') + ')'
+        : '';
+
+      logger.error(`- ${err.message}${errorPathInRuleset}`);
+    });
+    logger.debug(
+      'Spectral returned an `AggregateError`. The ruleset likely did not pass validation.'
+    );
+  }
+
   logger.error(`Using the default IBM Cloud OpenAPI Ruleset instead.`);
 
   if (
