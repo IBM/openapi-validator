@@ -1,3 +1,18 @@
+## ibm-openapi-validator [1.0.4](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.3...ibm-openapi-validator@1.0.4) (2023-04-25)
+
+
+### Bug Fixes
+
+* include missing dependencies in ruleset package ([#585](https://github.com/IBM/openapi-validator/issues/585)) ([240980c](https://github.com/IBM/openapi-validator/commit/240980c4139905cc4b65f8fb5bb361e7c4acaa62))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.0.1
+
 ## ibm-openapi-validator [1.0.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.2...ibm-openapi-validator@1.0.3) (2023-04-13)
 
 
