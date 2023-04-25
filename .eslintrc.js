@@ -17,4 +17,7 @@ module.exports = {
     'prefer-const': 'error',
   },
   'extends': ['prettier', 'eslint:recommended'],
+  'globals': {
+    'AggregateError': 'readonly',
+  }
 };
