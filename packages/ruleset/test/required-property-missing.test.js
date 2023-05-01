@@ -164,7 +164,45 @@ describe(`Spectral rule: ${ruleId}`, () => {
     expect(results).toHaveLength(0);
   });
 
-  it('should error if allOf schema is missing a required property', async () => {
+  it('should not error if "required" in separate allOf element', async () => {
+    const testDocument = makeCopy(rootDocument);
+
+    testDocument.components.schemas['DrinkCollection'] = {
+      type: 'object',
+      description: 'A single page of results containing Drink instances.',
+      allOf: [
+        {
+          $ref: '#/components/schemas/OffsetPaginationBase',
+        },
+        {
+          type: 'object',
+          required: ['drinks'],
+          properties: {
+            drinks: {
+              description:
+                'The set of Drink instances in this page of results.',
+              type: 'array',
+              minItems: 0,
+              maxItems: 50,
+              items: {
+                $ref: '#/components/schemas/Drink',
+              },
+            },
+          },
+        },
+        {
+          // The "first" property is defined in OffsetPaginationBase.
+          required: ['first'],
+        },
+      ],
+    };
+
+    const results = await testRule(ruleId, rule, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
+  it('should error if allOf schema is missing a required property ("required" in main schema)', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['v1/books'] = {
       post: {
@@ -178,7 +216,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   type: 'object',
                   required: ['foo'],
                   allOf: [
-                    // an allOf needs at least one subschema with the required property
                     {
                       type: 'object',
                       properties: {
@@ -211,18 +248,69 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Required property must be defined in at least one of the allOf schemas: foo'
+      'Required property must be defined in the schema: foo'
     );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      'v1/books',
-      'post',
-      'parameters',
-      '0',
-      'content',
-      'application/json',
-      'schema',
-    ]);
+    expect(validation.path.join('.')).toBe(
+      'paths.v1/books.post.parameters.0.content.application/json.schema.required'
+    );
+    expect(validation.severity).toBe(severityCodes.error);
+  });
+
+  it('should error if allOf schema is missing a required property ("required" in allOf element)', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['v1/books'] = {
+      post: {
+        parameters: [
+          {
+            name: 'metadata',
+            in: 'header',
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  allOf: [
+                    {
+                      type: 'object',
+                      required: ['baz'],
+                      properties: {
+                        baz: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                    {
+                      type: 'object',
+                      required: ['bar'],
+                      properties: {
+                        bar: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                    {
+                      required: ['foo'],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        ],
+      },
+    };
+
+    const results = await testRule(ruleId, rule, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(ruleId);
+    expect(validation.message).toBe(
+      'Required property must be defined in the schema: foo'
+    );
+    expect(validation.path.join('.')).toBe(
+      'paths.v1/books.post.parameters.0.content.application/json.schema.allOf.2.required'
+    );
     expect(validation.severity).toBe(severityCodes.error);
   });
 
@@ -237,7 +325,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
                 type: 'object',
                 required: ['foo'],
                 anyOf: [
-                  // an anyOf needs all subschemas to define the required property
                   {
                     type: 'object',
                     properties: {
@@ -272,17 +359,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Required property must be defined in all of the anyOf/oneOf schemas: foo'
+      'Required property must be defined in the schema: foo'
     );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      'v1/books',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-    ]);
+    expect(validation.path.join('.')).toBe(
+      'paths.v1/books.post.requestBody.content.application/json.schema.required'
+    );
     expect(validation.severity).toBe(severityCodes.error);
   });
 
@@ -298,7 +379,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   type: 'object',
                   required: ['foo'],
                   oneOf: [
-                    // a oneOf needs all subschemas to define the required property
                     {
                       type: 'object',
                       properties: {
@@ -334,18 +414,119 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
     expect(validation.message).toBe(
-      'Required property must be defined in all of the anyOf/oneOf schemas: foo'
+      'Required property must be defined in the schema: foo'
     );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      'v1/books',
-      'post',
-      'responses',
-      '201',
-      'content',
-      'application/json',
-      'schema',
-    ]);
+    expect(validation.path.join('.')).toBe(
+      'paths.v1/books.post.responses.201.content.application/json.schema.required'
+    );
+    expect(validation.severity).toBe(severityCodes.error);
+  });
+
+  it('should error if anyOf list element schema is missing a required property', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['v1/books'] = {
+      post: {
+        requestBody: {
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                anyOf: [
+                  {
+                    type: 'object',
+                    properties: {
+                      foo: {
+                        type: 'string',
+                      },
+                      bar: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  {
+                    type: 'object',
+                    properties: {
+                      baz: {
+                        type: 'string',
+                      },
+                    },
+                    required: ['foo'],
+                  },
+                ],
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const results = await testRule(ruleId, rule, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(ruleId);
+    expect(validation.message).toBe(
+      'Required property must be defined in the schema: foo'
+    );
+    expect(validation.path.join('.')).toBe(
+      'paths.v1/books.post.requestBody.content.application/json.schema.anyOf.1.required'
+    );
+    expect(validation.severity).toBe(severityCodes.error);
+  });
+
+  it('should error if oneOf list element schema is missing a required property', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['v1/books'] = {
+      post: {
+        responses: {
+          201: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  oneOf: [
+                    {
+                      type: 'object',
+                      properties: {
+                        foo: {
+                          type: 'string',
+                        },
+                        bar: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        baz: {
+                          type: 'string',
+                        },
+                      },
+                      required: ['foo'],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const results = await testRule(ruleId, rule, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(ruleId);
+    expect(validation.message).toBe(
+      'Required property must be defined in the schema: foo'
+    );
+    expect(validation.path.join('.')).toBe(
+      'paths.v1/books.post.responses.201.content.application/json.schema.oneOf.1.required'
+    );
     expect(validation.severity).toBe(severityCodes.error);
   });
 
@@ -407,36 +588,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.severity).toBe(severityCodes.error);
     });
 
-    expect(results[0].path).toStrictEqual([
-      'paths',
-      'v1/books',
-      'post',
-      'parameters',
-      '0',
-      'content',
-      'application/json',
-      'schema',
-    ]);
-
-    expect(results[1].path).toStrictEqual([
-      'paths',
-      'v1/books',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-    ]);
-
-    expect(results[2].path).toStrictEqual([
-      'paths',
-      'v1/books',
-      'post',
-      'responses',
-      '201',
-      'content',
-      'application/json',
-      'schema',
-    ]);
+    expect(results[0].path.join('.')).toBe(
+      'paths.v1/books.post.parameters.0.content.application/json.schema.required'
+    );
+    expect(results[1].path.join('.')).toBe(
+      'paths.v1/books.post.requestBody.content.application/json.schema.required'
+    );
+    expect(results[2].path.join('.')).toBe(
+      'paths.v1/books.post.responses.201.content.application/json.schema.required'
+    );
   });
 });
