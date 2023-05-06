@@ -132,18 +132,18 @@ The validator supports OpenAPI documents in either JSON or YAML format, using th
 .yaml
 .yml 
 ```
-Assuming your command shell supports the use of wildcards, you can use wildcards when specifying the names of files to be validated.
+If the string ends with '/', it will be searched recursively for supported files.
 For example, to run the validator on all `.yaml` files contained in the `/my/apis` directory, you could use
 this command:
 ```bash
-lint-openapi /my/apis/*.yaml
+lint-openapi /my/apis/
 ```
 
-Note that the `-i`/`--ignore` option can be particularly useful when using wildcards because it allows you to skip the
+Note that the `-i`/`--ignore` option can be particularly useful when using wildcards or directories because it allows you to skip the
 validation of specific files which might otherwise be included in a validation run.
 For example, to validate all `.yaml` files in the `/my/apis` directory, except for `/my/apis/broken-api.yaml` use the command:
 ```bash
-lint-openapi /my/apis/*.yaml -i /my/apis/broken-api.yaml
+lint-openapi /my/apis/ -i /my/apis/broken-api.yaml
 ```
 
 ### Configuration
@@ -271,7 +271,8 @@ module.exports = {
 <tr>
 <td>The <code>files</code> configuration property corresponds to positional command-line arguments (i.e. <code>[file...]</code>).
 You can set this property to the names of the OpenAPI documents to be validated. If any filenames are also entered as positional arguments 
-on the command-line, they will override any values specified in this configuration property.</td>
+on the command-line, they will override any values specified in this configuration property.
+`input_path` is an alternative key for `files`. If both are set, `input_paths` will be used.</td>
 <td><code>[]</code>(empty list)</td>
 </tr>
 </table>

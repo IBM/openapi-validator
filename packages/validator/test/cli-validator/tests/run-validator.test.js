@@ -71,7 +71,7 @@ describe('run-validator tests', function () {
 
     expect(allOutput).toMatch(/Invalid configuration file/);
     expect(allOutput).toMatch(
-      /schema validation error: must NOT have additional properties/
+      /schema validation error: '\/errorsOnly': must be boolean/
     );
     expect(allOutput).toMatch(/validator will use a default config/);
   });

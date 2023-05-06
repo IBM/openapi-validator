@@ -81,6 +81,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
   // Run the validator on the files specified via command-line or config file.
   //
 
+  // TODO: implement recursive filesearch when arg ends with '/'
+  // must be done before filtering
+
   // Ignore files listed in the config object's "ignoreFiles" field
   // by comparing absolute paths.
   // "filteredArgs" will be "args" minus any ignored files.
@@ -98,8 +101,6 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   // At this point, "args" is an array of file names passed in by the user,
   // but with the ignored files removed.
-  // Nothing in "args" will be a glob type, as glob types are automatically
-  // converted to arrays of matching file names by the shell.
   const supportedFileTypes = ['json', 'yml', 'yaml'];
   const filesWithValidExtensions = [];
   let unsupportedExtensionsFound = false;
