@@ -224,6 +224,10 @@ async function processArgs(args, cliParseOptions) {
     configObj.outputFormat = 'json';
   }
 
+  if ('codeclimate' in opts) {
+    configObj.outputFormat = 'codeclimate';
+  }
+
   if ('ruleset' in opts) {
     configObj.ruleset = opts.ruleset;
   }

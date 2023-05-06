@@ -59,6 +59,7 @@ properties:
     type: string
     enum:
       - json
+      - codeclimate
       - text
     default: text
   ruleset:

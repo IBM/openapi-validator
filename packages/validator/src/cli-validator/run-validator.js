@@ -18,6 +18,7 @@ const ext = require('./utils/file-extension-validator');
 const preprocessFile = require('./utils/preprocess-file');
 const print = require('./utils/print-results');
 const { printJson } = require('./utils/json-results');
+const { printCCJson } = require('./utils/codeclimate-results');
 const { runSpectral } = require('../spectral/spectral-validator');
 const getCopyrightString = require('./utils/get-copyright-string');
 
@@ -72,7 +73,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   context.chalk = chalk;
 
-  if (context.config.outputFormat !== 'json') {
+  if (context.config.outputFormat === 'text') {
     console.log(getCopyrightString());
   }
 
@@ -157,7 +158,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
     let originalFile;
     let input;
 
-    if (context.config.outputFormat != 'json') {
+    if (context.config.outputFormat === 'text') {
       console.log('');
       console.log(chalk.underline(`Validation Results for ${validFile}:\n`));
     }
@@ -202,15 +203,15 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
     // Check to see if we should be passing back a non-zero exit code.
     if (results.error.summary.total) {
-      // If we have any errors, then exit code 1 is returned.
-      exitCode = 1;
+      // If we have any errors, then exit code 1 is returned, except when running for codeclimate.
+      exitCode = context.config.outputFormat === 'codeclimate' ? 0 : 1;
     }
 
     // If the # of warnings exceeded the warnings limit, then this is an error.
     const numWarnings = results.warning.summary.total;
     const warningsLimit = context.config.limits.warnings;
     if (warningsLimit >= 0 && numWarnings > warningsLimit) {
-      exitCode = 1;
+      exitCode = context.config.outputFormat === 'codeclimate' ? 0 : 1;
       logger.error(
         `Number of warnings (${numWarnings}) exceeds warnings limit (${warningsLimit}).`
       );
@@ -219,6 +220,8 @@ async function runValidator(cliArgs, parseOptions = {}) {
     // Now print the results, either JSON or text.
     if (context.config.outputFormat === 'json') {
       printJson(context, results);
+    } else if (context.config.outputFormat === 'codeclimate') {
+      printCCJson(validFile, results);
     } else {
       if (results.hasResults) {
         print(context, results);

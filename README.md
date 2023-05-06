@@ -50,6 +50,7 @@ The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to t
 - [Validator Output](#validator-output)
   * [Text](#text)
   * [JSON](#json)
+  * [CodeClimate](#codeclimate)
 - [Logging](#logging)
 - [Contributing](#contributing)
 - [License](#license)
@@ -115,6 +116,7 @@ Options:
   -e, --errors-only              include only errors in the output and skip warnings (default is false)
   -i, --ignore <file>            avoid validating <file> (e.g. -i /dir1/ignore-file1.json --ignore /dir2/ignore-file2.yaml ...) (default is []) (default: [])
   -j, --json                     produce JSON output (default is text)
+  --codeclimate                  produce JSON output according to CodeClimate spec
   -l, --log-level <loglevel>     set the log level for one or more loggers (e.g. -l root=info -l ibm-schema-description-exists=debug ...)  (default: [])
   -n, --no-colors                disable colorizing of the output (default is false)
   -r, --ruleset <file>           use Spectral ruleset contained in `<file>` ("default" forces use of default IBM Cloud Validation Ruleset)
@@ -482,9 +484,9 @@ module.exports = {
 <td width=25%><b>Default</b></td>
 </tr>
 <tr>
-<td>You can set the <code>outputFormat</code> configuration property to either <code>text</code> or <code>json</code>
+<td>You can set the <code>outputFormat</code> configuration property to either <code>text</code>, <code>json</code> or <code>codeclimate</code>
 to indicate the type of output you want the validator to produce.
-This property corresponds to the <code>-j</code>/<code>--json</code> command-line option.</td>
+This property corresponds to the <code>-j</code>/<code>--json</code>/<code>--codeclimate</code> command-line option.</td>
 <td><code>text</code></td>
 </tr>
 </table>
@@ -621,7 +623,7 @@ module.exports = {
 
 ## Validator Output
 The validator can produce output in either text or JSON format.  The default is `text` output, and this can be
-controlled with the `-j`/`--json` command-line option or `outputFormat` configuration property.
+controlled with the `-j`/`--json`/`--codeclimate` command-line option or `outputFormat` configuration property.
 
 ### Text
 Here is an example of text output:
@@ -752,6 +754,10 @@ Here is an example of JSON output:
 ```
 The JSON output is also affected by the `-s`/`--summary-only` and `-e`/`--errors-only` options as well as the `summaryOnly` and `errorsOnly`
 configuration properties.
+
+### CodeClimate
+When displaying CodeClimate JSON output, the validator will produce a null-byte separated stream of JSON objects
+which complies with [the CodeClimate Output format](https://github.com/codeclimate/platform/blob/master/spec/analyzers/SPEC.md#output).
 
 ## Logging
 The validator uses a *logger* for displaying messages on the console.

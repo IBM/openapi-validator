@@ -59,6 +59,10 @@ function createCLIOptions() {
     )
     .option('-j, --json', 'produce JSON output (default is text)')
     .option(
+      '--codeclimate',
+      'produce JSON output according to CodeClimate spec'
+    )
+    .option(
       '-l, --log-level <loglevel>',
       'set the log level for one or more loggers (e.g. -l root=info -l ibm-schema-description-exists=debug ...) ',
       collect,
