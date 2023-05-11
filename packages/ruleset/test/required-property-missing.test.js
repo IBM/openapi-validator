@@ -422,6 +422,77 @@ describe(`Spectral rule: ${ruleId}`, () => {
     expect(validation.severity).toBe(severityCodes.error);
   });
 
+  it('should error if nested oneOf schema is missing a required property', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['v1/books'] = {
+      post: {
+        responses: {
+          201: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  required: ['foo'],
+                  oneOf: [
+                    {
+                      type: 'object',
+                      properties: {
+                        foo: {
+                          type: 'string',
+                        },
+                        bar: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                    {
+                      type: 'object',
+                      oneOf: [
+                        {
+                          type: 'object',
+                          properties: {
+                            foo: {
+                              type: 'string',
+                            },
+                            baz: {
+                              type: 'string',
+                            },
+                          },
+                        },
+                        {
+                          type: 'object',
+                          properties: {
+                            bat: {
+                              type: 'string',
+                            },
+                          },
+                        },
+                      ],
+                    },
+                  ],
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+
+    const results = await testRule(ruleId, rule, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(ruleId);
+    expect(validation.message).toBe(
+      'Required property must be defined in the schema: foo'
+    );
+    expect(validation.path.join('.')).toBe(
+      'paths.v1/books.post.responses.201.content.application/json.schema.required'
+    );
+    expect(validation.severity).toBe(severityCodes.error);
+  });
+
   it('should error if anyOf list element schema is missing a required property', async () => {
     const testDocument = makeCopy(rootDocument);
     testDocument.paths['v1/books'] = {

@@ -4,9 +4,8 @@
  */
 
 const {
+  schemaHasProperty,
   validateSubschemas,
-  getPropertyNamesForSchema,
-  isObject,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
@@ -41,10 +40,10 @@ module.exports = function (schema, _opts, context) {
  *     the allOf elements or on the main schema should be defined on "schema" or
  *     within one or more of the allOf elements
  *  - anyOf/oneOf:
- *   - each anyOf/oneOf element schema should be checked on its own in isolation
- *   - for each anyOf/oneOf element schema, perform an additional check using the main schema's "required"
- *     field along along with the union of properties defined on "schema" plus the specific
- *     anyOf/oneOf element schema
+ *   - each anyOf/oneOf element schema should be checked on its own in isolation,
+ *     which happens automatically
+ *   - each schema with a oneOf/anyOf will have its main required list checked against
+ *     the conjuction of its own properties and the element schemas, recursively
  *
  * @param {*} schema the schema to check
  * @param {*} path the jsonpath location of "schema"
@@ -75,56 +74,23 @@ function checkRequiredProperties(schema, path) {
       `${ruleId}: schema contains allOf; checking allOf list elements.`
     );
 
-    // For an allOf, we need to collect the names of all the properties defined
-    // by "schema", both in the main schema and in the allOf element schemas.
-    const allPropNames = getPropertyNamesForSchema(schema);
-    logger.debug(`${ruleId}: schema defines these properties: ${allPropNames}`);
-
     // Check the "required" field in each of the allOf elements.
     for (let i = 0; i < schema.allOf.length; i++) {
       errors.push(
-        ...checkRequired(schema.allOf[i], allPropNames, [
-          ...path,
-          'allOf',
-          i.toString(),
-        ])
+        ...checkRequired(
+          schema,
+          [...path, 'allOf', i.toString()],
+          schema.allOf[i]
+        )
       );
     }
 
     // Finally, check the "required" field in the main schema.
-    errors.push(...checkRequired(schema, allPropNames, path));
-  }
-
-  // If "schema" contains an anyOf and/or oneOf list, then we need to
-  // perform the checks for each list element schema in isolation,
-  // plus check the main schema together with each individual
-  // list element schema in turn.
-  // It turns out that we don't need to perform the check on the list element
-  // schemas in isolation here, because this rule will eventually be invoked
-  // separately for those schemas.
-  for (const fieldName of ['anyOf', 'oneOf']) {
-    const list = schema[fieldName];
-    if (Array.isArray(list)) {
-      logger.debug(
-        `${ruleId}: schema contains ${fieldName}; checking ${fieldName} list elements.`
-      );
-      const schemaPropNames = isObject(schema.properties)
-        ? schema.properties.keys()
-        : [];
-      for (let i = 0; i < list.length; i++) {
-        const subschemaPropNames = getPropertyNamesForSchema(list[i]);
-        const combinedPropNames = [...schemaPropNames, ...subschemaPropNames];
-
-        // Check schema.required vs the set of combined property names.
-        errors.push(...checkRequired(schema, combinedPropNames, path));
-      }
-    }
-  }
-
-  // Finally, for a non-composed schema, just check its properties vs its required field.
-  if (!schema.allOf && !schema.anyOf && !schema.oneOf) {
-    const propNames = getPropertyNamesForSchema(schema);
-    errors.push(...checkRequired(schema, propNames, path));
+    errors.push(...checkRequired(schema, path));
+  } else {
+    // For a non-allOf schema, just check its properties vs its required field.
+    // This handles both non-composed schemas and oneOf/anyOf schemas.
+    errors.push(...checkRequired(schema, path));
   }
 
   return errors;
@@ -138,16 +104,18 @@ function checkRequiredProperties(schema, path) {
  * @param {*} path the jsonpath location of "schema"
  * @returns
  */
-function checkRequired(schema, propNames, path) {
-  const errors = [];
-
-  if (Array.isArray(schema.required)) {
+function checkRequired(schema, path, subschema) {
+  // In the case of an allOf, we want to check the individual subschemas
+  // required list against the whole schema
+  const required = subschema ? subschema.required : schema.required;
+  if (Array.isArray(required)) {
+    const errors = [];
     const localPath = [...path, 'required'];
     logger.debug(`${ruleId}: checking ${localPath.join('.')}`);
 
-    schema.required.forEach(function (name) {
+    required.forEach(name => {
       logger.debug(`${ruleId}: looking for property ${name}`);
-      if (!propNames.includes(name)) {
+      if (!schemaHasProperty(schema, name)) {
         errors.push({
           message: `Required property must be defined in the schema: ${name}`,
           path: localPath,
@@ -155,7 +123,9 @@ function checkRequired(schema, propNames, path) {
         logger.debug(`${ruleId}: Missing required property: ${name}`);
       }
     });
+
+    return errors;
   }
 
-  return errors;
+  return [];
 }
