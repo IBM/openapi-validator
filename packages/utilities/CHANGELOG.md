@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset-utilities [1.0.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.0.1...@ibm-cloud/openapi-ruleset-utilities@1.0.2) (2023-05-11)
+
+
+### Bug Fixes
+
+* **collections:** use correct http method names in collections ([#589](https://github.com/IBM/openapi-validator/issues/589)) ([9a63ca9](https://github.com/IBM/openapi-validator/commit/9a63ca90bc128bdac78c9810831c1d6edc00a774))
+
 ## @ibm-cloud/openapi-ruleset-utilities [1.0.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.0.0...@ibm-cloud/openapi-ruleset-utilities@1.0.1) (2023-05-01)
 
 
