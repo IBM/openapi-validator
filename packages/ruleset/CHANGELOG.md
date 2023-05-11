@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.0.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.0.3...@ibm-cloud/openapi-ruleset@1.0.4) (2023-05-11)
+
+
+### Bug Fixes
+
+* **ibm-define-required-properties:** avoid [secure] positives ([#588](https://github.com/IBM/openapi-validator/issues/588)) ([bed8f49](https://github.com/IBM/openapi-validator/commit/bed8f496060bfeb2074c383e2f92bfb297e3bd6f)), closes [arf/planning-sdk-squad#3592](https://github.com/arf/planning-sdk-squad/issues/3592) [#591](https://github.com/IBM/openapi-validator/issues/591)
+
 ## @ibm-cloud/openapi-ruleset [1.0.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.0.2...@ibm-cloud/openapi-ruleset@1.0.3) (2023-05-11)
 
 
