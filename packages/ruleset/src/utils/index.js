@@ -8,6 +8,7 @@ module.exports = {
   isDeprecated: require('./is-deprecated'),
   isEmptyObjectSchema: require('./is-empty-object-schema'),
   isRefSiblingSchema: require('./is-ref-sibling-schema'),
+  isRequestBodyExploded: require('./is-requestbody-exploded'),
   LoggerFactory: require('./logger-factory'),
   mergeAllOfSchemaProperties: require('./merge-allof-schema-properties'),
   ...require('./mimetype-utils'),

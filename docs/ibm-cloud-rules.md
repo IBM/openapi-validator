@@ -90,6 +90,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-string-attributes](#ibm-string-attributes)
   * [ibm-success-response-example](#ibm-success-response-example)
   * [ibm-summary-sentence-style](#ibm-summary-sentence-style)
+  * [ibm-unique-parameter-request-property-names](#ibm-unique-parameter-request-property-names)
   * [ibm-valid-path-segments](#ibm-valid-path-segments)
 
 <!-- tocstop -->
@@ -492,6 +493,12 @@ has non-form content.</td>
 <td><a href="#ibm-summary-sentence-style">ibm-summary-sentence-style</a></td>
 <td>warn</td>
 <td>An operation's <code>summary</code> field should not have a trailing period.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-unique-parameter-request-property-names">ibm-unique-parameter-request-property-names</a></td>
+<td>error</td>
+<td>Checks each operation for name collisions between the operation's parameters and its request body schema properties.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -5096,6 +5103,123 @@ paths:
       operationId: list_things
       summary: List things
       description: Retrieve a paginated collection of Thing instances.
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-unique-parameter-request-property-names
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-unique-parameter-request-property-names</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-uris#path-parameter-names">IBM Cloud API Handbook</a>
+discourages the use of path parameter names that match any of the names of 
+top-level properties in the operation's request body schema.
+The primary justification for this guidance is that if the names of operation parameters collide with the names of top-level
+request body properties, then it creates ambiguity and perhaps a lack of clarity for users of the API.
+In fact, the guidance applies equally well for all parameter types, not just path parameters.
+<p>And more specifically, IBM's OpenAPI SDK Generator will "explode" an operation's request body under certain circumstances in order to
+simplify the application code required to invoke the operation.
+This means that, instead of representing the operation's request body as a single operation parameter, the generator
+will expose each of the properties defined in the operation's request body
+schema such that they appear to be individual operation parameters.   This optimization makes it easier for
+an SDK user to construct an instance of the request body schema (class, struct, etc.) when invoking the operation.
+<p>Because the request body schema properties are exposed as operation parameters, the generator must detect if there are
+any name collisions between these schema properties and the operation's other parameters.
+The generator will rename the request body schema properties if any collisions are detected,
+but the names computed by the generator are not optimal from a usability standpoint, so it's better for the API
+to be defined such that the name collisions are avoided altogether.
+<p>This validation rule checks each operation for name collisions between the operation's parameters and its request body
+schema properties.  An error is logged for each collision.  Each of these errors should be addressed by renaming either 
+the parameter or request body schema property to avoid the collision.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    parameters:
+      - in: query
+        name: thing_type
+        schema:
+          type: string
+    post:
+      operationId: create_thing
+      parameters:
+        - in: query
+          name: thing_size
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                thing_type:
+                  type: string
+                thing_size:
+                  type: integer
+                created_at:
+                  type: string
+                  format: date-time
+                created_by:
+                  type: string
+                  format: email
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+To avoid the collisions, the schema properties `thing_type` and `thing_size` were renamed to `type` and `size` respectively.
+We could have instead renamed the parameters in order to avoid the collisions.
+<pre>
+paths:
+  /v1/things:
+    parameters:
+      - in: query
+        name: thing_type
+        schema:
+          type: string
+    post:
+      operationId: create_thing
+      parameters:
+        - in: query
+          name: thing_size
+          schema:
+            type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                size:
+                  type: integer
+                created_at:
+                  type: string
+                  format: date-time
+                created_by:
+                  type: string
+                  format: email
 </pre>
 </td>
 </tr>
