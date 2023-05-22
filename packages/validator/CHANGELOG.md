@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.0.8](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.7...ibm-openapi-validator@1.0.8) (2023-05-22)
+
+
+### Bug Fixes
+
+* **build:** avoid vulnerability reported in word-wrap dependency ([#598](https://github.com/IBM/openapi-validator/issues/598)) ([b477a64](https://github.com/IBM/openapi-validator/commit/b477a64025d29c210c2b58d3482066d10c716f4c))
+
 ## ibm-openapi-validator [1.0.7](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.6...ibm-openapi-validator@1.0.7) (2023-05-11)
 
 
