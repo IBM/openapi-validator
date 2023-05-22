@@ -1,1 +1,6 @@
-[]
+[
+  {
+    "cve": "SNYK-JS-WORDWRAP-3149973",
+    "alwaysOmit": true
+  }
+]
