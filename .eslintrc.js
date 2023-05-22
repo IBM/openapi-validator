@@ -6,7 +6,9 @@ module.exports = {
     'mocha': true,
     'jest': true,
   },
-  'parser': 'babel-eslint',
+  'parserOptions': {
+    'ecmaVersion': 13
+  },
   'rules': {
     'prettier/prettier': ['error', {
       'singleQuote': true,
