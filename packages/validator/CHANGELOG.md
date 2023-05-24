@@ -1,3 +1,13 @@
+# ibm-openapi-validator [1.1.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.8...ibm-openapi-validator@1.1.0) (2023-05-24)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.1.0
+
 ## ibm-openapi-validator [1.0.8](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.0.7...ibm-openapi-validator@1.0.8) (2023-05-22)
 
 
