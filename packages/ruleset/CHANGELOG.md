@@ -1,3 +1,18 @@
+# @ibm-cloud/openapi-ruleset [1.1.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.0.4...@ibm-cloud/openapi-ruleset@1.1.0) (2023-05-24)
+
+
+### Features
+
+* **ibm-unique-parameter-request-property-names:** added new validation rule ([#595](https://github.com/IBM/openapi-validator/issues/595)) ([2a1832d](https://github.com/IBM/openapi-validator/commit/2a1832d3a7dbde1870dcbf125c1c2e036b04e0bc))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.1.0
+
 ## @ibm-cloud/openapi-ruleset [1.0.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.0.3...@ibm-cloud/openapi-ruleset@1.0.4) (2023-05-11)
 
 
