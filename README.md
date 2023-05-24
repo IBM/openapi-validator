@@ -21,7 +21,7 @@ The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to t
 
   You should regenerate the TOC after making changes to this file.
 
-      markdown-toc --maxdepth 5 -i README.md
+      npm run format-readme-toc
   -->
 
 <!-- toc -->
@@ -34,7 +34,6 @@ The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to t
   * [Download an executable binary](#download-an-executable-binary)
   * [Build from source](#build-from-source)
     + [Build platform-specific binaries](#build-platform-specific-binaries)
-  * [Docker container](#docker-container)
 - [Usage](#usage)
   * [Command Syntax](#command-syntax)
   * [Configuration](#configuration)
@@ -103,15 +102,6 @@ _If you installed the validator using `npm install -g ibm-openapi-validator`, yo
 
 #### Build platform-specific binaries
 It is also possible to build platform specific binaries from the source code by running `npm run pkg` in the project root directory.  The binaries (lint-openapi-macos, lint-openapi-linux, lint-openapi-windows.exe) will be in the project's `packages/validator/bin` directory.
-
-### Docker container
-A community Docker image is [publicly available on Docker hub](https://hub.docker.com/r/jamescooke/openapi-validator).
-
-`docker pull jamescooke/openapi-validator`
-
-Once pulled, the container can be run directly, but mount a volume containing the OpenAPI specification file so that it can be accessed.
-
-`docker run --volume "$PWD":/data jamescooke/openapi-validator [options] [command] [<files>]`
 
 ## Usage
 ### Command Syntax
