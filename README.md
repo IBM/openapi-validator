@@ -35,6 +35,8 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
   * [Download an executable binary](#download-an-executable-binary)
   * [Build from source](#build-from-source)
     + [Build platform-specific binaries](#build-platform-specific-binaries)
+  * [container image](#container-image)
+    + [examples](#examples)
 - [Usage](#usage)
   * [Command Syntax](#command-syntax)
   * [Configuration](#configuration)
@@ -104,6 +106,28 @@ _If you installed the validator using `npm install -g ibm-openapi-validator`, yo
 
 #### Build platform-specific binaries
 It is also possible to build platform specific binaries from the source code by running `npm run pkg` in the project root directory.  The binaries (lint-openapi-macos, lint-openapi-linux, lint-openapi-windows.exe) will be in the project's `packages/validator/bin` directory.
+
+### container image
+
+You can build and run this tool as a container image with the provided `Containerfile`.
+
+The container can be run directly, but mount a volume containing the OpenAPI specification file so that it can be accessed.
+
+#### examples
+```bash
+buildah bud -t openapi-validator
+podman run --volume "$PWD":/data:Z openapi-validator packages/validator/test/cli-validator/mock-files/oas3/err-and-warn.yaml
+```
+```bash
+git checkout ibm-openapi-validator@1.1.1
+buildah bud -t openapi-validator:1.1.1
+podman run --volume "$PWD":/data:Z openapi-validator:1.1.1 packages/validator/test/cli-validator/mock-files/oas3/err-and-warn.yaml
+```
+```bash
+docker build -t openapi-validator -f Containerfile .
+cd packages/validator/test/cli-validator/mock-files/
+docker run --volume "$PWD":/data openapi-validator --json oas3/complex-test-compose-model.yaml
+```
 
 ## Usage
 ### Command Syntax
