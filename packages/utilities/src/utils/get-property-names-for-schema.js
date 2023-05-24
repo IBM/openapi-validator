@@ -9,10 +9,9 @@ const isObject = require('./is-object');
  * Returns an array of property names for a simple or composite schema,
  * optionally filtered by a lambda function.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
- * @param {array} path - Path array for the provided schema.
- * @param {function} validate - Validate function.
- * @returns {array} - Array of validation errors.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 schema object
+ * @param {function} propertyFilter - A lambda function to perform filtering
+ * @returns {array} - Array of property names
  */
 const getPropertyNamesForSchema = (schema, propertyFilter = () => true) => {
   const propertyNames = [];
