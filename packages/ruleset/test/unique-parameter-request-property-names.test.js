@@ -172,6 +172,108 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Readonly property collision', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].parameters = [
+        {
+          name: 'type',
+          in: 'query',
+          description: 'The type of drink to create.',
+          required: false,
+          schema: {
+            type: 'string',
+          },
+        },
+        {
+          name: 'fruit',
+          in: 'query',
+          description: 'The type of fruit used in the drink.',
+          required: false,
+          schema: {
+            type: 'string',
+          },
+        },
+      ];
+      testDocument.components.schemas.Drink = {
+        description: 'Fruit juice',
+        type: 'object',
+        required: ['type', 'fruit'],
+        properties: {
+          type: {
+            description: 'The drink type.',
+            type: 'string',
+            readOnly: true,
+          },
+          fruit: {
+            description: 'The type of fruit added to the drink.',
+            type: 'string',
+            readOnly: true,
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Readonly property collision w/oneOf', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.parameters = [
+        {
+          name: 'type',
+          in: 'query',
+          description: 'The type of drink to create.',
+          required: false,
+          schema: {
+            type: 'string',
+          },
+        },
+      ];
+      testDocument.components.schemas.Drink = {
+        description: 'Fruit juice',
+        oneOf: [
+          {
+            type: 'object',
+            required: ['type', 'fruit'],
+            properties: {
+              type: {
+                description: 'The drink type - should be "juice".',
+                type: 'string',
+                enum: ['juice'],
+                readOnly: true,
+              },
+              fruit: {
+                $ref: '#/components/schemas/NormalString',
+              },
+            },
+          },
+          {
+            type: 'object',
+            required: ['type', 'fruit'],
+            properties: {
+              type: {
+                description: 'The drink type - should be "juice".',
+                type: 'string',
+                enum: ['juice'],
+                readOnly: true,
+              },
+              fruit: {
+                $ref: '#/components/schemas/NormalString',
+              },
+              volume: {
+                type: 'integer',
+              },
+            },
+          },
+        ],
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {

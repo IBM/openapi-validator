@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { schemaHasProperty } = require('@ibm-cloud/openapi-ruleset-utilities');
+const {
+  isObject,
+  schemaHasConstraint,
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const {
   isJsonMimeType,
@@ -81,7 +84,7 @@ function checkForNameCollisions(pathItem, path) {
         );
 
         for (const paramName of params) {
-          if (schemaHasProperty(jsonBodySchema, paramName)) {
+          if (schemaHasWritableProperty(jsonBodySchema, paramName)) {
             logger.debug(
               `${ruleId}: Found requestBody property ${paramName}, collision detected!`
             );
@@ -117,4 +120,18 @@ function getParamNames(paramContainer) {
   }
 
   return paramNames;
+}
+
+/**
+ * Returns true iff 'schema' defines a property named 'name' that is NOT readOnly.
+ * This function handles composed schemas as well.
+ */
+function schemaHasWritableProperty(schema, name) {
+  return schemaHasConstraint(
+    schema,
+    s =>
+      'properties' in s &&
+      isObject(s.properties[name]) &&
+      !s.properties[name].readOnly
+  );
 }
