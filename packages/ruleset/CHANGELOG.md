@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.1.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.1.0...@ibm-cloud/openapi-ruleset@1.1.1) (2023-05-26)
+
+
+### Bug Fixes
+
+* **ibm-unique-parameter-request-property-names:** avoid checks on readOnly requestBody properties ([#600](https://github.com/IBM/openapi-validator/issues/600)) ([08c594e](https://github.com/IBM/openapi-validator/commit/08c594e6ecba3af904376d884f9b53b4fa3fe2db))
+
 # @ibm-cloud/openapi-ruleset [1.1.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.0.4...@ibm-cloud/openapi-ruleset@1.1.0) (2023-05-24)
 
 
