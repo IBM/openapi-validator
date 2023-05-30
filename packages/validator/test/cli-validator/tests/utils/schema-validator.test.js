@@ -76,9 +76,6 @@ describe('Schema validator tests', function () {
 
   it('invalid config object should return errors', function () {
     const configObj = {
-      xlogLevels: {
-        root: 'debug',
-      },
       limits: {
         xwarnings: 10,
       },
@@ -88,7 +85,7 @@ describe('Schema validator tests', function () {
     const results = validate(configObj, configFileSchema);
     expect(results).toHaveLength(1);
     expect(results[0]).toBe(
-      `schema validation error: must NOT have additional properties`
+      `schema validation error: '/limits': must have required property 'warnings'`
     );
   });
 });

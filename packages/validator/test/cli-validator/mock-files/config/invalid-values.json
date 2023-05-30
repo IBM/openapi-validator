@@ -1,5 +1,6 @@
 {
     "errors": 0,
     "warnings": "text",
-    "population": 10
+    "population": 10,
+    "errorsOnly": "yes"
 }

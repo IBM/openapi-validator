@@ -3,7 +3,8 @@ title: IBM OpenAPI Validator Configuration File Schema
 description: >
   The structure of the configuration file supported by the IBM OpenAPI Validator
 type: object
-additionalProperties: false
+# allow additionalProperties on root-level to be compatible with CodeClimate config.json
+additionalProperties: true
 properties:
   colorizeOutput:
     description: A flag that indicates whether the validator should colorize its output
@@ -16,9 +17,16 @@ properties:
   files:
     description: >
       The names of the files to be validated.
-      Each element of the array is a glob-like string that will be evaluated relative
+      Each element of the array is a string that will be evaluated relative
       to the current directory at the time the validator is being run.
-      Examples: 'a.yaml', '../b.json', '../../c/foo.yml'
+      If the string ends with '/', it will be searched recursively for supported files.
+      Each file must end with the extension '.json', '.yaml' or '.yml' and contain a key 'openapi' in it's root level.
+      Examples: 'a.yaml', '../b.json', '../../c/foo/'
+    type: array
+    items:
+      type: string
+  include_paths:
+    description: replaces 'files' when used
     type: array
     items:
       type: string
@@ -59,6 +67,7 @@ properties:
     type: string
     enum:
       - json
+      - codeclimate
       - text
     default: text
   ruleset:

@@ -29,6 +29,9 @@ const defaultConfig = {
   files: [
     // 'my-api.yaml'
   ],
+  input_paths: [
+    // alternative to files for CodeClimate compatibility
+  ],
   limits: {
     warnings: -1,
   },
@@ -169,9 +172,9 @@ async function processArgs(args, cliParseOptions) {
   // so overlay CLI options onto our config object.
 
   // Filenames specified on the command-line will be in the "args" field.
-  const cliFiles = command.args || [];
-  if (cliFiles.length) {
-    configObj.files = cliFiles;
+  const prioFiles = command.args || configObj.input_paths || [];
+  if (prioFiles.length) {
+    configObj.files = prioFiles;
   }
 
   // Process each loglevel entry supplied on the command line.
@@ -222,6 +225,10 @@ async function processArgs(args, cliParseOptions) {
 
   if ('json' in opts) {
     configObj.outputFormat = 'json';
+  }
+
+  if ('codeclimate' in opts) {
+    configObj.outputFormat = 'codeclimate';
   }
 
   if ('ruleset' in opts) {

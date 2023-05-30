@@ -1,0 +1,15 @@
+image-build:
+  image:
+    name: quay.io/buildah/stable:latest
+  stage: build
+  before_script:
+    - 'echo "$CI_REGISTRY_PASSWORD" | buildah login --username "$CI_REGISTRY_USER" --password-stdin $CI_REGISTRY'
+  script:
+    - buildah bud
+      -f "Containerfile"
+      -t "$CI_REGISTRY_IMAGE/codeclimate-openapi:latest"
+      --layers
+      --cache-from=$CI_REGISTRY_IMAGE/codeclimate-openapi/cache
+      --cache-to=$CI_REGISTRY_IMAGE/codeclimate-openapi/cache
+      .
+    - buildah push "$CI_REGISTRY_IMAGE/codeclimate-openapi:latest"
