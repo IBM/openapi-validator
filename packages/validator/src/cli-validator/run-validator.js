@@ -182,6 +182,13 @@ async function runValidator(cliArgs, parseOptions = {}) {
       if (fileExtension === 'json' && duplicateKeysError) {
         throw duplicateKeysError;
       }
+
+      if (
+        typeof input.openapi !== 'string' ||
+        input.openapi.match(/3\.0\.[0-9]+/) === null
+      ) {
+        throw 'Only OpenAPI 3.0.x documents are currently supported.';
+      }
     } catch (err) {
       logError(`Invalid input file: ${validFile}. See below for details.`, err);
       exitCode = 1;

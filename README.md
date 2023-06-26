@@ -6,7 +6,7 @@
 [![CLA assistant](https://cla-assistant.io/readme/badge/ibm/openapi-validator)](https://cla-assistant.io/ibm/openapi-validator)
 
 # OpenAPI Validator
-The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to the [OpenAPI 3.x specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as IBM-defined best practices.
+The IBM OpenAPI Validator lets you validate OpenAPI 3.0.x documents according to the [OpenAPI 3.0.x specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as IBM-defined best practices.
 
 #### Prerequisites
 - Node 16.x
@@ -57,7 +57,7 @@ The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to t
 <!-- tocstop -->
 
 ## Getting Started
-The validator analyzes your API definition and reports any problems within. The validator is highly customizable, and supports OpenAPI 3.x documents.
+The validator analyzes your API definition and reports any problems within. The validator is highly customizable, and supports OpenAPI 3.0.x documents.
 The tool also supports a number of rules from [Spectral](https://stoplight.io/open-source/spectral/). You can easily extend the tool with custom rules to meet your specific needs and ensure compliance to your standards.
 
 Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.
@@ -68,7 +68,7 @@ However, if the validator detects the presence of any of the standard Spectral r
 or `spectral.js`) in the current directory (from which the validator is being run) or in any containing directory within the file system,
 then that ruleset file will be used instead.
 To explicitly specify an alternate ruleset, you can use the `-r`/`--ruleset` option (or the `ruleset` configuration property)
-to specify the name of your custom ruleset file.  
+to specify the name of your custom ruleset file.
 
 If one of the standard Spectral ruleset files are present and you'd like to force the use of the IBM Cloud Validation Ruleset instead,
 you can use `-r default` or `--ruleset default` (or set the `ruleset` configuration property to the value `'default'`).
@@ -108,7 +108,7 @@ It is also possible to build platform specific binaries from the source code by 
 ```bash
 Usage: lint-openapi [options] [file...]
 
-Run the validator on one or more OpenAPI 3.x documents
+Run the validator on one or more OpenAPI 3.0.x documents
 
 Options:
   -c, --config <file>            use configuration stored in <file> (*.json, *.yaml, *.js)
@@ -123,12 +123,12 @@ Options:
   --version                      output the version number
   -h, --help                     display help for command
 ```
-where `[file...]` is a space-separated list containing the filenames of one or more OpenAPI 3.x documents to be validated.
+where `[file...]` is a space-separated list containing the filenames of one or more OpenAPI 3.0.x documents to be validated.
 The validator supports OpenAPI documents in either JSON or YAML format, using these supported file extensions:
 ```
 .json
 .yaml
-.yml 
+.yml
 ```
 Assuming your command shell supports the use of wildcards, you can use wildcards when specifying the names of files to be validated.
 For example, to run the validator on all `.yaml` files contained in the `/my/apis` directory, you could use
@@ -268,7 +268,7 @@ module.exports = {
 </tr>
 <tr>
 <td>The <code>files</code> configuration property corresponds to positional command-line arguments (i.e. <code>[file...]</code>).
-You can set this property to the names of the OpenAPI documents to be validated. If any filenames are also entered as positional arguments 
+You can set this property to the names of the OpenAPI documents to be validated. If any filenames are also entered as positional arguments
 on the command-line, they will override any values specified in this configuration property.</td>
 <td><code>[]</code>(empty list)</td>
 </tr>
@@ -663,13 +663,13 @@ Summary:
 As you can see, any errors detected by the validator are listed first, then
 warnings, and finally a summary section.  The `-s`/`--summary-only` command-line option or the
 `summaryOnly` configuration property can be used to request that only the summary
-is display.  
+is display.
 Also, the `-e`/`--errors-only` option or `errorsOnly` configuration property can be used
 to cause the validator to display only errors in the output.
 
 ### JSON
 When displaying JSON output, the validator will produce a JSON object which complies with
-[this JSON schema](packages/validator/src/schemas/results-object.yaml).  
+[this JSON schema](packages/validator/src/schemas/results-object.yaml).
 Here is an example of JSON output:
 ```json
 {

@@ -6,11 +6,11 @@ to the new version 1.0 official release.
 The minimum supported version of Node.js is now version 16.x (formerly 14.x).
 
 ## Supported OpenAPI versions
-The old v0.x pre-release validator supported both Swagger 2.x and OpenAPI 3.x documents.
-The new v1.x validator supports only OpenAPI 3.x documents.
+The old v0.x pre-release validator supported both Swagger 2.x and OpenAPI 3.0.x documents.
+The new v1.x validator supports only OpenAPI 3.0.x documents.
 
 ## CLI Changes
-Changes were made to the command-line options supported by the validator:  
+Changes were made to the command-line options supported by the validator:
 1. In the v0.x pre-release validator, the `-c`/`--config` option was used to specify the name
 of the user's configuration file to use instead of `.validaterc`.  In the new v1.x validator,
 this same option is now used to specify the name of your validator configuration file, which
@@ -34,7 +34,7 @@ another on the console, which would technically not be valid JSON.
 The JSON output mode is intended to be used with a single file argument so that only one JSON results object is
 displayed on the console.  Therefore, the new v1.x validator will enforce that restriction.
 7. In the v0.x pre-release validator, multi-word options (e.g. `--report_statistics`) would include `_`
-(underscore) as the word delimiter, but the new v1.x validator uses `-` (dash) as the 
+(underscore) as the word delimiter, but the new v1.x validator uses `-` (dash) as the
 word delimiter (e.g. `--errors_only` is now `--errors-only`).
 
 More details about the command-line options supported by the new v1.x validator can be found [here](README.md#usage).
@@ -69,7 +69,7 @@ More details related to validator output can be found [here](README.md#validator
 ## API
 The v0.x pre-release validator supported an API to enable users to invoke the validator programmatically
 from a javascript application.
-This API is no longer supported in the v1.x validator; however, the Spectral validator (on which the 
+This API is no longer supported in the v1.x validator; however, the Spectral validator (on which the
 IBM OpenAPI Validator is based) provides a [programmatic API](https://meta.stoplight.io/docs/spectral/eb68e7afd463e-spectral-in-java-script)
 for invoking Spectral from your javascript application code.
 
@@ -418,7 +418,7 @@ described [here](README.md#logging).
 
 One of the benefits of this change is that it is now fairly easy to obtain more detailed
 information (i.e. debug information) from a particular rule.
-Simply set the rule's log-level to be `debug`.  
+Simply set the rule's log-level to be `debug`.
 
 For example, suppose that the `ibm-pagination-style`
 rule is detecting violations in your API, but you're not quite sure why those violations are being flagged,
