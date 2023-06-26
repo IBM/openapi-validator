@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.1.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.1.1...ibm-openapi-validator@1.1.2) (2023-06-26)
+
+
+### Bug Fixes
+
+* Check that input files are OpenAPI 3.0.x ([#604](https://github.com/IBM/openapi-validator/issues/604)) ([a8ff6fa](https://github.com/IBM/openapi-validator/commit/a8ff6fa9119f46fec85aa6bf5be6516f7b94eb59))
+
 ## ibm-openapi-validator [1.1.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.1.0...ibm-openapi-validator@1.1.1) (2023-05-26)
 
 
