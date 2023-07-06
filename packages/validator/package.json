@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@ibm-cloud/openapi-ruleset": "1.1.1",
-    "@stoplight/spectral-cli": "^6.6.0",
+    "@stoplight/spectral-cli": "^6.8.0",
     "@stoplight/spectral-core": "^1.18.0",
     "@stoplight/spectral-parsers": "^1.0.2",
     "ajv": "^8.12.0",
@@ -32,18 +32,19 @@
     "json-dup-key-validator": "^1.0.3",
     "lodash": "^4.17.21",
     "pad": "^2.3.0",
-    "semver": "^5.7.1"
+    "semver": "^7.5.3"
   },
   "devDependencies": {
     "jest": "^27.4.5",
     "pkg": "^5.5.1",
-    "strip-ansi": "^4.0.0"
+    "ansi-regex": "^5.0.1"
   },
   "bin": {
     "lint-openapi": "src/cli-validator/index.js"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=16.0.0",
+    "npm": ">=8.3.0"
   },
   "pkg": {
     "scripts": "src/**/*.js"

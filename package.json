@@ -36,5 +36,9 @@
     "markdown-toc": "^1.2.0",
     "prettier": "^2.8.4",
     "semantic-release": "^19.0.2"
+  },
+  "overrides": {
+    "optionator": "^0.9.3",
+    "semver": "^7.5.3"
   }
 }

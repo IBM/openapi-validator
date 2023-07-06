@@ -9,8 +9,8 @@
 The IBM OpenAPI Validator lets you validate OpenAPI 3.0.x documents according to the [OpenAPI 3.0.x specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as IBM-defined best practices.
 
 #### Prerequisites
-- Node 16.x
-- NPM 7.x
+- Node 16.0.0+
+- NPM 8.3.0+
 
 ## Table of contents
 
