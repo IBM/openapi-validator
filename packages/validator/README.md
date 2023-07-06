@@ -1,5 +1,6 @@
 # OpenAPI Validator
-The IBM OpenAPI Validator lets you validate OpenAPI 3.x documents according to the [OpenAPI 3.x specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as IBM-defined best practices.
+The IBM OpenAPI Validator lets you validate [OpenAPI 3.0.x](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
+and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md) documents for compliance with the OpenAPI specifications, as well as IBM-defined best practices.
 
 Note: this page displays abbreviated usage info for getting started. Visit [this page](../../README.md) for the full documentation.
 

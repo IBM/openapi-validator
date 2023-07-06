@@ -6,7 +6,8 @@
 [![CLA assistant](https://cla-assistant.io/readme/badge/ibm/openapi-validator)](https://cla-assistant.io/ibm/openapi-validator)
 
 # OpenAPI Validator
-The IBM OpenAPI Validator lets you validate OpenAPI 3.0.x documents according to the [OpenAPI 3.0.x specification](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md), as well as IBM-defined best practices.
+The IBM OpenAPI Validator lets you validate [OpenAPI 3.0.x](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
+and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md) documents for compliance with the OpenAPI specifications, as well as IBM-defined best practices.
 
 #### Prerequisites
 - Node 16.0.0+
@@ -57,7 +58,8 @@ The IBM OpenAPI Validator lets you validate OpenAPI 3.0.x documents according to
 <!-- tocstop -->
 
 ## Getting Started
-The validator analyzes your API definition and reports any problems within. The validator is highly customizable, and supports OpenAPI 3.0.x documents.
+The validator analyzes your API definition and reports any problems within. The validator is highly customizable,
+and supports OpenAPI 3.0.x and 3.1.x documents.
 The tool also supports a number of rules from [Spectral](https://stoplight.io/open-source/spectral/). You can easily extend the tool with custom rules to meet your specific needs and ensure compliance to your standards.
 
 Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.
@@ -108,7 +110,7 @@ It is also possible to build platform specific binaries from the source code by 
 ```bash
 Usage: lint-openapi [options] [file...]
 
-Run the validator on one or more OpenAPI 3.0.x documents
+Run the validator on one or more OpenAPI 3.x documents
 
 Options:
   -c, --config <file>            use configuration stored in <file> (*.json, *.yaml, *.js)
@@ -123,7 +125,7 @@ Options:
   --version                      output the version number
   -h, --help                     display help for command
 ```
-where `[file...]` is a space-separated list containing the filenames of one or more OpenAPI 3.0.x documents to be validated.
+where `[file...]` is a space-separated list containing the filenames of one or more OpenAPI 3.x documents to be validated.
 The validator supports OpenAPI documents in either JSON or YAML format, using these supported file extensions:
 ```
 .json
