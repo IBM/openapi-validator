@@ -14,8 +14,10 @@ const expectedErrorMsg =
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
-    it('Clean spec', async () => {
-      const results = await testRule(ruleId, rule, rootDocument);
+    it.each(['3.0.0', '3.1.0'])('Clean spec', async function (oasVersion) {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.openapi = oasVersion;
+      const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -59,27 +61,31 @@ describe(`Spectral rule: ${ruleId}`, () => {
   });
 
   describe('Should yield errors', () => {
-    it('Header parameter named Accept', async () => {
-      const testDocument = makeCopy(rootDocument);
+    it.each(['3.0.0', '3.1.0'])(
+      'Header parameter named Accept',
+      async function (oasVersion) {
+        const testDocument = makeCopy(rootDocument);
+        testDocument.openapi = oasVersion;
 
-      testDocument.paths['/v1/drinks'].parameters = [
-        {
-          description: 'The expected response mimetype.',
-          name: 'Accept',
-          required: true,
-          in: 'header',
-          schema: {
-            type: 'string',
+        testDocument.paths['/v1/drinks'].parameters = [
+          {
+            description: 'The expected response mimetype.',
+            name: 'Accept',
+            required: true,
+            in: 'header',
+            schema: {
+              type: 'string',
+            },
           },
-        },
-      ];
+        ];
 
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
-      expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedErrorMsg);
-      expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path.join('.')).toBe('paths./v1/drinks.parameters.0');
-    });
+        const results = await testRule(ruleId, rule, testDocument);
+        expect(results).toHaveLength(1);
+        expect(results[0].code).toBe(ruleId);
+        expect(results[0].message).toBe(expectedErrorMsg);
+        expect(results[0].severity).toBe(expectedSeverity);
+        expect(results[0].path.join('.')).toBe('paths./v1/drinks.parameters.0');
+      }
+    );
   });
 });

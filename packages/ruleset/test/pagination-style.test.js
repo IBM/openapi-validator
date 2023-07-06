@@ -230,24 +230,28 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
-    it('Valid pagination on get operation w/ no limit param or response property', async () => {
-      const testDocument = makeCopy(rootDocument);
+    it.each(['3.0.0', '3.1.0'])(
+      'Valid pagination on get operation w/ no limit param or response property',
+      async function (oasVersion) {
+        const testDocument = makeCopy(rootDocument);
+        testDocument.openapi = oasVersion;
 
-      testDocument.components.schemas.DrinkCollection.allOf[0] =
-        makeCopy(offsetPaginationBase);
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
 
-      // Remove the limit param and limit response property from the "list_movies" operation.
-      testDocument.paths['/v1/movies'].get.parameters.splice(2, 1);
-      delete testDocument.components.schemas['TokenPaginationBase'].properties
-        .limit;
-      testDocument.components.schemas['TokenPaginationBase'].required.splice(
-        0,
-        1
-      );
+        // Remove the limit param and limit response property from the "list_movies" operation.
+        testDocument.paths['/v1/movies'].get.parameters.splice(2, 1);
+        delete testDocument.components.schemas['TokenPaginationBase'].properties
+          .limit;
+        testDocument.components.schemas['TokenPaginationBase'].required.splice(
+          0,
+          1
+        );
 
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
+        const results = await testRule(ruleId, rule, testDocument);
+        expect(results).toHaveLength(0);
+      }
+    );
     it('Response indicates pagination, but operation has no parameters', async () => {
       const testDocument = makeCopy(rootDocument);
 

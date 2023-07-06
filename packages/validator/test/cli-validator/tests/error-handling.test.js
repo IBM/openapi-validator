@@ -130,29 +130,7 @@ describe('cli tool - test error handling', function () {
       '[ERROR] Invalid input file: ./test/cli-validator/mock-files/swagger-2.json. See below for details.'
     );
     expect(capturedText[4].trim()).toEqual(
-      '[ERROR] Only OpenAPI 3.0.x documents are currently supported.'
-    );
-  });
-
-  it('should return an error when a file contains an OpenAPI 3.1.x document', async function () {
-    let exitCode;
-    try {
-      exitCode = await testValidator([
-        './test/cli-validator/mock-files/openapi-3-1.json',
-      ]);
-    } catch (err) {
-      exitCode = err;
-    }
-
-    const capturedText = getCapturedText(consoleSpy.mock.calls);
-
-    expect(exitCode).toEqual(1);
-    expect(capturedText.length).toEqual(5);
-    expect(capturedText[3].trim()).toEqual(
-      '[ERROR] Invalid input file: ./test/cli-validator/mock-files/openapi-3-1.json. See below for details.'
-    );
-    expect(capturedText[4].trim()).toEqual(
-      '[ERROR] Only OpenAPI 3.0.x documents are currently supported.'
+      '[ERROR] Only OpenAPI 3.0.x and 3.1.x documents are currently supported.'
     );
   });
 

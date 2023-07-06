@@ -2644,7 +2644,7 @@ where the overridden description is defined directly as an attribute of the "nex
 second allOf list element.  Both are considered to be examples of the "ref sibling" allOf pattern.
 
 <p>This rule specifically looks for instances of this pattern where the overridden description is the same as the
-description defined within the reference schema, thus rending the use of the "ref sibling" pattern unnecessary.
+description defined within the referenced schema, thus making the use of the "ref sibling" pattern unnecessary.
 Here is an example of this:
 <pre>
 components:

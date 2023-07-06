@@ -25,20 +25,23 @@ describe('run-validator tests', function () {
     console.info = originalInfo;
   });
 
-  it('should show error/exit code 1 when warnings limit exceeded (config)', async function () {
-    const exitCode = await testValidator([
-      '--config',
-      './test/cli-validator/mock-files/config/five-warnings.json',
-      './test/cli-validator/mock-files/oas3/warn-threshold.yml',
-    ]);
-    const capturedText = getCapturedText(consoleSpy.mock.calls);
-    // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
-    expect(exitCode).toEqual(1);
+  it.each(['oas3', 'oas31'])(
+    'should show error/exit code 1 when warnings limit exceeded (config)',
+    async function (oasVersion) {
+      const exitCode = await testValidator([
+        '--config',
+        './test/cli-validator/mock-files/config/five-warnings.json',
+        `./test/cli-validator/mock-files/${oasVersion}/warn-threshold.yml`,
+      ]);
+      const capturedText = getCapturedText(consoleSpy.mock.calls);
+      // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
+      expect(exitCode).toEqual(1);
 
-    expect(capturedText[3]).toMatch(
-      /^\[ERROR\] Number of warnings .* exceeds warnings limit/
-    );
-  });
+      expect(capturedText[3]).toMatch(
+        /^\[ERROR\] Number of warnings .* exceeds warnings limit/
+      );
+    }
+  );
   it.each(['-w5', '--warnings-limit=5'])(
     'should show error/exit code 1 when -w/--warnings-limit used',
     async function (option) {
