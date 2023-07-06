@@ -185,9 +185,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
       if (
         typeof input.openapi !== 'string' ||
-        input.openapi.match(/3\.0\.[0-9]+/) === null
+        input.openapi.match(/3\.[0-1]\.[0-9]+/) === null
       ) {
-        throw 'Only OpenAPI 3.0.x documents are currently supported.';
+        throw 'Only OpenAPI 3.0.x and 3.1.x documents are currently supported.';
       }
     } catch (err) {
       logError(`Invalid input file: ${validFile}. See below for details.`, err);
