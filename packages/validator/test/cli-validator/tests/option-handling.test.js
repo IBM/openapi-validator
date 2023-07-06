@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const stripAnsiFrom = require('strip-ansi');
+const { stripAnsi } = require('../../test-utils');
 const {
   getCapturedText,
   getCapturedTextWithColor,
@@ -45,7 +45,7 @@ describe('cli tool - test option handling', function () {
 
     capturedText.forEach(function (line) {
       if (line && line !== copyrightString) {
-        expect(line).not.toEqual(stripAnsiFrom(line));
+        expect(line).not.toEqual(stripAnsi(line));
       }
     });
   });
@@ -60,7 +60,7 @@ describe('cli tool - test option handling', function () {
       const capturedText = getCapturedText(consoleSpy.mock.calls);
 
       capturedText.forEach(function (line) {
-        expect(line).toEqual(stripAnsiFrom(line));
+        expect(line).toEqual(stripAnsi(line));
       });
     }
   );
