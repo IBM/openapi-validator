@@ -97,6 +97,7 @@ module.exports = {
     // IBM Custom Rules
     'ibm-array-attributes': ibmRules.arrayAttributes,
     'ibm-avoid-inline-schemas': ibmRules.inlineSchemas,
+    'ibm-avoid-multiple-types': ibmRules.avoidMultipleTypes,
     'ibm-avoid-property-name-collision': ibmRules.propertyNameCollision,
     'ibm-avoid-repeating-path-parameters': ibmRules.duplicatePathParameter,
     'ibm-binary-schemas': ibmRules.binarySchemas,
