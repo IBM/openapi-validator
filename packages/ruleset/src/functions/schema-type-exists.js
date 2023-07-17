@@ -48,6 +48,21 @@ function schemaTypeExists(schema, path) {
   return [];
 }
 
+/**
+ * Returns true iff schema 's' explicitly defines its type.
+ * The type could be a non-empty string or a list of non-empty strings.
+ * @param {*} s the schema to check
+ * @returns boolean true if 's' explicitly defines its type, false otherwise
+ */
 function schemaHasType(s) {
-  return s && s.type && s.type.toString().trim().length;
+  return (
+    s &&
+    'type' in s &&
+    ((typeof s.type === 'string' && s.type.toString().trim().length) ||
+      (Array.isArray(s.type) &&
+        s.type.length &&
+        s.type.every(t => {
+          return typeof t === 'string' && t.trim().length;
+        })))
+  );
 }

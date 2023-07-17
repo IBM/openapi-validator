@@ -30,27 +30,60 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Response schema, property defined correctly with nested allOf', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/movies'].post.responses['400'].content[
-        'application/json'
-      ].schema = {
-        type: 'object',
-        properties: {
-          no_type: {
-            allOf: [
-              {
-                allOf: [
-                  {
-                    description: 'nested allOf definition',
-                  },
-                  {
-                    type: 'string',
-                  },
-                ],
+      testDocument.paths['/v1/movies'].post.responses['400'] = {
+        content: {
+          'application/json': {
+            schema: {
+              type: 'object',
+              properties: {
+                no_type: {
+                  allOf: [
+                    {
+                      allOf: [
+                        {
+                          description: 'nested allOf definition',
+                        },
+                        {
+                          type: 'string',
+                        },
+                      ],
+                    },
+                    {
+                      description: 'overridden description, but no type',
+                    },
+                  ],
+                },
               },
-              {
-                description: 'overridden description, but no type',
+            },
+          },
+        },
+      };
+
+      testDocument.paths['/v1/movies'].post.responses['401'] = {
+        content: {
+          'application/json': {
+            schema: {
+              type: ['object'],
+              properties: {
+                no_type: {
+                  allOf: [
+                    {
+                      allOf: [
+                        {
+                          description: 'nested allOf definition',
+                        },
+                        {
+                          type: ['string'],
+                        },
+                      ],
+                    },
+                    {
+                      description: 'overridden description, but no type',
+                    },
+                  ],
+                },
               },
-            ],
+            },
           },
         },
       };
