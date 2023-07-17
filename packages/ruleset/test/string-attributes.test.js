@@ -28,6 +28,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
             enum: ['fiction', 'nonfiction'],
           },
         },
+        {
+          name: 'sort_order',
+          in: 'query',
+          schema: {
+            type: ['string'],
+            enum: ['asc', 'desc'],
+          },
+        },
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -70,7 +78,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           name: 'trailer',
           in: 'query',
           schema: {
-            type: 'string',
+            type: ['string'],
             format: 'byte',
             minLength: 0,
             maxLength: 1024,
@@ -148,17 +156,42 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
       testDocument.paths['/v1/movies'].post.parameters = [
         {
-          name: 'ruleTester',
+          name: 'ruleTester1',
           in: 'query',
           schema: {
-            $ref: '#/components/schemas/RuleTester',
+            $ref: '#/components/schemas/RuleTester1',
+          },
+        },
+        {
+          name: 'ruleTester2',
+          in: 'query',
+          schema: {
+            $ref: '#/components/schemas/RuleTester2',
           },
         },
       ];
 
-      testDocument.components.schemas['RuleTester'] = {
+      testDocument.components.schemas['RuleTester1'] = {
         description: 'Tests string fields within allOf',
         type: 'string',
+        minLength: 1,
+        maxLength: 38,
+        allOf: [
+          {
+            minLength: 1,
+          },
+          {
+            maxLength: 38,
+          },
+          {
+            pattern: 'id:.*',
+          },
+        ],
+        example: 'example string',
+      };
+      testDocument.components.schemas['RuleTester2'] = {
+        description: 'Tests string fields within allOf',
+        type: ['string'],
         minLength: 1,
         maxLength: 38,
         allOf: [
@@ -217,7 +250,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           content: {
             'text/plain': {
               schema: {
-                type: 'string',
+                type: ['string'],
                 pattern: '[a-zA-Z0-9]+',
                 maxLength: 15,
               },
@@ -291,7 +324,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
         {
           schema: {
-            type: 'integer',
+            type: ['integer', 'null', 'boolean'],
             minLength: 15,
           },
         };
@@ -371,14 +404,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
               {
                 anyOf: [
                   {
-                    type: 'string',
+                    type: ['string'],
                     maxLength: 10,
                     minLength: 1,
                   },
                   {
                     oneOf: [
                       {
-                        type: 'string',
+                        type: ['string'],
                         maxLength: 10,
                         minLength: 1,
                       },
@@ -409,7 +442,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           name: 'filter',
           in: 'query',
           schema: {
-            type: 'string',
+            type: ['string'],
             minLength: 1,
             maxLength: 15,
           },
@@ -487,7 +520,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.components.schemas['RuleTester'] = {
         description: 'Tests pattern field within anyOf',
-        type: 'string',
+        type: ['string'],
         minLength: 1,
         maxLength: 38,
         oneOf: [
