@@ -4,6 +4,11 @@
  */
 
 const { mergeAllOfSchemaProperties, LoggerFactory } = require('../utils');
+const {
+  isArraySchema,
+  isIntegerSchema,
+  isStringSchema,
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 let ruleId;
 let logger;
@@ -80,9 +85,7 @@ function paginationStyle(pathItem, path) {
 
   // Next, make sure there is at least one array property in the response schema.
   if (
-    !Object.values(responseSchema.properties).some(
-      prop => prop.type === 'array'
-    )
+    !Object.values(responseSchema.properties).some(prop => isArraySchema(prop))
   ) {
     logger.debug(`${ruleId}: Response schema has no array property!`);
     return [];
@@ -139,7 +142,7 @@ function paginationStyle(pathItem, path) {
     const limitParam = params[limitParamIndex];
     if (
       !limitParam.schema ||
-      limitParam.schema.type !== 'integer' ||
+      !isIntegerSchema(limitParam.schema) ||
       !!limitParam.required ||
       !limitParam.schema.default ||
       !limitParam.schema.maximum
@@ -163,7 +166,7 @@ function paginationStyle(pathItem, path) {
     const offsetParam = params[offsetParamIndex];
     if (
       !offsetParam.schema ||
-      offsetParam.schema.type !== 'integer' ||
+      !isIntegerSchema(offsetParam.schema) ||
       !!offsetParam.required
     ) {
       results.push({
@@ -208,7 +211,7 @@ function paginationStyle(pathItem, path) {
     }
     if (
       !pageTokenParam.schema ||
-      pageTokenParam.schema.type !== 'string' ||
+      !isStringSchema(pageTokenParam.schema) ||
       !!pageTokenParam.required
     ) {
       results.push({
@@ -260,7 +263,7 @@ function paginationStyle(pathItem, path) {
         path: responseSchemaPath,
       });
     } else if (
-      limitProp.type !== 'integer' ||
+      !isIntegerSchema(limitProp) ||
       !responseSchema.required ||
       responseSchema.required.indexOf('limit') === -1
     ) {
@@ -282,7 +285,7 @@ function paginationStyle(pathItem, path) {
         path: responseSchemaPath,
       });
     } else if (
-      offsetProp.type !== 'integer' ||
+      !isIntegerSchema(offsetProp) ||
       !responseSchema.required ||
       responseSchema.required.indexOf('offset') === -1
     ) {
@@ -293,20 +296,7 @@ function paginationStyle(pathItem, path) {
     }
   }
 
-  //
-  // This check has been removed from this rule and replaced by the new 'collection-array-property' rule.
-  //
-  // // Check #7: The response body must contain an array property whose name matches the final path segment.
-  // // Reference: https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-collections-overview#response-format
-  // const pathSeg = pathStr.split('/').pop();
-  // const resourcesProp = responseSchema.properties[pathSeg];
-  // if (!resourcesProp || resourcesProp.type !== 'array') {
-  //   results.push({
-  //     message:
-  //       'A paginated list operation must include an array property whose name matches the final segment of the path',
-  //     path: responseSchemaPath
-  //   });
-  // }
+  // Check #7 is implemented in the collection-array-property rule.
 
   // Check #8: If the response body contains a "total_count" property, it must be type integer and required.
   // References:
@@ -315,7 +305,7 @@ function paginationStyle(pathItem, path) {
   const tcProp = responseSchema.properties.total_count;
   if (tcProp) {
     if (
-      tcProp.type !== 'integer' ||
+      !isIntegerSchema(tcProp) ||
       !responseSchema.required ||
       responseSchema.required.indexOf('total_count') === -1
     ) {
@@ -375,7 +365,7 @@ function checkPageLink(path, responseSchema, name, isRequired) {
       !pageLinkSchema ||
       !pageLinkSchema.properties ||
       !pageLinkSchema.properties.href ||
-      pageLinkSchema.properties.href.type !== 'string'
+      !isStringSchema(pageLinkSchema.properties.href)
     ) {
       results.push({
         message: `The '${name}' property should be an object with an 'href' string property`,

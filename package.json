@@ -26,19 +26,18 @@
     "format-readme-toc": "markdown-toc --maxdepth 5 -i README.md"
   },
   "devDependencies": {
-    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^9.0.1",
+    "@semantic-release/npm": "^10.0.4",
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.0",
     "jest": "^27.4.5",
     "markdown-toc": "^1.2.0",
     "prettier": "^2.8.4",
-    "semantic-release": "^19.0.2"
+    "semantic-release": "^21.0.7"
   },
   "overrides": {
-    "optionator": "^0.9.3",
-    "semver": "^7.5.3"
+    "optionator": "^0.9.3"
   }
 }
