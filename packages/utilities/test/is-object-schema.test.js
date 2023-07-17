@@ -25,9 +25,7 @@ describe('Utility function: isObjectSchema()', () => {
   it('should return `true` for an object with `type` of "object"', async () => {
     expect(isObjectSchema({ type: 'object' })).toBe(true);
   });
-
-  // Skipped: debatable whether this test ought to pass, but maybe for OAS 3.1 support
-  it.skip('should return `true` for an object with `type` of ["object"]', async () => {
+  it('should return `true` for an object if `type` contains "object"', async () => {
     expect(isObjectSchema({ type: ['object'] })).toBe(true);
   });
 
@@ -59,6 +57,16 @@ describe('Utility function: isObjectSchema()', () => {
             allOf: [{ properties: {} }, {}],
           },
           { type: 'object' },
+        ],
+      })
+    ).toBe(true);
+    expect(
+      isObjectSchema({
+        oneOf: [
+          {
+            allOf: [{ properties: {} }, {}],
+          },
+          { type: ['object'] },
         ],
       })
     ).toBe(true);

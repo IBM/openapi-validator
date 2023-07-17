@@ -19,6 +19,8 @@ const errorMsgNumberFormat =
   /^Schema of type number should use one of the following formats:.*$/;
 const errorMsgNoFormat = /^Schema of type .* should not have a format*$/;
 const errorMsgFormatButNoType = /^Format defined without a type$/;
+const errorMsgFormatWithMultipleTypes =
+  /^Format defined with multiple types is ambiguous$/;
 
 // Define a few collections of properties used to build test schemas.
 const validPropertiesNoFormat = {
@@ -29,7 +31,7 @@ const validPropertiesNoFormat = {
     },
   },
   bool_prop: {
-    type: 'boolean',
+    type: ['null', 'boolean'],
   },
   int_prop: {
     type: 'integer',
@@ -41,7 +43,7 @@ const validPropertiesNoFormat = {
     type: 'object',
     properties: {
       prop1: {
-        type: 'string',
+        type: ['string', 'null'],
       },
     },
   },
@@ -64,7 +66,7 @@ const validStringProperties = {
     format: 'crn',
   },
   date_prop: {
-    type: 'string',
+    type: ['string'],
     format: 'date',
   },
   datetime_prop: {
@@ -72,7 +74,7 @@ const validStringProperties = {
     format: 'date-time',
   },
   email_prop: {
-    type: 'string',
+    type: ['string', 'null'],
     format: 'email',
   },
   id_prop: {
@@ -84,7 +86,7 @@ const validStringProperties = {
     format: 'password',
   },
   url_prop: {
-    type: 'string',
+    type: ['string'],
     format: 'url',
   },
   uuid_prop: {
@@ -99,7 +101,7 @@ const validIntegerProperties = {
     format: 'int32',
   },
   long_prop: {
-    type: 'integer',
+    type: ['integer', 'null'],
     format: 'int64',
   },
 };
@@ -110,7 +112,7 @@ const validNumberProperties = {
     format: 'float',
   },
   double_prop: {
-    type: 'number',
+    type: ['null', 'number'],
     format: 'double',
   },
 };
@@ -232,15 +234,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgInvalidType);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema'
+      );
     });
 
     it('Schema property with invalid type - inline response schema', async () => {
@@ -252,7 +248,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'object',
         properties: {
           invalid_prop: {
-            type: 'invalid_type',
+            type: ['invalid_type'],
           },
         },
       };
@@ -262,18 +258,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgInvalidType);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'responses',
-        '201',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'invalid_prop',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.201.content.application/json.schema.properties.invalid_prop'
+      );
     });
 
     it('Array.items with invalid type - referenced requestBody schema', async () => {
@@ -296,16 +283,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgInvalidType);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-        'items',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema.items'
+      );
     });
 
     it('Object schema with format - inline requestBody schema', async () => {
@@ -314,7 +294,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/drinks'].post.requestBody.content[
         'application/json'
       ].schema = {
-        type: 'object',
+        type: ['object'],
         format: 'notanobject',
       };
 
@@ -323,15 +303,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgNoFormat);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema'
+      );
     });
 
     it('Array schema with format - referenced requestBody schema', async () => {
@@ -355,15 +329,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgNoFormat);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema'
+      );
     });
 
     it('Boolean schema with format - referenced response schema', async () => {
@@ -384,16 +352,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgNoFormat);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'responses',
-        '201',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.201.content.application/json.schema'
+      );
     });
 
     it('Schema with format but no type - referenced response', async () => {
@@ -418,16 +379,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgFormatButNoType);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'responses',
-        '201',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.201.content.application/json.schema'
+      );
     });
 
     it('String schema with invalid format - referenced requestBody', async () => {
@@ -452,22 +406,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgStringFormat);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema'
+      );
     });
 
     it('Integer schema with invalid format - referenced schema', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas['BadIntProp'] = {
-        type: 'integer',
+        type: ['integer'],
         format: 'notaninteger',
       };
 
@@ -482,69 +430,21 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(result.message).toMatch(errorMsgIntegerFormat);
         expect(result.severity).toBe(expectedSeverity);
       }
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'bad_int_prop',
-      ]);
-      expect(results[1].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'post',
-        'responses',
-        '201',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'bad_int_prop',
-      ]);
-      expect(results[2].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'allOf',
-        '1',
-        'properties',
-        'movies',
-        'items',
-        'properties',
-        'bad_int_prop',
-      ]);
-      expect(results[3].path).toStrictEqual([
-        'paths',
-        '/v1/movies/{movie_id}',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'bad_int_prop',
-      ]);
-      expect(results[4].path).toStrictEqual([
-        'paths',
-        '/v1/movies/{movie_id}',
-        'put',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'bad_int_prop',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies.post.requestBody.content.application/json.schema.properties.bad_int_prop'
+      );
+      expect(results[1].path.join('.')).toBe(
+        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.bad_int_prop'
+      );
+      expect(results[2].path.join('.')).toBe(
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.bad_int_prop'
+      );
+      expect(results[3].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.bad_int_prop'
+      );
+      expect(results[4].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.properties.bad_int_prop'
+      );
     });
     it('Number schema with invalid format - inline response schema', async () => {
       const testDocument = makeCopy(rootDocument);
@@ -566,18 +466,33 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toMatch(errorMsgNumberFormat);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'responses',
-        '201',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'bad_number_prop',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.201.content.application/json.schema.properties.bad_number_prop'
+      );
+    });
+    it('Multiple types with format - inline response schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['201'].content[
+        'application/json'
+      ].schema = {
+        type: 'object',
+        properties: {
+          bad_number_prop: {
+            type: ['number', 'null', 'string'],
+            format: 'float',
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toMatch(errorMsgFormatWithMultipleTypes);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.201.content.application/json.schema.properties.bad_number_prop'
+      );
     });
   });
 });

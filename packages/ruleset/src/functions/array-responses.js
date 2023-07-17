@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
 let ruleId;
@@ -36,10 +37,7 @@ function checkForArrayResponses(op, path) {
       response.content || {}
     )) {
       logger.debug(`${ruleId}: checking response for mimetype '${mimeType}'`);
-      const isArrayResponse =
-        contentEntry.schema &&
-        (contentEntry.schema.type === 'array' || contentEntry.schema.items);
-      if (isArrayResponse) {
+      if (contentEntry.schema && isArraySchema(contentEntry.schema)) {
         logger.debug('Found an array response!');
         errors.push({
           message:

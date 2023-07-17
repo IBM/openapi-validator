@@ -86,6 +86,23 @@ const getSchemaType = schema => {
   }
 };
 
+/**
+ * Returns true iff 'schema' is of type 'type'.
+ * This means that one of the following must be true:
+ * 1. schema's 'type' field is a string and is equal to the specified type.
+ * 2. schema's 'type' field is a list and contains the specified type.
+ * @param {*} schema the schema to be checked
+ * @param {*} type the desired type value to check for
+ * @returns boolean true if 'schema' is of the specified type, false otherwise.
+ */
+const schemaIsOfType = (schema, type) => {
+  return (
+    'type' in schema &&
+    ((typeof schema.type === 'string' && schema.type === type) ||
+      (Array.isArray(schema.type) && schema.type.includes(type)))
+  );
+};
+
 /*
  * The following functions employ heuristics to determine the logical type of a schema. Schema types
  * as defined by these functions are not exclusive (for example, a `float` is also `number`). These
@@ -98,219 +115,214 @@ const getSchemaType = schema => {
  * explicit `type`.
  *
  * These functions do not attempt to account for contradictions (for example, a schema which
- * composes an `object`- and `integer`-type schemas with `allOf`), or use OAS 3.1 `type` arrays.
+ * composes an `object`- and `integer`-type schemas with `allOf`).
  * They also do not account for `type` and `format` values defined separately across a
  * composite schema. (I.e., a `format` value is only considered meaningful in the context of a
- * `type`, value for which it is valid, in the same simple (non-composite) schema.
+ * `type` value for which it is valid, in the same simple (non-composite) schema.
  */
 
 /**
  * Returns `true` for an array schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isArraySchema = schema => {
   return schemaHasConstraint(schema, s => {
-    if ('type' in s) {
-      return s.type === 'array'; // ignores the possibility of type arrays in OAS 3.1
-    } else {
-      return isObject(s.items);
-    }
+    return schemaIsOfType(s, 'array') || (isObject(s.items) && !('type' in s));
   });
 };
 
 /**
  * Returns `true` for an arbitrary octet sequence binary schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isBinarySchema = schema => {
   return schemaHasConstraint(
     schema,
-    s => s.type === 'string' && s.format === 'binary'
+    s => schemaIsOfType(s, 'string') && s.format === 'binary'
   );
 };
 
 /**
  * Returns `true` for a boolean schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isBooleanSchema = schema => {
-  return schemaHasConstraint(schema, s => s.type === 'boolean');
+  return schemaHasConstraint(schema, s => schemaIsOfType(s, 'boolean'));
 };
 
 /**
  * Returns `true` for a base64-encoded byte string schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isByteSchema = schema => {
   return schemaHasConstraint(
     schema,
-    s => s.type === 'string' && s.format === 'byte'
+    s => schemaIsOfType(s, 'string') && s.format === 'byte'
   );
 };
 
 /**
  * Returns `true` for a date schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isDateSchema = schema => {
   return schemaHasConstraint(
     schema,
-    s => s.type === 'string' && s.format === 'date'
+    s => schemaIsOfType(s, 'string') && s.format === 'date'
   );
 };
 
 /**
  * Returns `true` for a date-time schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isDateTimeSchema = schema => {
   return schemaHasConstraint(
     schema,
-    s => s.type === 'string' && s.format === 'date-time'
+    s => schemaIsOfType(s, 'string') && s.format === 'date-time'
   );
 };
 
 /**
  * Returns `true` for a double (IEEE 754 64-bit floating point value) schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isDoubleSchema = schema => {
   // also ignores `type` and `format` defined in separately composited schemas
   return schemaHasConstraint(
     schema,
-    s => s.type === 'number' && s.format === 'double'
+    s => schemaIsOfType(s, 'number') && s.format === 'double'
   );
 };
 
 /**
  * Returns `true` for a string enumeration schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isEnumerationSchema = schema => {
   return schemaHasConstraint(
     schema,
-    s => s.type === 'string' && Array.isArray(s.enum)
+    s => schemaIsOfType(s, 'string') && Array.isArray(s.enum)
   );
 };
 
 /**
  * Returns `true` for a double (IEEE 754 32-bit floating point value) schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isFloatSchema = schema => {
   // also ignores `type` and `format` defined in separately composited schemas
   return schemaHasConstraint(
     schema,
-    s => s.type === 'number' && s.format === 'float'
+    s => schemaIsOfType(s, 'number') && s.format === 'float'
   );
 };
 
 /**
  * Returns `true` for an int32 (32-bit signed "short") schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isInt32Schema = schema => {
   return schemaHasConstraint(
     schema,
-    s => s.type === 'integer' && s.format === 'int32'
+    s => schemaIsOfType(s, 'integer') && s.format === 'int32'
   );
 };
 
 /**
  * Returns `true` for an int64 (64-bit signed "long") schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isInt64Schema = schema => {
   return schemaHasConstraint(
     schema,
-    s => s.type === 'integer' && s.format === 'int64'
+    s => schemaIsOfType(s, 'integer') && s.format === 'int64'
   );
 };
 
 /**
  * Returns `true` for an integer (32-bit, 64-bit, or ambiguous format) schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isIntegerSchema = schema => {
-  return schemaHasConstraint(schema, s => s.type === 'integer');
+  return schemaHasConstraint(schema, s => schemaIsOfType(s, 'integer'));
 };
 
 /**
  * Returns `true` for a number (32-bit, 64-bit, or ambiguous format floating point) schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isNumberSchema = schema => {
-  return schemaHasConstraint(schema, s => s.type === 'number');
+  return schemaHasConstraint(schema, s => schemaIsOfType(s, 'number'));
 };
 
 /**
  * Returns `true` for an object schema.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isObjectSchema = schema => {
   return schemaHasConstraint(schema, s => {
-    if ('type' in s) {
-      return s.type === 'object'; // ignores the possibility of type arrays in OAS 3.1
-    } else {
-      return (
-        isObject(s.properties) ||
-        s.additionalProperties === true ||
-        isObject(s.additionalProperties)
-      );
-    }
+    return (
+      schemaIsOfType(s, 'object') ||
+      (!('type' in s) &&
+        (isObject(s.properties) ||
+          s.additionalProperties === true ||
+          isObject(s.additionalProperties)))
+    );
   });
 };
 
 /**
  * Returns `true` for a string schema of any format.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isStringSchema = schema => {
-  return schemaHasConstraint(schema, s => s.type === 'string');
+  return schemaHasConstraint(schema, s => schemaIsOfType(s, 'string'));
 };
 
 /**
  * Returns `true` for a primitive schema (anything encoded as a JSON string, number, or boolean).
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
+ * @param {object} schema - Simple or composite OpenAPI 3.0 or 3.1 schema object.
  * @returns {boolean}
  */
 const isPrimitiveSchema = schema => {
   // This implementation should remain stable when additional specific types are added
   return (
-    !isObjectSchema(schema) &&
-    !isArraySchema(schema) &&
-    getSchemaType(schema) !== SchemaType.UNKNOWN
+    isStringSchema(schema) ||
+    isNumberSchema(schema) ||
+    isIntegerSchema(schema) ||
+    isBooleanSchema(schema)
   );
 };
 
@@ -333,4 +345,5 @@ module.exports = {
   isObjectSchema,
   isPrimitiveSchema,
   isStringSchema,
+  schemaIsOfType,
 };
