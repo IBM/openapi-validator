@@ -8,6 +8,7 @@
   "repository": "https://github.com/IBM/openapi-validator",
   "scripts": {
     "clean": "rm -rf node_modules",
+    "jest": "jest",
     "test": "jest test",
     "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test",
     "lint": "eslint --cache --quiet --ext '.js' src test",

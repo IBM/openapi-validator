@@ -26,8 +26,7 @@ describe('Utility function: isArraySchema()', () => {
     expect(isArraySchema({ type: 'array' })).toBe(true);
   });
 
-  // Skipped: debatable whether this test ought to pass, but maybe for OAS 3.1 support
-  it.skip('should return `true` for an object with `type` of ["array"]', async () => {
+  it('should return `true` if `type` contains "array"', async () => {
     expect(isArraySchema({ type: ['array'] })).toBe(true);
   });
 
@@ -51,6 +50,16 @@ describe('Utility function: isArraySchema()', () => {
             allOf: [{ anyOf: [{ items: {} }, { type: 'array' }] }, {}],
           },
           { type: 'array' },
+        ],
+      })
+    ).toBe(true);
+    expect(
+      isArraySchema({
+        oneOf: [
+          {
+            allOf: [{ anyOf: [{ items: {} }, { type: ['array'] }] }, {}],
+          },
+          { type: ['array'] },
         ],
       })
     ).toBe(true);
