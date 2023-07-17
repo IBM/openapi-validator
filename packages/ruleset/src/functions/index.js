@@ -7,6 +7,7 @@ module.exports = {
   arrayAttributes: require('./array-attributes'),
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
+  avoidMultipleTypes: require('./avoid-multiple-types'),
   binarySchemas: require('./binary-schemas'),
   checkMajorVersion: require('./check-major-version'),
   circularRefs: require('./circular-refs'),
