@@ -9,6 +9,7 @@ module.exports = {
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
   authorizationHeader: require('./authorization-header'),
+  avoidMultipleTypes: require('./avoid-multiple-types'),
   binarySchemas: require('./binary-schemas'),
   circularRefs: require('./circular-refs'),
   collectionArrayProperty: require('./collection-array-property'),

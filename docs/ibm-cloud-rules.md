@@ -30,6 +30,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
 - [Reference](#reference)
   * [ibm-array-attributes](#ibm-array-attributes)
   * [ibm-avoid-inline-schemas](#ibm-avoid-inline-schemas)
+  * [ibm-avoid-multiple-types](#ibm-avoid-multiple-types)
   * [ibm-avoid-property-name-collision](#ibm-avoid-property-name-collision)
   * [ibm-avoid-repeating-path-parameters](#ibm-avoid-repeating-path-parameters)
   * [ibm-binary-schemas](#ibm-binary-schemas)
@@ -125,6 +126,13 @@ is provided in the [Reference](#reference) section below.
 Instead, use a ref to a named schema.
 </td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-avoid-multiple-types">ibm-avoid-multiple-types</a></td>
+<td>warn</td>
+<td>Multiple types within a schema's <code>type</code> field should be avoided because it creates ambiguity.
+</td>
+<td>oas3_1</td>
 </tr>
 <tr>
 <td><a href="#ibm-avoid-property-name-collision">ibm-avoid-property-name-collision</a></td>
@@ -873,6 +881,73 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-avoid-multiple-types
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-avoid-multiple-types</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The OpenAPI 3.1 Specification allows multiple types to be used within a schema's <code>type</code> field, but this can create
+ambiguity in an API definition.  Therefore, multiple types should be avoided.
+<p>This rule will return an error for schemas that are defined with multiple types (e.g. <code>['string', 'integer', 'boolean']</code>).
+One exception to this is that the special type <code>"null"</code> is simply ignored by the rule when counting 
+the number of elements in the schema's <code>type</code> field.  So, the type value <code>['string', 'integer']</code>
+would cause an error, but the type value <code>['string', 'null']</code> would not.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3_1</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        metadata:
+          description: additional info about the thing
+          type:
+            - string
+            - boolean
+            - integer
+            - null
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        metadata:
+          description: additional info about the thing
+          type:
+            - string
+            - null
 </pre>
 </td>
 </tr>
