@@ -295,7 +295,8 @@ const isObjectSchema = schema => {
       (!('type' in s) &&
         (isObject(s.properties) ||
           s.additionalProperties === true ||
-          isObject(s.additionalProperties)))
+          isObject(s.additionalProperties) ||
+          isObject(s.patternProperties)))
     );
   });
 };

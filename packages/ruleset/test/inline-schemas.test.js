@@ -353,6 +353,39 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Inline primitive in additionalProperties', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Car.additionalProperties = {
+        description: 'Inline string schema within additionalProperties',
+        type: 'string',
+        pattern: '^blah.*$',
+        minLength: 0,
+        maxLength: 64,
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Inline primitive in patternProperties', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.openapi = '3.1.0';
+      testDocument.components.schemas.Car.patternProperties = {
+        '^foo.*$': {
+          description: 'Inline object schema within additionalProperties',
+          type: 'string',
+          pattern: '^blah.*$',
+          minLength: 0,
+          maxLength: 64,
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
@@ -526,6 +559,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
         'components.schemas.Car.additionalProperties'
+      );
+    });
+
+    it('Inline object in patternProperties', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.openapi = '3.1.0';
+      testDocument.components.schemas.Car.patternProperties = {
+        '^foo.*$': {
+          description: 'Inline object schema within additionalProperties',
+          properties: {
+            prop1: {
+              type: 'string',
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(expectedMsgProperty);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'components.schemas.Car.patternProperties.^foo.*$'
       );
     });
 

@@ -41,8 +41,30 @@ describe('Utility function: isObjectSchema()', () => {
     expect(isObjectSchema({ additionalProperties: {} })).toBe(true);
   });
 
-  it('should return `false` for an object with non-"object" `type` and an `properties` object', async () => {
+  it('should return `false` for an object with no `type` and an `additionalProperties` of `false`', async () => {
+    expect(isObjectSchema({ additionalProperties: false })).toBe(false);
+  });
+
+  it('should return `true` for an object with no `type` and a `patternProperties` object', async () => {
+    expect(
+      isObjectSchema({ patternProperties: { '.*': { type: 'string' } } })
+    ).toBe(true);
+  });
+
+  it('should return `false` for an object with no `type` and a `patternProperties` not an object', async () => {
+    expect(
+      isObjectSchema({
+        patternProperties: 'bad patternProperties object!',
+      })
+    ).toBe(false);
+  });
+
+  it('should return `false` for an object with non-"object" `type` and a `properties` object', async () => {
     expect(isObjectSchema({ type: 'array', properties: {} })).toBe(false);
+  });
+
+  it('should return `false` for a non-object value for "schema"', async () => {
+    expect(isObjectSchema('this is not a schema object')).toBe(false);
   });
 
   it('should return `false` for an object with no `type` and a non-object `properties`', async () => {

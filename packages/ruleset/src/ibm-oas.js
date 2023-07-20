@@ -140,6 +140,7 @@ module.exports = {
     'ibm-parameter-schema-or-content': ibmRules.parameterSchemaOrContentExists,
     'ibm-patch-request-content-type': ibmRules.patchRequestContentType,
     'ibm-path-segment-casing-convention': ibmRules.pathSegmentCasingConvention,
+    'ibm-pattern-properties': ibmRules.patternProperties,
     'ibm-precondition-headers': ibmRules.preconditionHeader,
     'ibm-prefer-token-pagination': ibmRules.preferTokenPagination,
     'ibm-property-attributes': ibmRules.propertyAttributes,
