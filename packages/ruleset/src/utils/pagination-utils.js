@@ -2,7 +2,7 @@
  * Copyright 2023 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
-
+const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
 const mergeAllOfSchemaProperties = require('./merge-allof-schema-properties');
 
 /**
@@ -134,9 +134,7 @@ function getPaginatedOperationFromPath(pathItem, path, logInfo) {
 
   // Next, make sure there is at least one array property in the response schema.
   if (
-    !Object.values(responseSchema.properties).some(
-      prop => prop.type === 'array'
-    )
+    !Object.values(responseSchema.properties).some(prop => isArraySchema(prop))
   ) {
     logger.debug(`${ruleId}: Response schema has no array property!`);
     return;

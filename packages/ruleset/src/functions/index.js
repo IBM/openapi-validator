@@ -34,6 +34,7 @@ module.exports = {
   patchRequestContentType: require('./patch-request-content-type'),
   pathParameterNotCRN: require('./path-parameter-not-crn'),
   pathSegmentCasingConvention: require('./path-segment-casing-convention'),
+  patternPropertiesCheck: require('./pattern-properties'),
   preconditionHeader: require('./precondition-header'),
   preferTokenPagination: require('./prefer-token-pagination'),
   propertyAttributes: require('./property-attributes'),

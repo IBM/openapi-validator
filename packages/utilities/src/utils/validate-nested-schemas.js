@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const isObject = require('./is-object');
+
 /*
  * Performs validation on a schema and all of its nested schemas.
  *
@@ -29,6 +31,13 @@ const validateNestedSchemas = (
   includeSelf = true,
   includeNot = false
 ) => {
+  // Make sure 'schema' is an object.
+  if (!isObject(schema)) {
+    throw new Error(
+      `the entity at location ${path.join('.')} must be a schema object`
+    );
+  }
+
   // If "schema" is a $ref, that means it didn't get resolved
   // properly (perhaps due to a circular ref), so just ignore it.
   if (schema.$ref) {
@@ -107,6 +116,23 @@ const validateNestedSchemas = (
           )
         );
       });
+    }
+  }
+
+  if (
+    schema.patternProperties &&
+    typeof schema.patternProperties === 'object'
+  ) {
+    for (const entry of Object.entries(schema.patternProperties)) {
+      errors.push(
+        ...validateNestedSchemas(
+          entry[1],
+          [...path, 'patternProperties', entry[0]],
+          validate,
+          true,
+          includeNot
+        )
+      );
     }
   }
 
