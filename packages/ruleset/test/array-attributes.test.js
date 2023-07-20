@@ -435,20 +435,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMsgItems);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'allOf',
-        '1',
-        'properties',
-        'drinks',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks'
+      );
     });
     it('Response schema without items property', async () => {
       const testDocument = makeCopy(rootDocument);
@@ -462,16 +451,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMsgItems);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies.get.responses.200.content.application/json.schema'
+      );
     });
     it('Request schema without items property', async () => {
       const testDocument = makeCopy(rootDocument);
@@ -487,16 +469,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMsgItems);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies.post.requestBody.content.application/json.schema'
+      );
     });
+
     it('Request schema with non-object items property', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -507,21 +484,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
         items: 'not a schema!',
       };
 
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
-      expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsgItems);
-      expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      await expect(async () => {
+        await testRule(ruleId, rule, testDocument);
+      }).rejects.toThrow();
     });
+
     it('additionalProperties schema without items property', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -531,69 +498,20 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(5);
-      for (const result of results) {
-        expect(result.code).toBe(ruleId);
-        expect(result.message).toBe(expectedMsgItems);
-        expect(result.severity).toBe(expectedSeverity);
+
+      const expectedPaths = [
+        'paths./v1/movies.post.requestBody.content.application/json.schema.additionalProperties',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.additionalProperties',
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.additionalProperties',
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.additionalProperties',
+        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.additionalProperties',
+      ];
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMsgItems);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-        'additionalProperties',
-      ]);
-      expect(results[1].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'post',
-        'responses',
-        '201',
-        'content',
-        'application/json',
-        'schema',
-        'additionalProperties',
-      ]);
-      expect(results[2].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'allOf',
-        '1',
-        'properties',
-        'movies',
-        'items',
-        'additionalProperties',
-      ]);
-      expect(results[3].path).toStrictEqual([
-        'paths',
-        '/v1/movies/{movie_id}',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'additionalProperties',
-      ]);
-      expect(results[4].path).toStrictEqual([
-        'paths',
-        '/v1/movies/{movie_id}',
-        'put',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-        'additionalProperties',
-      ]);
     });
     it('minItems > maxItems', async () => {
       const testDocument = makeCopy(rootDocument);

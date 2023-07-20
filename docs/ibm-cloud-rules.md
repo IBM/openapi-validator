@@ -71,6 +71,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-parameter-schema-or-content](#ibm-parameter-schema-or-content)
   * [ibm-patch-request-content-type](#ibm-patch-request-content-type)
   * [ibm-path-segment-casing-convention](#ibm-path-segment-casing-convention)
+  * [ibm-pattern-properties](#ibm-pattern-properties)
   * [ibm-precondition-headers](#ibm-precondition-headers)
   * [ibm-property-attributes](#ibm-property-attributes)
   * [ibm-property-casing-convention](#ibm-property-casing-convention)
@@ -380,6 +381,12 @@ or <code>application/merge-patch+json</code>.</td>
 <td>error</td>
 <td>Path segments must follow a specific case convention.</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-pattern-properties">ibm-pattern-properties</a></td>
+<td>error</td>
+<td>Enforces certain restrictions on the use of <code>patternProperties</code> within a schema.</td>
+<td>oas3_1</td>
 </tr>
 <tr>
 <td><a href="#ibm-precondition-headers">ibm-precondition-headers</a></td>
@@ -3831,6 +3838,74 @@ paths:
 <pre>
 paths:
   '/v1/some_things/{thing_id}':
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-pattern-properties
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-pattern-properties</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule enforces certain restrictions related to the use of the <code>patternProperties</code> field
+within a schema:
+<ul>
+<li>The <code>patternProperties</code> field must be an object with exactly one entry.
+<li>The <code>patternProperties</code> and <code>additionalProperties</code> fields are mutually exclusive within a particular schema.
+</ul>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3_1</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        metadata:
+          description: additional info about the thing
+          type: object
+          patternProperties:
+            '^foo.*$':
+              type: string
+            '^bar.*$':
+              type: integer
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        metadata:
+          description: additional info about the thing
+          type: object
+          patternProperties:
+            '^(foo|bar).*$':
+              type: string
 </pre>
 </td>
 </tr>

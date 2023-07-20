@@ -319,6 +319,35 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(validation.severity).toBe(expectedSeverity);
     });
 
+    it('Non-string schema within patternProperties defines a `pattern` field', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.paths['/v1/movies'].post.requestBody.content[
+        'application/json'
+      ] = {
+        schema: {
+          type: 'object',
+          patternProperties: {
+            '^foo.*$': {
+              type: 'integer',
+              pattern: '^fooValue.*$',
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+      const validation = results[0];
+      expect(validation.code).toBe(ruleId);
+      expect(validation.message).toBe(
+        `'pattern' should not be defined for non-string schemas`
+      );
+      expect(validation.path.join('.')).toBe(
+        'paths./v1/movies.post.requestBody.content.application/json.schema.patternProperties.^foo.*$.pattern'
+      );
+      expect(validation.severity).toBe(expectedSeverity);
+    });
+
     it('Non-string schema defines a `minLength` field', async () => {
       const testDocument = makeCopy(rootDocument);
       testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
