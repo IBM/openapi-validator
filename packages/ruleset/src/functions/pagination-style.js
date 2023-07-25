@@ -3,7 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { mergeAllOfSchemaProperties, LoggerFactory } = require('../utils');
+const {
+  mergeAllOfSchemaProperties,
+  LoggerFactory,
+  getOffsetParamIndex,
+  getPageTokenParamIndex,
+  getSuccessCode,
+  getResponseSchema,
+  getPaginatedOperationFromPath,
+} = require('../utils');
 
 let ruleId;
 let logger;
@@ -37,87 +45,16 @@ module.exports = function (pathObj, _opts, context) {
  */
 function paginationStyle(pathItem, path) {
   logger.debug(`${ruleId}: checking pathItem at location: ${path.join('.')}`);
+  const operation = getPaginatedOperationFromPath(pathItem, path, {
+    logger,
+    ruleId,
+  });
 
-  // The actual path string (e.g. '/v1/resources') will be the last element in 'path'.
-  const pathStr = path[path.length - 1];
-
-  // Retrieve this path item's 'get' operation.
-  const operation = pathItem.get;
-
-  // We'll bail out now if any of the following are true:
-  // 1. If the path string ends with a path param reference (e.g. '{resource_id}'
-  // 2. If the path item doesn't have a 'get' operation.
-  if (/}$/.test(pathStr) || !operation) {
-    logger.debug(`${ruleId}: 'get' operation is absent or excluded`);
-    return [];
-  }
-
-  // Next, find the first success response code.
-  const successCode = Object.keys(operation.responses || {}).find(code =>
-    code.startsWith('2')
-  );
-  if (!successCode) {
-    logger.debug(`${ruleId}: No success response code found!`);
-    return [];
-  }
-
-  // Next, find the json content of that response.
-  const content = operation.responses[successCode].content;
-  const jsonResponse = content && content['application/json'];
-
-  // If there's no response schema, then we can't check this operation so bail out now.
-  if (!jsonResponse || !jsonResponse.schema) {
-    logger.debug(`${ruleId}: No response schema found!`);
-    return [];
-  }
-
-  // Next, let's get the response schema (while potentially taking into account allOf).
-  const responseSchema = mergeAllOfSchemaProperties(jsonResponse.schema);
-  if (!responseSchema || !responseSchema.properties) {
-    logger.debug(`${ruleId}: Merged response schema has no properties!`);
-    return [];
-  }
-
-  // Next, make sure there is at least one array property in the response schema.
-  if (
-    !Object.values(responseSchema.properties).some(
-      prop => prop.type === 'array'
-    )
-  ) {
-    logger.debug(`${ruleId}: Response schema has no array property!`);
-    return [];
-  }
-
-  // Next, make sure this operation has parameters.
-  const params = operation.parameters;
-  if (!params) {
-    logger.debug(`${ruleId}: Operation has no parameters!`);
-    return [];
-  }
-
-  // Check to see if the operation defines a page token-type query param.
-  // This could have any of the names below.
-  const pageTokenParamNames = [
-    'start',
-    'token',
-    'cursor',
-    'page',
-    'page_token',
-  ];
-  const pageTokenParamIndex = params.findIndex(
-    param =>
-      param.in === 'query' && pageTokenParamNames.indexOf(param.name) !== -1
-  );
-
-  // Check to see if the operation defines an "offset" query param.
-  const offsetParamIndex = params.findIndex(
-    param => param.name === 'offset' && param.in === 'query'
-  );
-
-  // If the operation doesn't define a page token-type query param or an "offset" query param,
-  // then bail out now as pagination isn't supported by this operation.
-  if (pageTokenParamIndex < 0 && offsetParamIndex < 0) {
-    logger.debug(`${ruleId}: No start or offset query param!`);
+  // If `operation` is null, this is not a paginated operation.
+  if (!operation) {
+    logger.debug(
+      `${ruleId}: no paginated operation found at path '${path.join('.')}'`
+    );
     return [];
   }
 
@@ -125,7 +62,17 @@ function paginationStyle(pathItem, path) {
   // If we made it this far, we know that the operation is at least attempting to
   // support pagination, so we'll perform the various checks below.
   //
+  logger.debug(
+    `${ruleId}: checking paginated operation at path ${path.join('.')}.get`
+  );
   const results = [];
+
+  // The actual path string (e.g. '/v1/resources') will be the last element in 'path'.
+  const pathStr = path[path.length - 1];
+
+  // Note: any operation returned from `getPaginatedOperationFromPath`
+  // is guaranteed to have defined parameters.
+  const params = operation.parameters;
 
   // Check #1: If the operation has a 'limit' query param, it must be type integer, optional,
   // and have default and maximum values.
@@ -159,6 +106,7 @@ function paginationStyle(pathItem, path) {
 
   // Check #2: If the operation has an 'offset' query param, it must be type integer and optional.
   // Reference: https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-pagination#offset
+  const offsetParamIndex = getOffsetParamIndex(params);
   if (offsetParamIndex >= 0) {
     const offsetParam = params[offsetParamIndex];
     if (
@@ -192,6 +140,7 @@ function paginationStyle(pathItem, path) {
   // Check #4: If the operation has a page token-type query param, then it must be type string and optional,
   // and the name should be "start".
   // Reference: https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-pagination#token-based-pagination
+  const pageTokenParamIndex = getPageTokenParamIndex(params);
   if (pageTokenParamIndex !== -1) {
     const pageTokenParam = params[pageTokenParamIndex];
     if (pageTokenParam.name !== 'start') {
@@ -223,6 +172,11 @@ function paginationStyle(pathItem, path) {
       });
     }
   }
+
+  // A valid successful response (with a schema) is guaranteed to be defined by
+  // `getPaginatedOperationFromPath`.
+  const successCode = getSuccessCode(operation);
+  const responseSchema = getResponseSchema(operation.responses[successCode]);
 
   // Pre-defined path that points to the response schema.
   // We'll augment this path with additional segments in the checks that

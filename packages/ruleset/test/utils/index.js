@@ -8,6 +8,7 @@ const makeCopy = require('./make-copy');
 const testRule = require('./test-rule');
 const rootDocument = require('./root-document');
 const severityCodes = require('./severity-codes');
+const helperArtifacts = require('./helper-artifacts');
 
 module.exports = {
   allSchemasDocument,
@@ -15,4 +16,5 @@ module.exports = {
   rootDocument,
   testRule,
   severityCodes,
+  helperArtifacts,
 };

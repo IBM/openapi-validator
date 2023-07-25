@@ -71,6 +71,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-patch-request-content-type](#ibm-patch-request-content-type)
   * [ibm-path-segment-casing-convention](#ibm-path-segment-casing-convention)
   * [ibm-precondition-headers](#ibm-precondition-headers)
+  * [ibm-prefer-token-pagination](#ibm-prefer-token-pagination)
   * [ibm-property-attributes](#ibm-property-attributes)
   * [ibm-property-casing-convention](#ibm-property-casing-convention)
   * [ibm-property-consistent-name-and-type](#ibm-property-consistent-name-and-type)
@@ -377,6 +378,12 @@ or <code>application/merge-patch+json</code>.</td>
 <td><a href="#ibm-precondition-headers">ibm-precondition-headers</a></td>
 <td>error</td>
 <td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-prefer-token-pagination">ibm-prefer-token-pagination</a></td>
+<td>warn</td>
+<td>Paginated list operations should use token-based pagination, rather than offset/limit pagination</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -3770,9 +3777,9 @@ paths:
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code></td>.
+<td>Operations that return a 412 status code must support at least one of the following header parameters: <code>If-Match</code>, <code>If-None-Match</code>, <code>If-Modified-Since</code>, <code>If-Unmodified-Since</code>.
 For more details, please see the API Handbook section on
-<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers">Conditional headers</a>.
+<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-headers#conditional-headers">Conditional headers</a>.</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -3831,6 +3838,106 @@ paths:
                 $ref: '#/components/schemas/Thing'
         '412':
           description: 'Resource current ETag matches If-None-Match value.'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-prefer-token-pagination
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-prefer-token-pagination</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>As per the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-pagination#token-based-pagination">API Handbook guidance on pagination</a>, paginated list operations should use token-based pagination, rather than offset/limit pagination, wherever feasible.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/':
+    get:
+      operationId: list_things
+      parameters:
+        - name: offset
+          in: query
+          description: 'The offset of the first item to return.'
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+        - name: limit
+          in: query
+          description: 'The number of items to return per page.'
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 100
+            default: 10
+      responses:
+        '200':
+          description: 'Resources retrieved successfully!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingCollection'
+        '400':
+          description: 'List operation failed.'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/':
+    get:
+      operationId: list_things
+      parameters:
+        - name: start
+          in: query
+          description: 'The token representing the first item to return.'
+          required: false
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 64
+            pattern: '[a-zA-Z0-9 ]+'
+        - name: limit
+          in: query
+          description: 'The number of items to return per page.'
+          required: false
+          schema:
+            type: integer
+            format: int32
+            minimum: 0
+            maximum: 100
+            default: 10
+      responses:
+        '200':
+          description: 'Resources retrieved successfully!'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingCollection'
+        '400':
+          description: 'List operation failed.'
 </pre>
 </td>
 </tr>

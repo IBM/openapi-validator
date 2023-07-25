@@ -34,6 +34,7 @@ module.exports = {
   pathParameterNotCRN: require('./path-parameter-not-crn'),
   pathSegmentCasingConvention: require('./path-segment-casing-convention'),
   preconditionHeader: require('./precondition-header'),
+  preferTokenPagination: require('./prefer-token-pagination'),
   propertyAttributes: require('./property-attributes'),
   propertyCasingConvention: require('./property-casing-convention'),
   propertyConsistentNameAndType: require('./property-consistent-name-and-type'),
