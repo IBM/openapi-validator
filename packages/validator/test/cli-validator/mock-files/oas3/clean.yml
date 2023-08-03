@@ -31,13 +31,15 @@ paths:
             format: int32
             default: 10
             maximum: 100
-        - name: offset
+        - name: start
           in: query
-          description: Offset of first element to return in results.
+          description: A token which indicates the first item to return
           required: false
           schema:
-            type: integer
-            format: int32
+            type: string
+            pattern: '[a-zA-Z0-9 ]+'
+            minLength: 1
+            maxLength: 128
       responses:
         '200':
           description: A paged array of pets
@@ -142,7 +144,6 @@ components:
       required:
         - pets
         - limit
-        - offset
       properties:
         pets:
           type: array
@@ -155,10 +156,6 @@ components:
           type: integer
           format: int32
           description: limit
-        offset:
-          type: integer
-          format: int32
-          description: offset
         next_token:
           type: string
           description: next token
@@ -185,7 +182,6 @@ components:
           tag: dog
         next_url: 'https://www.nexturl.com'
         limit: 50
-        offset: 20
         next_token: TOKEN_STRING
     PageLink:
       type: object

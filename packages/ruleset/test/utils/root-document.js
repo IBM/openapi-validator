@@ -88,14 +88,15 @@ module.exports = {
         ],
         parameters: [
           {
-            name: 'offset',
+            name: 'start',
             in: 'query',
-            description: 'The offset (origin 0) of the first item to return.',
+            description: 'A token which indicates the first item to return.',
             required: false,
             schema: {
-              type: 'integer',
-              format: 'int32',
-              minimum: 0,
+              type: 'string',
+              pattern: '[a-zA-Z0-9 ]+',
+              minLength: 1,
+              maxLength: 128,
             },
           },
           {
@@ -355,7 +356,6 @@ module.exports = {
                   $ref: '#/components/schemas/MovieCollection',
                 },
                 example: {
-                  offset: 0,
                   limit: 2,
                   total_count: 2,
                   first: {
@@ -751,7 +751,7 @@ module.exports = {
         description: 'A single page of results containing Drink instances.',
         allOf: [
           {
-            $ref: '#/components/schemas/OffsetPaginationBase',
+            $ref: '#/components/schemas/TokenPaginationBase',
           },
           {
             type: 'object',
@@ -771,7 +771,6 @@ module.exports = {
           },
         ],
         example: {
-          offset: 0,
           limit: 1,
           total_count: 1,
           first: {
@@ -895,42 +894,6 @@ module.exports = {
         minLength: 1,
         maxLength: 32,
         pattern: '.*',
-      },
-      OffsetPaginationBase: {
-        description:
-          'A base schema containing properties that support offset-limit pagination.',
-        type: 'object',
-        required: ['offset', 'limit', 'total_count'],
-        properties: {
-          offset: {
-            description:
-              'The offset (origin 0) of the first item returned in the result page.',
-            type: 'integer',
-            format: 'int32',
-          },
-          limit: {
-            description: 'The number of items returned in the result page.',
-            type: 'integer',
-            format: 'int32',
-          },
-          total_count: {
-            description: 'The total number of items across all result pages.',
-            type: 'integer',
-            format: 'int32',
-          },
-          first: {
-            $ref: '#/components/schemas/PageLink',
-          },
-          next: {
-            $ref: '#/components/schemas/PageLink',
-          },
-          previous: {
-            $ref: '#/components/schemas/PageLink',
-          },
-          last: {
-            $ref: '#/components/schemas/PageLink',
-          },
-        },
       },
       TokenPaginationBase: {
         description:

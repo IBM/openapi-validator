@@ -55,12 +55,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
+
+      // The second result is for list movies, which also uses the PageLink schema.
+      // This applies to all tests below, as well.
+      expect(results).toHaveLength(2);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMsg);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.0.properties.last'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.0.properties.last'
       );
     });
     it('Duplicate description inside allOf multiple', async () => {
@@ -81,12 +84,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
+      expect(results).toHaveLength(2);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMsg);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.0.properties.last'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.0.properties.last'
       );
     });
     it('Duplicate description outside allOf', async () => {
@@ -102,12 +105,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
+      expect(results).toHaveLength(2);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMsg);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.0.properties.last'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.0.properties.last'
       );
     });
   });

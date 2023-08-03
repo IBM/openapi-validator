@@ -172,7 +172,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       description: 'A single page of results containing Drink instances.',
       allOf: [
         {
-          $ref: '#/components/schemas/OffsetPaginationBase',
+          $ref: '#/components/schemas/TokenPaginationBase',
         },
         {
           type: 'object',
@@ -191,7 +191,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
         {
-          // The "first" property is defined in OffsetPaginationBase.
+          // The "first" property is defined in TokenPaginationBase.
           required: ['first'],
         },
       ],

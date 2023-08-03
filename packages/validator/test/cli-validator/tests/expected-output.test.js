@@ -215,11 +215,9 @@ describe('Expected output tests', function () {
       const jsonOutput = JSON.parse(capturedText);
       const warningToCheck = jsonOutput.warning.results[0];
 
-      expect(warningToCheck.rule).toEqual('ibm-collection-array-property');
-      expect(warningToCheck.path.join('.')).toBe(
-        'components.schemas.ListOfCharacters'
-      );
-      expect(warningToCheck.line).toEqual(94);
+      expect(warningToCheck.rule).toEqual('ibm-prefer-token-pagination');
+      expect(warningToCheck.path.join('.')).toBe('paths./letters.get');
+      expect(warningToCheck.line).toEqual(20);
     });
   });
 });

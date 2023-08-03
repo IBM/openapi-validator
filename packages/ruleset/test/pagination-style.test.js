@@ -4,7 +4,18 @@
  */
 
 const { paginationStyle } = require('../src/rules');
-const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
+const {
+  makeCopy,
+  rootDocument,
+  testRule,
+  severityCodes,
+  helperArtifacts,
+} = require('./utils');
+
+// These are pre-defined objects with correct style for offset/limit pagination
+// to use as a baseline. They aren't used in the root document because overall,
+// we prefer token-based pagination and validate for that elsewhere.
+const { offsetPaginationBase, offsetParameter } = helperArtifacts;
 
 const rule = paginationStyle;
 const ruleId = 'ibm-pagination-style';
@@ -19,10 +30,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Valid pagination with no "previous" or "last" properties', async () => {
       const testDocument = makeCopy(rootDocument);
 
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
+
       // Delete the "previous" and "last" properties from our two pagination base schemas.
-      delete testDocument.components.schemas.OffsetPaginationBase.properties
+      delete testDocument.components.schemas.DrinkCollection.allOf[0].properties
         .previous;
-      delete testDocument.components.schemas.OffsetPaginationBase.properties
+      delete testDocument.components.schemas.DrinkCollection.allOf[0].properties
         .last;
       delete testDocument.components.schemas.TokenPaginationBase.properties
         .previous;
@@ -34,6 +48,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     });
     it('Invalid pagination on non-get operation', async () => {
       const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
 
       // Create new path with a non-get operation with an "invalid" limit param.
       // This should not be an error as it's not a get operation.
@@ -59,6 +76,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Invalid pagination within excluded path', async () => {
       const testDocument = makeCopy(rootDocument);
 
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
+
       // Make a copy of a valid get operation, then make it invalid.
       const invalidGet = makeCopy(testDocument.paths['/v1/drinks'].get);
       invalidGet.parameters[0].required = true;
@@ -74,6 +94,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Invalid pagination on get w/no success response code', async () => {
       const testDocument = makeCopy(rootDocument);
 
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
+
       // Make the get operation invalid by marking offset param as required.
       testDocument.paths['/v1/drinks'].get.parameters[0].required = true;
 
@@ -86,6 +109,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Invalid pagination on get w/no success response content', async () => {
       const testDocument = makeCopy(rootDocument);
 
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
+
       // Make the get operation invalid by marking offset param as required.
       testDocument.paths['/v1/drinks'].get.parameters[0].required = true;
 
@@ -97,6 +123,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     });
     it('Invalid pagination on get w/no success response schema', async () => {
       const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
 
       // Make the get operation invalid by marking offset param as required.
       testDocument.paths['/v1/drinks'].get.parameters[0].required = true;
@@ -111,6 +140,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     });
     it('Invalid pagination on get w/non-json response schema', async () => {
       const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
 
       // Make the get operation invalid by marking offset param as required.
       testDocument.paths['/v1/drinks'].get.parameters[0].required = true;
@@ -133,6 +165,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Invalid pagination on get w/no response properties', async () => {
       const testDocument = makeCopy(rootDocument);
 
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
+
       // Make the get operation invalid by marking offset param as required.
       testDocument.paths['/v1/drinks'].get.parameters[0].required = true;
 
@@ -149,6 +184,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     });
     it('Invalid pagination on get w/no response array property', async () => {
       const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
 
       // Make the get operation invalid by marking offset param as required.
       testDocument.paths['/v1/drinks'].get.parameters[0].required = true;
@@ -171,6 +209,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Invalid pagination on get operation w/ no offset or start param', async () => {
       const testDocument = makeCopy(rootDocument);
 
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
+
       // Create an "invalid" limit parameter, but this operation should not be
       // flagged since it doesn't define an "offset" or "start" param.
       const get = testDocument.paths['/v1/drinks'].get;
@@ -192,6 +233,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Valid pagination on get operation w/ no limit param or response property', async () => {
       const testDocument = makeCopy(rootDocument);
 
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
+
       // Remove the limit param and limit response property from the "list_movies" operation.
       testDocument.paths['/v1/movies'].get.parameters.splice(2, 1);
       delete testDocument.components.schemas['TokenPaginationBase'].properties
@@ -206,6 +250,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
     });
     it('Response indicates pagination, but operation has no parameters', async () => {
       const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.DrinkCollection.allOf[0] =
+        makeCopy(offsetPaginationBase);
 
       // Remove the operation's entire parameters field.
       delete testDocument.paths['/v1/drinks'].get.parameters;
@@ -223,6 +270,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"limit" param not an integer', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         testDocument.paths['/v1/drinks'].get.parameters[1].schema = {
           type: 'boolean',
         };
@@ -238,6 +290,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"limit" param not optional', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         testDocument.paths['/v1/drinks'].get.parameters[1].required = true;
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -250,6 +307,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       });
       it('"limit" param w/no default', async () => {
         const testDocument = makeCopy(rootDocument);
+
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
 
         delete testDocument.paths['/v1/drinks'].get.parameters[1].schema
           .default;
@@ -264,6 +326,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       });
       it('"limit" param w/no maximum', async () => {
         const testDocument = makeCopy(rootDocument);
+
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
 
         delete testDocument.paths['/v1/drinks'].get.parameters[1].schema
           .maximum;
@@ -281,6 +348,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"offset" param not an integer', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         testDocument.paths['/v1/drinks'].get.parameters[0].schema = {
           type: 'string',
         };
@@ -296,6 +368,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"offset" param not optional', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         testDocument.paths['/v1/drinks'].get.parameters[0].required = true;
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -310,6 +387,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
     describe('Check #3 - if offset param defined, then limit param should be defined', () => {
       it('"limit" param missing', async () => {
         const testDocument = makeCopy(rootDocument);
+
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
 
         // Remove the "limit" query param.
         testDocument.paths['/v1/drinks'].get.parameters.splice(1, 1);
@@ -370,9 +452,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"limit" response property missing', async () => {
         const testDocument = makeCopy(rootDocument);
 
-        delete testDocument.components.schemas['OffsetPaginationBase']
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
+        delete testDocument.components.schemas.DrinkCollection.allOf[0]
           .properties.limit;
-        testDocument.components.schemas['OffsetPaginationBase'].required.splice(
+        testDocument.components.schemas.DrinkCollection.allOf[0].required.splice(
           1,
           1
         );
@@ -390,11 +477,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"limit" response property not an integer', async () => {
         const testDocument = makeCopy(rootDocument);
 
-        testDocument.components.schemas[
-          'OffsetPaginationBase'
-        ].properties.limit = {
-          type: 'string',
-        };
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
+        testDocument.components.schemas.DrinkCollection.allOf[0].properties.limit =
+          {
+            type: 'string',
+          };
 
         const results = await testRule(ruleId, rule, testDocument);
         expect(results).toHaveLength(1);
@@ -409,8 +500,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"limit" response property not required', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         // Remove "limit" from required list.
-        testDocument.components.schemas['OffsetPaginationBase'].required = [
+        testDocument.components.schemas.DrinkCollection.allOf[0].required = [
           'offset',
           'total_count',
         ];
@@ -430,7 +526,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"offset" response property missing', async () => {
         const testDocument = makeCopy(rootDocument);
 
-        delete testDocument.components.schemas['OffsetPaginationBase']
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
+        delete testDocument.components.schemas.DrinkCollection.allOf[0]
           .properties.offset;
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -446,11 +547,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"offset" response property not an integer', async () => {
         const testDocument = makeCopy(rootDocument);
 
-        testDocument.components.schemas[
-          'OffsetPaginationBase'
-        ].properties.offset = {
-          type: 'boolean',
-        };
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
+        testDocument.components.schemas.DrinkCollection.allOf[0].properties.offset =
+          {
+            type: 'boolean',
+          };
 
         const results = await testRule(ruleId, rule, testDocument);
         expect(results).toHaveLength(1);
@@ -465,8 +570,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"offset" response property not required', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         // Remove "offset" from required list.
-        testDocument.components.schemas['OffsetPaginationBase'].required = [
+        testDocument.components.schemas.DrinkCollection.allOf[0].required = [
           'limit',
           'total_count',
         ];
@@ -486,11 +596,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"total_count" response property not an integer', async () => {
         const testDocument = makeCopy(rootDocument);
 
-        testDocument.components.schemas[
-          'OffsetPaginationBase'
-        ].properties.total_count = {
-          type: 'boolean',
-        };
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
+        testDocument.components.schemas.DrinkCollection.allOf[0].properties.total_count =
+          {
+            type: 'boolean',
+          };
 
         const results = await testRule(ruleId, rule, testDocument);
         expect(results).toHaveLength(1);
@@ -505,8 +619,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('"total_count" response property not required', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         // Remove "total_count" from required list.
-        testDocument.components.schemas['OffsetPaginationBase'].required = [
+        testDocument.components.schemas.DrinkCollection.allOf[0].required = [
           'limit',
           'offset',
         ];
@@ -526,13 +645,18 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('pagelink properties missing', async () => {
         const testDocument = makeCopy(rootDocument);
 
-        delete testDocument.components.schemas['OffsetPaginationBase']
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
+        delete testDocument.components.schemas.DrinkCollection.allOf[0]
           .properties.first;
-        delete testDocument.components.schemas['OffsetPaginationBase']
+        delete testDocument.components.schemas.DrinkCollection.allOf[0]
           .properties.last;
-        delete testDocument.components.schemas['OffsetPaginationBase']
+        delete testDocument.components.schemas.DrinkCollection.allOf[0]
           .properties.previous;
-        delete testDocument.components.schemas['OffsetPaginationBase']
+        delete testDocument.components.schemas.DrinkCollection.allOf[0]
           .properties.next;
 
         const results = await testRule(ruleId, rule, testDocument);
@@ -549,8 +673,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('pagelink properties not an object', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         const paginationProps =
-          testDocument.components.schemas['OffsetPaginationBase'].properties;
+          testDocument.components.schemas.DrinkCollection.allOf[0].properties;
 
         // Define new pagelink properties as strings.
         const stringSchema = {
@@ -564,7 +693,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         };
 
         // Overlay the new pagelink properties onto the schema.
-        testDocument.components.schemas['OffsetPaginationBase'].properties = {
+        testDocument.components.schemas.DrinkCollection.allOf[0].properties = {
           ...paginationProps,
           ...newPageLinks,
         };
@@ -583,8 +712,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('pagelink properties object w/no properties', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         const paginationProps =
-          testDocument.components.schemas['OffsetPaginationBase'].properties;
+          testDocument.components.schemas.DrinkCollection.allOf[0].properties;
 
         // Define pagelink properties as objects with no properties.
         const pageLinkSchema = {
@@ -598,7 +732,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         };
 
         // Overlay the new pagelink properties onto the schema.
-        testDocument.components.schemas['OffsetPaginationBase'].properties = {
+        testDocument.components.schemas.DrinkCollection.allOf[0].properties = {
           ...paginationProps,
           ...newPageLinks,
         };
@@ -617,8 +751,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('pagelink properties object w/no "href" property', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         const paginationProps =
-          testDocument.components.schemas['OffsetPaginationBase'].properties;
+          testDocument.components.schemas.DrinkCollection.allOf[0].properties;
 
         // Define pagelink properties as objects no "href" property.
         const pageLinkSchema = {
@@ -637,7 +776,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         };
 
         // Overlay the new pagelink properties onto the schema.
-        testDocument.components.schemas['OffsetPaginationBase'].properties = {
+        testDocument.components.schemas.DrinkCollection.allOf[0].properties = {
           ...paginationProps,
           ...newPageLinks,
         };
@@ -656,8 +795,13 @@ describe(`Spectral rule: ${ruleId}`, () => {
       it('pagelink properties object w/non-string "href" property', async () => {
         const testDocument = makeCopy(rootDocument);
 
+        testDocument.components.schemas.DrinkCollection.allOf[0] =
+          makeCopy(offsetPaginationBase);
+        testDocument.paths['/v1/drinks'].get.parameters[0] =
+          makeCopy(offsetParameter);
+
         const paginationProps =
-          testDocument.components.schemas['OffsetPaginationBase'].properties;
+          testDocument.components.schemas.DrinkCollection.allOf[0].properties;
 
         // Define pagelink properties as objects no "href" property.
         const pageLinkSchema = {
@@ -676,7 +820,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         };
 
         // Overlay the new pagelink properties onto the schema.
-        testDocument.components.schemas['OffsetPaginationBase'].properties = {
+        testDocument.components.schemas.DrinkCollection.allOf[0].properties = {
           ...paginationProps,
           ...newPageLinks,
         };

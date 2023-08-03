@@ -5,6 +5,7 @@
 
 module.exports = {
   getCompositeSchemaAttribute: require('./get-composite-schema-attribute'),
+  ...require('./pagination-utils'),
   isDeprecated: require('./is-deprecated'),
   isEmptyObjectSchema: require('./is-empty-object-schema'),
   isRefSiblingSchema: require('./is-ref-sibling-schema'),
