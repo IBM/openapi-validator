@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.2.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.1.1...@ibm-cloud/openapi-ruleset@1.2.0) (2023-08-03)
+
+
+### Features
+
+* **new-rule:** ibm-prefer-token-pagination ([#613](https://github.com/IBM/openapi-validator/issues/613)) ([b63e1e8](https://github.com/IBM/openapi-validator/commit/b63e1e8bd83ed4c34eae22fcc267f960beafc1d1))
+
 ## @ibm-cloud/openapi-ruleset [1.1.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.1.0...@ibm-cloud/openapi-ruleset@1.1.1) (2023-05-26)
 
 
