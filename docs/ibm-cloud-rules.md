@@ -82,6 +82,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-request-and-response-content](#ibm-request-and-response-content)
   * [ibm-requestbody-is-object](#ibm-requestbody-is-object)
   * [ibm-requestbody-name](#ibm-requestbody-name)
+  * [ibm-resource-response-consistency](#ibm-resource-response-consistency)
   * [ibm-response-status-codes](#ibm-response-status-codes)
   * [ibm-schema-description](#ibm-schema-description)
   * [ibm-schema-type](#ibm-schema-type)
@@ -450,6 +451,12 @@ or <code>application/merge-patch+json</code>.</td>
 <td>warn</td>
 <td>An operation should specify a request body name (with the <code>x-codegen-request-body-name</code> extension) if its requestBody
 has non-form content.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-resource-response-consistency">ibm-resource-response-consistency</a></td>
+<td>warn</td>
+<td>Operations that create or update a resource should return the same schema as the "GET" request for the resource.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -4611,6 +4618,87 @@ paths:
 </tr>
 </table>
 
+### ibm-resource-response-consistency
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-requestbody-name</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Synchronous responses for create-style POST or update (PUT/PATCH) operations on a given resource should return the canonical schema for the resource. As in, the same schema as the "GET" request for the same resource.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/thing':
+    post:
+      operationId: create_thing
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ThingPrototype'
+      responses:
+        201:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/OtherThing' # should be a ref to 'Thing'
+  '/v1/thing/{id}':
+    get:
+      operationId: get_thing
+      responses:
+        200:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/thing':
+    post:
+      operationId: create_thing
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ThingPrototype'
+      responses:
+        201:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Thing'
+  '/v1/thing/{id}':
+    get:
+      operationId: get_thing
+      responses:
+        200:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
 
 ### ibm-response-status-codes
 <table>

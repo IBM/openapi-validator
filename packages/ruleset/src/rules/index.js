@@ -58,6 +58,7 @@ module.exports = {
   requestBodyIsObject: require('./requestbody-is-object'),
   requestBodyNameExists: require('./requestbody-name-exists'),
   requiredPropertyMissing: require('./required-property-missing'),
+  resourceResponseConsistency: require('./resource-response-consistency'),
   responseExampleExists: require('./response-example-exists'),
   responseStatusCodes: require('./response-status-codes'),
   schemaDescriptionExists: require('./schema-description-exists'),

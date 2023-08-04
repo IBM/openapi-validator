@@ -46,6 +46,7 @@ module.exports = {
   refSiblingDuplicateDescription: require('./ref-sibling-duplicate-description'),
   requestBodyNameExists: require('./requestbody-name-exists'),
   requiredProperty: require('./required-property'),
+  resourceResponseConsistency: require('./resource-response-consistency'),
   responseExampleExists: require('./response-example-exists'),
   responseStatusCodes: require('./response-status-codes'),
   schemaDescriptionExists: require('./schema-description-exists'),

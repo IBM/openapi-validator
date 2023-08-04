@@ -39,7 +39,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['Movie'].unevaluatedProperties = true;
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(5);
+      expect(results).toHaveLength(6);
 
       const expectedPaths = [
         'paths./v1/movies.post.requestBody.content.application/json.schema.unevaluatedProperties',
@@ -47,6 +47,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.unevaluatedProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.unevaluatedProperties',
         'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.unevaluatedProperties',
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.unevaluatedProperties',
       ];
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);

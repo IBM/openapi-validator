@@ -176,7 +176,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['IdString'].description = '';
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(5);
+      expect(results).toHaveLength(6);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);

@@ -91,7 +91,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(5);
+      expect(results).toHaveLength(6);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMessage);
@@ -111,6 +111,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       );
       expect(results[4].path.join('.')).toBe(
         'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.properties.imdb_url.type'
+      );
+      expect(results[5].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.imdb_url.type'
       );
     });
     it('Multiple values in type list - parameter', async () => {

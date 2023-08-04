@@ -152,6 +152,7 @@ module.exports = {
     'ibm-request-and-response-content': ibmRules.contentExists,
     'ibm-requestbody-is-object': ibmRules.requestBodyIsObject,
     'ibm-requestbody-name': ibmRules.requestBodyNameExists,
+    'ibm-resource-response-consistency': ibmRules.resourceResponseConsistency,
     'ibm-response-status-codes': ibmRules.responseStatusCodes,
     'ibm-schema-description': ibmRules.schemaDescriptionExists,
     'ibm-schema-type': ibmRules.schemaTypeExists,
