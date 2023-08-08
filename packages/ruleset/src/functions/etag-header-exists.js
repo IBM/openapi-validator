@@ -8,7 +8,7 @@ const { LoggerFactory } = require('../utils');
 let ruleId;
 let logger;
 
-module.exports = function (pathItem, options, context) {
+module.exports = function etagHeaderExists(pathItem, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -138,9 +138,9 @@ function isETagNeeded(pathItem) {
 function headerParamsPresent(paramList, headerNames) {
   if (Array.isArray(paramList)) {
     for (const p of paramList) {
-      if (p.in.toLowerCase() === 'header') {
+      if (p.in && p.in.toLowerCase() === 'header') {
         for (const headerName of headerNames) {
-          if (headerName.toLowerCase() === p.name.toLowerCase()) {
+          if (p.name && headerName.toLowerCase() === p.name.toLowerCase()) {
             return true;
           }
         }
