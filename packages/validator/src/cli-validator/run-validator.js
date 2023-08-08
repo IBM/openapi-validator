@@ -200,9 +200,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
     try {
       results = await runSpectral({ validFile, originalFile }, context);
     } catch (err) {
-      logError('There was a problem with spectral.', getError(err));
-      logger.error('Additional error details:');
-      logger.error(err);
+      handleSpectralError(err);
       exitCode = 1;
       continue;
     }
@@ -251,6 +249,47 @@ function logError(description, message = '') {
   logger.error(`${description}`);
   if (message) {
     logger.error(`${message}`);
+  }
+}
+
+function handleSpectralError(error) {
+  logError('There was a problem with spectral.', getError(error));
+  logger.error('Additional error details:');
+
+  // The nimma errors are especially difficult to understand, so we do some parsing
+  // based on the expected structure of the errors to extract the error cause and
+  // the specific file/line number the problem occurs on.
+  if (
+    error.message &&
+    error.message === 'Error running Nimma' &&
+    error instanceof AggregateError
+  ) {
+    const errorDedupMap = {};
+    error.errors.forEach(err => {
+      if (err.cause && err.cause.cause) {
+        const { cause } = err.cause;
+        try {
+          // Look for the filepath/line number at the top of the stack.
+          const topOfStack = cause.stack.split(' at ')[1];
+          const reason = cause.message;
+          if (errorDedupMap[reason + topOfStack]) {
+            // Don't print duplicates, continue the loop.
+            return;
+          }
+          logger.error(`Cause: ${reason}`);
+          logger.error(`At: ${topOfStack}`);
+          errorDedupMap[reason + topOfStack] = true;
+        } catch (e) {
+          logger.debug('Could not parse Spectral error information');
+          logger.debug(e.message);
+          logger.error(cause);
+        }
+      } else {
+        logger.error(error);
+      }
+    });
+  } else {
+    logger.error(error);
   }
 }
 
