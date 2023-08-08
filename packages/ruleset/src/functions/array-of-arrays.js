@@ -20,20 +20,20 @@ module.exports = function (schema, _opts, context) {
 };
 
 function arrayOfArrays(schema, path) {
-  const errors = [];
-
   if (isArraySchema(schema) && schema.items) {
     logger.debug(
       `${ruleId}: checking array schema at location: ${path.join('.')}`
     );
     if (isArraySchema(schema.items)) {
       logger.debug('Found an array of arrays!');
-      errors.push({
-        message: 'Array schemas should avoid having items of type array',
-        path,
-      });
+      return [
+        {
+          message: 'Array schemas should avoid having items of type array',
+          path,
+        },
+      ];
     }
   }
 
-  return errors;
+  return [];
 }
