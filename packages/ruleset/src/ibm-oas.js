@@ -163,6 +163,7 @@ module.exports = {
     'ibm-string-attributes': ibmRules.stringAttributes,
     'ibm-success-response-example': ibmRules.responseExampleExists,
     'ibm-summary-sentence-style': ibmRules.summarySentenceStyle,
+    'ibm-unevaluated-properties': ibmRules.unevaluatedProperties,
     'ibm-unique-parameter-request-property-names':
       ibmRules.uniqueParameterRequestPropertyNames,
     'ibm-valid-path-segments': ibmRules.validPathSegments,

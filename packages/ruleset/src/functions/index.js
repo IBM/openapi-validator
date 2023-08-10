@@ -55,6 +55,7 @@ module.exports = {
   securitySchemeAttributes: require('./securityscheme-attributes'),
   securitySchemes: require('./securityschemes'),
   stringAttributes: require('./string-attributes'),
+  unevaluatedProperties: require('./unevaluated-properties'),
   uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
   unusedTags: require('./unused-tags'),
   validatePathSegments: require('./valid-path-segments'),

@@ -68,6 +68,7 @@ module.exports = {
   serverVariableDefaultValue: require('./server-variable-default-value'),
   stringAttributes: require('./string-attributes'),
   summarySentenceStyle: require('./summary-sentence-style'),
+  unevaluatedProperties: require('./unevaluated-properties'),
   unusedTags: require('./unused-tags'),
   uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
   validPathSegments: require('./valid-path-segments'),
