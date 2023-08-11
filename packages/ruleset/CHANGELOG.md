@@ -1,3 +1,11 @@
+## @ibm-cloud/openapi-ruleset [1.4.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.4.0...@ibm-cloud/openapi-ruleset@1.4.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* **error-handling:** parse relevant info from spectral nimma errors ([b5927cb](https://github.com/IBM/openapi-validator/commit/b5927cb3ccb0112c0017fec53cfca01c80feecad))
+* **ibm-etag-header-exists:** prevent crashing when encountering invalid parameters ([22d6a2c](https://github.com/IBM/openapi-validator/commit/22d6a2c0ffa929416c42f845244dfd891710a990))
+
 # @ibm-cloud/openapi-ruleset [1.4.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.3.0...@ibm-cloud/openapi-ruleset@1.4.0) (2023-08-11)
 
 
