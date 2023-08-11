@@ -1,3 +1,15 @@
+# @ibm-cloud/openapi-ruleset-utilities [1.2.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.1.0...@ibm-cloud/openapi-ruleset-utilities@1.2.0) (2023-08-11)
+
+
+### Bug Fixes
+
+* support type list in existing rules ([dd4506f](https://github.com/IBM/openapi-validator/commit/dd4506f381824a89b65109a0d01e73159ea6e490))
+
+
+### Features
+
+* **ibm-pattern-properties:** add new spectral-style rule ([26cdf89](https://github.com/IBM/openapi-validator/commit/26cdf89e867b32deb7a719013e6f62dd85201fa0))
+
 # @ibm-cloud/openapi-ruleset-utilities [1.1.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.0.2...@ibm-cloud/openapi-ruleset-utilities@1.1.0) (2023-05-24)
 
 
