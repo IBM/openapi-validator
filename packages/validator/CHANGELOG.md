@@ -1,3 +1,18 @@
+## ibm-openapi-validator [1.4.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.4.0...ibm-openapi-validator@1.4.1) (2023-08-11)
+
+
+### Bug Fixes
+
+* **error-handling:** parse relevant info from spectral nimma errors ([b5927cb](https://github.com/IBM/openapi-validator/commit/b5927cb3ccb0112c0017fec53cfca01c80feecad))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.4.1
+
 # ibm-openapi-validator [1.4.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.3.0...ibm-openapi-validator@1.4.0) (2023-08-11)
 
 
