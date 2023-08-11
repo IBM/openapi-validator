@@ -93,6 +93,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-string-attributes](#ibm-string-attributes)
   * [ibm-success-response-example](#ibm-success-response-example)
   * [ibm-summary-sentence-style](#ibm-summary-sentence-style)
+  * [ibm-unevaluated-properties](#ibm-unevaluated-properties)
   * [ibm-unique-parameter-request-property-names](#ibm-unique-parameter-request-property-names)
   * [ibm-valid-path-segments](#ibm-valid-path-segments)
 
@@ -516,6 +517,12 @@ has non-form content.</td>
 <td>warn</td>
 <td>An operation's <code>summary</code> field should not have a trailing period.</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-unevaluated-properties">ibm-unevaluated-properties</a></td>
+<td>error</td>
+<td>Ensures that <code>unevaluatedProperties</code> is not enabled within a schema.</td>
+<td>oas3_1</td>
 </tr>
 <tr>
 <td><a href="#ibm-unique-parameter-request-property-names">ibm-unique-parameter-request-property-names</a></td>
@@ -5360,6 +5367,66 @@ paths:
       operationId: list_things
       summary: List things
       description: Retrieve a paginated collection of Thing instances.
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-unevaluated-properties
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-unevaluated-properties</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule ensures that <code>unevaluatedProperties</code> is not enabled within a schema.
+It checks to make sure that if the <code>unevaluatedProperties</code> field
+is set on a schema, then it is set to the value <code>false</code> (i.e. disabled).
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3_1</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        metadata:
+          description: additional info about the thing
+          type: object
+      unevaluatedProperties:
+        type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        metadata:
+          description: additional info about the thing
+          type: object
+      unevaluatedProperties: false
 </pre>
 </td>
 </tr>
