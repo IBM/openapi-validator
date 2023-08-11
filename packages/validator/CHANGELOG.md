@@ -1,3 +1,19 @@
+# ibm-openapi-validator [1.3.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.2.0...ibm-openapi-validator@1.3.0) (2023-08-11)
+
+
+### Features
+
+* add initial support for openapi 3.1 documents ([7a26dee](https://github.com/IBM/openapi-validator/commit/7a26deee4875fa6cadb199032c3c5725671930fd))
+* **ibm-pattern-properties:** add new spectral-style rule ([26cdf89](https://github.com/IBM/openapi-validator/commit/26cdf89e867b32deb7a719013e6f62dd85201fa0))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.3.0
+
 # ibm-openapi-validator [1.2.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.1.2...ibm-openapi-validator@1.2.0) (2023-08-03)
 
 
