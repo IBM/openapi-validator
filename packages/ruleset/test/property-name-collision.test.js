@@ -44,7 +44,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     const results = await testRule(ruleId, rule, testDocument);
 
-    expect(results).toHaveLength(5);
+    expect(results).toHaveLength(6);
 
     const validation = results[0];
     expect(validation.code).toBe(ruleId);

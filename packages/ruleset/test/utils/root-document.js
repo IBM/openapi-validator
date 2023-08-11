@@ -434,8 +434,8 @@ module.exports = {
           },
         },
         responses: {
-          204: {
-            description: 'The movie was successfully updated.',
+          200: {
+            $ref: '#/components/responses/MovieWithETag',
           },
           400: {
             description: 'Didnt work!',

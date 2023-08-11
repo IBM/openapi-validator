@@ -3,7 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+const {
+  LoggerFactory,
+  isCreateOperation,
+  getResponseCodes,
+} = require('../utils');
 
 let ruleId;
 let logger;
@@ -129,37 +133,4 @@ function responseStatusCodes(operation, path, apidef) {
   }
 
   return errors;
-}
-
-function isCreateOperation(operation, path, apidef) {
-  // 1. If operationId starts with "create", we'll assume it's a create operation.
-  if (
-    operation.operationId &&
-    operation.operationId.toString().trim().toLowerCase().startsWith('create')
-  ) {
-    return true;
-  }
-
-  // 2. If not a POST, then it's not a create operation.
-  const method = path[path.length - 1].toString().trim().toLowerCase();
-  if (method !== 'post') {
-    return false;
-  }
-
-  // 3. Does this operation's path have a sibling path with a trailing path param reference?
-  const thisPath = path[path.length - 2].toString().trim();
-  const siblingPathRE = new RegExp(`^${thisPath}/{[^{}/]+}$`);
-  const siblingPath = Object.keys(apidef.paths).find(p =>
-    siblingPathRE.test(p)
-  );
-
-  return !!siblingPath;
-}
-
-function getResponseCodes(responses) {
-  const statusCodes = Object.keys(responses).filter(code =>
-    code.match(/^[1-5][0-9][0-9]$/)
-  );
-  const successCodes = statusCodes.filter(code => code.match(/^2[0-9][0-9]$/));
-  return [statusCodes, successCodes];
 }
