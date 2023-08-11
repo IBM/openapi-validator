@@ -5,7 +5,7 @@
 
 const {
   isObject,
-  validateNestedSchemas,
+  validateSubschemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
@@ -17,7 +17,7 @@ module.exports = function (schema, _opts, context) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
-  return validateNestedSchemas(
+  return validateSubschemas(
     schema,
     context.path,
     patternPropertiesCheck,

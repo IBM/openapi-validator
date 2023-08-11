@@ -7,7 +7,7 @@ const { patternProperties } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const rule = patternProperties;
-const ruleId = 'ibm-patternProperties';
+const ruleId = 'ibm-pattern-properties';
 const expectedSeverity = severityCodes.error;
 const expectedMessage1 = `patternProperties and additionalProperties are mutually exclusive`;
 const expectedMessage2 = `patternProperties must be an object`;
