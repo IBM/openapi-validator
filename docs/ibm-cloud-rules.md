@@ -4719,7 +4719,13 @@ paths:
 <li>A <code>204 - No Content</code> response should not include content.</li>
 <li>A non-204 success status code (e.g. <code>200 - OK</code>, <code>201 - Created</code>, etc.) should include content.</li>
 <li>A "create"-type operation must return either a <code>201 - Created</code>
-or a <code>202 - Accepted</code> status code.
+or a <code>202 - Accepted</code> status code. The one exception is, it may return a <code>204 - No Content</code> status code
+if the corresponding GET request for the same resource also returns a <code>204 - No Content</code> status code (which indicates
+there is no body representation for the resource).</li>
+<li>A PUT operation must return either a <code>200 - OK</code>, <code>201 - Created</code>,
+or <code>202 - Accepted</code> status code.</li>
+<li>A PATCH operation must return either a <code>200 - OK</code>
+or a <code>202 - Accepted</code> status code.</li>
 <p>Note that for the purposes of this rule, an operation is considered to be a "create"-type operation if the
 operationId starts with "create" or the operation is a POST request and there is another path
 present in the API that is similar to the path of the "create" operation, but with a trailing path parameter reference.
@@ -4747,12 +4753,12 @@ with a trailing path parameter reference that would give us a hint that "handle_
 </li>
 <li>An operation that returns a <code>202 - Accepted</code> status code should not return any other
 success (2xx) status codes. This is because an operation should be unambiguous in terms of whether or not
-it is a synchronous or asynchronous operation.
+it is a synchronous or asynchronous operation.</li>
 </ul>
 <p>References: 
 <ul>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
-<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-methods#post">IBM Cloud API Handbook: Fundamentals/Methods/POST</a></li>
+<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-methods">IBM Cloud API Handbook: Fundamentals/Methods</a></li>
 <li><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-6">RFC7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a></li>
 </ul>
 </td>

@@ -102,6 +102,82 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('"create" operation returns 204, and so does corresponding GET (no body representation)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/drinks/{drink_id}'].get.responses['200'];
+      testDocument.paths['/v1/drinks/{drink_id}'].get.responses['204'] = {
+        description: 'Resource has no body representation',
+      };
+
+      delete testDocument.paths['/v1/drinks'].post.responses['201'];
+      testDocument.paths['/v1/drinks'].post.responses['204'] = {
+        description: 'Resource has no body representation',
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('PUT operation may create a resource (defines a 201)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies/{movie_id}'].put.responses['201'] =
+        testDocument.paths['/v1/movies/{movie_id}'].put.responses['200'];
+      delete testDocument.paths['/v1/movies/{movie_id}'].put.responses['200'];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('PUT operation is asynchronous (defines a 202)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/movies/{movie_id}'].put.responses['200'];
+      testDocument.paths['/v1/movies/{movie_id}'].put.responses['202'] = {
+        description: 'Accepted, processing...',
+        content: {
+          'application/json': {
+            schema: {
+              properties: {
+                status: {
+                  type: 'string',
+                  enum: ['pending', 'failed', 'completed'],
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('PATCH operation is asynchronous (defines a 202)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/cars/{car_id}'].patch.responses['200'];
+      testDocument.paths['/v1/cars/{car_id}'].patch.responses['202'] = {
+        description: 'Accepted, processing...',
+        content: {
+          'application/json': {
+            schema: {
+              properties: {
+                status: {
+                  type: 'string',
+                  enum: ['pending', 'failed', 'completed'],
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
@@ -201,6 +277,42 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].path.join('.')).toBe('paths./v1/drinks.get.responses');
     });
 
+    it('No success status codes for PUT - should return one warning', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/movies/{movie_id}'].put.responses['200'];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(
+        'Operation responses should include at least one success status code (2xx)'
+      );
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.put.responses'
+      );
+    });
+
+    it('No success status codes for PATCH - should return one warning', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/cars/{car_id}'].patch.responses['200'];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(
+        'Operation responses should include at least one success status code (2xx)'
+      );
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/cars/{car_id}.patch.responses'
+      );
+    });
+
     it('non-POST "create" operation with no 201/202 status code', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -251,6 +363,70 @@ describe(`Spectral rule: ${ruleId}`, () => {
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe('paths./v1/drinks.get.responses');
+    });
+
+    it('PUT operation does not define a recommended success code', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/movies/{movie_id}'].put.responses['200'];
+      testDocument.paths['/v1/movies/{movie_id}'].put.responses['203'] = {
+        description: 'Only partial data',
+        content: {
+          'application/json': {
+            schema: {
+              properties: {
+                id: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(
+        'PUT operations should return a 200, 201, or 202 status code'
+      );
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.put.responses'
+      );
+    });
+
+    it('PATCH operation does not define a recommended success code', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/cars/{car_id}'].patch.responses['200'];
+      testDocument.paths['/v1/cars/{car_id}'].patch.responses['203'] = {
+        description: 'Only partial data',
+        content: {
+          'application/json': {
+            schema: {
+              properties: {
+                id: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(
+        'PATCH operations should return a 200 or 202 status code'
+      );
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/cars/{car_id}.patch.responses'
+      );
     });
   });
 });

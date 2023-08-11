@@ -6,6 +6,8 @@
 const {
   LoggerFactory,
   isCreateOperation,
+  isOperationOfType,
+  getResourceSpecificSiblingPath,
   getResponseCodes,
 } = require('../utils');
 
@@ -21,7 +23,7 @@ module.exports = function (operation, _opts, context) {
   return responseStatusCodes(
     operation,
     context.path,
-    context.document.parserResult.data
+    context.documentInventory.resolved
   );
 };
 
@@ -32,10 +34,12 @@ module.exports = function (operation, _opts, context) {
  * 3. Operation responses should include at least one successful (2xx) status code.
  * 4. Operation responses should not include status code 101 when successful (2xx) status codes are present.
  * 5. A 204 response must not have content.
- * 6. A "create" operation must return either a 201 or a 202.
+ * 6. A "create" operation must return either a 201 or a 202 (or a 204, if the corresponding GET request returns a 204).
  *    An operation is considered to be a "create" operation if the operationId starts with "create"
  *    OR it's a POST request and there is a similar path but with a trailing path parameter reference.
- * 7. If an operation returns status code 202, it should not return any other 2xx status codes.
+ * 7. A "PUT" operation must return either a 200, 201, or 202
+ * 8. A "PATCH" operation must return either a 200 or a 202
+ * 9. If an operation returns status code 202, it should not return any other 2xx status codes.
  * @param {*} operation an operation within the API definition
  * @param {*} path the array of path segments indicating the "location" of the operation within the API definition
  * @param {*} apidef the resolved API spec
@@ -104,9 +108,15 @@ function responseStatusCodes(operation, path, apidef) {
     }
 
     // 6. For a 'create' operation (a POST operation or operationId starts with "create"),
-    // make sure that there's either a 201 or a 202 status code.
+    // make sure that there's either a 201 or a 202 status code - the exception is that a
+    // 'create' is allowed to define a 204 if the corresponding GET request also defines
+    // a 204, indicating there is no canonical body representation.
     if (isCreateOperation(operation, path, apidef)) {
-      if (!successCodes.includes('201') && !successCodes.includes('202')) {
+      // If the create has a 204, and the GET has a 204, it's okay - no error
+      if (
+        !['201', '202'].find(code => successCodes.includes(code)) &&
+        !(successCodes.includes('204') && !hasBodyRepresentation(path, apidef))
+      ) {
         errors.push({
           message: `A 201 or 202 status code should be returned by a 'create' operation`,
           path: [...path, 'responses'],
@@ -114,7 +124,29 @@ function responseStatusCodes(operation, path, apidef) {
       }
     }
 
-    // 7. If an operation returns 202, it should not return any other success status codes.
+    // 7. A "PUT" operation must return either a 200, 201, or 202
+    // Note: we've already checked for lack of any success codes - no need to double-report that.
+    if (isOperationOfType('put', path) && successCodes.length) {
+      if (!['200', '201', '202'].find(code => successCodes.includes(code))) {
+        errors.push({
+          message: `PUT operations should return a 200, 201, or 202 status code`,
+          path: [...path, 'responses'],
+        });
+      }
+    }
+
+    // 8. A "PATCH" operation must return either a 200 or a 202
+    // Note: we've already checked for lack of any success codes - no need to double-report that.
+    if (isOperationOfType('patch', path) && successCodes.length) {
+      if (!['200', '202'].find(code => successCodes.includes(code))) {
+        errors.push({
+          message: `PATCH operations should return a 200 or 202 status code`,
+          path: [...path, 'responses'],
+        });
+      }
+    }
+
+    // 9. If an operation returns 202, it should not return any other success status codes.
     if (successCodes.includes('202') && successCodes.length > 1) {
       errors.push({
         message:
@@ -133,4 +165,46 @@ function responseStatusCodes(operation, path, apidef) {
   }
 
   return errors;
+}
+
+function hasBodyRepresentation(path, apidef) {
+  const resourceSpecificPath = getResourceSpecificSiblingPath(path, apidef);
+
+  logger.debug(
+    `${ruleId}: calculated resource-specific path to be "${resourceSpecificPath}"`
+  );
+
+  if (!resourceSpecificPath || !apidef.paths[resourceSpecificPath]) {
+    logger.debug(
+      `${ruleId}: resource-specific path "${resourceSpecificPath}" does not exist`
+    );
+    return;
+  }
+
+  const resourceGetOperation = apidef.paths[resourceSpecificPath].get;
+  if (!resourceGetOperation) {
+    logger.debug(
+      `${ruleId}: no GET operation found at path "${resourceSpecificPath}"`
+    );
+    return;
+  }
+
+  if (!resourceGetOperation.responses) {
+    logger.debug(
+      `${ruleId}: no responses defined on GET operation at path "${resourceSpecificPath}"`
+    );
+    return;
+  }
+
+  const [, getOpSuccessCodes] = getResponseCodes(
+    resourceGetOperation.responses
+  );
+
+  logger.debug(
+    `${ruleId}: corresponding GET operation has the following status codes: ${getOpSuccessCodes.join(
+      ', '
+    )}`
+  );
+
+  return !getOpSuccessCodes.includes('204');
 }
