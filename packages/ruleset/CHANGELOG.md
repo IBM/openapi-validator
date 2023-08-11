@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.4.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.3.0...@ibm-cloud/openapi-ruleset@1.4.0) (2023-08-11)
+
+
+### Features
+
+* **new-rule:** ibm-resource-response-consistency ([#615](https://github.com/IBM/openapi-validator/issues/615)) ([512a89d](https://github.com/IBM/openapi-validator/commit/512a89d0213a69199384ff31cdc457896fc6d3b9))
+
 # @ibm-cloud/openapi-ruleset [1.3.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.2.0...@ibm-cloud/openapi-ruleset@1.3.0) (2023-08-11)
 
 
