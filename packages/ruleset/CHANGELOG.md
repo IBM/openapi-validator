@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.5.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.4.1...@ibm-cloud/openapi-ruleset@1.5.0) (2023-08-11)
+
+
+### Features
+
+* **response-status-codes:** update rule to check for additional handbook guidance ([#618](https://github.com/IBM/openapi-validator/issues/618)) ([c69b183](https://github.com/IBM/openapi-validator/commit/c69b1835daee7ec3c367da8fe816829ac801f477))
+
 ## @ibm-cloud/openapi-ruleset [1.4.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.4.0...@ibm-cloud/openapi-ruleset@1.4.1) (2023-08-11)
 
 
