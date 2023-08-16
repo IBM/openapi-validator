@@ -1,5 +1,3 @@
-/.*
-/node_modules
-/appscan-config.xml
-/*.md
-/LICENSE
+node_modules
+Dockerfile
+.git
