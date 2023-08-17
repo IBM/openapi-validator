@@ -35,6 +35,8 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
   * [Download an executable binary](#download-an-executable-binary)
   * [Build from source](#build-from-source)
     + [Build platform-specific binaries](#build-platform-specific-binaries)
+  * [Container image](#container-image)
+    + [Building your own](#building-your-own)
 - [Usage](#usage)
   * [Command Syntax](#command-syntax)
   * [Configuration](#configuration)
@@ -104,6 +106,44 @@ _If you installed the validator using `npm install -g ibm-openapi-validator`, yo
 
 #### Build platform-specific binaries
 It is also possible to build platform specific binaries from the source code by running `npm run pkg` in the project root directory.  The binaries (lint-openapi-macos, lint-openapi-linux, lint-openapi-windows.exe) will be in the project's `packages/validator/bin` directory.
+
+### Container image
+
+Run the validator with the container image by mounting your API definition.
+
+If it is named `openapi.yaml` in the current directory, then run:
+```bash
+docker run \
+  --rm --tty \
+  --volume "$PWD:/data:ro" \
+  ibmdevxsdk/openapi-validator:latest \
+    openapi.yaml
+```
+
+You should **replace `latest` with a specific tagged version** to avoid any surprises when new releases are published.
+
+Flag and argument syntax is the same as described in [Usage](#usage), but file paths are relative to `/data`.
+
+To use a custom ruleset named `ruleset.yaml` in the current directory, run:
+```bash
+docker run \
+  --rm --tty \
+  --volume "$PWD:/data:ro" \
+  ibmdevxsdk/openapi-validator:latest \
+    --ruleset ruleset.yaml \
+    openapi.yaml
+```
+
+#### Building your own
+
+If the existing image doesn't suit your needs, you could extend it and build your own.
+
+For example, to build a validator image with your own custom ruleset package installed, make a `Dockerfile` like this:
+
+```Dockerfile
+FROM ibmdevxsdk/openapi-validator:latest
+RUN npm install -g ${your-ruleset-pkg-here}
+```
 
 ## Usage
 ### Command Syntax

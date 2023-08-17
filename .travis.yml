@@ -15,6 +15,7 @@ before_install:
 script:
 - npm run test-travis
 - npm run lint
+- npm run test-docker
 
 deploy:
 - provider: script
@@ -23,3 +24,10 @@ deploy:
   on:
     node: 18
     branch: main
+- provider: script
+  skip_cleanup: true
+  script: ./scripts/deploy.sh "$TRAVIS_TAG"
+  on:
+    node: 18
+    all_branches: true
+    condition: $TRAVIS_TAG =~ ^ibm-openapi-validator@.*$
