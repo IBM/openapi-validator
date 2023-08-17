@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.6.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.5.0...@ibm-cloud/openapi-ruleset@1.6.0) (2023-08-17)
+
+
+### Features
+
+* build and publish container images for easy integration ([#620](https://github.com/IBM/openapi-validator/issues/620)) ([062b462](https://github.com/IBM/openapi-validator/commit/062b462703a9e7132af8910fb04f496e98ad6e89))
+
 # @ibm-cloud/openapi-ruleset [1.5.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.4.1...@ibm-cloud/openapi-ruleset@1.5.0) (2023-08-11)
 
 
