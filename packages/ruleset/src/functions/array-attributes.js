@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const isPlainObject = require('lodash/isPlainObject');
+const { isPlainObject } = require('lodash');
 const {
   validateNestedSchemas,
   isArraySchema,
