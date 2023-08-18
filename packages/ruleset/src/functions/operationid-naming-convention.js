@@ -3,10 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const pickBy = require('lodash/pickBy');
-const reduce = require('lodash/reduce');
-const merge = require('lodash/merge');
-const each = require('lodash/each');
+const { each, merge, pickBy, reduce } = require('lodash');
 const { operationMethods } = require('../utils');
 
 module.exports = function (rootDocument) {

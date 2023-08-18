@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const flatten = require('lodash/flatten');
-const isEqual = require('lodash/isEqual');
-const uniqWith = require('lodash/uniqWith');
+const { flatten, isEqual, uniqWith } = require('lodash');
 const { operationMethods, LoggerFactory } = require('../utils');
 
 let ruleId;
