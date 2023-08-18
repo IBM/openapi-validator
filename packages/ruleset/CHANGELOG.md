@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.6.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.6.0...@ibm-cloud/openapi-ruleset@1.6.1) (2023-08-18)
+
+
+### Bug Fixes
+
+* **imports:** use correct imports for lodash modules ([6424767](https://github.com/IBM/openapi-validator/commit/6424767b50a89fb2f3152b02742500806c1bfc7f)), closes [#534](https://github.com/IBM/openapi-validator/issues/534)
+
 # @ibm-cloud/openapi-ruleset [1.6.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.5.0...@ibm-cloud/openapi-ruleset@1.6.0) (2023-08-17)
 
 
