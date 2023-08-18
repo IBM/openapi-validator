@@ -3,7 +3,7 @@
     [
       "@semantic-release/exec",
       {
-        "successCmd": "cd ../.. && ./scripts/deploy-container-image.sh ${nextRelease.version}
+        "successCmd": "cd ../.. && ./scripts/deploy-container-image.sh ${nextRelease.version}"
       }
     ]
   ]
