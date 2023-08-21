@@ -5,7 +5,11 @@
   "license": "Apache-2.0",
   "private": false,
   "main": "./src/index.js",
-  "repository": "https://github.com/IBM/openapi-validator",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/IBM/openapi-validator.git",
+    "directory": "packages/utilities"
+  },
   "scripts": {
     "clean": "rm -rf node_modules",
     "jest": "jest",
