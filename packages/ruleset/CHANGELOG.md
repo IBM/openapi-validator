@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.6.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.6.1...@ibm-cloud/openapi-ruleset@1.6.2) (2023-08-21)
+
+
+### Bug Fixes
+
+* use single instance of logger factory ([6cd0059](https://github.com/IBM/openapi-validator/commit/6cd00592c9deaa94347969b942e093efc77d5ee1))
+
 ## @ibm-cloud/openapi-ruleset [1.6.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.6.0...@ibm-cloud/openapi-ruleset@1.6.1) (2023-08-18)
 
 
