@@ -13,3 +13,4 @@ coverage/
 .spectral.yaml
 .spectral.yml
 .spectral.js
+.nvmrc
