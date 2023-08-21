@@ -22,8 +22,6 @@ const colors = {
  * command-line options for loggers that haven't yet been created.
  */
 module.exports = class LoggerFactory {
-  static _factory = null;
-
   constructor() {
     this.rootLogger = log;
     this.loggerSettings = [];
@@ -45,10 +43,11 @@ module.exports = class LoggerFactory {
    * @returns a single instance of our factory.
    */
   static getInstance() {
-    if (!this._factory) {
-      this._factory = new LoggerFactory();
+    if (!global.__ibm_openapi_validator_logger_factory) {
+      global.__ibm_openapi_validator_logger_factory = new LoggerFactory();
     }
-    return this._factory;
+
+    return global.__ibm_openapi_validator_logger_factory;
   }
 
   /**
