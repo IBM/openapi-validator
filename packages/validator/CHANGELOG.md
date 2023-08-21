@@ -1,3 +1,19 @@
+## ibm-openapi-validator [1.6.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.6.0...ibm-openapi-validator@1.6.1) (2023-08-21)
+
+
+### Bug Fixes
+
+* **build:** run all release steps for validator build ([#624](https://github.com/IBM/openapi-validator/issues/624)) ([96ef1c8](https://github.com/IBM/openapi-validator/commit/96ef1c84e0466e034e4dd276a72dfc9368702ff6))
+* **docker:** publish container image upon successful release ([#621](https://github.com/IBM/openapi-validator/issues/621)) ([d099cd1](https://github.com/IBM/openapi-validator/commit/d099cd140019962e07931d61964882417c11ec7f))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.6.3
+
 # ibm-openapi-validator [1.6.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.5.0...ibm-openapi-validator@1.6.0) (2023-08-17)
 
 
