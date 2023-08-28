@@ -11,6 +11,9 @@ const ruleId = 'ibm-no-body-for-delete';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'DELETE operations should not contain a requestBody';
 
+// We need to set this because the rule is now deprecated and disabled.
+rule.severity = 'warn';
+
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {

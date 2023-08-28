@@ -7,16 +7,20 @@ const {
   operations,
 } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
-const { deleteBody } = require('../functions');
+const { noOperationRequestBody } = require('../functions');
 
 module.exports = {
-  description: 'Delete operations should not contain a requestBody.',
+  description: 'Certain operations should not contain a requestBody',
   message: '{{error}}',
-  severity: 'off',
+  severity: 'warn',
   formats: [oas3],
   resolved: true,
   given: operations,
   then: {
-    function: deleteBody,
+    function: noOperationRequestBody,
+    functionOptions: {
+      // HTTP methods that should NOT have a requestBody:
+      httpMethods: ['delete', 'get', 'head', 'options'],
+    },
   },
 };

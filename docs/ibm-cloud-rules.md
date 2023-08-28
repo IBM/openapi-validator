@@ -58,6 +58,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-no-duplicate-description-with-ref-sibling](#ibm-no-duplicate-description-with-ref-sibling)
   * [ibm-no-if-modified-since-header](#ibm-no-if-modified-since-header)
   * [ibm-no-if-unmodified-since-header](#ibm-no-if-unmodified-since-header)
+  * [ibm-no-operation-requestbody](#ibm-no-operation-requestbody)
   * [ibm-no-optional-properties-in-required-body](#ibm-no-optional-properties-in-required-body)
   * [ibm-no-space-in-example-name](#ibm-no-space-in-example-name)
   * [ibm-openapi-tags-used](#ibm-openapi-tags-used)
@@ -252,7 +253,9 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <tr>
 <td><a href="#ibm-no-body-for-delete">ibm-no-body-for-delete</a></td>
 <td>warn</td>
-<td>DELETE operations should not contain a requestBody.</td>
+<td>[Deprecated] DELETE operations should not contain a requestBody.  This rule has been deprecated; please use
+the <code>ibm-no-operation-requestbody</code> rule instead.
+</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -303,6 +306,12 @@ which is not allowed.</td>
 <td><a href="#ibm-no-if-unmodified-since-header">ibm-no-if-unmodified-since-header</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-no-operation-requestbody">ibm-no-operation-requestbody</a></td>
+<td>warn</td>
+<td>Ensures that DELETE, GET, HEAD, and OPTIONS operations do not define a <code>requestBody</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -2268,11 +2277,13 @@ paths:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-no-body-for-delete</b></td>
+<td><b>ibm-no-body-for-delete [Deprecated]</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>This rule checks each DELETE operation and will return a warning if the operation contains a <code>requestBody</code>.</td>
+<td>This rule checks each DELETE operation and will return a warning if the operation contains a <code>requestBody</code>.
+<p>This rule has been deprecated and is now disabled in the IBM Cloud Validation Ruleset. Please use the <code>ibm-no-operation-requestbody</code> rule instead.
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -2974,6 +2985,108 @@ paths:
           description: 'Resource was deleted successfully!'
         '412':
           description: 'Resource current ETag value does not match the If-Match value.'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-no-operation-requestbody
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-no-operation-requestbody</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-methods#summary">API Handbook</a>
+provides guidance related to the use of various HTTP methods.
+In particular, the API Handbook discourages the use of a <code>requestBody</code>
+with <code>DELETE</code>, <code>GET</code>, <code>HEAD</code> and <code>OPTIONS</code> operations.
+This rule ensures that these operations do not define a <code>requestBody</code>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Configuration:</b></td>
+<td>This rule supports a configuration that specifies the set of HTTP methods that are checked
+for a <code>requestBody</code>.
+<p>The default configuration object provided with the rule is:
+<pre>
+{
+  httpMethods: ['delete', 'get', 'head', 'options']
+}
+</pre>
+<p>To configure the rule with a different set of HTTP methods, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>httpMethods</code> field 
+specifies the desired set of HTTP methods to be checked.
+For example, to enforce the rule for DELETE, HEAD and OPTIONS operations, the configuration object would look like this:
+<pre>
+{
+  httpMethods: ['delete', 'head', 'options']
+}
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/search':
+    get:
+      operationId: search_things
+      requestBody:
+        description: 'An object containing the search-related properties: filter, sort'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ThingSearchRequest'
+      responses:
+        '200':
+          description: 'Search completed successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingSearchResponse'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/search':
+    get:
+      parameters:
+        - name: filter
+          in: query
+          description: The search filter to use.
+          schema:
+            type: string
+        - name: sort
+          in: query
+          description: The sort order.
+          schema:
+            type: string
+      operationId: search_things
+      responses:
+        '200':
+          description: 'Search completed successfully'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThingSearchResponse'
 </pre>
 </td>
 </tr>

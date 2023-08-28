@@ -5,22 +5,31 @@
 
 const { Spectral } = require('@stoplight/spectral-core');
 
-// this module provides a reusable function that sets up spectral
-// with the given ruleset, runs the tool, then returns the results.
+/**
+ * This is a test utility function that uses spectral to invoke the specified rule
+ * on the specified API definition.
+ * @param {*} ruleName the name of the rule (e.g. 'ibm-string-attributes')
+ * @param {*} rule the rule object
+ * @param {*} apidef the API definition
+ * @param {*} exceptionIsExpected if true, exceptions are not displayed on console
+ */
+async function testRule(ruleName, rule, apidef, exceptionIsExpected = false) {
+  try {
+    const spectral = new Spectral();
+    spectral.setRuleset({
+      rules: {
+        [ruleName]: rule,
+      },
+    });
 
-// 'ruleName' is the name of the rule. this would be the key in a ruleset file
-// 'rule' is the actual rule object
-// 'doc' is the API definition, in programmatic JSON format, to validate
+    const results = await spectral.run(apidef);
+    return results;
+  } catch (err) {
+    if (!exceptionIsExpected) {
+      console.error(err);
+    }
+    throw err;
+  }
+}
 
-module.exports = async (ruleName, rule, doc) => {
-  const spectral = new Spectral();
-
-  spectral.setRuleset({
-    rules: {
-      [ruleName]: rule,
-    },
-  });
-
-  const results = await spectral.run(doc);
-  return results;
-};
+module.exports = testRule;
