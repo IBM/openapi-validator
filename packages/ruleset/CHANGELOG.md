@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.7.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.6.3...@ibm-cloud/openapi-ruleset@1.7.0) (2023-08-30)
+
+
+### Features
+
+* **ibm-no-operation-requestbody:** add new spectral rule ([#625](https://github.com/IBM/openapi-validator/issues/625)) ([03b502d](https://github.com/IBM/openapi-validator/commit/03b502df05569dae4feed040e3dd3461b80898e3))
+
 ## @ibm-cloud/openapi-ruleset [1.6.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.6.2...@ibm-cloud/openapi-ruleset@1.6.3) (2023-08-21)
 
 
