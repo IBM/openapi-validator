@@ -12,6 +12,22 @@ module.exports = function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
+
+    // This rule has been deprecated and is disabled by default (i.e. severity set to 'off'),
+    // but spectral will still invoke the rule despite the severity setting.
+    // If a user enables this rule in their custom ruleset, we'll want to log a warning
+    // to alert them to the deprecation status.
+    if (context.rule && context.rule.definition) {
+      const severity = context.rule.definition.severity;
+      if (
+        (typeof severity === 'number' && severity >= 0) ||
+        (typeof severity === 'string' && severity !== 'off')
+      ) {
+        logger.warn(
+          `The '${ruleId}' rule is deprecated.  Please use the 'ibm-no-operation-requestbody' rule instead.`
+        );
+      }
+    }
   }
   return deleteBody(operation, context.path);
 };

@@ -14,3 +14,4 @@ coverage/
 .spectral.yml
 .spectral.js
 .nvmrc
+.vscode/

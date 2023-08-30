@@ -484,11 +484,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
         items: 'not a schema!',
       };
 
-      await expect(async () => {
-        await testRule(ruleId, rule, testDocument);
-      }).rejects.toThrow();
+      // If the API definition contains an array schema with the items
+      // field set to something other than an object (e.g. a string),
+      // then spectral will throw an exception and we want to verify that
+      // behavior here.
+      await expect(
+        testRule(ruleId, rule, testDocument, true)
+      ).rejects.toThrow();
     });
-
     it('additionalProperties schema without items property', async () => {
       const testDocument = makeCopy(rootDocument);
 
