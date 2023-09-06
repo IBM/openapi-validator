@@ -127,6 +127,7 @@ module.exports = {
       ibmRules.refSiblingDuplicateDescription,
     'ibm-no-if-modified-since-header': ibmRules.ifModifiedSinceHeader,
     'ibm-no-if-unmodified-since-header': ibmRules.ifUnmodifiedSinceHeader,
+    'ibm-no-nullable-properties': ibmRules.noNullableProperties,
     'ibm-no-operation-requestbody': ibmRules.noOperationRequestBody,
     'ibm-no-optional-properties-in-required-body': ibmRules.optionalRequestBody,
     'ibm-no-space-in-example-name': ibmRules.examplesNameContainsSpace,

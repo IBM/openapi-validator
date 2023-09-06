@@ -34,6 +34,7 @@ module.exports = {
   mergePatchProperties: require('./merge-patch-properties'),
   operationIdCasingConvention: require('./operationid-casing-convention'),
   operationIdNamingConvention: require('./operationid-naming-convention'),
+  noNullableProperties: require('./no-nullable-properties'),
   noOperationRequestBody: require('./no-operation-requestbody'),
   operationSummaryExists: require('./operation-summary-exists'),
   optionalRequestBody: require('./optional-request-body'),

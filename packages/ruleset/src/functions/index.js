@@ -22,6 +22,7 @@ module.exports = {
   etagHeaderExists: require('./etag-header-exists'),
   inlineSchemas: require('./inline-schemas'),
   mergePatchProperties: require('./merge-patch-properties'),
+  noNullableProperties: require('./no-nullable-properties'),
   noOperationRequestBody: require('./no-operation-requestbody'),
   operationIdCasingConvention: require('./operationid-casing-convention'),
   operationIdNamingConvention: require('./operationid-naming-convention'),

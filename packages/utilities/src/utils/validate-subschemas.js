@@ -9,8 +9,9 @@ const validateNestedSchemas = require('./validate-nested-schemas');
 /*
  * Performs validation on a schema and all of its subschemas.
  *
- * Subschemas include property schemas (for an object schema), item schemas (for an array schema),
- * and applicator schemas (such as those in an `allOf` or `oneOf` property), plus all subschemas
+ * Subschemas include property schemas, 'additionalProperties', and 'patternProperties' schemas
+ * (for an object schema), 'items' schemas (for an array schema), and applicator schemas
+ * (such as those in an 'allOf', 'anyOf' or 'oneOf' property), plus all subschemas
  * of those schemas.
  *
  * Note: it is only safe to use this method within functions operating on the "resolved" specification,
