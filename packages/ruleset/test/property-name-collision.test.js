@@ -44,7 +44,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     const results = await testRule(ruleId, rule, testDocument);
 
-    expect(results).toHaveLength(6);
+    expect(results).toHaveLength(4);
 
     const validation = results[0];
     expect(validation.code).toBe(ruleId);
@@ -55,7 +55,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       'paths',
       '/v1/movies',
       'post',
-      'requestBody',
+      'responses',
+      '201',
       'content',
       'application/json',
       'schema',

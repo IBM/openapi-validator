@@ -85,6 +85,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-resource-response-consistency](#ibm-resource-response-consistency)
   * [ibm-response-status-codes](#ibm-response-status-codes)
   * [ibm-schema-description](#ibm-schema-description)
+  * [ibm-schema-naming-convention](#ibm-schema-naming-convention)
   * [ibm-schema-type](#ibm-schema-type)
   * [ibm-schema-type-format](#ibm-schema-type-format)
   * [ibm-sdk-operations](#ibm-sdk-operations)
@@ -469,6 +470,12 @@ has non-form content.</td>
 <td><a href="#ibm-schema-description">ibm-schema-description</a></td>
 <td>warn</td>
 <td>Schemas should have a non-empty description.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-schema-naming-convention">ibm-schema-naming-convention</a></td>
+<td>warn</td>
+<td>Schemas should follow the API Handbook naming conventions.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -4866,6 +4873,77 @@ components:
       type: object
       properties:
         ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-schema-naming-convention
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-schema-naming-convention</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+The name of each schema should follow the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#naming">IBM Cloud API Handbook schema naming conventions</a>.
+
+The rule checks the names of collection schemas, resource collection element schemas, creation/replacement schemas, and patch schemas against the name of the associated canonical schema to ensure the names follow the guidelines.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    post:
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ThingCreator' # Should be ThingPrototype
+  /v1/things/{id}:
+    get:
+      responses:
+        200:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Thing' # Canonical schema
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    post:
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ThingPrototype'
+  /v1/things/{id}:
+    get:
+      responses:
+        200:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Thing'
 </pre>
 </td>
 </tr>

@@ -59,14 +59,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['Movie'].additionalProperties = true;
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(6);
+      expect(results).toHaveLength(4);
 
       const expectedPaths = [
-        'paths./v1/movies.post.requestBody.content.application/json.schema',
         'paths./v1/movies.post.responses.201.content.application/json.schema',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema',
-        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema',
       ];
       for (let i = 0; i < results.length; i++) {
@@ -82,14 +80,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['Movie'].patternProperties = 'foo';
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(6);
+      expect(results).toHaveLength(4);
 
       const expectedPaths = [
-        'paths./v1/movies.post.requestBody.content.application/json.schema.patternProperties',
         'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.patternProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.patternProperties',
-        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.patternProperties',
       ];
       for (let i = 0; i < results.length; i++) {
@@ -105,14 +101,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['Movie'].patternProperties = {};
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(6);
+      expect(results).toHaveLength(4);
 
       const expectedPaths = [
-        'paths./v1/movies.post.requestBody.content.application/json.schema.patternProperties',
         'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.patternProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.patternProperties',
-        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.patternProperties',
       ];
       for (let i = 0; i < results.length; i++) {
@@ -135,14 +129,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(6);
+      expect(results).toHaveLength(4);
 
       const expectedPaths = [
-        'paths./v1/movies.post.requestBody.content.application/json.schema.patternProperties',
         'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.patternProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.patternProperties',
-        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.patternProperties',
       ];
       for (let i = 0; i < results.length; i++) {
