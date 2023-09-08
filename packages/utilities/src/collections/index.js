@@ -12,6 +12,9 @@ const operations = [`$.paths[*][get,put,post,delete,options,head,patch,trace]`];
 // A collection of locations of top-level response schemas
 const responseSchemas = [`${operations[0]}[responses][*].content[*].schema`];
 
+// A collection of locations of top-level requestBody schemas.
+const requestBodySchemas = [`${operations[0]}[requestBody].content[*].schema`];
+
 // A collection of locations where a JSON Schema object can be *used*.
 // Note that this does not include "components.schemas" to avoid duplication.
 // this collection should be used in a rule that has "resolved" set to "true".
@@ -22,7 +25,7 @@ const schemas = [
   `${operations[0]}[parameters][*].schema`,
   `${operations[0]}[parameters,responses][*].content[*].schema`,
   `${operations[0]}.responses[*].headers[*].schema`,
-  `${operations[0]}[requestBody].content[*].schema`,
+  ...requestBodySchemas,
 ];
 
 // A collection of locations where a parameter object might be defined.
@@ -47,7 +50,7 @@ const unresolvedResponseSchemas = [
 // A collection of locations where a requestBody schema could be defined
 // within an unresolved API definition.
 const unresolvedRequestBodySchemas = [
-  `${operations[0]}.requestBody.content[*].schema`,
+  ...requestBodySchemas,
   `$.components.requestBodies[*].content[*].schema`,
 ];
 
@@ -85,6 +88,7 @@ module.exports = {
   parameters,
   patchOperations,
   paths,
+  requestBodySchemas,
   responseSchemas,
   schemas,
   securitySchemes,

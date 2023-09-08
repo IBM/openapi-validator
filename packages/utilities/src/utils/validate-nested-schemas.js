@@ -8,7 +8,8 @@ const isObject = require('./is-object');
 /*
  * Performs validation on a schema and all of its nested schemas.
  *
- * Nested schemas include property schemas (for an object schema), items schemas (for an array
+ * Nested schemas include property schemas, 'additionalProperties', and 'patternProperties' schemas
+ * (for an object schema), 'items' schemas (for an array
  * schema), plus all nested schemas of those schemas.
  *
  * Nested schemas included via `allOf`, `oneOf`, and `anyOf` are validated, but composed schemas

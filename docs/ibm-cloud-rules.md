@@ -58,6 +58,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-no-duplicate-description-with-ref-sibling](#ibm-no-duplicate-description-with-ref-sibling)
   * [ibm-no-if-modified-since-header](#ibm-no-if-modified-since-header)
   * [ibm-no-if-unmodified-since-header](#ibm-no-if-unmodified-since-header)
+  * [ibm-no-nullable-properties](#ibm-no-nullable-properties)
   * [ibm-no-operation-requestbody](#ibm-no-operation-requestbody)
   * [ibm-no-optional-properties-in-required-body](#ibm-no-optional-properties-in-required-body)
   * [ibm-no-space-in-example-name](#ibm-no-space-in-example-name)
@@ -306,6 +307,13 @@ which is not allowed.</td>
 <td><a href="#ibm-no-if-unmodified-since-header">ibm-no-if-unmodified-since-header</a></td>
 <td>warn</td>
 <td>Operations should avoid supporting the <code>If-Unmodified-Since</code> header parameter.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-no-nullable-properties">ibm-no-nullable-properties</a></td>
+<td>warn</td>
+<td>Ensures that nullable properties are defined only within JSON merge-patch requestBody schemas, per API Handbook guidance.
+</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -2985,6 +2993,135 @@ paths:
           description: 'Resource was deleted successfully!'
         '412':
           description: 'Resource current ETag value does not match the If-Match value.'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-no-nullable-properties
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-no-nullable-properties</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-models#required-optional-and-nullable">API Handbook</a>
+provides guidance related to the use of <code>nullable</code> schema properties.  Specifically, the API Handbook
+allows nullable schema properties to be defined only within JSON merge-patch request body schemas.
+This rule ensures that nullable properties are not defined elsewhere.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_name:
+          type: string
+        thing_size:
+          type: integer
+        thing_type:
+          type: string
+          nullable: true   &lt;&lt;&lt; not valid in a response schema
+    ThingPatch:
+      type: object
+      properties:
+        thing_name:
+          type: string
+           nullable: true   &lt;&lt;&lt; valid only in a merge-path requestBody schema
+        thing_size:
+          type: integer
+          nullable: true   &lt;&lt;&lt; valid only in a merge-path requestBody schema
+        thing_type:
+          type: string
+          nullable: true   &lt;&lt;&lt; valid only in a merge-path requestBody schema
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#/components/parameters/ThingIdParameter'
+    patch:
+      operationId: update_thing
+      requestBody:
+        description: An object used to modify an existing Thing instance
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/ThingPatch'
+      responses:
+        '200':
+          description: Thing instance was updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        thing_id:
+          type: string
+        thing_name:
+          type: string
+        thing_size:
+          type: integer
+        thing_type:    &lt;&lt;&lt; property is no longer nullable
+          type: string
+    ThingPatch:
+      type: object
+      properties:
+        thing_name:
+          type: string
+           nullable: true
+        thing_size:
+          type: integer
+          nullable: true
+        thing_type:
+          type: string
+          nullable: true
+paths:
+  '/v1/things/{thing_id}':
+    parameters:
+      - $ref: '#/components/parameters/ThingIdParameter'
+    patch:
+      operationId: update_thing
+      requestBody:
+        description: An object used to modify an existing Thing instance
+        content:
+          application/merge-patch+json:
+            schema:
+              $ref: '#/components/schemas/ThingPatch'
+      responses:
+        '200':
+          description: Thing instance was updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
 </pre>
 </td>
 </tr>
