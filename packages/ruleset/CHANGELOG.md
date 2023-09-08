@@ -1,3 +1,18 @@
+# @ibm-cloud/openapi-ruleset [1.8.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.7.0...@ibm-cloud/openapi-ruleset@1.8.0) (2023-09-08)
+
+
+### Features
+
+* **ibm-no-nullable-properties:** add new 'ibm-no-nullable-properties' rule ([#626](https://github.com/IBM/openapi-validator/issues/626)) ([7e090aa](https://github.com/IBM/openapi-validator/commit/7e090aabbf51cc1a8d31fcfdfd9ab8056c2fa213))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.3.0
+
 # @ibm-cloud/openapi-ruleset [1.7.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.6.3...@ibm-cloud/openapi-ruleset@1.7.0) (2023-08-30)
 
 
