@@ -42,16 +42,24 @@ function getSuccessResponseSchemaForOperation(operation, pathToOp) {
 
   const [, successCodes] = getResponseCodes(operation.responses);
 
-  if (!successCodes || !successCodes.length || !successCodes.includes('200')) {
+  if (!successCodes || !successCodes.length) {
     return info;
   }
 
-  const successResponse = operation.responses['200'];
+  // Prefer 200 responses if present. If not, find the first response with a JSON schema.
+  const code = successCodes.includes('200')
+    ? '200'
+    : successCodes.find(c => responseHasJsonSchema(operation.responses[c]));
+  if (!code) {
+    return info;
+  }
+
+  const successResponse = operation.responses[code];
   if (!successResponse.content || !isObject(successResponse.content)) {
     return info;
   }
 
-  pathToSchema += '.200.content';
+  pathToSchema += `.${code}.content`;
 
   // Find the first content object determined to be JSON -
   // we are only interested in JSON content.
@@ -72,6 +80,15 @@ function getSuccessResponseSchemaForOperation(operation, pathToOp) {
   info.schemaPath = pathToSchema + `.${jsonMimeType}.schema`;
 
   return info;
+}
+
+function responseHasJsonSchema(response) {
+  return (
+    response.content &&
+    Object.keys(response.content).some(
+      c => isJsonMimeType(c) && response.content[c].schema
+    )
+  );
 }
 
 /**

@@ -388,17 +388,19 @@ function computeRefsAtPaths(nodes) {
  * @returns {string} - the name of the referenced schema at a given path, or undefined
  */
 function getSchemaNameAtPath(path, pathToReferencesMap) {
-  if (!path && typeof path !== 'string') {
+  if (!path || typeof path !== 'string') {
     return;
   }
 
-  // resolve path to reference - add comments explaining
   // Build the path, replacing each path that resolves to a reference with the
   // referenced path in order to match the expected format in the
   // pathToReferencesMap (which comes from graph nodes that Spectral gives us).
   // See the function documentation above for more info.
   let pathBuilder = '';
   for (const pathSegment of path.split('.')) {
+    if (pathBuilder) {
+      pathBuilder += '.';
+    }
     pathBuilder += `${pathSegment}`;
     const schemaReference = pathToReferencesMap[pathBuilder];
 
@@ -408,13 +410,7 @@ function getSchemaNameAtPath(path, pathToReferencesMap) {
     if (schemaReference && pathSegment !== path.split('.').at(-1)) {
       pathBuilder = schemaReference;
     }
-
-    pathBuilder += '.';
   }
-
-  // We lazily add a period character at the end of every segment
-  // during the loop. Remove the final period here.
-  pathBuilder = pathBuilder.slice(0, -1);
 
   if (path !== pathBuilder) {
     logger.debug(`${ruleId}: resolved path to be ${pathBuilder}`);
@@ -431,7 +427,7 @@ function getSchemaNameAtPath(path, pathToReferencesMap) {
  * @returns {string} - the name of the schema (e.g. 'Thing')
  */
 function getSchemaNameFromReference(reference) {
-  if (!reference && typeof reference !== 'string') {
+  if (!reference || typeof reference !== 'string') {
     return;
   }
 

@@ -10,7 +10,7 @@ const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
  * "specific" resource path that is a sibling (e.g. /foo/{id}); if
  * found, return the sibling path string.
  *
- * @param {*} path the array of path segments indicating the "location" of an operation within the API definition
+ * @param {*} path the path string (for a generic path e.g. '/foo')
  * @param {*} apidef the resolved API spec, as an object
  * @returns the specific resource path, as a string
  */

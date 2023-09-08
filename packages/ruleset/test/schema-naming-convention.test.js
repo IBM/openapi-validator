@@ -291,7 +291,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Prototype schema in PUT request body is correctly named but the path is not resource-oriented', async () => {
+    it('Prototype schema in PUT request body is incorrectly named but the path is not resource-oriented', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Mess = {};
