@@ -8,6 +8,7 @@ const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
 const {
   getResourceSpecificSiblingPath,
   getResponseCodes,
+  getSuccessResponseSchemaForOperation,
   isCreateOperation,
   isJsonMimeType,
   isOperationOfType,
@@ -167,9 +168,9 @@ function resourceResponseConsistency(operation, path, apidef) {
 
 function getCanonicalSchema(path, apidef) {
   const resourceSpecificPath = isOperationOfType('post', path)
-    ? getResourceSpecificSiblingPath(path, apidef)
+    ? getResourceSpecificSiblingPath(path.at(-2), apidef)
     : // This is a PUT or PATCH and should already be on the path we need
-      path[path.length - 2].toString().trim();
+      path.at(-2).trim();
 
   logger.debug(
     `${ruleId}: calculated resource-specific path to be "${resourceSpecificPath}"`
@@ -189,62 +190,11 @@ function getCanonicalSchema(path, apidef) {
     );
     return;
   }
-  if (!resourceGetOperation.responses) {
-    logger.debug(
-      `${ruleId}: no responses defined on GET operation at path "${resourceSpecificPath}"`
-    );
-    return;
-  }
 
-  const [, getOpSuccessCodes] = getResponseCodes(
-    resourceGetOperation.responses
+  const { schemaObject } = getSuccessResponseSchemaForOperation(
+    resourceGetOperation,
+    path
   );
 
-  logger.debug(
-    `${ruleId}: corresponding GET operation has the following status codes: ${getOpSuccessCodes.join(
-      ', '
-    )}`
-  );
-
-  if (
-    !getOpSuccessCodes ||
-    !getOpSuccessCodes.length ||
-    !getOpSuccessCodes.includes('200')
-  ) {
-    logger.debug(
-      `${ruleId}: no 200 success code found in responses defined on GET operation at path "${resourceSpecificPath}"`
-    );
-    return;
-  }
-
-  const successResponse = resourceGetOperation.responses['200'];
-  if (!successResponse.content || !isObject(successResponse.content)) {
-    return;
-  }
-
-  // Find the first content object determined to be JSON -
-  // we are only interested in JSON content.
-  const jsonMimeType = Object.keys(successResponse.content).find(mimeType =>
-    isJsonMimeType(mimeType)
-  );
-  if (!jsonMimeType) {
-    logger.debug(
-      `${ruleId}: no JSON content found on 200 response defined on GET operation at path "${resourceSpecificPath}"`
-    );
-    return;
-  }
-
-  const jsonContent = successResponse.content[jsonMimeType];
-  if (!isObject(jsonContent) || !jsonContent.schema) {
-    logger.debug(
-      `${ruleId}: no JSON content schema found in 200 response defined on GET operation at path "${resourceSpecificPath}"`
-    );
-    return;
-  }
-
-  logger.debug(
-    `${ruleId}: found schema in ${jsonMimeType} content object in 200 response defined on GET operation at path "${resourceSpecificPath}"`
-  );
-
-  return jsonContent.schema;
+  return schemaObject;
 }

@@ -168,7 +168,10 @@ function responseStatusCodes(operation, path, apidef) {
 }
 
 function hasBodyRepresentation(path, apidef) {
-  const resourceSpecificPath = getResourceSpecificSiblingPath(path, apidef);
+  const resourceSpecificPath = getResourceSpecificSiblingPath(
+    path.at(-2),
+    apidef
+  );
 
   logger.debug(
     `${ruleId}: calculated resource-specific path to be "${resourceSpecificPath}"`

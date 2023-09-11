@@ -37,7 +37,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -71,7 +71,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -116,7 +116,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -150,7 +150,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         type: 'array',
         items: {
           description: 'Fruit juice',
@@ -196,7 +196,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -232,7 +232,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         oneOf: [
           {
@@ -300,7 +300,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -352,7 +352,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -406,7 +406,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -460,7 +460,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         allOf: [
@@ -510,7 +510,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         oneOf: [
           {
@@ -570,7 +570,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -610,7 +610,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
@@ -656,7 +656,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       ];
-      testDocument.components.schemas.Drink = {
+      testDocument.components.schemas.DrinkPrototype = {
         description: 'Fruit juice',
         type: 'object',
         required: ['type', 'fruit'],
