@@ -168,7 +168,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Request body schema is dynamic, extension missing', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.components.schemas.Movie.additionalProperties = true;
+      testDocument.components.schemas.MoviePrototype.additionalProperties = true;
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
@@ -181,7 +181,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Request body schema has discriminator, extension missing', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.components.schemas.Movie.discriminator = {
+      testDocument.components.schemas.MoviePrototype.discriminator = {
         propertyName: 'type',
       };
 

@@ -143,7 +143,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(6);
+      expect(results).toHaveLength(4);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMessage);
@@ -151,18 +151,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       }
 
       expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'array_prop',
-      ]);
-
-      expect(results[1].path).toStrictEqual([
         'paths',
         '/v1/movies',
         'post',
@@ -175,7 +163,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'array_prop',
       ]);
 
-      expect(results[2].path).toStrictEqual([
+      expect(results[1].path).toStrictEqual([
         'paths',
         '/v1/movies',
         'get',
@@ -193,7 +181,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'array_prop',
       ]);
 
-      expect(results[3].path).toStrictEqual([
+      expect(results[2].path).toStrictEqual([
         'paths',
         '/v1/movies/{movie_id}',
         'get',
@@ -206,11 +194,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'array_prop',
       ]);
 
-      expect(results[4].path).toStrictEqual([
+      expect(results[3].path).toStrictEqual([
         'paths',
         '/v1/movies/{movie_id}',
         'put',
-        'requestBody',
+        'responses',
+        '200',
         'content',
         'application/json',
         'schema',

@@ -500,13 +500,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(6);
+      expect(results).toHaveLength(4);
       const expectedPaths = [
-        'paths./v1/movies.post.requestBody.content.application/json.schema.additionalProperties',
         'paths./v1/movies.post.responses.201.content.application/json.schema.additionalProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.additionalProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.additionalProperties',
-        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.additionalProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.additionalProperties',
       ];
       for (let i = 0; i < results.length; i++) {
@@ -530,9 +528,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count',
         'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count',
         'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count',
@@ -555,9 +552,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.minItems',
         'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.minItems',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.minItems',
         'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.minItems',
@@ -580,9 +576,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/cars.post.requestBody.content.application/json.schema.properties.wheel_count.maxItems',
         'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.maxItems',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.maxItems',
         'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.maxItems',

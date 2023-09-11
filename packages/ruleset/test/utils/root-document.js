@@ -47,7 +47,7 @@ module.exports = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Drink',
+                $ref: '#/components/schemas/DrinkPrototype',
               },
             },
           },
@@ -271,7 +271,7 @@ module.exports = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Movie',
+                $ref: '#/components/schemas/MoviePrototype',
               },
             },
           },
@@ -428,7 +428,7 @@ module.exports = {
           content: {
             'application/json': {
               schema: {
-                $ref: '#/components/schemas/Movie',
+                $ref: '#/components/schemas/MoviePrototype',
               },
             },
           },
@@ -670,12 +670,72 @@ module.exports = {
           },
         },
         example: {
+          id: 'acb123',
+          name: 'The Two Towers',
+          director: 'Peter Jackson',
+          running_time: 179,
+        },
+      },
+      MoviePrototype: {
+        description: 'This is the Movie creation schema.',
+        type: 'object',
+        required: ['name'],
+        properties: {
+          name: {
+            $ref: '#/components/schemas/NormalString',
+          },
+          director: {
+            $ref: '#/components/schemas/NormalString',
+          },
+          running_time: {
+            type: 'integer',
+            format: 'int32',
+            description: 'The length of the movie, in minutes.',
+          },
+          imdb_url: {
+            $ref: '#/components/schemas/UrlString',
+          },
+          trailer: {
+            type: 'string',
+            format: 'byte',
+            description: 'A short trailer for the movie.',
+            minLength: 0,
+            maxLength: 1024,
+          },
+        },
+        example: {
           name: 'The Two Towers',
           director: 'Peter Jackson',
           running_time: 179,
         },
       },
       Drink: {
+        type: 'object',
+        description:
+          'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
+        properties: {
+          id: {
+            $ref: '#/components/schemas/IdString',
+          },
+        },
+        oneOf: [
+          {
+            $ref: '#/components/schemas/Juice',
+          },
+          {
+            $ref: '#/components/schemas/Soda',
+          },
+        ],
+        discriminator: {
+          propertyName: 'type',
+        },
+        example: {
+          id: 'acb123',
+          type: 'soda',
+          name: 'Root Beer',
+        },
+      },
+      DrinkPrototype: {
         type: 'object',
         description:
           'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
@@ -834,6 +894,7 @@ module.exports = {
           },
           movies: [
             {
+              id: 'acb123',
               name: 'The Two Towers',
               director: 'Peter Jackson',
               running_time: 179,
@@ -853,6 +914,23 @@ module.exports = {
             maxLength: 64,
             pattern: '[0-9]+',
           },
+          make: {
+            description: 'The car make.',
+            type: 'string',
+            minLength: 1,
+            maxLength: 32,
+            pattern: '.*',
+          },
+          model: {
+            $ref: '#/components/schemas/CarModelType',
+          },
+        },
+      },
+      CarPrototype: {
+        description: 'Information about a car.',
+        type: 'object',
+        required: ['make', 'model'],
+        properties: {
           make: {
             description: 'The car make.',
             type: 'string',
@@ -1155,7 +1233,7 @@ module.exports = {
         content: {
           'application/json': {
             schema: {
-              $ref: '#/components/schemas/Car',
+              $ref: '#/components/schemas/CarPrototype',
             },
             examples: {
               RequestExample: {
