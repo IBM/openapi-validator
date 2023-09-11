@@ -51,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pets"
+                $ref: "#/components/schemas/PetCollection"
         default:
           description: unexpected error
           content:
@@ -70,7 +70,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pets"
+                $ref: "#/components/schemas/Pet"
         default:
           description: unexpected error
           content:
@@ -100,7 +100,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Pets"
+                $ref: "#/components/schemas/Pet"
         default:
           description: unexpected error
           content:
@@ -137,7 +137,7 @@ components:
         id: 1
         name: doggie
         tag: dog
-    Pets:
+    PetCollection:
       type: object
       description:
         A list of pets

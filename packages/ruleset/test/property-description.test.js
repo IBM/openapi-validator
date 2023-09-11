@@ -176,26 +176,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas['IdString'].description = '';
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(6);
+      expect(results).toHaveLength(7);
       for (const result of results) {
         expect(result.code).toBe(ruleId);
         expect(result.message).toBe(expectedMsg);
         expect(result.severity).toBe(expectedSeverity);
       }
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies.post.requestBody.content.application/json.schema.properties.id'
+        'paths./v1/drinks.post.responses.201.content.application/json.schema.properties.id'
       );
       expect(results[1].path.join('.')).toBe(
-        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.id'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.properties.id'
       );
       expect(results[2].path.join('.')).toBe(
-        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.id'
+        'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.properties.id'
       );
       expect(results[3].path.join('.')).toBe(
-        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.id'
+        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.id'
       );
       expect(results[4].path.join('.')).toBe(
-        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.properties.id'
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.id'
+      );
+      expect(results[5].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.id'
+      );
+      expect(results[6].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.id'
       );
     });
 
