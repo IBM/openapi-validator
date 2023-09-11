@@ -11,6 +11,13 @@ let casingConfig;
 let ruleId;
 let logger;
 
+/**
+ * The implementation for this rule makes assumptions that are dependent on the
+ * presence of the following other rules:
+ *
+ * - ibm-avoid-inline-schemas: all relevant schemas are named (defined with references)
+ */
+
 module.exports = function (components, options, context) {
   // Save this rule's "functionOptions" value since we need
   // to pass it on to Spectral's "casing" function.
