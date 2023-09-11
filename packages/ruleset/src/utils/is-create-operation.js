@@ -35,7 +35,7 @@ function isCreateOperation(operation, path, apidef) {
   }
 
   // 3. Does this operation's path have a sibling path with a trailing path param reference?
-  const siblingPath = getResourceSpecificSiblingPath(path, apidef);
+  const siblingPath = getResourceSpecificSiblingPath(path.at(-2), apidef);
   return !!siblingPath;
 }
 
