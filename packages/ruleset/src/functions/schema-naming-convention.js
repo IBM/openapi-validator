@@ -29,7 +29,7 @@ let logger;
  * - ibm-collection-array-property: the presence and correct name of the
  *   property in a collection schema that holds the resource list
  *
- * - (yet to be developed): schema names use upper camel case
+ * - ibm-schema-casing-convention: schema names use upper camel case
  */
 
 module.exports = function schemaNames(apidef, options, context) {
