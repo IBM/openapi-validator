@@ -84,6 +84,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-requestbody-name](#ibm-requestbody-name)
   * [ibm-resource-response-consistency](#ibm-resource-response-consistency)
   * [ibm-response-status-codes](#ibm-response-status-codes)
+  * [ibm-schema-casing-convention](#ibm-schema-casing-convention)
   * [ibm-schema-description](#ibm-schema-description)
   * [ibm-schema-naming-convention](#ibm-schema-naming-convention)
   * [ibm-schema-type](#ibm-schema-type)
@@ -464,6 +465,12 @@ has non-form content.</td>
 <td><a href="#ibm-response-status-codes">ibm-response-status-codes</a></td>
 <td>warn</td>
 <td>Performs multiple checks on the status codes used in operation responses.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-schema-casing-convention">ibm-schema-casing-convention</a></td>
+<td>warm</td>
+<td>Schema names should follow a specific case convention.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -4823,6 +4830,81 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-schema-casing-convention
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-schema-casing-convention</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+Schema names (the keys in `components -> schemas`) should follow the "upper camel case" convention
+as required by the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#naming">IBM Cloud API Handbook</a>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Configuration:</b></td>
+<td>This rule can be configured to enforce a specific case convention for schema name values.
+To configure the rule, set the <code>functionOptions</code> field within the rule definition to be an object
+that is the appropriate configuration to be used by Spectral's <code>casing()</code> function
+[<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
+to enforce the desired case convention for schema name values.
+<p>The default configuration object provided in the rule definition is:
+<pre>
+{
+  type: 'pascal'
+}
+</pre>
+<p>To enforce a different case convention for schema name values, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
+specifies the desired case convention.
+For example, to enforce snake case for schema names, the configuration object would look like this:
+<pre>
+{
+  type: 'snake'
+}
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    specific_thing:
+      type: object
+      properties:
+        ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    SpecificThing:
+      type: object
+      properties:
+        ...
 </pre>
 </td>
 </tr>
