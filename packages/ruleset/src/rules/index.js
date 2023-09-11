@@ -66,6 +66,7 @@ module.exports = {
   resourceResponseConsistency: require('./resource-response-consistency'),
   responseExampleExists: require('./response-example-exists'),
   responseStatusCodes: require('./response-status-codes'),
+  schemaCasingConvention: require('./schema-casing-convention'),
   schemaDescriptionExists: require('./schema-description-exists'),
   schemaKeywords: require('./schema-keywords'),
   schemaNamingConvention: require('./schema-naming-convention'),
