@@ -25,7 +25,7 @@ module.exports = function (components, options, context) {
 };
 
 function schemaCaseConvention(components, path) {
-  if (!components.schemas && !isObject(components.schemas)) {
+  if (!components.schemas || !isObject(components.schemas)) {
     logger.debug(`${ruleId}: no schemas to validate, skipping rule`);
     return [];
   }
