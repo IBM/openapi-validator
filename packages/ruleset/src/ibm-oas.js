@@ -113,6 +113,7 @@ module.exports = {
     'ibm-etag-header': ibmRules.etagHeaderExists,
     'ibm-major-version-in-path': ibmRules.majorVersionInPath,
     'ibm-no-accept-header': ibmRules.acceptHeader,
+    'ibm-no-ambiguous-paths': ibmRules.noAmbiguousPaths,
     'ibm-no-array-of-arrays': ibmRules.arrayOfArrays,
     'ibm-no-array-responses': ibmRules.arrayResponses,
     'ibm-no-authorization-header': ibmRules.authorizationHeader,

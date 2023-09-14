@@ -26,7 +26,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Array of binary, non-JSON content', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/menu'].put.requestBody = {
+      testDocument.paths['/v1/drink_menu'].put.requestBody = {
         content: {
           'application/octet-stream': {
             schema: {
@@ -47,7 +47,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Nested array of binary, non-JSON content', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/menu'].get.responses = {
+      testDocument.paths['/v1/drink_menu'].get.responses = {
         200: {
           content: {
             'application/octet-stream': {
@@ -73,7 +73,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Binary schema in non-JSON parameters.content', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/menu'].put.parameters[1].content = {
+      testDocument.paths['/v1/drink_menu'].put.parameters[1].content = {
         'application/octet-stream': {
           schema: {
             type: 'string',
@@ -91,7 +91,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Binary parameter.schema', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/menu'].put.parameters[0].schema = {
+      testDocument.paths['/v1/drink_menu'].put.parameters[0].schema = {
         type: 'array',
         items: {
           type: 'string',
@@ -105,14 +105,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].message).toBe(expectedMsgParam);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks/menu.put.parameters.0.schema'
+        'paths./v1/drink_menu.put.parameters.0.schema'
       );
     });
 
     it('Binary parameter.content.*.schema', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/menu'].put.parameters[1].content[
+      testDocument.paths['/v1/drink_menu'].put.parameters[1].content[
         'application/json'
       ].schema = {
         type: 'array',
@@ -128,14 +128,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].message).toBe(expectedMsgParam);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks/menu.put.parameters.1.content.application/json.schema'
+        'paths./v1/drink_menu.put.parameters.1.content.application/json.schema'
       );
     });
 
     it('Binary requestBody schema, JSON content', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/menu'].put.requestBody = {
+      testDocument.paths['/v1/drink_menu'].put.requestBody = {
         content: {
           'application/json; charset=utf-8': {
             schema: {
@@ -152,14 +152,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].message).toBe(expectedMsgReqBody);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks/menu.put.requestBody.content.application/json; charset=utf-8.schema'
+        'paths./v1/drink_menu.put.requestBody.content.application/json; charset=utf-8.schema'
       );
     });
 
     it('Binary response schema, JSON content', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/menu'].get.responses = {
+      testDocument.paths['/v1/drink_menu'].get.responses = {
         200: {
           content: {
             'application/json': {
@@ -178,7 +178,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].message).toBe(expectedMsgResponse);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks/menu.get.responses.200.content.application/json.schema'
+        'paths./v1/drink_menu.get.responses.200.content.application/json.schema'
       );
     });
   });

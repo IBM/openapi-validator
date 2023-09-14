@@ -168,7 +168,7 @@ module.exports = {
         },
       },
     },
-    '/v1/drinks/menu': {
+    '/v1/drink_menu': {
       get: {
         operationId: 'download_menu',
         summary: 'Download Drinks Menu',
