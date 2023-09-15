@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.9.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.8.0...@ibm-cloud/openapi-ruleset@1.9.0) (2023-09-15)
+
+
+### Features
+
+* **ibm-no-ambiguous-paths:** introduce new validator rule ([#629](https://github.com/IBM/openapi-validator/issues/629)) ([2b8d082](https://github.com/IBM/openapi-validator/commit/2b8d082e6de873a5f66cf8aca4cc90f03d0af2a8))
+
 # @ibm-cloud/openapi-ruleset [1.8.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.7.0...@ibm-cloud/openapi-ruleset@1.8.0) (2023-09-08)
 
 
