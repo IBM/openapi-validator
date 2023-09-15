@@ -46,6 +46,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-etag-header](#ibm-etag-header)
   * [ibm-major-version-in-path](#ibm-major-version-in-path)
   * [ibm-no-accept-header](#ibm-no-accept-header)
+  * [ibm-no-ambiguous-paths](#ibm-no-ambiguous-paths)
   * [ibm-no-array-of-arrays](#ibm-no-array-of-arrays)
   * [ibm-no-array-responses](#ibm-no-array-responses)
   * [ibm-no-authorization-header](#ibm-no-authorization-header)
@@ -231,6 +232,12 @@ for any resources (paths) that support the <code>If-Match</code> and/or <code>If
 <td><a href="#ibm-no-accept-header">ibm-no-accept-header</a></td>
 <td>warn</td>
 <td>Operations should not explicitly define the <code>Accept</code> header parameter.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-no-ambiguous-paths">ibm-no-ambiguous-paths</a></td>
+<td>warn</td>
+<td>Checks for the presence of ambiguous path strings.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -2070,6 +2077,73 @@ paths:
               schema:
                 $ref: '#/components/schemas/ThingCollection'
 
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-no-ambiguous-paths
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-no-ambiguous-paths</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>The path strings defined within an OpenAPI document must be unique and <code>unambiguous</code>.
+In general, two paths are ambiguous if the following are true:
+<ul>
+<li>the two paths contain the same number of path segments (e.g. /v1/foo, /v1/{foo})</li>
+<li>when comparing each of the respective path segments in each path string:
+<ol>
+<li>both path segments are non-parameterized and are equal (e.g. 'foo' vs 'foo')</li>
+<li>one or the other of the path segments is parameterized (e.g. 'foo' vs '{foo_id}')</li>
+<li>both of the path segments are parameterized (e.g. '{foo_id}' vs '{id}')</li>
+</ol>
+</ul>
+Here are examples of paths that are ambiguous despite being unique:
+<ul>
+<li><code>/v1/things/{thing_id}</code>, <code>/v1/things/{id}</code>
+<li><code>/v1/things/{thing_id}</code>, <code>/v1/things/other_things</code>
+<li><code>/{version}/things</code>, <code>/v1/{things}</code>
+</ul>
+Each of the pairs of path strings above would be considered ambiguous.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    ...
+  '/v1/things/{foo_id}':
+    ...
+  '/v1/things/other_things':
+    ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things/{thing_id}':
+    ...
+  '/v1/foos/{foo_id}':
+    ...
+  '/v1/things/{thing_id}/other_things':
+    ...
 </pre>
 </td>
 </tr>
