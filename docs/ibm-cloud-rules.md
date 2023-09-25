@@ -28,6 +28,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
     + [Define a new rule](#define-a-new-rule)
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
+  * [ibm-api-symmetry](#ibm-api-symmetry)
   * [ibm-array-attributes](#ibm-array-attributes)
   * [ibm-avoid-inline-schemas](#ibm-avoid-inline-schemas)
   * [ibm-avoid-multiple-types](#ibm-avoid-multiple-types)
@@ -117,6 +118,12 @@ is provided in the [Reference](#reference) section below.
 <table>
 <tr>
 <th>Rule Id</th><th>Severity</th><th>Description</th><th>OpenAPI Versions</th>
+</tr>
+<tr>
+<td><a href="#ibm-api-symmetry">ibm-api-symmetry</a></td>
+<td>warn</td>
+<td>Schemas should follow the API Handbook guidance on symmetrical structure between requests and responses.</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-array-attributes">ibm-array-attributes</a></td>
@@ -741,6 +748,113 @@ For details on how to add overrides to your custom ruleset, please read the
 ## Reference
 This section provides reference documentation about the IBM Cloud Validation Rules contained
 in the `@ibm-cloud/openapi-ruleset` package.
+
+
+### ibm-api-symmetry
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-api-symmetry</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+Each resource-representing schema should follow the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas">IBM Cloud API Handbook schema structure conventions</a>. Specifically, this rule ensures that Summary, Prototype, and Patch schemas are proper graph fragments of the canonical schema they are variants of. According to the Handbook, "a graph fragment schema has the same structure as its canonical schema with some properties omitted from the schema or from any nested object schemas."
+
+This convention ensures that resource-oriented APIs are symmetrical between requests and responses in how resources are represented.
+
+Note: the rule will report each violation of the graph fragment pattern through "info" level logs. Pass the option <code>--log-level ibm-api-symmetry=info</code> to see more info about any violations that occur.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        age:
+          type: integer
+    ThingPrototype:
+      name:
+        type: string
+      age:
+        type: integer
+      color:            # Does not exist on the resource!
+        type: string
+paths:
+  /v1/things:
+    post:
+      requestBody:
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/ThingPrototype'
+  /v1/things/{id}:
+    get:
+      responses:
+        200:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+  components:
+    schemas:
+      Thing:
+        type: object
+        properties:
+          id:
+            type: string
+          name:
+            type: string
+          age:
+            type: integer
+      ThingPrototype:      # A proper subset of properties
+        name:
+          type: string
+        age:
+          type: integer
+  paths:
+    /v1/things:
+      post:
+        requestBody:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ThingPrototype'
+    /v1/things/{id}:
+      get:
+        responses:
+          200:
+            content:
+              'application/json':
+                schema:
+                  $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
 
 
 ### ibm-array-attributes

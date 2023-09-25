@@ -12,6 +12,8 @@ const {
   isMergePatchMimeType,
 } = require('./mimetype-utils');
 
+const getSchemaNameAtPath = require('./get-schema-name-at-path');
+
 /**
  * Takes an operation object/path combo and finds the JSON success
  * response (200) schema, if it exists. We're only interested in
@@ -147,7 +149,72 @@ function getRequestBodySchemaForOperation(operation, pathToOp) {
   return info;
 }
 
+/**
+ * Takes a path that has already been identified as "resource oriented" and
+ * collects information (name, path, and implementation) about the "canonical"
+ * schema that corresponds to the given path. The canonical schema is defined
+ * as the schema returned by the GET operation of a resource-specific path.
+ *
+ * @param {string} resourceSpecificPath - resource-specific path (i.e. ends in path param)
+ * @param {object} apidef - represents the entire API definition
+ * @param {object} pathToReferencesMap - maps paths to their referenced schema names
+ * @param {object} logInfo - holds an individual rule's logger and metadata
+ * @returns {object} contains the schema's name, path, and JSON schema implementation
+ */
+function getCanonicalSchemaForPath(
+  resourceSpecificPath,
+  apidef,
+  pathToReferencesMap,
+  logInfo
+) {
+  if (
+    typeof resourceSpecificPath !== 'string' ||
+    !isObject(apidef) ||
+    !isObject(apidef.paths) ||
+    !isObject(pathToReferencesMap)
+  ) {
+    return {};
+  }
+
+  // It is helpful to use the rule's logger for this utility function.
+  const { logger, ruleId } = logInfo;
+
+  // Look for the canonical schema by checking the GET operation on the
+  // resource-specific path. If we can't find it, we'll exit because we'll
+  // have no basis of comparison for the other schemas.
+  const canonicalSchemaInfo = getSuccessResponseSchemaForOperation(
+    apidef.paths[resourceSpecificPath].get,
+    `paths.${resourceSpecificPath}.get`
+  );
+
+  const canonicalSchemaPath = canonicalSchemaInfo.schemaPath;
+  logger.debug(
+    `${ruleId}: found the path to the canonical schema to be ${canonicalSchemaPath}`
+  );
+
+  const canonicalSchemaName = getSchemaNameAtPath(
+    canonicalSchemaPath,
+    pathToReferencesMap
+  );
+  logger.debug(
+    `${ruleId}: found the name of the canonical schema to be ${canonicalSchemaName}`
+  );
+
+  // Get the actual canonical schema.
+  let canonicalSchema;
+  if (apidef.components && apidef.components.schemas) {
+    canonicalSchema = apidef.components.schemas[canonicalSchemaName];
+  }
+
+  return {
+    canonicalSchema,
+    canonicalSchemaName,
+    canonicalSchemaPath,
+  };
+}
+
 module.exports = {
   getSuccessResponseSchemaForOperation,
   getRequestBodySchemaForOperation,
+  getCanonicalSchemaForPath,
 };

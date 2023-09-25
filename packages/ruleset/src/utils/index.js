@@ -4,9 +4,12 @@
  */
 
 module.exports = {
+  computeRefsAtPaths: require('./compute-refs-at-paths'),
   getCompositeSchemaAttribute: require('./get-composite-schema-attribute'),
   getResourceSpecificSiblingPath: require('./get-resource-specific-sibling-path'),
+  getResourceOrientedPaths: require('./get-resource-oriented-paths'),
   getResponseCodes: require('./get-response-codes'),
+  getSchemaNameAtPath: require('./get-schema-name-at-path'),
   isCreateOperation: require('./is-create-operation'),
   isDeprecated: require('./is-deprecated'),
   isEmptyObjectSchema: require('./is-empty-object-schema'),

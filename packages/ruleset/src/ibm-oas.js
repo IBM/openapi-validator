@@ -95,6 +95,7 @@ module.exports = {
     'oas3-unused-component': true,
 
     // IBM Custom Rules
+    'ibm-api-symmetry': ibmRules.apiSymmetry,
     'ibm-array-attributes': ibmRules.arrayAttributes,
     'ibm-avoid-inline-schemas': ibmRules.inlineSchemas,
     'ibm-avoid-multiple-types': ibmRules.avoidMultipleTypes,

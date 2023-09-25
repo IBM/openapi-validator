@@ -7,8 +7,11 @@ const { schemaHasProperty } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const {
   LoggerFactory,
+  computeRefsAtPaths,
+  getCanonicalSchemaForPath,
   getRequestBodySchemaForOperation,
-  getResourceSpecificSiblingPath,
+  getResourceOrientedPaths,
+  getSchemaNameAtPath,
   getSuccessResponseSchemaForOperation,
 } = require('../utils');
 
@@ -58,7 +61,7 @@ module.exports = function schemaNames(apidef, options, context) {
  */
 function checkSchemaNames(apidef, nodes) {
   const pathToReferencesMap = computeRefsAtPaths(nodes);
-  const resourceOrientedPaths = collectResourceOrientedPaths(apidef);
+  const resourceOrientedPaths = getResourceOrientedPaths(apidef);
 
   if (Object.keys(resourceOrientedPaths).length === 0) {
     logger.debug(`${ruleId}: no resource-oriented paths found, skipping rule`);
@@ -73,25 +76,14 @@ function checkSchemaNames(apidef, nodes) {
       `${ruleId}: found resource path pair: "${genericPath}" and "${specificPath}"`
     );
 
-    // Look for the canonical schema by checking the GET operation on the
-    // resource-specific path. If we can't find it, we'll exit because we'll
-    // have no basis of comparison for the other schema names.
-    const canonicalSchemaInfo = getSuccessResponseSchemaForOperation(
-      apidef.paths[specificPath].get,
-      `paths.${specificPath}.get`
-    );
-
-    const canonicalSchemaPath = canonicalSchemaInfo.schemaPath;
-    logger.debug(
-      `${ruleId}: found the path to the canonical schema to be ${canonicalSchemaPath}`
-    );
-
-    const canonicalSchemaName = getSchemaNameAtPath(
-      canonicalSchemaPath,
-      pathToReferencesMap
-    );
-    logger.debug(
-      `${ruleId}: found the name of the canonical schema to be ${canonicalSchemaName}`
+    const { canonicalSchemaName } = getCanonicalSchemaForPath(
+      specificPath,
+      apidef,
+      pathToReferencesMap,
+      {
+        logger,
+        ruleId,
+      }
     );
 
     // If we can't find the canonical schema,
@@ -296,143 +288,6 @@ function checkSchemaNames(apidef, nodes) {
   }
 
   return errors;
-}
-
-function collectResourceOrientedPaths(apidef) {
-  const paths = Object.keys(apidef.paths);
-  const pathStore = {};
-  paths.forEach(p => {
-    // Skip paths that have already been discovered
-    if (pathStore[p]) {
-      return;
-    }
-
-    // This can only receive a value for resource generic paths
-    const sibling = getResourceSpecificSiblingPath(p, apidef);
-    if (sibling) {
-      pathStore[p] = sibling;
-    }
-  });
-
-  return pathStore;
-}
-
-/**
- * Takes the graph nodes object computed by the Spectral resolver and converts
- * it to a new format that is better suited for our purposes. The nodes have
- * extra info we don't need and all of the paths are encoded in a unique way.
- * We need to cut out the fluff, decode the paths, and convert the paths
- * to use the dot-separated standard we employ for paths in our rule functions.
- *
- * @param {object} nodes - graph nodes object computed by the Spectral resolver
- * @returns {object} - the re-formatted object
- */
-function computeRefsAtPaths(nodes) {
-  const resultMap = {};
-  Object.keys(nodes).forEach(source => {
-    // We need to ensure our source is a file (except when running tests)
-    if (
-      source.toLowerCase().endsWith('yaml') ||
-      source.toLowerCase().endsWith('yml') ||
-      source.toLowerCase().endsWith('json') ||
-      source === 'root' // This is necessary for running the tests
-    ) {
-      const refMap = nodes[source].refMap;
-
-      // Each resolved path to a schema is stored with a path to its referenced
-      // schema in 'components'. Sub-schemas within components also have their
-      // paths stored with the path to the schema they reference. This gathers
-      // the paths, transforming them from Spectral's internal format, and maps
-      // them to the name of the schema they reference.
-      Object.keys(refMap).forEach(pathWithRef => {
-        const path = pathWithRef
-          .split('/')
-          .map(p => decodeURIComponent(p.replaceAll('~1', '/')))
-          .join('.')
-          .slice(2);
-        resultMap[path] = refMap[pathWithRef].slice(2).replaceAll('/', '.');
-      });
-    }
-  });
-
-  return resultMap;
-}
-
-/**
- * Takes an unresolved path to a schema and un-resolves it to the format in which
- * it will be stored in the graph nodes map by Spectral. The nodes provide a
- * map from resolved path locations to the locations in 'components' they
- * reference (if there is a reference at that location). Each path will be
- * resolved to their nearest parent. For example if a request body schema
- * references a schema in components, there will be an entry mapping the path
- * to the request body schema to the schema path in components - but if that
- * referenced schema has a property defined by a reference to another schema,
- * there will not be an entry in the map including the path leading through
- * the request body to the sub-property, there will be an entry mapping from
- * the location of the schema in components. Here are example entries:
- * - paths./v1/things.post.requestBody.content.application/json.schema:
- *     components.schemas.ThingPrototype
- * - components.schemas.ThingPrototype.properties.data:
- *     components.schemas.DataObject
- *
- * The purpose of this function is to take the fully resolved path (in the
- * example above, something like 'paths./v1/things.post.requestBody.content.
- * application/json.schema.properties.data') and un-resolve enough that it
- * will match the format Spectral uses in nodes (e.g. 'components.schemas.
- * ThingPrototype.properties.data').
- *
- * @param {string} path - the resolved JSON path to a schema, as a dot-separated string
- * @param {object} pathToReferencesMap - the graph nodes map from Spectral, which has
- *                                       been sanitzed for our purposes. it maps referenced
- *                                       schema locations to their reference location.
- * @returns {string} - the name of the referenced schema at a given path, or undefined
- */
-function getSchemaNameAtPath(path, pathToReferencesMap) {
-  if (!path || typeof path !== 'string') {
-    return;
-  }
-
-  // Build the path, replacing each path that resolves to a reference with the
-  // referenced path in order to match the expected format in the
-  // pathToReferencesMap (which comes from graph nodes that Spectral gives us).
-  // See the function documentation above for more info.
-  let pathBuilder = '';
-  for (const pathSegment of path.split('.')) {
-    if (pathBuilder) {
-      pathBuilder += '.';
-    }
-    pathBuilder += `${pathSegment}`;
-    const schemaReference = pathToReferencesMap[pathBuilder];
-
-    // If it is the last time through the loop, we should definitely
-    // find a schema reference - but we don't want to throw away the
-    // path. We'll find the reference again at the end of this function.
-    if (schemaReference && pathSegment !== path.split('.').at(-1)) {
-      pathBuilder = schemaReference;
-    }
-  }
-
-  if (path !== pathBuilder) {
-    logger.debug(`${ruleId}: resolved path to be ${pathBuilder}`);
-  }
-
-  return getSchemaNameFromReference(pathToReferencesMap[pathBuilder]);
-}
-
-/**
- * Takes a path to a referenced schema (as a string) and extracts the last element,
- * which will be the name of the schema.
- *
- * @param {string} reference - the ref value as a dot-separated string (e.g. 'components.schemas.Thing')
- * @returns {string} - the name of the schema (e.g. 'Thing')
- */
-function getSchemaNameFromReference(reference) {
-  if (!reference || typeof reference !== 'string') {
-    return;
-  }
-
-  logger.debug(`${ruleId}: getting name from reference ${reference}`);
-  return reference.split('.').at(-1);
 }
 
 /**

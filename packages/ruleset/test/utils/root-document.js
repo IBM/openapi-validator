@@ -947,13 +947,6 @@ module.exports = {
         description: 'Information about a car.',
         type: 'object',
         properties: {
-          id: {
-            description: 'The car id.',
-            type: 'string',
-            minLength: 1,
-            maxLength: 64,
-            pattern: '[0-9]+',
-          },
           make: {
             description: 'The car make.',
             type: 'string',
