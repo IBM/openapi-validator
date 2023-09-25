@@ -63,6 +63,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-no-operation-requestbody](#ibm-no-operation-requestbody)
   * [ibm-no-optional-properties-in-required-body](#ibm-no-optional-properties-in-required-body)
   * [ibm-no-space-in-example-name](#ibm-no-space-in-example-name)
+  * [ibm-no-unsupported-keywords](#ibm-no-unsupported-keywords)
   * [ibm-openapi-tags-used](#ibm-openapi-tags-used)
   * [ibm-operation-summary](#ibm-operation-summary)
   * [ibm-operationid-casing-convention](#ibm-operationid-casing-convention)
@@ -341,6 +342,12 @@ should probably be required instead of optional.</td>
 <td>warn</td>
 <td>The name of an entry in an <code>examples</code> field should not contain a space.</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-no-unsupported-keywords">ibm-no-unsupported-keywords</a></td>
+<td>error</td>
+<td>Checks for the use of unsupported keywords within an OpenAPI 3.1.x document.</td>
+<td>oas3_1</td>
 </tr>
 <tr>
 <td><a href="#ibm-openapi-tags-used">ibm-openapi-tags-used</a></td>
@@ -3426,6 +3433,76 @@ paths:
                   thing_type: type1
       responses:
         ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-no-unsupported-keywords
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-no-unsupported-keywords</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks for the presence of specific keywords within an OpenAPI 3.1.x document that are not yet supported
+by IBM's SDK-related tooling - specifically the <code>jsonSchemaDialect</code> and
+<code>webhooks</code> keywords.  An error is logged if either of these keywords is found in the document.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3_1</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+openapi: 3.1.0
+info:
+  title: Thing Service
+  description: A service that manages Things
+  version: 1.0.0
+jsonSchemaDialect: 'https://spec.openapis.org/oas/3.1/dialect/base'    &lt;&lt;&lt; not supported
+webhooks:                                                              &lt;&lt;&lt; not supported
+  newThingTypeAvailable:
+    post:
+      description: |-
+        A callback-like operation to be implemented by the client so that it
+        can be informed of a new type of Thing supported by the server.
+      requestBody:
+        description: 'A new type of Thing can now be created on the server.'
+          content:
+            application/json:
+              schema:
+                type: object,
+                properties:
+                  thing_type:
+                    description: 'The new type value that can be used to create a Thing instance.'
+                    type: string
+      responses:
+        '200':
+          description: |-
+            Return a 200 status code to the server to indicate that the new Thing type
+            was received successfully by the client.
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+openapi: 3.1.0
+info:
+  title: Thing Service
+  description: A service that manages Things
+  version: 1.0.0
 </pre>
 </td>
 </tr>
