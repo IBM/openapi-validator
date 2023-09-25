@@ -134,6 +134,7 @@ module.exports = {
     'ibm-no-space-in-example-name': ibmRules.examplesNameContainsSpace,
     'ibm-no-unsupported-keywords': ibmRules.noUnsupportedKeywords,
     'ibm-openapi-tags-used': ibmRules.unusedTags,
+    'ibm-operation-responses': ibmRules.operationResponses,
     'ibm-operation-summary': ibmRules.operationSummaryExists,
     'ibm-operationid-casing-convention': ibmRules.operationIdCasingConvention,
     'ibm-operationid-naming-convention': ibmRules.operationIdNamingConvention,

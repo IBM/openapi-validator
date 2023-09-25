@@ -65,6 +65,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-no-space-in-example-name](#ibm-no-space-in-example-name)
   * [ibm-no-unsupported-keywords](#ibm-no-unsupported-keywords)
   * [ibm-openapi-tags-used](#ibm-openapi-tags-used)
+  * [ibm-operation-responses](#ibm-operation-responses)
   * [ibm-operation-summary](#ibm-operation-summary)
   * [ibm-operationid-casing-convention](#ibm-operationid-casing-convention)
   * [ibm-operationid-naming-convention](#ibm-operationid-naming-convention)
@@ -360,6 +361,12 @@ should probably be required instead of optional.</td>
 <td>warn</td>
 <td>Each operation should have a non-empty <code>summary</code>.</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-operation-responses">ibm-operation-responses</a></td>
+<td>error</td>
+<td>Verifies that each operation has a <code>responses</code> field.</td>
+<td>oas3_1</td>
 </tr>
 <tr>
 <td><a href="#ibm-operationid-casing-convention">ibm-operationid-casing-convention</a></td>
@@ -3564,6 +3571,62 @@ paths:
       summary: Create a Thing
       tags:
         - Things
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-operation-responses
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-operation-responses</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule verifies that each operation has a <code>responses</code> field.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3_1</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      responses:
+        '201':
+          description: 'The Thing instance was created successfully'
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  thing_id:
+                    type: string
+                  thing_description:
+                    type: string
 </pre>
 </td>
 </tr>
