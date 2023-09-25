@@ -132,6 +132,7 @@ module.exports = {
     'ibm-no-operation-requestbody': ibmRules.noOperationRequestBody,
     'ibm-no-optional-properties-in-required-body': ibmRules.optionalRequestBody,
     'ibm-no-space-in-example-name': ibmRules.examplesNameContainsSpace,
+    'ibm-no-unsupported-keywords': ibmRules.noUnsupportedKeywords,
     'ibm-openapi-tags-used': ibmRules.unusedTags,
     'ibm-operation-summary': ibmRules.operationSummaryExists,
     'ibm-operationid-casing-convention': ibmRules.operationIdCasingConvention,

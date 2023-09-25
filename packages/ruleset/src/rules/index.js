@@ -37,6 +37,7 @@ module.exports = {
   noAmbiguousPaths: require('./no-ambiguous-paths'),
   noNullableProperties: require('./no-nullable-properties'),
   noOperationRequestBody: require('./no-operation-requestbody'),
+  noUnsupportedKeywords: require('./no-unsupported-keywords'),
   operationSummaryExists: require('./operation-summary-exists'),
   optionalRequestBody: require('./optional-request-body'),
   paginationStyle: require('./pagination-style'),
