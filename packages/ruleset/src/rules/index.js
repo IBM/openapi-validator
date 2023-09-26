@@ -67,6 +67,7 @@ module.exports = {
   responseExampleExists: require('./response-example-exists'),
   responseStatusCodes: require('./response-status-codes'),
   schemaDescriptionExists: require('./schema-description-exists'),
+  schemaKeywords: require('./schema-keywords'),
   schemaTypeExists: require('./schema-type-exists'),
   schemaTypeFormat: require('./schema-type-format'),
   securitySchemes: require('./securityschemes'),

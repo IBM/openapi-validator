@@ -101,7 +101,7 @@ describe('Expected output tests', function () {
         expect(capturedText[warningStart + 50].match(/\S+/g)[2]).toEqual('96');
         // Skip a few, then verify the last one.
         expect(capturedText[warningStart + 145].match(/\S+/g)[2]).toEqual(
-          '213'
+          '201'
         );
       }
     );

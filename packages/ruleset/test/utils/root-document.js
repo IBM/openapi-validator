@@ -882,7 +882,6 @@ module.exports = {
             minLength: 1,
             maxLength: 32,
             pattern: '.*',
-            nullable: true,
           },
           model: {
             $ref: '#/components/schemas/CarModelType',

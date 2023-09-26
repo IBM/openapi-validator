@@ -15,7 +15,9 @@ const expectedMsg =
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
-      // rootDocument contains a nullable property in the CarPatch schema.
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.CarPatch.properties.make.nullable = true;
+
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });

@@ -90,6 +90,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-resource-response-consistency](#ibm-resource-response-consistency)
   * [ibm-response-status-codes](#ibm-response-status-codes)
   * [ibm-schema-description](#ibm-schema-description)
+  * [ibm-schema-keywords](#ibm-schema-keywords)
   * [ibm-schema-type](#ibm-schema-type)
   * [ibm-schema-type-format](#ibm-schema-type-format)
   * [ibm-sdk-operations](#ibm-sdk-operations)
@@ -508,6 +509,13 @@ has non-form content.</td>
 <td>warn</td>
 <td>Schemas should have a non-empty description.</td>
 <td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-schema-keywords">ibm-schema-keywords</a></td>
+<td>error</td>
+<td>Verifies that schemas and schema properties in an OpenAPI 3.1 document are defined using only
+specific "allow-listed" keywords.</td>
+<td>oas3_1</td>
 </tr>
 <tr>
 <td><a href="#ibm-schema-type">ibm-schema-type</a></td>
@@ -5330,6 +5338,155 @@ components:
       type: object
       properties:
         ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-schema-keywords
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-schema-keywords</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+This rule verifies that only certain keywords (fields) are used when defining schemas and schema properties
+in an OpenAPI 3.1.x document. The allowable keywords are configurable (see the <code>Configuration</code> section below).
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3_1</td>
+</tr>
+<tr>
+<td valign=top><b>Configuration:</b></td>
+<td>This rule supports a configuration object that specifies the set of keywords that are allowed within a schema
+or schema property.
+<p>The default configuration object provided with the rule is:
+<pre>
+{
+  keywordAllowList: [
+    '$ref',
+    'additionalProperties',
+    'allOf',
+    'anyOf',
+    'default',
+    'description',
+    'discriminator',
+    'enum',
+    'example',
+    'exclusiveMaximum',
+    'exclusiveMinimum',
+    'format',
+    'items',
+    'maximum',
+    'maxItems',
+    'maxLength',
+    'maxProperties',
+    'minimum',
+    'minItems',
+    'minLength',
+    'minProperties',
+    'multipleOf',
+    'not',
+    'oneOf',
+    'pattern',
+    'patternProperties',
+    'properties',
+    'readOnly',
+    'required',
+    'title',
+    'type',
+    'uniqueItems',
+    'unevaluatedProperties',
+    'writeOnly',
+  ]
+}
+</pre>
+<p>To configure the rule with a different set of allowable keywords, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>keywordAllowList</code> field 
+contains the desired set of keywords to be checked.
+For example, to configure the rule so that <code>uniqueItems</code> and <code>unevaluatedProperties</code> are disallowed, 
+modify the configuration to remove these keywords from the <code>keywordAllowList</code>
+configuration field, like this:
+<pre>
+{
+  keywordAllowList: [
+    '$ref',
+    'additionalProperties',
+    'allOf',
+    'anyOf',
+    'default',
+    'description',
+    'discriminator',
+    'enum',
+    'example',
+    'exclusiveMaximum',
+    'exclusiveMinimum',
+    'format',
+    'items',
+    'maximum',
+    'maxItems',
+    'maxLength',
+    'maxProperties',
+    'minimum',
+    'minItems',
+    'minLength',
+    'minProperties',
+    'multipleOf',
+    'not',
+    'oneOf',
+    'pattern',
+    'patternProperties',
+    'properties',
+    'readOnly',
+    'required',
+    'title',
+    'type',
+    'writeOnly',
+  ]
+}
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Things:
+      type: object
+      properties:
+        thing_id:
+          type: string
+          $comment: A comment about this property definition
+          nullable: true
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Things:
+      type: object
+      properties:
+        thing_id:
+          description: A comment about this property definition
+          type:
+            - string
+            - null
 </pre>
 </td>
 </tr>
