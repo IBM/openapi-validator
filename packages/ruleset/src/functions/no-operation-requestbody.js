@@ -20,7 +20,7 @@ module.exports = function (operation, options, context) {
  * This function will check to make sure that certain operations do not have a requestBody.
  * @param {*} operation the operation object to check
  * @param {*} path the location of 'operation' within the OpenAPI document
- * @param {*} config this is the value of the 'functionOptions' field
+ * @param {*} options this is the value of the 'functionOptions' field
  * within this rule's definition (see src/rules/operation-requestbody.js).
  * This should be an object with the following fields:
  *   - 'httpMethods': an array of strings which are the http methods that should be checked

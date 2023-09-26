@@ -149,8 +149,6 @@ components:
         name:
           type: string
           description: string
-      xml:
-        name: Category
     Tag:
       type: object
       description: string
@@ -162,8 +160,6 @@ components:
         name:
           type: string
           description: string
-      xml:
-        name: Tag
     Pet:
       type: object
       description: string
@@ -186,9 +182,6 @@ components:
           description: string
           minItems: 0
           maxItems: 20
-          xml:
-            name: photoUrl
-            wrapped: true
           items:
             type: string
         tags:
@@ -196,9 +189,6 @@ components:
           description: string
           minItems: 0
           maxItems: 20
-          xml:
-            name: tag
-            wrapped: true
           items:
             $ref: "#/components/schemas/Tag"
         status:
@@ -208,8 +198,6 @@ components:
             - available
             - pending
             - sold
-      xml:
-        name: Pet
     UnusedString:
       description: string
       type: string

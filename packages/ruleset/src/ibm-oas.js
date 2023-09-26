@@ -160,6 +160,7 @@ module.exports = {
     'ibm-resource-response-consistency': ibmRules.resourceResponseConsistency,
     'ibm-response-status-codes': ibmRules.responseStatusCodes,
     'ibm-schema-description': ibmRules.schemaDescriptionExists,
+    'ibm-schema-keywords': ibmRules.schemaKeywords,
     'ibm-schema-type': ibmRules.schemaTypeExists,
     'ibm-schema-type-format': ibmRules.schemaTypeFormat,
     'ibm-sdk-operations': ibmRules.ibmSdkOperations,

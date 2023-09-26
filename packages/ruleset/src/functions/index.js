@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+  allowedKeywords: require('./allowed-keywords'),
   arrayAttributes: require('./array-attributes'),
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
