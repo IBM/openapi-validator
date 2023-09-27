@@ -1,3 +1,18 @@
+# ibm-openapi-validator [1.12.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.11.0...ibm-openapi-validator@1.12.0) (2023-09-27)
+
+
+### Features
+
+* **ibm-schema-keywords:** add new validation rule ([f6f278e](https://github.com/IBM/openapi-validator/commit/f6f278e5a958a3ab4a7a79f3137fe41139153e26))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.12.0
+
 # ibm-openapi-validator [1.11.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.10.0...ibm-openapi-validator@1.11.0) (2023-09-27)
 
 
