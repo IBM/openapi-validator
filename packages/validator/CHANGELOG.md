@@ -1,3 +1,18 @@
+# ibm-openapi-validator [1.13.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.12.0...ibm-openapi-validator@1.13.0) (2023-09-27)
+
+
+### Features
+
+* **no-$ref-siblings:** modify rule to also run on OpenAPI 3.1.x documents ([1ccfd3d](https://github.com/IBM/openapi-validator/commit/1ccfd3d45e8995fc85f95e3535e4a6882e03a17d))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.13.0
+
 # ibm-openapi-validator [1.12.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.11.0...ibm-openapi-validator@1.12.0) (2023-09-27)
 
 
