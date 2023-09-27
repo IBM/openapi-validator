@@ -91,7 +91,7 @@ describe('cli tool - test option handling', function () {
       const capturedText = getCapturedText(consoleSpy.mock.calls);
       // This can be uncommented to display the output when adjustments to
       // the expect statements below are needed.
-      // let textOutput = "";
+      // let textOutput = '';
       // capturedText.forEach((elem, index) => {
       //   textOutput += `[${index}]: ${elem}\n`;
       // });
@@ -113,19 +113,19 @@ describe('cli tool - test option handling', function () {
       expect(sumSection).toBe(3);
 
       // totals
-      expect(capturedText[sumSection + 2].match(/\S+/g)[5]).toEqual('3');
+      expect(capturedText[sumSection + 2].match(/\S+/g)[5]).toEqual('4');
       expect(capturedText[sumSection + 3].match(/\S+/g)[5]).toEqual('29');
 
       // errors
       const errorSection = 8;
       expect(capturedText[errorSection + 1].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[errorSection + 1].match(/\S+/g)[1]).toEqual('(33%)');
+      expect(capturedText[errorSection + 1].match(/\S+/g)[1]).toEqual('(25%)');
 
       expect(capturedText[errorSection + 2].match(/\S+/g)[0]).toEqual('2');
-      expect(capturedText[errorSection + 2].match(/\S+/g)[1]).toEqual('(67%)');
+      expect(capturedText[errorSection + 2].match(/\S+/g)[1]).toEqual('(50%)');
 
       // warnings
-      const warningSection = 12;
+      const warningSection = 13;
       expect(capturedText[warningSection + 1].match(/\S+/g)[0]).toEqual('2');
       expect(capturedText[warningSection + 1].match(/\S+/g)[1]).toEqual('(7%)');
 

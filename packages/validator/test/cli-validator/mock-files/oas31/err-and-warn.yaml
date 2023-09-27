@@ -173,6 +173,7 @@ components:
           description: string
         category:
           $ref: "#/components/schemas/Category"
+          description: 'This ref sibling should cause an error'
         name:
           type: string
           example: doggie
