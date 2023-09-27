@@ -212,7 +212,10 @@ function checkSchemaNames(apidef, nodes) {
 
       if (
         postRequestSchemaName &&
-        postRequestSchemaName !== `${canonicalSchemaName}Prototype`
+        postRequestSchemaName !== `${canonicalSchemaName}Prototype` &&
+        // The API Handbook makes an exception for cases where the canonical
+        // schema itself should be used for creation
+        postRequestSchemaName !== canonicalSchemaName
       ) {
         logger.debug(`${ruleId}: reporting error! post prototype is wrong`);
         errors.push({
@@ -244,7 +247,10 @@ function checkSchemaNames(apidef, nodes) {
 
       if (
         putRequestSchemaName &&
-        putRequestSchemaName !== `${canonicalSchemaName}Prototype`
+        putRequestSchemaName !== `${canonicalSchemaName}Prototype` &&
+        // The API Handbook makes an exception for cases where the canonical
+        // schema itself should be used for creation
+        putRequestSchemaName !== canonicalSchemaName
       ) {
         logger.debug(`${ruleId}: reporting error! put prototype is wrong`);
         errors.push({

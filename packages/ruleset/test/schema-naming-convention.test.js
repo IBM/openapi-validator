@@ -254,6 +254,44 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('Prototype schema in POST request body uses canonical schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Mess = {};
+      testDocument.components.schemas.MessPrototype = {};
+      testDocument.paths['/v1/messes'] = {
+        post: {
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Mess',
+                },
+              },
+            },
+          },
+        },
+      };
+      testDocument.paths['/v1/messes/{id}'] = {
+        get: {
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Mess',
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     it('Prototype schema in PUT request body is correctly named', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -280,6 +318,43 @@ describe(`Spectral rule: ${ruleId}`, () => {
               'application/json': {
                 schema: {
                   $ref: '#/components/schemas/MessPrototype',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Prototype schema in PUT request body uses canonical schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Mess = {};
+      testDocument.components.schemas.MessPrototype = {};
+      testDocument.paths['/v1/messes'] = {};
+      testDocument.paths['/v1/messes/{id}'] = {
+        get: {
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Mess',
+                  },
+                },
+              },
+            },
+          },
+        },
+        put: {
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Mess',
                 },
               },
             },
