@@ -6,6 +6,13 @@
 const { oas3 } = require('@stoplight/spectral-formats');
 const { oas } = require('@stoplight/spectral-rulesets');
 const ibmRules = require('./rules');
+
+// Spectral's "no-$ref-siblings" rule is configured to run on
+// OpenAPI 3.0.x documents (ref sibling attributes are allowed in OpenAPI 3.1.x).
+// However, we want to enable this rule also for OpenAPI 3.1.x documents,
+// so we'll just tweak Spectral's rule definition here.
+oas.rules['no-$ref-siblings'].formats = [oas3];
+
 module.exports = {
   extends: oas,
   documentationUrl:
