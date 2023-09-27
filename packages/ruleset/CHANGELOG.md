@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.11.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.10.0...@ibm-cloud/openapi-ruleset@1.11.0) (2023-09-27)
+
+
+### Features
+
+* **ibm-operation-responses:** introduce new validation rule ([e7fe971](https://github.com/IBM/openapi-validator/commit/e7fe971ab5921c572fd1a5e72889979b45169444))
+
 # @ibm-cloud/openapi-ruleset [1.10.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.9.0...@ibm-cloud/openapi-ruleset@1.10.0) (2023-09-27)
 
 
