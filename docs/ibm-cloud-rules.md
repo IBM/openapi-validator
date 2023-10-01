@@ -763,7 +763,7 @@ Each resource-representing schema should follow the <a href="https://cloud.ibm.c
 
 This convention ensures that resource-oriented APIs are symmetrical between requests and responses in how resources are represented.
 
-Note: the rule will report each violation of the graph fragment pattern through "info" level logs. Pass the option <code>--log-level ibm-api-symmetry=info</code> to see more info about any violations that occur.
+Note: the rule will report additional details about each violation of the graph fragment pattern through "info" level logs. Pass the option <code>--log-level ibm-api-symmetry=info</code> to see more info about any violations that occur.
 </td>
 </tr>
 <tr>

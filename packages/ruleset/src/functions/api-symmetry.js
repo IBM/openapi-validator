@@ -218,7 +218,7 @@ function checkForGraphFragmentPattern(
         // nested schemas in the canonical schema.
         if (
           isObjectSchema(prop) &&
-          !schemaHasConstraint(
+          !schemaHasLooserConstraint(
             canonical,
             s =>
               'properties' in s &&
@@ -238,7 +238,7 @@ function checkForGraphFragmentPattern(
         if (
           isArraySchema(prop) &&
           isObjectSchema(prop.items) &&
-          !schemaHasConstraint(
+          !schemaHasLooserConstraint(
             canonical,
             s =>
               'properties' in s &&

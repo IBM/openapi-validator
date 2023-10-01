@@ -321,6 +321,110 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('complicated and composed patch schema is compliant', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.ComfortFeatures = {
+        type: 'object',
+        properties: {
+          audio_package: {
+            type: 'object',
+            properties: {
+              speakers: {
+                type: 'object',
+                properties: {
+                  front: {
+                    type: 'object',
+                    properties: {
+                      brand: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                  rear: {
+                    type: 'object',
+                    properties: {
+                      brand: {
+                        type: 'string',
+                      },
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+      testDocument.components.schemas.FunctionFeatures = {
+        type: 'object',
+        properties: {
+          engine: {
+            type: 'string',
+          },
+        },
+      };
+
+      testDocument.components.schemas.Car.properties.features = {
+        oneOf: [
+          {
+            $ref: '#/components/schemas/ComfortFeatures',
+          },
+          {
+            $ref: '#/components/schemas/FunctionFeatures',
+          },
+        ],
+      };
+
+      testDocument.components.schemas.FrontSpeaker = {
+        type: 'object',
+        properties: {
+          front: {
+            type: 'object',
+            properties: {
+              brand: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      };
+      testDocument.components.schemas.RearSpeaker = {
+        type: 'object',
+        properties: {
+          rear: {
+            type: 'object',
+            properties: {
+              brand: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      };
+      testDocument.components.schemas.CarPatch.properties.features = {
+        type: 'object',
+        properties: {
+          audio_package: {
+            type: 'object',
+            properties: {
+              speakers: {
+                anyOf: [
+                  {
+                    $ref: '#/components/schemas/FrontSpeaker',
+                  },
+                  {
+                    $ref: '#/components/schemas/RearSpeaker',
+                  },
+                ],
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     // Already covered in root document:
     // - Valid Prototype schemas
     // - Valid Patch schemas
@@ -714,7 +818,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'object',
             properties: {
               brand: {
-                type: 'string',
+                type: 'integer',
+                description: 'should be string',
               },
             },
           },
