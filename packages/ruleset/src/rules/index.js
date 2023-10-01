@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+  apiSymmetry: require('./api-symmetry'),
   acceptHeader: require('./accept-header'),
   arrayAttributes: require('./array-attributes'),
   arrayOfArrays: require('./array-of-arrays'),

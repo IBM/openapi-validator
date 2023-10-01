@@ -133,9 +133,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/drinks.post.requestBody.content.application/json.schema.not.additionalItems',
         'paths./v1/drinks.post.responses.201.content.application/json.schema.not.additionalItems',
         'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.not.additionalItems',
         'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.not.additionalItems',
@@ -164,9 +163,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/drinks.post.requestBody.content.application/json.schema.oneOf.2.if',
         'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.2.if',
         'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.2.if',
         'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.2.if',

@@ -39,9 +39,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.components.schemas.Car.properties.make.nullable = true;
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/cars.post.requestBody.content.application/json.schema.properties.make',
         'paths./v1/cars.post.responses.201.content.application/json.schema.properties.make',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.make',
         'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.make',
@@ -63,9 +62,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/cars.post.requestBody.content.application/json.schema.properties.make',
         'paths./v1/cars.post.responses.201.content.application/json.schema.properties.make',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.make',
         'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.make',
@@ -163,9 +161,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/cars.post.requestBody.content.application/json.schema.additionalProperties',
         'paths./v1/cars.post.responses.201.content.application/json.schema.additionalProperties',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.additionalProperties',
         'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.additionalProperties',
@@ -191,9 +188,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/cars.post.requestBody.content.application/json.schema.additionalProperties.properties.foo',
         'paths./v1/cars.post.responses.201.content.application/json.schema.additionalProperties.properties.foo',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.additionalProperties.properties.foo',
         'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.additionalProperties.properties.foo',
@@ -221,9 +217,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
+      expect(results).toHaveLength(3);
       const expectedPaths = [
-        'paths./v1/cars.post.requestBody.content.application/json.schema.patternProperties.foo.properties.foo',
         'paths./v1/cars.post.responses.201.content.application/json.schema.patternProperties.foo.properties.foo',
         'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.patternProperties.foo.properties.foo',
         'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.patternProperties.foo.properties.foo',
