@@ -5,6 +5,7 @@
 
 module.exports = {
   allowedKeywords: require('./allowed-keywords'),
+  apiSymmetry: require('./api-symmetry'),
   arrayAttributes: require('./array-attributes'),
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
