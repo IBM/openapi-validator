@@ -1,3 +1,12 @@
+# @ibm-cloud/openapi-ruleset [1.14.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.13.0...@ibm-cloud/openapi-ruleset@1.14.0) (2023-10-02)
+
+
+### Features
+
+* **new-rule:** ibm-api-symmetry ([#634](https://github.com/IBM/openapi-validator/issues/634)) ([7033dbd](https://github.com/IBM/openapi-validator/commit/7033dbd01f719d65d1c1bdb1d8fd5dbea0e10a8a))
+* **new-rule:** ibm-schema-casing-convention ([#628](https://github.com/IBM/openapi-validator/issues/628)) ([9b5dc92](https://github.com/IBM/openapi-validator/commit/9b5dc92008015eeb9001d6085481c172f9976911))
+* **new-rule:** ibm-schema-naming-convention ([#627](https://github.com/IBM/openapi-validator/issues/627)) ([b82f66a](https://github.com/IBM/openapi-validator/commit/b82f66a6b76ab35c000b60eab477d8b91c84c4d7))
+
 # @ibm-cloud/openapi-ruleset [1.13.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.12.0...@ibm-cloud/openapi-ruleset@1.13.0) (2023-09-27)
 
 
