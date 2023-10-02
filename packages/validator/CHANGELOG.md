@@ -1,3 +1,18 @@
+# ibm-openapi-validator [1.14.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.13.0...ibm-openapi-validator@1.14.0) (2023-10-02)
+
+
+### Features
+
+* **new-rule:** ibm-schema-naming-convention ([#627](https://github.com/IBM/openapi-validator/issues/627)) ([b82f66a](https://github.com/IBM/openapi-validator/commit/b82f66a6b76ab35c000b60eab477d8b91c84c4d7))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.14.0
+
 # ibm-openapi-validator [1.13.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.12.0...ibm-openapi-validator@1.13.0) (2023-09-27)
 
 
