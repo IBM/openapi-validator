@@ -15,7 +15,7 @@ module.exports = {
   then: {
     function: schemaCasingConvention,
     functionOptions: {
-      type: 'pascal',
+      match: '/^[A-Z]+[a-z0-9]+([A-Z]+[a-z0-9]*)*$/',
     },
   },
 };

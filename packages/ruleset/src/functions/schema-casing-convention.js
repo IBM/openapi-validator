@@ -4,10 +4,10 @@
  */
 
 const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { casing } = require('@stoplight/spectral-functions');
+const { pattern } = require('@stoplight/spectral-functions');
 const { LoggerFactory } = require('../utils');
 
-let casingConfig;
+let patternConfig;
 let ruleId;
 let logger;
 
@@ -20,8 +20,8 @@ let logger;
 
 module.exports = function (components, options, context) {
   // Save this rule's "functionOptions" value since we need
-  // to pass it on to Spectral's "casing" function.
-  casingConfig = options;
+  // to pass it on to Spectral's "pattern" function.
+  patternConfig = options;
 
   if (!logger) {
     ruleId = context.rule.name;
@@ -40,14 +40,13 @@ function schemaCaseConvention(components, path) {
   const errors = [];
 
   Object.keys(components.schemas).forEach(schemaName => {
-    const result = casing(schemaName, casingConfig);
+    const result = pattern(schemaName, patternConfig);
     if (result) {
-      logger.debug(`${ruleId}: failed casing check: ${JSON.stringify(result)}`);
+      logger.debug(
+        `${ruleId}: failed pattern check: ${JSON.stringify(result)}`
+      );
       errors.push({
-        message: `Schema names ${result[0].message.replace(
-          'pascal',
-          'upper camel'
-        )}`,
+        message: 'Schema names must be upper camel case',
         path: [...path, 'schemas', schemaName],
       });
     }
