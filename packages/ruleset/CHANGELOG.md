@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.14.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.14.0...@ibm-cloud/openapi-ruleset@1.14.1) (2023-10-04)
+
+
+### Bug Fixes
+
+* **ibm-schema-casing-convention:** allow capitalized acronyms ([#638](https://github.com/IBM/openapi-validator/issues/638)) ([96f1bd3](https://github.com/IBM/openapi-validator/commit/96f1bd318afe5a4697d58b982f086833befedcd3))
+
 # @ibm-cloud/openapi-ruleset [1.14.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.13.0...@ibm-cloud/openapi-ruleset@1.14.0) (2023-10-02)
 
 
