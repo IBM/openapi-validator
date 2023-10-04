@@ -5432,7 +5432,7 @@ paths:
 <td valign=top><b>Description:</b></td>
 <td>
 Schema names (the keys in `components -> schemas`) should follow the "upper camel case" convention
-as required by the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#naming">IBM Cloud API Handbook</a>.
+as required by the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#naming">IBM Cloud API Handbook</a>. Note that acronyms are allowed to be capitalized.
 </td>
 </tr>
 <tr>
@@ -5445,25 +5445,25 @@ as required by the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-ha
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
-<td>This rule can be configured to enforce a specific case convention for schema name values.
+<td>This rule can be configured to define the specific regular expression used to enforce a case convention for schema name values.
 To configure the rule, set the <code>functionOptions</code> field within the rule definition to be an object
-that is the appropriate configuration to be used by Spectral's <code>casing()</code> function
-[<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
+that is the appropriate configuration to be used by Spectral's <code>pattern()</code> function
+[<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#pattern">1</a>]
 to enforce the desired case convention for schema name values.
 <p>The default configuration object provided in the rule definition is:
 <pre>
 {
-  type: 'pascal'
+  match: '/^[A-Z]+[a-z0-9]+([A-Z]+[a-z0-9]*)*$/'
 }
 </pre>
 <p>To enforce a different case convention for schema name values, you'll need to
 <a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
-custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
+custom ruleset</a> and modify the configuration such that the value of the <code>match</code> field 
 specifies the desired case convention.
-For example, to enforce snake case for schema names, the configuration object would look like this:
+For example, to disallow capitalized acronymns for schema names, the configuration object would look like this:
 <pre>
 {
-  type: 'snake'
+  match: '/^[A-Z][a-z0-9]+([A-Z][a-z0-9]+)*$/'
 }
 </pre>
 </td>

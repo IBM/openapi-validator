@@ -52,6 +52,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Upper camel case schema name with capitalized acronym', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.IAMCredentialsSecret = {};
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
