@@ -145,60 +145,43 @@ function checkForGraphFragmentPattern(
   schemaFinder
 ) {
   let variantOmitsProperties = false;
-  let isValidGraphFragment = true;
 
   // The function is wrapped in a partial so that we can track `variantOmitsProperties`
   // across the entire schema without overriding it during recursive invocations of the
   // graph fragment checker.
 
   function isGraphFragment(variant, canonical, canonicalPath, fromApplicator) {
+    let result = true;
+
     // A variant schema cannot allow extraneous properties and still be
     // an explicit graph fragment of the canonical schema.
     if (variant.additionalProperties) {
       logger.info(
         `${ruleId}: schema defines 'additionalProperties' - it is not a proper graph fragment`
       );
-      isValidGraphFragment = false;
+      result = false;
     }
     if (variant.patternProperties) {
       logger.info(
         `${ruleId}: schema defines 'patternProperties' - it is not a proper graph fragment`
       );
-      isValidGraphFragment = false;
-    }
-
-    // First check if the canonical version of the current schema is actually
-    // a reference to a "Reference" schema. This is allowed but we need to
-    // check for "graph-fragment-ness" using the canonical version of that
-    // Reference schema.
-    const schemaName = getSchemaNameAtPath(
-      canonicalPath.join('.'),
-      schemaFinder.refMap
-    );
-
-    // Use "slice" to remove the "Reference" appendix we guaranteed to be there.
-    // If we find the canonical schema, use it for the current function invocation,
-    // otherwise proceed as usual.
-    if (
-      schemaName &&
-      schemaName.endsWith('Reference') &&
-      schemaFinder.allSchemas[schemaName.slice(0, -9)]
-    ) {
-      canonical = schemaFinder.allSchemas[schemaName.slice(0, -9)];
-      canonicalPath = ['components', 'schemas', schemaName];
+      result = false;
     }
 
     // If the variant schema (or sub-schema) has properties, ensure that each
     // property is defined *somewhere* on the corresponding canonical schema
     // (or sub-schema) and has the same, specific type.
     //
-    // We use a looser contraint-checking function here because it is sufficient
-    // for "one of" or "any of" the canonical schemas to define the property
-    // defined on the variant schema.
+    // We use a custom, looser contraint-checking function here because it is
+    // sufficient for "one of" or "any of" the canonical schemas to define the
+    // property defined on the variant schema, and we need to resolve reference
+    // schemas on the fly each time we check the canonical schema for a constraint.
     if (isObject(variant.properties)) {
       for (const [name, prop] of Object.entries(variant.properties)) {
-        const valid = schemaHasLooserConstraint(
+        const valid = canonicalSchemaMeetsConstraint(
           canonical,
+          canonicalPath,
+          schemaFinder,
           c =>
             'properties' in c &&
             isObject(c.properties[name]) &&
@@ -211,16 +194,20 @@ function checkForGraphFragmentPattern(
           logger.info(
             `${ruleId}: property '${name}' does not exist on the canonical schema`
           );
-          isValidGraphFragment = false;
+          result = false;
         }
 
         // Ensure nested schemas are also graph fragments of the corresponding
         // nested schemas in the canonical schema.
         if (
           isObjectSchema(prop) &&
-          !schemaHasLooserConstraint(
+          !canonicalSchemaMeetsConstraint(
             canonical,
+            canonicalPath,
+            schemaFinder,
             s =>
+              // Note that these first two conditions are guaranteed to be met at
+              // least once by the first call to `canonicalSchemaMeetsConstraint`
               'properties' in s &&
               isObject(s.properties[name]) &&
               isGraphFragment(
@@ -231,16 +218,20 @@ function checkForGraphFragmentPattern(
               )
           )
         ) {
-          isValidGraphFragment = false;
+          result = false;
         }
 
         // Ensure lists of schemas also maintain a graph fragment structure.
         if (
           isArraySchema(prop) &&
           isObjectSchema(prop.items) &&
-          !schemaHasLooserConstraint(
+          !canonicalSchemaMeetsConstraint(
             canonical,
+            canonicalPath,
+            schemaFinder,
             s =>
+              // Note that these first two conditions are guaranteed to be met at
+              // least once by the first call to `canonicalSchemaMeetsConstraint`
               'properties' in s &&
               isObject(s.properties[name]) &&
               isObject(s.properties[name].items) &&
@@ -252,7 +243,7 @@ function checkForGraphFragmentPattern(
               )
           )
         ) {
-          isValidGraphFragment = false;
+          result = false;
         }
       }
     }
@@ -270,7 +261,7 @@ function checkForGraphFragmentPattern(
           true
         )
       ) {
-        isValidGraphFragment = false;
+        result = false;
       }
     });
 
@@ -284,6 +275,9 @@ function checkForGraphFragmentPattern(
     //
     // If we've already determined that the variant schema omits at least one
     // property, we don't need to re-perform this check anymore.
+    //
+    // Note: we don't bother checking for reference schemas here because there
+    // should be differences other than omitting non-reference properties.
 
     if (!fromApplicator && !variantOmitsProperties) {
       const variantIncludesAll = schemaHasConstraint(canonical, c => {
@@ -314,7 +308,7 @@ function checkForGraphFragmentPattern(
       }
     }
 
-    return isValidGraphFragment;
+    return result;
   }
 
   // Invoke primary algorithm.
@@ -340,9 +334,36 @@ function checkForGraphFragmentPattern(
  * sufficient for returning a `true` value, as opposed to all of them
  * needing the meet the constraint.
  */
-function schemaHasLooserConstraint(schema, hasConstraint) {
+function canonicalSchemaMeetsConstraint(
+  schema,
+  path,
+  schemaFinder,
+  hasConstraint
+) {
   if (!isObject(schema)) {
     return false;
+  }
+
+  // First check if the canonical version of the current schema is actually
+  // a reference to a "Reference" schema. This is allowed but we need to
+  // check for "graph-fragment-ness" using the canonical version of that
+  // Reference schema.
+  const schemaName = getSchemaNameAtPath(path.join('.'), schemaFinder.refMap);
+
+  // Use "slice" to remove the "Reference" appendix we guaranteed to be there.
+  // If we find the canonical schema, use it for the current function invocation,
+  // otherwise proceed as usual.
+  if (
+    schemaName &&
+    schemaName.endsWith('Reference') &&
+    schemaFinder.allSchemas[schemaName.slice(0, -9)]
+  ) {
+    const canonicalVersion = schemaName.slice(0, -9);
+    logger.debug(
+      `Replacing reference schema ${schemaName} with canonical version ${canonicalVersion}`
+    );
+    schema = schemaFinder.allSchemas[canonicalVersion];
+    path = ['components', 'schemas', canonicalVersion];
   }
 
   if (hasConstraint(schema)) {
@@ -354,9 +375,14 @@ function schemaHasLooserConstraint(schema, hasConstraint) {
       Array.isArray(schema[applicator]) &&
       schema[applicator].length > 0 &&
       schema[applicator].reduce(
-        (previousResult, currentSchema) =>
+        (previousResult, currentSchema, index) =>
           previousResult ||
-          schemaHasLooserConstraint(currentSchema, hasConstraint),
+          canonicalSchemaMeetsConstraint(
+            currentSchema,
+            [...path, applicator, index.toString()],
+            schemaFinder,
+            hasConstraint
+          ),
         false
       )
     ) {
