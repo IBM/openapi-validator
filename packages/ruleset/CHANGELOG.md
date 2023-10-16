@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.14.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.14.1...@ibm-cloud/openapi-ruleset@1.14.2) (2023-10-16)
+
+
+### Bug Fixes
+
+* **api-symmetry:** handle nested reference schemas ([#639](https://github.com/IBM/openapi-validator/issues/639)) ([603e689](https://github.com/IBM/openapi-validator/commit/603e689ad8903f652c87e4ec911e8a2d39bdf0ad))
+
 ## @ibm-cloud/openapi-ruleset [1.14.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.14.0...@ibm-cloud/openapi-ruleset@1.14.1) (2023-10-04)
 
 
