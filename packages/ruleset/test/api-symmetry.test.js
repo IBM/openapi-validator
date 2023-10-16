@@ -222,6 +222,62 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('prototype schema is compliant with canonical version of reference schema nested in composed schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Actor = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          name: { type: 'string' },
+          info: {
+            type: 'object',
+            properties: {
+              age: {
+                type: 'integer',
+              },
+            },
+          },
+        },
+      };
+      testDocument.components.schemas.ActorReference = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+        },
+      };
+      testDocument.components.schemas.ActorPrototype = {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          info: {
+            oneOf: [
+              {
+                type: 'object',
+                properties: {
+                  age: { type: 'integer' },
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      testDocument.components.schemas.Movie.properties.lead = {
+        allOf: [
+          { description: 'Lead actor in canonical context' },
+          { $ref: '#/components/schemas/ActorReference' },
+        ],
+      };
+
+      testDocument.components.schemas.MoviePrototype.properties.lead = {
+        $ref: '#/components/schemas/ActorPrototype',
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     it('patch schema with complex, composed structure is compliant', async () => {
       const testDocument = makeCopy(rootDocument);
       testDocument.components.schemas.Speakers = {
