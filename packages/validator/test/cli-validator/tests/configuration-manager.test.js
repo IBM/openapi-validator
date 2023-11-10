@@ -432,19 +432,14 @@ describe('Configuration Manager tests', function () {
         }
       );
 
-      it('should throw error for --version option', async function () {
-        let caughtException;
-        try {
-          await configMgr.processArgs(['--version'], cliParseOptions);
-        } catch (err) {
-          caughtException = true;
-          expect(err.exitCode).toBe(0);
-        }
+      it('should not throw error for --version option', async function () {
+        const { command } = await configMgr.processArgs(
+          ['--version'],
+          cliParseOptions
+        );
+        expect(command.opts().version).toBe(true);
         const capturedText = getCapturedText(consoleSpy.mock.calls);
-        // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
-        expect(capturedText).toHaveLength(1);
-        expect(capturedText[0]).toMatch(/validator:.*ruleset:.*/);
-        expect(caughtException).toBe(true);
+        expect(capturedText).toHaveLength(0);
       });
 
       it('should throw error for --help option', async function () {
@@ -459,7 +454,7 @@ describe('Configuration Manager tests', function () {
         // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
         expect(capturedText).toHaveLength(2);
         expect(capturedText[0]).toMatch(
-          /IBM OpenAPI Validator.*validator:.*ruleset:.*Copyright.*/
+          /IBM OpenAPI Validator.*validator:.*Copyright.*/
         );
         expect(capturedText[1]).toMatch(/Usage:/);
         expect(caughtException).toBe(true);

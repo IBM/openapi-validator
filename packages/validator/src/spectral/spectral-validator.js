@@ -12,7 +12,9 @@ const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const {
   getFileExtension,
 } = require('../cli-validator/utils/file-extension-validator');
-const findUp = require('find-up');
+const getLocalRulesetVersion = require('../cli-validator/utils/get-local-ruleset-version');
+const checkRulesetVersion = require('../cli-validator/utils/check-ruleset-version');
+const { findSpectralRuleset } = require('./utils');
 
 /**
  * Creates a Spectral document from the input, runs spectral, converts the results
@@ -121,32 +123,26 @@ function convertResults(spectralResults, { config, logger }) {
 async function setup({ config, logger }) {
   const spectral = new Spectral();
 
-  // Spectral only supports reading a config file in the working directory,
-  // but we support looking up the file path for the nearest file (if one exists).
-  let rulesetFileOverride = config.ruleset;
-  if (!rulesetFileOverride) {
-    rulesetFileOverride = await lookForSpectralRuleset();
-    if (!rulesetFileOverride) {
-      logger.info(
-        `No Spectral ruleset file found, using the default IBM Cloud OpenAPI Ruleset.`
-      );
-    }
-  }
-
-  // If '--ruleset default' was specified on command-line, then force the use
-  // of our default ruleset.
-  if (rulesetFileOverride === 'default') {
-    rulesetFileOverride = null;
-    logger.info(`Using the default IBM Cloud OpenAPI Ruleset.`);
-  }
-
   // We'll use the IBM ruleset by default, but also look for a user-provided
   // ruleset and use that if one was specified.
   let ruleset = ibmRuleset;
+
+  const rulesetFileOverride = await findSpectralRuleset(config, logger);
   if (rulesetFileOverride) {
     try {
       ruleset = await getRuleset(rulesetFileOverride);
       logger.debug(`Using Spectral ruleset file: ${rulesetFileOverride}`);
+
+      // Check the local ruleset version and warn
+      // the user if they are behind the default.
+      const rulesetVersion = await getLocalRulesetVersion(
+        rulesetFileOverride,
+        logger
+      );
+      const versionWarning = checkRulesetVersion(rulesetVersion);
+      if (versionWarning) {
+        logger.warn(versionWarning);
+      }
     } catch (e) {
       // Check error for common issues but do nothing.
       // We get here anytime the user doesn't define a valid Spectral config,
@@ -223,36 +219,4 @@ function convertSpectralSeverity(s) {
   // we have already guaranteed s to be a number, 0-3
   const mapping = { 0: 'error', 1: 'warning', 2: 'info', 3: 'hint' };
   return mapping[s];
-}
-
-/**
- * Looks for an instance of one of the standard Spectral ruleset files by
- * navigating up the directory hierarchy starting in the current directory.
- * @returns the name of the ruleset file, or null if no standard
- * spectral ruleset file was found
- */
-async function lookForSpectralRuleset() {
-  // List of ruleset files to search for
-  const rulesetFilesToFind = [
-    '.spectral.yaml',
-    '.spectral.yml',
-    '.spectral.json',
-    '.spectral.js',
-  ];
-
-  let rulesetFile = null;
-
-  // search up the file system for the first ruleset file found
-  try {
-    for (const file of rulesetFilesToFind) {
-      if (!rulesetFile) {
-        rulesetFile = await findUp(file);
-      }
-    }
-  } catch {
-    // if there's any issue finding a custom ruleset, then return null
-    rulesetFile = null;
-  }
-
-  return rulesetFile;
 }
