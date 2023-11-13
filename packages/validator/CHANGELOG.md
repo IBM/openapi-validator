@@ -1,3 +1,10 @@
+# ibm-openapi-validator [1.15.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.14.2...ibm-openapi-validator@1.15.0) (2023-11-13)
+
+
+### Features
+
+* display actual ruleset version with --version option ([#641](https://github.com/IBM/openapi-validator/issues/641)) ([cca1ce2](https://github.com/IBM/openapi-validator/commit/cca1ce2d9685891fa1c44c8b27f11448de71b066))
+
 ## ibm-openapi-validator [1.14.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.14.1...ibm-openapi-validator@1.14.2) (2023-10-16)
 
 
