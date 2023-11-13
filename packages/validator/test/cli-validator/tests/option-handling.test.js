@@ -238,6 +238,14 @@ describe('cli tool - test option handling', function () {
     expect(outputObject.warning.summary.total).toBeGreaterThan(0);
   });
 
+  it('should print out the version strings with the --version option', async function () {
+    await testValidator(['--version']);
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+
+    expect(capturedText).toHaveLength(1);
+    expect(capturedText[0]).toMatch(/validator:.*ruleset:.*(default)/);
+  });
+
   describe('test unknown option handling', function () {
     it('should return an error and help text when there is an unknown option', async function () {
       let caughtException = false;

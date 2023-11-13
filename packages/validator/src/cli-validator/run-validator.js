@@ -20,6 +20,7 @@ const print = require('./utils/print-results');
 const { printJson } = require('./utils/json-results');
 const { runSpectral } = require('../spectral/spectral-validator');
 const getCopyrightString = require('./utils/get-copyright-string');
+const printVersions = require('./utils/print-versions');
 
 let logger;
 
@@ -48,7 +49,18 @@ async function runValidator(cliArgs, parseOptions = {}) {
     // help was displayed, version string requested, unknown option, etc.)
     // and it should have an "exitCode" field.
     const exitCode = 'exitCode' in err ? err.exitCode : 2;
+    if (exitCode !== 0) {
+      console.error('Command parsing error: ', err.message);
+    }
     return exitCode === 0 ? Promise.resolve(0) : Promise.reject(2);
+  }
+
+  // If the version was requested, print that here. Note that we
+  // needed to wait until after the configuration was processed
+  // to try and compute/include the ruleset version.
+  if (command.opts().version) {
+    await printVersions(context);
+    return Promise.resolve(0);
   }
 
   logger = context.logger;
@@ -61,7 +73,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   // If no arguments are passed in, then display help text and exit.
   if (args.length === 0) {
-    logger.error(`${getCopyrightString()}\n${command.helpInformation()}`);
+    console.log(`${getCopyrightString()}\n${command.helpInformation()}`);
     return Promise.reject(2);
   }
 

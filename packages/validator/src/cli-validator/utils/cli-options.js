@@ -5,7 +5,6 @@
 
 const { Command } = require('commander');
 const getCopyrightString = require('./get-copyright-string');
-const getVersionString = require('./get-version-string');
 
 /**
  * This function is used to gather multi-valued arguments into an array.
@@ -81,7 +80,7 @@ function createCLIOptions() {
       'set warnings limit to <number> (default is -1)',
       parseWarningsLimit
     )
-    .version(getVersionString(), '--version')
+    .option('--version', 'output the version number')
     .showHelpAfterError()
     .addHelpText('beforeAll', getCopyrightString());
 
