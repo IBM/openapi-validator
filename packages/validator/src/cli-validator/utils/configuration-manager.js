@@ -9,9 +9,9 @@ const {
   supportedFileExtension,
 } = require('./file-extension-validator');
 const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
-const { validate } = require('./schema-validator');
+const validateSchema = require('./validate-schema');
 const createCLIOptions = require('./cli-options');
-const { readYaml } = require('./read-yaml');
+const readYaml = require('./read-yaml');
 
 // Lazy initializer for the logger.
 let logger;
@@ -98,7 +98,7 @@ async function loadConfig(filename) {
     // against our schema.
     if (userConfig) {
       const schema = await getConfigFileSchema();
-      const results = validate(userConfig, schema);
+      const results = validateSchema(userConfig, schema);
       if (results.length) {
         let msg = `Invalid configuration file '${configFile}' detected:`;
         results.forEach(result => {

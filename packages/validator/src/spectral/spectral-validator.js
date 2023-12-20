@@ -9,11 +9,13 @@ const {
   getRuleset,
 } = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
 const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
+
 const {
+  checkRulesetVersion,
   getFileExtension,
-} = require('../cli-validator/utils/file-extension-validator');
-const getLocalRulesetVersion = require('../cli-validator/utils/get-local-ruleset-version');
-const checkRulesetVersion = require('../cli-validator/utils/check-ruleset-version');
+  getLocalRulesetVersion,
+} = require('../cli-validator/utils');
+
 const { findSpectralRuleset } = require('./utils');
 
 /**

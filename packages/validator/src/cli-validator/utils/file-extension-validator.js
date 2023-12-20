@@ -18,5 +18,7 @@ const validateExtension = (filename, supportedFileTypes) => {
   return goodExtension;
 };
 
-module.exports.supportedFileExtension = validateExtension;
-module.exports.getFileExtension = getExtension;
+module.exports = {
+  supportedFileExtension: validateExtension,
+  getFileExtension: getExtension,
+};

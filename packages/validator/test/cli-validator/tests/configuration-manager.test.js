@@ -4,7 +4,11 @@
  */
 
 const { getCapturedText } = require('../../test-utils');
-const configMgr = require('../../../src/cli-validator/utils/configuration-manager');
+const {
+  getDefaultConfig,
+  loadConfig,
+  processArgs,
+} = require('../../../src/cli-validator/utils');
 
 // Use these parse options since we're not actually retrieving process args.
 const cliParseOptions = { from: 'user' };
@@ -31,7 +35,7 @@ describe('Configuration Manager tests', function () {
 
   describe('getDefaultConfig()', function () {
     it('should return correct default configuration object', async function () {
-      const defaultConfig = configMgr.getDefaultConfig();
+      const defaultConfig = getDefaultConfig();
 
       expect(typeof defaultConfig).toBe('object');
       expect(defaultConfig.colorizeOutput).toBe(true);
@@ -60,7 +64,7 @@ describe('Configuration Manager tests', function () {
     };
 
     it('should return correct config object for .json', async function () {
-      const config = await configMgr.loadConfig(
+      const config = await loadConfig(
         './test/cli-validator/mock-files/config/valid-config.json'
       );
       // originalError(`config = ${JSON.stringify(config, null, 2)}`);
@@ -68,30 +72,30 @@ describe('Configuration Manager tests', function () {
     });
 
     it('should return correct config object for .yaml', async function () {
-      const config = await configMgr.loadConfig(
+      const config = await loadConfig(
         './test/cli-validator/mock-files/config/valid-config.yaml'
       );
       expect(config).toMatchObject(expectedConfig);
     });
 
     it('should return correct config object for .js', async function () {
-      const config = await configMgr.loadConfig(
+      const config = await loadConfig(
         './test/cli-validator/mock-files/config/valid-config.js'
       );
       expect(config).toMatchObject(expectedConfig);
     });
 
     it('should return correct config object for five-warnings.json', async function () {
-      const config = await configMgr.loadConfig(
+      const config = await loadConfig(
         './test/cli-validator/mock-files/config/five-warnings.json'
       );
       expect(config.limits.warnings).toBe(5);
     });
 
     it('should log error and return default config for invalid config file', async function () {
-      const defaultConfig = configMgr.getDefaultConfig();
+      const defaultConfig = getDefaultConfig();
 
-      const config = await configMgr.loadConfig(
+      const config = await loadConfig(
         './test/cli-validator/mock-files/config/invalid-config.yaml'
       );
       const capturedText = getCapturedText(consoleSpy.mock.calls);
@@ -110,9 +114,9 @@ describe('Configuration Manager tests', function () {
 
   describe('processArgs()', function () {
     it('should return default config when no CLI args', async function () {
-      const defaultConfig = configMgr.getDefaultConfig();
+      const defaultConfig = getDefaultConfig();
 
-      const { context } = await configMgr.processArgs([], cliParseOptions);
+      const { context } = await processArgs([], cliParseOptions);
       // const capturedText = getCapturedText(consoleSpy.mock.calls);
       // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
       expect(context).toBeDefined();
@@ -120,9 +124,9 @@ describe('Configuration Manager tests', function () {
     });
 
     it('should return default config if invalid config file (bad JSON)', async function () {
-      const defaultConfig = configMgr.getDefaultConfig();
+      const defaultConfig = getDefaultConfig();
 
-      const { context } = await configMgr.processArgs(
+      const { context } = await processArgs(
         ['-c', './test/cli-validator/mock-files/bad-json.json'],
         cliParseOptions
       );
@@ -140,9 +144,9 @@ describe('Configuration Manager tests', function () {
     });
 
     it('should return default config if invalid config file (schema)', async function () {
-      const defaultConfig = configMgr.getDefaultConfig();
+      const defaultConfig = getDefaultConfig();
 
-      const { context } = await configMgr.processArgs(
+      const { context } = await processArgs(
         ['-c', './test/cli-validator/mock-files/config/invalid-config.yaml'],
         cliParseOptions
       );
@@ -161,7 +165,7 @@ describe('Configuration Manager tests', function () {
     });
 
     it('should return correct config if valid config file', async function () {
-      const { context } = await configMgr.processArgs(
+      const { context } = await processArgs(
         ['-c', './test/cli-validator/mock-files/config/config1.yaml'],
         cliParseOptions
       );
@@ -188,7 +192,7 @@ describe('Configuration Manager tests', function () {
     });
 
     it('should return correct config if valid config file AND cli options used', async function () {
-      const { context } = await configMgr.processArgs(
+      const { context } = await processArgs(
         [
           '-c',
           './test/cli-validator/mock-files/config/config1.yaml',
@@ -229,7 +233,7 @@ describe('Configuration Manager tests', function () {
     });
 
     it('should log error and use default if invalid warnings value', async function () {
-      const { context } = await configMgr.processArgs(
+      const { context } = await processArgs(
         ['--warnings-limit', 'foo'],
         cliParseOptions
       );
@@ -264,7 +268,7 @@ describe('Configuration Manager tests', function () {
             summaryOnly: false,
           };
 
-          const { context } = await configMgr.processArgs(
+          const { context } = await processArgs(
             [option, './test/cli-validator/mock-files/config/config1.yaml'],
             cliParseOptions
           );
@@ -283,10 +287,7 @@ describe('Configuration Manager tests', function () {
             errorsOnly: true,
           };
 
-          const { context } = await configMgr.processArgs(
-            [option],
-            cliParseOptions
-          );
+          const { context } = await processArgs([option], cliParseOptions);
           const capturedText = getCapturedText(consoleSpy.mock.calls);
           // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
           expect(capturedText).toHaveLength(0);
@@ -302,7 +303,7 @@ describe('Configuration Manager tests', function () {
             ignoreFiles: ['ignoredFile1.yaml', 'ignoredFile2.json'],
           };
 
-          const { context } = await configMgr.processArgs(
+          const { context } = await processArgs(
             [option, 'ignoredFile1.yaml', option, 'ignoredFile2.json'],
             cliParseOptions
           );
@@ -321,10 +322,7 @@ describe('Configuration Manager tests', function () {
             outputFormat: 'json',
           };
 
-          const { context } = await configMgr.processArgs(
-            [option],
-            cliParseOptions
-          );
+          const { context } = await processArgs([option], cliParseOptions);
           const capturedText = getCapturedText(consoleSpy.mock.calls);
           // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
           expect(capturedText).toHaveLength(0);
@@ -342,10 +340,7 @@ describe('Configuration Manager tests', function () {
             },
           };
 
-          const { context } = await configMgr.processArgs(
-            [option],
-            cliParseOptions
-          );
+          const { context } = await processArgs([option], cliParseOptions);
           const capturedText = getCapturedText(consoleSpy.mock.calls);
           // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
           expect(capturedText).toHaveLength(0);
@@ -361,10 +356,7 @@ describe('Configuration Manager tests', function () {
             colorizeOutput: false,
           };
 
-          const { context } = await configMgr.processArgs(
-            [option],
-            cliParseOptions
-          );
+          const { context } = await processArgs([option], cliParseOptions);
           const capturedText = getCapturedText(consoleSpy.mock.calls);
           // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
           expect(capturedText).toHaveLength(0);
@@ -380,7 +372,7 @@ describe('Configuration Manager tests', function () {
             ruleset: 'my-custom-rules.yaml',
           };
 
-          const { context } = await configMgr.processArgs(
+          const { context } = await processArgs(
             [option, 'my-custom-rules.yaml'],
             cliParseOptions
           );
@@ -399,10 +391,7 @@ describe('Configuration Manager tests', function () {
             summaryOnly: true,
           };
 
-          const { context } = await configMgr.processArgs(
-            [option],
-            cliParseOptions
-          );
+          const { context } = await processArgs([option], cliParseOptions);
           const capturedText = getCapturedText(consoleSpy.mock.calls);
           // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
           expect(capturedText).toHaveLength(0);
@@ -420,10 +409,7 @@ describe('Configuration Manager tests', function () {
             },
           };
 
-          const { context } = await configMgr.processArgs(
-            [option, 38],
-            cliParseOptions
-          );
+          const { context } = await processArgs([option, 38], cliParseOptions);
           const capturedText = getCapturedText(consoleSpy.mock.calls);
           // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
           expect(capturedText).toHaveLength(0);
@@ -433,10 +419,7 @@ describe('Configuration Manager tests', function () {
       );
 
       it('should not throw error for --version option', async function () {
-        const { command } = await configMgr.processArgs(
-          ['--version'],
-          cliParseOptions
-        );
+        const { command } = await processArgs(['--version'], cliParseOptions);
         expect(command.opts().version).toBe(true);
         const capturedText = getCapturedText(consoleSpy.mock.calls);
         expect(capturedText).toHaveLength(0);
@@ -445,7 +428,7 @@ describe('Configuration Manager tests', function () {
       it('should throw error for --help option', async function () {
         let caughtException;
         try {
-          await configMgr.processArgs(['--help'], cliParseOptions);
+          await processArgs(['--help'], cliParseOptions);
         } catch (err) {
           caughtException = true;
           expect(err.exitCode).toBe(0);
