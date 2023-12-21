@@ -4,11 +4,9 @@
  */
 
 const {
-  validate,
-} = require('../../../../src/cli-validator/utils/schema-validator');
-const {
   getConfigFileSchema,
-} = require('../../../../src/cli-validator/utils/configuration-manager');
+  validateSchema,
+} = require('../../../../src/cli-validator/utils');
 
 describe('Schema validator tests', function () {
   let configFileSchema;
@@ -30,14 +28,14 @@ describe('Schema validator tests', function () {
       foo: 'bar',
     };
 
-    const results = validate(fooObj, schema);
+    const results = validateSchema(fooObj, schema);
     expect(results).toHaveLength(0);
   });
 
   it('empty config object should validate clean', function () {
     const configObj = {};
 
-    const results = validate(configObj, configFileSchema);
+    const results = validateSchema(configObj, configFileSchema);
     expect(results).toHaveLength(0);
   });
 
@@ -52,7 +50,7 @@ describe('Schema validator tests', function () {
       ignoreFiles: ['file1'],
     };
 
-    const results = validate(configObj, configFileSchema);
+    const results = validateSchema(configObj, configFileSchema);
     expect(results).toHaveLength(0);
   });
 
@@ -70,7 +68,7 @@ describe('Schema validator tests', function () {
       foo: 38,
     };
 
-    const results = validate(fooObj, schema);
+    const results = validateSchema(fooObj, schema);
     expect(results).toHaveLength(1);
   });
 
@@ -85,7 +83,7 @@ describe('Schema validator tests', function () {
       ignoreFiles: ['file1'],
     };
 
-    const results = validate(configObj, configFileSchema);
+    const results = validateSchema(configObj, configFileSchema);
     expect(results).toHaveLength(1);
     expect(results[0]).toBe(
       `schema validation error: must NOT have additional properties`

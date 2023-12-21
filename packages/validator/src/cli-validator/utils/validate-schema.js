@@ -12,7 +12,7 @@ const Ajv = require('ajv');
  * @returns [] if no validation errors were detected, or an array strings
  * containing the error messages.
  */
-function validate(data, schema) {
+function validateSchema(data, schema) {
   const ajv = new Ajv({ allErrors: false });
 
   const validate = ajv.compile(schema);
@@ -30,6 +30,4 @@ function validate(data, schema) {
   return messages;
 }
 
-module.exports = {
-  validate,
-};
+module.exports = validateSchema;

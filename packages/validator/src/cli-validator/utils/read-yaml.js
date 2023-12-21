@@ -14,4 +14,4 @@ async function readYaml(path) {
   return jsYaml.safeLoad(fileContents);
 }
 
-module.exports.readYaml = readYaml;
+module.exports = readYaml;

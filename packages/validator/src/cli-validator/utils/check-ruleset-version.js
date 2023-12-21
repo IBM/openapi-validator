@@ -4,7 +4,7 @@
  */
 
 const semver = require('semver');
-const getDefaultRulesetVersion = require('./get-default-ruleset-version.js');
+const getDefaultRulesetVersion = require('./get-default-ruleset-version');
 
 module.exports = checkRulesetVersion;
 

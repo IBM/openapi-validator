@@ -13,14 +13,18 @@ const path = require('path');
 const readYaml = require('js-yaml');
 const util = require('util');
 
-const configMgr = require('./utils/configuration-manager');
-const ext = require('./utils/file-extension-validator');
-const preprocessFile = require('./utils/preprocess-file');
-const print = require('./utils/print-results');
-const { printJson } = require('./utils/json-results');
+const {
+  getCopyrightString,
+  getFileExtension,
+  preprocessFile,
+  printJson,
+  printResults,
+  printVersions,
+  processArgs,
+  supportedFileExtension,
+} = require('./utils');
+
 const { runSpectral } = require('../spectral/spectral-validator');
-const getCopyrightString = require('./utils/get-copyright-string');
-const printVersions = require('./utils/print-versions');
 
 let logger;
 
@@ -42,7 +46,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
   // internal information shared by various components of the validator.
   let context, command;
   try {
-    ({ context, command } = await configMgr.processArgs(cliArgs, parseOptions));
+    ({ context, command } = await processArgs(cliArgs, parseOptions));
   } catch (err) {
     // console.error(`Caught error: `, err);
     // "err" will most likely be a CommanderError of some sort (
@@ -115,7 +119,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
   const filesWithValidExtensions = [];
   let unsupportedExtensionsFound = false;
   args.forEach(arg => {
-    if (ext.supportedFileExtension(arg, supportedFileTypes)) {
+    if (supportedFileExtension(arg, supportedFileTypes)) {
       filesWithValidExtensions.push(arg);
     } else {
       unsupportedExtensionsFound = true;
@@ -177,7 +181,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       originalFile = await readFile(validFile, 'utf8');
       originalFile = preprocessFile(originalFile);
 
-      const fileExtension = ext.getFileExtension(validFile);
+      const fileExtension = getFileExtension(validFile);
       if (fileExtension === 'json') {
         input = JSON.parse(originalFile);
       } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
@@ -238,7 +242,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       printJson(context, results);
     } else {
       if (results.hasResults) {
-        print(context, results);
+        printResults(context, results);
       } else {
         console.log(
           context.chalk.green(`\n${validFile} passed the validator\n`)

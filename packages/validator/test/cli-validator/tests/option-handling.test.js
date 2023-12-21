@@ -3,17 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { stripAnsi } = require('../../test-utils');
 const {
   getCapturedText,
   getCapturedTextWithColor,
+  stripAnsi,
   testValidator,
 } = require('../../test-utils');
+
 const {
-  validate,
-} = require('../../../src/cli-validator/utils/schema-validator');
-const { readYaml } = require('../../../src/cli-validator/utils/read-yaml');
-const getCopyrightString = require('../../../src/cli-validator/utils/get-copyright-string');
+  getCopyrightString,
+  readYaml,
+  validateSchema,
+} = require('../../../src/cli-validator/utils');
 
 describe('cli tool - test option handling', function () {
   let consoleSpy;
@@ -197,7 +198,7 @@ describe('cli tool - test option handling', function () {
       const outputSchemaPath =
         __dirname + '/../../../src/schemas/results-object.yaml';
       const outputSchema = await readYaml(outputSchemaPath);
-      const results = validate(outputObject, outputSchema);
+      const results = validateSchema(outputObject, outputSchema);
       expect(results).toHaveLength(0);
     }
   );
