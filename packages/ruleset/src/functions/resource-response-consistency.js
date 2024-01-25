@@ -6,8 +6,10 @@
 const { isEqual } = require('lodash');
 const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
 const {
+  computeRefsAtPaths,
   getResourceSpecificSiblingPath,
   getResponseCodes,
+  getSchemaNameAtPath,
   getSuccessResponseSchemaForOperation,
   isCreateOperation,
   isJsonMimeType,
@@ -27,7 +29,8 @@ module.exports = function (operation, _opts, context) {
   return resourceResponseConsistency(
     operation,
     context.path,
-    context.documentInventory.resolved
+    context.documentInventory.resolved,
+    context.documentInventory.graph.nodes
   );
 };
 
@@ -45,9 +48,10 @@ module.exports = function (operation, _opts, context) {
  * @param {*} operation an operation within the API definition
  * @param {*} path the array of path segments indicating the "location" of the operation within the API definition
  * @param {*} apidef the resolved API spec
+ * @param {*} nodes the spectral-computed graph nodes mapping paths to referenced schemas
  * @returns an array containing the violations found or [] if no violations
  */
-function resourceResponseConsistency(operation, path, apidef) {
+function resourceResponseConsistency(operation, path, apidef, nodes) {
   logger.debug(
     `${ruleId}: checking responses for operation at location: ${path.join('.')}`
   );
@@ -64,10 +68,49 @@ function resourceResponseConsistency(operation, path, apidef) {
     return [];
   }
 
-  const canonicalSchema = getCanonicalSchema(path, apidef);
+  const pathToReferencesMap = computeRefsAtPaths(nodes);
 
+  // If we're dealing with a PUT operation on a collection path, assume it is a
+  // bulk operation that should return a collection schema for response consistency.
+  if (
+    isOperationOfType('put', path) &&
+    isCollectionPath(path, apidef, pathToReferencesMap)
+  ) {
+    logger.debug(
+      `${ruleId}: assuming PUT request is a bulk operation due to it being on the collection path`
+    );
+
+    // Check response of bulk PUT operation against the collection schema.
+    const { schemaObject, schemaName } = getCollectionSchema(
+      path,
+      apidef,
+      pathToReferencesMap
+    );
+    let message =
+      'Bulk resource operations should return the resource collection schema';
+    if (schemaName) {
+      message += `: ${schemaName}`;
+    }
+    return checkAgainstSchema(schemaObject, operation, path, message);
+  }
+
+  // Check response against the canonical schema.
+  const { schemaObject, schemaName } = getCanonicalSchema(
+    path,
+    apidef,
+    pathToReferencesMap
+  );
+  let message =
+    'Operations on a single resource instance should return the resource canonical schema';
+  if (schemaName) {
+    message += `: ${schemaName}`;
+  }
+  return checkAgainstSchema(schemaObject, operation, path, message);
+}
+
+function checkAgainstSchema(schema, operation, path, message) {
   // If the GET request does not define a schema in its response, there is nothing left to check.
-  if (!canonicalSchema) {
+  if (!schema) {
     logger.debug(
       `${ruleId}: no response schema found for GET request - abandoning check for this operation`
     );
@@ -143,14 +186,13 @@ function resourceResponseConsistency(operation, path, apidef) {
             return;
           }
 
-          if (!isEqual(canonicalSchema, jsonContent.schema)) {
-            logger.debug(
-              `${ruleId}: success response schema for this operation does not match the corresponding GET response schema`
+          if (!isEqual(schema, jsonContent.schema)) {
+            logger.info(
+              `${ruleId}: at least one success response schema for operation at path '${path}' does not match the corresponding GET response schema`
             );
             errors.push({
-              message:
-                'Operations on a resource should return the same schema as the resource "get" request',
-              path: [...path, 'responses', code, 'content', mimeType, 'schema'],
+              message,
+              path: [...path, 'responses', code, 'content', mimeType],
             });
           }
         });
@@ -166,7 +208,7 @@ function resourceResponseConsistency(operation, path, apidef) {
   return errors;
 }
 
-function getCanonicalSchema(path, apidef) {
+function getCanonicalSchema(path, apidef, pathToReferencesMap) {
   const resourceSpecificPath = isOperationOfType('post', path)
     ? getResourceSpecificSiblingPath(path.at(-2), apidef)
     : // This is a PUT or PATCH and should already be on the path we need
@@ -183,18 +225,57 @@ function getCanonicalSchema(path, apidef) {
     return;
   }
 
-  const resourceGetOperation = apidef.paths[resourceSpecificPath].get;
-  if (!resourceGetOperation) {
-    logger.debug(
-      `${ruleId}: no GET operation found at path "${resourceSpecificPath}"`
-    );
-    return;
+  return getSchemaInfo(resourceSpecificPath, apidef, pathToReferencesMap);
+}
+
+function getCollectionSchema(operationPath, apidef, pathToReferencesMap) {
+  const path = operationPath.at(-2).trim();
+
+  // If a resource-specific path, it can't be a collection path.
+  if (path.endsWith('}')) {
+    return {};
   }
 
-  const { schemaObject } = getSuccessResponseSchemaForOperation(
-    resourceGetOperation,
-    path
+  return getSchemaInfo(path, apidef, pathToReferencesMap);
+}
+
+function getSchemaInfo(path, apidef, pathToReferencesMap) {
+  const getOperation = apidef.paths[path].get;
+  if (!getOperation) {
+    logger.debug(`${ruleId}: no GET operation found on path "${path}"`);
+    return {};
+  }
+
+  const schemaInfo = getSuccessResponseSchemaForOperation(
+    getOperation,
+    `paths.${path}.get`
+  );
+  if (schemaInfo.schemaPath) {
+    schemaInfo.schemaName = getSchemaNameAtPath(
+      schemaInfo.schemaPath,
+      pathToReferencesMap
+    );
+  }
+
+  return schemaInfo;
+}
+
+function isCollectionPath(path, apidef, pathToReferencesMap) {
+  // Check if the GET response for the path is a "list".
+  const { schemaPath, schemaName } = getCollectionSchema(
+    path,
+    apidef,
+    pathToReferencesMap
+  );
+  logger.debug(
+    `${ruleId}: found the name of the potential collection schema to be ${schemaName}`
   );
 
-  return schemaObject;
+  if (!schemaPath || !schemaName) {
+    return false;
+  }
+
+  // If the GET operation returns a "collection" schema, treat it as a collection
+  // path and assume any PUT operations on the path are bulk operations.
+  return schemaName.endsWith('Collection');
 }

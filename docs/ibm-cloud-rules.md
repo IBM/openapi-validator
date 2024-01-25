@@ -5233,7 +5233,7 @@ paths:
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Synchronous responses for create-style POST or update (PUT/PATCH) operations on a given resource should return the canonical schema for the resource. As in, the same schema as the "GET" request for the same resource.</td>
+<td>Synchronous responses for create-style POST or update (PUT/PATCH) operations on a given resource instance should return the canonical schema for the resource, which is the schema returned in the GET operation on the single-instance path (e.g. `/resources/{id}`). Synchronous responses for bulk replace (PUT) operations should return the collection schema, which is the schema returned in the GET operation on the collection path (e.g. `/resources`).</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
