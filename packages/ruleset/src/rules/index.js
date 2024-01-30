@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -82,4 +82,5 @@ module.exports = {
   unusedTags: require('./unused-tags'),
   uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
   validPathSegments: require('./valid-path-segments'),
+  wellDefinedDictionaries: require('./well-defined-dictionaries'),
 };

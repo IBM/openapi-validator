@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -184,5 +184,6 @@ module.exports = {
     'ibm-unique-parameter-request-property-names':
       ibmRules.uniqueParameterRequestPropertyNames,
     'ibm-valid-path-segments': ibmRules.validPathSegments,
+    'ibm-well-defined-dictionaries': ibmRules.wellDefinedDictionaries,
   },
 };

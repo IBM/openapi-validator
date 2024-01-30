@@ -106,6 +106,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-unevaluated-properties](#ibm-unevaluated-properties)
   * [ibm-unique-parameter-request-property-names](#ibm-unique-parameter-request-property-names)
   * [ibm-valid-path-segments](#ibm-valid-path-segments)
+  * [ibm-well-defined-dictionaries](#ibm-well-defined-dictionaries)
 
 <!-- tocstop -->
 
@@ -608,6 +609,12 @@ specific "allow-listed" keywords.</td>
 <td><a href="#ibm-valid-path-segments">ibm-valid-path-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API to make sure path parameter references are valid within path segments.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-well-defined-dictionaries">ibm-well-defined-dictionaries</a></td>
+<td>warning</td>
+<td>Dictionaries must be well defined and all values must share a single type.</td>
 <td>oas3</td>
 </tr>
 </table>
@@ -6586,6 +6593,71 @@ paths:
   get:
     operationId: get_foo
     ...
+</pre>
+</td>
+</tr>
+</table>
+
+### ibm-well-defined-dictionaries
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-well-defined-dictionaries</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+  This rule validates that any dictionary schemas are well defined and that all values share a single type.
+  Dictionaries are defined as object type schemas that have variable key names. They are distinct from model types,
+  which are objects with pre-defined properties. A schema must not define both concrete properties and variable key names.
+  Practically, this means a schema must explicitly define a `properties` object or an `additionalProperties` schema, but not both.
+  If used, the `additionalProperties` schema must define a concrete type. See the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types">IBM Cloud API Handbook documentation on types</a> for more info.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warning</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    AmbiguousDictionary:
+      type: object
+      additionalProperties: true # No type description of the values in the dictionary
+    ProblematicHybird:
+      type: object
+      properties:
+        name:
+          type: string
+      additionalProperties: # If the schema is a model, all property names/types should be explicit
+        type: integer
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+  components:
+    schemas:
+      DefinedDictionary:
+        type: object
+        additionalProperties:
+          type: string # Map of string to type string
+          minLength: 1
+          maxLength: 42
+      DefinedModel:
+        type: object
+        properties:
+          name:
+            type: string
 </pre>
 </td>
 </tr>
