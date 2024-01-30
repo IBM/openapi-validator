@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.15.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.14.2...@ibm-cloud/openapi-ruleset@1.15.0) (2024-01-30)
+
+
+### Features
+
+* **new-rule:** ibm-well-defined-dictionaries ([#644](https://github.com/IBM/openapi-validator/issues/644)) ([3beaf9f](https://github.com/IBM/openapi-validator/commit/3beaf9f2fb68c7b912094c54f55189858ff8e8b6))
+
 ## @ibm-cloud/openapi-ruleset [1.14.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.14.1...@ibm-cloud/openapi-ruleset@1.14.2) (2023-10-16)
 
 
