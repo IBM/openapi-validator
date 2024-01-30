@@ -9,8 +9,10 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const rule = resourceResponseConsistency;
 const ruleId = 'ibm-resource-response-consistency';
 const expectedSeverity = severityCodes.warning;
-const expectedMsg =
-  'Operations on a resource should return the same schema as the resource "get" request';
+const expectedMsgSingle =
+  'Operations on a single resource instance should return the resource canonical schema';
+const expectedMsgBulk =
+  'Bulk resource operations should return the resource collection schema';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
@@ -94,6 +96,81 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('PUT request on generic, non-collection path returns canonical schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks/{id}/recipe'] = {
+        put: {
+          operationId: 'replace_drink_recipe',
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Recipe',
+                  },
+                },
+              },
+            },
+          },
+        },
+        get: {
+          operationId: 'get_drink_recipe',
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Recipe',
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      testDocument.components.schemas.Recipe = {
+        type: 'object',
+        description: 'A recipe resource to bind to a drink resource',
+        properties: {
+          ingredients: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('PUT request on collection path returns collection schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'] = {
+        put: {
+          operationId: 'replace_drinks',
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/DrinkCollection',
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
@@ -114,10 +191,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
 
       expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].message).toBe(`${expectedMsgSingle}: Drink`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.200.content.application/json.schema'
+        'paths./v1/drinks.post.responses.200.content.application/json'
       );
     });
 
@@ -132,14 +209,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
 
       expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].message).toBe(`${expectedMsgSingle}: Drink`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.201.content.application/json.schema'
+        'paths./v1/drinks.post.responses.201.content.application/json'
       );
     });
 
-    it('warns for all JSON content schemas on creat that do not match canonical schema', async () => {
+    it('warns for all JSON content schemas on create that do not match canonical schema', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].post.responses['201'].content[
@@ -158,17 +235,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(2);
 
       expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].message).toBe(`${expectedMsgSingle}: Drink`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.201.content.application/json.schema'
+        'paths./v1/drinks.post.responses.201.content.application/json'
       );
 
       expect(results[1].code).toBe(ruleId);
-      expect(results[1].message).toBe(expectedMsg);
+      expect(results[1].message).toBe(`${expectedMsgSingle}: Drink`);
       expect(results[1].severity).toBe(expectedSeverity);
       expect(results[1].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.201.content.application/json; charset=utf-8.schema'
+        'paths./v1/drinks.post.responses.201.content.application/json; charset=utf-8'
       );
     });
 
@@ -193,17 +270,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(2);
 
       expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].message).toBe(`${expectedMsgSingle}: Drink`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.200.content.application/json.schema'
+        'paths./v1/drinks.post.responses.200.content.application/json'
       );
 
       expect(results[1].code).toBe(ruleId);
-      expect(results[1].message).toBe(expectedMsg);
+      expect(results[1].message).toBe(`${expectedMsgSingle}: Drink`);
       expect(results[1].severity).toBe(expectedSeverity);
       expect(results[1].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.201.content.application/json.schema'
+        'paths./v1/drinks.post.responses.201.content.application/json'
       );
     });
 
@@ -224,10 +301,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
 
       expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].message).toBe(`${expectedMsgSingle}: Movie`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json; charset=utf-8.schema'
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json; charset=utf-8'
       );
     });
 
@@ -242,10 +319,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
 
       expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].message).toBe(`${expectedMsgSingle}: Car`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema'
+        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json'
       );
     });
 
@@ -266,10 +343,97 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
 
       expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsg);
+      expect(results[0].message).toBe(`${expectedMsgSingle}: Car`);
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema'
+        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json'
+      );
+    });
+
+    it('PUT request on generic, non-collection path does not return canonical schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks/{id}/recipe'] = {
+        put: {
+          operationId: 'replace_drink_recipe',
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Drink',
+                  },
+                },
+              },
+            },
+          },
+        },
+        get: {
+          operationId: 'get_drink_recipe',
+          responses: {
+            200: {
+              content: {
+                'application/json': {
+                  schema: {
+                    $ref: '#/components/schemas/Recipe',
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      testDocument.components.schemas.Recipe = {
+        type: 'object',
+        description: 'A recipe resource to bind to a drink resource',
+        properties: {
+          ingredients: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(`${expectedMsgSingle}: Recipe`);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks/{id}/recipe.put.responses.200.content.application/json'
+      );
+    });
+
+    it('PUT request on collection path does not return collection schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].put = {
+        operationId: 'replace_drinks',
+        responses: {
+          200: {
+            content: {
+              'application/json': {
+                schema: {
+                  $ref: '#/components/schemas/Drink',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(`${expectedMsgBulk}: DrinkCollection`);
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.put.responses.200.content.application/json'
       );
     });
   });
