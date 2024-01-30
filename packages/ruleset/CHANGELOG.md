@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.15.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.0...@ibm-cloud/openapi-ruleset@1.15.1) (2024-01-30)
+
+
+### Bug Fixes
+
+* **ibm-resource-response-consistency:** expand support to bulk operations ([#645](https://github.com/IBM/openapi-validator/issues/645)) ([b4d7651](https://github.com/IBM/openapi-validator/commit/b4d76513c7ffc417d2673865c9a8e46170158ea9))
+
 # @ibm-cloud/openapi-ruleset [1.15.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.14.2...@ibm-cloud/openapi-ruleset@1.15.0) (2024-01-30)
 
 
