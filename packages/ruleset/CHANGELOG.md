@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.15.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.1...@ibm-cloud/openapi-ruleset@1.15.2) (2024-01-31)
+
+
+### Bug Fixes
+
+* **resource-response-consistency:** avoid destructuring property of undefined values ([#646](https://github.com/IBM/openapi-validator/issues/646)) ([c864ebf](https://github.com/IBM/openapi-validator/commit/c864ebfed9b8196e57b53efb755232f042c215a0))
+
 ## @ibm-cloud/openapi-ruleset [1.15.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.0...@ibm-cloud/openapi-ruleset@1.15.1) (2024-01-30)
 
 
