@@ -222,7 +222,7 @@ function getCanonicalSchema(path, apidef, pathToReferencesMap) {
     logger.debug(
       `${ruleId}: resource-specific path "${resourceSpecificPath}" does not exist`
     );
-    return;
+    return {};
   }
 
   return getSchemaInfo(resourceSpecificPath, apidef, pathToReferencesMap);
