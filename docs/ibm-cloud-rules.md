@@ -4047,8 +4047,8 @@ n/a
 <tr>
 <td valign=top><b>Description:</b></td>
 <td>This rule verifies that each parameter name complies with the casing convention associated with that parameter's type.
-For example, the default casing convention for query parameters is snake-case (e.g. `my-query-param`), the default for path parameters
-is snake-case (e.g. `my_path_param`), and the default casing convention for header params is kebab-separated pascal-case with provision for capitalized abbreviations (e.g. `IBM-CustomHeader-Name`).
+For example, the default casing convention for query parameters is snake-case (e.g. <code>my_query_param</code>), the default for path parameters
+is snake-case (e.g. <code>my_path_param</code>), and the default casing convention for header params is kebab-separated pascal-case with provision for capitalized abbreviations (e.g. <code>IBM-CustomHeader-Name</code>).
 These default casing conventions constitute the default configuration for the rule, although the rule's configuration can be modified to
 fit your needs (see below).
 </td>
