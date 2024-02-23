@@ -1,9 +1,9 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { casing } = require('@stoplight/spectral-functions');
+const { casing, pattern } = require('@stoplight/spectral-functions');
 const { isDeprecated, LoggerFactory } = require('../utils');
 
 // Error message prefix for each parameter type.
@@ -74,20 +74,31 @@ function parameterCasingConvention(param, path, casingConfig) {
     const paramIn = param.in.toString().trim().toLowerCase();
 
     // Retrieve the config for the appropriate param type and then use it
-    // to invoke the casing() function.
+    // to invoke the casing() or pattern() function.
     const config = casingConfig[paramIn];
     const msgPrefix = errorMsgPrefix[paramIn];
     if (config && msgPrefix) {
       logger.debug(
         `${ruleId}: checking case for ${paramIn} param '${param.name}'`
       );
-      const result = casing(param.name, config);
 
-      // casing() will return either an array with 1 element or undefined.
+      let result;
+      // Check for casing()-style check first.
+      if (config.type) {
+        result = casing(param.name, config);
+      }
+      // Then, check for pattern()-style check.
+      else if (config.match) {
+        result = pattern(param.name, config);
+      }
+
+      // casing()/pattern() will return either an array with 1 element or undefined.
       // We'll prepend the returned error message with our prefix.
       if (result) {
+        // Allow user override of the messages produced for the rule.
+        const userMsg = casingConfig[paramIn + 'Message'];
         errors.push({
-          message: msgPrefix + result[0].message,
+          message: userMsg ? userMsg : msgPrefix + result[0].message,
           path,
         });
         logger.debug(`${ruleId}: FAILED: ${JSON.stringify(result, null, 2)}`);

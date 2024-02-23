@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -14,7 +14,8 @@ const expectedMsgNoName = 'Parameters must have a name';
 const expectedMsgNoIn = "Parameters must have a valid 'in' value";
 const expectedMsgQuery = 'Query parameter names must be snake case';
 const expectedMsgPath = 'Path parameter names must be snake case';
-const expectedMsgHeader = 'Header parameter names must be pascal case';
+const expectedMsgHeader =
+  'Header parameter names must be kebab-separated pascal case';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
@@ -82,6 +83,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
       testDocument.paths['/v1/movies'].get.parameters.push({
         description: 'An optional movie rating to filter on.',
         name: 'X-Movie-Rating',
+        required: false,
+        in: 'header',
+        schema: {
+          type: 'string',
+        },
+      });
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    // Suite of standard header parameters
+    it.each([
+      'Content-Type',
+      'Accept',
+      'WWW-Authenticate',
+      'ETag',
+      'TE',
+      'X-Request-ID',
+      'X-RateLimit-Limit',
+    ])('Standard header parameter: %s', async header => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].get.parameters.push({
+        description: 'Some standard header',
+        name: header,
         required: false,
         in: 'header',
         schema: {
@@ -232,27 +259,30 @@ describe(`Spectral rule: ${ruleId}`, () => {
       );
     });
 
-    it('Header parameter with incorrect case', async () => {
-      const testDocument = makeCopy(rootDocument);
+    it.each(['movieRating', 'movierating', 'X-Movie-rating', 'x-moVie-Rating'])(
+      'Header parameter with incorrect case: %s',
+      async header => {
+        const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/movies'].get.parameters.push({
-        description: 'An optional movie rating to filter on.',
-        required: false,
-        name: 'moveRating',
-        in: 'header',
-        schema: {
-          type: 'string',
-        },
-      });
+        testDocument.paths['/v1/movies'].get.parameters.push({
+          description: 'An optional movie rating to filter on.',
+          required: false,
+          name: header,
+          in: 'header',
+          schema: {
+            type: 'string',
+          },
+        });
 
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
-      expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsgHeader);
-      expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies.get.parameters.3'
-      );
-    });
+        const results = await testRule(ruleId, rule, testDocument);
+        expect(results).toHaveLength(1);
+        expect(results[0].code).toBe(ruleId);
+        expect(results[0].message).toBe(expectedMsgHeader);
+        expect(results[0].severity).toBe(expectedSeverity);
+        expect(results[0].path.join('.')).toBe(
+          'paths./v1/movies.get.parameters.3'
+        );
+      }
+    );
   });
 });
