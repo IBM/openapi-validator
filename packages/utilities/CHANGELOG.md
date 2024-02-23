@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset-utilities [1.3.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.3.0...@ibm-cloud/openapi-ruleset-utilities@1.3.1) (2024-02-23)
+
+
+### Bug Fixes
+
+* adjust header parameter casing convention check ([#648](https://github.com/IBM/openapi-validator/issues/648)) ([bd95f03](https://github.com/IBM/openapi-validator/commit/bd95f035105f715fda053a1338a6eba2805cdbff))
+
 # @ibm-cloud/openapi-ruleset-utilities [1.3.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.2.1...@ibm-cloud/openapi-ruleset-utilities@1.3.0) (2023-09-08)
 
 
