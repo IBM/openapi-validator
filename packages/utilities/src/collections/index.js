@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -17,8 +17,8 @@ const requestBodySchemas = [`${operations[0]}[requestBody].content[*].schema`];
 
 // A collection of locations where a JSON Schema object can be *used*.
 // Note that this does not include "components.schemas" to avoid duplication.
-// this collection should be used in a rule that has "resolved" set to "true".
-// we separately validate that all schemas in "components" need to be used.
+// This collection should be used in a rule that has "resolved" set to "true".
+// We separately validate that all schemas in "components" need to be used.
 const schemas = [
   `$.paths[*][parameters][*].schema`,
   `$.paths[*][parameters][*].content[*].schema`,

@@ -4047,8 +4047,8 @@ n/a
 <tr>
 <td valign=top><b>Description:</b></td>
 <td>This rule verifies that each parameter name complies with the casing convention associated with that parameter's type.
-For example, the default casing convention for query parameters is snake-case (e.g. `my-query-param`), the default for path parameters
-is snake-case (e.g. `my_path_param`), and the default casing convention for header params is pascal-case (e.g. `X-My-Custom-Header`).
+For example, the default casing convention for query parameters is snake-case (e.g. <code>my_query_param</code>), the default for path parameters
+is snake-case (e.g. <code>my_path_param</code>), and the default casing convention for header params is kebab-separated pascal-case with provision for capitalized abbreviations (e.g. <code>IBM-CustomHeader-Name</code>).
 These default casing conventions constitute the default configuration for the rule, although the rule's configuration can be modified to
 fit your needs (see below).
 </td>
@@ -4067,9 +4067,11 @@ fit your needs (see below).
 To configure the rule, set the <code>functionOptions</code> field within the rule definition to be an object
 with keys that represent the different parameter types to be checked for proper case conventions
 ('query', 'path', and 'header').  The value associated with each entry should be an object that is the
-appropriate configuration to be used by Spectral's <code>casing()</code> function
+appropriate configuration to be used by either Spectral's <code>casing()</code> function
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
-to enforce the desired case convention for that parameter type.
+or <code>pattern()</code> function [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#pattern">2</a>]
+(for greater control over the case convention check) to enforce the desired case convention for that parameter type.
+Additionally, you can define custom messages in the form "{parameter-type}Message".
 <p>The default configuration object provided in the rule definition is:
 <pre>
 {
@@ -4082,12 +4084,12 @@ to enforce the desired case convention for that parameter type.
   path: {
     type: 'snake'
   },
+  // Spectral casing convention types aren't robust enough to handle
+  // the complexity of headers, so we define our own kebab/pascal case regex.
   header: {
-    type: 'pascal',
-    separator: {
-      char: '-'
-    }
-  }
+    match: '/^[A-Z]+[a-z0-9]*-*([A-Z]+[a-z0-9]*-*)*$/',
+  },
+  headerMessage: 'Header parameter names must be kebab-separated pascal case',
 }
 </pre>
 This enforces:
