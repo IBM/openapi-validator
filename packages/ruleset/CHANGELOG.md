@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.15.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.3...@ibm-cloud/openapi-ruleset@1.15.4) (2024-03-20)
+
+
+### Bug Fixes
+
+* **build:** build binaries after npm package has been published ([#652](https://github.com/IBM/openapi-validator/issues/652)) ([90a51e4](https://github.com/IBM/openapi-validator/commit/90a51e48929f8c873844057bf9fa43d2a3932314))
+
 ## @ibm-cloud/openapi-ruleset [1.15.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.2...@ibm-cloud/openapi-ruleset@1.15.3) (2024-02-23)
 
 
