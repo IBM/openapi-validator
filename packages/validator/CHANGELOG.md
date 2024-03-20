@@ -1,3 +1,18 @@
+## ibm-openapi-validator [1.16.4](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.16.3...ibm-openapi-validator@1.16.4) (2024-03-20)
+
+
+### Bug Fixes
+
+* **build:** build binaries after npm package has been published ([#652](https://github.com/IBM/openapi-validator/issues/652)) ([90a51e4](https://github.com/IBM/openapi-validator/commit/90a51e48929f8c873844057bf9fa43d2a3932314))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.15.4
+
 ## ibm-openapi-validator [1.16.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.16.2...ibm-openapi-validator@1.16.3) (2024-02-23)
 
 
