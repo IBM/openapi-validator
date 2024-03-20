@@ -22,6 +22,7 @@ module.exports = function (apiDef, _opts, context) {
 // - Each path has a path segment of the form v followed by a number, and the number is
 //   the same for all paths
 function checkMajorVersion(apiDef) {
+  logger.debug(`${ruleId}: entered function checkMajorVersion().`);
   if (apiDef === null || typeof apiDef !== 'object') {
     return [];
   }
