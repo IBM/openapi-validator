@@ -1,5 +1,5 @@
 {
-  "name": "ibm-openapi-validator",
+  "name": "@pca-experimental/ibm-openapi-validator",
   "workspaces": [
     "packages/utilities",
     "packages/ruleset",
@@ -10,7 +10,7 @@
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/IBM/openapi-validator.git"
+    "url": "https://github.com/padamstx/openapi-validator.git"
   },
   "scripts": {
     "clean": "rm -rf node_modules/ && npm run clean --workspaces",

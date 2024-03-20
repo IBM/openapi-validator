@@ -1,11 +1,11 @@
 {
-  "name": "ibm-openapi-validator",
+  "name": "@pca-experimental/ibm-openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
   "version": "1.16.4",
   "private": false,
   "repository": {
     "type": "git",
-    "url": "https://github.com/IBM/openapi-validator.git",
+    "url": "https://github.com/padamstx/openapi-validator.git",
     "directory": "packages/validator"
   },
   "license": "Apache-2.0",
@@ -44,7 +44,7 @@
     "ansi-regex": "^5.0.1"
   },
   "bin": {
-    "lint-openapi": "src/cli-validator/index.js"
+    "pca-lint-openapi": "src/cli-validator/index.js"
   },
   "engines": {
     "node": ">=16.0.0",
