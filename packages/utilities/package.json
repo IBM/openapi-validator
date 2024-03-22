@@ -20,7 +20,7 @@
     "pkg": "echo no executables to build in this package"
   },
   "devDependencies": {
-    "@stoplight/spectral-core": "^1.18.0",
+    "@stoplight/spectral-core": "^1.18.3",
     "jest": "^27.4.5"
   },
   "engines": {
