@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.15.6](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.5...@ibm-cloud/openapi-ruleset@1.15.6) (2024-03-22)
+
+
+### Bug Fixes
+
+* **ibm-major-version-in-path:** remove extraneous debug message ([#655](https://github.com/IBM/openapi-validator/issues/655)) ([d191715](https://github.com/IBM/openapi-validator/commit/d191715b61d0776d8277b2ae5f87726bc53b3e01))
+
 ## @ibm-cloud/openapi-ruleset [1.15.5](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.4...@ibm-cloud/openapi-ruleset@1.15.5) (2024-03-22)
 
 
