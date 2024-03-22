@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset-utilities [1.3.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.3.1...@ibm-cloud/openapi-ruleset-utilities@1.3.2) (2024-03-22)
+
+
+### Bug Fixes
+
+* **build:** build executables with correct dependency versions ([#654](https://github.com/IBM/openapi-validator/issues/654)) ([7b8192d](https://github.com/IBM/openapi-validator/commit/7b8192dc74a4d672a8b6a6a077e40fc9e4ea716a))
+
 ## @ibm-cloud/openapi-ruleset-utilities [1.3.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.3.0...@ibm-cloud/openapi-ruleset-utilities@1.3.1) (2024-02-23)
 
 
