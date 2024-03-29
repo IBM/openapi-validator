@@ -128,7 +128,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
   });
 
   if (unsupportedExtensionsFound) {
-    logger.warn('Supported file types are JSON (.json) and YAML (.yml, .yaml)');
+    logger.warn(
+      'Supported file types are JSON (.json) and YAML (.yml, .yaml)\n'
+    );
   }
 
   // Globby is used in an unconventional way here.
@@ -233,7 +235,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
     if (warningsLimit >= 0 && numWarnings > warningsLimit) {
       exitCode = 1;
       logger.error(
-        `Number of warnings (${numWarnings}) exceeds warnings limit (${warningsLimit}).`
+        `Number of warnings (${numWarnings}) exceeds warnings limit (${warningsLimit}).\n`
       );
     }
 
