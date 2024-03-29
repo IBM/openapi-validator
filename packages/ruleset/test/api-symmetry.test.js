@@ -481,6 +481,56 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('schemas using allOf are compliant', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.DrinkBase = {
+        type: 'object',
+        properties: {
+          type: {
+            type: 'string',
+          },
+          name: {
+            type: 'string',
+          },
+        },
+      };
+      testDocument.components.schemas.DrinkPrototype = {
+        type: 'object',
+        allOf: [
+          {
+            $ref: '#/components/schemas/DrinkBase',
+          },
+          {
+            type: 'object',
+            properties: {
+              drink_style: {
+                type: 'string',
+              },
+            },
+          },
+        ],
+      };
+      testDocument.components.schemas.Drink = {
+        type: 'object',
+        allOf: [
+          {
+            $ref: '#/components/schemas/DrinkPrototype',
+          },
+          {
+            type: 'object',
+            properties: {
+              container_volume: {
+                type: 'string',
+              },
+            },
+          },
+        ],
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     // Already covered in root document:
     // - Valid Prototype schemas
     // - Valid Patch schemas
