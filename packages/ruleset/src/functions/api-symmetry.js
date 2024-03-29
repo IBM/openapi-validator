@@ -90,7 +90,7 @@ function checkApiForSymmetry(apidef, nodes) {
       const variantSchema = apidef.components.schemas[`${variantSchemaName}`];
       if (variantSchema && isObjectSchema(variantSchema)) {
         logger.info(
-          `${ruleId}: Checking variant schema ${variantSchemaName} against canonical schema:`
+          `${ruleId}: checking variant schema ${variantSchemaName} against canonical schema ${canonicalSchemaName}`
         );
         if (
           !checkForGraphFragmentPattern(
@@ -104,14 +104,18 @@ function checkApiForSymmetry(apidef, nodes) {
             }
           )
         ) {
-          logger.debug(
-            `${ruleId}: determined that ${variantSchemaName} is not a proper graph fragment of ${canonicalSchemaName}`
+          logger.info(
+            `${ruleId}: variant schema ${variantSchemaName} is not a graph fragment of canonical schema ${canonicalSchemaName}`
           );
           errors.push({
             message:
               'Variant schema should be a graph fragment of the canonical schema',
             path: ['components', 'schemas', variantSchemaName],
           });
+        } else {
+          logger.info(
+            `${ruleId}: variant schema ${variantSchemaName} is a graph fragment of canonical schema ${canonicalSchemaName}`
+          );
         }
       }
     });
@@ -151,6 +155,11 @@ function checkForGraphFragmentPattern(
   // graph fragment checker.
 
   function isGraphFragment(variant, canonical, canonicalPath, fromApplicator) {
+    logger.debug(
+      `${ruleId}: entering isGraphFragment(${fromApplicator}, ${canonicalPath.join(
+        '.'
+      )})`
+    );
     let result = true;
 
     // A variant schema cannot allow extraneous properties and still be
@@ -200,6 +209,7 @@ function checkForGraphFragmentPattern(
         // Ensure nested schemas are also graph fragments of the corresponding
         // nested schemas in the canonical schema.
         if (
+          valid &&
           isObjectSchema(prop) &&
           !canonicalSchemaMeetsConstraint(
             canonical,
@@ -218,11 +228,15 @@ function checkForGraphFragmentPattern(
               )
           )
         ) {
+          logger.info(
+            `${ruleId}: nested object property ${name} is not a graph fragment of canonical property ${name}`
+          );
           result = false;
         }
 
         // Ensure lists of schemas also maintain a graph fragment structure.
         if (
+          valid &&
           isArraySchema(prop) &&
           isObjectSchema(prop.items) &&
           !canonicalSchemaMeetsConstraint(
@@ -243,6 +257,9 @@ function checkForGraphFragmentPattern(
               )
           )
         ) {
+          logger.info(
+            `${ruleId}: array property ${name} items schema is not a graph fragment of canonical property ${name} items schema`
+          );
           result = false;
         }
       }
@@ -253,15 +270,21 @@ function checkForGraphFragmentPattern(
     ['allOf', 'oneOf', 'anyOf'].forEach(applicator => {
       if (
         Array.isArray(variant[applicator]) &&
-        variant[applicator].length > 0 &&
-        !variant[applicator].reduce(
-          (previousResult, v) =>
-            previousResult &&
-            isGraphFragment(v, canonical, canonicalPath, true),
-          true
-        )
+        variant[applicator].length > 0
       ) {
-        result = false;
+        if (
+          !variant[applicator].reduce(
+            (previousResult, v) =>
+              previousResult &&
+              isGraphFragment(v, canonical, canonicalPath, true),
+            true
+          )
+        ) {
+          logger.info(
+            `${ruleId}: variant schema applicator '${applicator}' is not a graph fragment of the canonical schema`
+          );
+          result = false;
+        }
       }
     });
 
@@ -280,33 +303,57 @@ function checkForGraphFragmentPattern(
     // should be differences other than omitting non-reference properties.
 
     if (!fromApplicator && !variantOmitsProperties) {
-      const variantIncludesAll = schemaHasConstraint(canonical, c => {
+      logger.debug(
+        `${ruleId}: checking that variant schema is a proper subset of canonical schema`
+      );
+
+      const propertyOmitted = schemaHasConstraint(canonical, c => {
         if (c && isObject(c.properties)) {
-          let allAreIncluded = true;
+          let omitted = false;
           for (const [name, prop] of Object.entries(c.properties)) {
-            const included = schemaHasConstraint(
-              variant,
-              s =>
+            logger.debug(`${ruleId}: checking canonical property '${name}'`);
+
+            const included = schemaHasLooseConstraint(variant, s => {
+              return (
                 'properties' in s &&
                 isObject(s.properties[name]) &&
                 getSchemaType(s.properties[name]) === getSchemaType(prop)
+              );
+            });
+
+            logger.debug(
+              `${ruleId}: finished checking canonical property '${name}', included=${included}`
             );
 
             if (!included) {
-              allAreIncluded = false;
+              omitted = true;
+              logger.debug(
+                `${ruleId}: canonical property ${name} is NOT present in variant schema`
+              );
               break;
+            } else {
+              logger.debug(
+                `${ruleId}: canonical property ${name} is present in variant schema`
+              );
             }
           }
 
-          return allAreIncluded;
+          return omitted;
         }
         return false;
       });
 
-      if (!variantIncludesAll) {
+      if (propertyOmitted) {
         variantOmitsProperties = true;
       }
+      logger.debug(
+        `${ruleId}: finished checking for omitted properties, propertyOmitted=${propertyOmitted}`
+      );
+    } else {
+      logger.debug(`${ruleId}: bypassing omitted properties check`);
     }
+
+    logger.debug(`${ruleId}: exiting isGraphFragment, result=${result}`);
 
     return result;
   }
@@ -319,9 +366,13 @@ function checkForGraphFragmentPattern(
     false
   );
 
+  logger.debug(
+    `${ruleId}: isGraphFragment() returned [${variantIsGraphFragment},${variantOmitsProperties}]`
+  );
+
   if (!variantOmitsProperties) {
     logger.info(
-      `${ruleId}: schema does not omit any properties in the canonical schema - it is not a proper graph fragment`
+      `${ruleId}: variant schema properties are not a proper subset of the canonical schema properties (no properties omitted)`
     );
   }
 
@@ -332,7 +383,7 @@ function checkForGraphFragmentPattern(
  * This is a variation of `schemaHasConstraint` for which, in the case of
  * applicator schemas like `oneOf`, any schema meeting the constraint is
  * sufficient for returning a `true` value, as opposed to all of them
- * needing the meet the constraint.
+ * needing to meet the constraint.
  */
 function canonicalSchemaMeetsConstraint(
   schema,
@@ -360,7 +411,7 @@ function canonicalSchemaMeetsConstraint(
   ) {
     const canonicalVersion = schemaName.slice(0, -9);
     logger.debug(
-      `Replacing reference schema ${schemaName} with canonical version ${canonicalVersion}`
+      `replacing reference schema ${schemaName} with canonical version ${canonicalVersion}`
     );
     schema = schemaFinder.allSchemas[canonicalVersion];
     path = ['components', 'schemas', canonicalVersion];
@@ -376,15 +427,47 @@ function canonicalSchemaMeetsConstraint(
       schema[applicator].length > 0 &&
       schema[applicator].reduce(
         (previousResult, currentSchema, index) =>
-          previousResult ||
           canonicalSchemaMeetsConstraint(
             currentSchema,
             [...path, applicator, index.toString()],
             schemaFinder,
             hasConstraint
-          ),
+          ) || previousResult,
         false
       )
+    ) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+/**
+ * This function is a looser adaptation of the "schemaHasConstraint()" function in the utilities package.
+ * Here we process oneOf and anyOf lists the same as allOf, where we return true if one (or more)
+ * of the oneOf/anyOf elements has the constraint (rather than all of the elements).
+ */
+function schemaHasLooseConstraint(schema, hasConstraint) {
+  if (!isObject(schema)) {
+    return false;
+  }
+
+  if (hasConstraint(schema)) {
+    return true;
+  }
+
+  const anySchemaHasConstraintReducer = (previousResult, currentSchema) => {
+    return (
+      previousResult || schemaHasLooseConstraint(currentSchema, hasConstraint)
+    );
+  };
+
+  for (const applicator of ['allOf', 'oneOf', 'anyOf']) {
+    if (
+      Array.isArray(schema[applicator]) &&
+      schema[applicator].length > 0 &&
+      schema[applicator].reduce(anySchemaHasConstraintReducer, false)
     ) {
       return true;
     }
