@@ -161,7 +161,7 @@ Instead, use a ref to a named schema.
 </tr>
 <tr>
 <td><a href="#ibm-avoid-repeating-path-parameters">ibm-avoid-repeating-path-parameters</a></td>
-<td>error</td>
+<td>warn</td>
 <td>Common path parameters should be defined on the path object instead of on each operation.</td>
 <td>oas3</td>
 </tr>
@@ -422,7 +422,7 @@ should probably be required instead of optional.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td><a href="#ibm-patch-request-content-type">ibm-patch-request-content-type"</a></td>
+<td><a href="#ibm-patch-request-content-type">ibm-patch-request-content-type</a></td>
 <td>error</td>
 <td>Verifies that PATCH operations support only requestBody content types <code>application/json-patch+json</code>
 or <code>application/merge-patch+json</code>.</td>
@@ -613,7 +613,7 @@ specific "allow-listed" keywords.</td>
 </tr>
 <tr>
 <td><a href="#ibm-well-defined-dictionaries">ibm-well-defined-dictionaries</a></td>
-<td>warning</td>
+<td>warn</td>
 <td>Dictionaries must be well defined and all values must share a single type.</td>
 <td>oas3</td>
 </tr>
@@ -795,7 +795,7 @@ To define a new rule as part of your custom ruleset, please read the [Spectral C
 Rather than turning off a Spectral rule entirely, Spectral overrides allow you to customize ruleset usage for different
 files and projects without having to duplicate any rules.
 For details on how to add overrides to your custom ruleset, please read the
-[Spectral overrides](https://meta.stoplight.io/docs/spectral/ZG9jOjI1MTg5-custom-rulesets#overrides) documentation.
+[Spectral overrides](https://meta.stoplight.io/docs/spectral/293426e270fac-overrides) documentation.
 
 
 ## Reference
