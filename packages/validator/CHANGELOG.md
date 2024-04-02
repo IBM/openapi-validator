@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.16.7](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.16.6...ibm-openapi-validator@1.16.7) (2024-04-02)
+
+
+### Bug Fixes
+
+* minor output formatting tweaks ([a566ef4](https://github.com/IBM/openapi-validator/commit/a566ef4716c301c4b50ac5e4a7f8c10dee6f0bd2))
+
 ## ibm-openapi-validator [1.16.6](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.16.5...ibm-openapi-validator@1.16.6) (2024-03-22)
 
 
