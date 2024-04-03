@@ -215,15 +215,15 @@ function checkForGraphFragmentPattern(
             canonical,
             canonicalPath,
             schemaFinder,
-            s =>
+            (schema, path) =>
               // Note that these first two conditions are guaranteed to be met at
               // least once by the first call to `canonicalSchemaMeetsConstraint`
-              'properties' in s &&
-              isObject(s.properties[name]) &&
+              'properties' in schema &&
+              isObject(schema.properties[name]) &&
               isGraphFragment(
                 prop,
-                s.properties[name],
-                [...canonicalPath, 'properties', name],
+                schema.properties[name],
+                [...path, 'properties', name],
                 false
               )
           )
@@ -243,16 +243,16 @@ function checkForGraphFragmentPattern(
             canonical,
             canonicalPath,
             schemaFinder,
-            s =>
+            (schema, path) =>
               // Note that these first two conditions are guaranteed to be met at
               // least once by the first call to `canonicalSchemaMeetsConstraint`
-              'properties' in s &&
-              isObject(s.properties[name]) &&
-              isObject(s.properties[name].items) &&
+              'properties' in schema &&
+              isObject(schema.properties[name]) &&
+              isObject(schema.properties[name].items) &&
               isGraphFragment(
                 prop.items,
-                s.properties[name].items,
-                [...canonicalPath, 'properties', name, 'items'],
+                schema.properties[name].items,
+                [...path, 'properties', name, 'items'],
                 false
               )
           )
@@ -270,21 +270,18 @@ function checkForGraphFragmentPattern(
     ['allOf', 'oneOf', 'anyOf'].forEach(applicator => {
       if (
         Array.isArray(variant[applicator]) &&
-        variant[applicator].length > 0
+        variant[applicator].length > 0 &&
+        !variant[applicator].reduce(
+          (previousResult, v) =>
+            previousResult &&
+            isGraphFragment(v, canonical, canonicalPath, true),
+          true
+        )
       ) {
-        if (
-          !variant[applicator].reduce(
-            (previousResult, v) =>
-              previousResult &&
-              isGraphFragment(v, canonical, canonicalPath, true),
-            true
-          )
-        ) {
-          logger.info(
-            `${ruleId}: variant schema applicator '${applicator}' is not a graph fragment of the canonical schema`
-          );
-          result = false;
-        }
+        logger.info(
+          `${ruleId}: variant schema applicator '${applicator}' is not a graph fragment of the canonical schema`
+        );
+        result = false;
       }
     });
 
@@ -313,13 +310,13 @@ function checkForGraphFragmentPattern(
           for (const [name, prop] of Object.entries(c.properties)) {
             logger.debug(`${ruleId}: checking canonical property '${name}'`);
 
-            const included = schemaHasLooseConstraint(variant, s => {
-              return (
+            const included = schemaHasLooseConstraint(
+              variant,
+              s =>
                 'properties' in s &&
                 isObject(s.properties[name]) &&
                 getSchemaType(s.properties[name]) === getSchemaType(prop)
-              );
-            });
+            );
 
             logger.debug(
               `${ruleId}: finished checking canonical property '${name}', included=${included}`
@@ -417,7 +414,7 @@ function canonicalSchemaMeetsConstraint(
     path = ['components', 'schemas', canonicalVersion];
   }
 
-  if (hasConstraint(schema)) {
+  if (hasConstraint(schema, path)) {
     return true;
   }
 
