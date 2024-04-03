@@ -531,6 +531,93 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('complex prototype schema with multiple, nested reference schemas is compliant', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Filmmaker = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          name: { type: 'string' },
+          age: { type: 'integer' },
+          education: {
+            allOf: [
+              { $ref: '#/components/schemas/SchoolReference' },
+              { description: 'overwritten description for education' },
+            ],
+          },
+        },
+      };
+      testDocument.components.schemas.FilmmakerReference = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          name: { type: 'string' },
+        },
+      };
+      testDocument.components.schemas.School = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          name: { type: 'string' },
+          location: { type: 'string' },
+        },
+      };
+      testDocument.components.schemas.SchoolReference = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+          name: { type: 'string' },
+        },
+      };
+
+      testDocument.components.schemas.GeneralIdentity = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+        },
+      };
+      testDocument.components.schemas.DirectorPrototype = {
+        oneOf: [
+          { $ref: '#/components/schemas/GeneralIdentity' },
+          { $ref: '#/components/schemas/DirectorContext' },
+        ],
+      };
+      testDocument.components.schemas.DirectorContext = {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          education: { $ref: '#/components/schemas/SchoolPrototype' },
+        },
+      };
+      testDocument.components.schemas.SchoolPrototype = {
+        oneOf: [
+          { $ref: '#/components/schemas/GeneralIdentity' },
+          { $ref: '#/components/schemas/SchoolContext' },
+        ],
+      };
+      testDocument.components.schemas.SchoolContext = {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          location: { type: 'string' },
+        },
+      };
+
+      testDocument.components.schemas.Movie.properties.director = {
+        $ref: '#/components/schemas/FilmmakerReference',
+      };
+
+      testDocument.components.schemas.MoviePrototype.properties.director = {
+        allOf: [
+          { $ref: '#/components/schemas/DirectorPrototype' },
+          { description: 'Director type for creating a movie' },
+        ],
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     // Already covered in root document:
     // - Valid Prototype schemas
     // - Valid Patch schemas
