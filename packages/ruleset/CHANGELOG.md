@@ -1,3 +1,11 @@
+## @ibm-cloud/openapi-ruleset [1.15.7](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.6...@ibm-cloud/openapi-ruleset@1.15.7) (2024-04-03)
+
+
+### Bug Fixes
+
+* **ibm-api-symmetry:** improve validation logic to avoid [secure] positives ([67676ad](https://github.com/IBM/openapi-validator/commit/67676ad07bb4c20005d3b81db7b26022ac4eabc2))
+* **ibm-api-symmetry:** maintain paths when resolving reference schemas ([#658](https://github.com/IBM/openapi-validator/issues/658)) ([db7eda1](https://github.com/IBM/openapi-validator/commit/db7eda1464143ebc29fb8551e3a94c4e7ae14b42))
+
 ## @ibm-cloud/openapi-ruleset [1.15.6](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.5...@ibm-cloud/openapi-ruleset@1.15.6) (2024-03-22)
 
 
