@@ -1,13 +1,13 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { contentExists } = require('../src/rules');
+const { requestAndResponseContent } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const ruleId = 'ibm-request-and-response-content';
-const rule = contentExists;
+const rule = requestAndResponseContent;
 
 describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
@@ -118,6 +118,31 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     const results = await testRule(ruleId, rule, testDocument);
 
+    expect(results).toHaveLength(0);
+  });
+
+  it('should not error if 201 response for PUT on minimally represented resource is missing content', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['/v1/movies/{id}/genres/{genre}'] = {
+      get: {
+        operationId: 'check_movie_genre',
+        responses: {
+          204: {
+            description: 'No content - checked',
+          },
+        },
+      },
+      put: {
+        operationId: 'add_movie_genre',
+        responses: {
+          201: {
+            description: 'No content - created',
+          },
+        },
+      },
+    };
+
+    const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(0);
   });
 
