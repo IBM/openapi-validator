@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -155,6 +155,22 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('PUT operation returns 204 w/GET that also returns 204', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/movies/{movie_id}'].put.responses['200'];
+      testDocument.paths['/v1/movies/{movie_id}'].put.responses['204'] = {
+        description: 'Accepted, processing...',
+      };
+      delete testDocument.paths['/v1/movies/{movie_id}'].get.responses['200'];
+      testDocument.paths['/v1/movies/{movie_id}'].get.responses['204'] = {
+        description: 'Accepted, processing...',
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     it('PATCH operation is asynchronous (defines a 202)', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -288,6 +304,27 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(
         'Operation responses should include at least one success status code (2xx)'
+      );
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/movies/{movie_id}.put.responses'
+      );
+    });
+
+    it('PUT operation returns 204 with no GET that also returns 204', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      delete testDocument.paths['/v1/movies/{movie_id}'].put.responses['200'];
+      testDocument.paths['/v1/movies/{movie_id}'].put.responses['204'] = {
+        description: 'Accepted, processing...',
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(
+        'PUT operations should return a 200, 201, or 202 status code'
       );
       expect(results[0].severity).toBe(expectedSeverity);
       expect(results[0].path.join('.')).toBe(
