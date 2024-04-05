@@ -50,6 +50,7 @@ module.exports = {
   propertyNameCollision: require('./property-name-collision'),
   refPattern: require('./ref-pattern'),
   refSiblingDuplicateDescription: require('./ref-sibling-duplicate-description'),
+  requestAndResponseContent: require('./request-and-response-content'),
   requestBodyNameExists: require('./requestbody-name-exists'),
   requiredProperty: require('./required-property'),
   resourceResponseConsistency: require('./resource-response-consistency'),

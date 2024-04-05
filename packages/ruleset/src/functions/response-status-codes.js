@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -9,6 +9,7 @@ const {
   isOperationOfType,
   getResourceSpecificSiblingPath,
   getResponseCodes,
+  pathHasMinimallyRepresentedResource,
 } = require('../utils');
 
 let ruleId;
@@ -184,30 +185,10 @@ function hasBodyRepresentation(path, apidef) {
     return;
   }
 
-  const resourceGetOperation = apidef.paths[resourceSpecificPath].get;
-  if (!resourceGetOperation) {
-    logger.debug(
-      `${ruleId}: no GET operation found at path "${resourceSpecificPath}"`
-    );
-    return;
-  }
-
-  if (!resourceGetOperation.responses) {
-    logger.debug(
-      `${ruleId}: no responses defined on GET operation at path "${resourceSpecificPath}"`
-    );
-    return;
-  }
-
-  const [, getOpSuccessCodes] = getResponseCodes(
-    resourceGetOperation.responses
+  return !pathHasMinimallyRepresentedResource(
+    resourceSpecificPath,
+    apidef,
+    logger,
+    ruleId
   );
-
-  logger.debug(
-    `${ruleId}: corresponding GET operation has the following status codes: ${getOpSuccessCodes.join(
-      ', '
-    )}`
-  );
-
-  return !getOpSuccessCodes.includes('204');
 }

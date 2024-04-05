@@ -162,7 +162,7 @@ module.exports = {
       ibmRules.propertyConsistentNameAndType,
     'ibm-property-description': ibmRules.propertyDescriptionExists,
     'ibm-ref-pattern': ibmRules.refPattern,
-    'ibm-request-and-response-content': ibmRules.contentExists,
+    'ibm-request-and-response-content': ibmRules.requestAndResponseContent,
     'ibm-requestbody-is-object': ibmRules.requestBodyIsObject,
     'ibm-requestbody-name': ibmRules.requestBodyNameExists,
     'ibm-resource-response-consistency': ibmRules.resourceResponseConsistency,

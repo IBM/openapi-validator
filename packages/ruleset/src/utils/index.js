@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -19,6 +19,7 @@ module.exports = {
   LoggerFactory: require('./logger-factory'),
   mergeAllOfSchemaProperties: require('./merge-allof-schema-properties'),
   operationMethods: require('./constants'),
+  pathHasMinimallyRepresentedResource: require('./path-has-minimally-represented-resource'),
   pathMatchesRegexp: require('./path-matches-regexp'),
   ...require('./mimetype-utils'),
   ...require('./pagination-utils'),
