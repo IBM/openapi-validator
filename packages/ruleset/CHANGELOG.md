@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.15.8](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.7...@ibm-cloud/openapi-ruleset@1.15.8) (2024-04-05)
+
+
+### Bug Fixes
+
+* **ibm-request-and-response-content:** exempt minimally represented resource PUTs ([#659](https://github.com/IBM/openapi-validator/issues/659)) ([40ee13c](https://github.com/IBM/openapi-validator/commit/40ee13c73eb254ea17f91b6445bdb5f2b5630a10))
+
 ## @ibm-cloud/openapi-ruleset [1.15.7](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.6...@ibm-cloud/openapi-ruleset@1.15.7) (2024-04-03)
 
 
