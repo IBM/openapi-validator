@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.15.9](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.8...@ibm-cloud/openapi-ruleset@1.15.9) (2024-04-08)
+
+
+### Bug Fixes
+
+* **ibm-response-status-codes:** allow PUT w/204 if a GET w/204 exists ([#660](https://github.com/IBM/openapi-validator/issues/660)) ([32b2fd0](https://github.com/IBM/openapi-validator/commit/32b2fd0d2a71c96563ccc7dfa9b221bed86be263))
+
 ## @ibm-cloud/openapi-ruleset [1.15.8](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.7...@ibm-cloud/openapi-ruleset@1.15.8) (2024-04-05)
 
 
