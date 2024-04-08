@@ -75,7 +75,7 @@ function checkForContent(operation, path, apidef) {
       if (
         path.at(-1) === 'put' &&
         statusCode === '201' &&
-        pathHasMinimallyRepresentedResource(path.at(-2), apidef, logger, ruleId)
+        pathHasMinimallyRepresentedResource(path.at(-2), apidef)
       ) {
         continue;
       }

@@ -125,10 +125,18 @@ function responseStatusCodes(operation, path, apidef) {
       }
     }
 
-    // 7. A "PUT" operation must return either a 200, 201, or 202
+    // 7. A "PUT" operation must return either a 200, 201, or 202.
+    // Exception: we'll also allow a 204 status code if there's a corresponding GET
+    // operation that also returns a 204.
     // Note: we've already checked for lack of any success codes - no need to double-report that.
     if (isOperationOfType('put', path) && successCodes.length) {
-      if (!['200', '201', '202'].find(code => successCodes.includes(code))) {
+      if (
+        !['200', '201', '202'].find(code => successCodes.includes(code)) &&
+        !(
+          successCodes.includes('204') &&
+          pathHasMinimallyRepresentedResource(path.at(-2), apidef)
+        )
+      ) {
         errors.push({
           message: `PUT operations should return a 200, 201, or 202 status code`,
           path: [...path, 'responses'],
@@ -185,10 +193,5 @@ function hasBodyRepresentation(path, apidef) {
     return;
   }
 
-  return !pathHasMinimallyRepresentedResource(
-    resourceSpecificPath,
-    apidef,
-    logger,
-    ruleId
-  );
+  return !pathHasMinimallyRepresentedResource(resourceSpecificPath, apidef);
 }
