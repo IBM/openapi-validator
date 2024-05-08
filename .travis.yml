@@ -5,6 +5,7 @@ language: node_js
 node_js:
 - 16
 - 18
+- 20
 
 cache:
   npm: false
@@ -22,5 +23,5 @@ deploy:
   skip_cleanup: true
   script: npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
   on:
-    node: 18
+    node: 20
     branch: main
