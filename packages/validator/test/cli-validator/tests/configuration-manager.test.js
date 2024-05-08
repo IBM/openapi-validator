@@ -134,7 +134,7 @@ describe('Configuration Manager tests', function () {
       // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
       expect(capturedText).toHaveLength(2);
       expect(capturedText[0]).toMatch(
-        /Unable to load config file.*SyntaxError: Unexpected token/
+        /\[ERROR\] Unable to load config file.*SyntaxError:/
       );
       expect(capturedText[1]).toMatch(
         /The validator will use a default config/
