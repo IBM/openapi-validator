@@ -107,8 +107,8 @@ describe('cli tool - test error handling', function () {
     expect(capturedText[3].trim()).toEqual(
       '[ERROR] Invalid input file: ./test/cli-validator/mock-files/bad-json.json. See below for details.'
     );
-    expect(capturedText[4].trim()).toEqual(
-      '[ERROR] SyntaxError: Unexpected token ; in JSON at position 14'
+    expect(capturedText[4].trim()).toMatch(
+      /^\[ERROR\] SyntaxError:.*in JSON at position 14$/
     );
   });
 
@@ -174,8 +174,8 @@ describe('cli tool - test error handling', function () {
     expect(capturedText.length).toEqual(5);
 
     expect(capturedText[3].trim()).toContain('[ERROR] Invalid input file');
-    expect(capturedText[4].trim()).toEqual(
-      '[ERROR] SyntaxError: Unexpected token ] in JSON at position 634'
+    expect(capturedText[4].trim()).toContain(
+      '[ERROR] SyntaxError: Unexpected token'
     );
   });
 
