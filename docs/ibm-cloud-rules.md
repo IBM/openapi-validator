@@ -68,6 +68,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-openapi-tags-used](#ibm-openapi-tags-used)
   * [ibm-operation-responses](#ibm-operation-responses)
   * [ibm-operation-summary](#ibm-operation-summary)
+  * [ibm-operation-summary-length](#ibm-operation-summary-length)
   * [ibm-operationid-casing-convention](#ibm-operationid-casing-convention)
   * [ibm-operationid-naming-convention](#ibm-operationid-naming-convention)
   * [ibm-pagination-style](#ibm-pagination-style)
@@ -371,6 +372,12 @@ should probably be required instead of optional.</td>
 <td><a href="#ibm-operation-summary">ibm-operation-summary</a></td>
 <td>warn</td>
 <td>Each operation should have a non-empty <code>summary</code>.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-operation-summary-length">ibm-operation-summary-length</a></td>
+<td>error</td>
+<td>The value of an operation <code>summary</code> must be 80 characters or less in length.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -3804,6 +3811,55 @@ paths:
     post:
       operationId: create_thing
       description: Create a new Thing instance.
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    get:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      summary: Create a Thing
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-operation-summary-length
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-operation-summary-length</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td> This rule verifies that each operation's <code>summary</code> is at most 80 characters in length,
+per guidance in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-writing#operation-summaries">API Handbook</a>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      summary: Create a shiny, brand new, hot-off-the-press instance of the standard Thing resource
 </pre>
 </td>
 </tr>

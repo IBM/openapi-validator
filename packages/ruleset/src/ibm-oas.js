@@ -144,6 +144,7 @@ module.exports = {
     'ibm-openapi-tags-used': ibmRules.unusedTags,
     'ibm-operation-responses': ibmRules.operationResponses,
     'ibm-operation-summary': ibmRules.operationSummaryExists,
+    'ibm-operation-summary-length': ibmRules.operationSummaryLength,
     'ibm-operationid-casing-convention': ibmRules.operationIdCasingConvention,
     'ibm-operationid-naming-convention': ibmRules.operationIdNamingConvention,
     'ibm-pagination-style': ibmRules.paginationStyle,
