@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.16.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.9...@ibm-cloud/openapi-ruleset@1.16.0) (2024-05-09)
+
+
+### Features
+
+* **new-rule:** ibm-operation-summary-length ([#663](https://github.com/IBM/openapi-validator/issues/663)) ([901cc1a](https://github.com/IBM/openapi-validator/commit/901cc1aa2a23e7c8852e2b52498b120e23723ad9))
+
 ## @ibm-cloud/openapi-ruleset [1.15.9](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.8...@ibm-cloud/openapi-ruleset@1.15.9) (2024-04-08)
 
 
