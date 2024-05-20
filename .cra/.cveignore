@@ -2,5 +2,21 @@
   {
     "cve": "CVE-2024-24828",
     "alwaysOmit": true
+  },
+  {
+    "cve": "CVE-2023-42366",
+    "alwaysOmit": true
+  },
+  {
+    "cve": "CVE-2023-42363",
+    "alwaysOmit": true
+  },
+  {
+    "cve": "CVE-2023-42364",
+    "alwaysOmit": true
+  },
+  {
+    "cve": "CVE-2023-42365",
+    "alwaysOmit": true
   }
 ]
