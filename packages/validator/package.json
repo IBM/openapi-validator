@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "jest": "^27.4.5",
-    "pkg": "^5.5.1",
+    "pkg": "^5.8.1",
     "ansi-regex": "^5.0.1"
   },
   "bin": {

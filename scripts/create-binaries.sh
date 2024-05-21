@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Enable shell debug mode so we get a few additional details in the build log.
 set -x
