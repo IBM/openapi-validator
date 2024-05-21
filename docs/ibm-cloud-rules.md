@@ -357,6 +357,12 @@ should probably be required instead of optional.</td>
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#ibm-no-superfluous-allof">ibm-no-superfluous-allof</a></td>
+<td>warn</td>
+<td>Warns about schemas that contain only a single-element <code>allOf</code>, which are unnecessary./td>
+<td>oas3</td>
+</tr>
+<tr>
 <td><a href="#ibm-no-unsupported-keywords">ibm-no-unsupported-keywords</a></td>
 <td>error</td>
 <td>Checks for the use of unsupported keywords within an OpenAPI 3.1.x document.</td>
@@ -3590,6 +3596,54 @@ paths:
                   thing_type: type1
       responses:
         ...
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-no-superfluous-allof
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-no-superfluous-allof</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>If a schema contains only a single-element <code>allOf</code>, the <code>allOf</code> can be considered superfluous and can be removed. This rule checks for these unnecessary <code>allOf</code> attributes.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      properties:
+        foo_ref:
+          allOf:
+            - $ref: '#/components/schemas/Foo'
+<</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      properties:
+        foo_ref:
+          $ref: '#/components/schemas/Foo'
 </pre>
 </td>
 </tr>
