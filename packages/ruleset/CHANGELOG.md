@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.17.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.16.0...@ibm-cloud/openapi-ruleset@1.17.0) (2024-05-30)
+
+
+### Features
+
+* **ibm-no-superfluous-allof:** add new rule and documentation ([#666](https://github.com/IBM/openapi-validator/issues/666)) ([40bd640](https://github.com/IBM/openapi-validator/commit/40bd6408225ef6254bf4483606e818fb8fa222bb))
+
 # @ibm-cloud/openapi-ruleset [1.16.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.15.9...@ibm-cloud/openapi-ruleset@1.16.0) (2024-05-09)
 
 
