@@ -9,6 +9,10 @@ const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 const ruleId = 'ibm-avoid-property-name-collision';
 const rule = propertyNameCollision;
 
+const expectedMessage =
+  'Avoid duplicate property names within a schema, even if different case conventions are used';
+const expectedSeverity = severityCodes.error;
+
 describe(`Spectral rule: ${ruleId}`, () => {
   it('should not error with a clean spec', async () => {
     const results = await testRule(ruleId, rule, rootDocument);
@@ -46,23 +50,18 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     expect(results).toHaveLength(4);
 
-    const validation = results[0];
-    expect(validation.code).toBe(ruleId);
-    expect(validation.message).toBe(
-      'Avoid duplicate property names within a schema, even if different case conventions are used'
-    );
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/movies',
-      'post',
-      'responses',
-      '201',
-      'content',
-      'application/json',
-      'schema',
-      'properties',
-      'IMDB_rating',
-    ]);
-    expect(validation.severity).toBe(severityCodes.error);
+    const expectedPaths = [
+      'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.IMDB_rating',
+      'paths./v1/movies.post.responses.201.content.application/json.schema.properties.IMDB_rating',
+      'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.IMDB_rating',
+      'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.IMDB_rating',
+    ];
+
+    for (let i = 0; i < results.length; i++) {
+      expect(results[i].code).toBe(ruleId);
+      expect(results[i].message).toBe(expectedMessage);
+      expect(results[i].severity).toBe(expectedSeverity);
+      expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+    }
   });
 });

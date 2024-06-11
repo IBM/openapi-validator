@@ -80,10 +80,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(result.severity).toBe(expectedSeverity);
       }
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.related_movies.$ref'
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.$ref'
       );
       expect(results[1].path.join('.')).toBe(
-        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.$ref'
+        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.related_movies.$ref'
       );
     });
 
@@ -166,10 +166,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(result.severity).toBe(expectedSeverity);
       }
       expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.201.content.application/json.schema.anyOf.0.$ref'
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.$ref'
       );
       expect(results[1].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.$ref'
+        'paths./v1/drinks.post.responses.201.content.application/json.schema.anyOf.0.$ref'
       );
     });
 

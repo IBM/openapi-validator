@@ -62,10 +62,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(4);
 
       const expectedPaths = [
-        'paths./v1/movies.post.responses.201.content.application/json.schema',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema',
+        'paths./v1/movies.post.responses.201.content.application/json.schema',
       ];
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);
@@ -83,8 +83,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(4);
 
       const expectedPaths = [
-        'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.patternProperties',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.patternProperties',
       ];
@@ -104,8 +104,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(4);
 
       const expectedPaths = [
-        'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.patternProperties',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.patternProperties',
       ];
@@ -132,8 +132,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(4);
 
       const expectedPaths = [
-        'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.patternProperties',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.patternProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.patternProperties',
       ];

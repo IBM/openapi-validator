@@ -92,29 +92,21 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(6);
-      for (const result of results) {
-        expect(result.code).toBe(ruleId);
-        expect(result.message).toBe(expectedMessage);
-        expect(result.severity).toBe(expectedSeverity);
+
+      const expectedPaths = [
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.imdb_url.type',
+        'paths./v1/movies.post.requestBody.content.application/json.schema.properties.imdb_url.type',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.imdb_url.type',
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.imdb_url.type',
+        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.properties.imdb_url.type',
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.imdb_url.type',
+      ];
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMessage);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
-      expect(results[0].path.join('.')).toBe(
-        'paths./v1/movies.post.requestBody.content.application/json.schema.properties.imdb_url.type'
-      );
-      expect(results[1].path.join('.')).toBe(
-        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.imdb_url.type'
-      );
-      expect(results[2].path.join('.')).toBe(
-        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.imdb_url.type'
-      );
-      expect(results[3].path.join('.')).toBe(
-        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.imdb_url.type'
-      );
-      expect(results[4].path.join('.')).toBe(
-        'paths./v1/movies/{movie_id}.put.requestBody.content.application/json.schema.properties.imdb_url.type'
-      );
-      expect(results[5].path.join('.')).toBe(
-        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.imdb_url.type'
-      );
     });
     it('Multiple values in type list - parameter', async () => {
       const testDocument = makeCopy(rootDocument);

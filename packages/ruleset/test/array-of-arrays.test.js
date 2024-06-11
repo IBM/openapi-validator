@@ -123,15 +123,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMessage);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'requestBody',
-        'content',
-        'application/json',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.requestBody.content.application/json.schema'
+      );
     });
 
     it('Array of array of strings referenced from schema property', async () => {
@@ -144,68 +138,19 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(4);
-      for (const result of results) {
-        expect(result.code).toBe(ruleId);
-        expect(result.message).toBe(expectedMessage);
-        expect(result.severity).toBe(expectedSeverity);
+
+      const expectedPaths = [
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.array_prop',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.array_prop',
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.array_prop',
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.array_prop',
+      ];
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMessage);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
-
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'post',
-        'responses',
-        '201',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'array_prop',
-      ]);
-
-      expect(results[1].path).toStrictEqual([
-        'paths',
-        '/v1/movies',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'allOf',
-        '1',
-        'properties',
-        'movies',
-        'items',
-        'properties',
-        'array_prop',
-      ]);
-
-      expect(results[2].path).toStrictEqual([
-        'paths',
-        '/v1/movies/{movie_id}',
-        'get',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'array_prop',
-      ]);
-
-      expect(results[3].path).toStrictEqual([
-        'paths',
-        '/v1/movies/{movie_id}',
-        'put',
-        'responses',
-        '200',
-        'content',
-        'application/json',
-        'schema',
-        'properties',
-        'array_prop',
-      ]);
     });
 
     it('Array of array of ints referenced from path-level parameter', async () => {
@@ -227,13 +172,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMessage);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'parameters',
-        '0',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.parameters.0.schema'
+      );
     });
 
     it('Array of array of ints used within operation-level referenced parameter', async () => {
@@ -256,14 +197,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMessage);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'parameters',
-        '0',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.parameters.0.schema'
+      );
     });
 
     it('Array.items ref to array of strings', async () => {
@@ -291,14 +227,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(expectedMessage);
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path).toStrictEqual([
-        'paths',
-        '/v1/drinks',
-        'post',
-        'parameters',
-        '0',
-        'schema',
-      ]);
+      expect(results[0].path.join('.')).toBe(
+        'paths./v1/drinks.post.parameters.0.schema'
+      );
     });
   });
 });

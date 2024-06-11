@@ -100,13 +100,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(8);
+
       const expectedPaths = [
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.properties.type',
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.1.properties.type',
         'paths./v1/drinks.post.requestBody.content.application/json.schema.oneOf.0.properties.type',
         'paths./v1/drinks.post.requestBody.content.application/json.schema.oneOf.1.properties.type',
         'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.0.properties.type',
         'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.1.properties.type',
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.properties.type',
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.1.properties.type',
         'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.properties.type',
         'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.1.properties.type',
       ];
