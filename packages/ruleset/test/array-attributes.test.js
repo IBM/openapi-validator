@@ -502,8 +502,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(4);
       const expectedPaths = [
-        'paths./v1/movies.post.responses.201.content.application/json.schema.additionalProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.additionalProperties',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.additionalProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.additionalProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.additionalProperties',
       ];

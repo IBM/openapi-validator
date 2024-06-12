@@ -65,9 +65,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const expectedPaths = [
-        'paths./v1/drinks.post.responses.201.content.application/json.schema',
         'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items',
         'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema',
+        'paths./v1/drinks.post.responses.201.content.application/json.schema',
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -96,9 +96,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const expectedPaths = [
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.oneOf.0',
         'paths./v1/drinks.post.requestBody.content.application/json.schema.oneOf.0.oneOf.0',
         'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.0.oneOf.0',
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.oneOf.0',
         'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.oneOf.0',
       ];
 

@@ -137,26 +137,20 @@ describe(`Spectral rule: ${ruleId}`, () => {
     };
 
     const results = await testRule(ruleId, rule, testDocument);
-
-    // the spectral path resolution logic is ignored for these tests so the
-    // request and response instance are both reported
     expect(results).toHaveLength(4);
 
-    const validation = results[0];
-    expect(validation.code).toBe(ruleId);
-    expect(validation.message).toMatch(expectedMsg);
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/drinks',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'discriminator',
-      'propertyName',
-    ]);
-    expect(validation.severity).toBe(severityCodes.error);
+    const expectedPaths = [
+      'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.discriminator.propertyName',
+      'paths./v1/drinks.post.requestBody.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks.post.responses.201.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.discriminator.propertyName',
+    ];
+    for (let i = 0; i < results.length; i++) {
+      expect(results[i].code).toBe(ruleId);
+      expect(results[i].message).toMatch(expectedMsg);
+      expect(results[i].severity).toBe(severityCodes.error);
+      expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+    }
   });
 
   it('should error if discriminator is not present in all anyOf subschemas', async () => {
@@ -188,21 +182,18 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(4);
 
-    const validation = results[0];
-    expect(validation.code).toBe(ruleId);
-    expect(validation.message).toMatch(expectedMsg);
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/drinks',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'discriminator',
-      'propertyName',
-    ]);
-    expect(validation.severity).toBe(severityCodes.error);
+    const expectedPaths = [
+      'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.discriminator.propertyName',
+      'paths./v1/drinks.post.requestBody.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks.post.responses.201.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.discriminator.propertyName',
+    ];
+    for (let i = 0; i < results.length; i++) {
+      expect(results[i].code).toBe(ruleId);
+      expect(results[i].message).toMatch(expectedMsg);
+      expect(results[i].severity).toBe(severityCodes.error);
+      expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+    }
   });
 
   it('should error if discriminator is not present in all oneOf nested subschemas', async () => {
@@ -231,21 +222,18 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(4);
 
-    const validation = results[0];
-    expect(validation.code).toBe(ruleId);
-    expect(validation.message).toMatch(expectedMsg);
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/drinks',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'discriminator',
-      'propertyName',
-    ]);
-    expect(validation.severity).toBe(severityCodes.error);
+    const expectedPaths = [
+      'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.discriminator.propertyName',
+      'paths./v1/drinks.post.requestBody.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks.post.responses.201.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.discriminator.propertyName',
+    ];
+    for (let i = 0; i < results.length; i++) {
+      expect(results[i].code).toBe(ruleId);
+      expect(results[i].message).toMatch(expectedMsg);
+      expect(results[i].severity).toBe(severityCodes.error);
+      expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+    }
   });
 
   it('should error if property is not present in all anyOf nested subschemas', async () => {
@@ -274,21 +262,18 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(4);
 
-    const validation = results[0];
-    expect(validation.code).toBe(ruleId);
-    expect(validation.message).toMatch(expectedMsg);
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/drinks',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'discriminator',
-      'propertyName',
-    ]);
-    expect(validation.severity).toBe(severityCodes.error);
+    const expectedPaths = [
+      'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.discriminator.propertyName',
+      'paths./v1/drinks.post.requestBody.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks.post.responses.201.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.discriminator.propertyName',
+    ];
+    for (let i = 0; i < results.length; i++) {
+      expect(results[i].code).toBe(ruleId);
+      expect(results[i].message).toMatch(expectedMsg);
+      expect(results[i].severity).toBe(severityCodes.error);
+      expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+    }
   });
 
   it('should not error if property is present in at least one allOf nested subschemas', async () => {
@@ -317,20 +302,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
     const results = await testRule(ruleId, rule, testDocument);
     expect(results).toHaveLength(4);
 
-    const validation = results[0];
-    expect(validation.code).toBe(ruleId);
-    expect(validation.message).toMatch(expectedMsg);
-    expect(validation.path).toStrictEqual([
-      'paths',
-      '/v1/drinks',
-      'post',
-      'requestBody',
-      'content',
-      'application/json',
-      'schema',
-      'discriminator',
-      'propertyName',
-    ]);
-    expect(validation.severity).toBe(severityCodes.error);
+    const expectedPaths = [
+      'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.discriminator.propertyName',
+      'paths./v1/drinks.post.requestBody.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks.post.responses.201.content.application/json.schema.discriminator.propertyName',
+      'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.discriminator.propertyName',
+    ];
+    for (let i = 0; i < results.length; i++) {
+      expect(results[i].code).toBe(ruleId);
+      expect(results[i].message).toMatch(expectedMsg);
+      expect(results[i].severity).toBe(severityCodes.error);
+      expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+    }
   });
 });

@@ -24,9 +24,9 @@
   },
   "dependencies": {
     "@ibm-cloud/openapi-ruleset": "1.17.0",
-    "@stoplight/spectral-cli": "^6.11.0",
+    "@stoplight/spectral-cli": "^6.11.1",
     "@stoplight/spectral-core": "^1.18.3",
-    "@stoplight/spectral-parsers": "^1.0.3",
+    "@stoplight/spectral-parsers": "^1.0.4",
     "ajv": "^8.12.0",
     "chalk": "^4.1.2",
     "commander": "^10.0.1",

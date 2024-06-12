@@ -70,7 +70,7 @@ module.exports = {
     'oas2-api-schemes': true,
     // Enable with same severity as Spectral
     'oas2-host-trailing-slash': true,
-    // Turn off - dupicates non-configurable validation - security-ibm.js
+    // Turn off - duplicates non-configurable validation - security-ibm.js
     'oas2-operation-security-defined': 'off',
     // Enable with warn severity
     'oas2-valid-schema-example': 'warn',
@@ -88,7 +88,7 @@ module.exports = {
     'oas3-api-servers': true,
     // Enable with same severity as Spectral
     'oas3-examples-value-or-externalValue': true,
-    // Turn off - dupicates non-configurable validation - security-ibm.js
+    // Turn off - duplicates non-configurable validation - security-ibm.js
     'oas3-operation-security-defined': 'off',
     // Enable with same severity as Spectral
     'oas3-server-trailing-slash': true,
@@ -100,6 +100,8 @@ module.exports = {
     'oas3-schema': true,
     // Turn off - duplicates non-configurable validation in base validator
     'oas3-unused-component': true,
+    // Turn off 'array-items' rule in favor of our 'ibm-array-attributes' rule
+    'array-items': 'off',
 
     // IBM Custom Rules
     'ibm-api-symmetry': ibmRules.apiSymmetry,

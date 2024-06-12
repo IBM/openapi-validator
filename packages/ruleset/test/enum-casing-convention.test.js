@@ -66,40 +66,24 @@ describe(`Spectral rule: ${ruleId}`, () => {
       ];
 
       const results = await testRule(ruleId, rule, testDocument);
-
-      // We should receive 2 errors because the Juice schema is used within the Drink schema,
-      // which is referenced in two places.
       expect(results).toHaveLength(8);
 
-      for (const result of results) {
-        expect(result.code).toBe(ruleId);
-        expect(result.message).toBe(expectedMsg);
-        expect(result.severity).toBe(expectedSeverity);
+      const expectedPaths = [
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.properties.type.enum.0',
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.properties.type.enum.2',
+        'paths./v1/drinks.post.requestBody.content.application/json.schema.oneOf.0.properties.type.enum.0',
+        'paths./v1/drinks.post.requestBody.content.application/json.schema.oneOf.0.properties.type.enum.2',
+        'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.0.properties.type.enum.0',
+        'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.0.properties.type.enum.2',
+        'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.properties.type.enum.0',
+        'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.properties.type.enum.2',
+      ];
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(expectedMsg);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
-      expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.post.requestBody.content.application/json.schema.oneOf.0.properties.type.enum.0'
-      );
-      expect(results[1].path.join('.')).toBe(
-        'paths./v1/drinks.post.requestBody.content.application/json.schema.oneOf.0.properties.type.enum.2'
-      );
-      expect(results[2].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.0.properties.type.enum.0'
-      );
-      expect(results[3].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.201.content.application/json.schema.oneOf.0.properties.type.enum.2'
-      );
-      expect(results[4].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.properties.type.enum.0'
-      );
-      expect(results[5].path.join('.')).toBe(
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.properties.drinks.items.oneOf.0.properties.type.enum.2'
-      );
-      expect(results[6].path.join('.')).toBe(
-        'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.properties.type.enum.0'
-      );
-      expect(results[7].path.join('.')).toBe(
-        'paths./v1/drinks/{drink_id}.get.responses.200.content.application/json.schema.oneOf.0.properties.type.enum.2'
-      );
     });
   });
 });

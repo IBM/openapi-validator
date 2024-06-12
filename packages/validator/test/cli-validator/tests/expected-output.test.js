@@ -131,7 +131,7 @@ describe('Expected output tests', function () {
       const allOutput = capturedText.join('');
 
       expect(allOutput).toContain('errors');
-      expect(allOutput).toContain('Object must have required property "info"');
+      expect(allOutput).toContain('must have required property "info"');
       expect(allOutput).toContain('warnings');
       expect(allOutput).toContain('Operation must have "operationId"');
       expect(allOutput).toContain(

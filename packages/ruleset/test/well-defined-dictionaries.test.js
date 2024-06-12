@@ -83,8 +83,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
   describe('Should yield errors', () => {
     const expectedPaths = [
-      'paths./v1/movies.post.responses.201.content.application/json.schema.properties.metadata',
       'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.metadata',
+      'paths./v1/movies.post.responses.201.content.application/json.schema.properties.metadata',
       'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.metadata',
       'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.metadata',
     ];
@@ -199,8 +199,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(4);
 
       const expectedRulePaths = [
-        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.metadata.additionalProperties',
         'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.metadata.additionalProperties',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.metadata.additionalProperties',
         'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.metadata.additionalProperties',
         'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.metadata.additionalProperties',
       ];
