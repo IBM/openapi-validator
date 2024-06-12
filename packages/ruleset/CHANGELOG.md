@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.17.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.17.0...@ibm-cloud/openapi-ruleset@1.17.1) (2024-06-12)
+
+
+### Bug Fixes
+
+* bump spectral dependencies ([#668](https://github.com/IBM/openapi-validator/issues/668)) ([0cd53cb](https://github.com/IBM/openapi-validator/commit/0cd53cb60d156b2999814ee03158a66abca418ba))
+
 # @ibm-cloud/openapi-ruleset [1.17.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.16.0...@ibm-cloud/openapi-ruleset@1.17.0) (2024-05-30)
 
 
