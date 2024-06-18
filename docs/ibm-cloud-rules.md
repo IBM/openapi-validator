@@ -63,7 +63,9 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-no-nullable-properties](#ibm-no-nullable-properties)
   * [ibm-no-operation-requestbody](#ibm-no-operation-requestbody)
   * [ibm-no-optional-properties-in-required-body](#ibm-no-optional-properties-in-required-body)
+  * [ibm-no-ref-in-example](#ibm-no-ref-in-example)
   * [ibm-no-space-in-example-name](#ibm-no-space-in-example-name)
+  * [ibm-no-superfluous-allof](#ibm-no-superfluous-allof)
   * [ibm-no-unsupported-keywords](#ibm-no-unsupported-keywords)
   * [ibm-openapi-tags-used](#ibm-openapi-tags-used)
   * [ibm-operation-responses](#ibm-operation-responses)
@@ -348,6 +350,12 @@ which is not allowed.</td>
 <td>info</td>
 <td>If a requestBody schema contains properties that are defined as required, then the requestBody itself
 should probably be required instead of optional.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-no-ref-in-example">ibm-no-ref-in-example</a></td>
+<td>info</td>
+<td>Makes sure that <code>$ref</code> is not used within an <code>example</code> field.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -3527,6 +3535,66 @@ paths:
           'application/json':
             schema:
               $ref: '#/components/schemas/Thing'    # Assume "Thing" schema has required properties
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-no-ref-in-example
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-no-ref-in-example</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>Within an OpenAPI document, the <code>$ref</code> field may appear within an <code>examples</code> field, but it is not valid within an <code>example</code> field.  This rule checks to make sure that <code>$ref</code> is not used within an <code>example</code> field.</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+            example:
+              $ref: '#/components/examples/ThingExample'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  /v1/things:
+    post:
+      operationId: create_thing
+      description: Create a new Thing instance.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Thing'
+            example:
+              name: 'Thing1'
+              description: 'An example Thing object'
 </pre>
 </td>
 </tr>
