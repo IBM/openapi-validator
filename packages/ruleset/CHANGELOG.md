@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.18.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.17.1...@ibm-cloud/openapi-ruleset@1.18.0) (2024-06-20)
+
+
+### Features
+
+* add new 'ibm-no-ref-in-example' rule ([#669](https://github.com/IBM/openapi-validator/issues/669)) ([bcf8b76](https://github.com/IBM/openapi-validator/commit/bcf8b7628052b7acecf022420bf3e5f1eea3a79b))
+
 ## @ibm-cloud/openapi-ruleset [1.17.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.17.0...@ibm-cloud/openapi-ruleset@1.17.1) (2024-06-12)
 
 
