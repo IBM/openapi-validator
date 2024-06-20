@@ -27,6 +27,7 @@ module.exports = {
   noAmbiguousPaths: require('./no-ambiguous-paths'),
   noNullableProperties: require('./no-nullable-properties'),
   noOperationRequestBody: require('./no-operation-requestbody'),
+  noRefInExample: require('./no-ref-in-example'),
   noSuperfluousAllOf: require('./no-superfluous-allof'),
   noUnsupportedKeywords: require('./no-unsupported-keywords'),
   operationIdCasingConvention: require('./operationid-casing-convention'),

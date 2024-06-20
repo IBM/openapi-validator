@@ -141,6 +141,7 @@ module.exports = {
     'ibm-no-nullable-properties': ibmRules.noNullableProperties,
     'ibm-no-operation-requestbody': ibmRules.noOperationRequestBody,
     'ibm-no-optional-properties-in-required-body': ibmRules.optionalRequestBody,
+    'ibm-no-ref-in-example': ibmRules.noRefInExample,
     'ibm-no-space-in-example-name': ibmRules.examplesNameContainsSpace,
     'ibm-no-superfluous-allof': ibmRules.noSuperfluousAllOf,
     'ibm-no-unsupported-keywords': ibmRules.noUnsupportedKeywords,
