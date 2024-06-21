@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.18.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.18.0...@ibm-cloud/openapi-ruleset@1.18.1) (2024-06-21)
+
+
+### Bug Fixes
+
+* ***-attributes:** fill gaps in (array|property|string)-attributes rules ([#670](https://github.com/IBM/openapi-validator/issues/670)) ([30e2de7](https://github.com/IBM/openapi-validator/commit/30e2de7266237c2cbc310c36323f715c02870171))
+
 # @ibm-cloud/openapi-ruleset [1.18.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.17.1...@ibm-cloud/openapi-ruleset@1.18.0) (2024-06-20)
 
 
