@@ -1,14 +1,13 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
 const {
   validateSubschemas,
+  isBooleanSchema,
   isNumberSchema,
   isIntegerSchema,
-  isFloatSchema,
-  isDoubleSchema,
   isObjectSchema,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
@@ -26,11 +25,11 @@ module.exports = function (schema, _opts, context) {
 /**
  * This rule performs the following checks on each schema (and schema property)
  * found in the API definition:
- * 1) minimum/maximum should not be defined for a non-numeric (number, integer) schema
+ * 1) Number-scope keywords should not be defined for a non-numeric (number, integer) schema
  * 2) minimum <= maximum
- * 3) minItems/maxItems should not be defined for a non-array schema
- * 4) minProperties/maxProperties should not be defined for a non-object schema
+ * 4) Object-scope keywords should not be defined for a non-object schema
  * 5) minProperties <= maxProperties
+ * 6) enum field should not be present for object or boolean schemas
  *
  * @param {*} schema the schema to check
  * @param {*} path the array of path segments indicating the "location" of the schema within the API definition
@@ -47,24 +46,47 @@ function checkPropertyAttributes(schema, path) {
     logger.debug('schema is numeric');
 
     // 2) minimum <= maximum
-    if (schema.minimum && schema.maximum && schema.minimum > schema.maximum) {
+    if (
+      'minimum' in schema &&
+      'maximum' in schema &&
+      schema.minimum > schema.maximum
+    ) {
       errors.push({
         message: `'minimum' cannot be greater than 'maximum'`,
         path: [...path, 'minimum'],
       });
     }
   } else {
-    // 1) minimum/maximum should not be defined for a non-numeric (number, integer) schema
-    if (schema.minimum) {
+    // 1) minimum/maximum/multipleOf/exclusiveMaximum/exclusiveMinimum
+    //    should not be defined for a non-numeric (number, integer) schema
+    if ('minimum' in schema) {
       errors.push({
         message: `'minimum' should not be defined for non-numeric schemas`,
         path: [...path, 'minimum'],
       });
     }
-    if (schema.maximum) {
+    if ('maximum' in schema) {
       errors.push({
         message: `'maximum' should not be defined for non-numeric schemas`,
         path: [...path, 'maximum'],
+      });
+    }
+    if ('multipleOf' in schema) {
+      errors.push({
+        message: `'multipleOf' should not be defined for non-numeric schemas`,
+        path: [...path, 'multipleOf'],
+      });
+    }
+    if ('exclusiveMaximum' in schema) {
+      errors.push({
+        message: `'exclusiveMaximum' should not be defined for non-numeric schemas`,
+        path: [...path, 'exclusiveMaximum'],
+      });
+    }
+    if ('exclusiveMinimum' in schema) {
+      errors.push({
+        message: `'exclusiveMinimum' should not be defined for non-numeric schemas`,
+        path: [...path, 'exclusiveMinimum'],
       });
     }
   }
@@ -74,8 +96,8 @@ function checkPropertyAttributes(schema, path) {
 
     // 5) minProperties <= maxProperties
     if (
-      schema.minProperties &&
-      schema.maxProperties &&
+      'minProperties' in schema &&
+      'maxProperties' in schema &&
       schema.minProperties > schema.maxProperties
     ) {
       errors.push({
@@ -83,18 +105,55 @@ function checkPropertyAttributes(schema, path) {
         path: [...path, 'minProperties'],
       });
     }
+
+    // 6) enum should not be present
+    if ('enum' in schema) {
+      errors.push({
+        message: `'enum' should not be defined for object schemas`,
+        path: [...path, 'enum'],
+      });
+    }
   } else {
-    // 4) minProperties/maxProperties should not be defined for a non-object schema
-    if (schema.minProperties) {
+    // 4) minProperties/maxProperties/additionalProperties/properties/required
+    //    should not be defined for a non-object schema
+    if ('minProperties' in schema) {
       errors.push({
         message: `'minProperties' should not be defined for non-object schemas`,
         path: [...path, 'minProperties'],
       });
     }
-    if (schema.maxProperties) {
+    if ('maxProperties' in schema) {
       errors.push({
         message: `'maxProperties' should not be defined for non-object schemas`,
         path: [...path, 'maxProperties'],
+      });
+    }
+    if ('additionalProperties' in schema) {
+      errors.push({
+        message: `'additionalProperties' should not be defined for non-object schemas`,
+        path: [...path, 'additionalProperties'],
+      });
+    }
+    if ('properties' in schema) {
+      errors.push({
+        message: `'properties' should not be defined for non-object schemas`,
+        path: [...path, 'properties'],
+      });
+    }
+    if ('required' in schema) {
+      errors.push({
+        message: `'required' should not be defined for non-object schemas`,
+        path: [...path, 'required'],
+      });
+    }
+  }
+
+  if (isBooleanSchema(schema)) {
+    // 6) enum should not be present
+    if ('enum' in schema) {
+      errors.push({
+        message: `'enum' should not be defined for boolean schemas`,
+        path: [...path, 'enum'],
       });
     }
   }
@@ -103,10 +162,5 @@ function checkPropertyAttributes(schema, path) {
 }
 
 function isNumericSchema(s) {
-  return (
-    isNumberSchema(s) ||
-    isIntegerSchema(s) ||
-    isFloatSchema(s) ||
-    isDoubleSchema(s)
-  );
+  return isNumberSchema(s) || isIntegerSchema(s);
 }

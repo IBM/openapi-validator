@@ -1,8 +1,11 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
+const {
+  schemas,
+} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
 const { oas3 } = require('@stoplight/spectral-formats');
 const { stringAttributes } = require('../functions');
 
@@ -12,13 +15,7 @@ module.exports = {
   severity: 'warn',
   formats: [oas3],
   resolved: true,
-  given: [
-    '$.paths[*][parameters][*].schema',
-    '$.paths[*][parameters][*].content[*].schema',
-    '$.paths[*][*][parameters][*].schema',
-    '$.paths[*][*][parameters][*].content[*].schema',
-    '$.paths[*][*].requestBody.content[*].schema',
-  ],
+  given: schemas,
   then: {
     function: stringAttributes,
   },
