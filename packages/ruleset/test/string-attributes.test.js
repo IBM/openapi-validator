@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -211,6 +211,42 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Response body string schema has no keywords', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.paths['/v1/movies/{movie_id}'].get.responses['200'] = {
+        content: {
+          'application/json': {
+            schema: {
+              properties: {
+                name: {
+                  type: 'string',
+                  description: 'no validation',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Response header string schema has no keywords', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.paths['/v1/movies/{movie_id}'].get.responses.headers = {
+        'X-IBM-Something': {
+          schema: {
+            type: 'string',
+            description: 'no validation',
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
@@ -350,13 +386,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
     it('Non-string schema defines a `minLength` field', async () => {
       const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies'].post.requestBody.content['text/plain'] =
-        {
-          schema: {
-            type: ['integer', 'null', 'boolean'],
-            minLength: 15,
-          },
-        };
+      testDocument.paths['/v1/movies'].post.responses['201'].content[
+        'text/plain'
+      ] = {
+        schema: {
+          type: ['integer', 'null', 'boolean'],
+          minLength: 15,
+        },
+      };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
@@ -366,7 +403,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         `'minLength' should not be defined for non-string schemas`
       );
       expect(validation.path.join('.')).toBe(
-        'paths./v1/movies.post.requestBody.content.text/plain.schema.minLength'
+        'paths./v1/movies.post.responses.201.content.text/plain.schema.minLength'
       );
       expect(validation.severity).toBe(expectedSeverity);
     });

@@ -939,7 +939,7 @@ paths:
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
-<td>Array schemas must define the <code>items</code> field, and should define the <code>minItems</code> and <code>maxItems</code> fields.
+<td>Array schemas must define the <code>items</code> field, and should define the <code>minItems</code> and <code>maxItems</code> fields. Non-arrays must not define array keywords.
 [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#array">1</a>].</td>
 </tr>
 <tr>
@@ -4911,6 +4911,9 @@ paths:
 <li><code>minimum</code> must not be greater than <code>maximum</code>.</li>
 <li><code>minimum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
 <li><code>maximum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
+<li><code>multipleOf</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
+<li><code>exclusiveMaximum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
+<li><code>exclusiveMinimum</code> must not be defined for a schema type other than <code>integer</code> or <code>number</code>.</li>
 </ul>
 </dd>
 <dt>Object schemas (type=object):</dt>
@@ -4919,6 +4922,9 @@ paths:
 <li><code>minProperties</code> must not be greater than <code>maxProperties</code>.</li>
 <li><code>minProperties</code> must not be defined for a schema type other than <code>object</code>.</li>
 <li><code>maxProperties</code> must not be defined for a schema type other than <code>object</code>.</li>
+<li><code>additionalProperties</code> must not be defined for a schema type other than <code>object</code>.</li>
+<li><code>properties</code> must not be defined for a schema type other than <code>object</code>.</li>
+<li><code>required</code> must not be defined for a schema type other than <code>object</code>.</li>
 </ul>
 </dd>
 </dl>

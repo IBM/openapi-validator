@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -64,6 +64,16 @@ function arrayAttributeErrors(schema, path) {
       });
     }
 
+    // Is enum defined? Shouldn't be
+    const enm = getCompositeSchemaAttribute(schema, 'enum');
+    if (isDefined(enm)) {
+      logger.debug('enum field is present!');
+      errors.push({
+        message: `Array schemas should not define an 'enum' field`,
+        path: [...path, 'enum'],
+      });
+    }
+
     // Is items defined?
     const items = getCompositeSchemaAttribute(schema, 'items');
     if (!isDefined(items) || !isPlainObject(items)) {
@@ -76,7 +86,7 @@ function arrayAttributeErrors(schema, path) {
       ];
     }
   } else {
-    // minItems/maxItems should not be defined for a non-array schema
+    // minItems/maxItems/items should not be defined for a non-array schema
     if (schema.minItems) {
       errors.push({
         message: `'minItems' should not be defined for a non-array schema`,
@@ -87,6 +97,12 @@ function arrayAttributeErrors(schema, path) {
       errors.push({
         message: `'maxItems' should not be defined for a non-array schema`,
         path: [...path, 'maxItems'],
+      });
+    }
+    if (schema.items) {
+      errors.push({
+        message: `'items' should not be defined for a non-array schema`,
+        path: [...path, 'items'],
       });
     }
   }

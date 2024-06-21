@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -160,6 +160,36 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[1].path.join('.')).toBe(
         'paths./v1/movies.post.responses.201.content.application/json.schema.properties.production_crew'
       );
+    });
+
+    it('enum defined for array schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Car.properties['wheel_options'] = {
+        type: 'array',
+        maxItems: 3,
+        minItems: 1,
+        items: {
+          type: 'string',
+        },
+        enum: [['circle'], ['circle', 'square', 'triangle']],
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(3);
+      const expectedPaths = [
+        'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_options.enum',
+        'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_options.enum',
+        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_options.enum',
+      ];
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(
+          `Array schemas should not define an 'enum' field`
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
     });
 
     it('Inline response schema array property with only minItems', async () => {
@@ -586,6 +616,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toBe(
           `'maxItems' should not be defined for a non-array schema`
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+    it('items defined for non-array schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Car.properties['wheel_count'] = {
+        type: 'integer',
+        items: {
+          type: 'integer',
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(3);
+      const expectedPaths = [
+        'paths./v1/cars.post.responses.201.content.application/json.schema.properties.wheel_count.items',
+        'paths./v1/cars/{car_id}.get.responses.200.content.application/json.schema.properties.wheel_count.items',
+        'paths./v1/cars/{car_id}.patch.responses.200.content.application/json.schema.properties.wheel_count.items',
+      ];
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(
+          `'items' should not be defined for a non-array schema`
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
