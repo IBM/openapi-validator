@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -64,6 +64,13 @@ const validRefPrefixes = {
 };
 
 function checkRefPattern($ref, path) {
+  // $ref *may* be the name of a property, etc. so this check makes sure we are
+  // validating a $ref property that points to a string value, which should
+  // nearly always be an actual reference value.
+  if (typeof $ref !== 'string') {
+    return [];
+  }
+
   // We're interested only in local refs (e.g. #/components/schemas/MyModel).
   if (!$ref.startsWith('#')) {
     logger.debug(`${ruleId}: skipping check for external $ref: ${$ref}`);
