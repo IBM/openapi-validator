@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -56,6 +56,13 @@ const reportedRefValues = new Set();
  * @returns an array containing the violations found or [] if no violations
  */
 function checkForCircularRef($ref, path) {
+  // $ref *may* be the name of a property, etc. so this check makes sure we are
+  // validating a $ref property that points to a string value, which should
+  // nearly always be an actual reference value.
+  if (typeof $ref !== 'string') {
+    return [];
+  }
+
   logger.debug(
     `${ruleId}: found unresolved $ref '${$ref}' at location: ${path.join('.')}`
   );

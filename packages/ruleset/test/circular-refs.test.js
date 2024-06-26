@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -22,6 +22,17 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
+      const results = await testRule(ruleId, rule, rootDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Property named $ref should not cause problems', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Car.properties.$ref = {
+        type: 'string',
+        description: 'this property is actually called $ref',
+      };
+
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
