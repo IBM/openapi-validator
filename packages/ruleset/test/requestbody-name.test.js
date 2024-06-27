@@ -1,18 +1,27 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { requestBodyNameExists } = require('../src/rules');
+const { requestBodyName } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
 
 const ruleId = 'ibm-requestbody-name';
-const rule = requestBodyNameExists;
+const rule = requestBodyName;
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = `Operations with non-form request bodies should set a name with the 'x-codegen-request-body-name' extension`;
 
+// This rule is turned off by default - enable it to run tests
+// but still verify it is defined in the rule as "off".
+const originalSeverity = makeCopy(rule.severity);
+rule.severity = 'warn';
+
 // `Operation with non-form requestBody should set a name with the ${EXTENSION_NAME} extension.`
 describe(`Spectral rule: ${ruleId}`, () => {
+  it('Should originally be set to severity: "off"', () => {
+    expect(originalSeverity).toBe('off');
+  });
+
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);

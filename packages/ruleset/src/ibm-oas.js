@@ -169,7 +169,7 @@ module.exports = {
     'ibm-ref-pattern': ibmRules.refPattern,
     'ibm-request-and-response-content': ibmRules.requestAndResponseContent,
     'ibm-requestbody-is-object': ibmRules.requestBodyIsObject,
-    'ibm-requestbody-name': ibmRules.requestBodyNameExists,
+    'ibm-requestbody-name': ibmRules.requestBodyName,
     'ibm-resource-response-consistency': ibmRules.resourceResponseConsistency,
     'ibm-response-status-codes': ibmRules.responseStatusCodes,
     'ibm-schema-casing-convention': ibmRules.schemaCasingConvention,
