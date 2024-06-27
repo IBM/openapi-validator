@@ -518,9 +518,9 @@ or <code>application/merge-patch+json</code>.</td>
 </tr>
 <tr>
 <td><a href="#ibm-requestbody-name">ibm-requestbody-name</a></td>
-<td>warn</td>
+<td>off</td>
 <td>An operation should specify a request body name (with the <code>x-codegen-request-body-name</code> extension) if its requestBody
-has non-form content.</td>
+has non-form content. <b>This rule is disabled by default.</b></td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -5364,6 +5364,8 @@ it is a good practice to provide the request body name via the extension, especi
 way to infer a logical name for the operation's body parameter.
 <p>This rule analyzes each operation to determine if a request body name is needed, and if so, checks to make sure 
 that the <code>x-codegen-request-body-name</code> extension is set on the operation.
+<br><br>
+<b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
 </td>
 </tr>
 <tr>

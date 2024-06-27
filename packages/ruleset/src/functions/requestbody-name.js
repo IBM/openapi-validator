@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -18,7 +18,7 @@ module.exports = function (operation, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
-  return requestBodyNameExists(operation, context.path);
+  return requestBodyName(operation, context.path);
 };
 
 // Name of the extension that we're looking for.
@@ -36,7 +36,7 @@ const EXTENSION_NAME = 'x-codegen-request-body-name';
  * @param {*} path the array of path segments indicating the "location" of "op" within the API definition
  * @returns an array containing the violations found or [] if no violations
  */
-function requestBodyNameExists(op, path) {
+function requestBodyName(op, path) {
   logger.debug(
     `${ruleId}: checking operation '${op.operationId}' at location: ${path.join(
       '.'
