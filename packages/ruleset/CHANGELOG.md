@@ -1,3 +1,11 @@
+## @ibm-cloud/openapi-ruleset [1.18.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.18.1...@ibm-cloud/openapi-ruleset@1.18.2) (2024-06-27)
+
+
+### Bug Fixes
+
+* allow property names to be $ref without crashing ([ffa2f1b](https://github.com/IBM/openapi-validator/commit/ffa2f1b36de0894edfda76d929d68e85f00df9ef))
+* **ibm-requestbody-name:** turn rule off by default, is now redundant ([#673](https://github.com/IBM/openapi-validator/issues/673)) ([56437f2](https://github.com/IBM/openapi-validator/commit/56437f283b20ae59e0750a20317b90b5701ea52c))
+
 ## @ibm-cloud/openapi-ruleset [1.18.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.18.0...@ibm-cloud/openapi-ruleset@1.18.1) (2024-06-21)
 
 
