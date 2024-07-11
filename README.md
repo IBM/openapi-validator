@@ -50,6 +50,7 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
       - [outputFormat](#outputformat)
       - [ruleset](#ruleset)
       - [summaryOnly](#summaryonly)
+  * [Programmatic Usage](#programmatic-usage)
 - [Validator Output](#validator-output)
   * [Text](#text)
   * [JSON](#json)
@@ -660,6 +661,23 @@ module.exports = {
 </td>
 </tr>
 </table>
+
+### Programmatic Usage
+While the validator does not expose an API for usage within a Node.js program, you can achieve programmatic behavior
+consistent with the CLI by using the open-source tool [Spectral's Node API](https://meta.stoplight.io/docs/spectral/eb68e7afd463e-spectral-in-java-script)
+and the [IBM OpenAPI Ruleset package](https://www.npmjs.com/package/@ibm-cloud/openapi-ruleset).
+Here is a simple example of what that might look like:
+```js
+const ibmOpenapiRuleset = require('@ibm-cloud/openapi-ruleset');
+const { Spectral } = require('@stoplight/spectral-core');
+
+function async runSpectral(openapiDocument) {
+  const spectral = new Spectral();
+  spectral.setRuleset(ibmOpenapiRuleset);
+  results = await spectral.run(openapiDocument);
+  console.log(results);
+}
+```
 
 ## Validator Output
 The validator can produce output in either text or JSON format.  The default is `text` output, and this can be
