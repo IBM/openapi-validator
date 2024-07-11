@@ -663,7 +663,7 @@ module.exports = {
 </table>
 
 ### Programmatic Usage
-While the validator does not expose an API for usage within a Node program, you can achieve programmatic behavior
+While the validator does not expose an API for usage within a Node.js program, you can achieve programmatic behavior
 consistent with the CLI by using the open-source tool [Spectral's Node API](https://meta.stoplight.io/docs/spectral/eb68e7afd463e-spectral-in-java-script)
 and the [IBM OpenAPI Ruleset package](https://www.npmjs.com/package/@ibm-cloud/openapi-ruleset).
 Here is a simple example of what that might look like:
