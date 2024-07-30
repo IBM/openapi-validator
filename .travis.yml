@@ -2,26 +2,39 @@ dist: jammy
 
 language: node_js
 
-node_js:
-- 16
-- 18
-- 20
-
 cache:
   npm: false
 
-before_install:
-  - npm i -g npm@8
+stages:
+  - name: Build-Test
+  - name: Semantic-Release
+    if: (branch = main) AND (type IN (push, api)) AND (fork = false)
 
+# Default "script" step which builds and tests the validator
 script:
 - npm run test-travis
 - npm run lint
 - npm run test-docker
 
-deploy:
-- provider: script
-  skip_cleanup: true
-  script: npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
-  on:
-    node: 20
-    branch: main
+jobs:
+  include:
+    - stage: Build-Test
+      language: node_js
+      node_js: 16
+    - node_js: 18
+    - node_js: 20
+
+    - name: Detect-Secrets
+      language: python
+      python: 3.12
+      install:
+        - pip install --upgrade "git+https://github.com/ibm/detect-secrets.git@master#egg=detect-secrets"
+      script:
+        - detect-secrets scan --update .secrets.baseline
+        - detect-secrets -v audit --report --fail-on-unaudited --fail-on-live --fail-on-audited-real .secrets.baseline
+
+    - stage: Semantic-Release
+      language: node_js
+      node_js: 20
+      script:
+        - npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
