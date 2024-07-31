@@ -28,6 +28,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
     + [Define a new rule](#define-a-new-rule)
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
+  * [ibm-anchored-patterns](#ibm-anchored-patterns)
   * [ibm-api-symmetry](#ibm-api-symmetry)
   * [ibm-array-attributes](#ibm-array-attributes)
   * [ibm-avoid-inline-schemas](#ibm-avoid-inline-schemas)
@@ -128,6 +129,12 @@ is provided in the [Reference](#reference) section below.
 <table>
 <tr>
 <th>Rule Id</th><th>Severity</th><th>Description</th><th>OpenAPI Versions</th>
+</tr>
+<tr>
+<td><a href="#ibm-anchored-patterns">ibm-anchored-patterns</a></td>
+<td>warn</td>
+<td>Schema "pattern" attributes should contain regular expressions that include start-of-line and end-of-line anchors (i.e. <code>^</code> and <code>$</code> characters).</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-api-symmetry">ibm-api-symmetry</a></td>
@@ -830,6 +837,60 @@ For details on how to add overrides to your custom ruleset, please read the
 This section provides reference documentation about the IBM Cloud Validation Rules contained
 in the `@ibm-cloud/openapi-ruleset` package.
 
+
+### ibm-anchored-patterns
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-anchored-patterns</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+The <code>pattern</code> attribute of a string schema provides a regular expression to validate string instances. This rule ensures that each <code>pattern</code> attribute contains an <i>anchored</i> regular expression.  This implies that the regular expression starts with the <code>^</code> character and ends with the <code>$</code> character.
+This check is performed to ensure that string instances are validated in their entirety,
+since an un-anchored regular expression might match on only part of the string instance.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: 'id-[0-9a-fA-F]+'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      type: object
+      properties:
+        id:
+          type: string
+          pattern: '^id-[0-9a-fA-F]+$'
+</pre>
+</td>
+</tr>
+</table>
 
 ### ibm-api-symmetry
 <table>

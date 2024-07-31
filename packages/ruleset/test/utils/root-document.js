@@ -94,7 +94,7 @@ module.exports = {
             required: false,
             schema: {
               type: 'string',
-              pattern: '[a-zA-Z0-9 ]+',
+              pattern: '^[a-zA-Z0-9 ]+$',
               minLength: 1,
               maxLength: 128,
             },
@@ -204,7 +204,7 @@ module.exports = {
             schema: {
               description: 'Name of the file as a string',
               type: 'string',
-              pattern: '[a-z0-9]*.pdf',
+              pattern: '^[a-z0-9]*.pdf$',
               minLength: 0,
               maxLength: 1024000,
             },
@@ -328,7 +328,7 @@ module.exports = {
             required: false,
             schema: {
               type: 'string',
-              pattern: '[a-zA-Z0-9 ]+',
+              pattern: '^[a-zA-Z0-9 ]+$',
               minLength: 1,
               maxLength: 128,
             },
@@ -577,7 +577,7 @@ module.exports = {
         required: true,
         schema: {
           type: 'string',
-          pattern: '[a-zA-Z0-9 ]+',
+          pattern: '^[a-zA-Z0-9 ]+$',
           minLength: 1,
           maxLength: 30,
         },
@@ -589,7 +589,7 @@ module.exports = {
         required: true,
         schema: {
           type: 'string',
-          pattern: '[a-zA-Z0-9 ]+',
+          pattern: '^[a-zA-Z0-9 ]+$',
           minLength: 1,
           maxLength: 30,
         },
@@ -620,7 +620,7 @@ module.exports = {
         in: 'path',
         schema: {
           type: 'string',
-          pattern: '[a-zA-Z0-9 ]+',
+          pattern: '^[a-zA-Z0-9 ]+$',
           minLength: 1,
           maxLength: 30,
         },
@@ -632,7 +632,7 @@ module.exports = {
         in: 'header',
         schema: {
           type: 'string',
-          pattern: '[a-zA-Z0-9 ]+',
+          pattern: '^[a-zA-Z0-9 ]+$',
           minLength: 1,
           maxLength: 64,
         },
@@ -788,7 +788,7 @@ module.exports = {
       NormalString: {
         description: 'This is a normal string.',
         type: 'string',
-        pattern: '[a-zA-Z0-9 ]+',
+        pattern: '^[a-zA-Z0-9 ]+$',
         minLength: 1,
         maxLength: 30,
       },
@@ -796,7 +796,7 @@ module.exports = {
         description: 'An identifier of some sort.',
         type: 'string',
         readOnly: true,
-        pattern: '[a-zA-Z0-9]+',
+        pattern: '^[a-zA-Z0-9]+$',
         minLength: 1,
         maxLength: 10,
       },
@@ -804,6 +804,7 @@ module.exports = {
         description: 'A URL of some sort.',
         type: 'string',
         format: 'url',
+        pattern: '^https://.*$',
         maxLength: 1024,
       },
       DrinkCollection: {
@@ -912,14 +913,14 @@ module.exports = {
             type: 'string',
             minLength: 1,
             maxLength: 64,
-            pattern: '[0-9]+',
+            pattern: '^[0-9]+$',
           },
           make: {
             description: 'The car make.',
             type: 'string',
             minLength: 1,
             maxLength: 32,
-            pattern: '.*',
+            pattern: '^.*$',
           },
           model: {
             $ref: '#/components/schemas/CarModelType',
@@ -936,7 +937,7 @@ module.exports = {
             type: 'string',
             minLength: 1,
             maxLength: 32,
-            pattern: '.*',
+            pattern: '^.*$',
           },
           model: {
             $ref: '#/components/schemas/CarModelType',
@@ -952,7 +953,7 @@ module.exports = {
             type: 'string',
             minLength: 1,
             maxLength: 32,
-            pattern: '.*',
+            pattern: '^.*$',
           },
           model: {
             $ref: '#/components/schemas/CarModelType',
@@ -964,7 +965,7 @@ module.exports = {
         type: 'string',
         minLength: 1,
         maxLength: 32,
-        pattern: '.*',
+        pattern: '^.*$',
       },
       TokenPaginationBase: {
         description:
@@ -1011,7 +1012,7 @@ module.exports = {
           href: {
             description: 'The link value',
             type: 'string',
-            pattern: '[a-zA-Z0-9 ]+',
+            pattern: '^[a-zA-Z0-9 ]+$',
             minLength: 1,
             maxLength: 30,
           },
