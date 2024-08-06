@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.19.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.18.2...@ibm-cloud/openapi-ruleset@1.19.0) (2024-08-06)
+
+
+### Features
+
+* **ibm-anchored-patterns:** add new ibm-anchored-patterns rule ([#677](https://github.com/IBM/openapi-validator/issues/677)) ([730e70c](https://github.com/IBM/openapi-validator/commit/730e70c70e45fdc8a0e574350c635a55c582cfb1))
+
 ## @ibm-cloud/openapi-ruleset [1.18.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.18.1...@ibm-cloud/openapi-ruleset@1.18.2) (2024-06-27)
 
 
