@@ -13,6 +13,7 @@ const expectedMessage1 = `patternProperties and additionalProperties are mutuall
 const expectedMessage2 = `patternProperties must be an object`;
 const expectedMessage3 = `patternProperties must be a non-empty object`;
 const expectedMessage4 = `patternProperties must be an object with at most one entry`;
+const expectedMessage5 = `patternProperties patterns should be anchored with ^ and $`;
 
 describe(`Spectral rule: ${ruleId}`, () => {
   beforeAll(() => {
@@ -140,6 +141,56 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toBe(expectedMessage4);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('patternProperties entry is missing beginning anchor', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas['Movie'].patternProperties = {
+        'str.*$': {
+          type: 'string',
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      const expectedPaths = [
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.patternProperties',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.patternProperties',
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.patternProperties',
+      ];
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMessage5);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('patternProperties entry is missing ending anchor', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas['Movie'].patternProperties = {
+        '^str.*': {
+          type: 'string',
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      const expectedPaths = [
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.patternProperties',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.patternProperties',
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.patternProperties',
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.patternProperties',
+      ];
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMessage5);
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }

@@ -32,6 +32,7 @@ module.exports = function (schema, _opts, context) {
  * 2. patternProperties must be an object
  * 3. patternProperties must not be empty
  * 4. patternProperties must have at most one entry
+ * 5. patternProperties must anchor its pattern
  *
  * @param {*} schema the schema to check
  * @param {*} path the array of path segments indicating the location of "schema" within the API definition
@@ -91,6 +92,20 @@ function patternPropertiesCheck(schema, path) {
       {
         message: 'patternProperties must be an object with at most one entry',
         path: [...path, 'patternProperties'],
+      },
+    ];
+  }
+
+  // At this point, we're guaranteed to have one pattern in the list.
+  // We need to make sure the regular expression is anchored.
+  if (!keys[0].startsWith('^') || !keys[0].endsWith('$')) {
+    logger.debug(
+      `${ruleId}: Error: patternProperties has a non-anchored pattern!`
+    );
+    return [
+      {
+        message: 'patternProperties patterns should be anchored with ^ and $',
+        path: [...path, 'patternProperties', 0],
       },
     ];
   }
