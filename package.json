@@ -42,6 +42,7 @@
     "semantic-release": "^21.0.7"
   },
   "overrides": {
-    "proxy-agent": "^6.3.0"
+    "proxy-agent": "^6.3.0",
+    "micromatch": "^4.0.8"
   }
 }
