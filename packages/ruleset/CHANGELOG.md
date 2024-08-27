@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.20.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.19.0...@ibm-cloud/openapi-ruleset@1.20.0) (2024-08-27)
+
+
+### Features
+
+* **ibm-pattern-properties:** enforce use of anchors for property patterns ([#679](https://github.com/IBM/openapi-validator/issues/679)) ([8055f2f](https://github.com/IBM/openapi-validator/commit/8055f2f746e2f9b6b0d7fea9177b57c6292cf439))
+
 # @ibm-cloud/openapi-ruleset [1.19.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.18.2...@ibm-cloud/openapi-ruleset@1.19.0) (2024-08-06)
 
 
