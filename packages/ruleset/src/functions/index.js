@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+  acceptAndReturnModels: require('./accept-and-return-models'),
   allowedKeywords: require('./allowed-keywords'),
   anchoredPatterns: require('./anchored-patterns'),
   apiSymmetry: require('./api-symmetry'),

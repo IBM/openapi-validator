@@ -28,6 +28,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
     + [Define a new rule](#define-a-new-rule)
   * [Spectral Overrides](#spectral-overrides)
 - [Reference](#reference)
+  * [ibm-accept-and-return-models](#ibm-accept-and-return-models)
   * [ibm-anchored-patterns](#ibm-anchored-patterns)
   * [ibm-api-symmetry](#ibm-api-symmetry)
   * [ibm-array-attributes](#ibm-array-attributes)
@@ -129,6 +130,12 @@ is provided in the [Reference](#reference) section below.
 <table>
 <tr>
 <th>Rule Id</th><th>Severity</th><th>Description</th><th>OpenAPI Versions</th>
+</tr>
+<tr>
+<td><a href="#ibm-accept-and-return-models">ibm-accept-and-return-models</a></td>
+<td>error</td>
+<td>Request and response bodies must be defined as model instances.</td>
+<td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-anchored-patterns">ibm-anchored-patterns</a></td>
@@ -837,6 +844,64 @@ For details on how to add overrides to your custom ruleset, please read the
 This section provides reference documentation about the IBM Cloud Validation Rules contained
 in the `@ibm-cloud/openapi-ruleset` package.
 
+### ibm-accept-and-return-models
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-accept-and-return-models</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-models">IBM Cloud API Handbook model guidance</a> states that "Every object returned or accepted by a service MUST be an instance of a model." A model is an object that defines concrete fields (and in this way, is distinct from a dictionary). This rule ensures that each JSON request and response body (accepted and returned objects, respectively) is a model instance by requiring that a schema defines concrete fields via the <code>properties</code> attribute.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+requestBody:
+  content:
+    'application/json':
+      schema:
+        type: object
+        description: A dictionary-based request body, that should be a model
+        additionalProperties:
+          type: string
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+requestBody:
+  content:
+    'application/json':
+      schema:
+        # Note that this should be defined through a "reference" to a
+        # named schema, using an inline schema for display purposes.
+        type: object
+        description: A model of a "Person" resource
+        properties:
+          name:
+            type: string
+            description: Name of the person
+          age:
+            type: integer
+            description: Age of the person, in years
+</pre>
+</td>
+</tr>
+</table>
 
 ### ibm-anchored-patterns
 <table>

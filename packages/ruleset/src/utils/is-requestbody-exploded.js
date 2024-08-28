@@ -1,9 +1,5 @@
 const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
-const {
-  isJsonMimeType,
-  isJsonPatchMimeType,
-  isMergePatchMimeType,
-} = require('./mimetype-utils');
+const { supportsJsonContent } = require('./mimetype-utils');
 
 /**
  * Returns true iff the specified requestBody defines JSON content that will be exploded by
@@ -30,15 +26,10 @@ function isRequestBodyExploded(requestBody) {
   // so let's check if the body will be exploded.
 
   // Does the operation support JSON content?
-  const jsonMimeType = mimeTypes.find(
-    m => isJsonMimeType(m) || isJsonPatchMimeType(m) || isMergePatchMimeType(m)
-  );
+  const jsonMimeType = mimeTypes.find(m => supportsJsonContent(m));
 
   // Does the operation support non-JSON content?
-  const hasNonJsonContent = mimeTypes.find(
-    m =>
-      !isJsonMimeType(m) && !isJsonPatchMimeType(m) && !isMergePatchMimeType(m)
-  );
+  const hasNonJsonContent = mimeTypes.find(m => !supportsJsonContent(m));
 
   // Grab the requestBody schema for the JSON mimetype (if present).
   const bodySchema = jsonMimeType ? content[jsonMimeType].schema : null;

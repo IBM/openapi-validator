@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -71,9 +71,21 @@ function isFormMimeType(mimeType) {
   return !!formMimeTypeREs.find(re => re.test(mimeType));
 }
 
+/**
+ * Returns true if and only if mime-type "m" meets the criteria for
+ * at least one of the content types that use JSON representation:
+ * JSON, JSON Patch, or Merge Patch.
+ * @param {string} m the mime-type string
+ * @returns boolean true if "mimeType" indicates JSON-represented content
+ */
+function supportsJsonContent(m) {
+  return isJsonMimeType(m) || isJsonPatchMimeType(m) || isMergePatchMimeType(m);
+}
+
 module.exports = {
   isFormMimeType,
   isJsonMimeType,
   isJsonPatchMimeType,
   isMergePatchMimeType,
+  supportsJsonContent,
 };
