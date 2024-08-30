@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.21.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.20.0...@ibm-cloud/openapi-ruleset@1.21.0) (2024-08-30)
+
+
+### Features
+
+* **new-rule:** ibm-accept-and-return-models ([#680](https://github.com/IBM/openapi-validator/issues/680)) ([01e9881](https://github.com/IBM/openapi-validator/commit/01e9881999932dfcf55d3f59f1f561a7f8002064))
+
 # @ibm-cloud/openapi-ruleset [1.20.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.19.0...@ibm-cloud/openapi-ruleset@1.20.0) (2024-08-27)
 
 
