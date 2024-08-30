@@ -104,6 +104,7 @@ module.exports = {
     'array-items': 'off',
 
     // IBM Custom Rules
+    'ibm-accept-and-return-models': ibmRules.acceptAndReturnModels,
     'ibm-anchored-patterns': ibmRules.anchoredPatterns,
     'ibm-api-symmetry': ibmRules.apiSymmetry,
     'ibm-array-attributes': ibmRules.arrayAttributes,

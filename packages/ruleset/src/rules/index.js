@@ -4,9 +4,10 @@
  */
 
 module.exports = {
-  apiSymmetry: require('./api-symmetry'),
+  acceptAndReturnModels: require('./accept-and-return-models'),
   acceptHeader: require('./accept-header'),
   anchoredPatterns: require('./anchored-patterns'),
+  apiSymmetry: require('./api-symmetry'),
   arrayAttributes: require('./array-attributes'),
   arrayOfArrays: require('./array-of-arrays'),
   arrayResponses: require('./array-responses'),
