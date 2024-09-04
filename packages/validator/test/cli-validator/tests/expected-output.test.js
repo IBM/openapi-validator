@@ -86,26 +86,24 @@ describe('Expected output tests', function () {
         expect(capturedText[errorStart + 5].match(/\S+/g)[2]).toEqual('52');
         expect(capturedText[errorStart + 10].match(/\S+/g)[2]).toEqual('96');
         expect(capturedText[errorStart + 15].match(/\S+/g)[2]).toEqual('103');
-        expect(capturedText[errorStart + 20].match(/\S+/g)[2]).toEqual('103');
-        // Note: final number in this list captured below.
 
         // Specifically verify that the no-$ref-siblings error occurred.
         // We do this because this rule is inherited from Spectral's oas ruleset,
         // but we modify the rule definition in ibmoas.js so that it is run
         // against both OpenAPI 3.0 and 3.1 documents.
-        expect(capturedText[errorStart + 22].split(':')[1].trim()).toEqual(
+        expect(capturedText[errorStart + 17].split(':')[1].trim()).toEqual(
           '$ref must not be placed next to any other properties'
         );
-        expect(capturedText[errorStart + 23].split(':')[1].trim()).toEqual(
+        expect(capturedText[errorStart + 18].split(':')[1].trim()).toEqual(
           'no-$ref-siblings'
         );
-        expect(capturedText[errorStart + 24].split(':')[1].trim()).toEqual(
+        expect(capturedText[errorStart + 19].split(':')[1].trim()).toEqual(
           'components.schemas.Pet.properties.category.description'
         );
-        expect(capturedText[errorStart + 25].match(/\S+/g)[2]).toEqual('176');
+        expect(capturedText[errorStart + 20].match(/\S+/g)[2]).toEqual('176');
 
         // warnings
-        const warningStart = 30;
+        const warningStart = 25;
         expect(capturedText[warningStart + 5].match(/\S+/g)[2]).toEqual('22');
         expect(capturedText[warningStart + 10].match(/\S+/g)[2]).toEqual('24');
         expect(capturedText[warningStart + 15].match(/\S+/g)[2]).toEqual('40');
