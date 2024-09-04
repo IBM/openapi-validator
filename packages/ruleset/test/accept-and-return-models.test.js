@@ -10,7 +10,7 @@ const rule = acceptAndReturnModels;
 const ruleId = 'ibm-accept-and-return-models';
 const expectedSeverity = severityCodes.error;
 const expectedMessage =
-  'Request and response bodies must include fields defined in `properties`';
+  'Request and response bodies must be models - their schemas must define `properties`';
 
 // To enable debug logging in the rule function, copy this statement to an it() block:
 //    LoggerFactory.getInstance().addLoggerSetting(ruleId, 'debug');
@@ -24,7 +24,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    // non-JSON content, captured in root doc but might as well be explicit !!!
+    // Non-JSON content is captured in the root doc but adding this test to be explicit.
     it('Content is non-JSON', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -33,6 +33,23 @@ describe(`Spectral rule: ${ruleId}`, () => {
           schema: {
             type: 'string',
           },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Content is not an object', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/movies'].post.requestBody.content[
+        'application/json'
+      ].schema = {
+        type: 'array',
+        description: 'should be an object but that is caught elsewhere',
+        items: {
+          type: 'string',
         },
       };
 

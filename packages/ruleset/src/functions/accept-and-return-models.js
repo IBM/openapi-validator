@@ -5,6 +5,7 @@
 
 const {
   isObject,
+  isObjectSchema,
   schemaHasConstraint,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { supportsJsonContent, LoggerFactory } = require('../utils');
@@ -17,6 +18,7 @@ let logger;
  * presence of the following other rules:
  *
  * ibm-operation-responses - all operations define a response
+ * ibm-no-array-responses - response bodies are not arrays
  * ibm-requestbody-is-object - JSON request bodies are object schemas
  * ibm-request-and-response content - request and response bodies define content
  * ibm-well-defined-dictionaries - additional properties aren't mixed with static properties
@@ -51,6 +53,15 @@ function checkForProperties(schema, path) {
     return [];
   }
 
+  // Only check schemas that are already defined as an "object" type.
+  // Non-object request/response bodies are checked for elsewhere.
+  if (!isObjectSchema(schema)) {
+    logger.debug(
+      `${ruleId}: skipping non-object schema at location: ${path.join('.')}`
+    );
+    return [];
+  }
+
   if (!schemaHasConstraint(schema, s => schemaDefinesProperties(s))) {
     logger.debug(
       `${ruleId}: No properties found in schema at location: ${path.join('.')}`
@@ -58,7 +69,7 @@ function checkForProperties(schema, path) {
     return [
       {
         message:
-          'Request and response bodies must include fields defined in `properties`',
+          'Request and response bodies must be models - their schemas must define `properties`',
         path,
       },
     ];

@@ -114,25 +114,19 @@ describe('cli tool - test option handling', function () {
       expect(sumSection).toBe(3);
 
       // totals
-      expect(capturedText[sumSection + 2].match(/\S+/g)[5]).toEqual('5');
+      expect(capturedText[sumSection + 2].match(/\S+/g)[5]).toEqual('4');
       expect(capturedText[sumSection + 3].match(/\S+/g)[5]).toEqual('29');
 
       // errors
       const errorSection = 8;
       expect(capturedText[errorSection + 1].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[errorSection + 1].match(/\S+/g)[1]).toEqual('(20%)');
+      expect(capturedText[errorSection + 1].match(/\S+/g)[1]).toEqual('(25%)');
 
       expect(capturedText[errorSection + 2].match(/\S+/g)[0]).toEqual('2');
-      expect(capturedText[errorSection + 2].match(/\S+/g)[1]).toEqual('(40%)');
-
-      expect(capturedText[errorSection + 3].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[errorSection + 3].match(/\S+/g)[1]).toEqual('(20%)');
-
-      expect(capturedText[errorSection + 4].match(/\S+/g)[0]).toEqual('1');
-      expect(capturedText[errorSection + 4].match(/\S+/g)[1]).toEqual('(20%)');
+      expect(capturedText[errorSection + 2].match(/\S+/g)[1]).toEqual('(50%)');
 
       // warnings
-      const warningSection = 14;
+      const warningSection = 13;
       expect(capturedText[warningSection + 1].match(/\S+/g)[0]).toEqual('2');
       expect(capturedText[warningSection + 1].match(/\S+/g)[1]).toEqual('(7%)');
 
