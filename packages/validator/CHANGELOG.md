@@ -1,3 +1,18 @@
+## ibm-openapi-validator [1.22.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.22.0...ibm-openapi-validator@1.22.1) (2024-09-04)
+
+
+### Bug Fixes
+
+* **ibm-accept-and-return-models:** exempt non-object schemas ([#681](https://github.com/IBM/openapi-validator/issues/681)) ([4577d06](https://github.com/IBM/openapi-validator/commit/4577d0647c683f7c7ede0d5ee1aea6ab633001fc))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.21.1
+
 # ibm-openapi-validator [1.22.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.21.0...ibm-openapi-validator@1.22.0) (2024-08-30)
 
 
