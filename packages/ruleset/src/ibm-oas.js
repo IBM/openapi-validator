@@ -142,8 +142,10 @@ module.exports = {
     'ibm-no-if-unmodified-since-header': ibmRules.ifUnmodifiedSinceHeader,
     'ibm-no-nullable-properties': ibmRules.noNullableProperties,
     'ibm-no-operation-requestbody': ibmRules.noOperationRequestBody,
-    'ibm-no-optional-properties-in-required-body': ibmRules.optionalRequestBody,
+    'ibm-no-optional-properties-in-required-body':
+      ibmRules.optionalRequestBodyDeprecated,
     'ibm-no-ref-in-example': ibmRules.noRefInExample,
+    'ibm-no-required-properties-in-optional-body': ibmRules.optionalRequestBody,
     'ibm-no-space-in-example-name': ibmRules.examplesNameContainsSpace,
     'ibm-no-superfluous-allof': ibmRules.noSuperfluousAllOf,
     'ibm-no-unsupported-keywords': ibmRules.noUnsupportedKeywords,

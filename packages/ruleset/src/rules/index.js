@@ -46,6 +46,7 @@ module.exports = {
   operationSummaryExists: require('./operation-summary-exists'),
   operationSummaryLength: require('./operation-summary-length'),
   optionalRequestBody: require('./optional-request-body'),
+  optionalRequestBodyDeprecated: require('./optional-request-body-deprecated'),
   paginationStyle: require('./pagination-style'),
   parameterCasingConvention: require('./parameter-casing-convention'),
   parameterDefault: require('./parameter-default'),
