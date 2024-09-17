@@ -6522,7 +6522,6 @@ fields in order to clearly define the set of valid values for the property.
 [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#string">1</a>].
 <p>Note that these checks are bypassed for the following scenarios:
 <ul>
-<li>All checks are bypassed for string schemas that are used only within an operation response.
 <li>All checks are bypassed for string schemas that contain an <code>enum</code> field.</li>
 <li>The check for the <code>pattern</code> field is bypassed if <code>format</code> is set to 
 <code>binary</code>, <code>byte</code>, <code>date</code>, <code>date-time</code>, or <code>url</code>.</li>

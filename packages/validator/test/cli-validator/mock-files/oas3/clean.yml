@@ -48,6 +48,9 @@ paths:
               schema:
                 type: string
                 description: A link to the next page of responses
+                pattern: '^[a-zA-Z0-9]+$'
+                minLength: 1
+                maxLength: 128
           content:
             application/json:
               schema:
@@ -159,6 +162,9 @@ components:
         next_token:
           type: string
           description: next token
+          pattern: '^[a-zA-Z0-9_]+$'
+          minLength: 1
+          maxLength: 128
         first:
           allOf:
             - $ref: '#/components/schemas/PageLink'
@@ -190,6 +196,9 @@ components:
         href:
           description: Request URL string
           type: string
+          pattern: '^[a-zA-Z0-9]+$'
+          minLength: 1
+          maxLength: 128
     Error:
       type: object
       description:
