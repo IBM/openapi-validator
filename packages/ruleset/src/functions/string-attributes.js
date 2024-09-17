@@ -9,11 +9,7 @@ const {
   validateNestedSchemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
-const {
-  getCompositeSchemaAttribute,
-  LoggerFactory,
-  pathMatchesRegexp,
-} = require('../utils');
+const { getCompositeSchemaAttribute, LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
@@ -55,7 +51,7 @@ function stringBoundaryErrors(schema, path) {
 
   // Only check for the presence of validation keywords on input schemas
   // (i.e. those used for parameters and request bodies).
-  if (isStringSchema(schema) && isInputSchema(path)) {
+  if (isStringSchema(schema)) {
     logger.debug('schema is a string schema');
 
     // Perform these checks only if enum is not defined.
@@ -95,10 +91,7 @@ function stringBoundaryErrors(schema, path) {
         });
       }
     }
-  }
-
-  // Make sure string attributes aren't used for non-strings.
-  if (!isStringSchema(schema)) {
+  } else {
     // Make sure that string-related fields are not present in a non-string schema.
     if (schemaContainsAttribute(schema, 'pattern')) {
       errors.push({
@@ -134,15 +127,4 @@ function schemaContainsAttribute(schema, attrName) {
     schema,
     s => attrName in s && isDefined(s[attrName])
   );
-}
-
-function isInputSchema(path) {
-  // Output schemas are much simpler to check for with regex.
-  // Use the inverse of that to determine input schemas.
-  const isOutputSchema = pathMatchesRegexp(
-    path,
-    /^paths,.*,responses,.+,(content|headers),.+,schema/
-  );
-
-  return !isOutputSchema;
 }

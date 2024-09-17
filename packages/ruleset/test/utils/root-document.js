@@ -248,6 +248,7 @@ module.exports = {
                   type: 'string',
                   minLength: 0,
                   maxLength: 512,
+                  pattern: '^[a-zA-Z0-9 ]+$',
                 },
               },
             },
@@ -1039,7 +1040,9 @@ module.exports = {
           trace: {
             description: 'The error trace information.',
             type: 'string',
-            format: 'uuid',
+            format: 'identifier',
+            pattern: '^[a-zA-Z0-9 ]+$',
+            maxLength: 30,
           },
         },
       },
@@ -1055,10 +1058,16 @@ module.exports = {
           message: {
             description: 'The error message.',
             type: 'string',
+            pattern: '^[a-zA-Z0-9 ]+$',
+            minLength: 1,
+            maxLength: 128,
           },
           more_info: {
             description: 'Additional info about the error.',
             type: 'string',
+            pattern: '^[a-zA-Z0-9 ]+$',
+            minLength: 1,
+            maxLength: 128,
           },
           target: {
             $ref: '#/components/schemas/ErrorTarget',
@@ -1078,6 +1087,9 @@ module.exports = {
             description:
               'The name of the field/header/query parameter associated with the error.',
             type: 'string',
+            pattern: '^[a-zA-Z0-9 ]+$',
+            minLength: 1,
+            maxLength: 30,
           },
         },
       },
