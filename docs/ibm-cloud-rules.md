@@ -66,6 +66,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-no-operation-requestbody](#ibm-no-operation-requestbody)
   * [ibm-no-optional-properties-in-required-body](#ibm-no-optional-properties-in-required-body)
   * [ibm-no-ref-in-example](#ibm-no-ref-in-example)
+  * [ibm-no-required-properties-in-optional-body](#ibm-no-required-properties-in-optional-body)
   * [ibm-no-space-in-example-name](#ibm-no-space-in-example-name)
   * [ibm-no-superfluous-allof](#ibm-no-superfluous-allof)
   * [ibm-no-unsupported-keywords](#ibm-no-unsupported-keywords)
@@ -361,15 +362,25 @@ which is not allowed.</td>
 </tr>
 <tr>
 <td><a href="#ibm-no-optional-properties-in-required-body">ibm-no-optional-properties-in-required-body</a></td>
-<td>info</td>
+<td>off</td>
 <td>If a requestBody schema contains properties that are defined as required, then the requestBody itself
-should probably be required instead of optional.</td>
+should probably be required instead of optional.
+
+This rule is deprecated. Please use the <code>ibm-no-required-properties-in-optional-body</code> rule instead.
+</td>
 <td>oas3</td>
 </tr>
 <tr>
 <td><a href="#ibm-no-ref-in-example">ibm-no-ref-in-example</a></td>
 <td>info</td>
 <td>Makes sure that <code>$ref</code> is not used within an <code>example</code> field.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-no-required-properties-in-optional-body">ibm-no-required-properties-in-optional-body</a></td>
+<td>info</td>
+<td>If a requestBody schema contains properties that are defined as required, then the requestBody itself
+should probably be required instead of optional.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -3627,11 +3638,13 @@ paths:
 Specifically, this rule examines the schemas associated with optional request bodies and
 if there are required properties, then it is likely that the API author intended for the
 request body to be required.
+
+This rule is deprecated.  Please use the <code>ibm-no-required-properties-in-optional-body</code> rule instead.
 </td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
-<td>info</td>
+<td>off</td>
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
@@ -3728,6 +3741,65 @@ paths:
             example:
               name: 'Thing1'
               description: 'An example Thing object'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-no-required-properties-in-optional-body
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-no-required-properties-in-optional-body</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule scrutinizes optional request bodies because in most cases, they should be required.
+Specifically, this rule examines the schemas associated with optional request bodies and
+if there are required properties, then it is likely that the API author intended for the
+request body to be required.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>info</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      requestBody:
+        required: false
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Thing'    # Assume "Thing" schema has required properties
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      requestBody:
+        required: true
+        content:
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Thing'    # Assume "Thing" schema has required properties
 </pre>
 </td>
 </tr>

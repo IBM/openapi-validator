@@ -36,7 +36,9 @@ module.exports = {
   operationIdNamingConvention: require('./operationid-naming-convention'),
   operationSummaryExists: require('./operation-summary-exists'),
   operationSummaryLength: require('./operation-summary-length'),
-  optionalRequestBody: require('./optional-request-body'),
+  optionalRequestBody: require('./optional-request-body').optionalRequestBody,
+  optionalRequestBodyDeprecated: require('./optional-request-body')
+    .optionalRequestBodyDeprecated,
   paginationStyle: require('./pagination-style'),
   parameterCasingConvention: require('./parameter-casing-convention'),
   parameterDefault: require('./parameter-default'),
