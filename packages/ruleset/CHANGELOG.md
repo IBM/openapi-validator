@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.22.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.21.2...@ibm-cloud/openapi-ruleset@1.22.0) (2024-09-19)
+
+
+### Features
+
+* **ibm-no-required-properties-in-optional-body:** introduced new rule ([#683](https://github.com/IBM/openapi-validator/issues/683)) ([7dd1553](https://github.com/IBM/openapi-validator/commit/7dd15538fbffafe23cfa6c82f70e02f4c542aa18))
+
 ## @ibm-cloud/openapi-ruleset [1.21.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.21.1...@ibm-cloud/openapi-ruleset@1.21.2) (2024-09-17)
 
 
