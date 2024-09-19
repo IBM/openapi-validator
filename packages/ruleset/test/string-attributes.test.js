@@ -212,27 +212,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Response body string schema has no keywords', async () => {
-      const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies/{movie_id}'].get.responses['200'] = {
-        content: {
-          'application/json': {
-            schema: {
-              properties: {
-                name: {
-                  type: 'string',
-                  description: 'no validation',
-                },
-              },
-            },
-          },
-        },
-      };
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
-
     it('Response header string schema has no keywords', async () => {
       const testDocument = makeCopy(rootDocument);
       testDocument.paths['/v1/movies/{movie_id}'].get.responses.headers = {
@@ -614,6 +593,42 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'paths./v1/movies.post.parameters.0.schema'
       );
       expect(validation.severity).toBe(expectedSeverity);
+    });
+
+    it('Response body string schema has no keywords', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.paths['/v1/movies/{movie_id}'].get.responses['200'] = {
+        content: {
+          'application/json': {
+            schema: {
+              properties: {
+                name: {
+                  type: 'string',
+                  description: 'no validation',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(3);
+
+      const expectedPath =
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.name';
+      const expectedMessages = [
+        `String schemas should define property 'pattern'`,
+        `String schemas should define property 'minLength'`,
+        `String schemas should define property 'maxLength'`,
+      ];
+
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMessages[i]);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPath);
+      }
     });
   });
 });

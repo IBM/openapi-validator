@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.21.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.21.1...@ibm-cloud/openapi-ruleset@1.21.2) (2024-09-17)
+
+
+### Bug Fixes
+
+* **ibm-string-attributes:** expand rule to apply to response schemas ([#682](https://github.com/IBM/openapi-validator/issues/682)) ([9e703ec](https://github.com/IBM/openapi-validator/commit/9e703ecd7d20101983307632140baa4cfda610b3))
+
 ## @ibm-cloud/openapi-ruleset [1.21.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.21.0...@ibm-cloud/openapi-ruleset@1.21.1) (2024-09-04)
 
 
