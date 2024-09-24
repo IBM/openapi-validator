@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset-utilities [1.4.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.3.2...@ibm-cloud/openapi-ruleset-utilities@1.4.0) (2024-09-24)
+
+
+### Features
+
+* **ibm-required-array-properties-in-response:** add new validator rule ([#684](https://github.com/IBM/openapi-validator/issues/684)) ([7cc4be2](https://github.com/IBM/openapi-validator/commit/7cc4be204512a0fe3b0ce6d0baef3cc960628722))
+
 ## @ibm-cloud/openapi-ruleset-utilities [1.3.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.3.1...@ibm-cloud/openapi-ruleset-utilities@1.3.2) (2024-03-22)
 
 
