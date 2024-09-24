@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 IBM Corporation.
+ * Copyright 2023 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -42,17 +42,22 @@ function getSchemaNameAtPath(path, pathToReferencesMap) {
   // pathToReferencesMap (which comes from graph nodes that Spectral gives us).
   // See the function documentation above for more info.
   let pathBuilder = '';
-  for (const pathSegment of path.split('.')) {
+  const pathSegments = path.split('.');
+
+  for (let i = 0; i < pathSegments.length; i++) {
+    const segment = pathSegments[i];
     if (pathBuilder) {
       pathBuilder += '.';
     }
-    pathBuilder += `${pathSegment}`;
+
+    pathBuilder += `${segment}`;
     const schemaReference = pathToReferencesMap[pathBuilder];
 
     // If it is the last time through the loop, we should definitely
     // find a schema reference - but we don't want to throw away the
     // path. We'll find the reference again at the end of this function.
-    if (schemaReference && pathSegment !== path.split('.').at(-1)) {
+    const lastTimeThrough = i === pathSegments.length - 1;
+    if (schemaReference && !lastTimeThrough) {
       pathBuilder = schemaReference;
     }
   }
