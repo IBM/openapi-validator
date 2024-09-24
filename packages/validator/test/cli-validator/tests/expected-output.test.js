@@ -100,7 +100,7 @@ describe('Expected output tests', function () {
         expect(capturedText[errorStart + 19].split(':')[1].trim()).toEqual(
           'components.schemas.Pet.properties.category.description'
         );
-        expect(capturedText[errorStart + 20].match(/\S+/g)[2]).toEqual('176');
+        expect(capturedText[errorStart + 20].match(/\S+/g)[2]).toEqual('177');
 
         // warnings
         const warningStart = 25;
@@ -116,7 +116,7 @@ describe('Expected output tests', function () {
         expect(capturedText[warningStart + 50].match(/\S+/g)[2]).toEqual('96');
         // Skip a few, then verify the last one.
         expect(capturedText[warningStart + 145].match(/\S+/g)[2]).toEqual(
-          '202'
+          '203'
         );
       }
     );

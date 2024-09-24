@@ -1022,6 +1022,7 @@ module.exports = {
       ErrorContainer: {
         description: 'An error response for an operation.',
         type: 'object',
+        required: ['errors'],
         properties: {
           errors: {
             type: 'array',
