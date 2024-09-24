@@ -130,6 +130,7 @@
                             "application/xml": {
                                 "schema": {
                                     "type": "object",
+                                    "required": [ "pets" ],
                                     "properties": {
                                         "pets": {
                                             "type": "array",
@@ -144,6 +145,7 @@
                             "application/json": {
                                 "schema": {
                                     "type": "object",
+                                    "required": [ "pets" ],
                                     "properties": {
                                         "pets": {
                                             "type": "array",
@@ -253,7 +255,8 @@
                 "type": "object",
                 "required": [
                     "name",
-                    "photo_urls"
+                    "photo_urls",
+                    "tags"
                 ],
                 "properties": {
                     "id": {

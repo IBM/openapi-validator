@@ -94,6 +94,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-request-and-response-content](#ibm-request-and-response-content)
   * [ibm-requestbody-is-object](#ibm-requestbody-is-object)
   * [ibm-requestbody-name](#ibm-requestbody-name)
+  * [ibm-required-array-properties-in-response](#ibm-required-array-properties-in-response)
   * [ibm-resource-response-consistency](#ibm-resource-response-consistency)
   * [ibm-response-status-codes](#ibm-response-status-codes)
   * [ibm-schema-casing-convention](#ibm-schema-casing-convention)
@@ -546,6 +547,13 @@ or <code>application/merge-patch+json</code>.</td>
 <td>off</td>
 <td>An operation should specify a request body name (with the <code>x-codegen-request-body-name</code> extension) if its requestBody
 has non-form content. <b>This rule is disabled by default.</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-required-array-properties-in-response">ibm-required-array-properties-in-response</a></td>
+<td>error</td>
+<td>Array properties defined in a response should be required, per API Handbook guidance.
+</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -5619,6 +5627,87 @@ paths:
 </tr>
 </table>
 
+
+### ibm-required-array-properties-in-response
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-required-array-properties-in-response</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>
+The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#array">IBM Cloud API Handbook</a>
+states that within a response body, an array property MUST NOT be optional.
+This validation rule checks each schema used within a response to make sure each array property is defined as required
+and not optional.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/thing':
+    get:
+      operationId: list_things
+      responses:
+        200:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ThingCollection'
+components:
+  schemas:
+    ThingCollection:
+      type: object
+      properties:
+        things:            &lt;&lt; array property is optional
+          type: array
+          items:
+            $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+paths:
+  '/v1/thing':
+    get:
+      operationId: list_things
+      responses:
+        200:
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/ThingCollection'
+components:
+  schemas:
+    ThingCollection:
+      type: object
+      required:
+        - things          &lt;&lt; array property is now required
+      properties:
+        things:
+          type: array
+          items:
+            $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### ibm-resource-response-consistency
 <table>
 <tr>
@@ -5700,6 +5789,7 @@ paths:
 </td>
 </tr>
 </table>
+
 
 ### ibm-response-status-codes
 <table>

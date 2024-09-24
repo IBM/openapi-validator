@@ -59,6 +59,7 @@ module.exports = {
   refSiblingDuplicateDescription: require('./ref-sibling-duplicate-description'),
   requestAndResponseContent: require('./request-and-response-content'),
   requestBodyName: require('./requestbody-name'),
+  requiredArrayPropertiesInResponse: require('./required-array-properties-in-response'),
   requiredProperty: require('./required-property'),
   resourceResponseConsistency: require('./resource-response-consistency'),
   responseExampleExists: require('./response-example-exists'),

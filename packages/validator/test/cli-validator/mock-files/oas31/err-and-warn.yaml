@@ -166,6 +166,7 @@ components:
       required:
         - name
         - photo_urls
+        - tags
       properties:
         id:
           type: integer
