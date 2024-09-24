@@ -50,9 +50,11 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
       - [outputFormat](#outputformat)
       - [ruleset](#ruleset)
       - [summaryOnly](#summaryonly)
+      - [produceImpactScore](#produceimpactscore)
   * [Programmatic Usage](#programmatic-usage)
 - [Validator Output](#validator-output)
   * [Text](#text)
+    + [Additional Customization](#additional-customization)
   * [JSON](#json)
 - [Logging](#logging)
 - [Contributing](#contributing)
@@ -162,6 +164,7 @@ Options:
   -n, --no-colors                disable colorizing of the output (default is false)
   -r, --ruleset <file>           use Spectral ruleset contained in `<file>` ("default" forces use of default IBM Cloud Validation Ruleset)
   -s, --summary-only             include only the summary information and skip individual errors and warnings (default is false)
+  -q, --impact-score            compute scores representing the API impact of rule violations and include with the results (default is false)
   -w, --warnings-limit <number>  set warnings limit to <number> (default is -1)
   --version                      output the version number
   -h, --help                     display help for command
@@ -662,6 +665,54 @@ module.exports = {
 </tr>
 </table>
 
+##### produceImpactScore
+<table border=1>
+<tr>
+<td><b>Description</b></td>
+<td width=25%><b>Default</b></td>
+</tr>
+<tr>
+<td>The <code>produceImpactScore</code> configuration property corresponds to the <code>-q</code>/<code>--impact-score</code> command-line option.
+If set to true, the validator will, in addition to reporting individual rule violations, use the rule violation data to produce
+API impact scores based on the categories of usability, security, robustness, and cost of evolution. By default, the data demonstrating
+how the scores are calculated from each rule is displayed. If this option is combined with the "summary only" configuration option,
+only the categorized impact scores are displayed.
+</td>
+<td><code>false</code></td>
+</tr>
+</table>
+<b>Examples:</b>
+<table border=1>
+<tr>
+</tr>
+<tr>
+<td><code>.yaml/.yml</code></td>
+<td><code>.json</code></td>
+<td><code>.js</code></td>
+</tr>
+<tr>
+<td>
+<pre>
+produceImpactScore: true
+</pre>
+</td>
+<td>
+<pre>
+{
+  "produceImpactScore": true
+}
+</pre>
+</td>
+<td>
+<pre>
+module.exports = {
+  produceImpactScore: true
+};
+</pre>
+</td>
+</tr>
+</table>
+
 ### Programmatic Usage
 While the validator does not expose an API for usage within a Node.js program, you can achieve programmatic behavior
 consistent with the CLI by using the open-source tool [Spectral's Node API](https://meta.stoplight.io/docs/spectral/eb68e7afd463e-spectral-in-java-script)
@@ -682,6 +733,10 @@ function async runSpectral(openapiDocument) {
 ## Validator Output
 The validator can produce output in either text or JSON format.  The default is `text` output, and this can be
 controlled with the `-j`/`--json` command-line option or `outputFormat` configuration property.
+
+**NOTE** The text (i.e. "human readable") output is not a part of the tool's contract and may change in a minor
+or patch release. If you are building automation or scripts with this tool, use the JSON output, which is stable
+and subject to semantic versioning.
 
 ### Text
 Here is an example of text output:
@@ -721,15 +776,37 @@ Summary:
    2 (100%) : Operation summaries should not have a trailing period
 ```
 As you can see, any errors detected by the validator are listed first, then
-warnings, and finally a summary section.  The `-s`/`--summary-only` command-line option or the
-`summaryOnly` configuration property can be used to request that only the summary
-is display.
-Also, the `-e`/`--errors-only` option or `errorsOnly` configuration property can be used
-to cause the validator to display only errors in the output.
+warnings, and finally a summary section.
+
+#### Additional Customization
+- The `-s`/`--summary-only` command-line option or the `summaryOnly` configuration property causes only the summary to be displayed.
+- The `-e`/`--errors-only` option or `errorsOnly` configuration property causes only error-level violations to be displayed.
+- The `-q`/`--impact-score` option or `produceImpactScore` configuration property causes the validator to show aggregated impact scores. See the example below:
+
+Example of impact score tables that are appended to the standard output:
+```
+┌────────────────┬───────────┐
+│       category │ max score │
+├────────────────┼───────────┤
+│      usability │   98 /100 │
+│       security │  100 /100 │
+│     robustness │   97 /100 │
+│      evolution │   67 /100 │
+│ overall (mean) │   91 /100 │
+└────────────────┴───────────┘
+┌──────────────────────────────┬───────┬─────────────────┬──────────────────┬─────────────────┬───────────────────┬──────────────────┬────────────┐
+│                         rule │ count │            func │ usability impact │ security impact │ robustness impact │ evolution impact │ rule total │
+├──────────────────────────────┼───────┼─────────────────┼──────────────────┼─────────────────┼───────────────────┼──────────────────┼────────────┤
+│ operation-operationId-unique │     1 │  1×3÷operations │                1 │                 │                 2 │                3 │          6 │
+│       ibm-no-array-responses │     2 │ 2×10÷operations │                  │                 │                   │               20 │         20 │
+│             no-$ref-siblings │     1 │  1×1÷operations │             0.33 │                 │                   │                  │       0.33 │
+└──────────────────────────────┴───────┴─────────────────┴──────────────────┴─────────────────┴───────────────────┴──────────────────┴────────────┘
+```
 
 ### JSON
 When displaying JSON output, the validator will produce a JSON object which complies with
-[this JSON schema](packages/validator/src/schemas/results-object.yaml).
+[this JSON schema](packages/validator/src/schemas/results-object.yaml). The JSON data will include information about all rule violations,
+as well as all impact score information computed from the rule violations.
 Here is an example of JSON output:
 ```json
 {
@@ -741,7 +818,7 @@ Here is an example of JSON output:
           "paths",
           "/v1/clouds/{cloud_id}/{region_id}"
         ],
-        "rule": "ibm-consecutive-path-segments",
+        "rule": "ibm-no-consecutive-path-parameter-segments",
         "line": 332
       }
     ],
@@ -807,11 +884,39 @@ Here is an example of JSON output:
     }
   },
   "hasResults": true
+  "impactScore": {
+    "categorizedSummary": {
+      "usability": 94,
+      "security": 100,
+      "robustness": 100,
+      "evolution": 100,
+      "overall": 99
+    },
+    "scoringData": [
+      {
+        "rule": "ibm-no-consecutive-path-parameter-segments",
+        "count": 1,
+        "func": "1×10÷operations",
+        "demerits": {
+          "usability": 3.33,
+          "total": 3.33
+        }
+      },
+      {
+        "rule": "ibm-summary-sentence-style",
+        "count": 2,
+        "func": "2×1÷operations",
+        "demerits": {
+          "usability": 0.67,
+          "total": 0.67
+        }
+      }
+    ]
+  }
 }
-
 ```
 The JSON output is also affected by the `-s`/`--summary-only` and `-e`/`--errors-only` options as well as the `summaryOnly` and `errorsOnly`
-configuration properties.
+configuration properties. It is _not_ affected by the `-q`/`--impact-score` option or `produceImpactScore` property.
 
 ## Logging
 The validator uses a *logger* for displaying messages on the console.

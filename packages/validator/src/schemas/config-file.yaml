@@ -72,3 +72,8 @@ properties:
       A flag that causes the validator to display only the summary in the output
     type: boolean
     default: false
+  produceImpactScore:
+    description: >
+      A flag that causes the validator to display an aggregated score based on the API impact of rule violations
+    type: boolean
+    default: false

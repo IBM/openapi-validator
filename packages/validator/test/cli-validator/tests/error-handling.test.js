@@ -37,12 +37,13 @@ describe('cli tool - test error handling', function () {
     // originalError(`Captured text: ${capturedText}`);
 
     expect(exitCode).toEqual(2);
-    expect(capturedText).toHaveLength(1);
-    expect(capturedText[0]).toMatch(/IBM OpenAPI Validator/);
-    expect(capturedText[0]).toMatch(
+    expect(capturedText).toHaveLength(2);
+    expect(capturedText[0]).toMatch(/At least one argument must be provided/);
+    expect(capturedText[1]).toMatch(/IBM OpenAPI Validator/);
+    expect(capturedText[1]).toMatch(
       /Usage: lint-openapi \[options\] \[file...\]/
     );
-    expect(capturedText[0]).toMatch(/-h, --help +display help for command/);
+    expect(capturedText[1]).toMatch(/-h, --help +display help for command/);
   });
 
   it('should return an error when there is no file extension', async function () {
