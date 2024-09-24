@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -47,6 +47,7 @@ describe('Configuration Manager tests', function () {
       expect(defaultConfig.outputFormat).toBe('text');
       expect(defaultConfig.ruleset).toBe(null);
       expect(defaultConfig.summaryOnly).toBe(false);
+      expect(defaultConfig.produceImpactScore).toBe(false);
     });
   });
 
@@ -187,6 +188,7 @@ describe('Configuration Manager tests', function () {
         },
         outputFormat: 'text',
         summaryOnly: false,
+        produceImpactScore: false,
         ruleset: null,
       });
     });
@@ -209,6 +211,7 @@ describe('Configuration Manager tests', function () {
           '--summary-only',
           '--warnings-limit',
           '-1',
+          '--impact-score',
         ],
         cliParseOptions
       );
@@ -229,6 +232,7 @@ describe('Configuration Manager tests', function () {
         },
         ruleset: 'my-rules.yml',
         summaryOnly: true,
+        produceImpactScore: true,
       });
     });
 
@@ -266,6 +270,7 @@ describe('Configuration Manager tests', function () {
             },
             outputFormat: 'text',
             summaryOnly: false,
+            produceImpactScore: false,
           };
 
           const { context } = await processArgs(
@@ -389,6 +394,22 @@ describe('Configuration Manager tests', function () {
         async function (option) {
           const expectedConfig = {
             summaryOnly: true,
+          };
+
+          const { context } = await processArgs([option], cliParseOptions);
+          const capturedText = getCapturedText(consoleSpy.mock.calls);
+          // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
+          expect(capturedText).toHaveLength(0);
+          expect(context).toBeDefined();
+          expect(context.config).toMatchObject(expectedConfig);
+        }
+      );
+
+      it.each(['-q', '--impact-score'])(
+        `should produce correct config with -q/--impact-score option`,
+        async function (option) {
+          const expectedConfig = {
+            produceImpactScore: true,
           };
 
           const { context } = await processArgs([option], cliParseOptions);

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -42,6 +42,7 @@ const defaultConfig = {
   outputFormat: 'text',
   ruleset: null,
   summaryOnly: false,
+  produceImpactScore: false,
 };
 
 const supportedConfigFileTypes = ['json', 'yaml', 'yml', 'js'];
@@ -234,6 +235,10 @@ async function processArgs(args, cliParseOptions) {
 
   if ('warningsLimit' in opts) {
     configObj.limits.warnings = opts.warningsLimit;
+  }
+
+  if ('impactScore' in opts) {
+    configObj.produceImpactScore = true;
   }
 
   return { context, command };

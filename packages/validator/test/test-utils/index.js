@@ -4,12 +4,10 @@
  */
 
 module.exports = {
-  getCapturedText: require('./get-captured-text').getCapturedText,
-  getCapturedTextWithColor: require('./get-captured-text')
-    .getCapturedTextWithColor,
-  getMessageAndPathFromCapturedText:
-    require('./get-message-and-path-from-captured-text')
-      .getMessageAndPathFromCapturedText,
-  stripAnsi: require('./strip-ansi').stripAnsi,
   testValidator: require('./test-validator'),
+  ...require('./get-captured-text'),
+  ...require('./get-captured-text'),
+  ...require('./get-message-and-path-from-captured-text'),
+  ...require('./strip-ansi'),
+  ...require('./parse-scoring-table'),
 };

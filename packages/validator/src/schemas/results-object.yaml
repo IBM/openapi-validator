@@ -21,6 +21,73 @@ properties:
   hasResults:
     type: boolean
     description: A convenience flag indicating there is at least one result at any severity level
+  impactScore:
+    type: object
+    description: Data translating the validation results into numeric scores
+    required:
+      - categorizedSummary
+      - scoringData
+    properties:
+      categorizedSummary:
+        type: object
+        description: Holds the max score for each API impact category
+        required:
+          # Must match the category enum values in the "rubric-entry" schema.
+          - usability
+          - security
+          - robustness
+          - evolution
+          - overall
+        properties:
+          usability:
+            $ref: '#/$defs/MaxScore'
+          security:
+            $ref: '#/$defs/MaxScore'
+          robustness:
+            $ref: '#/$defs/MaxScore'
+          evolution:
+            $ref: '#/$defs/MaxScore'
+          overall:
+            $ref: '#/$defs/MaxScore'
+      scoringData:
+        type: array
+        description: >-
+          Holds information describing how each rule violation contributes to the max score.
+          May be empty if only the summary is requested.
+        items:
+          type: object
+          description: The scoring data contributed by a given validator rule
+          required:
+            - rule
+            - count
+            - func
+            - demerits
+          properties:
+            rule:
+              type: string
+              description: The validator rule that was violated
+            count:
+              type: integer
+              description: The number of times the validator rule was violated
+              minimum: 1
+            func:
+              type: string
+              description: A string representation of the formula used to compute the demerits
+            demerits:
+              type: object
+              description: The categorized, numeric impact a rule violation has on the score
+              # Must match the category enum values in the "rubric-entry" schema.
+              properties:
+                usability:
+                  $ref: '#/$defs/Demerit'
+                security:
+                  $ref: '#/$defs/Demerit'
+                robustness:
+                  $ref: '#/$defs/Demerit'
+                evolution:
+                  $ref: '#/$defs/Demerit'
+                total:
+                  $ref: '#/$defs/Demerit'
 
 $defs:
   ValidationData:
@@ -32,7 +99,8 @@ $defs:
     properties:
       results:
         type: array
-        description: List of results with a given severity
+        description: >-
+          List of results with a given severity. May be empty if only the summary is requested.
         items:
           $ref: '#/$defs/ValidationResult'
       summary:
@@ -92,3 +160,12 @@ $defs:
       percentage:
         type: integer
         description: The percentage of total violations for a given severity that this rule comprises
+  MaxScore:
+    type: integer
+    description: A number describing the maximum score for an API after accounting for the impact of rule violations
+    minimum: 0
+    maximum: 100
+  Demerit:
+    type: number
+    description: A number describing the demerit impact a rule has on an API
+    minimum: 0.01

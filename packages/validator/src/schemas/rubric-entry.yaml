@@ -1,0 +1,26 @@
+$schema: http://json-schema.org/draft-07/schema#
+title: IBM OpenAPI Validator Scoring Rubric Entry
+description: An entry in the scoring rubric defined for a given rule
+type: object
+additionalProperties: false
+required:
+  - categories
+properties:
+  categories:
+    type: array
+    description: A list of API categories the rule violation impacts
+    items:
+      type: string
+      description: The specific category of impact for a given rule violation
+      # This enum needs to match the categories defined in 'scoring-tool/categories.js'.
+      enum:
+        - usability
+        - security
+        - robustness
+        - evolution
+  coefficient:
+    type: integer
+    description: A multiplier that increases the severity of a rule violation
+  denominator:
+    type: string
+    description: A scaling factor that decreases the severity of a rule violation based on the context of the entire API

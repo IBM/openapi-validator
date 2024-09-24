@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -74,6 +74,10 @@ function createCLIOptions() {
     .option(
       '-s, --summary-only',
       'include only the summary information and skip individual errors and warnings (default is false)'
+    )
+    .option(
+      '-q, --impact-score',
+      'compute scores representing the API impact of rule violations and include with the results'
     )
     .option(
       '-w, --warnings-limit <number>',

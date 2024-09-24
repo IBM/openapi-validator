@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -24,7 +24,8 @@ const {
   supportedFileExtension,
 } = require('./utils');
 
-const { runSpectral } = require('../spectral/spectral-validator');
+const { runSpectral } = require('../spectral');
+const { produceImpactScore, printScoreTables } = require('../scoring-tool');
 
 let logger;
 
@@ -77,6 +78,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   // If no arguments are passed in, then display help text and exit.
   if (args.length === 0) {
+    logger.error('At least one argument must be provided.\n');
     console.log(`${getCopyrightString()}\n${command.helpInformation()}`);
     return Promise.reject(2);
   }
@@ -88,7 +90,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   context.chalk = chalk;
 
-  if (context.config.outputFormat !== 'json') {
+  if (!outputIsJSON(context)) {
     console.log(getCopyrightString());
   }
 
@@ -154,8 +156,17 @@ async function runValidator(cliArgs, parseOptions = {}) {
     return Promise.reject(2);
   }
 
+  // If multiple files were specified and the impact score is requested, exit with an error.
+  // We could change this behavior in the future.
+  if (filesToValidate.length > 1 && context.config.produceImpactScore) {
+    logger.error(
+      'At most one file can be specified when the impact score is requested.'
+    );
+    return Promise.reject(2);
+  }
+
   // If multiple files were specified and JSON output is requested, exit with an error.
-  if (filesToValidate.length > 1 && context.config.outputFormat === 'json') {
+  if (filesToValidate.length > 1 && outputIsJSON(context)) {
     logger.error(
       'At most one file can be specified when JSON output is requested.'
     );
@@ -175,7 +186,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
     let originalFile;
     let input;
 
-    if (context.config.outputFormat != 'json') {
+    if (!outputIsJSON(context)) {
       console.log('');
       console.log(chalk.underline(`Validation Results for ${validFile}:\n`));
     }
@@ -223,6 +234,14 @@ async function runValidator(cliArgs, parseOptions = {}) {
       continue;
     }
 
+    // Compute scoring information if the user requested the "impact score" option,
+    // or if JSON output is requested. The JSON output always includes all results,
+    // both the standard rule violations and the scoring information.
+    let impactScoreInformation = {};
+    if (context.config.produceImpactScore || outputIsJSON(context)) {
+      impactScoreInformation = await produceImpactScore(results, context);
+    }
+
     // Check to see if we should be passing back a non-zero exit code.
     if (results.error.summary.total) {
       // If we have any errors, then exit code 1 is returned.
@@ -239,18 +258,37 @@ async function runValidator(cliArgs, parseOptions = {}) {
       );
     }
 
-    // Now print the results, either JSON or text.
-    if (context.config.outputFormat === 'json') {
-      printJson(context, results);
-    } else {
-      if (results.hasResults) {
-        printResults(context, results);
-      } else {
-        console.log(
-          context.chalk.green(`\n${validFile} passed the validator\n`)
-        );
-      }
+    // If summary output is requested, filter out extraneous information here.
+    if (context.config.summaryOnly) {
+      // Remove verbose scoring data.
+      impactScoreInformation.scoringData = [];
+
+      // Remove individual rule violation results.
+      ['error', 'warning', 'info', 'hint'].forEach(sev => {
+        results[sev].results = [];
+      });
     }
+
+    // Now print the results, either JSON or text.
+    if (outputIsJSON(context)) {
+      printJson(context, results, impactScoreInformation);
+      continue;
+    }
+
+    if (results.hasResults) {
+      printResults(context, results);
+
+      // If the user requested the "impact score" option, print
+      // the scoring tables in addition to the standard output.
+      if (context.config.produceImpactScore) {
+        printScoreTables(impactScoreInformation, context);
+      }
+      continue;
+    }
+
+    // If using textual output but there are no results,
+    // declare that the API "passed" without violations.
+    console.log(context.chalk.green(`\n${validFile} passed the validator\n`));
   }
 
   return exitCode;
@@ -309,6 +347,10 @@ function handleSpectralError(error) {
   } else {
     logger.error(error);
   }
+}
+
+function outputIsJSON(context) {
+  return context.config.outputFormat === 'json';
 }
 
 module.exports = runValidator;

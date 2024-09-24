@@ -1,9 +1,10 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
 const {
+  extractValuesFromTable,
   getCapturedText,
   getCapturedTextWithColor,
   stripAnsi,
@@ -188,11 +189,25 @@ describe('cli tool - test option handling', function () {
       // capturedText should be JSON object. convert to json and check fields
       const outputObject = JSON.parse(capturedText);
 
-      // {"line": 59, "message": "Every operation must have unique "operationId".", "path": ["paths", "/pet", "put", "operationId"], "rule": "operation-operationId-unique"}
+      // Representative sample of the rule violations.
       expect(outputObject.error.results[0]['line']).toEqual(52);
       expect(outputObject.error.results[0]['message']).toEqual(
         'Every operation must have unique "operationId".'
       );
+
+      // Representative sample of the impact score information.
+      expect(
+        outputObject.impactScore.categorizedSummary.usability
+      ).toBeTruthy();
+      expect(outputObject.impactScore.categorizedSummary.security).toBeTruthy();
+      expect(
+        outputObject.impactScore.categorizedSummary.robustness
+      ).toBeTruthy();
+      expect(
+        outputObject.impactScore.categorizedSummary.evolution
+      ).toBeTruthy();
+      expect(outputObject.impactScore.categorizedSummary.overall).toBeTruthy();
+      expect(outputObject.impactScore.scoringData.length).toBeGreaterThan(0);
 
       // json output should comply with written schema
       const outputSchemaPath =
@@ -237,6 +252,77 @@ describe('cli tool - test option handling', function () {
 
     expect(outputObject.error.summary.total).toBeGreaterThan(0);
     expect(outputObject.warning.summary.total).toBeGreaterThan(0);
+  });
+
+  it.each(['-q', '--impact-score'])(
+    'should print two scoring tables when the -q/--impact-score option is specified',
+    async function (option) {
+      await testValidator([
+        option,
+        './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
+      ]);
+      const capturedText = getCapturedText(consoleSpy.mock.calls);
+
+      // Most of the data is more fragile, but this proves we printed
+      // the first table and the correct values in the first column.
+      const firstTable = extractValuesFromTable(capturedText.at(-2));
+      const firstColumn = 0;
+      expect(firstTable.at(1)).toEqual(['category', 'max score']);
+      expect(firstTable.at(3).at(firstColumn)).toBe('usability');
+      expect(firstTable.at(4).at(firstColumn)).toBe('security');
+      expect(firstTable.at(5).at(firstColumn)).toBe('robustness');
+      expect(firstTable.at(6).at(firstColumn)).toBe('evolution');
+      expect(firstTable.at(7).at(firstColumn)).toBe('overall (mean)');
+
+      const secondTable = extractValuesFromTable(capturedText.at(-1));
+      // The rest of the data is more fragile, but this proves we printed the second table.
+      expect(secondTable.at(1)).toEqual([
+        'rule',
+        'count',
+        'func',
+        'usability impact',
+        'security impact',
+        'robustness impact',
+        'evolution impact',
+        'rule total',
+      ]);
+    }
+  );
+
+  it('should only include errors in scoring tables when -q and -e options are specified together', async function () {
+    await testValidator([
+      '-q',
+      '-e',
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
+    ]);
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    const secondTable = extractValuesFromTable(capturedText.at(-1));
+    const firstColumn = 0;
+
+    expect(secondTable.length).toBe(7);
+    expect(secondTable.at(1).at(firstColumn)).toBe('rule');
+    expect(secondTable.at(3).at(firstColumn)).toBe(
+      'operation-operationId-unique'
+    );
+    expect(secondTable.at(4).at(firstColumn)).toBe('ibm-no-array-responses');
+    expect(secondTable.at(5).at(firstColumn)).toBe('no-$ref-siblings');
+  });
+
+  it('should only include summary scoring table when -q and -s options are specified together', async function () {
+    await testValidator([
+      '-q',
+      '-s',
+      './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
+    ]);
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+    const firstAndOnlyTable = extractValuesFromTable(capturedText.at(-1));
+    const firstColumn = 0;
+    expect(firstAndOnlyTable.at(1)).toEqual(['category', 'max score']);
+    expect(firstAndOnlyTable.at(3).at(firstColumn)).toBe('usability');
+    expect(firstAndOnlyTable.at(4).at(firstColumn)).toBe('security');
+    expect(firstAndOnlyTable.at(5).at(firstColumn)).toBe('robustness');
+    expect(firstAndOnlyTable.at(6).at(firstColumn)).toBe('evolution');
+    expect(firstAndOnlyTable.at(7).at(firstColumn)).toBe('overall (mean)');
   });
 
   it('should print out the version strings with the --version option', async function () {
