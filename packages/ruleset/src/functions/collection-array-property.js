@@ -39,8 +39,19 @@ module.exports = function (schema, _opts, context) {
 function collectionArrayProperty(schema, path, apidef) {
   logger.debug(`${ruleId}: checking schema at location: ${path.join('.')}`);
 
-  // Grab the GET operation that defines "schema" as the success response schema.
   const pathString = path[1];
+  if (!apidef.paths[pathString]) {
+    // Spectral has weird behavior where if it finds unexpected characters, like
+    // an apostrophe, it wraps the path segment in quotes. In that case, of course,
+    // the path string won't be in the paths object. Until we better understand the
+    // Spectral behavior, we should just skip this path.
+    logger.error(
+      `${ruleId}: could not find path object. Check path ${pathString} for unusual characters. Skipping check...`
+    );
+    return [];
+  }
+
+  // Grab the GET operation that defines "schema" as the success response schema.
   const operation = apidef.paths[pathString].get;
 
   // If this is a collection "list"-type operation, then check to make sure
