@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.23.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.23.0...@ibm-cloud/openapi-ruleset@1.23.1) (2024-09-25)
+
+
+### Bug Fixes
+
+* make schema path de-resolution utility more robust ([#685](https://github.com/IBM/openapi-validator/issues/685)) ([b25b840](https://github.com/IBM/openapi-validator/commit/b25b840a277729bd4b0652461c44932766338d1c))
+
 # @ibm-cloud/openapi-ruleset [1.23.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.22.0...@ibm-cloud/openapi-ruleset@1.23.0) (2024-09-24)
 
 
