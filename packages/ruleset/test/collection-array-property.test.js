@@ -1,10 +1,11 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
 const { collectionArrayProperty } = require('../src/rules');
 const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
+const { LoggerFactory } = require('../src/utils');
 
 const rule = collectionArrayProperty;
 const ruleId = 'ibm-collection-array-property';
@@ -16,6 +17,29 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
+    });
+
+    it('would normally warn but path contains quote character, which throws off spectral', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths["/v1/movies'"] = testDocument.paths['/v1/movies'];
+      delete testDocument.paths['/v1/movies'];
+
+      testDocument.components.schemas[
+        'MovieCollection'
+      ].allOf[1].properties.movies = {
+        type: 'string',
+      };
+
+      const logger = LoggerFactory.getInstance().getLogger(ruleId);
+      const debugSpy = jest.spyOn(logger, 'error').mockImplementation(() => {});
+
+      const results = await testRule(ruleId, rule, testDocument);
+
+      expect(results).toHaveLength(0);
+      expect(debugSpy).toHaveBeenCalledTimes(1);
+      expect(debugSpy.mock.calls[0][0]).toMatch('could not find path object');
+      debugSpy.mockRestore();
     });
   });
   describe('Should yield errors', () => {
