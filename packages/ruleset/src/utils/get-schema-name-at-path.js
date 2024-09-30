@@ -4,7 +4,7 @@
  */
 
 /**
- * Takes an unresolved path to a schema and un-resolves it to the format in which
+ * Takes a resolved path to a schema and un-resolves it to the format in which
  * it will be stored in the graph nodes map by Spectral. The nodes provide a
  * map from resolved path locations to the locations in 'components' they
  * reference (if there is a reference at that location). Each path will be
