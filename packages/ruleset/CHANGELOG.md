@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.23.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.23.1...@ibm-cloud/openapi-ruleset@1.23.2) (2024-10-01)
+
+
+### Bug Fixes
+
+* **ibm-collection-array-property:** avoid crashing when spectral adjusts paths ([4625bcf](https://github.com/IBM/openapi-validator/commit/4625bcfbb0a8cbbf5a0878f0436ecff635e67182))
+
 ## @ibm-cloud/openapi-ruleset [1.23.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.23.0...@ibm-cloud/openapi-ruleset@1.23.1) (2024-09-25)
 
 
