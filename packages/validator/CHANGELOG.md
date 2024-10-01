@@ -1,3 +1,18 @@
+# ibm-openapi-validator [1.25.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.24.1...ibm-openapi-validator@1.25.0) (2024-10-01)
+
+
+### Features
+
+* **impact-score:** add support for computing API impact of rule violations ([8d2dea0](https://github.com/IBM/openapi-validator/commit/8d2dea0d7b1ad38dfdd5e108055127d1739c4e22))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.23.2
+
 ## ibm-openapi-validator [1.24.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.24.0...ibm-openapi-validator@1.24.1) (2024-09-25)
 
 
