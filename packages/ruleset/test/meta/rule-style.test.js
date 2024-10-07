@@ -1,3 +1,8 @@
+/**
+ * Copyright 2022 - 2024 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
 const rules = require('../../src/rules');
 
 // Test cases to enforce rule style

@@ -1,4 +1,9 @@
-const { testRule } = require('../utils');
+/**
+ * Copyright 2022 - 2024 IBM Corporation.
+ * SPDX-License-Identifier: Apache2.0
+ */
+
+const { testRule } = require('../test-utils');
 
 // Test cases for dependencies on subtle and possibly fragile Spectral behavior
 describe('Spectral behavior dependencies', () => {
