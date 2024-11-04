@@ -41,6 +41,25 @@ function checkForOptionalArrays(schema, path) {
       `${ruleId}: examining object schema at location: ${path.join('.')}`
     );
 
+    // If "schema" is an allOf element, then we need to make an educated
+    // guess as to whether or not we should complain about an optional array property.
+    // This will be our heuristic:
+    // If "schema" is an allOf element AND...
+    // 1. DOES NOT INCLUDE the "required" field, then we'll assume that the allOf element
+    //    IS NOT fully-defined and we'll avoid returning errors for any optional array properties
+    //    within "schema".
+    // 2. DOES INCLUDE the "required" field, then we'll assume that the allOf element is
+    //    fully-defined and go ahead and return an error for any optional array properties.
+    // This isn't perfect, but should allow us to make a good guess (famous last words, perhaps).
+    if (path[path.length - 2] === 'allOf' && !('required' in schema)) {
+      logger.debug(
+        `${ruleId}: allOf element w/o 'required' field... skipping at location: ${path.join(
+          '.'
+        )}`
+      );
+      return [];
+    }
+
     const errors = [];
 
     const requiredProps = schema.required || [];

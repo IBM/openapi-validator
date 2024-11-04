@@ -33,6 +33,32 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+    it('Optional array property in allOf w/no required field', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // Add a new allOf element to DrinkCollection which itself is a composed schema
+      // with an allOf that defines an optional array.
+      testDocument.components.schemas['DrinkCollection'].allOf[2] = {
+        type: 'object',
+        allOf: [
+          {
+            // allOf element has no required field: errors are bypassed
+            type: 'object',
+            properties: {
+              optional_details: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        ],
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
@@ -135,7 +161,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       // Add a new allOf element to DrinkCollection which itself is a composed schema
-      // with an allOf that defines an optional array.
+      // with an allOf that defines an optional array.  Note that for an error to be
+      // returned, the allOf element must include the 'required' field.
       testDocument.components.schemas['DrinkCollection'].allOf[2] = {
         type: 'object',
         allOf: [
@@ -148,7 +175,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   type: 'string',
                 },
               },
+              foo: {
+                type: 'string',
+              },
             },
+            required: ['foo'],
           },
         ],
       };
