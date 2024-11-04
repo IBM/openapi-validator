@@ -11,16 +11,20 @@ const ruleId = 'ibm-required-array-properties-in-response';
 const expectedSeverity = severityCodes.error;
 const expectedMsg = 'In a response body, an array field MUST NOT be optional';
 
+// To enable debug logging in the rule function, copy this statement to an it() block:
+//    LoggerFactory.getInstance().addLoggerSetting(ruleId, 'debug');
+// and uncomment this import statement:
+// const LoggerFactory = require('../src/utils/logger-factory');
+
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
-    it('Optional array property in request', async () => {
+    it('Optional array property in a request schema', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      // Add an optional array property to the DrinkPrototype requestBody schema.
       testDocument.components.schemas['DrinkPrototype'].properties = {
         details: {
           type: 'array',
@@ -28,6 +32,80 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'integer',
           },
         },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+    it('Required array property in allOf w/required in parent', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['DrinkCollection'].allOf[2] = {
+        type: 'object',
+        properties: {
+          optional_details: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      };
+      testDocument.components.schemas['DrinkCollection'].required = [
+        'optional_details',
+      ];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+    it('Required array property in allOf w/required field', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['DrinkCollection'].allOf[2] = {
+        type: 'object',
+        required: ['optional_details'],
+        properties: {
+          optional_details: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+    it('Required array property in nested allOf', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['DrinkCollection'].allOf[2] = {
+        type: 'object',
+        required: ['optional_details'],
+        allOf: [
+          {
+            type: 'object',
+            required: ['foo'],
+            allOf: [
+              {
+                type: 'object',
+                allOf: [
+                  {
+                    properties: {
+                      optional_details: {
+                        type: 'array',
+                        items: {
+                          type: 'string',
+                        },
+                      },
+                    },
+                  },
+                ],
+              },
+            ],
+          },
+        ],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -55,10 +133,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
     });
-    it('Optional array property in response (nested)', async () => {
+    it('Optional array property in response (nested object)', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      // Add "metadata" property which is a nested object containing an optional array.
       testDocument.components.schemas['DrinkCollection'].allOf[1].properties[
         'metadata'
       ] = {
@@ -93,7 +170,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Optional array property in response (array items)', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      // Add an array property "metadata", whose "items" schema is an object containing an optional array.
       testDocument.components.schemas['DrinkCollection'].allOf[1].required.push(
         'metadata'
       );
@@ -131,11 +207,42 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
     });
+    it('Optional array property in response (additionalProperties)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas['DrinkCollection'].additionalProperties =
+        {
+          $ref: '#/components/schemas/Metadata',
+        };
+      testDocument.components.schemas['Metadata'] = {
+        type: 'object',
+        properties: {
+          details: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      const expectedPaths = [
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.additionalProperties.properties.details',
+      ];
+
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMsg);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
     it('Optional array property in response (nested allOf)', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      // Add a new allOf element to DrinkCollection which itself is a composed schema
-      // with an allOf that defines an optional array.
       testDocument.components.schemas['DrinkCollection'].allOf[2] = {
         type: 'object',
         allOf: [
@@ -148,7 +255,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   type: 'string',
                 },
               },
+              foo: {
+                type: 'string',
+              },
             },
+            required: ['foo'],
           },
         ],
       };
@@ -170,8 +281,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Optional array property in response (nested anyOf)', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      // Add a new allOf element to DrinkCollection which itself is a composed schema
-      // with an allOf that defines an optional array.
       testDocument.components.schemas['DrinkCollection'].allOf[2] = {
         type: 'object',
         anyOf: [
@@ -206,8 +315,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('Optional array property in response (nested oneOf)', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      // Add a new allOf element to DrinkCollection which itself is a composed schema
-      // with an allOf that defines an optional array.
       testDocument.components.schemas['DrinkCollection'].allOf[2] = {
         type: 'object',
         oneOf: [
