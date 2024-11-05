@@ -33,32 +33,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
-    it('Optional array property in allOf w/no required field', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      // Add a new allOf element to DrinkCollection which itself is a composed schema
-      // with an allOf that defines an optional array.
-      testDocument.components.schemas['DrinkCollection'].allOf[2] = {
-        type: 'object',
-        allOf: [
-          {
-            // allOf element has no required field: errors are bypassed
-            type: 'object',
-            properties: {
-              optional_details: {
-                type: 'array',
-                items: {
-                  type: 'string',
-                },
-              },
-            },
-          },
-        ],
-      };
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
   });
 
   describe('Should yield errors', () => {
@@ -180,6 +154,43 @@ describe(`Spectral rule: ${ruleId}`, () => {
               },
             },
             required: ['foo'],
+          },
+        ],
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      const expectedPaths = [
+        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.2.allOf.0.properties.optional_details',
+      ];
+
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMsg);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+    it('Optional array property in response (nested allOf without required)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // Add a new allOf element to DrinkCollection which itself is a composed schema
+      // with an allOf that defines an optional array.
+      testDocument.components.schemas['DrinkCollection'].allOf[2] = {
+        type: 'object',
+        allOf: [
+          {
+            // allOf element has no required field: errors are bypassed
+            type: 'object',
+            properties: {
+              optional_details: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                },
+              },
+            },
           },
         ],
       };
