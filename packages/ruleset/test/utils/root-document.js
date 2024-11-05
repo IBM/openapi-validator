@@ -1050,6 +1050,7 @@ module.exports = {
       Error: {
         description: 'An error response entry.',
         type: 'object',
+        required: ['code'],
         properties: {
           code: {
             description: 'The error code.',
@@ -1078,6 +1079,7 @@ module.exports = {
       ErrorTarget: {
         description: 'An error target (a field, header or query parameter).',
         type: 'object',
+        required: ['type'],
         properties: {
           type: {
             description: 'The error target type.',

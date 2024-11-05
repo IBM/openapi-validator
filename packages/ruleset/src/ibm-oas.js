@@ -176,6 +176,8 @@ module.exports = {
     'ibm-requestbody-name': ibmRules.requestBodyName,
     'ibm-required-array-properties-in-response':
       ibmRules.requiredArrayPropertiesInResponse,
+    'ibm-required-enum-properties-in-response':
+      ibmRules.requiredEnumPropertiesInResponse,
     'ibm-resource-response-consistency': ibmRules.resourceResponseConsistency,
     'ibm-response-status-codes': ibmRules.responseStatusCodes,
     'ibm-schema-casing-convention': ibmRules.schemaCasingConvention,
