@@ -256,7 +256,8 @@
                 "required": [
                     "name",
                     "photo_urls",
-                    "tags"
+                    "tags",
+                    "status"
                 ],
                 "properties": {
                     "id": {

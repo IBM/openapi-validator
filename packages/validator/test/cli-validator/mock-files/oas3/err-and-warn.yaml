@@ -167,6 +167,7 @@ components:
         - name
         - photo_urls
         - tags
+        - status
       properties:
         id:
           type: integer

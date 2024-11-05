@@ -334,6 +334,11 @@ module.exports = {
     denominator: 'operations',
     categories: ['usability', 'robustness'],
   },
+  'ibm-required-enum-properties-in-response': {
+    coefficient: 1,
+    denominator: 'operations',
+    categories: ['usability', 'robustness'],
+  },
   'ibm-resource-response-consistency': {
     coefficient: 3,
     denominator: 'operations',

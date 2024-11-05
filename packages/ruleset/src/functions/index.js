@@ -60,6 +60,7 @@ module.exports = {
   requestAndResponseContent: require('./request-and-response-content'),
   requestBodyName: require('./requestbody-name'),
   requiredArrayPropertiesInResponse: require('./required-array-properties-in-response'),
+  requiredEnumPropertiesInResponse: require('./required-enum-properties-in-response'),
   requiredProperty: require('./required-property'),
   resourceResponseConsistency: require('./resource-response-consistency'),
   responseExampleExists: require('./response-example-exists'),
