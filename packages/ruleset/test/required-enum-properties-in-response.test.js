@@ -4,7 +4,12 @@
  */
 
 const { requiredEnumPropertiesInResponse } = require('../src/rules');
-const { makeCopy, rootDocument, testRule, severityCodes } = require('./utils');
+const {
+  makeCopy,
+  rootDocument,
+  testRule,
+  severityCodes,
+} = require('./test-utils');
 
 const rule = requiredEnumPropertiesInResponse;
 const ruleId = 'ibm-required-enum-properties-in-response';
