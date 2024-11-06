@@ -15,6 +15,16 @@ const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
  * @returns {bool} true if the resource on this path is minimally represented
  */
 function pathHasMinimallyRepresentedResource(path, apidef) {
+  // Perform input validation. A string and a paths-containing
+  // API definition object are expected.
+  if (typeof path !== 'string') {
+    return false;
+  }
+
+  if (!isObject(apidef) || !isObject(apidef.paths)) {
+    return false;
+  }
+
   const pathObj = apidef.paths[path];
   if (
     isObject(pathObj) &&

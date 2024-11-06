@@ -22,8 +22,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    // !!! add other expected fields to existing represented schemas
-
     describe('Numeric schemas', () => {
       it('minimum defined by itself', async () => {
         const testDocument = makeCopy(rootDocument);
@@ -97,8 +95,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results).toHaveLength(0);
       });
     });
-
-    // !!! maybe add new tests for other schema types to verify proper behavior
   });
 
   describe('Should yield errors', () => {

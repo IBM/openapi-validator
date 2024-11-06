@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 IBM Corporation.
+ * Copyright 2023 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
@@ -13,6 +13,10 @@ const mergeAllOfSchemaProperties = require('./merge-allof-schema-properties');
  * @return integer the index of the searched-for parameter
  */
 function getOffsetParamIndex(params) {
+  if (!Array.isArray(params)) {
+    return -1;
+  }
+
   return params.findIndex(
     param => param.name === 'offset' && param.in === 'query'
   );
@@ -27,6 +31,10 @@ function getOffsetParamIndex(params) {
  * @return integer the index of the searched-for parameter
  */
 function getPageTokenParamIndex(params) {
+  if (!Array.isArray(params)) {
+    return -1;
+  }
+
   // The page token-type query param could have any of the names below.
   const pageTokenParamNames = [
     'start',
@@ -46,9 +54,13 @@ function getPageTokenParamIndex(params) {
  * found, null if not.
  *
  * @param {*} operation an operation object
- * @return string the success code, if found
+ * @return string the success code, if found, undefined otherwise
  */
 function getSuccessCode(operation) {
+  if (!operation) {
+    return;
+  }
+
   return Object.keys(operation.responses || {}).find(code =>
     code.startsWith('2')
   );
@@ -62,6 +74,10 @@ function getSuccessCode(operation) {
  * @return object the schema object, if found
  */
 function getResponseSchema(response) {
+  if (!response) {
+    return;
+  }
+
   // Find the json content of the response.
   const content = response.content;
   const jsonResponse = content && content['application/json'];
