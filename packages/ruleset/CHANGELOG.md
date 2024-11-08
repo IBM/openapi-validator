@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.23.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.23.2...@ibm-cloud/openapi-ruleset@1.23.3) (2024-11-08)
+
+
+### Bug Fixes
+
+* **ibm-required-array-properties-in-response:** avoid [secure] positives within composed models ([ffbe1a4](https://github.com/IBM/openapi-validator/commit/ffbe1a46d629a67c02d932af369f05b1deb63944))
+
 ## @ibm-cloud/openapi-ruleset [1.23.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.23.1...@ibm-cloud/openapi-ruleset@1.23.2) (2024-10-01)
 
 
