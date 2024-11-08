@@ -1,3 +1,18 @@
+# ibm-openapi-validator [1.26.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.25.1...ibm-openapi-validator@1.26.0) (2024-11-08)
+
+
+### Features
+
+* **ibm-required-enum-properties-in-response:** introduce new validation rule ([1ed6d4e](https://github.com/IBM/openapi-validator/commit/1ed6d4effdd8e65f7a52e3c5851fdc4b036d6bf7))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.24.0
+
 ## ibm-openapi-validator [1.25.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.25.0...ibm-openapi-validator@1.25.1) (2024-11-08)
 
 
