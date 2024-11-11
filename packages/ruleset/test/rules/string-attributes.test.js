@@ -15,6 +15,11 @@ const rule = stringAttributes;
 const ruleId = 'ibm-string-attributes';
 const expectedSeverity = severityCodes.warning;
 
+// To enable debug logging in the rule function, copy this statement to an it() block:
+//    LoggerFactory.getInstance().addLoggerSetting(ruleId, 'debug');
+// and uncomment this import statement:
+// const LoggerFactory = require('../../src/utils/logger-factory');
+
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
@@ -211,21 +216,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         ],
         example: 'example string',
-      };
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(0);
-    });
-
-    it('Response header string schema has no keywords', async () => {
-      const testDocument = makeCopy(rootDocument);
-      testDocument.paths['/v1/movies/{movie_id}'].get.responses.headers = {
-        'X-IBM-Something': {
-          schema: {
-            type: 'string',
-            description: 'no validation',
-          },
-        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -633,6 +623,46 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results[i].message).toBe(expectedMessages[i]);
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPath);
+      }
+    });
+    it('Response header string schema has no keywords', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.responses['MovieWithETag'].headers[
+        'X-IBM-Something'
+      ] = {
+        description: 'A non-compliant response header.',
+        schema: {
+          type: 'string',
+          description: 'no validation',
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(6);
+
+      const expectedPaths = [
+        'paths./v1/movies/{movie_id}.get.responses.200.headers.X-IBM-Something.schema',
+        'paths./v1/movies/{movie_id}.get.responses.200.headers.X-IBM-Something.schema',
+        'paths./v1/movies/{movie_id}.get.responses.200.headers.X-IBM-Something.schema',
+        'paths./v1/movies/{movie_id}.put.responses.200.headers.X-IBM-Something.schema',
+        'paths./v1/movies/{movie_id}.put.responses.200.headers.X-IBM-Something.schema',
+        'paths./v1/movies/{movie_id}.put.responses.200.headers.X-IBM-Something.schema',
+      ];
+      const expectedMessages = [
+        `String schemas should define property 'pattern'`,
+        `String schemas should define property 'minLength'`,
+        `String schemas should define property 'maxLength'`,
+        `String schemas should define property 'pattern'`,
+        `String schemas should define property 'minLength'`,
+        `String schemas should define property 'maxLength'`,
+      ];
+
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMessages[i]);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
     });
   });

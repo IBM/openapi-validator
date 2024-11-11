@@ -107,7 +107,7 @@ module.exports = {
             schema: {
               type: 'integer',
               format: 'int32',
-              minimum: 0,
+              minimum: 1,
               maximum: 100,
               default: 10,
             },
@@ -342,7 +342,7 @@ module.exports = {
             schema: {
               type: 'integer',
               format: 'int32',
-              minimum: 0,
+              minimum: 1,
               maximum: 100,
               default: 10,
             },
@@ -657,6 +657,8 @@ module.exports = {
           running_time: {
             type: 'integer',
             format: 'int32',
+            minimum: 0,
+            maximum: 360,
             description: 'The length of the movie, in minutes.',
           },
           imdb_url: {
@@ -691,6 +693,8 @@ module.exports = {
           running_time: {
             type: 'integer',
             format: 'int32',
+            minimum: 0,
+            maximum: 360,
             description: 'The length of the movie, in minutes.',
           },
           imdb_url: {
@@ -979,11 +983,15 @@ module.exports = {
               'The number of items returned in this page of results.',
             type: 'integer',
             format: 'int32',
+            minimum: 1,
+            maximum: 100,
           },
           total_count: {
             description: 'The total number of items across all result pages.',
             type: 'integer',
             format: 'int32',
+            minimum: 0,
+            maximum: 1024,
           },
           first: {
             $ref: '#/components/schemas/PageLink',
@@ -1036,6 +1044,8 @@ module.exports = {
           },
           status_code: {
             type: 'integer',
+            minimum: 0,
+            maximum: 599,
             description: 'The HTTP status code.',
           },
           trace: {

@@ -30,6 +30,7 @@ paths:
 						type: integer
 						format: int32
 						default: 10
+						minimum: 0
 						maximum: 100
 				- name: start
 					in: query
@@ -123,6 +124,8 @@ components:
 				id:
 					type: integer
 					format: int64
+					minimum: 0
+					maximum: 1024
 					description: "id property"
 				name:
 					type: string
@@ -158,6 +161,8 @@ components:
 				limit:
 					type: integer
 					format: int32
+					minimum: 0
+					maximum: 100
 					description: limit
 				next_token:
 					type: string
@@ -210,6 +215,8 @@ components:
 				code:
 					type: integer
 					format: int32
+					minimum: 0
+					maximum: 599
 					description: "code property"
 				message:
 					type: string

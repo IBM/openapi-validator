@@ -25,6 +25,7 @@ module.exports = {
   errorResponseSchemas: require('./error-response-schemas'),
   etagHeaderExists: require('./etag-header-exists'),
   inlineSchemas: require('./inline-schemas'),
+  integerAttributes: require('./integer-attributes'),
   mergePatchProperties: require('./merge-patch-properties'),
   noAmbiguousPaths: require('./no-ambiguous-paths'),
   noNullableProperties: require('./no-nullable-properties'),

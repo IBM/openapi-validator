@@ -123,6 +123,7 @@ module.exports = {
     'ibm-error-content-type-is-json': ibmRules.errorContentTypeIsJson,
     'ibm-error-response-schemas': ibmRules.errorResponseSchemas,
     'ibm-etag-header': ibmRules.etagHeaderExists,
+    'ibm-integer-attributes': ibmRules.integerAttributes,
     'ibm-major-version-in-path': ibmRules.majorVersionInPath,
     'ibm-no-accept-header': ibmRules.acceptHeader,
     'ibm-no-ambiguous-paths': ibmRules.noAmbiguousPaths,

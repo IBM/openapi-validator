@@ -103,7 +103,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
         const testDocument = makeCopy(rootDocument);
 
         testDocument.components.schemas.Car.properties['wheel_count'] = {
-          type: 'integer',
+          type: 'number',
+          format: 'float',
           minimum: 4,
           maximum: 0,
         };
