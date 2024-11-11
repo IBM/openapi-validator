@@ -99,6 +99,11 @@ module.exports = {
     denominator: 'operations',
     categories: ['usability', 'robustness'],
   },
+  'ibm-integer-attributes': {
+    coefficient: 2,
+    denominator: 'integer-schemas',
+    categories: ['usability', 'security', 'robustness', 'evolution'],
+  },
   'ibm-major-version-in-path': {
     coefficient: 1,
     denominator: 'operations',

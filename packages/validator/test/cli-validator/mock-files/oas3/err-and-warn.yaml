@@ -146,6 +146,8 @@ components:
         id:
           type: integer
           format: int64
+          minimum: 0
+          maximum: 1024
         name:
           type: string
           description: string
@@ -156,6 +158,8 @@ components:
         id:
           type: integer
           format: int64
+          minimum: 0
+          maximum: 1024
           description: string
         name:
           type: string
@@ -172,6 +176,8 @@ components:
         id:
           type: integer
           format: int64
+          minimum: 0
+          maximum: 1024
           description: string
         category:
           $ref: "#/components/schemas/Category"

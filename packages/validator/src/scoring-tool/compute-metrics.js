@@ -7,6 +7,7 @@ const {
   collections,
   isArraySchema,
   isBinarySchema,
+  isIntegerSchema,
   isObjectSchema,
   isStringSchema,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
@@ -37,6 +38,11 @@ async function computeMetrics(unresolvedApiDef) {
     'binary-schemas',
     collections.schemas,
     isBinarySchema
+  );
+  metrics.registerSchemas(
+    'integer-schemas',
+    collections.schemas,
+    isIntegerSchema
   );
 
   // Populate the metrics for the API.

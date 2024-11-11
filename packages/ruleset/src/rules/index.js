@@ -32,6 +32,7 @@ module.exports = {
   ifModifiedSinceHeader: require('./if-modified-since-header'),
   ifUnmodifiedSinceHeader: require('./if-unmodified-since-header'),
   inlineSchemas: require('./inline-schemas'),
+  integerAttributes: require('./integer-attributes'),
   majorVersionInPath: require('./major-version-in-path'),
   mergePatchProperties: require('./merge-patch-properties'),
   noAmbiguousPaths: require('./no-ambiguous-paths'),

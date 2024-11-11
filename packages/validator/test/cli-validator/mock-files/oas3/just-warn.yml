@@ -223,6 +223,8 @@
                     "id": {
                         "type": "integer",
                         "format": "int64",
+                        "minimum": 0,
+                        "maximum": 1024,
                         "description": "string"
                     },
                     "name": {
@@ -240,6 +242,8 @@
                     "id": {
                         "type": "integer",
                         "format": "int64",
+                        "minimum": 0,
+                        "maximum": 1024,
                         "description": "string"
                     },
                     "name": {
@@ -263,6 +267,8 @@
                     "id": {
                         "type": "integer",
                         "format": "int64",
+                        "minimum": 0,
+                        "maximum": 1024,
                         "description": "string"
                     },
                     "category": {

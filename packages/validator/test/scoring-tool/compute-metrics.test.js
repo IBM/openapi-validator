@@ -26,6 +26,7 @@ describe('scoring-tool compute-metrics tests', function () {
       'object-schemas',
       'array-schemas',
       'binary-schemas',
+      'integer-schemas',
     ];
 
     const metricsObject = JSON.parse(metrics.toString());

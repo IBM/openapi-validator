@@ -47,6 +47,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-error-content-type-is-json](#ibm-error-content-type-is-json)
   * [ibm-error-response-schemas](#ibm-error-response-schemas)
   * [ibm-etag-header](#ibm-etag-header)
+  * [ibm-integer-attributes](#ibm-integer-attributes)
   * [ibm-major-version-in-path](#ibm-major-version-in-path)
   * [ibm-no-accept-header](#ibm-no-accept-header)
   * [ibm-no-ambiguous-paths](#ibm-no-ambiguous-paths)
@@ -253,6 +254,12 @@ property should defined within the schema.</td>
 <td>error</td>
 <td>Verifies that the <code>ETag</code> response header is defined in the <code>GET</code> operation
 for any resources (paths) that support the <code>If-Match</code> and/or <code>If-None-Match</code> header parameters.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-integer-attributes">ibm-integer-attributes</a></td>
+<td>error</td>
+<td>Integer schema properties should define the <code>minimum</code> and <code>maximum</code> fields.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -2298,6 +2305,64 @@ paths:
       responses:
         '204':
           description: 'Success response!'
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-integer-attributes
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-integer-attributes</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule checks to make sure that integer schema properties comply with the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#integer">API Handbook guidance</a>.  Specifically, the rule verifies that each integer schema property
+defines the <code>minimum</code> and <code>maximum</code> fields, and also verifies that the <code>format</code> field (if defined)
+is specified as <code>int32</code> or <code>int64</code>.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      description: A Thing instance.
+      type: object
+      properties:
+        thing_size:
+          description: The size of the Thing instance, in ml.
+          type: integer
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Thing:
+      description: A Thing instance.
+      type: object
+      properties:
+        thing_size:
+          description: The size of the Thing instance, in ml.
+          type: integer
+          minimum: 0
+          maximum: 1000
 </pre>
 </td>
 </tr>

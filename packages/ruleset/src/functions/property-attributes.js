@@ -43,18 +43,21 @@ function checkPropertyAttributes(schema, path) {
   const errors = [];
 
   if (isNumericSchema(schema)) {
-    logger.debug('schema is numeric');
+    // Avoid checking integer schema properties in favor of the ibm-integer-attributes rule.
+    if (!isIntegerSchema(schema)) {
+      logger.debug('schema is numeric');
 
-    // 2) minimum <= maximum
-    if (
-      'minimum' in schema &&
-      'maximum' in schema &&
-      schema.minimum > schema.maximum
-    ) {
-      errors.push({
-        message: `'minimum' cannot be greater than 'maximum'`,
-        path: [...path, 'minimum'],
-      });
+      // 2) minimum <= maximum
+      if (
+        'minimum' in schema &&
+        'maximum' in schema &&
+        schema.minimum > schema.maximum
+      ) {
+        errors.push({
+          message: `'minimum' cannot be greater than 'maximum'`,
+          path: [...path, 'minimum'],
+        });
+      }
     }
   } else {
     // 1) minimum/maximum/multipleOf/exclusiveMaximum/exclusiveMinimum
