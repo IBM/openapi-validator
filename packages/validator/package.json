@@ -26,7 +26,7 @@
     "@ibm-cloud/openapi-ruleset": "1.25.0",
     "@ibm-cloud/openapi-ruleset-utilities": "1.4.0",
     "@stoplight/spectral-cli": "^6.13.1",
-    "@stoplight/spectral-core": "^1.19.1",
+    "@stoplight/spectral-core": "^1.19.2",
     "@stoplight/spectral-parsers": "^1.0.4",
     "@stoplight/spectral-ref-resolver": "^1.0.4",
     "ajv": "^8.17.1",
