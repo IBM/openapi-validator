@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.25.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.24.0...@ibm-cloud/openapi-ruleset@1.25.0) (2024-11-12)
+
+
+### Features
+
+* **ibm-integer-attributes:** introduce new validation rule ([2153643](https://github.com/IBM/openapi-validator/commit/21536430616cfd7c2cbe4c6914a707b73a47ff84))
+
 # @ibm-cloud/openapi-ruleset [1.24.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.23.3...@ibm-cloud/openapi-ruleset@1.24.0) (2024-11-08)
 
 
