@@ -1,3 +1,18 @@
+# ibm-openapi-validator [1.27.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.26.0...ibm-openapi-validator@1.27.0) (2024-11-12)
+
+
+### Features
+
+* **ibm-integer-attributes:** introduce new validation rule ([2153643](https://github.com/IBM/openapi-validator/commit/21536430616cfd7c2cbe4c6914a707b73a47ff84))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.25.0
+
 # ibm-openapi-validator [1.26.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.25.1...ibm-openapi-validator@1.26.0) (2024-11-08)
 
 
