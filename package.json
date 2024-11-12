@@ -44,7 +44,6 @@
   "overrides": {
     "proxy-agent": "^6.3.0",
     "micromatch": "^4.0.8",
-    "rollup": "2.79.2",
-    "jsonpath-plus": "^10.1.0"
+    "rollup": "2.79.2"
   }
 }
