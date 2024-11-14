@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -9,6 +9,7 @@ module.exports = {
   isObject: require('./is-object'),
   schemaHasConstraint: require('./schema-has-constraint'),
   schemaHasProperty: require('./schema-has-property'),
+  schemaLooselyHasConstraint: require('./schema-loosely-has-constraint'),
   schemaRequiresProperty: require('./schema-requires-property'),
   validateComposedSchemas: require('./validate-composed-schemas'),
   validateNestedSchemas: require('./validate-nested-schemas'),
