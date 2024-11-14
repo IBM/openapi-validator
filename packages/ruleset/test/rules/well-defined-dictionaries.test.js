@@ -12,7 +12,7 @@ const {
 } = require('../test-utils');
 
 const rule = wellDefinedDictionaries;
-const ruleId = 'ibm-valid-path-segments';
+const ruleId = 'ibm-well-defined-dictionaries';
 const expectedSeverity = severityCodes.warning;
 
 describe(`Spectral rule: ${ruleId}`, () => {
@@ -39,17 +39,25 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Includes a dictionary that nests a well-defined dictionary with scalar values', async () => {
+    it('Includes a well-defined dictionary with composed scalar values', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.properties.metadata = {
-        description: 'a dictionary mapping keys to string values',
+        description: 'a dictionary mapping keys to integer values',
         type: 'object',
         additionalProperties: {
-          type: 'object',
-          additionalProperties: {
-            type: 'string',
-          },
+          oneOf: [
+            {
+              type: 'integer',
+              minimum: 0,
+              maximum: 10,
+            },
+            {
+              type: 'integer',
+              minimum: 20,
+              maximum: 30,
+            },
+          ],
         },
       };
 
@@ -79,6 +87,29 @@ describe(`Spectral rule: ${ruleId}`, () => {
             },
           },
         ],
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Includes a well-defined dictionary of models that include a dictionary property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary mapping keys to string values',
+        type: 'object',
+        additionalProperties: {
+          type: 'object',
+          properties: {
+            nested: {
+              type: 'object',
+              additionalProperties: {
+                type: 'string',
+              },
+            },
+          },
+        },
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -204,16 +235,16 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(4);
 
       const expectedRulePaths = [
-        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.metadata.additionalProperties',
-        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.metadata.additionalProperties',
-        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.metadata.additionalProperties',
-        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.metadata.additionalProperties',
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.metadata',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.metadata',
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.metadata',
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.metadata',
       ];
 
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionary schemas must have a single, well-defined value type in `additionalProperties`'
+          'Dictionaries must not have values that are also dictionaries.'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedRulePaths[i]);
@@ -245,6 +276,171 @@ describe(`Spectral rule: ${ruleId}`, () => {
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Includes a dictionary of dictionaries, which is not allowed', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary with no definition',
+        type: 'object',
+        additionalProperties: {
+          type: 'object',
+          additionalProperties: {
+            type: 'string',
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Dictionaries must not have values that are also dictionaries.'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Flags dictionary of dictionaries but ignores dictionary value issue', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary with no definition',
+        type: 'object',
+        additionalProperties: {
+          type: 'object',
+          additionalProperties: true,
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Dictionaries must not have values that are also dictionaries.'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Includes a composed dictionary of dictionaries, which is not allowed', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary with no definition',
+        type: 'object',
+        additionalProperties: {
+          type: 'object',
+          allOf: [
+            {
+              additionalProperties: {
+                type: 'string',
+              },
+            },
+            {
+              properties: {
+                name: {
+                  type: 'string',
+                },
+              },
+            },
+          ],
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Dictionaries must not have values that are also dictionaries.'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Includes a single oneOf element that creates a nested dictionary, which is not allowed', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary with no definition',
+        type: 'object',
+        additionalProperties: {
+          type: 'object',
+          oneOf: [
+            {
+              additionalProperties: {
+                type: 'string',
+              },
+            },
+            {
+              properties: {
+                name: {
+                  type: 'string',
+                },
+              },
+            },
+          ],
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Dictionaries must not have values that are also dictionaries.'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Includes a well-defined dictionary of models that include a poorly-defined dictionary property', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary mapping keys to string values',
+        type: 'object',
+        additionalProperties: {
+          type: 'object',
+          properties: {
+            nested: {
+              type: 'object',
+              additionalProperties: true,
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      const expectedRulePaths = [
+        'paths./v1/movies.get.responses.200.content.application/json.schema.allOf.1.properties.movies.items.properties.metadata.additionalProperties.properties.nested',
+        'paths./v1/movies.post.responses.201.content.application/json.schema.properties.metadata.additionalProperties.properties.nested',
+        'paths./v1/movies/{movie_id}.get.responses.200.content.application/json.schema.properties.metadata.additionalProperties.properties.nested',
+        'paths./v1/movies/{movie_id}.put.responses.200.content.application/json.schema.properties.metadata.additionalProperties.properties.nested',
+      ];
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Dictionary schemas must have a single, well-defined value type in `additionalProperties`'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedRulePaths[i]);
       }
     });
   });
