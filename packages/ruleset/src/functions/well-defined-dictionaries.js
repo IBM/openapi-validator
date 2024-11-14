@@ -7,6 +7,7 @@ const {
   isObject,
   isObjectSchema,
   schemaHasConstraint,
+  schemaLooselyHasConstraint,
   validateNestedSchemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
@@ -26,6 +27,12 @@ module.exports = function (schema, _opts, context) {
 function wellDefinedDictionaries(schema, path) {
   // We only care about object schemas.
   if (!isObject(schema) || !isObjectSchema(schema)) {
+    return [];
+  }
+
+  // We will flag dictionaries of dictionaries, so we can skip
+  // providing guidance for directly nested dictionaries.
+  if (path.at(-1) === 'additionalProperties') {
     return [];
   }
 
@@ -78,6 +85,15 @@ function wellDefinedDictionaries(schema, path) {
     });
   }
 
+  // The Handbook guidelines state that dictionary types
+  // should not be dictionaries themselves.
+  if (schemaHasConstraint(schema, isDictionaryOfDictionaries)) {
+    errors.push({
+      message: 'Dictionaries must not have values that are also dictionaries.',
+      path,
+    });
+  }
+
   return errors;
 }
 
@@ -90,7 +106,25 @@ function isAmbiguousDictionary(schema) {
     return false;
   }
 
+  // additionalProperties must be an object (not a boolean) value
+  // and must define a `type` field in order to be considered an
+  // unambiguous dictionary.
   return (
-    !isObject(schema.additionalProperties) || !schema.additionalProperties.type
+    !isObject(schema.additionalProperties) ||
+    !schemaDefinesField(schema.additionalProperties, 'type')
+  );
+}
+
+function isDictionaryOfDictionaries(schema) {
+  if (!isObject(schema.additionalProperties)) {
+    return false;
+  }
+
+  // We don't want any schema that may define the dictionary values
+  // to also be a dictionary, so we use a looser constraint that
+  // checks against any oneOf/anyOf schema.
+  return schemaLooselyHasConstraint(
+    schema.additionalProperties,
+    s => !!s['additionalProperties']
   );
 }

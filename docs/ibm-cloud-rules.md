@@ -7262,7 +7262,7 @@ paths:
   Dictionaries are defined as object type schemas that have variable key names. They are distinct from model types,
   which are objects with pre-defined properties. A schema must not define both concrete properties and variable key names.
   Practically, this means a schema must explicitly define a `properties` object or an `additionalProperties` schema, but not both.
-  If used, the `additionalProperties` schema must define a concrete type. See the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types">IBM Cloud API Handbook documentation on types</a> for more info.
+  If used, the `additionalProperties` schema must define a concrete type. The concrete type of the values must not be a dictionary itself. See the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types">IBM Cloud API Handbook documentation on types</a> for more info.
 </td>
 </tr>
 <tr>

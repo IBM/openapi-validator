@@ -9,6 +9,7 @@ const {
   isObjectSchema,
   isArraySchema,
   schemaHasConstraint,
+  schemaLooselyHasConstraint,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const {
@@ -310,7 +311,7 @@ function checkForGraphFragmentPattern(
           for (const [name, prop] of Object.entries(c.properties)) {
             logger.debug(`${ruleId}: checking canonical property '${name}'`);
 
-            const included = schemaHasLooseConstraint(
+            const included = schemaLooselyHasConstraint(
               variant,
               s =>
                 'properties' in s &&
@@ -432,39 +433,6 @@ function canonicalSchemaMeetsConstraint(
           ) || previousResult,
         false
       )
-    ) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-/**
- * This function is a looser adaptation of the "schemaHasConstraint()" function in the utilities package.
- * Here we process oneOf and anyOf lists the same as allOf, where we return true if one (or more)
- * of the oneOf/anyOf elements has the constraint (rather than all of the elements).
- */
-function schemaHasLooseConstraint(schema, hasConstraint) {
-  if (!isObject(schema)) {
-    return false;
-  }
-
-  if (hasConstraint(schema)) {
-    return true;
-  }
-
-  const anySchemaHasConstraintReducer = (previousResult, currentSchema) => {
-    return (
-      previousResult || schemaHasLooseConstraint(currentSchema, hasConstraint)
-    );
-  };
-
-  for (const applicator of ['allOf', 'oneOf', 'anyOf']) {
-    if (
-      Array.isArray(schema[applicator]) &&
-      schema[applicator].length > 0 &&
-      schema[applicator].reduce(anySchemaHasConstraintReducer, false)
     ) {
       return true;
     }
