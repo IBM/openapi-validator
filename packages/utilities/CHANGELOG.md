@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset-utilities [1.5.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.4.0...@ibm-cloud/openapi-ruleset-utilities@1.5.0) (2024-11-15)
+
+
+### Features
+
+* add utility for checking composite schemas with a looser constraint ([8ae0e07](https://github.com/IBM/openapi-validator/commit/8ae0e07c6a5377bd0c5f94d01a5d8a8c6d6202e7))
+
 # @ibm-cloud/openapi-ruleset-utilities [1.4.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.3.2...@ibm-cloud/openapi-ruleset-utilities@1.4.0) (2024-09-24)
 
 
