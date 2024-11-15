@@ -1,3 +1,18 @@
+## @ibm-cloud/openapi-ruleset [1.25.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.25.0...@ibm-cloud/openapi-ruleset@1.25.1) (2024-11-15)
+
+
+### Bug Fixes
+
+* **ibm-well-defined-dictionaries:** flag dictionaries with dictionary-type values ([7a4796a](https://github.com/IBM/openapi-validator/commit/7a4796af5688665269d84f1b9ff8cbf89c002edf))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.5.0
+
 # @ibm-cloud/openapi-ruleset [1.25.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.24.0...@ibm-cloud/openapi-ruleset@1.25.0) (2024-11-12)
 
 
