@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -13,11 +13,11 @@ module.exports.getCapturedTextWithColor = callsToLog =>
 
 function formatCapturedText(callsToLog, preserveColors) {
   return callsToLog.map(args => {
-    // the validator only ever uses the first arg in consolg.log
-    const output = preserveColors ? args[0] : stripAnsi(args[0]);
-
     // the tests expect `console.log()` to be interpreted as a newline
     // but the mock captures the info as `undefined`
-    return output === undefined ? '\n' : output;
+    const output = args[0] === undefined ? '\n' : args[0];
+
+    // the validator only ever uses the first arg in consolg.log
+    return preserveColors ? output : stripAnsi(output);
   });
 }

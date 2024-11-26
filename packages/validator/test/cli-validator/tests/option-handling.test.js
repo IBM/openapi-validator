@@ -3,6 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const { existsSync, unlinkSync } = require('fs');
+
 const {
   extractValuesFromTable,
   getCapturedText,
@@ -265,7 +267,7 @@ describe('cli tool - test option handling', function () {
 
       // Most of the data is more fragile, but this proves we printed
       // the first table and the correct values in the first column.
-      const firstTable = extractValuesFromTable(capturedText.at(-2));
+      const firstTable = extractValuesFromTable(capturedText.at(-3));
       const firstColumn = 0;
       expect(firstTable.at(1)).toEqual(['category', 'max score']);
       expect(firstTable.at(3).at(firstColumn)).toBe('usability');
@@ -274,7 +276,7 @@ describe('cli tool - test option handling', function () {
       expect(firstTable.at(6).at(firstColumn)).toBe('evolution');
       expect(firstTable.at(7).at(firstColumn)).toBe('overall (mean)');
 
-      const secondTable = extractValuesFromTable(capturedText.at(-1));
+      const secondTable = extractValuesFromTable(capturedText.at(-2));
       // The rest of the data is more fragile, but this proves we printed the second table.
       expect(secondTable.at(1)).toEqual([
         'rule',
@@ -296,7 +298,7 @@ describe('cli tool - test option handling', function () {
       './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
     ]);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    const secondTable = extractValuesFromTable(capturedText.at(-1));
+    const secondTable = extractValuesFromTable(capturedText.at(-2));
     const firstColumn = 0;
 
     expect(secondTable.length).toBe(7);
@@ -315,7 +317,7 @@ describe('cli tool - test option handling', function () {
       './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
     ]);
     const capturedText = getCapturedText(consoleSpy.mock.calls);
-    const firstAndOnlyTable = extractValuesFromTable(capturedText.at(-1));
+    const firstAndOnlyTable = extractValuesFromTable(capturedText.at(-2));
     const firstColumn = 0;
     expect(firstAndOnlyTable.at(1)).toEqual(['category', 'max score']);
     expect(firstAndOnlyTable.at(3).at(firstColumn)).toBe('usability');
@@ -357,6 +359,46 @@ describe('cli tool - test option handling', function () {
         /IBM OpenAPI Validator.*Copyright IBM Corporation/
       );
       expect(capturedText[3]).toMatch(/Usage: lint-openapi/);
+    });
+  });
+
+  describe('test markdown report option handling', function () {
+    // Use this API for all of the tests so the expected name
+    // of the created file stays consistent.
+    const fileToTest = './test/cli-validator/mock-files/oas3/clean.yml';
+    const expectedFile = 'clean-validator-report.md';
+
+    beforeEach(function () {
+      // Make sure there is no markdown report file before the test is executed.
+      expect(existsSync(expectedFile)).toBe(false);
+    });
+
+    afterEach(function () {
+      // Delete the markdown report we've just created.
+      unlinkSync(expectedFile);
+    });
+
+    it.each(['-m', '--markdown-report'])(
+      'should write a markdown file when the -m/--markdown-report option is specified',
+      async function (option) {
+        await testValidator([option, fileToTest]);
+        const capturedText = getCapturedText(consoleSpy.mock.calls);
+        expect(capturedText.at(-1)).toMatch(
+          new RegExp(
+            'Successfully wrote Markdown report to file: .*/openapi-validator/packages/validator/clean-validator-report.md'
+          )
+        );
+        expect(existsSync(expectedFile)).toBe(true);
+      }
+    );
+
+    it('should print file but not confirmation message when output is json', async function () {
+      await testValidator(['-m', '-j', fileToTest]);
+      const capturedText = getCapturedText(consoleSpy.mock.calls);
+      expect(existsSync(expectedFile)).toBe(true);
+      expect(capturedText.join('')).not.toMatch(
+        'Successfully wrote Markdown report to file'
+      );
     });
   });
 });

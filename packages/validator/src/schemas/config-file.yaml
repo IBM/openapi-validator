@@ -77,3 +77,8 @@ properties:
       A flag that causes the validator to display an aggregated score based on the API impact of rule violations
     type: boolean
     default: false
+  markdownReport:
+    description: >
+      A flag that causes the validator to generate a report with rule violations and impact scores as a Markdown file
+    type: boolean
+    default: false

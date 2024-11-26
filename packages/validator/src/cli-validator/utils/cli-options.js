@@ -80,6 +80,10 @@ function createCLIOptions() {
       'compute scores representing the API impact of rule violations and include with the results'
     )
     .option(
+      '-m, --markdown-report',
+      'write a markdown report to a file, consisting of rule violations and impact scores'
+    )
+    .option(
       '-w, --warnings-limit <number>',
       'set warnings limit to <number> (default is -1)',
       parseWarningsLimit
