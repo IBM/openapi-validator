@@ -51,6 +51,7 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
       - [ruleset](#ruleset)
       - [summaryOnly](#summaryonly)
       - [produceImpactScore](#produceimpactscore)
+      - [markdownReport](#markdownreport)
   * [Programmatic Usage](#programmatic-usage)
 - [Validator Output](#validator-output)
   * [Text](#text)
@@ -164,7 +165,8 @@ Options:
   -n, --no-colors                disable colorizing of the output (default is false)
   -r, --ruleset <file>           use Spectral ruleset contained in `<file>` ("default" forces use of default IBM Cloud Validation Ruleset)
   -s, --summary-only             include only the summary information and skip individual errors and warnings (default is false)
-  -q, --impact-score            compute scores representing the API impact of rule violations and include with the results (default is false)
+  -q, --impact-score             compute scores representing the API impact of rule violations and include with the results (default is false)
+  -m, --markdown-report          generate a Markdown file with a report on all validator results (default is false)
   -w, --warnings-limit <number>  set warnings limit to <number> (default is -1)
   --version                      output the version number
   -h, --help                     display help for command
@@ -707,6 +709,57 @@ produceImpactScore: true
 <pre>
 module.exports = {
   produceImpactScore: true
+};
+</pre>
+</td>
+</tr>
+</table>
+
+##### markdownReport
+<table border=1>
+<tr>
+<td><b>Description</b></td>
+<td width=25%><b>Default</b></td>
+</tr>
+<tr>
+<td>The <code>markdownReport</code> configuration property corresponds to the
+<code>-m</code>/<code>--markdown-report</code> command-line option.
+If set to true, the validator will generate a Markdown file containing a report on all of the validator results,
+including the individual rule violations, the impact scores, and the data used to compute the impact scores.
+It provides a single location to see all of the information produced by the validator.
+A default filename is always used and is based on the name of the API definition file provided to the validator.
+If a file of the same name already exists, it will be overwritten by default. This is because the primary use-case
+of this feature is publishing reports during CI/CD builds, where a single report will need to be updated frequently.
+</td>
+<td><code>false</code></td>
+</tr>
+</table>
+<b>Examples:</b>
+<table border=1>
+<tr>
+</tr>
+<tr>
+<td><code>.yaml/.yml</code></td>
+<td><code>.json</code></td>
+<td><code>.js</code></td>
+</tr>
+<tr>
+<td>
+<pre>
+markdownReport: true
+</pre>
+</td>
+<td>
+<pre>
+{
+  "markdownReport": true
+}
+</pre>
+</td>
+<td>
+<pre>
+module.exports = {
+  markdownReport: true
 };
 </pre>
 </td>

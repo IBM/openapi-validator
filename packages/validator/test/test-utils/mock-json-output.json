@@ -1,0 +1,125 @@
+{
+  "error": {
+    "results": [
+      {
+        "message": "Path contains two or more consecutive path parameter references: /pets/{pet_id}/{id}",
+        "path": [
+          "paths",
+          "/pets/{pet_id}/{id}"
+        ],
+        "rule": "ibm-no-consecutive-path-parameter-segments",
+        "line": 84
+      },
+      {
+        "message": "Integer schemas should define property 'minimum'",
+        "path": [
+          "components",
+          "schemas",
+          "Pet",
+          "properties",
+          "id"
+        ],
+        "rule": "ibm-integer-attributes",
+        "line": 133
+      }
+    ],
+    "summary": {
+      "total": 2,
+      "entries": [
+        {
+          "generalizedMessage": "Path contains two or more consecutive path parameter references",
+          "count": 1,
+          "percentage": 50
+        },
+        {
+          "generalizedMessage": "Integer schemas should define property 'minimum'",
+          "count": 1,
+          "percentage": 50
+        }
+      ]
+    }
+  },
+  "warning": {
+    "results": [
+      {
+        "message": "A regular expression used in a 'pattern' attribute should be anchored with ^ and $",
+        "path": [
+          "components",
+          "schemas",
+          "Error",
+          "properties",
+          "message",
+          "pattern"
+        ],
+        "rule": "ibm-anchored-patterns",
+        "line": 233
+      }
+    ],
+    "summary": {
+      "total": 1,
+      "entries": [
+        {
+          "generalizedMessage": "A regular expression used in a 'pattern' attribute should be anchored with ^ and $",
+          "count": 1,
+          "percentage": 100
+        }
+      ]
+    }
+  },
+  "info": {
+    "results": [],
+    "summary": {
+      "total": 0,
+      "entries": []
+    }
+  },
+  "hint": {
+    "results": [],
+    "summary": {
+      "total": 0,
+      "entries": []
+    }
+  },
+  "hasResults": true,
+  "impactScore": {
+    "categorizedSummary": {
+      "usability": 94,
+      "security": 96,
+      "robustness": 97,
+      "evolution": 98,
+      "overall": 96
+    },
+    "scoringData": [
+      {
+        "rule": "ibm-no-consecutive-path-parameter-segments",
+        "count": 1,
+        "func": "1×10÷operations",
+        "demerits": {
+          "usability": 3.33,
+          "total": 3.33
+        }
+      },
+      {
+        "rule": "ibm-integer-attributes",
+        "count": 1,
+        "func": "1×2÷integer-schemas",
+        "demerits": {
+          "usability": 0.5,
+          "security": 2.5,
+          "robustness": 1,
+          "evolution": 1.5,
+          "total": 5.5
+        }
+      },
+      {
+        "rule": "ibm-anchored-patterns",
+        "count": 1,
+        "func": "1×1÷operations",
+        "demerits": {
+          "robustness": 0.67,
+          "total": 0.67
+        }
+      }
+    ]
+  }
+}
