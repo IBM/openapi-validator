@@ -43,6 +43,7 @@ const defaultConfig = {
   ruleset: null,
   summaryOnly: false,
   produceImpactScore: false,
+  markdownReport: false,
 };
 
 const supportedConfigFileTypes = ['json', 'yaml', 'yml', 'js'];
@@ -239,6 +240,10 @@ async function processArgs(args, cliParseOptions) {
 
   if ('impactScore' in opts) {
     configObj.produceImpactScore = true;
+  }
+
+  if ('markdownReport' in opts) {
+    configObj.markdownReport = true;
   }
 
   return { context, command };

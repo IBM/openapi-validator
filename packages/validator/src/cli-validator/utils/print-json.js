@@ -3,14 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-function printJson(context, validatorResults, scoringInformation) {
-  const results = {
-    ...validatorResults,
-    impactScore: {
-      ...scoringInformation,
-    },
-  };
-
+function printJson(context, results) {
   console.log(JSON.stringify(results, null, 2));
 }
 

@@ -48,6 +48,7 @@ describe('Configuration Manager tests', function () {
       expect(defaultConfig.ruleset).toBe(null);
       expect(defaultConfig.summaryOnly).toBe(false);
       expect(defaultConfig.produceImpactScore).toBe(false);
+      expect(defaultConfig.markdownReport).toBe(false);
     });
   });
 
@@ -189,6 +190,7 @@ describe('Configuration Manager tests', function () {
         outputFormat: 'text',
         summaryOnly: false,
         produceImpactScore: false,
+        markdownReport: false,
         ruleset: null,
       });
     });
@@ -212,6 +214,7 @@ describe('Configuration Manager tests', function () {
           '--warnings-limit',
           '-1',
           '--impact-score',
+          '--markdown-report',
         ],
         cliParseOptions
       );
@@ -233,6 +236,7 @@ describe('Configuration Manager tests', function () {
         ruleset: 'my-rules.yml',
         summaryOnly: true,
         produceImpactScore: true,
+        markdownReport: true,
       });
     });
 
@@ -271,6 +275,7 @@ describe('Configuration Manager tests', function () {
             outputFormat: 'text',
             summaryOnly: false,
             produceImpactScore: false,
+            markdownReport: false,
           };
 
           const { context } = await processArgs(
@@ -415,6 +420,21 @@ describe('Configuration Manager tests', function () {
           const { context } = await processArgs([option], cliParseOptions);
           const capturedText = getCapturedText(consoleSpy.mock.calls);
           // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
+          expect(capturedText).toHaveLength(0);
+          expect(context).toBeDefined();
+          expect(context.config).toMatchObject(expectedConfig);
+        }
+      );
+
+      it.each(['-m', '--markdown-report'])(
+        `should produce correct config with -m/--markdown-report option`,
+        async function (option) {
+          const expectedConfig = {
+            markdownReport: true,
+          };
+
+          const { context } = await processArgs([option], cliParseOptions);
+          const capturedText = getCapturedText(consoleSpy.mock.calls);
           expect(capturedText).toHaveLength(0);
           expect(context).toBeDefined();
           expect(context.config).toMatchObject(expectedConfig);

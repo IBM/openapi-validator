@@ -18,12 +18,15 @@ async function produceImpactScore(validatorResults, { apiDefinition, logger }) {
   return scoreResults(validatorResults, metrics, logger);
 }
 
-function printScoreTables(results, { config }) {
-  printCategorizedScoresTable(results);
+function printScoreTables({ config }, { impactScore }) {
+  printCategorizedScoresTable(impactScore);
 
   if (!config.summaryOnly) {
-    printScoringDataTable(results);
+    printScoringDataTable(impactScore);
   }
+
+  // Print a new line at the end to be consistent with other validator output.
+  console.log();
 }
 
 module.exports = {

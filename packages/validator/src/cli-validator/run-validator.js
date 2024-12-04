@@ -26,6 +26,7 @@ const {
 
 const { runSpectral } = require('../spectral');
 const { produceImpactScore, printScoreTables } = require('../scoring-tool');
+const { printMarkdownReport } = require('../markdown-report');
 
 let logger;
 
@@ -183,6 +184,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   // Validate, then process the results for each file being validated.
   for (const validFile of filesToValidate) {
+    // 'validFile' is the name of the file being processed. Save it for later use.
+    context.currentFilename = validFile;
+
     let originalFile;
     let input;
 
@@ -234,12 +238,40 @@ async function runValidator(cliArgs, parseOptions = {}) {
       continue;
     }
 
-    // Compute scoring information if the user requested the "impact score" option,
-    // or if JSON output is requested. The JSON output always includes all results,
-    // both the standard rule violations and the scoring information.
+    // Compute scoring information if 1) the user requested the "impact score"
+    // option, 2) if JSON output is requested, or 3) if the markdown report is
+    // requested. The JSON output and markdown report always include all results,
+    // including the standard rule violations and the scoring information.
     let impactScoreInformation = {};
-    if (context.config.produceImpactScore || outputIsJSON(context)) {
+    if (
+      context.config.produceImpactScore ||
+      outputIsJSON(context) ||
+      context.config.markdownReport
+    ) {
+      logger.info('Impact scores are being calculated...');
       impactScoreInformation = await produceImpactScore(results, context);
+    } else {
+      logger.info(
+        'Impact scores are not being calculated. Scores are calculated when' +
+          'requested, or when JSON output or a Markdown report is requested.'
+      );
+    }
+
+    // Combine validator and impact score results into one object.
+    results = {
+      ...results,
+      impactScore: {
+        ...impactScoreInformation,
+      },
+    };
+
+    // If the user requested a markdown report of the results, print that here.
+    // Note that we need to do this before we check if the "summaryOnly" option
+    // was provided, because that will filter the results and we want to print
+    // all of the results in the report.
+    let markdownReportLocation;
+    if (context.config.markdownReport) {
+      markdownReportLocation = printMarkdownReport(context, results);
     }
 
     // Check to see if we should be passing back a non-zero exit code.
@@ -261,7 +293,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
     // If summary output is requested, filter out extraneous information here.
     if (context.config.summaryOnly) {
       // Remove verbose scoring data.
-      impactScoreInformation.scoringData = [];
+      results.impactScore.scoringData = [];
 
       // Remove individual rule violation results.
       ['error', 'warning', 'info', 'hint'].forEach(sev => {
@@ -271,24 +303,31 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
     // Now print the results, either JSON or text.
     if (outputIsJSON(context)) {
-      printJson(context, results, impactScoreInformation);
-      continue;
-    }
-
-    if (results.hasResults) {
+      printJson(context, results);
+    } else if (results.hasResults) {
       printResults(context, results);
 
       // If the user requested the "impact score" option, print
       // the scoring tables in addition to the standard output.
       if (context.config.produceImpactScore) {
-        printScoreTables(impactScoreInformation, context);
+        printScoreTables(context, results);
       }
-      continue;
+    } else {
+      // If using textual output but there are no results,
+      // declare that the API "passed" without violations.
+      console.log(context.chalk.green(`${validFile} passed the validator\n`));
     }
 
-    // If using textual output but there are no results,
-    // declare that the API "passed" without violations.
-    console.log(context.chalk.green(`\n${validFile} passed the validator\n`));
+    // If the user requested the "markdown report" option and it was
+    // successfully printed, show the user where the file was written
+    // (unless JSON output was requested).
+    if (markdownReportLocation && !outputIsJSON(context)) {
+      console.log(
+        context.chalk.green(
+          `Successfully wrote Markdown report to file: ${markdownReportLocation}\n`
+        )
+      );
+    }
   }
 
   return exitCode;
