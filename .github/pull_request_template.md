@@ -18,3 +18,4 @@ Please make sure that your PR fulfills the following requirements:
 - [ ] Added new rule to default configuration (packages/ruleset/src/ibm-oas.js)
 - [ ] Added tests for new rule (packages/ruleset/test/*.test.js)
 - [ ] Added docs for new rule (docs/ibm-cloud-rules.md)
+- [ ] Added scoring rubric entry for new rule (packages/validator/src/scoring-tool/rubric.js)
