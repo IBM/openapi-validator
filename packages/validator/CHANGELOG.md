@@ -1,3 +1,10 @@
+# ibm-openapi-validator [1.29.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.28.0...ibm-openapi-validator@1.29.0) (2024-12-04)
+
+
+### Features
+
+* **markdown-report:** add a feature to generate a markdown report containing validator results ([#700](https://github.com/IBM/openapi-validator/issues/700)) ([cf9c08c](https://github.com/IBM/openapi-validator/commit/cf9c08ccdcae0a50af3adb7ccc815e4b774b0778))
+
 # ibm-openapi-validator [1.28.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.27.0...ibm-openapi-validator@1.28.0) (2024-11-15)
 
 
