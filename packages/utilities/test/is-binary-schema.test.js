@@ -1,6 +1,6 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
- * SPDX-License-Identifier: Apache2.0
+ * @copyright IBM Corporation 2017–2024
+ * @license Apache-2.0
  */
 
 const { isBinarySchema } = require('../src');

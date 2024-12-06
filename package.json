@@ -34,14 +34,16 @@
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^10.0.4",
-    "eslint": "^8.41.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.0",
+    "@semantic-release/npm": "^12.0.1",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jest": "^28.8.3",
+    "eslint-plugin-jsdoc": "^50.3.1",
+    "eslint-plugin-prettier": "^5.2.1",
     "jest": "^27.4.5",
     "jsdoc": "^4.0.4",
     "mustache": "^4.2.0",
-    "semantic-release": "^21.0.7"
+    "semantic-release": "^24.2.0"
   },
   "overrides": {
     "proxy-agent": "^6.3.0",
