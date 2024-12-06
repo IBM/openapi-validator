@@ -3,12 +3,22 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+/**
+ * @private
+ */
 const isObject = require('./is-object');
 
 /**
- * This function is a looser adaptation of the "schemaHasConstraint" function in the utilities package.
- * Here we process oneOf and anyOf lists the same as allOf, where we return true if one (or more)
- * of the oneOf/anyOf elements has the constraint (rather than all of the elements).
+ * This function is a looser adaptation of the `schemaHasConstraint()` function.
+ * Here, we process `oneOf` and `anyOf` lists the same as `allOf`, returning `true` if:
+ *
+ * - a schema has the constraint itself, or
+ * - any of the schemas it composes with `allOf` has the constraint, or
+ * - any of the schemas it composes with `oneOf` has the constraint, or
+ * - any of the schemas it composes with `anyOf` has the constraint
+ * @param {object} schema simple or composite OpenAPI 3.x schema object
+ * @param {Function} hasConstraint a `(schema) => boolean` function to check for a constraint
+ * @returns {boolean}
  */
 function schemaLooselyHasConstraint(schema, hasConstraint) {
   if (!isObject(schema)) {

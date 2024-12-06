@@ -3,34 +3,46 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+/**
+ * @private
+ */
 const validateComposedSchemas = require('./validate-composed-schemas');
+/**
+ * @private
+ */
 const validateNestedSchemas = require('./validate-nested-schemas');
 
-/*
+/**
  * Performs validation on a schema and all of its subschemas.
+ *
+ * This function is useful when a certain syntactic practice is prescribed or proscribed within
+ * every simple schema composed and/or nested by a schema.
+ *
+ * For example, if a rule enforced that the `format` keyword must only appear directly alongside the
+ * `type` keyword (rather than being indirectly composed together with a `type`), this function
+ * could run that validation on every simple schema independently.
  *
  * Subschemas include property schemas, 'additionalProperties', and 'patternProperties' schemas
  * (for an object schema), 'items' schemas (for an array schema), and applicator schemas
  * (such as those in an 'allOf', 'anyOf' or 'oneOf' property), plus all subschemas
  * of those schemas.
  *
- * Note: it is only safe to use this method within functions operating on the "resolved" specification,
- * which should always be the case.
- *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
- * @param {array} path - Path array for the provided schema.
- * @param {function} validate - Validate function.
- * @param {boolean} includeSelf - Whether to validate the provided schema (or just its composed schemas).
- * @param {boolean} includeNot - Whether to validate schemas composed with `not`.
- * @returns {array} - Array of validation errors.
+ * WARNING: It is only safe to use this function for a "resolved" schema — it cannot traverse `$ref`
+ * references.
+ * @param {object} schema simple or composite OpenAPI 3.x schema object
+ * @param {Array} path path array for the provided schema
+ * @param {Function} validate a `(schema, path) => errors` function to validate a simple schema
+ * @param {boolean} includeSelf validate the provided schema in addition to its subschemas (defaults to `true`)
+ * @param {boolean} includeNot validate schemas composed with `not` (defaults to `true`)
+ * @returns {Array} validation errors
  */
-const validateSubschemas = (
+function validateSubschemas(
   schema,
   path,
   validate,
   includeSelf = true,
   includeNot = true
-) => {
+) {
   return validateNestedSchemas(
     schema,
     path,
@@ -38,6 +50,6 @@ const validateSubschemas = (
     includeSelf,
     includeNot
   );
-};
+}
 
 module.exports = validateSubschemas;

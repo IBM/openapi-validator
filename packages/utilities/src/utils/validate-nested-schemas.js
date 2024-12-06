@@ -3,35 +3,46 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+/**
+ * @private
+ */
 const isObject = require('./is-object');
 
-/*
+/**
  * Performs validation on a schema and all of its nested schemas.
  *
- * Nested schemas include property schemas, 'additionalProperties', and 'patternProperties' schemas
- * (for an object schema), 'items' schemas (for an array
- * schema), plus all nested schemas of those schemas.
+ * This function is useful when a certain semantic quality is required for every composite schema
+ * nested by a schema. The `validate` function passed to this function must itself be
+ * "composition-aware." Usually this means it will use other utilities (such as `getSchemaType()` or
+ * `schemaHasConstraint()`) to determine the semantic qualities of a composite schema.
+ *
+ * For example, if a rule enforced that all of an object schema's properties be required, this
+ * function could be passed a validation function that itself used the composition-aware
+ * `getPropertyNamesForSchema()` and `schemaRequiresProperty()`.
+ *
+ * Nested schemas include `property`, `additionalProperties`, and `patternProperties` schemas
+ * (for an object schema), `items` schemas (for an array schema), plus all nested schemas of those
+ * schemas.
  *
  * Nested schemas included via `allOf`, `oneOf`, and `anyOf` are validated, but composed schemas
- * are not themselves validated. Nested schemas included via `not` are not validated.
+ * are not themselves validated. By default, nested schemas included via `not` are not validated.
  *
- * Note: it is only safe to use this method within functions operating on the "resolved" specification,
- * which should always be the case.
- *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
- * @param {array} path - Path array for the provided schema.
- * @param {function} validate - Validate function.
- * @param {boolean} includeSelf - Whether to validate the provided schema (or just its nested schemas).
- * @param {boolean} includeNot - Whether to validate schemas composed with `not`.
- * @returns {array} - Array of validation errors.
+ * WARNING: It is only safe to use this function for a "resolved" schema — it cannot traverse `$ref`
+ * references.
+ * @param {object} schema simple or composite OpenAPI 3.x schema object
+ * @param {Array} path path array for the provided schema
+ * @param {Function} validate a `(schema, path) => errors` function to validate a simple schema
+ * @param {boolean} includeSelf validate the provided schema in addition to its nested schemas (defaults to `true`)
+ * @param {boolean} includeNot validate schemas composed with `not` (defaults to `false`)
+ * @returns {Array} validation errors
  */
-const validateNestedSchemas = (
+function validateNestedSchemas(
   schema,
   path,
   validate,
   includeSelf = true,
   includeNot = false
-) => {
+) {
   // Make sure 'schema' is an object.
   if (!isObject(schema)) {
     throw new Error(
@@ -138,6 +149,6 @@ const validateNestedSchemas = (
   }
 
   return errors;
-};
+}
 
 module.exports = validateNestedSchemas;

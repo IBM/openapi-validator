@@ -3,19 +3,25 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+/**
+ * @private
+ */
 const isObject = require('./is-object');
 
 /**
- * This function will return `true` if all possible variations of a (possibly composite) schema are
- * required to have a constraint, as checked by a lambda function which checks for the constraint on
- * a simple (non-composite) schema. It does this by recursively checking if:
+ * This function will return `true` if all possible variations of a (possibly composite) schema
+ * enforce a constraint, as checked by a `(schema) => boolean` function which checks for the
+ * constraint on a simple (non-composite) schema. It does this by recursively checking if:
  *
  * - a schema has the constraint itself, or
- * - one of the schemas it composes with `allOf` has the constraint, or
+ * - any of the schemas it composes with `allOf` has the constraint, or
  * - all of the schemas it composes with `oneOf` have the constraint, or
  * - all of the schemas it composes with `anyOf` have the constraint
+ * @param {object} schema simple or composite OpenAPI 3.x schema object
+ * @param {Function} hasConstraint a `(schema) => boolean` function to check for a constraint
+ * @returns {boolean}
  */
-const checkCompositeSchemaForConstraint = (schema, hasConstraint) => {
+function schemaHasConstraint(schema, hasConstraint) {
   if (!isObject(schema)) {
     return false;
   }
@@ -25,17 +31,11 @@ const checkCompositeSchemaForConstraint = (schema, hasConstraint) => {
   }
 
   const anySchemaHasConstraintReducer = (previousResult, currentSchema) => {
-    return (
-      previousResult ||
-      checkCompositeSchemaForConstraint(currentSchema, hasConstraint)
-    );
+    return previousResult || schemaHasConstraint(currentSchema, hasConstraint);
   };
 
   const allSchemasHaveConstraintReducer = (previousResult, currentSchema) => {
-    return (
-      previousResult &&
-      checkCompositeSchemaForConstraint(currentSchema, hasConstraint)
-    );
+    return previousResult && schemaHasConstraint(currentSchema, hasConstraint);
   };
 
   // Any allOf schema has the constraint
@@ -65,6 +65,6 @@ const checkCompositeSchemaForConstraint = (schema, hasConstraint) => {
   }
 
   return false;
-};
+}
 
-module.exports = checkCompositeSchemaForConstraint;
+module.exports = schemaHasConstraint;

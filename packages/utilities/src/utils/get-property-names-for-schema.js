@@ -3,17 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+/**
+ * @private
+ */
 const isObject = require('./is-object');
 
 /**
  * Returns an array of property names for a simple or composite schema,
  * optionally filtered by a lambda function.
- *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object
- * @param {function} propertyFilter - A lambda function to perform filtering
- * @returns {array} - Array of property names
+ * @param {object} schema simple or composite OpenAPI 3.0 schema object
+ * @param {Function} propertyFilter a `(schema) => boolean` function to perform filtering
+ * @returns {Array} property names
  */
-const getPropertyNamesForSchema = (schema, propertyFilter = () => true) => {
+function getPropertyNamesForSchema(schema, propertyFilter = () => true) {
   const propertyNames = [];
 
   if (!isObject(schema)) {
@@ -39,6 +41,6 @@ const getPropertyNamesForSchema = (schema, propertyFilter = () => true) => {
   }
 
   return [...new Set(propertyNames)]; // de-duplicate
-};
+}
 
 module.exports = getPropertyNamesForSchema;
