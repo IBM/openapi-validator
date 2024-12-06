@@ -1,0 +1,38 @@
+# {{{package.name}}}
+
+{{{package.description}}}
+
+## Constants
+
+{{#constants}}
+### `{{{name}}}`
+
+{{{description}}}
+
+{{#hasMembers}}
+#### Members
+{{#members}}
+- **`{{{longname}}}`**: {{{description}}}
+{{/members}}
+{{/hasMembers}}
+
+{{/constants}}
+
+## Functions
+
+{{#functions}}
+### `{{{signature}}}`
+
+{{{description}}}
+
+#### Parameters
+
+{{#params}}
+- **`{{{name}}}`** {{#type}}`<{{{.}}}>`{{/type}}{{#description}}: {{{.}}}{{/description}}
+{{/params}}
+
+{{#returns}}
+#### Returns {{#type}}`{{{.}}}`{{/type}}{{#description}}: {{{.}}}{{/description}}
+{{/returns}}
+
+{{/functions}}
