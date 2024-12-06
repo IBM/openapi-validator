@@ -1,11 +1,9 @@
 /**
- * Copyright 2024 IBM Corporation.
- * SPDX-License-Identifier: Apache2.0
+ * @file
+ * @copyright IBM Corporation 2017–2024
+ * @license Apache-2.0
  */
 
-/**
- * @private
- */
 const isObject = require('./is-object');
 
 /**

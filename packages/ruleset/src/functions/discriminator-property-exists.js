@@ -39,7 +39,7 @@ module.exports = function (schema, _opts, context) {
 
 function validateDiscriminators(schema, path) {
   const { discriminator } = schema;
-  if (!discriminator || !typeof discriminator === 'object') {
+  if (typeof discriminator !== 'object') {
     return [];
   }
 
