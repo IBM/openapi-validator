@@ -22,13 +22,14 @@
     "test-docker": "npm run build-docker && docker run --rm --volume \"$PWD\"/packages/validator/test/cli-validator/alternate-spectral-configs/extends-default.yaml:/data/ruleset.yaml --volume \"$PWD\"/packages/validator/test/cli-validator/mock-files/oas3/clean.yml:/data/openapi.yaml ibmdevxsdk/openapi-validator:latest --ruleset ruleset.yaml openapi.yaml",
     "jest": "jest",
     "test-travis": "npm run test-travis --workspaces",
-    "lint": "npm run lint --workspaces",
-    "fix": "npm run fix --workspaces",
+    "lint": "npm run lint --workspaces && eslint --cache --max-warnings 0 scripts .eslintrc.js",
+    "fix": "npm run fix --workspaces && eslint --fix scripts .eslintrc.js",
     "pkg": "npm run pkg --workspace packages/validator",
     "link": "npm run link --workspace packages/validator --workspace packages/ruleset",
     "unlink": "npm run unlink --workspace packages/validator",
     "all": "npm run test && npm run lint",
-    "format-readme-toc": "npx -y markdown-toc --maxdepth 5 -i README.md"
+    "format-readme-toc": "npx -y markdown-toc --maxdepth 5 -i README.md",
+    "generate-utilities-docs": "scripts/generate-utilities-docs.js"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
@@ -38,7 +39,8 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.0",
     "jest": "^27.4.5",
-    "prettier": "^2.8.4",
+    "jsdoc": "^4.0.4",
+    "mustache": "^4.2.0",
     "semantic-release": "^21.0.7"
   },
   "overrides": {

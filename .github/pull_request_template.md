@@ -5,12 +5,13 @@
 ## PR Checklist
 
 ### General checklist
-Please make sure that your PR fulfills the following requirements:  
+Please make sure that your PR fulfills the following requirements:
 - [ ] The commit message follows the [Angular Commit Message Guidelines](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#-commit-message-guidelines).
 - [ ] Tests for the changes have been added (for bug fixes / features)
 - [ ] Docs have been added / updated (for bug fixes / features)
 - [ ] Dependencies have been updated as needed
-- [ ] .secrets.baseline updated as needed?
+- [ ] `.secrets.baseline` has been updated as needed
+- [ ] `npm run generate-utilities-docs` has been run if needed
 
 #### Checklist for adding a new validation rule:
 - [ ] Added new validation rule definition (packages/ruleset/src/rules/*.js, index.js)

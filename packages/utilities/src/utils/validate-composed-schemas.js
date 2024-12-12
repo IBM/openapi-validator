@@ -3,31 +3,38 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-/*
+/**
  * Performs validation on a schema and all of its composed schemas.
  *
- * Composed schemas are those referenced by allOf, anyOf, oneOf, or not, plus all schemas composed
- * by those schemas.
+ * This function is useful when a certain syntactic practice is prescribed or proscribed within
+ * every simple schema composed by a schema.
  *
- * Composed schemas DO NOT include nested schemas (property schemas, items schemas).
+ * For example, if a rule enforced that non-`false` `additionalProperties` and `patternProperties`
+ * keywords were never to be used in a top-level request body object schema, this function could run
+ * that validation on every composed schema independently.
  *
- * Note: it is only safe to use this method within functions operating on the "resolved" specification,
- * which should always be the case.
+ * Composed schemas are those referenced by `allOf`, `anyOf`, `oneOf`, or `not`, plus all schemas
+ * composed by those schemas.
  *
- * @param {object} schema - Simple or composite OpenAPI 3.0 schema object.
- * @param {array} path - Path array for the provided schema.
- * @param {function} validate - Validate function.
- * @param {boolean} includeSelf - Whether to validate the provided schema (or just its composed schemas).
- * @param {boolean} includeNot - Whether to validate schemas composed with `not`.
- * @returns {array} - Array of validation errors.
+ * Composed schemas **do not** include nested schemas (`property`, `additionalProperties`,
+ * `patternProperties`, and `items` schemas).
+ *
+ * WARNING: It is only safe to use this function for a "resolved" schema — it cannot traverse `$ref`
+ * references.
+ * @param {object} schema simple or composite OpenAPI 3.x schema object
+ * @param {Array} path path array for the provided schema
+ * @param {Function} validate a `(schema, path) => errors` function to validate a simple schema
+ * @param {boolean} includeSelf validate the provided schema in addition to its composed schemas (defaults to `true`)
+ * @param {boolean} includeNot validate schemas composed with `not` (defaults to `true`)
+ * @returns {Array} validation errors
  */
-const validateComposedSchemas = (
+function validateComposedSchemas(
   schema,
   path,
   validate,
   includeSelf = true,
   includeNot = true
-) => {
+) {
   // If "schema" is a $ref, that means it didn't get resolved
   // properly (perhaps due to a circular ref), so just ignore it.
   if (schema.$ref) {
@@ -57,6 +64,6 @@ const validateComposedSchemas = (
   }
 
   return errors;
-};
+}
 
 module.exports = validateComposedSchemas;
