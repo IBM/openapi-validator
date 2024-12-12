@@ -17,7 +17,7 @@ const raw = JSON.parse(
 
 const docs = raw.filter(d => d.comment !== '' && d.access !== 'private');
 
-const package = docs.find(d => d.kind === 'module');
+const packageDefinition = docs.find(d => d.kind === 'module');
 
 const constants = docs
   .filter(d => d.kind === 'constant')
@@ -50,6 +50,6 @@ const functions = docs
     })),
   }));
 
-const rendered = mustache.render(template, { package, constants, functions });
+const rendered = mustache.render(template, { package: packageDefinition, constants, functions });
 
 writeFileSync('docs/openapi-ruleset-utilities.md', rendered);

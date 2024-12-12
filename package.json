@@ -22,8 +22,8 @@
     "test-docker": "npm run build-docker && docker run --rm --volume \"$PWD\"/packages/validator/test/cli-validator/alternate-spectral-configs/extends-default.yaml:/data/ruleset.yaml --volume \"$PWD\"/packages/validator/test/cli-validator/mock-files/oas3/clean.yml:/data/openapi.yaml ibmdevxsdk/openapi-validator:latest --ruleset ruleset.yaml openapi.yaml",
     "jest": "jest",
     "test-travis": "npm run test-travis --workspaces",
-    "lint": "npm run lint --workspaces && eslint --cache --max-warnings 0 scripts .eslintrc.js",
-    "fix": "npm run fix --workspaces && eslint --fix scripts .eslintrc.js",
+    "lint": "npm run lint --workspaces && eslint --cache --max-warnings 0 scripts eslint.config.js",
+    "fix": "npm run fix --workspaces && eslint --fix scripts eslint.config.js",
     "pkg": "npm run pkg --workspace packages/validator",
     "link": "npm run link --workspace packages/validator --workspace packages/ruleset",
     "unlink": "npm run unlink --workspace packages/validator",
@@ -34,14 +34,16 @@
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@semantic-release/npm": "^10.0.4",
-    "eslint": "^8.41.0",
-    "eslint-config-prettier": "^8.8.0",
-    "eslint-plugin-prettier": "^4.2.0",
+    "@semantic-release/npm": "^12.0.1",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-jest": "^28.8.3",
+    "eslint-plugin-jsdoc": "^50.3.1",
+    "eslint-plugin-prettier": "^5.2.1",
     "jest": "^27.4.5",
     "jsdoc": "^4.0.4",
     "mustache": "^4.2.0",
-    "semantic-release": "^21.0.7"
+    "semantic-release": "^24.2.0"
   },
   "overrides": {
     "proxy-agent": "^6.3.0",

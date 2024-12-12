@@ -102,8 +102,8 @@ describe('Test pathMatchesRegexp() function', () => {
       pathMatchesRegexp(['components', 'schemas', 'Foo'], 0);
     }
 
-    expect(passNonArrayPath).toThrowError('argument "path" must be an array!');
-    expect(passBadRegexp).toThrowError(
+    expect(passNonArrayPath).toThrow('argument "path" must be an array!');
+    expect(passBadRegexp).toThrow(
       'argument "regexp" must be a string or RegExp instance!'
     );
   });
