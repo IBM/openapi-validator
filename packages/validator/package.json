@@ -51,7 +51,7 @@
     "lint-openapi": "src/cli-validator/index.js"
   },
   "engines": {
-    "node": ">=16.0.0",
+    "node": ">=18.0.0",
     "npm": ">=8.3.0"
   },
   "jest": {
