@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.25.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.25.1...@ibm-cloud/openapi-ruleset@1.25.2) (2024-12-16)
+
+
+### Bug Fixes
+
+* adjust path location regular expressions to handle edge cases ([f1ef03e](https://github.com/IBM/openapi-validator/commit/f1ef03e278af8bb9053821d5de1f498befae1f87))
+
 ## @ibm-cloud/openapi-ruleset [1.25.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.25.0...@ibm-cloud/openapi-ruleset@1.25.1) (2024-11-15)
 
 
