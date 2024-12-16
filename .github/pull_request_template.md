@@ -11,7 +11,7 @@ Please make sure that your PR fulfills the following requirements:
 - [ ] Docs have been added / updated (for bug fixes / features)
 - [ ] Dependencies have been updated as needed
 - [ ] `.secrets.baseline` has been updated as needed
-- [ ] `npm run generate-utilities-docs` has been run if needed
+- [ ] `npm run generate-utilities-docs` has been run if any files in `packages/utilities/src` have been updated
 
 #### Checklist for adding a new validation rule:
 - [ ] Added new validation rule definition (packages/ruleset/src/rules/*.js, index.js)
