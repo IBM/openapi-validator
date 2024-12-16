@@ -23,5 +23,6 @@ module.exports = {
   pathMatchesRegexp: require('./path-matches-regexp'),
   ...require('./mimetype-utils'),
   ...require('./pagination-utils'),
+  ...require('./path-location-utils'),
   ...require('./schema-finding-utils'),
 };

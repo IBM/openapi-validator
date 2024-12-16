@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -7,7 +7,10 @@ const { isBinarySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const {
   isJsonMimeType,
-  pathMatchesRegexp,
+  isParamSchema,
+  isParamContentSchema,
+  isRequestBodySchema,
+  isResponseSchema,
   LoggerFactory,
 } = require('../utils');
 
@@ -49,20 +52,10 @@ function binarySchemaCheck(schema, path) {
 
   // 1. Is it the schema for a parameter within a path item or operation?
   // a. ...parameters[n].schema
-  const isParamSchema = pathMatchesRegexp(
-    path,
-    /^paths,.*,parameters,\d+,schema$/
-  );
-
   // b. ...parameters[n].content.*.schema
-  const isParamContentSchema = pathMatchesRegexp(
-    path,
-    /^paths,.*,parameters,\d+,content,.*schema$/
-  );
-
   if (
-    isParamSchema ||
-    (isParamContentSchema && isJsonMimeType(path[path.length - 2]))
+    isParamSchema(path) ||
+    (isParamContentSchema(path) && isJsonMimeType(path[path.length - 2]))
   ) {
     logger.debug(`${ruleId}: it's a parameter schema!`);
     return [
@@ -75,11 +68,7 @@ function binarySchemaCheck(schema, path) {
   }
 
   // 2. Is it the schema for a JSON requestBody?
-  const isRequestBodySchema = pathMatchesRegexp(
-    path,
-    /^paths,.*,requestBody,content,.*,schema$/
-  );
-  if (isRequestBodySchema && isJsonMimeType(path[path.length - 2])) {
+  if (isRequestBodySchema(path) && isJsonMimeType(path[path.length - 2])) {
     logger.debug(`${ruleId}: it's a requestBody schema!`);
     return [
       {
@@ -91,11 +80,7 @@ function binarySchemaCheck(schema, path) {
   }
 
   // 3. Is it the schema for a JSON response?
-  const isResponseSchema = pathMatchesRegexp(
-    path,
-    /^paths,.*,responses,[^,]*,content,.*,schema$/
-  );
-  if (isResponseSchema && isJsonMimeType(path[path.length - 2])) {
+  if (isResponseSchema(path) && isJsonMimeType(path[path.length - 2])) {
     logger.debug(`${ruleId}: it's a response schema!`);
     return [
       {

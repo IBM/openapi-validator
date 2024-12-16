@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -7,7 +7,7 @@ const {
   validateSubschemas,
   schemaHasConstraint,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory, pathMatchesRegexp } = require('../utils');
+const { LoggerFactory, isPrimarySchema } = require('../utils');
 
 let ruleId;
 let logger;
@@ -22,23 +22,9 @@ module.exports = function (schema, _opts, context) {
 };
 
 function schemaDescriptionExists(schema, path) {
-  //
   // Check to see if "path" represents a primary schema (i.e. not a schema property).
-  // Note: the regexp used below uses a "lookbehind assertion"
-  // (i.e. the "(?<!,parameters,\d+)" part) to match paths that end with the "schema" part,
-  // but not paths where "schema" is preceded by "parameters" and "<digits>".
-  // So a primary schema is one with a path like:
-  // ["paths", "/v1/drinks", "requestBody", "content", "application/json", "schema"]
-  // but not one with a path like these:
-  // ["paths", "/v1/drinks", "parameters", "0", "schema"]
-  // ["paths", "/v1/drinks", "requestBody", "content", "application/json", "schema", "properties", "prop1"]
-  //
-  const isPrimarySchema = pathMatchesRegexp(
-    path,
-    /^.*(?<!,parameters,\d+),schema$/
-  );
   // If "schema" is a primary schema, then check for a description.
-  if (isPrimarySchema) {
+  if (isPrimarySchema(path)) {
     logger.debug(`${ruleId}: checking schema at location: ${path.join('.')}`);
 
     if (!schemaHasDescription(schema)) {

@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -7,7 +7,7 @@ const {
   schemaHasConstraint,
   validateSubschemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory, pathMatchesRegexp } = require('../utils');
+const { LoggerFactory, isSchemaProperty } = require('../utils');
 
 let ruleId;
 let logger;
@@ -23,20 +23,20 @@ module.exports = function (schema, _opts, context) {
 
 function propertyDescriptionExists(schema, path) {
   // If "schema" is a schema property, then check for a description.
-  const isSchemaProperty = pathMatchesRegexp(path, /^.*,properties,[^,]*$/);
-  if (isSchemaProperty) {
+  if (isSchemaProperty(path)) {
     logger.debug(
       `${ruleId}: checking schema property at location: ${path.join('.')}`
     );
-  }
-  if (isSchemaProperty && !schemaHasDescription(schema)) {
-    logger.debug(`${ruleId}: no description found!`);
-    return [
-      {
-        message: 'Schema properties should have a non-empty description',
-        path,
-      },
-    ];
+
+    if (!schemaHasDescription(schema)) {
+      logger.debug(`${ruleId}: no description found!`);
+      return [
+        {
+          message: 'Schema properties should have a non-empty description',
+          path,
+        },
+      ];
+    }
   }
 
   return [];
