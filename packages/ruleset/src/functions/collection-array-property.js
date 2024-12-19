@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -33,7 +33,7 @@ module.exports = function (schema, _opts, context) {
  * property named "things" since that is the final path segment.
  * @param {*} schema a "success" response schema for a GET operation
  * @param {*} path the array of path segments indicating the "location" of "schema" within the API definition
- * @param {*} apidef the resolved API definition
+ * @param {*} apidef the unresolved API definition (the rule only deals with paths and operations)
  * @returns an array containing the violations found or [] if no violations
  */
 function collectionArrayProperty(schema, path, apidef) {
