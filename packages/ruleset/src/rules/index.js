@@ -90,6 +90,7 @@ module.exports = {
   unevaluatedProperties: require('./unevaluated-properties'),
   unusedTags: require('./unused-tags'),
   uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
+  useDateBasedFormat: require('./use-date-based-format'),
   validPathSegments: require('./valid-path-segments'),
   wellDefinedDictionaries: require('./well-defined-dictionaries'),
 };

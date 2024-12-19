@@ -27,7 +27,7 @@ module.exports = function (paths, _options, context) {
  * 1. "/v1/clouds/{id}", "/v1/clouds/{cloud_id}"
  * 2. "/v1/clouds/foo", "/v1/clouds/{cloud_id}"
  * 3. "/v1/{resource_type}/foo", "/v1/users/{user_id}"
- * @param {*} apidef the entire API definition
+ * @param {*} paths map containing all path objects
  * @returns an array containing zero or more error objects
  */
 function checkAmbiguousPaths(paths) {
