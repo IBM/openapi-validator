@@ -114,6 +114,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-summary-sentence-style](#ibm-summary-sentence-style)
   * [ibm-unevaluated-properties](#ibm-unevaluated-properties)
   * [ibm-unique-parameter-request-property-names](#ibm-unique-parameter-request-property-names)
+  * [ibm-use-date-based-format](#ibm-use-date-based-format)
   * [ibm-valid-path-segments](#ibm-valid-path-segments)
   * [ibm-well-defined-dictionaries](#ibm-well-defined-dictionaries)
 
@@ -672,6 +673,12 @@ specific "allow-listed" keywords.</td>
 <td><a href="#ibm-unique-parameter-request-property-names">ibm-unique-parameter-request-property-names</a></td>
 <td>error</td>
 <td>Checks each operation for name collisions between the operation's parameters and its request body schema properties.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-use-date-based-format">ibm-use-date-based-format</a></td>
+<td>warning</td>
+<td>Checks each schema and heuristically determines if it should be a string schema that uses a format of "date" or "date-time".</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -7191,6 +7198,66 @@ paths:
                 created_by:
                   type: string
                   format: email
+</pre>
+</td>
+</tr>
+</table>
+
+
+### ibm-use-date-based-format
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-use-date-based-format</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td> Schemas or properties that are date-based (i.e. the values they model
+are dates or times) must be strings with a format of "date" or "date-time".
+This rule validates that is the case for relevant schemas, which are determined
+heuristically using the property name, in the case of schema properties, or
+the example value provided for a schema or property. 
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warning</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+Resource
+  type: object
+  properties:
+    created_at: # Name indicates it should be a date or date-time
+      type: integer
+    stamp: # Example value indicates it should be a date-time
+      type: string
+      example: '1990-12-31T23:59:60Z'
+    ...
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+Resource
+  type: object
+  properties:
+    created_at:
+      type: string
+      format: date-time
+    stamp:
+      type: string
+      format: date-time
+      example: '1990-12-31T23:59:60Z'
+    ...
 </pre>
 </td>
 </tr>
