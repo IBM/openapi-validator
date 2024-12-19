@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { requiredEnumPropertiesInResponse } = require('../src/rules');
+const { requiredEnumPropertiesInResponse } = require('../../src/rules');
 const {
   makeCopy,
   rootDocument,
   testRule,
   severityCodes,
-} = require('./test-utils');
+} = require('../test-utils');
 
 const rule = requiredEnumPropertiesInResponse;
 const ruleId = 'ibm-required-enum-properties-in-response';
