@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
