@@ -197,6 +197,7 @@ module.exports = {
     'ibm-unevaluated-properties': ibmRules.unevaluatedProperties,
     'ibm-unique-parameter-request-property-names':
       ibmRules.uniqueParameterRequestPropertyNames,
+    'ibm-use-date-based-format': ibmRules.useDateBasedFormat,
     'ibm-valid-path-segments': ibmRules.validPathSegments,
     'ibm-well-defined-dictionaries': ibmRules.wellDefinedDictionaries,
   },

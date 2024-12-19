@@ -21,6 +21,7 @@ module.exports = {
   operationMethods: require('./constants'),
   pathHasMinimallyRepresentedResource: require('./path-has-minimally-represented-resource'),
   pathMatchesRegexp: require('./path-matches-regexp'),
+  ...require('./date-based-utils'),
   ...require('./mimetype-utils'),
   ...require('./pagination-utils'),
   ...require('./path-location-utils'),

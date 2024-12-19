@@ -5,7 +5,7 @@
 
 const { isOperationOfType } = require('../../src/utils');
 
-describe('Utility function: getResourceSpecificSiblingPath', () => {
+describe('Utility function: isOperationOfType', () => {
   it('should return `true` when path matches the given type', () => {
     expect(isOperationOfType('get', ['paths', '/v1/things', 'get'])).toBe(true);
   });

@@ -425,6 +425,11 @@ module.exports = {
     denominator: 'operations',
     categories: ['usability', 'robustness'],
   },
+  'ibm-use-date-based-format': {
+    coefficient: 1,
+    denominator: 'schemas',
+    categories: ['usability'],
+  },
   'ibm-valid-path-segments': {
     coefficient: 2,
     denominator: 'operations',
