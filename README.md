@@ -674,11 +674,15 @@ module.exports = {
 <td width=25%><b>Default</b></td>
 </tr>
 <tr>
-<td>The <code>produceImpactScore</code> configuration property corresponds to the <code>-q</code>/<code>--impact-score</code> command-line option.
-If set to true, the validator will, in addition to reporting individual rule violations, use the rule violation data to produce
-API impact scores based on the categories of usability, security, robustness, and cost of evolution. By default, the data demonstrating
-how the scores are calculated from each rule is displayed. If this option is combined with the "summary only" configuration option,
-only the categorized impact scores are displayed.
+<td>The <code>produceImpactScore</code> configuration property corresponds to the
+<code>-q</code>/<code>--impact-score</code> command-line option. If set to true,
+the validator will, in addition to reporting individual rule violations, use the
+rule violation data to produce API impact scores based on the categories of usability,
+security, robustness, and cost of evolution. By default, the data demonstrating how
+the scores are calculated from each rule is displayed. If this option is combined with
+the "summary only" configuration option, only the categorized impact scores are displayed.
+These scores are useful for "Automated Quality Screening". See [this documentation](docs/automated-quality-screening.md)
+for more information about the purpose of these scores and how they are computed.
 </td>
 <td><code>false</code></td>
 </tr>
