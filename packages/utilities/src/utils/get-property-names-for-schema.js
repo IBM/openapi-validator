@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -15,7 +15,7 @@ const collectFromComposedSchemas = require('./collect-from-composed-schemas');
 /**
  * Returns an array of property names for a simple or composite schema,
  * optionally filtered by a lambda function.
- * @param {object} schema simple or composite OpenAPI 3.0 schema object
+ * @param {object} schema simple or composite OpenAPI 3.x schema object
  * @param {Function} propertyFilter a `(propertyName, propertySchema) => boolean` function to perform filtering
  * @returns {Array} property names
  */

@@ -59,12 +59,12 @@ to a specific language type or data structure in an SDK).
 ### `collectFromComposedSchemas(schema, collector, includeSelf, includeNot)`
 
 Returns an array of items collected by the provided `collector(schema) => item[]` function for a
-simple or composite schema, and deduplicate primitives in the result. The collector function is
+simple or composite schema, and deduplicates primitives in the result. The collector function is
 not run for `null` or `undefined` schemas.
 
 #### Parameters
 
-- **`schema`** `<object>`: simple or composite OpenAPI 3.0 schema object
+- **`schema`** `<object>`: simple or composite OpenAPI 3.x schema object
 - **`collector`** `<function>`: a `(schema) => item[]` function to collect items from each simple schema
 - **`includeSelf`** `<boolean>`: collect from the provided schema in addition to its composed schemas (defaults to `true`)
 - **`includeNot`** `<boolean>`: collect from schemas composed with `not` (defaults to `false`)
@@ -78,7 +78,7 @@ Returns an array of examples for a simple or composite schema. For each composed
 
 #### Parameters
 
-- **`schema`** `<object>`: simple or composite OpenAPI 3.0 schema object
+- **`schema`** `<object>`: simple or composite OpenAPI 3.x schema object
 
 #### Returns `Array`: examples
 
@@ -89,7 +89,7 @@ optionally filtered by a lambda function.
 
 #### Parameters
 
-- **`schema`** `<object>`: simple or composite OpenAPI 3.0 schema object
+- **`schema`** `<object>`: simple or composite OpenAPI 3.x schema object
 - **`propertyFilter`** `<function>`: a `(propertyName, propertySchema) => boolean` function to perform filtering
 
 #### Returns `Array`: property names

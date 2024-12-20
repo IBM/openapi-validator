@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -30,7 +30,7 @@ describe('Utility function: getExamplesForSchema()', () => {
     expect(
       getExamplesForSchema({
         example: 'one',
-      }).sort()
+      })
     ).toEqual(['one']);
   });
 
