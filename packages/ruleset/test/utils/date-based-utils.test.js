@@ -56,6 +56,20 @@ describe('Date-based utility functions', () => {
       expect(isDateBasedName('modified')).toBe(true);
       expect(isDateBasedName('expired')).toBe(true);
       expect(isDateBasedName('expires')).toBe(true);
+      expect(isDateBasedName('start_time')).toBe(true);
+      expect(isDateBasedName('start_date')).toBe(true);
+      expect(isDateBasedName('end_time')).toBe(true);
+      expect(isDateBasedName('end_date')).toBe(true);
+      expect(isDateBasedName('create_time')).toBe(true);
+      expect(isDateBasedName('create_date')).toBe(true);
+      expect(isDateBasedName('created_time')).toBe(true);
+      expect(isDateBasedName('created_date')).toBe(true);
+      expect(isDateBasedName('modify_time')).toBe(true);
+      expect(isDateBasedName('modify_date')).toBe(true);
+      expect(isDateBasedName('modified_time')).toBe(true);
+      expect(isDateBasedName('modified_date')).toBe(true);
+      expect(isDateBasedName('update_time')).toBe(true);
+      expect(isDateBasedName('update_date')).toBe(true);
     });
 
     // Negative tests.

@@ -152,24 +152,35 @@ function performValidation(schema, path, apidef, propertyPath, examples) {
     return [];
   }
 
-  // Check for a name that would indicate the property should be date-based.
-  const hasDateTimeName =
-    isSchemaProperty(path) && isDateBasedName(path.at(-1));
+  // Check if this is a schema property
+  if (isSchemaProperty(path)) {
+    logger.debug(`${ruleId}: detected named property at "${path.join('.')}"`);
 
-  logger.debug(
-    `${ruleId}: property at location: ${path.join('.')} has a date-based name`
-  );
+    // Check for a name that would indicate the property should be date-based
+    if (isDateBasedName(path.at(-1))) {
+      logger.debug(
+        `${ruleId}: property name at "${path.join('.')}" is date-based`
+      );
 
-  if (hasDateTimeName && (isStringSchema(schema) || isIntegerSchema(schema))) {
-    // If the schema is determined to be a date-time schema by the name alone,
-    // we can return - no need to look for an example value.
-    return [
-      {
-        message:
-          'According to its name, this property should use type "string" and format "date" or "date-time"',
-        path,
-      },
-    ];
+      // We only assume a property could be a date-time value if it's a string or integer
+      if (isStringSchema(schema) || isIntegerSchema(schema)) {
+        logger.debug(
+          `${ruleId}: date-based property name at "${path.join(
+            '.'
+          )}" is a string or integer`
+        );
+
+        // If the schema is determined to be a date-time schema by the name alone,
+        // we can return - no need to look for an example value.
+        return [
+          {
+            message:
+              'According to its name, this property should use type "string" and format "date" or "date-time"',
+            path,
+          },
+        ];
+      }
+    }
   }
 
   // Check example values for string schemas.
@@ -234,11 +245,13 @@ function findExample(propertyPath, examples) {
     }
   }
 
-  logger.debug(
-    `${ruleId}: no example value found for schema at location: ${propertyPath.join(
-      '.'
-    )}`
-  );
+  if (exampleValue === undefined) {
+    logger.debug(
+      `${ruleId}: no example value found for schema at location: ${propertyPath.join(
+        '.'
+      )}`
+    );
+  }
 
   // This will return `undefined` if we never find a value;
   return exampleValue;
