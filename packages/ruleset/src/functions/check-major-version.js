@@ -48,6 +48,7 @@ function checkMajorVersion(apiDef) {
             }
           } catch (error) {
             // Ignore any exceptions while parsing the URL string.
+            logger.debug(error);
           }
         }
       }

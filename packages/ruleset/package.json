@@ -16,8 +16,8 @@
     "jest": "jest",
     "test": "jest test",
     "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test",
-    "lint": "eslint --cache --quiet --ext '.js' src test",
-    "fix": "eslint --fix --ext '.js' src test",
+    "lint": "eslint --cache --quiet src test",
+    "fix": "eslint --fix src test",
     "pkg": "echo no executables to build in this package"
   },
   "dependencies": {
@@ -37,7 +37,7 @@
     "jest": "^27.4.5"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=18.0.0"
   },
   "jest": {
     "collectCoverage": true,

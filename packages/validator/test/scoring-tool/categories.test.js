@@ -24,7 +24,7 @@ describe('scoring-tool categories tests', function () {
     });
   });
 
-  it('should return the correct coefficient for each ', function () {
+  it('should return the correct coefficient for each', function () {
     expect(getCategoryCoefficient('usability')).toBe(1);
     expect(getCategoryCoefficient('security')).toBe(5);
     expect(getCategoryCoefficient('robustness')).toBe(2);
