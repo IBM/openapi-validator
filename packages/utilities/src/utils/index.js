@@ -4,6 +4,8 @@
  */
 
 module.exports = {
+  collectFromComposedSchemas: require('./collect-from-composed-schemas'),
+  getExamplesForSchema: require('./get-examples-for-schema'),
   getPropertyNamesForSchema: require('./get-property-names-for-schema'),
   ...require('./get-schema-type'),
   isObject: require('./is-object'),
