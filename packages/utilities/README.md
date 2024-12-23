@@ -5,6 +5,7 @@ This package contains a number of JS functions that may be useful in developing 
 
 `npm install @ibm-cloud/openapi-ruleset-utilities`
 
-## Usage
+## Documentation
 
-Documentation coming soon.
+See [this page for comprehensive documentation](../../docs/openapi-ruleset-utilities.md)
+on all functionality available in this package.
