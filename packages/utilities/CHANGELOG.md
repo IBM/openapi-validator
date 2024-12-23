@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset-utilities [1.6.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.5.0...@ibm-cloud/openapi-ruleset-utilities@1.6.0) (2024-12-23)
+
+
+### Features
+
+* add `collectFromComposedSchemas()` and `getExamplesForSchema()` to utilities ([#708](https://github.com/IBM/openapi-validator/issues/708)) ([bfbee14](https://github.com/IBM/openapi-validator/commit/bfbee1465c112c99edba5291d7d302e74a83c880))
+
 # @ibm-cloud/openapi-ruleset-utilities [1.5.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.4.0...@ibm-cloud/openapi-ruleset-utilities@1.5.0) (2024-11-15)
 
 
