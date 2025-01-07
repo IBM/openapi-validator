@@ -4,6 +4,11 @@
  */
 
 /**
+ * @private
+ */
+const SchemaPath = require('./schema-path');
+
+/**
  * Performs validation on a schema and all of its composed schemas.
  *
  * This function is useful when a certain syntactic practice is prescribed or proscribed within
@@ -19,6 +24,18 @@
  * Composed schemas **do not** include nested schemas (`property`, `additionalProperties`,
  * `patternProperties`, and `items` schemas).
  *
+ * The provided validate function is called with two arguments:
+ * - `schema` — the composed schema
+ * - `path` — the array of path segments to locate the composed schema within the resolved document
+ *
+ * The provided `validate()` function is guaranteed to be called:
+ * - for a schema before any of its composed schemas
+ * - more recently for the schema that composes it (its "composition parent") than for that schema's
+ *    siblings (or their descendants) in the composition tree
+ *
+ * However, it is not guaranteed that the `validate()` function is called in any particular order
+ * for a schema's directly composed schemas.
+ *
  * WARNING: It is only safe to use this function for a "resolved" schema — it cannot traverse `$ref`
  * references.
  * @param {object} schema simple or composite OpenAPI 3.x schema object
@@ -30,7 +47,7 @@
  */
 function validateComposedSchemas(
   schema,
-  path,
+  p, // internally, we pass a SchemaPath to this, but the external contract is just an array
   validate,
   includeSelf = true,
   includeNot = true
@@ -42,14 +59,19 @@ function validateComposedSchemas(
   }
 
   const errors = [];
+  const path = p instanceof SchemaPath ? p : new SchemaPath(p);
 
   if (includeSelf) {
-    errors.push(...validate(schema, path));
+    // We intentionally do not use `path.logical` here because the documented external contract
+    // for `validateComposedSchemas()` is that the validate function is called with two arguments.
+    // Tracking the logical path is only useful when `validateComposedSchemas()` is embedded in
+    // another utility that can pass it an instance of `SchemaPath` (which is not exported).
+    errors.push(...validate(schema, [...path], p?.logical));
   }
 
   if (includeNot && schema.not) {
     errors.push(
-      ...validateComposedSchemas(schema.not, [...path, 'not'], validate)
+      ...validateComposedSchemas(schema.not, path.withNot(), validate)
     );
   }
 
@@ -57,7 +79,11 @@ function validateComposedSchemas(
     if (Array.isArray(schema[applicatorType])) {
       schema[applicatorType].forEach((s, i) => {
         errors.push(
-          ...validateComposedSchemas(s, [...path, applicatorType, i], validate)
+          ...validateComposedSchemas(
+            s,
+            path.withApplicator(applicatorType, i),
+            validate
+          )
         );
       });
     }
