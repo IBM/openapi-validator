@@ -1,0 +1,104 @@
+# This workflow will build and unit test the project.
+# If the workflow is running on the "main" branch, then
+# semantic-release is also run to create a new release (if
+# warranted by the new commits being built).
+
+name: Build/Test/Publish
+
+on: 
+  push:
+    branches: ['main']
+  pull_request:
+    branches: ['**']
+  workflow_dispatch:
+    # Allow workflow to be triggered manually.
+
+jobs:
+  detect-secrets:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    name: Detect-Secrets
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.12']
+
+    steps:
+      - name: Trigger info
+        run: |
+          echo "Build triggered by event: " ${{ github.event_name }}
+          echo "                 git ref: " ${{ github.ref }}
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python v${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install detect-secrets
+        run: |
+          pip install --upgrade "git+https://github.com/ibm/detect-secrets.git@master#egg=detect-secrets"
+
+      - name: Run detect-secrets
+        run: |
+          detect-secrets scan --update .secrets.baseline
+          detect-secrets -v audit --report --fail-on-unaudited --fail-on-live --fail-on-audited-real .secrets.baseline
+
+  build:
+    needs: detect-secrets
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    name: Build & Test (Node v${{ matrix.node-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['16', '18', '20']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js v${{ matrix.go-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build/Test Project
+        run: |
+          npm run test-travis
+          npm run lint
+          npm run test-docker
+
+  create_release:
+    needs: build
+    # Only run this job on the main branch and only for our max version of Go.
+    if: "github.ref_name == 'main' && github.event_name != 'pull_request'"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: ['20']
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Deployment Tools
+        run: |
+          npm install
+
+      - name: Create & Tag Release
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
