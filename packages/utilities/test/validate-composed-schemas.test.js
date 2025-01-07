@@ -4,31 +4,42 @@
  */
 
 const { validateComposedSchemas } = require('../src');
+const SchemaPath = require('../src/utils/schema-path');
 
 describe('Utility function: validateComposedSchemas()', () => {
   it('should validate a simple schema by default', async () => {
-    const simpleSchema = {};
+    const schema = {};
 
-    const visitedPaths = validateComposedSchemas(simpleSchema, [], (s, p) => {
-      return [p.join('.')];
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(schema, [], (s, p) => {
+      visitedPaths.push(p.join('.'));
+      return [index++];
     });
 
     expect(visitedPaths).toEqual(['']);
+    expect(results).toEqual([1]);
   });
 
   it('should not validate a simple schema if `includeSelf` is `false`', async () => {
     const schema = {};
 
-    const visitedPaths = validateComposedSchemas(
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(
       schema,
       [],
       (s, p) => {
-        return [p.join('.')];
+        visitedPaths.push(p.join('.'));
+        return [index++];
       },
       false
     );
 
     expect(visitedPaths).toEqual([]);
+    expect(results).toEqual([]);
   });
 
   it('should validate a composed schema even if `includeSelf` is `false`', async () => {
@@ -36,16 +47,21 @@ describe('Utility function: validateComposedSchemas()', () => {
       allOf: [{}],
     };
 
-    const visitedPaths = validateComposedSchemas(
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(
       schema,
       [],
       (s, p) => {
-        return [p.join('.')];
+        visitedPaths.push(p.join('.'));
+        return [index++];
       },
       false
     );
 
     expect(visitedPaths).toEqual(['allOf.0']);
+    expect(results).toEqual([1]);
   });
 
   it('should validate `allOf` schemas', async () => {
@@ -53,11 +69,16 @@ describe('Utility function: validateComposedSchemas()', () => {
       allOf: [{}, {}],
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(schema, [], (s, p) => {
+      visitedPaths.push(p.join('.'));
+      return [index++];
     });
 
-    expect(visitedPaths.sort()).toEqual(['', 'allOf.0', 'allOf.1'].sort());
+    expect(visitedPaths.sort()).toEqual(['', 'allOf.0', 'allOf.1']);
+    expect(results.sort()).toEqual([1, 2, 3]);
   });
 
   it('should validate `oneOf` schemas', async () => {
@@ -65,11 +86,16 @@ describe('Utility function: validateComposedSchemas()', () => {
       oneOf: [{}, {}],
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(schema, [], (s, p) => {
+      visitedPaths.push(p.join('.'));
+      return [index++];
     });
 
-    expect(visitedPaths.sort()).toEqual(['', 'oneOf.0', 'oneOf.1'].sort());
+    expect(visitedPaths.sort()).toEqual(['', 'oneOf.0', 'oneOf.1']);
+    expect(results.sort()).toEqual([1, 2, 3]);
   });
 
   it('should validate `anyOf` schemas', async () => {
@@ -77,11 +103,16 @@ describe('Utility function: validateComposedSchemas()', () => {
       anyOf: [{}, {}],
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(schema, [], (s, p) => {
+      visitedPaths.push(p.join('.'));
+      return [index++];
     });
 
-    expect(visitedPaths.sort()).toEqual(['', 'anyOf.0', 'anyOf.1'].sort());
+    expect(visitedPaths.sort()).toEqual(['', 'anyOf.0', 'anyOf.1']);
+    expect(results.sort()).toEqual([1, 2, 3]);
   });
 
   it('should validate `not` schema', async () => {
@@ -89,11 +120,16 @@ describe('Utility function: validateComposedSchemas()', () => {
       not: {},
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(schema, [], (s, p) => {
+      visitedPaths.push(p.join('.'));
+      return [index++];
     });
 
-    expect(visitedPaths.sort()).toEqual(['', 'not'].sort());
+    expect(visitedPaths.sort()).toEqual(['', 'not']);
+    expect(results.sort()).toEqual([1, 2]);
   });
 
   it('should not validate `not` schema if `includeNot` is false', async () => {
@@ -101,17 +137,22 @@ describe('Utility function: validateComposedSchemas()', () => {
       not: {},
     };
 
-    const visitedPaths = validateComposedSchemas(
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(
       schema,
       [],
       (s, p) => {
-        return [p.join('.')];
+        visitedPaths.push(p.join('.'));
+        return [index++];
       },
       true,
       false
     );
 
     expect(visitedPaths).toEqual(['']);
+    expect(results).toEqual([1]);
   });
 
   it('should recurse through `allOf`, `oneOf`, `anyOf`, and `not`', async () => {
@@ -119,18 +160,82 @@ describe('Utility function: validateComposedSchemas()', () => {
       allOf: [{ oneOf: [{ anyOf: [{ not: {} }] }] }],
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(schema, [], (s, p) => {
+      visitedPaths.push(p.join('.'));
+      return [index++];
     });
 
-    expect(visitedPaths.sort()).toEqual(
-      [
-        '',
-        'allOf.0',
-        'allOf.0.oneOf.0',
-        'allOf.0.oneOf.0.anyOf.0',
-        'allOf.0.oneOf.0.anyOf.0.not',
-      ].sort()
+    expect(visitedPaths.sort()).toEqual([
+      '',
+      'allOf.0',
+      'allOf.0.oneOf.0',
+      'allOf.0.oneOf.0.anyOf.0',
+      'allOf.0.oneOf.0.anyOf.0.not',
+    ]);
+    expect(results.sort()).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it('should validate a schema before validating its composed schemas', async () => {
+    const schema = {
+      allOf: [{ oneOf: [{ anyOf: [{ not: {} }] }] }],
+    };
+
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(schema, [], (s, p) => {
+      visitedPaths.push(p.join('.'));
+      return [index++];
+    });
+
+    expect(visitedPaths).toEqual([
+      '',
+      'allOf.0',
+      'allOf.0.oneOf.0',
+      'allOf.0.oneOf.0.anyOf.0',
+      'allOf.0.oneOf.0.anyOf.0.not',
+    ]);
+    expect(results).toEqual([1, 2, 3, 4, 5]);
+  });
+
+  it("should validate a schema's composition parent more recently than its parent's siblings", async () => {
+    const schema = {
+      allOf: [{ oneOf: [{}] }, { oneOf: [{}] }],
+      oneOf: [{ anyOf: [{}] }, { anyOf: [{}] }],
+      anyOf: [{ not: {} }, { not: {} }],
+      not: { allOf: [{}] },
+    };
+
+    const visitedPaths = [];
+
+    validateComposedSchemas(schema, [], (s, p) => {
+      visitedPaths.push(p.join('.'));
+      return [];
+    });
+
+    expect(visitedPaths.indexOf('allOf.0.oneOf.0') - 1).toEqual(
+      visitedPaths.indexOf('allOf.0')
+    );
+    expect(visitedPaths.indexOf('allOf.1.oneOf.0') - 1).toEqual(
+      visitedPaths.indexOf('allOf.1')
+    );
+    expect(visitedPaths.indexOf('oneOf.0.anyOf.0') - 1).toEqual(
+      visitedPaths.indexOf('oneOf.0')
+    );
+    expect(visitedPaths.indexOf('oneOf.1.anyOf.0') - 1).toEqual(
+      visitedPaths.indexOf('oneOf.1')
+    );
+    expect(visitedPaths.indexOf('anyOf.0.not') - 1).toEqual(
+      visitedPaths.indexOf('anyOf.0')
+    );
+    expect(visitedPaths.indexOf('anyOf.1.not') - 1).toEqual(
+      visitedPaths.indexOf('anyOf.1')
+    );
+    expect(visitedPaths.indexOf('not.allOf.0') - 1).toEqual(
+      visitedPaths.indexOf('not')
     );
   });
 
@@ -163,11 +268,22 @@ describe('Utility function: validateComposedSchemas()', () => {
       },
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
-    });
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(
+      schema,
+      [],
+      (s, p) => {
+        visitedPaths.push(p.join('.'));
+        return [index++];
+      },
+      true,
+      false
+    );
 
     expect(visitedPaths).toEqual(['']);
+    expect(results).toEqual([1]);
   });
 
   it('should not validate `additionalProperties` schema', async () => {
@@ -175,11 +291,22 @@ describe('Utility function: validateComposedSchemas()', () => {
       additionalProperties: {},
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
-    });
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(
+      schema,
+      [],
+      (s, p) => {
+        visitedPaths.push(p.join('.'));
+        return [index++];
+      },
+      true,
+      false
+    );
 
     expect(visitedPaths).toEqual(['']);
+    expect(results).toEqual([1]);
   });
 
   it('should not validate `items` schema', async () => {
@@ -187,11 +314,22 @@ describe('Utility function: validateComposedSchemas()', () => {
       items: {},
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
-    });
+    const visitedPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(
+      schema,
+      [],
+      (s, p) => {
+        visitedPaths.push(p.join('.'));
+        return [index++];
+      },
+      true,
+      false
+    );
 
     expect(visitedPaths).toEqual(['']);
+    expect(results).toEqual([1]);
   });
 
   it('should skip schemas defined by a $ref', async () => {
@@ -204,10 +342,44 @@ describe('Utility function: validateComposedSchemas()', () => {
       ],
     };
 
-    const visitedPaths = validateComposedSchemas(schema, [], (s, p) => {
-      return [p.join('.')];
-    });
+    const visitedPaths = [];
+    let index = 1;
 
-    expect(visitedPaths.sort()).toEqual(['', 'allOf.1'].sort());
+    const results = validateComposedSchemas(
+      schema,
+      [],
+      (s, p) => {
+        visitedPaths.push(p.join('.'));
+        return [index++];
+      },
+      true,
+      false
+    );
+
+    expect(visitedPaths.sort()).toEqual(['', 'allOf.1']);
+    expect(results.sort()).toEqual([1, 2]);
+  });
+
+  // internal-only functionality
+  it('should preserve the logical path with which it is called', async () => {
+    const schema = {};
+
+    const visitedPaths = [];
+    const visitedLogicalPaths = [];
+    let index = 1;
+
+    const results = validateComposedSchemas(
+      schema,
+      new SchemaPath([], ['foo']),
+      (s, p, lp) => {
+        visitedPaths.push(p.join('.'));
+        visitedLogicalPaths.push(lp.join('.'));
+        return [index++];
+      }
+    );
+
+    expect(visitedPaths).toEqual(['']);
+    expect(visitedLogicalPaths).toEqual(['foo']);
+    expect(results).toEqual([1]);
   });
 });

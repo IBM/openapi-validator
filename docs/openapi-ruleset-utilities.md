@@ -371,6 +371,18 @@ composed by those schemas.
 Composed schemas **do not** include nested schemas (`property`, `additionalProperties`,
 `patternProperties`, and `items` schemas).
 
+The provided validate function is called with two arguments:
+- `schema` — the composed schema
+- `path` — the array of path segments to locate the composed schema within the resolved document
+
+The provided `validate()` function is guaranteed to be called:
+- for a schema before any of its composed schemas
+- more recently for the schema that composes it (its "composition parent") than for that schema's
+   siblings (or their descendants) in the composition tree
+
+However, it is not guaranteed that the `validate()` function is called in any particular order
+for a schema's directly composed schemas.
+
 WARNING: It is only safe to use this function for a "resolved" schema — it cannot traverse `$ref`
 references.
 
@@ -404,6 +416,22 @@ schemas.
 Nested schemas included via `allOf`, `oneOf`, and `anyOf` are validated, but composed schemas
 are not themselves validated. By default, nested schemas included via `not` are not validated.
 
+The provided validate function is called with three arguments:
+- `nestedSchema`: the nested schema
+- `path`: the array of path segments to locate the nested schema within the resolved document
+- `logicalPath`: the array of path segments to locate an instance of `nestedSchema` within an
+   instance of `schema` (the schema for which `validateNestedSchemas()` was originally called.)
+   Within the logical path, an arbitrary array item is represented by `[]` and an arbitrary
+   dictionary property is represented by `*`.
+
+The provided `validate()` function is guaranteed to be called:
+- for a schema before any of its nested schemas
+- more recently for the schema that nests it (its "nesting parent") than for that schema's
+   siblings (or their descendants) in the nesting tree
+
+However, it is not guaranteed that the `validate()` function is called in any particular order
+for a schema's directly nested schemas.
+
 WARNING: It is only safe to use this function for a "resolved" schema — it cannot traverse `$ref`
 references.
 
@@ -411,7 +439,7 @@ references.
 
 - **`schema`** `<object>`: simple or composite OpenAPI 3.x schema object
 - **`path`** `<Array>`: path array for the provided schema
-- **`validate`** `<function>`: a `(schema, path) => errors` function to validate a simple schema
+- **`validate`** `<function>`: a `(schema, path, logicalPath) => errors` function to validate a simple schema
 - **`includeSelf`** `<boolean>`: validate the provided schema in addition to its nested schemas (defaults to `true`)
 - **`includeNot`** `<boolean>`: validate schemas composed with `not` (defaults to `false`)
 
@@ -433,6 +461,27 @@ Subschemas include property schemas, 'additionalProperties', and 'patternPropert
 (such as those in an 'allOf', 'anyOf' or 'oneOf' property), plus all subschemas
 of those schemas.
 
+The provided `validate()` function is called with three arguments:
+- `subschema`: the composed or nested schema
+- `path`: the array of path segments to locate the subschema within the resolved document
+- `logicalPath`: the array of path segments to locate an instance of `subschema` within an
+   instance of `schema` (the schema for which `validateSubschemas()` was originally called.)
+   Within the logical path, an arbitrary array item is represented by `[]` and an arbitrary
+   dictionary property is represented by `*`.
+
+The provided `validate()` function is guaranteed to be called:
+- for a schema before any of its composed schemas
+- for a schema before any of its nested schemas
+- more recently for the schema that composes it (its "composition parent") than for that schema's
+   siblings (or their descendants) in the portion of composition tree local to the composition
+   parent's branch of the nesting tree
+- more recently for the schema that nests it (its "nesting parent") than for that schema's
+   siblings (or their descendants) in the portion of nesting tree local to the nesting parent's
+   branch of the composition tree
+
+However, it is not guaranteed that the `validate()` function is called in any particular order
+for a schema's directly composed or directly nested schemas.
+
 WARNING: It is only safe to use this function for a "resolved" schema — it cannot traverse `$ref`
 references.
 
@@ -440,7 +489,7 @@ references.
 
 - **`schema`** `<object>`: simple or composite OpenAPI 3.x schema object
 - **`path`** `<Array>`: path array for the provided schema
-- **`validate`** `<function>`: a `(schema, path) => errors` function to validate a simple schema
+- **`validate`** `<function>`: a `(schema, path, logicalPath) => errors` function to validate a simple schema
 - **`includeSelf`** `<boolean>`: validate the provided schema in addition to its subschemas (defaults to `true`)
 - **`includeNot`** `<boolean>`: validate schemas composed with `not` (defaults to `true`)
 
