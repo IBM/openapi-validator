@@ -1,7 +1,7 @@
 {
   "name": "@ibm-cloud/openapi-ruleset",
   "description": "Spectral ruleset for validating IBM Cloud services",
-  "version": "1.26.0",
+  "version": "1.27.0",
   "license": "Apache-2.0",
   "private": false,
   "main": "./src/ibm-oas.js",
@@ -21,7 +21,7 @@
     "pkg": "echo no executables to build in this package"
   },
   "dependencies": {
-    "@ibm-cloud/openapi-ruleset-utilities": "1.6.0",
+    "@ibm-cloud/openapi-ruleset-utilities": "1.7.0",
     "@stoplight/spectral-formats": "^1.8.1",
     "@stoplight/spectral-functions": "^1.9.1",
     "@stoplight/spectral-rulesets": "^1.21.1",

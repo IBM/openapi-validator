@@ -1,3 +1,13 @@
+# @ibm-cloud/openapi-ruleset [1.27.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.26.0...@ibm-cloud/openapi-ruleset@1.27.0) (2025-01-07)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.7.0
+
 # @ibm-cloud/openapi-ruleset [1.26.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.25.2...@ibm-cloud/openapi-ruleset@1.26.0) (2024-12-23)
 
 
