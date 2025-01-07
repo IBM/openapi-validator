@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset-utilities [1.7.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.6.0...@ibm-cloud/openapi-ruleset-utilities@1.7.0) (2025-01-07)
+
+
+### Features
+
+* track logical paths in recursive validation functions ([#709](https://github.com/IBM/openapi-validator/issues/709)) ([b1f2fbf](https://github.com/IBM/openapi-validator/commit/b1f2fbf59859210155c822e2f2510f303aa4a7b8))
+
 # @ibm-cloud/openapi-ruleset-utilities [1.6.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.5.0...@ibm-cloud/openapi-ruleset-utilities@1.6.0) (2024-12-23)
 
 
