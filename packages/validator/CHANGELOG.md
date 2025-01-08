@@ -1,3 +1,18 @@
+# ibm-openapi-validator [1.32.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.31.0...ibm-openapi-validator@1.32.0) (2025-01-08)
+
+
+### Features
+
+* **ibm-use-date-based-format:** introduce new validation rule ([e29329e](https://github.com/IBM/openapi-validator/commit/e29329e4c869747bab51da452d7cdf243a531eda))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.28.0
+
 # ibm-openapi-validator [1.31.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.30.0...ibm-openapi-validator@1.31.0) (2025-01-07)
 
 
