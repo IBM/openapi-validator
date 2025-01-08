@@ -1,0 +1,33 @@
+# This workflow is responsible for deploying a Docker image for a given
+# release to Docker Hub. It is triggered when a new release is created. This
+# job is separated from the publishing job, as it may fail independently and
+# we need to be able to retry it without re-running the publish step.
+
+name: Docker Deploy
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+    # Allow this workflow to be triggered manually
+
+jobs:
+  deploy-docker-image:
+    name: Deploy image
+    runs-on: ubuntu-latest
+ 
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Node is used in the deployment script to extract the numeric version
+      # from packages/validator/package.json.
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Build and deploy Docker image
+        env:
+          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
+        run: ./scripts/deploy-container-image.sh

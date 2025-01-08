@@ -47,8 +47,7 @@ jobs:
 
   build:
     needs: detect-secrets
-    if: "!contains(github.event.head_commit.message, '[skip ci]')"
-    name: Build & Test (Node v${{ matrix.node-version }})
+    name: Build/Test (Node v${{ matrix.node-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -72,14 +71,11 @@ jobs:
           npm run lint
           npm run test-docker
 
-  create_release:
+  publish-release:
     needs: build
-    # Only run this job on the main branch and only for our max version of Go.
+    name: Semantic-Release
     if: "github.ref_name == 'main' && github.event_name != 'pull_request'"
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: ['20']
 
     steps:
       - name: Checkout repository
@@ -90,15 +86,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node-version }}
+          node-version: 20
 
-      - name: Install Deployment Tools
+      - name: Install Publishing Tools
         run: |
           npm install
 
-      - name: Create & Tag Release
+      - name: Run semantic-release
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-          DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_HUB_TOKEN }}
         run: npx -p @qiwi/semrel-toolkit multi-semrel --deps.release inherit
