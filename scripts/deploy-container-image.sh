@@ -3,9 +3,8 @@
 set -e
 
 deploy() {
-    local new_version=$1
     login "$DOCKER_HUB_TOKEN"
-    deploy_docker "$new_version"
+    deploy_docker
 }
 
 login() {
@@ -18,7 +17,7 @@ login() {
 }
 
 deploy_docker() {
-    local new_version=$1
+    local new_version=`node -p "require('./packages/validator/package.json').version"`
 
     # Ensure version is present and has semver format
     [[ "$new_version" =~ [[:digit:]]+\.[[:digit:]]+\.[[:digit:]]+ ]]
