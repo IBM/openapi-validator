@@ -1,12 +1,11 @@
 /**
- * Copyright 2023 - 2024 IBM Corporation.
+ * Copyright 2023 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
 const {
   getSchemaType,
   isObject,
-  isObjectSchema,
   isArraySchema,
   schemaHasConstraint,
   schemaLooselyHasConstraint,
@@ -89,7 +88,7 @@ function checkApiForSymmetry(apidef, nodes) {
     ['Summary', 'Prototype', 'Patch'].forEach(variantType => {
       const variantSchemaName = `${canonicalSchemaName}${variantType}`;
       const variantSchema = apidef.components.schemas[`${variantSchemaName}`];
-      if (variantSchema && isObjectSchema(variantSchema)) {
+      if (variantSchema && isObject(variantSchema)) {
         logger.info(
           `${ruleId}: checking variant schema ${variantSchemaName} against canonical schema ${canonicalSchemaName}`
         );
@@ -128,9 +127,11 @@ function checkApiForSymmetry(apidef, nodes) {
 /**
  * Determine if the variant schema is indeed a proper graph fragment of the
  * canonical schema, using the following conditions:
- * - The variant does not define additional or pattern properties
  * - The variant does not define any properties that do not exist on the
  *   canonical schema (exists = present and has same type)
+ * - The variant does not define any nested schemas (including those defined
+ *   by arrays or dictionaries) that aren't themselves graph fragments of
+ *   the corresponding canonical schema.
  * - The variant omits at least one property from the canonical schema
  *
  * @param {object} variant - the variant schema to check
@@ -163,103 +164,148 @@ function checkForGraphFragmentPattern(
     );
     let result = true;
 
-    // A variant schema cannot allow extraneous properties and still be
-    // an explicit graph fragment of the canonical schema.
-    if (variant.additionalProperties) {
+    // Check for simple type equivalency - if the types are not the same,
+    // the graph fragment pattern is violated.
+    if (
+      !fromApplicator &&
+      !canonicalSchemaMeetsConstraint(
+        canonical,
+        canonicalPath,
+        schemaFinder,
+        schema => getSchemaType(variant) === getSchemaType(schema)
+      )
+    ) {
       logger.info(
-        `${ruleId}: schema defines 'additionalProperties' - it is not a proper graph fragment`
+        `${ruleId}: variant and canonical schemas are different types`
       );
       result = false;
     }
-    if (variant.patternProperties) {
+
+    // Ensure list schemas also maintain a graph fragment structure.
+    if (
+      isObject(variant.items) &&
+      isArraySchema(variant) &&
+      !canonicalSchemaMeetsConstraint(
+        canonical,
+        canonicalPath,
+        schemaFinder,
+        (schema, path) =>
+          isObject(schema.items) &&
+          isGraphFragment(
+            variant.items,
+            schema.items,
+            [...path, 'items'],
+            false
+          )
+      )
+    ) {
       logger.info(
-        `${ruleId}: schema defines 'patternProperties' - it is not a proper graph fragment`
+        `${ruleId}: variant is array with schema that is not a graph fragment of canonical items schema`
+      );
+      result = false;
+    }
+
+    // Ensure dictionary schemas also maintain a graph fragment structure
+    // (additional properties).
+    if (
+      variant.additionalProperties &&
+      !canonicalSchemaMeetsConstraint(
+        canonical,
+        canonicalPath,
+        schemaFinder,
+        (schema, path) =>
+          schema.additionalProperties &&
+          isGraphFragment(
+            variant.additionalProperties,
+            schema.additionalProperties,
+            [...path, 'additionalProperties'],
+            false
+          )
+      )
+    ) {
+      logger.info(
+        `${ruleId}: variant is dictionary with an additionalProperties schema that is not a graph fragment of canonical`
+      );
+      result = false;
+    }
+
+    // Ensure dictionary schemas also maintain a graph fragment structure
+    // (pattern properties).
+    if (
+      isObject(variant.patternProperties) &&
+      !canonicalSchemaMeetsConstraint(
+        canonical,
+        canonicalPath,
+        schemaFinder,
+        (schema, path) =>
+          isObject(schema.patternProperties) &&
+          // This is a little convoluted but it is enforcing that
+          // 1) every pattern in the variant schema is also in canonical
+          //    schema, and
+          // 2) every patterned schema in the variant must be a graph fragment
+          //    of at least one patterned schema in the canonical schema.
+          Object.entries(variant.patternProperties).every(
+            ([variantPattern, variantPatternSchema]) =>
+              Object.keys(schema.patternProperties).includes(variantPattern) &&
+              Object.entries(schema.patternProperties).some(
+                ([canonPattern, canonPatternSchema]) =>
+                  isGraphFragment(
+                    variantPatternSchema,
+                    canonPatternSchema,
+                    [...path, 'patternProperties', canonPattern],
+                    false
+                  )
+              )
+          )
+      )
+    ) {
+      logger.info(
+        `${ruleId}: variant is dictionary with a patternProperties schema that is not a graph fragment of canonical`
       );
       result = false;
     }
 
     // If the variant schema (or sub-schema) has properties, ensure that each
     // property is defined *somewhere* on the corresponding canonical schema
-    // (or sub-schema) and has the same, specific type.
+    // (or sub-schema) and ensure it is also a valid graph fragment of the
+    // corresponding property in the canonical schema.
     //
-    // We use a custom, looser contraint-checking function here because it is
+    // We use a looser contraint-checking function here because it is
     // sufficient for "one of" or "any of" the canonical schemas to define the
     // property defined on the variant schema, and we need to resolve reference
     // schemas on the fly each time we check the canonical schema for a constraint.
     if (isObject(variant.properties)) {
       for (const [name, prop] of Object.entries(variant.properties)) {
+        let propExistsSomewhere = false;
+
         const valid = canonicalSchemaMeetsConstraint(
           canonical,
           canonicalPath,
           schemaFinder,
-          c =>
-            'properties' in c &&
-            isObject(c.properties[name]) &&
-            getSchemaType(c.properties[name]) === getSchemaType(prop)
-        );
+          (schema, path) => {
+            const exists =
+              'properties' in schema && isObject(schema.properties[name]);
+            propExistsSomewhere = propExistsSomewhere || exists;
 
-        // Note: Prototype schemas are allowed to define writeOnly properties
-        // that don't exist on the canonical schema.
-        if (!valid && !(considerWriteOnly && prop.writeOnly)) {
-          logger.info(
-            `${ruleId}: property '${name}' does not exist on the canonical schema`
-          );
-          result = false;
-        }
-
-        // Ensure nested schemas are also graph fragments of the corresponding
-        // nested schemas in the canonical schema.
-        if (
-          valid &&
-          isObjectSchema(prop) &&
-          !canonicalSchemaMeetsConstraint(
-            canonical,
-            canonicalPath,
-            schemaFinder,
-            (schema, path) =>
-              // Note that these first two conditions are guaranteed to be met at
-              // least once by the first call to `canonicalSchemaMeetsConstraint`
-              'properties' in schema &&
-              isObject(schema.properties[name]) &&
+            return (
+              exists &&
               isGraphFragment(
                 prop,
                 schema.properties[name],
                 [...path, 'properties', name],
                 false
               )
-          )
-        ) {
-          logger.info(
-            `${ruleId}: nested object property ${name} is not a graph fragment of canonical property ${name}`
-          );
-          result = false;
-        }
+            );
+          }
+        );
 
-        // Ensure lists of schemas also maintain a graph fragment structure.
-        if (
-          valid &&
-          isArraySchema(prop) &&
-          isObjectSchema(prop.items) &&
-          !canonicalSchemaMeetsConstraint(
-            canonical,
-            canonicalPath,
-            schemaFinder,
-            (schema, path) =>
-              // Note that these first two conditions are guaranteed to be met at
-              // least once by the first call to `canonicalSchemaMeetsConstraint`
-              'properties' in schema &&
-              isObject(schema.properties[name]) &&
-              isObject(schema.properties[name].items) &&
-              isGraphFragment(
-                prop.items,
-                schema.properties[name].items,
-                [...path, 'properties', name, 'items'],
-                false
-              )
-          )
-        ) {
+        // Note: Prototype schemas are allowed to define writeOnly properties
+        // that don't exist on the canonical schema.
+        if (!valid && !(considerWriteOnly && prop.writeOnly)) {
           logger.info(
-            `${ruleId}: array property ${name} items schema is not a graph fragment of canonical property ${name} items schema`
+            propExistsSomewhere
+              ? `${ruleId}: nested object property ${name} is not a graph fragment of canonical property ${name}`
+              : `${ruleId}: property '${name}' does not exist on the canonical schema`
           );
           result = false;
         }
