@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2024 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -7,13 +7,19 @@ const {
   isObject,
   isObjectSchema,
   schemaHasConstraint,
-  schemaLooselyHasConstraint,
   validateNestedSchemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
+
+/**
+ * The implementation for this rule makes assumptions that are dependent on the
+ * presence of the following other rules:
+ *
+ * - ibm-pattern-properties: patternProperties isn't empty or the wrong type
+ */
 
 module.exports = function (schema, _opts, context) {
   if (!logger) {
@@ -32,7 +38,7 @@ function wellDefinedDictionaries(schema, path) {
 
   // We will flag dictionaries of dictionaries, so we can skip
   // providing guidance for directly nested dictionaries.
-  if (path.at(-1) === 'additionalProperties') {
+  if (isDictionaryValueSchema(path)) {
     return [];
   }
 
@@ -40,15 +46,15 @@ function wellDefinedDictionaries(schema, path) {
     `${ruleId}: checking object schema at location: ${path.join('.')}`
   );
 
-  // Dictionaries should have additionalProperties defined on them.
-  // If the schema doesn't, make sure it has properties and then
-  // abandon the check.
-  if (!schemaDefinesField(schema, 'additionalProperties')) {
+  // Dictionaries should have additionalProperties or patternProperties
+  // defined on them. If the schema doesn't, make sure it has properties
+  // and then abandon the check.
+  if (!isDictionarySchema(schema)) {
     if (!schemaDefinesField(schema, 'properties')) {
       return [
         {
           message:
-            'Object schemas must define either properties, or additionalProperties with a concrete type',
+            'Object schemas must define either properties, or (additional/pattern)Properties with a concrete type',
           path,
         },
       ];
@@ -79,8 +85,7 @@ function wellDefinedDictionaries(schema, path) {
   // more strict in the future but this meets our current purposes.
   if (schemaHasConstraint(schema, isAmbiguousDictionary)) {
     errors.push({
-      message:
-        'Dictionary schemas must have a single, well-defined value type in `additionalProperties`',
+      message: 'Dictionary schemas must have a single, well-defined value type',
       path,
     });
   }
@@ -89,7 +94,7 @@ function wellDefinedDictionaries(schema, path) {
   // should not be dictionaries themselves.
   if (schemaHasConstraint(schema, isDictionaryOfDictionaries)) {
     errors.push({
-      message: 'Dictionaries must not have values that are also dictionaries.',
+      message: 'Dictionaries must not have values that are also dictionaries',
       path,
     });
   }
@@ -102,29 +107,46 @@ function schemaDefinesField(schema, field) {
 }
 
 function isAmbiguousDictionary(schema) {
-  if (!schema.additionalProperties) {
-    return false;
-  }
-
-  // additionalProperties must be an object (not a boolean) value
-  // and must define a `type` field in order to be considered an
-  // unambiguous dictionary.
-  return (
-    !isObject(schema.additionalProperties) ||
-    !schemaDefinesField(schema.additionalProperties, 'type')
+  return dictionaryValuesHaveConstraint(
+    schema,
+    valueSchema =>
+      !isObject(valueSchema) || !schemaDefinesField(valueSchema, 'type')
   );
 }
 
 function isDictionaryOfDictionaries(schema) {
-  if (!isObject(schema.additionalProperties)) {
-    return false;
-  }
+  return dictionaryValuesHaveConstraint(
+    schema,
+    valueSchema => isObject(valueSchema) && isDictionarySchema(valueSchema)
+  );
+}
 
-  // We don't want any schema that may define the dictionary values
-  // to also be a dictionary, so we use a looser constraint that
-  // checks against any oneOf/anyOf schema.
-  return schemaLooselyHasConstraint(
-    schema.additionalProperties,
-    s => !!s['additionalProperties']
+function dictionaryValuesHaveConstraint(schema, hasConstraint) {
+  return schemaHasConstraint(schema, s => {
+    if (s.additionalProperties !== undefined) {
+      return hasConstraint(s.additionalProperties);
+    }
+
+    if (s.patternProperties !== undefined) {
+      return Object.values(s.patternProperties).some(p => hasConstraint(p));
+    }
+
+    return false;
+  });
+}
+
+// Check, *by path*, if the current schema is a dictionary value schema.
+function isDictionaryValueSchema(path) {
+  return (
+    path.at(-1) === 'additionalProperties' ||
+    path.at(-2) === 'patternProperties'
+  );
+}
+
+// Check, *by object fields* if the current schema is a dictionary or not.
+function isDictionarySchema(schema) {
+  return (
+    schemaDefinesField(schema, 'additionalProperties') ||
+    schemaDefinesField(schema, 'patternProperties')
   );
 }
