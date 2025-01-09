@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 - 2024 IBM Corporation.
+ * Copyright 2023 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -623,6 +623,139 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('prototype schema with nested additionalProperties is compliant', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Movie.properties.personnel = {
+        type: 'object',
+        properties: {
+          cast: {
+            description: 'key-value pairs mapping name to role',
+            type: 'object',
+            additionalProperties: {
+              type: 'string',
+            },
+          },
+        },
+      };
+
+      testDocument.components.schemas.MoviePrototype.properties.personnel =
+        testDocument.components.schemas.Movie.properties.personnel;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('prototype schema with nested patternProperties is compliant', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Movie.properties.personnel = {
+        type: 'object',
+        properties: {
+          cast: {
+            description: 'key-value pairs mapping name to role',
+            type: 'object',
+            patternProperties: {
+              '^[A-Z][a-z]+( ?[A-Z][a-z]+)*$': {
+                type: 'string',
+              },
+            },
+          },
+        },
+      };
+
+      testDocument.components.schemas.MoviePrototype.properties.personnel =
+        testDocument.components.schemas.Movie.properties.personnel;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('prototype schema for composed canonical with nested dictionary is compliant', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Movie.properties.personnel = {
+        type: 'object',
+        properties: {
+          cast: {
+            type: 'object',
+            allOf: [
+              {
+                additionalProperties: {
+                  type: 'object',
+                  properties: {
+                    some_field: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            ],
+          },
+        },
+      };
+
+      testDocument.components.schemas.MoviePrototype.properties.personnel = {
+        type: 'object',
+        properties: {
+          cast: {
+            type: 'object',
+            additionalProperties: {
+              type: 'object',
+              properties: {
+                some_field: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('prototype schema with nested dictionary containing graph fragment model variant', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Movie.properties.personnel = {
+        type: 'object',
+        properties: {
+          cast: {
+            type: 'object',
+            additionalProperties: {
+              type: 'object',
+              properties: {
+                some_field: {
+                  type: 'string',
+                },
+                some_other_field: {
+                  type: 'integer',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      testDocument.components.schemas.MoviePrototype.properties.personnel = {
+        type: 'object',
+        properties: {
+          cast: {
+            type: 'object',
+            additionalProperties: {
+              type: 'object',
+              properties: {
+                some_field: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     // Already covered in root document:
     // - Valid Prototype schemas
     // - Valid Patch schemas
@@ -753,6 +886,52 @@ describe(`Spectral rule: ${ruleId}`, () => {
                   description: 'should not be here',
                 },
               },
+            },
+          },
+        },
+      };
+      testDocument.components.schemas.MovieCollection.allOf[1].properties.movies.items =
+        {
+          $ref: '#/components/schemas/MovieSummary',
+        };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      const expectedPaths = ['components.schemas.MovieSummary'];
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMsg);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('summary schema is not compliant - arrays with different types', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.cast = {
+        type: 'array',
+        items: {
+          type: 'string',
+        },
+      };
+
+      testDocument.components.schemas.MovieSummary = {
+        description: 'This is the Movie Summary schema.',
+        type: 'object',
+        required: ['id', 'name'],
+        properties: {
+          id: {
+            $ref: '#/components/schemas/IdString',
+          },
+          name: {
+            $ref: '#/components/schemas/NormalString',
+          },
+          cast: {
+            type: 'array',
+            items: {
+              type: 'integer',
             },
           },
         },
@@ -1163,6 +1342,71 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.MoviePrototype.additionalProperties = true;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      const expectedPaths = ['components.schemas.MoviePrototype'];
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMsg);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('prototype schema is a completely different type', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.MoviePrototype = {
+        type: 'array',
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      const expectedPaths = ['components.schemas.MoviePrototype'];
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMsg);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('prototype schema has nested dictionary not included in canonical', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Movie.properties.personnel = {
+        type: 'object',
+        properties: {
+          cast: {
+            type: 'object',
+            properties: {
+              names: {
+                type: 'array',
+                items: {
+                  type: 'string',
+                },
+              },
+            },
+          },
+        },
+      };
+
+      testDocument.components.schemas.MoviePrototype.properties.personnel = {
+        type: 'object',
+        properties: {
+          cast: {
+            type: 'object',
+            additionalProperties: {
+              type: 'array',
+              items: {
+                type: 'string',
+              },
+            },
+          },
+        },
+      };
 
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(1);
