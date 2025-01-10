@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.28.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.0...@ibm-cloud/openapi-ruleset@1.28.1) (2025-01-10)
+
+
+### Bug Fixes
+
+* **ibm-well-defined-dictionaries:** include patternProperties in validation ([#713](https://github.com/IBM/openapi-validator/issues/713)) ([ad7134d](https://github.com/IBM/openapi-validator/commit/ad7134db5dbd2c17b1a15fa7bb7988b470406a09))
+
 # @ibm-cloud/openapi-ruleset [1.28.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.27.0...@ibm-cloud/openapi-ruleset@1.28.0) (2025-01-08)
 
 
