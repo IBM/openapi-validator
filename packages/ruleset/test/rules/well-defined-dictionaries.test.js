@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2024 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -24,7 +24,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
-    it('Includes a well-defined dictionary with scalar values', async () => {
+    it('Includes a well-defined dictionary with scalar values (additionalProperties)', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.properties.metadata = {
@@ -32,6 +32,23 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'object',
         additionalProperties: {
           type: 'string',
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('Includes a well-defined dictionary with scalar values (patternProperties)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary mapping keys to string values',
+        type: 'object',
+        patternProperties: {
+          '^[a-zA-Z]+$': {
+            type: 'string',
+          },
         },
       };
 
@@ -139,14 +156,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Object schemas must define either properties, or additionalProperties with a concrete type'
+          'Object schemas must define either properties, or (additional/pattern)Properties with a concrete type'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
     });
 
-    it('Includes a model/dictionary hybrid, which is not allowed', async () => {
+    it('Includes a model/dictionary hybrid, which is not allowed (additionalProperties)', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.properties.metadata = {
@@ -159,6 +176,37 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
         additionalProperties: {
           type: 'string',
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Object schemas must be either a model or a dictionary - they cannot be both'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Includes a model/dictionary hybrid, which is not allowed (patternProperties)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary with no definition',
+        type: 'object',
+        properties: {
+          rating: {
+            type: 'integer',
+          },
+        },
+        patternProperties: {
+          '^[a-zA-Z]+$': {
+            type: 'string',
+          },
         },
       };
 
@@ -190,7 +238,36 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionary schemas must have a single, well-defined value type in `additionalProperties`'
+          'Dictionary schemas must have a single, well-defined value type'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Includes a dictionary with patternProperties value that has no type', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary with no definition',
+        type: 'object',
+        patternProperties: {
+          '^[a-zA-Z]+$': {
+            type: 'string',
+          },
+          '^wrong_[A-Z][a-z]+$': {
+            description: 'no type definition',
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Dictionary schemas must have a single, well-defined value type'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -212,7 +289,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionary schemas must have a single, well-defined value type in `additionalProperties`'
+          'Dictionary schemas must have a single, well-defined value type'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -244,7 +321,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionaries must not have values that are also dictionaries.'
+          'Dictionaries must not have values that are also dictionaries'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedRulePaths[i]);
@@ -272,14 +349,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionary schemas must have a single, well-defined value type in `additionalProperties`'
+          'Dictionary schemas must have a single, well-defined value type'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
     });
 
-    it('Includes a dictionary of dictionaries, which is not allowed', async () => {
+    it('Includes a dictionary of dictionaries, which is not allowed (additionalProperties)', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.components.schemas.Movie.properties.metadata = {
@@ -299,7 +376,65 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionaries must not have values that are also dictionaries.'
+          'Dictionaries must not have values that are also dictionaries'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Includes a dictionary of dictionaries, which is not allowed (patternProperties)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary with no definition',
+        type: 'object',
+        patternProperties: {
+          '^[a-zA-Z]+$': {
+            type: 'object',
+            patternProperties: {
+              '^[a-zA-Z]+$': {
+                type: 'string',
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Dictionaries must not have values that are also dictionaries'
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
+      }
+    });
+
+    it('Includes a dictionary of dictionaries, which is not allowed (hybrid)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.metadata = {
+        description: 'a dictionary with no definition',
+        type: 'object',
+        patternProperties: {
+          '^[a-zA-Z]+$': {
+            type: 'object',
+            additionalProperties: true,
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toMatch(
+          'Dictionaries must not have values that are also dictionaries'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -324,7 +459,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionaries must not have values that are also dictionaries.'
+          'Dictionaries must not have values that are also dictionaries'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -362,45 +497,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionaries must not have values that are also dictionaries.'
-        );
-        expect(results[i].severity).toBe(expectedSeverity);
-        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-      }
-    });
-
-    it('Includes a single oneOf element that creates a nested dictionary, which is not allowed', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.components.schemas.Movie.properties.metadata = {
-        description: 'a dictionary with no definition',
-        type: 'object',
-        additionalProperties: {
-          type: 'object',
-          oneOf: [
-            {
-              additionalProperties: {
-                type: 'string',
-              },
-            },
-            {
-              properties: {
-                name: {
-                  type: 'string',
-                },
-              },
-            },
-          ],
-        },
-      };
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(4);
-
-      for (const i in results) {
-        expect(results[i].code).toBe(ruleId);
-        expect(results[i].message).toMatch(
-          'Dictionaries must not have values that are also dictionaries.'
+          'Dictionaries must not have values that are also dictionaries'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
@@ -437,7 +534,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toMatch(
-          'Dictionary schemas must have a single, well-defined value type in `additionalProperties`'
+          'Dictionary schemas must have a single, well-defined value type'
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedRulePaths[i]);
