@@ -22,6 +22,10 @@ const {
 let ruleId;
 let logger;
 
+// The graph fragment check is depth-first. Use this stack to
+// print the relevant info logs in a sane order.
+const infoLogStack = [];
+
 /**
  * The implementation for this rule makes assumptions that are dependent on the
  * presence of the following other rules:
@@ -175,7 +179,7 @@ function checkForGraphFragmentPattern(
         schema => getSchemaType(variant) === getSchemaType(schema)
       )
     ) {
-      logger.info(
+      infoLogStack.push(
         `${ruleId}: variant and canonical schemas are different types`
       );
       result = false;
@@ -199,7 +203,7 @@ function checkForGraphFragmentPattern(
           )
       )
     ) {
-      logger.info(
+      infoLogStack.push(
         `${ruleId}: variant is array with schema that is not a graph fragment of canonical items schema`
       );
       result = false;
@@ -223,7 +227,7 @@ function checkForGraphFragmentPattern(
           )
       )
     ) {
-      logger.info(
+      infoLogStack.push(
         `${ruleId}: variant is dictionary with an additionalProperties schema that is not a graph fragment of canonical`
       );
       result = false;
@@ -259,7 +263,7 @@ function checkForGraphFragmentPattern(
           )
       )
     ) {
-      logger.info(
+      infoLogStack.push(
         `${ruleId}: variant is dictionary with a patternProperties schema that is not a graph fragment of canonical`
       );
       result = false;
@@ -302,7 +306,7 @@ function checkForGraphFragmentPattern(
         // Note: Prototype schemas are allowed to define writeOnly properties
         // that don't exist on the canonical schema.
         if (!valid && !(considerWriteOnly && prop.writeOnly)) {
-          logger.info(
+          infoLogStack.push(
             propExistsSomewhere
               ? `${ruleId}: nested object property ${name} is not a graph fragment of canonical property ${name}`
               : `${ruleId}: property '${name}' does not exist on the canonical schema`
@@ -325,7 +329,7 @@ function checkForGraphFragmentPattern(
           true
         )
       ) {
-        logger.info(
+        infoLogStack.push(
           `${ruleId}: variant schema applicator '${applicator}' is not a graph fragment of the canonical schema`
         );
         result = false;
@@ -409,6 +413,12 @@ function checkForGraphFragmentPattern(
     canonicalPath,
     false
   );
+
+  // Print the logs gathered within the `isGraphFragment` function,
+  // in reverse order - it will be coherent for the user.
+  while (infoLogStack.length) {
+    logger.info(infoLogStack.pop());
+  }
 
   logger.debug(
     `${ruleId}: isGraphFragment() returned [${variantIsGraphFragment},${variantOmitsProperties}]`
