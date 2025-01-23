@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 - 2024 IBM Corporation.
+ * Copyright 2023 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -52,6 +52,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         title: 'options_package',
         uniqueItems: 33,
         unevaluatedProperties: false,
+        examples: [],
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -108,23 +109,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       for (let i = 0; i < results.length; i++) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toBe(`${expectedMsgPrefix} $comment`);
-        expect(results[i].severity).toBe(expectedSeverity);
-        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-      }
-    });
-    it('allOf element schema contains "examples"', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.components.schemas.DrinkCollection.allOf[1].examples = {};
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
-      const expectedPaths = [
-        'paths./v1/drinks.get.responses.200.content.application/json.schema.allOf.1.examples',
-      ];
-      for (let i = 0; i < results.length; i++) {
-        expect(results[i].code).toBe(ruleId);
-        expect(results[i].message).toBe(`${expectedMsgPrefix} examples`);
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
