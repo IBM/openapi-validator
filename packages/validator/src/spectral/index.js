@@ -71,6 +71,12 @@ function convertResults(spectralResults, { config, logger }) {
       continue;
     }
 
+    // Ingore any rule violations that occur in sections of the spec that are
+    // not valid locations for API validation.
+    if (invalidLocation(r.path)) {
+      continue;
+    }
+
     const severity = convertSpectralSeverity(r.severity);
     // only collect errors when "errors only" is true
     if (errorsOnly && r.severity > 0) {
@@ -223,4 +229,11 @@ function convertSpectralSeverity(s) {
   // we have already guaranteed s to be a number, 0-3
   const mapping = { 0: 'error', 1: 'warning', 2: 'info', 3: 'hint' };
   return mapping[s];
+}
+
+function invalidLocation(pathArray) {
+  // The 'x-sdk-apiref' extension is an IBM internal section for providing
+  // SDK-related metadata. It is not appropriate for the validator to consider.
+  const invalidLocations = ['x-sdk-apiref'];
+  return invalidLocations.some(l => pathArray.includes(l));
 }

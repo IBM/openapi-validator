@@ -210,3 +210,10 @@ components:
     UnusedString:
       description: string
       type: string
+
+x-sdk-apiref:
+  type: int64
+  enum:
+    - this would trigger spectrals 'typed-enum' rule
+    - without our custom filter for invalid openapi locations
+    - this just tests that no warning is emitted for the 'x-sdk-apiref' location
