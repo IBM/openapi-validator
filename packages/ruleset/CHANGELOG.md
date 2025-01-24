@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.28.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.2...@ibm-cloud/openapi-ruleset@1.28.3) (2025-01-24)
+
+
+### Bug Fixes
+
+* **ibm-use-date-based-format:** tighten heuristic for flagging date-time values ([#717](https://github.com/IBM/openapi-validator/issues/717)) ([542d6b0](https://github.com/IBM/openapi-validator/commit/542d6b0119f18d6adcaf667a697a1e53d416fc17))
+
 ## @ibm-cloud/openapi-ruleset [1.28.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.1...@ibm-cloud/openapi-ruleset@1.28.2) (2025-01-24)
 
 
