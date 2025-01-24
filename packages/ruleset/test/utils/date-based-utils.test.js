@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2024-2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -26,7 +26,11 @@ describe('Date-based utility functions', () => {
       expect(isDateBasedValue('This certificate is good until June 2032')).toBe(
         false
       );
+      expect(
+        isDateBasedValue('0000-0000-0000-0000/abc/2022/2/22/12345678_data.json')
+      ).toBe(false);
       expect(isDateBasedValue('Octopus')).toBe(false);
+      expect(isDateBasedValue('Januaryuary 31')).toBe(false);
       expect(isDateBasedValue('12345678')).toBe(false);
       expect(isDateBasedValue('0001-01-2000')).toBe(false);
       expect(isDateBasedValue('10.1.24.1')).toBe(false);

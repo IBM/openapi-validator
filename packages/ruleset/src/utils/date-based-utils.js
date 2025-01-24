@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2024-2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -77,12 +77,40 @@ function isDateBasedName(name) {
  * @returns a boolean value indicating that the value seems to be date-based
  */
 function isDateBasedValue(value) {
-  const regularExpressions = [
-    // Includes abbreviated month name.
-    /^\b(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\b/,
+  // The full and abbreviated values for months will be used in the generic
+  // string check below, as well as in the group of date-based expressions in
+  // the primary check below that.
+  const months =
+    /\b(Jan(uary)?|Feb(ruary)?|Mar(ch)?|Apr(il)?|May|Jun(e)?|Jul(y)?|Aug(ust)?|Sep(tember)?|Oct(ober)?|Nov(ember)?|Dec(ember)?)\b/g;
 
-    // Includes full month name.
-    /^\b(January|February|March|April|May|June|July|August|September|October|November|December)\b/,
+  // In an effort to avoid false positives with strings that may contain
+  // date-time values, but are not themselves date-time values, check for
+  // the presence of any lowercase letters that are not included in the
+  // names of months or days.
+  if (typeof value === 'string') {
+    // "Day" strings are not enough on their own to determine date-time values,
+    // but we need to remove them from any values before we check for any
+    // letters that are not relevant to a date-time value.
+    const days =
+      /\b(Mon(day)?|Tue(sday)?|Wed(nesday)?|Thu(rsday)?|Fri(day)?|Sat(urday)?|Sun(day)?)\b/g;
+
+    // Only lowercase letters are checked for because 1) there are a number of
+    // valid date-time uses of uppercase letters like T, Z, GMT, UTC, etc. but
+    // not lowercase letters and 2) lowercase letters are more likely to
+    // indicate a general string over a formatted value.
+    const hasNonDateLetters = !!value
+      .replaceAll(months, '')
+      .replaceAll(days, '')
+      .match(/[a-z]/);
+
+    if (hasNonDateLetters) {
+      return false;
+    }
+  }
+
+  const regularExpressions = [
+    // Includes full or abbreviated month name.
+    months,
 
     // Includes date in the format YYYY(./-)MM(./-)DD(T).
     /\b\d{4}[./-](0?[1-9]|1[012])[./-]([012]?[1-9]|3[01])(\b|T)/,
