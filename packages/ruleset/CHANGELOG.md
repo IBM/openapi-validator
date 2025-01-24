@@ -1,3 +1,11 @@
+## @ibm-cloud/openapi-ruleset [1.28.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.1...@ibm-cloud/openapi-ruleset@1.28.2) (2025-01-24)
+
+
+### Bug Fixes
+
+* **ibm-api-symmetry:** handle dictionaries and top-level schemas ([b771fd5](https://github.com/IBM/openapi-validator/commit/b771fd50d3462d4bb73d8646a25734b311037556))
+* **ibm-api-symmetry:** print info logs in coherent order ([b341441](https://github.com/IBM/openapi-validator/commit/b34144129d688fcbba287cca93edfa839fde87a6))
+
 ## @ibm-cloud/openapi-ruleset [1.28.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.0...@ibm-cloud/openapi-ruleset@1.28.1) (2025-01-10)
 
 
