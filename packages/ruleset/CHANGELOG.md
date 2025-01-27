@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.28.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.3...@ibm-cloud/openapi-ruleset@1.28.4) (2025-01-27)
+
+
+### Bug Fixes
+
+* **typed-enum:** modify spectral rule to look only at schemas ([#719](https://github.com/IBM/openapi-validator/issues/719)) ([4517084](https://github.com/IBM/openapi-validator/commit/45170841f8469b227b700996283dfdee1e842ea3))
+
 ## @ibm-cloud/openapi-ruleset [1.28.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.2...@ibm-cloud/openapi-ruleset@1.28.3) (2025-01-24)
 
 
