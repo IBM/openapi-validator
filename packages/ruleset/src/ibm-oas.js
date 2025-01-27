@@ -62,8 +62,9 @@ module.exports = {
     'path-not-include-query': true,
     // Enable with same severity as Spectral
     'no-$ref-siblings': true,
-    // Enable with same severity as Spectral
-    'typed-enum': true,
+    // Enable with same settings as Spectral, but override the rule to modify
+    // the 'given' field to only check schemas - Spectral checks everything.
+    'typed-enum': ibmRules.typedEnum,
     // Enable with same severity as Spectral
     'oas2-api-host': true,
     // Enable with same severity as Spectral

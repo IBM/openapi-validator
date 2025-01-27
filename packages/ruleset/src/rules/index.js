@@ -87,6 +87,7 @@ module.exports = {
   serverVariableDefaultValue: require('./server-variable-default-value'),
   stringAttributes: require('./string-attributes'),
   summarySentenceStyle: require('./summary-sentence-style'),
+  typedEnum: require('./typed-enum'),
   unevaluatedProperties: require('./unevaluated-properties'),
   unusedTags: require('./unused-tags'),
   uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
