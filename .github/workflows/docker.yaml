@@ -7,16 +7,27 @@ name: Docker Deploy
 
 on:
   release:
-    types: [created]
+    types:
+      - published
   workflow_dispatch:
     # Allow this workflow to be triggered manually
 
 jobs:
   deploy-docker-image:
+    # We want to trigger this job ONLY for a published release
+    # related to the "ibm-openapi-validator" package.
+    if: "contains(github.ref_name, 'ibm-openapi-validator')"
     name: Deploy image
     runs-on: ubuntu-latest
  
     steps:
+      # Display some info about the build for debugging purposes.
+      - name: Trigger info
+        run: |
+          echo "Build triggered by event: " ${{ github.event_name }}
+          echo "                 git ref: " ${{ github.ref }}
+          echo "            git ref_name: " ${{ github.ref_name }}
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
