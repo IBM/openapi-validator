@@ -1,6 +1,6 @@
-# Automated Qualitative Screening
+# Automated Quality Screening
 
-The validator provides Automated Qualitative Screening (AQS) scores via the `-q` (or
+The validator provides Automated Quality Screening (AQS) scores via the `-q` (or
 `--impact-score`) flag. These scores help you evaluate risk and make decisions about investing in
 the quality of your service's API. AQS scores are not a substitute for expert review, but minimum
 AQS scores may be a prerequisite to a review.
