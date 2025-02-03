@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2017 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -95,8 +95,8 @@ module.exports = {
     'oas3-server-trailing-slash': true,
     // Enable with warn severity
     'oas3-valid-media-example': 'warn',
-    // Enable with warn severity
-    'oas3-valid-schema-example': 'warn',
+    // Disable - replaced with ibm-valid-schema-example.
+    'oas3-valid-schema-example': 'off',
     // Enable with same severity as Spectral
     'oas3-schema': true,
     // Turn off - duplicates non-configurable validation in base validator
@@ -200,6 +200,7 @@ module.exports = {
       ibmRules.uniqueParameterRequestPropertyNames,
     'ibm-use-date-based-format': ibmRules.useDateBasedFormat,
     'ibm-valid-path-segments': ibmRules.validPathSegments,
+    'ibm-valid-schema-example': ibmRules.validSchemaExample,
     'ibm-well-defined-dictionaries': ibmRules.wellDefinedDictionaries,
   },
 };

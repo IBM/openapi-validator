@@ -116,6 +116,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-unique-parameter-request-property-names](#ibm-unique-parameter-request-property-names)
   * [ibm-use-date-based-format](#ibm-use-date-based-format)
   * [ibm-valid-path-segments](#ibm-valid-path-segments)
+  * [ibm-valid-schema-example](#ibm-valid-schema-example)
   * [ibm-well-defined-dictionaries](#ibm-well-defined-dictionaries)
 
 <!-- tocstop -->
@@ -685,6 +686,12 @@ specific "allow-listed" keywords.</td>
 <td><a href="#ibm-valid-path-segments">ibm-valid-path-segments</a></td>
 <td>error</td>
 <td>Checks each path string in the API to make sure path parameter references are valid within path segments.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-valid-schema-example">ibm-valid-schema-example</a></td>
+<td>warning</td>
+<td>Checks each individual schema example to ensure compliance with the schema.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -7315,6 +7322,54 @@ paths:
 </td>
 </tr>
 </table>
+
+
+### ibm-valid-schema-example
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-valid-schema-example</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule validates each unique schema and ensures that any example(s) defined
+is a valid instance of that schema.
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warning</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      type: string
+      example: 42
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:</b></td>
+<td>
+<pre>
+components:
+  schemas:
+    Foo:
+      type: string
+      example: 'value'
+</pre>
+</td>
+</tr>
+</table>
+
 
 ### ibm-well-defined-dictionaries
 <table>
