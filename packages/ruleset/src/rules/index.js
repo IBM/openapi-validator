@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2017 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -93,5 +93,6 @@ module.exports = {
   uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
   useDateBasedFormat: require('./use-date-based-format'),
   validPathSegments: require('./valid-path-segments'),
+  validSchemaExample: require('./valid-schema-example'),
   wellDefinedDictionaries: require('./well-defined-dictionaries'),
 };

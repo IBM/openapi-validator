@@ -435,6 +435,11 @@ module.exports = {
     denominator: 'operations',
     categories: ['usability'],
   },
+  'ibm-valid-schema-example': {
+    coefficient: 3,
+    denominator: 'schemas',
+    categories: ['usability'],
+  },
   'ibm-well-defined-dictionaries': {
     coefficient: 30,
     denominator: 'operations',

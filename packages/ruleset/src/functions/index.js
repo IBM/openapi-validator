@@ -80,5 +80,6 @@ module.exports = {
   unusedTags: require('./unused-tags'),
   useDateBasedFormat: require('./use-date-based-format'),
   validatePathSegments: require('./valid-path-segments'),
+  validSchemaExample: require('./valid-schema-example'),
   wellDefinedDictionaries: require('./well-defined-dictionaries'),
 };
