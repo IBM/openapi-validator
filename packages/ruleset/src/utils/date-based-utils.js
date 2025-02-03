@@ -122,7 +122,9 @@ function isDateBasedValue(value) {
     /\b(0?[1-9]|1[012])[./-]([012]?[1-9]|3[01])[./-]\d{4}\b/,
 
     // Includes time in the format (T)tt:tt:tt (where t can be s/m/h/etc.)
-    /(\b|T)\d\d:\d\d:\d\d\b/,
+    // In this case, don't consider a colon character a word break, to avoid
+    // matching non-time, colon-separated values like MAC addresses.
+    /(\b|T)\d\d:\d\d:\d\d(\b[^:])/,
   ];
 
   return regularExpressions.some(r => r.test(value));
