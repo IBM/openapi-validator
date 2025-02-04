@@ -1,3 +1,16 @@
+# @ibm-cloud/openapi-ruleset [1.29.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.4...@ibm-cloud/openapi-ruleset@1.29.0) (2025-02-04)
+
+
+### Bug Fixes
+
+* **ibm-use-date-based-format:** avoid false positives for mac addresses ([#723](https://github.com/IBM/openapi-validator/issues/723)) ([357dfb2](https://github.com/IBM/openapi-validator/commit/357dfb22cd2a4b27b0cbb08101e7048302bd1005))
+* **ibm-use-date-based-format:** handle null example values ([#724](https://github.com/IBM/openapi-validator/issues/724)) ([e096b12](https://github.com/IBM/openapi-validator/commit/e096b12b691049364d2e8fd6b7ee71018aacde10))
+
+
+### Features
+
+* **ibm-valid-schema-example:** introduce new validation rule ([d2f8071](https://github.com/IBM/openapi-validator/commit/d2f8071c95edd81aebdbefab33d1423cde970873))
+
 ## @ibm-cloud/openapi-ruleset [1.28.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.3...@ibm-cloud/openapi-ruleset@1.28.4) (2025-01-27)
 
 
