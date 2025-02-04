@@ -35,6 +35,8 @@ describe('Date-based utility functions', () => {
       expect(isDateBasedValue('0001-01-2000')).toBe(false);
       expect(isDateBasedValue('10.1.24.1')).toBe(false);
       expect(isDateBasedValue('10.1.255.1')).toBe(false);
+      expect(isDateBasedValue('02:00:04:00:C4:6A')).toBe(false);
+      expect(isDateBasedValue('02:00:04:00:03:00')).toBe(false);
       expect(isDateBasedValue(undefined)).toBe(false);
       expect(isDateBasedValue(null)).toBe(false);
       expect(isDateBasedValue(42)).toBe(false);
