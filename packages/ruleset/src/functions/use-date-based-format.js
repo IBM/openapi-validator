@@ -147,7 +147,10 @@ function checkForDateBasedFormat(s, p, apidef) {
     // order the schemas are checked in (the logic may look at more examples
     // for one instance of a property than another, arbitrarily) and we don't
     // make a guarantee that order will be stable in `validateNestedSchemas`.
-    examples[logicalPath.join('.')] = [...schemaExamples, ...parentalExamples];
+    examples[logicalPath.join('.')] = [
+      ...schemaExamples,
+      ...parentalExamples,
+    ].filter(e => e !== null); // Null values are technically allowed - don't keep them.
 
     // Perform the validation using the first value example value found for the
     // schema at this logical path.

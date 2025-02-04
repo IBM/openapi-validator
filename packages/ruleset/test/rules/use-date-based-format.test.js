@@ -206,6 +206,40 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('date/time dictionary with null example', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Movie.properties.changes = {
+        type: 'object',
+        example: {
+          issues: [
+            {
+              metadata: null,
+            },
+          ],
+        },
+        properties: {
+          issues: {
+            type: 'array',
+            items: {
+              type: 'object',
+              properties: {
+                metadata: {
+                  type: 'object',
+                  additionalProperties: {
+                    type: 'string',
+                    format: 'date-time',
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     it('primitive date/time oneOf schema with example', async () => {
       const testDocument = makeCopy(rootDocument);
       testDocument.components.schemas.Movie.properties.first_completed = {
