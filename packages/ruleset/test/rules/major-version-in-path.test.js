@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2017 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -60,6 +60,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
       },
     ];
+
+    const results = await testRule(ruleId, rule, testDocument);
+
+    expect(results).toHaveLength(0);
+  });
+
+  it('should not error when there are no paths', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths = {};
 
     const results = await testRule(ruleId, rule, testDocument);
 

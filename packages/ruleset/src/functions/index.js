@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2017 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -13,7 +13,6 @@ module.exports = {
   arrayResponses: require('./array-responses'),
   avoidMultipleTypes: require('./avoid-multiple-types'),
   binarySchemas: require('./binary-schemas'),
-  checkMajorVersion: require('./check-major-version'),
   circularRefs: require('./circular-refs'),
   collectionArrayProperty: require('./collection-array-property'),
   consecutivePathSegments: require('./consecutive-path-segments'),
@@ -26,6 +25,7 @@ module.exports = {
   etagHeaderExists: require('./etag-header-exists'),
   inlineSchemas: require('./inline-schemas'),
   integerAttributes: require('./integer-attributes'),
+  majorVersionInPath: require('./major-version-in-path'),
   mergePatchProperties: require('./merge-patch-properties'),
   noAmbiguousPaths: require('./no-ambiguous-paths'),
   noNullableProperties: require('./no-nullable-properties'),

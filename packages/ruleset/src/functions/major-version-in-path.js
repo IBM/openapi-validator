@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -99,6 +99,13 @@ function checkMajorVersion(apiDef) {
   const paths = apiDef['paths'];
   if (paths && typeof paths === 'object') {
     const urls = Object.keys(paths);
+
+    if (!urls.length) {
+      logger.debug(`${ruleId}: no path strings to check - "paths" is empty`);
+
+      return [];
+    }
+
     const versions = urls.map(url => getVersion(url));
 
     if (versions.length > 1 && !versions.every(v => v === versions[0])) {
