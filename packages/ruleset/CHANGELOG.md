@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.29.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.29.0...@ibm-cloud/openapi-ruleset@1.29.1) (2025-02-07)
+
+
+### Bug Fixes
+
+* **ibm-major-version-in-path:** skip path checks if there are no paths ([#727](https://github.com/IBM/openapi-validator/issues/727)) ([c539741](https://github.com/IBM/openapi-validator/commit/c53974199df15c263f91d7fc586a7cd437f66b8e))
+
 # @ibm-cloud/openapi-ruleset [1.29.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.28.4...@ibm-cloud/openapi-ruleset@1.29.0) (2025-02-04)
 
 
