@@ -6874,7 +6874,7 @@ fields in order to clearly define the set of valid values for the property.
 <li>The check for the <code>maxLength</code> field is bypassed if <code>format</code> is set to <code>date</code>.</li>
 </ul>
 <p>This rule also checks non-string schema properties to make sure they do not define the
-code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields since these fields are applicable
+<code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields since these fields are applicable
 only for string schemas.
 </td>
 </tr>
