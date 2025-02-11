@@ -31,8 +31,8 @@
     "coverageDirectory": "./coverage/",
     "testEnvironment": "node",
     "moduleNameMapper": {
-      "nimma/legacy": "<rootDir>/../../node_modules/nimma/dist/legacy/cjs",
-      "nimma/fallbacks": "<rootDir>/../../node_modules/nimma/dist/cjs/fallbacks/"
+      "nimma/legacy": "<rootDir>/../../node_modules/@stoplight/spectral-core/node_modules/nimma/dist/legacy/cjs",
+      "nimma/fallbacks": "<rootDir>/../../node_modules/@stoplight/spectral-core/node_modules/nimma/dist/legacy/cjs/fallbacks/"
     }
   }
 }
