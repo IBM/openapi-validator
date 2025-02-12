@@ -1,3 +1,19 @@
+## ibm-openapi-validator [1.33.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.33.1...ibm-openapi-validator@1.33.2) (2025-02-12)
+
+
+### Bug Fixes
+
+* **build:** add override for jsonpath-plus to avoid CVE ([#729](https://github.com/IBM/openapi-validator/issues/729)) ([ef4f34d](https://github.com/IBM/openapi-validator/commit/ef4f34d6c7ef03c120994c7d446dd1694d1d0c72))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.29.2
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.7.1
+
 ## ibm-openapi-validator [1.33.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.33.0...ibm-openapi-validator@1.33.1) (2025-02-07)
 
 
