@@ -43,9 +43,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('requestBody.required explicitly false', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.components.requestBodies[
-        'UpdateCarRequest'
-      ].required = false;
+      testDocument.components.requestBodies['UpdateCarRequest'].required =
+        false;
       testDocument.components.schemas['CarPatch'].required = ['make', 'model'];
 
       const results = await testRule(ruleId, rule, testDocument);

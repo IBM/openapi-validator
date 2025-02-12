@@ -59,8 +59,8 @@
     "coverageDirectory": "./coverage/",
     "testEnvironment": "node",
     "moduleNameMapper": {
-      "nimma/legacy": "<rootDir>/../../node_modules/nimma/dist/legacy/cjs",
-      "nimma/fallbacks": "<rootDir>/../../node_modules/nimma/dist/cjs/fallbacks/",
+      "nimma/legacy": "<rootDir>/../../node_modules/@stoplight/spectral-core/node_modules/nimma/dist/legacy/cjs",
+      "nimma/fallbacks": "<rootDir>/../../node_modules/@stoplight/spectral-core/node_modules/nimma/dist/legacy/cjs/fallbacks/",
       "@stoplight/spectral-ruleset-bundler/presets/node": "<rootDir>/../../node_modules/@stoplight/spectral-ruleset-bundler/dist/presets/node",
       "@stoplight/spectral-ruleset-bundler/plugins/stdin": "<rootDir>/../../node_modules/@stoplight/spectral-ruleset-bundler/dist/plugins/stdin",
       "@stoplight/spectral-ruleset-bundler/plugins/builtins": "<rootDir>/../../node_modules/@stoplight/spectral-ruleset-bundler/dist/plugins/builtins",
