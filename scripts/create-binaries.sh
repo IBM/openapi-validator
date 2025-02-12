@@ -24,7 +24,7 @@ if [[ -e "../ruleset/node_modules/@ibm-cloud" ]]; then
 fi
 
 # Create the executables
-../../node_modules/.bin/pkg --out-path=./bin ./package.json
+../../node_modules/.bin/pkg --out-path=./bin -t node18-linux,node18-win,node18-macos ./package.json
 
 # Rename the executables and set their execute bit.
 cd ./bin
