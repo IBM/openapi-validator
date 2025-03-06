@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "ansi-regex": "^5.0.1",
-    "jest": "^27.4.5",
+    "jest": "^29.7.0",
     "pkg": "^5.8.1"
   },
   "bin": {

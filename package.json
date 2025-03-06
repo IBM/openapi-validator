@@ -38,7 +38,7 @@
     "eslint": "^8.41.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^5.0.1",
-    "jest": "^27.4.5",
+    "jest": "^29.7.0",
     "jsdoc": "^4.0.4",
     "mustache": "^4.2.0",
     "semantic-release": "^21.0.7"
@@ -46,7 +46,7 @@
   "overrides": {
     "proxy-agent": "^6.3.0",
     "micromatch": "^4.0.8",
-    "jsonpath-plus": "^10.2.0",
+    "jsonpath-plus": "^10.3.0",
     "rollup": "2.79.2"
   }
 }
