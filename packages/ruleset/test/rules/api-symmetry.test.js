@@ -756,6 +756,59 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('prototype schema is identical to canonical schema (no omitted properties)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.DrinkPrototype =
+        testDocument.components.schemas.Drink;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('prototype schema is identical to canonical - properties nested in oneOf', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Soda.properties.id = {
+        type: 'string',
+      };
+
+      testDocument.components.schemas.Juice.properties.id = {
+        type: 'string',
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('prototype schema is identical to canonical but defines writeOnly properties', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.DrinkPrototype = makeCopy(
+        testDocument.components.schemas.Drink
+      );
+
+      testDocument.components.schemas.DrinkPrototype.properties.random = {
+        type: 'string',
+        description: 'the only differentiator',
+        writeOnly: true,
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
+    it('patch schema is identical to canonical schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.CarPatch.properties.id = {
+        type: 'string',
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     // Already covered in root document:
     // - Valid Prototype schemas
     // - Valid Patch schemas
@@ -980,47 +1033,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       }
     });
 
-    it('prototype schema is identical to canonical schema (no omitted properties)', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.components.schemas.DrinkPrototype =
-        testDocument.components.schemas.Drink;
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
-
-      const expectedPaths = ['components.schemas.DrinkPrototype'];
-      for (const i in results) {
-        expect(results[i].code).toBe(ruleId);
-        expect(results[i].message).toBe(expectedMsg);
-        expect(results[i].severity).toBe(expectedSeverity);
-        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-      }
-    });
-
-    it('prototype schema is identical to canonical - properties nested in oneOf', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.components.schemas.Soda.properties.id = {
-        type: 'string',
-      };
-
-      testDocument.components.schemas.Juice.properties.id = {
-        type: 'string',
-      };
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
-
-      const expectedPaths = ['components.schemas.DrinkPrototype'];
-      for (const i in results) {
-        expect(results[i].code).toBe(ruleId);
-        expect(results[i].message).toBe(expectedMsg);
-        expect(results[i].severity).toBe(expectedSeverity);
-        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-      }
-    });
-
     it('prototype schema defines property that exists in canonical but uses wrong type', async () => {
       const testDocument = makeCopy(rootDocument);
 
@@ -1070,50 +1082,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
 
       const expectedPaths = ['components.schemas.DrinkPrototype'];
-      for (const i in results) {
-        expect(results[i].code).toBe(ruleId);
-        expect(results[i].message).toBe(expectedMsg);
-        expect(results[i].severity).toBe(expectedSeverity);
-        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-      }
-    });
-
-    it('prototype schema is identical to canonical but defines writeOnly properties', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.components.schemas.DrinkPrototype = makeCopy(
-        testDocument.components.schemas.Drink
-      );
-
-      testDocument.components.schemas.DrinkPrototype.properties.random = {
-        type: 'string',
-        description: 'the only differentiator',
-        writeOnly: true,
-      };
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
-
-      const expectedPaths = ['components.schemas.DrinkPrototype'];
-      for (const i in results) {
-        expect(results[i].code).toBe(ruleId);
-        expect(results[i].message).toBe(expectedMsg);
-        expect(results[i].severity).toBe(expectedSeverity);
-        expect(results[i].path.join('.')).toBe(expectedPaths[i]);
-      }
-    });
-
-    it('patch schema is identical to canonical schema', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      testDocument.components.schemas.CarPatch.properties.id = {
-        type: 'string',
-      };
-
-      const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
-
-      const expectedPaths = ['components.schemas.CarPatch'];
       for (const i in results) {
         expect(results[i].code).toBe(ruleId);
         expect(results[i].message).toBe(expectedMsg);

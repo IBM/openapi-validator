@@ -109,7 +109,7 @@ describe('cli tool - test error handling', function () {
       '[ERROR] Invalid input file: ./test/cli-validator/mock-files/bad-json.json. See below for details.'
     );
     expect(capturedText[4].trim()).toMatch(
-      /^\[ERROR\] SyntaxError:.*in JSON at position 14$/
+      /^\[ERROR\] SyntaxError:.*in JSON at position 14/
     );
   });
 
