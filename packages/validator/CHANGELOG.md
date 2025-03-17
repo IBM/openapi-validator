@@ -1,3 +1,18 @@
+## ibm-openapi-validator [1.33.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.33.2...ibm-openapi-validator@1.33.3) (2025-03-17)
+
+
+### Bug Fixes
+
+* **ibm-api-symmetry:** loosen definition of graph fragment pattern ([#732](https://github.com/IBM/openapi-validator/issues/732)) ([018c2ca](https://github.com/IBM/openapi-validator/commit/018c2ca591bcda308db5b0f9cb7ea113713c677a))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.29.3
+
 ## ibm-openapi-validator [1.33.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.33.1...ibm-openapi-validator@1.33.2) (2025-02-12)
 
 
