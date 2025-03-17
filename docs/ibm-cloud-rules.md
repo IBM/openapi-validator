@@ -1014,7 +1014,7 @@ components:
 <tr>
 <td valign=top><b>Description:</b></td>
 <td>
-Each resource-representing schema should follow the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas">IBM Cloud API Handbook schema structure conventions</a>. Specifically, this rule ensures that Summary, Prototype, and Patch schemas are proper graph fragments of the canonical schema they are variants of. According to the Handbook, "a graph fragment schema has the same structure as its canonical schema with some properties omitted from the schema or from any nested object schemas."
+Each resource-representing schema should follow the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas">IBM Cloud API Handbook schema structure conventions</a>. Specifically, this rule ensures that Summary, Prototype, and Patch schemas are proper graph fragments of the canonical schema they are variants of. According to the Handbook, "a graph fragment schema has the same structure as its canonical schema, but may omit one or more properties from the schema or from any nested object schemas."
 
 This convention ensures that resource-oriented APIs are symmetrical between requests and responses in how resources are represented.
 
