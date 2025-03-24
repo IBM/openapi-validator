@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.29.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.29.3...@ibm-cloud/openapi-ruleset@1.29.4) (2025-03-24)
+
+
+### Bug Fixes
+
+* **ibm-api-symmetry:** handle dependencies between canonical and reference schemas ([#733](https://github.com/IBM/openapi-validator/issues/733)) ([29ef3c7](https://github.com/IBM/openapi-validator/commit/29ef3c7779d718a084e0832556e40800b11b9d67))
+
 ## @ibm-cloud/openapi-ruleset [1.29.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.29.2...@ibm-cloud/openapi-ruleset@1.29.3) (2025-03-17)
 
 
