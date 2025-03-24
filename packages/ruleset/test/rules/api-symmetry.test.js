@@ -809,6 +809,49 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('canonical schema contains nested reference to reference schema', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Actor = {
+        type: 'object',
+        allOf: [
+          { $ref: '#/components/schemas/ActorReference' },
+          {
+            properties: {
+              name: { type: 'string' },
+              gender: { type: 'string' },
+              age: { type: 'integer' },
+            },
+          },
+        ],
+      };
+      testDocument.components.schemas.ActorReference = {
+        type: 'object',
+        properties: {
+          id: { type: 'string' },
+        },
+      };
+      testDocument.components.schemas.ActorPrototype = {
+        type: 'object',
+        properties: {
+          name: { type: 'string' },
+          gender: { type: 'string' },
+          age: { type: 'integer' },
+        },
+      };
+
+      testDocument.components.schemas.Movie.properties.lead_role = {
+        $ref: '#/components/schemas/Actor',
+      };
+
+      testDocument.components.schemas.MoviePrototype.properties.lead_role = {
+        $ref: '#/components/schemas/ActorPrototype',
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     // Already covered in root document:
     // - Valid Prototype schemas
     // - Valid Patch schemas
