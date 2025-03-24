@@ -7,6 +7,7 @@ const {
   getSchemaType,
   isObject,
   isArraySchema,
+  validateSubschemas,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const {
@@ -403,16 +404,33 @@ function canonicalSchemaMeetsConstraint(
   // If we find the canonical schema, use it for the current function invocation,
   // otherwise proceed as usual.
   if (
-    schemaName &&
-    schemaName.endsWith('Reference') &&
+    schemaName?.endsWith('Reference') &&
     schemaFinder.allSchemas[schemaName.slice(0, -9)]
   ) {
     const canonicalVersion = schemaName.slice(0, -9);
-    logger.debug(
-      `replacing reference schema ${schemaName} with canonical version ${canonicalVersion}`
-    );
-    schema = schemaFinder.allSchemas[canonicalVersion];
-    path = ['components', 'schemas', canonicalVersion];
+    const canonicalSchema = schemaFinder.allSchemas[canonicalVersion];
+    const canonicalPath = ['components', 'schemas', canonicalVersion];
+
+    if (
+      canonicalIncludesReference(
+        canonicalSchema,
+        canonicalPath,
+        schemaName,
+        schemaFinder
+      )
+    ) {
+      logger.info(
+        `Canonical schema ${canonicalVersion} contains a nested reference to ${
+          schemaName
+        }, so it will not be used as a replacement. This may produce unintended behavior.`
+      );
+    } else {
+      logger.debug(
+        `replacing reference schema ${schemaName} with canonical version ${canonicalVersion}`
+      );
+      schema = canonicalSchema;
+      path = canonicalPath;
+    }
   }
 
   if (hasConstraint(schema, path)) {
@@ -439,4 +457,27 @@ function canonicalSchemaMeetsConstraint(
   }
 
   return false;
+}
+
+// If a canonical schemas includes a nested reference to its corresponding
+// reference schema, the reference resolution logic will infinitely loop.
+// This is a helper function for detecting that scenario ahead of time.
+function canonicalIncludesReference(
+  schema,
+  path,
+  referenceSchemaName,
+  schemaFinder
+) {
+  // This utilizes the robust logic in validateSubschemas for recursively
+  // looking through schemas, albeit in an unconventional way. The callback
+  // must return an array, but we don't care about returning information here,
+  // so we treat the presence of any value in the array as a "true" result.
+  const instances = validateSubschemas(schema, path, (_, p) =>
+    getSchemaNameAtPath(p.join('.'), schemaFinder.refMap) ===
+    referenceSchemaName
+      ? [true]
+      : []
+  );
+
+  return !!instances.length;
 }
