@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+  // -- START INDEX --
   acceptAndReturnModels: require('./accept-and-return-models'),
   allowedKeywords: require('./allowed-keywords'),
   anchoredPatterns: require('./anchored-patterns'),
@@ -79,7 +80,8 @@ module.exports = {
   uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
   unusedTags: require('./unused-tags'),
   useDateBasedFormat: require('./use-date-based-format'),
-  validatePathSegments: require('./valid-path-segments'),
   validSchemaExample: require('./valid-schema-example'),
+  validatePathSegments: require('./valid-path-segments'),
   wellDefinedDictionaries: require('./well-defined-dictionaries'),
+  // -- END INDEX --
 };
