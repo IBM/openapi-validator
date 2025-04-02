@@ -4,6 +4,7 @@
  */
 
 module.exports = {
+  // -- START INDEX --
   acceptAndReturnModels: require('./accept-and-return-models'),
   acceptHeader: require('./accept-header'),
   anchoredPatterns: require('./anchored-patterns'),
@@ -23,10 +24,10 @@ module.exports = {
   deleteBody: require('./delete-body'),
   discriminatorPropertyExists: require('./discriminator-property-exists'),
   duplicatePathParameter: require('./duplicate-path-parameter'),
-  etagHeaderExists: require('./etag-header-exists'),
   enumCasingConvention: require('./enum-casing-convention'),
   errorContentTypeIsJson: require('./error-content-type-is-json'),
   errorResponseSchemas: require('./error-response-schemas'),
+  etagHeaderExists: require('./etag-header-exists'),
   examplesNameContainsSpace: require('./examples-name-contains-space'),
   ibmSdkOperations: require('./ibm-sdk-operations'),
   ifModifiedSinceHeader: require('./if-modified-since-header'),
@@ -82,17 +83,18 @@ module.exports = {
   schemaNamingConvention: require('./schema-naming-convention'),
   schemaTypeExists: require('./schema-type-exists'),
   schemaTypeFormat: require('./schema-type-format'),
-  securitySchemes: require('./securityschemes'),
   securitySchemeAttributes: require('./securityscheme-attributes'),
+  securitySchemes: require('./securityschemes'),
   serverVariableDefaultValue: require('./server-variable-default-value'),
   stringAttributes: require('./string-attributes'),
   summarySentenceStyle: require('./summary-sentence-style'),
   typedEnum: require('./typed-enum'),
   unevaluatedProperties: require('./unevaluated-properties'),
-  unusedTags: require('./unused-tags'),
   uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
+  unusedTags: require('./unused-tags'),
   useDateBasedFormat: require('./use-date-based-format'),
   validPathSegments: require('./valid-path-segments'),
   validSchemaExample: require('./valid-schema-example'),
   wellDefinedDictionaries: require('./well-defined-dictionaries'),
+  // -- END INDEX --
 };

@@ -104,7 +104,7 @@ module.exports = {
     // Turn off 'array-items' rule in favor of our 'ibm-array-attributes' rule
     'array-items': 'off',
 
-    // IBM Custom Rules
+    // -- START INDEX --
     'ibm-accept-and-return-models': ibmRules.acceptAndReturnModels,
     'ibm-anchored-patterns': ibmRules.anchoredPatterns,
     'ibm-api-symmetry': ibmRules.apiSymmetry,
@@ -202,5 +202,6 @@ module.exports = {
     'ibm-valid-path-segments': ibmRules.validPathSegments,
     'ibm-valid-schema-example': ibmRules.validSchemaExample,
     'ibm-well-defined-dictionaries': ibmRules.wellDefinedDictionaries,
+    // -- END INDEX --
   },
 };

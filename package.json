@@ -29,9 +29,11 @@
     "unlink": "npm run unlink --workspace packages/validator",
     "all": "npm run test && npm run lint",
     "format-readme-toc": "npx -y markdown-toc --maxdepth 5 -i README.md",
-    "generate-utilities-docs": "scripts/generate-utilities-docs.js"
+    "generate-utilities-docs": "scripts/generate-utilities-docs.js",
+    "add-rule": "scripts/add-rule.js && npm run fix"
   },
   "devDependencies": {
+    "@inquirer/prompts": "^7.4.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
     "@semantic-release/npm": "^10.0.4",
