@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset-utilities [1.8.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.7.1...@ibm-cloud/openapi-ruleset-utilities@1.8.0) (2025-04-07)
+
+
+### Features
+
+* add helpers to extract processed api from spectral context ([47d3841](https://github.com/IBM/openapi-validator/commit/47d38410c78cc36cee3fc40b6f988fefaa706ead))
+
 ## @ibm-cloud/openapi-ruleset-utilities [1.7.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.7.0...@ibm-cloud/openapi-ruleset-utilities@1.7.1) (2025-02-12)
 
 
