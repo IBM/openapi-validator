@@ -354,6 +354,39 @@ for OpenAPI documents where a `required` property is not defined under the `prop
 
 #### Returns `boolean`
 
+### `getResolvedSpec(context)`
+
+Returns the programmatic representation of an OpenAPI document, stored in the
+Spectral-created "context" object, with all non-circular references resolved.
+
+#### Parameters
+
+- **`context`** `<object>`: passed as an argument to Spectral-based rule functions
+
+#### Returns `object`: the resolved version of an OpenAPI document
+
+### `getUnresolvedSpec(context)`
+
+Returns the programmatic representation of an OpenAPI document, stored in
+the Spectral-created "context" object, with all references still intact.
+
+#### Parameters
+
+- **`context`** `<object>`: passed as an argument to Spectral-based rule functions
+
+#### Returns `object`: the unresolved version of an OpenAPI document
+
+### `getNodes(context)`
+
+Returns the graph nodes, with information about references and the locations
+they resolve to, that are computed by the Spectral resolver.
+
+#### Parameters
+
+- **`context`** `<object>`: passed as an argument to Spectral-based rule functions
+
+#### Returns `object`: the graph nodes
+
 ### `validateComposedSchemas(schema, path, validate, includeSelf, includeNot)`
 
 Performs validation on a schema and all of its composed schemas.

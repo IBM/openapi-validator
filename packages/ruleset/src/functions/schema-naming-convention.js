@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { schemaHasProperty } = require('@ibm-cloud/openapi-ruleset-utilities');
+const {
+  schemaHasProperty,
+  getNodes,
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const {
   LoggerFactory,
@@ -40,7 +43,7 @@ module.exports = function schemaNames(apidef, options, context) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
-  return checkSchemaNames(apidef, context.documentInventory.graph.nodes);
+  return checkSchemaNames(apidef, getNodes(context));
 };
 
 /**

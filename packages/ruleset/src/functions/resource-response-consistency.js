@@ -4,7 +4,11 @@
  */
 
 const { isEqual } = require('lodash');
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
+const {
+  isObject,
+  getResolvedSpec,
+  getNodes,
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 const {
   computeRefsAtPaths,
   getResourceSpecificSiblingPath,
@@ -29,8 +33,8 @@ module.exports = function (operation, _opts, context) {
   return resourceResponseConsistency(
     operation,
     context.path,
-    context.documentInventory.resolved,
-    context.documentInventory.graph.nodes
+    getResolvedSpec(context),
+    getNodes(context)
   );
 };
 

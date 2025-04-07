@@ -4,17 +4,23 @@
  */
 
 const { validate } = require('jsonschema');
-const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
+const {
+  validateSubschemas,
+  getResolvedSpec,
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
+let openapi;
 
 module.exports = function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
+
+  openapi = getResolvedSpec(context);
 
   return validateSubschemas(schema, context.path, checkSchemaExamples);
 };
@@ -50,10 +56,21 @@ function checkSchemaExamples(schema, path) {
 function validateExamples(examples) {
   return examples
     .map(({ schema, example, path }) => {
+      // If the spec includes circular references, there may be unresolved
+      // references in the schema. The JSON Schema validator needs to be
+      // able to look those up, so include all of the components in the schema.
+      const schemaWithComponents = {
+        ...schema,
+        components: openapi.components,
+      };
+
       // Setting required: true prevents undefined values from passing validation.
-      const { valid, errors } = validate(example, schema, { required: true });
+      const { valid, errors } = validate(example, schemaWithComponents, {
+        required: true,
+      });
+
       if (!valid) {
-        const message = getMessage(errors, example, schema);
+        const message = getMessage(errors, example, schemaWithComponents);
         return {
           message: `Schema example is not valid: ${message}`,
           path,

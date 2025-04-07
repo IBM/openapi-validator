@@ -7,6 +7,7 @@ const {
   schemaHasConstraint,
   isArraySchema,
   isObject,
+  getUnresolvedSpec,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 const { LoggerFactory } = require('../utils');
 
@@ -21,7 +22,7 @@ module.exports = function (schema, _opts, context) {
   return collectionArrayProperty(
     schema,
     context.path,
-    context.document.parserResult.data
+    getUnresolvedSpec(context)
   );
 };
 

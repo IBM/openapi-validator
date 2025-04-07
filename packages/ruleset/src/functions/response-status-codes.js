@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const { getResolvedSpec } = require('@ibm-cloud/openapi-ruleset-utilities');
 const {
   LoggerFactory,
   isCreateOperation,
@@ -21,11 +22,7 @@ module.exports = function (operation, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
-  return responseStatusCodes(
-    operation,
-    context.path,
-    context.documentInventory.resolved
-  );
+  return responseStatusCodes(operation, context.path, getResolvedSpec(context));
 };
 
 /**

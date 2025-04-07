@@ -4,6 +4,7 @@
  */
 
 const {
+  getNodes,
   getSchemaType,
   isObject,
   isArraySchema,
@@ -46,7 +47,7 @@ module.exports = function apiSymmetry(apidef, options, context) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
-  return checkApiForSymmetry(apidef, context.documentInventory.graph.nodes);
+  return checkApiForSymmetry(apidef, getNodes(context));
 };
 
 /**

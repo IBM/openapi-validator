@@ -22,6 +22,39 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Schema with valid example contains a circular reference', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.prop = {
+        type: 'object',
+        required: ['some_prop'],
+        examples: [
+          {
+            some_prop: 'example',
+            other_prop: 'example',
+            inspiration: {
+              id: '1234',
+              name: 'Good Will Hunting',
+            },
+          },
+        ],
+        properties: {
+          inspiration: {
+            $ref: '#/components/schemas/Movie',
+          },
+          some_prop: {
+            type: 'string',
+          },
+          other_prop: {
+            type: 'string',
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
@@ -428,6 +461,43 @@ describe(`Spectral rule: ${ruleId}`, () => {
         );
         expect(results[i].severity).toBe(expectedSeverity);
         expect(results[i].path.join('.')).toBe(expectedExamplePaths[i]);
+      }
+    });
+
+    it('Schema contains a circular reference', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.components.schemas.Movie.properties.prop = {
+        type: 'object',
+        required: ['some_prop'],
+        examples: [
+          {
+            other_prop: 'example',
+          },
+        ],
+        properties: {
+          inspiration: {
+            $ref: '#/components/schemas/Movie',
+          },
+          some_prop: {
+            type: 'string',
+          },
+          other_prop: {
+            type: 'string',
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(4);
+
+      for (const i in results) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(
+          `${expectedMsgPrefix} requires property "some_prop"`
+        );
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedExamplesPaths[i]);
       }
     });
   });
