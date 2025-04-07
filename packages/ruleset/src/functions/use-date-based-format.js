@@ -11,6 +11,7 @@ const {
   isObject,
   isStringSchema,
   validateNestedSchemas,
+  getResolvedSpec,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
 
 const {
@@ -48,7 +49,7 @@ module.exports = function (schema, _opts, context) {
   return checkForDateBasedFormat(
     schema,
     context.path,
-    context.documentInventory.resolved
+    getResolvedSpec(context)
   );
 };
 

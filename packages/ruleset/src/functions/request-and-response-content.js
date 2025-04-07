@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
+const {
+  isObject,
+  getResolvedSpec,
+} = require('@ibm-cloud/openapi-ruleset-utilities');
 const {
   LoggerFactory,
   pathHasMinimallyRepresentedResource,
@@ -29,11 +32,7 @@ module.exports = function requestAndResponseContent(
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
-  return checkForContent(
-    operation,
-    context.path,
-    context.documentInventory.resolved
-  );
+  return checkForContent(operation, context.path, getResolvedSpec(context));
 };
 
 /**
