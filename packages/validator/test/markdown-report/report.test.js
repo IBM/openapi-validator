@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2024 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -18,7 +18,7 @@ describe('getReport tests', function () {
     // Check all subtitle-level headers.
     const headers = report
       .split('\n')
-      .filter(l => l.startsWith('##'))
+      .filter(l => l.startsWith('## '))
       .map(l => l.slice(3));
     expect(headers).toEqual([
       'Quick view',

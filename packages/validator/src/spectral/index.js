@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2017 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -14,6 +14,7 @@ const {
   checkRulesetVersion,
   getFileExtension,
   getLocalRulesetVersion,
+  parseViolationMessage,
 } = require('../cli-validator/utils');
 
 const { findSpectralRuleset } = require('./utils');
@@ -91,7 +92,7 @@ function convertResults(spectralResults, { config, logger }) {
     });
 
     // compute a generalized message for the summary
-    const genMessage = r.message.split(':')[0];
+    const genMessage = parseViolationMessage(r.message)[0];
     if (!summaryHelper[severity][genMessage]) {
       summaryHelper[severity][genMessage] = 0;
     }
