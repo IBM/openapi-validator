@@ -1,28 +1,26 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2024 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
 const MarkdownTable = require('../markdown-table');
 
-function getTable({ error, warning }) {
-  const table = new MarkdownTable(
-    'Rule',
-    'Message',
-    'Path',
-    'Line',
-    'Severity'
-  );
+function getTables(violations) {
+  let tableOutput = '';
+  for (const severity of ['error', 'warning']) {
+    for (const { message, path, rule, line } of violations[severity].results) {
+      const table = new MarkdownTable('Rule', rule);
+      table.addRow('Message', message);
+      table.addRow('Path', path.join('.'));
+      table.addRow('Line', line);
+      table.addRow('Severity', severity);
 
-  error.results.forEach(({ message, path, rule, line }) => {
-    table.addRow(rule, message, path.join('.'), line, 'error');
-  });
+      tableOutput += `${table.render()}\n\n`;
+    }
+  }
 
-  warning.results.forEach(({ message, path, rule, line }) => {
-    table.addRow(rule, message, path.join('.'), line, 'warning');
-  });
-
-  return table.render();
+  // Remove the final newline characters from the string.
+  return tableOutput.trim();
 }
 
-module.exports = getTable;
+module.exports = getTables;
