@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 IBM Corporation.
+ * Copyright 2023-2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -30,6 +30,7 @@ module.exports = {
         'discriminator',
         'enum',
         'example',
+        'examples',
         'exclusiveMaximum',
         'exclusiveMinimum',
         'format',
