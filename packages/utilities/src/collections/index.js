@@ -58,9 +58,11 @@ const collections = {
     `$.paths[*][parameters][*].schema`,
     `$.paths[*][parameters][*].content[*].schema`,
     `${operations[0]}[parameters][*].schema`,
-    `${operations[0]}[parameters,responses][*].content[*].schema`,
+    `${operations[0]}[parameters][*].content[*].schema`,
     `${operations[0]}.responses[*].headers[*].schema`,
+    `${operations[0]}.responses[*].headers[*].content[*].schema`,
     ...requestBodySchemas,
+    ...responseSchemas,
   ],
   /**
    * locations of security scheme definitions
