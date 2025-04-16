@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset-utilities [1.8.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.8.0...@ibm-cloud/openapi-ruleset-utilities@1.8.1) (2025-04-16)
+
+
+### Bug Fixes
+
+* include response header content schemas in schema collection ([739ccca](https://github.com/IBM/openapi-validator/commit/739cccadef4ed685fccb93de8b535cf376dc6710))
+
 # @ibm-cloud/openapi-ruleset-utilities [1.8.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.7.1...@ibm-cloud/openapi-ruleset-utilities@1.8.0) (2025-04-07)
 
 
