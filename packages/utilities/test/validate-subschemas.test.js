@@ -31,7 +31,7 @@ describe('Utility: validateSubschemas', () => {
   };
 
   it('should find all subschemas', async () => {
-    await testRule('rule-name', ruleForTesting, allSchemasDocument);
+    await testRule(ruleForTesting, allSchemasDocument);
 
     expect(visitedPaths.length).toBe(24);
     expect(visitedLogicalPaths.length).toBe(24);

@@ -6,20 +6,14 @@
 // NOTE: Duplicated from ruleset package. Need to revisit
 const { Spectral } = require('@stoplight/spectral-core');
 
-module.exports = async (ruleName, rule, doc) => {
+module.exports = async (rule, doc) => {
   const spectral = new Spectral();
 
   spectral.setRuleset({
     rules: {
-      [ruleName]: rule,
+      'mock-rule': rule,
     },
   });
 
-  try {
-    const results = await spectral.run(doc);
-    return results;
-  } catch (err) {
-    console.error(err);
-    throw err;
-  }
+  return await spectral.run(doc);
 };
