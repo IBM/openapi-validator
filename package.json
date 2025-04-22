@@ -29,7 +29,9 @@
     "unlink": "npm run unlink --workspace packages/validator",
     "all": "npm run test && npm run lint",
     "format-readme-toc": "npx -y markdown-toc --maxdepth 5 -i README.md",
-    "generate-utilities-docs": "scripts/generate-utilities-docs.js"
+    "generate-utilities-docs": "scripts/generate-utilities-docs.js",
+    "generate-utilities-types": "npm run generate-types -w packages/utilities",
+    "update-utilities": "npm run generate-utilities-docs && npm run generate-utilities-types"
   },
   "devDependencies": {
     "@semantic-release/changelog": "^6.0.3",
