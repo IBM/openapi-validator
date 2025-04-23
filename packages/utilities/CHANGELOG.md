@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset-utilities [1.9.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.8.1...@ibm-cloud/openapi-ruleset-utilities@1.9.0) (2025-04-23)
+
+
+### Features
+
+* **openapi-ruleset-utilities:** add type declaration files ([#743](https://github.com/IBM/openapi-validator/issues/743)) ([e8c6a0e](https://github.com/IBM/openapi-validator/commit/e8c6a0eb056e5b3d49810c2a0aaf0801d104ee8e))
+
 ## @ibm-cloud/openapi-ruleset-utilities [1.8.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.8.0...@ibm-cloud/openapi-ruleset-utilities@1.8.1) (2025-04-16)
 
 
