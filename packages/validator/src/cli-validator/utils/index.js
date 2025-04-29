@@ -1,5 +1,5 @@
 /**
- * Copyright 2023 IBM Corporation.
+ * Copyright 2023 - 2025 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -8,6 +8,7 @@ module.exports = {
   createCLIOptions: require('./cli-options'),
   getCopyrightString: require('./get-copyright-string'),
   getDefaultRulesetVersion: require('./get-default-ruleset-version'),
+  parseViolationMessage: require('./parse-violation-message'),
   getLocalRulesetVersion: require('./get-local-ruleset-version'),
   getVersionString: require('./get-version-string'),
   preprocessFile: require('./preprocess-file'),
