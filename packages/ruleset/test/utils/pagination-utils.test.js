@@ -129,7 +129,7 @@ describe('Pagination utility functions', () => {
       const schema = { type: 'object' };
       const response = {
         content: {
-          'application/json': {
+          'application/json; charset=utf-8': {
             schema,
           },
         },
