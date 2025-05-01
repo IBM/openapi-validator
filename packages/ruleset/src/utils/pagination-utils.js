@@ -4,6 +4,7 @@
  */
 const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
 const mergeAllOfSchemaProperties = require('./merge-allof-schema-properties');
+const { isJsonMimeType } = require('./mimetype-utils');
 
 /**
  * Looks for a query parameter called "offset" and returns the
@@ -80,7 +81,19 @@ function getResponseSchema(response) {
 
   // Find the json content of the response.
   const content = response.content;
-  const jsonResponse = content && content['application/json'];
+  if (!content) {
+    return;
+  }
+
+  const jsonMimeType = Object.keys(content).find(mimeType =>
+    isJsonMimeType(mimeType)
+  );
+
+  if (!jsonMimeType) {
+    return;
+  }
+
+  const jsonResponse = content[jsonMimeType];
 
   if (!jsonResponse || !jsonResponse.schema) {
     return;
