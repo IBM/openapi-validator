@@ -1,7 +1,7 @@
 {
   "name": "ibm-openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
-  "version": "1.35.1",
+  "version": "1.35.2",
   "private": false,
   "repository": {
     "type": "git",

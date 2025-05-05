@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.35.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.35.1...ibm-openapi-validator@1.35.2) (2025-05-05)
+
+
+### Bug Fixes
+
+* update year in copyright statement ([#745](https://github.com/IBM/openapi-validator/issues/745)) ([0d4d8ba](https://github.com/IBM/openapi-validator/commit/0d4d8badae69b35246ba2730a2981664ac2e43fa))
+
 ## ibm-openapi-validator [1.35.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.35.0...ibm-openapi-validator@1.35.1) (2025-05-02)
 
 
