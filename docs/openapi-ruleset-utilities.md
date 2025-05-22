@@ -19,7 +19,10 @@ collection should be used with `resolved` set to `true` and we want to avoid dup
 - **`collections.requestBodySchemas`**: locations of top-level request body schema definitions
 - **`collections.responseSchemas`**: locations of top-level response schema definitions
 - **`collections.schemas`**: locations where schemas are used; this does not include `components.schemas` because this
-collection should be used with `resolved` set to `true` and we want to avoid duplication.
+collection should be used with `resolved` set to `true` and we want to avoid duplication. Note
+that this does not include subschemas, which can be validated by using this collection in
+conjunction with the `validateComposedSchemas()`, `validateNestedSchemas()`, or
+`validateSubschemas()` utility functions.
 - **`collections.securitySchemes`**: locations of security scheme definitions
 - **`collections.unresolvedRequestBodySchemas`**: locations of request body schema definitions within an unresolved API definition
 - **`collections.unresolvedResponseSchemas`**: locations of response schema definitions within an unresolved API definition
