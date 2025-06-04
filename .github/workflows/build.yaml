@@ -3,7 +3,7 @@
 # semantic-release is also run to create a new release (if
 # warranted by the new commits being built).
 
-name: Build/Test/Publish
+name: build
 
 on: 
   push:
@@ -16,7 +16,7 @@ on:
 jobs:
   detect-secrets:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
-    name: Detect-Secrets
+    name: detect-secrets
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -46,8 +46,8 @@ jobs:
           detect-secrets -v audit --report --fail-on-unaudited --fail-on-live --fail-on-audited-real .secrets.baseline
 
   build:
+    name: build-test (node v${{ matrix.node-version }})
     needs: detect-secrets
-    name: Build/Test (Node v${{ matrix.node-version }})
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -73,7 +73,7 @@ jobs:
 
   publish-release:
     needs: build
-    name: Semantic-Release
+    name: semantic-release
     if: "github.ref_name == 'main' && github.event_name != 'pull_request'"
     runs-on: ubuntu-latest
 

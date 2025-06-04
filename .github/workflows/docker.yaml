@@ -3,7 +3,7 @@
 # job is separated from the publishing job, as it may fail independently and
 # we need to be able to retry it without re-running the publish step.
 
-name: Docker Deploy
+name: docker
 
 on:
   release:
@@ -13,11 +13,11 @@ on:
     # Allow this workflow to be triggered manually
 
 jobs:
-  deploy-docker-image:
+  deploy-image:
     # We want to trigger this job ONLY for a published release
     # related to the "ibm-openapi-validator" package.
+    name: deploy-image
     if: "contains(github.ref_name, 'ibm-openapi-validator')"
-    name: Deploy image
     runs-on: ubuntu-latest
  
     steps:
