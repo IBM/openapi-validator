@@ -7333,7 +7333,7 @@ paths:
 <tr>
 <td valign=top><b>Description:</b></td>
 <td>This rule validates each unique schema and ensures that any example(s) defined
-is a valid instance of that schema.
+is a valid instance of that schema. Note that this rule is an alternative to `oas3-valid-schema-example` and exists because that rule uses heuristics to find schemas that result in false positives. Also note that this rule is not an alternative to `oas3-valid-media-example` (it does not look for examples outside of a schema) which is not as susceptible to false positives.
 </td>
 </tr>
 <tr>
