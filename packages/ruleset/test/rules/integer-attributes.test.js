@@ -464,5 +464,69 @@ describe(`Spectral rule: ${ruleId}`, () => {
         expect(results[i].path.join('.')).toBe(expectedPaths[i]);
       }
     });
+    it('Integer schema int32 minimum is out of safe range', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.paths['/v1/movies'].post.parameters = [
+        {
+          name: 'max_movie_length',
+          in: 'query',
+          schema: {
+            type: 'integer',
+            format: 'int32',
+            minimum: -9007199254740991,
+            maximum: 2147483649,
+          },
+        },
+      ];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(2);
+
+      const expectedPath = 'paths./v1/movies.post.parameters.0.schema';
+
+      const expectedMessages = [
+        `'minimum' value is out of safe range`,
+        `'maximum' value is out of safe range`,
+      ];
+
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMessages[i]);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPath);
+      }
+    });
+    it('Integer schema int64 minimum is out of safe range', async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.paths['/v1/movies'].post.parameters = [
+        {
+          name: 'max_movie_length',
+          in: 'query',
+          schema: {
+            type: 'integer',
+            format: 'int64',
+            minimum: -9007199254740999,
+            maximum: 9007199254740999,
+          },
+        },
+      ];
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(2);
+
+      const expectedPath = 'paths./v1/movies.post.parameters.0.schema';
+
+      const expectedMessages = [
+        `'minimum' value is out of safe range`,
+        `'maximum' value is out of safe range`,
+      ];
+
+      for (let i = 0; i < results.length; i++) {
+        expect(results[i].code).toBe(ruleId);
+        expect(results[i].message).toBe(expectedMessages[i]);
+        expect(results[i].severity).toBe(expectedSeverity);
+        expect(results[i].path.join('.')).toBe(expectedPath);
+      }
+    });
   });
 });
