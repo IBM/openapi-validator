@@ -505,8 +505,8 @@ describe(`Spectral rule: ${ruleId}`, () => {
           schema: {
             type: 'integer',
             format: 'int64',
-            minimum: -9007199254740999,
-            maximum: 9007199254740999,
+            minimum: -9007199254740992,
+            maximum: -9007199254740992,
           },
         },
       ];
