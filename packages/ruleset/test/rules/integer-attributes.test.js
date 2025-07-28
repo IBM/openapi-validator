@@ -506,7 +506,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
             type: 'integer',
             format: 'int64',
             minimum: -9007199254740992,
-            maximum: -9007199254740992,
+            maximum: 9007199254740992,
           },
         },
       ];
