@@ -1044,6 +1044,7 @@ module.exports = {
           },
           status_code: {
             type: 'integer',
+            format: 'int32',
             minimum: 0,
             maximum: 599,
             description: 'The HTTP status code.',
