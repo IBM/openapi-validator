@@ -57,7 +57,10 @@ function integerBoundaryErrors(schema, path) {
 
     const errors = [];
 
-    if (!isDefined(format) || (isDefined(format) && !intFormats.includes(format))) {
+    if (
+      !isDefined(format) ||
+      (isDefined(format) && !intFormats.includes(format))
+    ) {
       errors.push({
         message: `Integer schemas should specify format as one of ${intFormats.join(
           ', '
