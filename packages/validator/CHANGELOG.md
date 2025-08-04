@@ -1,3 +1,18 @@
+## ibm-openapi-validator [1.35.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.35.2...ibm-openapi-validator@1.35.3) (2025-08-04)
+
+
+### Bug Fixes
+
+* **ibm-integer-attributes:** add validation for type integer ranges ([#756](https://github.com/IBM/openapi-validator/issues/756)) ([3d5f9f4](https://github.com/IBM/openapi-validator/commit/3d5f9f40f5bbe6609da3d282b55f091d94713038))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.31.2
+
 ## ibm-openapi-validator [1.35.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.35.1...ibm-openapi-validator@1.35.2) (2025-05-05)
 
 
