@@ -33,8 +33,10 @@ const intFormats = ['int32', 'int64'];
 const int32Minimum = -2147483648;
 const int32Maximum = 2147483647;
 
-const int64Minimum = -9007199254740991;
-const int64Maximum = 9007199254740991;
+// Constrained for interoperability per
+// https://datatracker.ietf.org/doc/html/rfc7159#section-6
+const int64Minimum = -9007199254740991; // -(2^53-1) or Number.MIN_SAFE_INTEGER
+const int64Maximum = 9007199254740991;  // 2^53 or Number.MAX_SAFE_INTEGER
 
 /**
  * This function performs various checks on an integer schema property to make sure it
