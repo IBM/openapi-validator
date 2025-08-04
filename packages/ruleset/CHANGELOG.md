@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.31.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.31.1...@ibm-cloud/openapi-ruleset@1.31.2) (2025-08-04)
+
+
+### Bug Fixes
+
+* **ibm-integer-attributes:** add validation for type integer ranges ([#756](https://github.com/IBM/openapi-validator/issues/756)) ([3d5f9f4](https://github.com/IBM/openapi-validator/commit/3d5f9f40f5bbe6609da3d282b55f091d94713038))
+
 ## @ibm-cloud/openapi-ruleset [1.31.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.31.0...@ibm-cloud/openapi-ruleset@1.31.1) (2025-05-02)
 
 
