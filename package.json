@@ -50,5 +50,8 @@
     "micromatch": "^4.0.8",
     "jsonpath-plus": "^10.3.0",
     "rollup": "2.79.2"
+  },
+  "dependencies": {
+    "inflected": "^2.1.0"
   }
 }
