@@ -65,7 +65,7 @@ paths:
     post:
       summary: Create a pet
       description: Create a pet
-      operationId: create_pets
+      operationId: create_pet
       tags:
         - pets
       responses:
@@ -85,7 +85,7 @@ paths:
     get:
       summary: Info for a specific pet
       description: Get information about a specific pet
-      operationId: get_pet_by_id
+      operationId: get_pet
       tags:
         - pets
       parameters:

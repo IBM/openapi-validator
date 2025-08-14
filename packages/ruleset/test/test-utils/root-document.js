@@ -32,7 +32,7 @@ module.exports = {
   paths: {
     '/v1/drinks': {
       post: {
-        operationId: 'create_drink',
+        operationId: 'create_v1_drink',
         summary: 'Create a drink',
         description: 'Create a new Drink instance.',
         tags: ['TestTag'],
@@ -76,7 +76,7 @@ module.exports = {
         },
       },
       get: {
-        operationId: 'list_drinks',
+        operationId: 'list_v1_drinks',
         summary: 'List drinks',
         description: 'Retrieve all the drinks.',
         tags: ['TestTag'],
@@ -144,7 +144,7 @@ module.exports = {
         },
       ],
       get: {
-        operationId: 'get_drink',
+        operationId: 'get_v1_drink',
         summary: 'Have a drink',
         description: 'Retrieve and consume a refreshing beverage.',
         tags: ['TestTag'],
@@ -170,7 +170,7 @@ module.exports = {
     },
     '/v1/drink_menu': {
       get: {
-        operationId: 'download_menu',
+        operationId: 'download_v1_drink_menu',
         summary: 'Download Drinks Menu',
         description: 'Retrieve a document containing the drinks menu.',
         tags: ['TestTag'],
@@ -191,7 +191,7 @@ module.exports = {
         },
       },
       put: {
-        operationId: 'replace_menu',
+        operationId: 'replace_v1_drink_menu',
         summary: 'Upload Drinks Menu',
         description: 'Publish a new Drinks Menu for public viewing.',
         tags: ['TestTag'],
@@ -258,7 +258,7 @@ module.exports = {
     },
     '/v1/movies': {
       post: {
-        operationId: 'create_movie',
+        operationId: 'create_v1_movie',
         summary: 'Create a movie',
         description: 'Create a new Movie instance.',
         tags: ['TestTag'],
@@ -301,7 +301,7 @@ module.exports = {
         },
       },
       get: {
-        operationId: 'list_movies',
+        operationId: 'list_v1_movies',
         summary: 'List movies',
         description:
           'Retrieve a list of movies using an optional genre qualifier.',
@@ -383,7 +383,7 @@ module.exports = {
         },
       ],
       get: {
-        operationId: 'get_movie',
+        operationId: 'get_v1_movie',
         summary: 'Get a movie',
         description: 'Retrieve the movie and return it in the response.',
         tags: ['TestTag'],
@@ -409,7 +409,7 @@ module.exports = {
         },
       },
       put: {
-        operationId: 'replace_movie',
+        operationId: 'replace_v1_movie',
         summary: 'Replace movie',
         description: 'Replace a movie with updated state information.',
         tags: ['TestTag'],
@@ -463,7 +463,7 @@ module.exports = {
     },
     '/v1/cars': {
       post: {
-        operationId: 'create_car',
+        operationId: 'create_v1_car',
         summary: 'Create a car',
         description: 'Create a new Car instance.',
         tags: ['TestTag'],
@@ -515,7 +515,7 @@ module.exports = {
         },
       ],
       get: {
-        operationId: 'get_car',
+        operationId: 'get_v1_car',
         summary: 'Get Car',
         description: 'Retrieve a Car instance by its id.',
         tags: ['TestTag'],
@@ -534,7 +534,7 @@ module.exports = {
         },
       },
       patch: {
-        operationId: 'update_car',
+        operationId: 'update_v1_car',
         summary: 'Update a car',
         description: 'Update a new Car instance with new state information.',
         tags: ['TestTag'],
