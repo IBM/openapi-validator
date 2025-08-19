@@ -59,7 +59,7 @@ function operationIdNamingConvention(resolvedSpec) {
             p.startsWith(op.pathKey + '/{')
           );
 
-      const { checkPassed, correctId, operationId } =
+      const { checkPassed, correctIds, operationId } =
         operationIdPassedConventionCheck(
           isResourceOriented,
           op['opKey'],
@@ -71,7 +71,9 @@ function operationIdNamingConvention(resolvedSpec) {
 
       if (checkPassed === false) {
         errors.push({
-          message: `operationIds should follow naming convention: operationId should be ${correctId} but it's ${operationId} instead`,
+          message: `operationIds should follow naming convention: operationId should be ${correctIds.join(
+            ' or '
+          )} but it's ${operationId} instead`,
           path: [...op.path, 'operationId'],
         });
       }
@@ -142,7 +144,7 @@ function operationIdPassedConventionCheck(
   // Useful for debugging.
   // console.log(`Debug: ${httpMethod} ${isResourceOriented} ${pathEndsWithParam} ${numParamRefs}  ${operationId}`);
 
-  let verb = '';
+  const verbs = [];
 
   // Verbs where pluralization can happen in the operationId based on the path
   const pluralVerbs = ['list', 'replace', 'set', 'delete', 'remove', 'unset'];
@@ -151,45 +153,45 @@ function operationIdPassedConventionCheck(
     case 'get':
       if (isResourceOriented) {
         if (!pathEndsWithParam) {
-          verb = 'list';
+          verbs.push('list');
         } else {
-          verb = 'get';
+          verbs.push('get');
         }
         if (numParamRefs >= 2) {
-          verb = 'check';
+          verbs.push('check');
         }
       }
       break;
 
     case 'post':
       if (isResourceOriented) {
-        verb = 'create';
+        verbs.push('create');
       }
       break;
 
     case 'patch':
-      verb = 'update';
+      verbs.push('update');
       break;
 
     case 'put':
-      verb = 'replace';
+      verbs.push('replace');
       if (isResourceOriented) {
         if (pathEndsWithParam && numParamRefs >= 2) {
-          verb = 'add';
+          verbs.push('add');
         }
       } else if (!pathEndsWithParam && numParamRefs >= 1) {
-        verb = 'set';
+        verbs.push('set');
       }
       break;
 
     case 'delete':
-      verb = 'delete';
+      verbs.push('delete');
       if (isResourceOriented) {
         if (pathEndsWithParam && numParamRefs >= 2) {
-          verb = 'remove';
+          verbs.push('remove');
         }
       } else if (!pathEndsWithParam && numParamRefs >= 1) {
-        verb = 'unset';
+        verbs.push('unset');
       }
       break;
   }
@@ -197,7 +199,7 @@ function operationIdPassedConventionCheck(
   // If we have an acceptable verb, then make sure
   // that the operationId starts with that verb
   // and that the rest of the operation id matches the path according to the naming conventions
-  if (verb !== '') {
+  if (verbs.length > 0) {
     const convertedPath = fullPath
       .replace(/^\/+/, '')
       .split('/')
@@ -207,15 +209,22 @@ function operationIdPassedConventionCheck(
     for (let i = 0; i < convertedPath.length; i++) {
       if (
         i !== convertedPath.length - 1 ||
-        !pluralVerbs.includes(verb) ||
+        !pluralVerbs.some(verb => verbs.includes(verb)) ||
         pathEndsWithParam
       )
         convertedPath[i] = inflected.singularize(convertedPath[i]);
     }
 
-    const correctId = verb + '_' + convertedPath.join('_');
-    const checkPassed = correctId === operationId;
-    return { checkPassed, correctId, operationId };
+    const correctIds = [];
+
+    for (let i = 0; i < verbs.length; i++) {
+      const correctId = verbs[i] + '_' + convertedPath.join('_');
+      if (correctId === operationId)
+        return { checkPassed: true, correctId, operationId };
+      else correctIds.push(correctId);
+    }
+
+    return { checkPassed: false, correctIds, operationId };
   }
 
   return { checkPassed: true };
