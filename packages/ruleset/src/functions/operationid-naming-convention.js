@@ -5,6 +5,7 @@
 
 const { each, merge, pickBy, reduce } = require('lodash');
 const { operationMethods } = require('../utils');
+const inflected = require('inflected');
 
 module.exports = function (rootDocument) {
   return operationIdNamingConvention(rootDocument);
@@ -58,19 +59,21 @@ function operationIdNamingConvention(resolvedSpec) {
             p.startsWith(op.pathKey + '/{')
           );
 
-      const { checkPassed, verbs } = operationIdPassedConventionCheck(
-        isResourceOriented,
-        op['opKey'],
-        op.operationId,
-        pathEndsWithParam,
-        numParamRefs
-      );
+      const { checkPassed, correctIds, operationId } =
+        operationIdPassedConventionCheck(
+          isResourceOriented,
+          op['opKey'],
+          op.operationId,
+          pathEndsWithParam,
+          numParamRefs,
+          op.pathKey
+        );
 
       if (checkPassed === false) {
         errors.push({
-          message: `operationIds should follow naming convention: operationId verb should be ${verbs.join(
+          message: `operationIds should follow naming convention: operationId should be ${correctIds.join(
             ' or '
-          )}`,
+          )} but it's ${operationId} instead`,
           path: [...op.path, 'operationId'],
         });
       }
@@ -127,6 +130,7 @@ function operationIdNamingConvention(resolvedSpec) {
  * @param {string}  operationId the operation's operationId
  * @param {boolean} pathEndsWithParam a flag that indicates whether or not the path ends with a path parameter reference
  * @param {number}  numParamRefs the number of path parameter references in the path
+ * @param {string}  fullPath the full path of the operation
  * @returns
  */
 function operationIdPassedConventionCheck(
@@ -134,12 +138,16 @@ function operationIdPassedConventionCheck(
   httpMethod,
   operationId,
   pathEndsWithParam,
-  numParamRefs
+  numParamRefs,
+  fullPath
 ) {
   // Useful for debugging.
   // console.log(`Debug: ${httpMethod} ${isResourceOriented} ${pathEndsWithParam} ${numParamRefs}  ${operationId}`);
 
   const verbs = [];
+
+  // Verbs where pluralization can happen in the operationId based on the path
+  const pluralVerbs = ['list', 'replace', 'set', 'delete', 'remove', 'unset'];
 
   switch (httpMethod) {
     case 'get':
@@ -188,13 +196,35 @@ function operationIdPassedConventionCheck(
       break;
   }
 
-  // If we have a non-empty list of acceptable verbs, then make sure
-  // that the operationId starts with one of them.
+  // If we have an acceptable verb, then make sure
+  // that the operationId starts with that verb
+  // and that the rest of the operation id matches the path according to the naming conventions
   if (verbs.length > 0) {
-    const checkPassed = verbs
-      .map(verb => operationId.startsWith(verb))
-      .some(v => v);
-    return { checkPassed, verbs };
+    const convertedPath = fullPath
+      .replace(/^\/+/, '')
+      .split('/')
+      .filter(part => !/^\{.*\}$/.test(part));
+
+    //singularize the words in the path according to the naming conventions
+    for (let i = 0; i < convertedPath.length; i++) {
+      if (
+        i !== convertedPath.length - 1 ||
+        !pluralVerbs.some(verb => verbs.includes(verb)) ||
+        pathEndsWithParam
+      )
+        convertedPath[i] = inflected.singularize(convertedPath[i]);
+    }
+
+    const correctIds = [];
+
+    for (let i = 0; i < verbs.length; i++) {
+      const correctId = verbs[i] + '_' + convertedPath.join('_');
+      if (correctId === operationId)
+        return { checkPassed: true, correctId, operationId };
+      else correctIds.push(correctId);
+    }
+
+    return { checkPassed: false, correctIds, operationId };
   }
 
   return { checkPassed: true };
