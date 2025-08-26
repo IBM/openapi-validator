@@ -28,7 +28,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       const newGet = makeCopy(testDocument.paths['/v1/drinks/{drink_id}'].get);
-      newGet.operationId = 'check_v1_drink_glass';
+      newGet.operationId = 'check_drink_glass';
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         get: newGet,
       };
@@ -41,7 +41,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       const newGet = makeCopy(testDocument.paths['/v1/drinks/{drink_id}'].get);
-      newGet.operationId = 'check_v1_drink_glass';
+      newGet.operationId = 'check_drink_glass';
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         get: newGet,
       };
@@ -67,7 +67,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].post = {
-        operationId: 'create_v1_drink',
+        operationId: 'create_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -78,7 +78,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks'].put = {
-        operationId: 'replace_v1_drinks',
+        operationId: 'replace_drinks',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -89,7 +89,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].put = {
-        operationId: 'replace_v1_drink',
+        operationId: 'replace_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -102,7 +102,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       // This should not fail as it is not considered to be "resource-oriented".
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         put: {
-          operationId: 'set_v1_drink_glasses',
+          operationId: 'set_drink_glasses',
         },
       };
 
@@ -115,7 +115,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         put: {
-          operationId: 'set_v1_drink_glasses',
+          operationId: 'set_drink_glasses',
         },
       };
 
@@ -128,7 +128,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         put: {
-          operationId: 'add_v1_drink_glass',
+          operationId: 'add_drink_glass',
         },
       };
 
@@ -140,7 +140,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}'].delete = {
-        operationId: 'delete_v1_drink',
+        operationId: 'delete_drink',
       };
 
       const results = await testRule(ruleId, rule, testDocument);
@@ -152,7 +152,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         delete: {
-          operationId: 'unset_v1_drink_glasses',
+          operationId: 'unset_drink_glasses',
         },
       };
 
@@ -165,14 +165,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses'] = {
         delete: {
-          operationId: 'delete_v1_drink_glasses',
+          operationId: 'delete_drink_glasses',
         },
       };
 
       // Add another path so this API will be resource-oriented.
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         get: {
-          operationId: 'check_v1_drink_glass',
+          operationId: 'check_drink_glass',
         },
       };
 
@@ -185,7 +185,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         delete: {
-          operationId: 'remove_v1_drink_glass',
+          operationId: 'remove_drink_glass',
         },
       };
 
@@ -205,7 +205,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*list_v1_drinks*/);
+      expect(r.message).toMatch(/^.*list_drinks*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe('paths./v1/drinks.get.operationId');
     });
@@ -221,7 +221,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*get_v1_drink*/);
+      expect(r.message).toMatch(/^.*get_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}.get.operationId'
@@ -242,9 +242,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(
-        /^.*get_v1_drink_glass or check_v1_drink_glass*/
-      );
+      expect(r.message).toMatch(/^.*get_drink_glass or check_drink_glass*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}/glasses/{glass_id}.get.operationId'
@@ -260,7 +258,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*create_v1_drink*/);
+      expect(r.message).toMatch(/^.*create_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe('paths./v1/drinks.post.operationId');
     });
@@ -277,7 +275,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*create_v1_drink*/);
+      expect(r.message).toMatch(/^.*create_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}.post.operationId'
@@ -296,7 +294,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*update_v1_drink*/);
+      expect(r.message).toMatch(/^.*update_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}.patch.operationId'
@@ -315,7 +313,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*replace_v1_drink*/);
+      expect(r.message).toMatch(/^.*replace_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}.put.operationId'
@@ -334,7 +332,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*replace_v1_drinks*/);
+      expect(r.message).toMatch(/^.*replace_drinks*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe('paths./v1/drinks.put.operationId');
     });
@@ -351,7 +349,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*replace_v1_drink*/);
+      expect(r.message).toMatch(/^.*replace_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}.put.operationId'
@@ -373,7 +371,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
       expect(r.message).toMatch(
-        /^.*replace_v1_drink_glasses or set_v1_drink_glasses*/
+        /^.*replace_drink_glasses or set_drink_glasses*/
       );
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -395,9 +393,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(
-        /^.*replace_v1_drink_glass or add_v1_drink_glass*/
-      );
+      expect(r.message).toMatch(/^.*replace_drink_glass or add_drink_glass*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}/glasses/{glass_id}.put.operationId'
@@ -416,7 +412,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(/^.*delete_v1_drink*/);
+      expect(r.message).toMatch(/^.*delete_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}.delete.operationId'
@@ -438,7 +434,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
       expect(r.message).toMatch(
-        /^.*delete_v1_drink_glasses or unset_v1_drink_glasses*/
+        /^.*delete_drink_glasses or unset_drink_glasses*/
       );
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -460,9 +456,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const r = results[0];
       expect(r.code).toBe(ruleId);
       expect(r.message).toMatch(expectedMsgPrefix);
-      expect(r.message).toMatch(
-        /^.*delete_v1_drink_glass or remove_v1_drink_glass*/
-      );
+      expect(r.message).toMatch(/^.*delete_drink_glass or remove_drink_glass*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
         'paths./v1/drinks/{drink_id}/glasses/{glass_id}.delete.operationId'

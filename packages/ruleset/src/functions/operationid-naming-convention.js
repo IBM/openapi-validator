@@ -146,7 +146,7 @@ function operationIdPassedConventionCheck(
 
   const verbs = [];
 
-  // Verbs where pluralization can happen in the operationId based on the path
+  // Verbs where pluralization can happen in the operationId based on the path.
   const pluralVerbs = ['list', 'replace', 'set', 'delete', 'remove', 'unset'];
 
   switch (httpMethod) {
@@ -196,36 +196,33 @@ function operationIdPassedConventionCheck(
       break;
   }
 
+  if (verbs.length === 0) return { checkPassed: true };
+
   // If we have an acceptable verb, then make sure
   // that the operationId starts with that verb
-  // and that the rest of the operation id matches the path according to the naming conventions
-  if (verbs.length > 0) {
-    const convertedPath = fullPath
-      .replace(/^\/+/, '')
-      .split('/')
-      .filter(part => !/^\{.*\}$/.test(part));
+  // and that the rest of the operation id matches
+  // the path according to the naming conventions
+  const convertedPath = fullPath
+    .replace(/^\/+/, '')
+    .split('/')
+    .filter(part => !part.startsWith('{') && !part.endsWith('}'))
+    .filter(part => !/^v\d+$/.test(part));
 
-    //singularize the words in the path according to the naming conventions
-    for (let i = 0; i < convertedPath.length; i++) {
-      if (
-        i !== convertedPath.length - 1 ||
-        !pluralVerbs.some(verb => verbs.includes(verb)) ||
-        pathEndsWithParam
-      )
-        convertedPath[i] = inflected.singularize(convertedPath[i]);
-    }
+  const isPlural = !pluralVerbs.some(verb => verbs.includes(verb));
 
-    const correctIds = [];
-
-    for (let i = 0; i < verbs.length; i++) {
-      const correctId = verbs[i] + '_' + convertedPath.join('_');
-      if (correctId === operationId)
-        return { checkPassed: true, correctId, operationId };
-      else correctIds.push(correctId);
-    }
-
-    return { checkPassed: false, correctIds, operationId };
+  // Singularize the words in the path according to the naming conventions.
+  for (let i = 0; i < convertedPath.length; i++) {
+    if (i !== convertedPath.length - 1 || isPlural || pathEndsWithParam)
+      convertedPath[i] = inflected.singularize(convertedPath[i]);
   }
 
-  return { checkPassed: true };
+  const correctIds = [];
+
+  for (let i = 0; i < verbs.length; i++) {
+    const correctId = verbs[i] + '_' + convertedPath.join('_');
+    if (correctId === operationId) return { checkPassed: true };
+    else correctIds.push(correctId);
+  }
+
+  return { checkPassed: false, correctIds, operationId };
 }
