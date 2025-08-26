@@ -27,17 +27,18 @@ module.exports = function (operation, _opts, context) {
 
 /**
  * This function performs a few checks on each operation's responses field:
- * 1. Status code 400 should be used instead of 422.
- * 2. Status code 303 or 307 should be used instead of 302.
- * 3. Operation responses should include at least one successful (2xx) status code.
- * 4. Operation responses should not include status code 101 when successful (2xx) status codes are present.
- * 5. A 204 response must not have content.
- * 6. A "create" operation must return either a 201 or a 202 (or a 204, if the corresponding GET request returns a 204).
- *    An operation is considered to be a "create" operation if the operationId starts with "create"
- *    OR it's a POST request and there is a similar path but with a trailing path parameter reference.
- * 7. A "PUT" operation must return either a 200, 201, or 202
- * 8. A "PATCH" operation must return either a 200 or a 202
- * 9. If an operation returns status code 202, it should not return any other 2xx status codes.
+ * 1.  Status code 400 should be used instead of 422.
+ * 2.  Status code 303 or 307 should be used instead of 302.
+ * 3.  Operation responses should include at least one successful (2xx) status code.
+ * 4.  Operation responses should not include status code 101 when successful (2xx) status codes are present.
+ * 5.  A 204 response must not have content.
+ * 6.  A "create" operation must return either a 201 or a 202 (or a 204, if the corresponding GET request returns a 204).
+ *     An operation is considered to be a "create" operation if the operationId starts with "create"
+ *     OR it's a POST request and there is a similar path but with a trailing path parameter reference.
+ * 7.  A "PUT" operation must return either a 200, 201, or 202
+ * 8.  A "PATCH" operation must return either a 200 or a 202
+ * 9.  If an operation returns status code 202, it should not return any other 2xx status codes.
+ * 10. Status codes 301, 302, 305, 307 should include a response body.
  * @param {*} operation an operation within the API definition
  * @param {*} path the array of path segments indicating the "location" of the operation within the API definition
  * @param {*} apidef the resolved API spec
@@ -157,6 +158,19 @@ function responseStatusCodes(operation, path, apidef) {
       errors.push({
         message:
           'An operation that returns a 202 status code should not return any other 2xx status codes',
+        path: [...path, 'responses'],
+      });
+    }
+
+    //10. Status codes 301, 302, 305, 307 should include a response body.
+    const response30x = ['301', '302', '305', '307'].find(
+      code => operation.responses[code]
+    );
+    //const response30x = operation.responses['301'];
+    if (response30x && !response30x.content) {
+      errors.push({
+        message:
+          'A 301, 302, 305 or 307 response should include a response body, use a different status code for responses without content',
         path: [...path, 'responses'],
       });
     }

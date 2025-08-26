@@ -230,16 +230,14 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const results = await testRule(ruleId, rule, testDocument);
-      expect(results).toHaveLength(1);
+      expect(results).toHaveLength(2);
 
       expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(
+      expect(results[1].message).toBe(
         'Operation responses should use status code 303 or 307 instead of 302'
       );
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path.join('.')).toBe(
-        'paths./v1/drinks.post.responses.302'
-      );
+      expect(results[0].path.join('.')).toBe('paths./v1/drinks.post.responses');
     });
 
     it('101 status code along with 2xx codes', async () => {
@@ -469,6 +467,22 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results[0].path.join('.')).toBe(
         'paths./v1/cars/{car_id}.patch.responses'
       );
+    });
+
+    it('301, 302, 305, 305 status codes should have response body', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/drinks'].post.responses['305'] = {};
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(1);
+
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).toBe(
+        'A 301, 302, 305 or 307 response should include a response body, use a different status code for responses without content'
+      );
+      expect(results[0].severity).toBe(expectedSeverity);
+      expect(results[0].path.join('.')).toBe('paths./v1/drinks.post.responses');
     });
   });
 });
