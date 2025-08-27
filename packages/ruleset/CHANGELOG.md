@@ -1,3 +1,10 @@
+# @ibm-cloud/openapi-ruleset [1.32.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.31.2...@ibm-cloud/openapi-ruleset@1.32.0) (2025-08-27)
+
+
+### Features
+
+* **ibm-operationid-naming-convention:** extend operationid naming check ([#757](https://github.com/IBM/openapi-validator/issues/757)) ([72bf9f2](https://github.com/IBM/openapi-validator/commit/72bf9f22ef26c30d8268435de81d387f82c18039))
+
 ## @ibm-cloud/openapi-ruleset [1.31.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.31.1...@ibm-cloud/openapi-ruleset@1.31.2) (2025-08-04)
 
 
