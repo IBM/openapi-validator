@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.32.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.32.0...@ibm-cloud/openapi-ruleset@1.32.1) (2025-08-27)
+
+
+### Bug Fixes
+
+* fix dependency issue with inflected ([#760](https://github.com/IBM/openapi-validator/issues/760)) ([b904a3c](https://github.com/IBM/openapi-validator/commit/b904a3c00d0e5914b7a03ebe78c4b1c2e0be3fd2))
+
 # @ibm-cloud/openapi-ruleset [1.32.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.31.2...@ibm-cloud/openapi-ruleset@1.32.0) (2025-08-27)
 
 
