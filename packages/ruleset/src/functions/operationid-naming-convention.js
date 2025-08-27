@@ -208,11 +208,11 @@ function operationIdPassedConventionCheck(
     .filter(part => !part.startsWith('{') && !part.endsWith('}'))
     .filter(part => !/^v\d+$/.test(part));
 
-  const isPlural = !pluralVerbs.some(verb => verbs.includes(verb));
+  const isPlural = pluralVerbs.some(verb => verbs.includes(verb));
 
   // Singularize the words in the path according to the naming conventions.
   for (let i = 0; i < convertedPath.length; i++) {
-    if (i !== convertedPath.length - 1 || isPlural || pathEndsWithParam)
+    if (i !== convertedPath.length - 1 || !isPlural || pathEndsWithParam)
       convertedPath[i] = inflected.singularize(convertedPath[i]);
   }
 
