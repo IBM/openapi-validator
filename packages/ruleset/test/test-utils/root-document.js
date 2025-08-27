@@ -170,7 +170,7 @@ module.exports = {
     },
     '/v1/drink_menu': {
       get: {
-        operationId: 'download_menu',
+        operationId: 'download_drink_menu',
         summary: 'Download Drinks Menu',
         description: 'Retrieve a document containing the drinks menu.',
         tags: ['TestTag'],
@@ -191,7 +191,7 @@ module.exports = {
         },
       },
       put: {
-        operationId: 'replace_menu',
+        operationId: 'replace_drink_menu',
         summary: 'Upload Drinks Menu',
         description: 'Publish a new Drinks Menu for public viewing.',
         tags: ['TestTag'],
