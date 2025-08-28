@@ -52,15 +52,20 @@ const collections = {
   responseSchemas,
   /**
    * locations where schemas are used; this does not include `components.schemas` because this
-   * collection should be used with `resolved` set to `true` and we want to avoid duplication.
+   * collection should be used with `resolved` set to `true` and we want to avoid duplication. Note
+   * that this does not include subschemas, which can be validated by using this collection in
+   * conjunction with the `validateComposedSchemas()`, `validateNestedSchemas()`, or
+   * `validateSubschemas()` utility functions.
    */
   schemas: [
     `$.paths[*][parameters][*].schema`,
     `$.paths[*][parameters][*].content[*].schema`,
     `${operations[0]}[parameters][*].schema`,
-    `${operations[0]}[parameters,responses][*].content[*].schema`,
+    `${operations[0]}[parameters][*].content[*].schema`,
     `${operations[0]}.responses[*].headers[*].schema`,
+    `${operations[0]}.responses[*].headers[*].content[*].schema`,
     ...requestBodySchemas,
+    ...responseSchemas,
   ],
   /**
    * locations of security scheme definitions

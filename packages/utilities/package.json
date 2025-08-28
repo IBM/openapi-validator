@@ -1,10 +1,11 @@
 {
   "name": "@ibm-cloud/openapi-ruleset-utilities",
   "description": "Programmatic utility functions for creating Spectral-formatted OpenAPI Rulesets",
-  "version": "1.8.0",
+  "version": "1.9.0",
   "license": "Apache-2.0",
   "private": false,
   "main": "./src/index.js",
+  "types": "./types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/IBM/openapi-validator.git",
@@ -17,11 +18,13 @@
     "test-travis": "jest --silent --runInBand --no-colors --testNamePattern='^((?!@skip-ci).)*$' test",
     "lint": "eslint --cache --quiet --ext '.js' src test",
     "fix": "eslint --fix --ext '.js' src test",
+    "generate-types": "tsc",
     "pkg": "echo no executables to build in this package"
   },
   "devDependencies": {
     "@stoplight/spectral-core": "^1.19.4",
-    "jest": "^29.7.0"
+    "jest": "^29.7.0",
+    "typescript": "^5.8.3"
   },
   "engines": {
     "node": ">=16.0.0"

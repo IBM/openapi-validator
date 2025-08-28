@@ -1,3 +1,51 @@
+## @ibm-cloud/openapi-ruleset [1.32.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.32.0...@ibm-cloud/openapi-ruleset@1.32.1) (2025-08-27)
+
+
+### Bug Fixes
+
+* fix dependency issue with inflected ([#760](https://github.com/IBM/openapi-validator/issues/760)) ([b904a3c](https://github.com/IBM/openapi-validator/commit/b904a3c00d0e5914b7a03ebe78c4b1c2e0be3fd2))
+
+# @ibm-cloud/openapi-ruleset [1.32.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.31.2...@ibm-cloud/openapi-ruleset@1.32.0) (2025-08-27)
+
+
+### Features
+
+* **ibm-operationid-naming-convention:** extend operationid naming check ([#757](https://github.com/IBM/openapi-validator/issues/757)) ([72bf9f2](https://github.com/IBM/openapi-validator/commit/72bf9f22ef26c30d8268435de81d387f82c18039))
+
+## @ibm-cloud/openapi-ruleset [1.31.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.31.1...@ibm-cloud/openapi-ruleset@1.31.2) (2025-08-04)
+
+
+### Bug Fixes
+
+* **ibm-integer-attributes:** add validation for type integer ranges ([#756](https://github.com/IBM/openapi-validator/issues/756)) ([3d5f9f4](https://github.com/IBM/openapi-validator/commit/3d5f9f40f5bbe6609da3d282b55f091d94713038))
+
+## @ibm-cloud/openapi-ruleset [1.31.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.31.0...@ibm-cloud/openapi-ruleset@1.31.1) (2025-05-02)
+
+
+### Bug Fixes
+
+* **pagination-utils:** recognize all json mime types ([51d0efd](https://github.com/IBM/openapi-validator/commit/51d0efdaf3e8b9b2aab7459f8c2e0b5446c20f63))
+
+# @ibm-cloud/openapi-ruleset [1.31.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.30.1...@ibm-cloud/openapi-ruleset@1.31.0) (2025-04-23)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.0
+
+## @ibm-cloud/openapi-ruleset [1.30.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.30.0...@ibm-cloud/openapi-ruleset@1.30.1) (2025-04-16)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.8.1
+
 # @ibm-cloud/openapi-ruleset [1.30.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.29.4...@ibm-cloud/openapi-ruleset@1.30.0) (2025-04-07)
 
 

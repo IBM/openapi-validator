@@ -114,11 +114,13 @@ components:
             type: string
         limit:
           type: integer
+          format: int32
           minimum: 1
           maximum: 100
           description: for pagination
         offset:
           type: integer
+          format: int32
           minimum: 0
           maximum: 1024000
           description: for pagination
