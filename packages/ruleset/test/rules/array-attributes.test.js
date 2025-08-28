@@ -4,10 +4,7 @@
  */
 
 const { arrayAttributes } = require('../../src/rules');
-const {
-  unitTestRule,
-  severityCodes,
-} = require('../test-utils');
+const { unitTestRule, severityCodes } = require('../test-utils');
 
 const rule = arrayAttributes;
 const ruleId = 'ibm-array-attributes';
@@ -378,7 +375,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         type: 'array',
         minItems: 0,
         maxItems: 50,
-      }
+      };
 
       const results = await unitTestRule(ruleId, rule, input);
 
@@ -399,7 +396,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
             maxItems: 50,
           },
         ],
-      }
+      };
 
       const results = await unitTestRule(ruleId, rule, input);
 
@@ -485,7 +482,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const input = {
         type: 'object',
         items: {
-          type: 'integer'
+          type: 'integer',
         },
       };
 

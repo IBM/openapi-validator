@@ -13,7 +13,12 @@ const { Spectral } = require('@stoplight/spectral-core');
  * @param {any} one of the input values expected by the rule after applying its `given`
  * @param {boolean} exceptionIsExpected if `true`, exceptions are not displayed on console
  */
-async function unitTestRule(ruleName, rule, input, exceptionIsExpected = false) {
+async function unitTestRule(
+  ruleName,
+  rule,
+  input,
+  exceptionIsExpected = false
+) {
   const ruleDef = {
     ...rule,
     given: ['$'],
