@@ -75,6 +75,7 @@ module.exports = {
   requiredPropertyMissing: require('./required-property-missing'),
   resourceResponseConsistency: require('./resource-response-consistency'),
   responseExampleExists: require('./response-example-exists'),
+  responseStatusBody: require('./response-status-body'),
   responseStatusCodes: require('./response-status-codes'),
   schemaCasingConvention: require('./schema-casing-convention'),
   schemaDescriptionExists: require('./schema-description-exists'),
