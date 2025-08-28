@@ -166,7 +166,7 @@ function responseStatusCodes(operation, path, apidef) {
     const response30x = ['301', '302', '305', '307'].find(
       code => operation.responses[code]
     );
-    //const response30x = operation.responses['301'];
+
     if (response30x && !response30x.content) {
       errors.push({
         message:
