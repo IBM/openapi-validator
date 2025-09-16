@@ -181,6 +181,7 @@ module.exports = {
     'ibm-required-enum-properties-in-response':
       ibmRules.requiredEnumPropertiesInResponse,
     'ibm-resource-response-consistency': ibmRules.resourceResponseConsistency,
+    'ibm-response-status-body': ibmRules.responseStatusBody,
     'ibm-response-status-codes': ibmRules.responseStatusCodes,
     'ibm-schema-casing-convention': ibmRules.schemaCasingConvention,
     'ibm-schema-description': ibmRules.schemaDescriptionExists,
