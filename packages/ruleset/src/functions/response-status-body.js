@@ -18,6 +18,18 @@ module.exports = function (operation, _opts, context) {
   return responseStatusBody(operation, context.path, getResolvedSpec(context));
 };
 
+/**
+ * This function performs a few checks on each operation!s response field:
+ * 1.  Only status codes 301, 302, 305, 307 should include a response body for 30x response codes.
+ * 2.  Every response body for status codes 30x should contain a value for code that matches on of the following values:
+ *     forwarded, resolved, moved, remote_region, remote_account, version_mismatch.
+ * 3.  Every response body for status codes 30x should include "code" property.
+ * 4.  Every response body for status codes 30x should include "message" property.
+ * 5.  Every response body for status codes 30x should include "target" property.
+ * @param {*} operation an operation within the API definition.
+ * @param {*} path the array of path segments indicating the "location" of the operation within the API definition.
+ */
+
 function responseStatusBody(operation, path) {
   if (!operation.responses) {
     return [];
@@ -35,6 +47,14 @@ function responseStatusBody(operation, path) {
 
   if (statusCodes.length) {
     const responseCodesWithBody = ['301', '302', '305', '307'];
+    const redirectCodes = [
+      'forwarded',
+      'resolved',
+      'moved',
+      'remote_region',
+      'remote_account',
+      'version_mismatch',
+    ];
 
     const responses = statusCodes.filter(code => code.startsWith('3'));
     if (responses.length) {
@@ -42,6 +62,8 @@ function responseStatusBody(operation, path) {
         code => !responseCodesWithBody.includes(code)
       );
       const response = operation.responses[responseCode];
+
+      // 1. Only status codes 301, 302, 305, 307 should include a response body for 30x response codes.
       if (response && response.content) {
         errors.push({
           message:
@@ -49,13 +71,55 @@ function responseStatusBody(operation, path) {
           path: [...path, 'responses'],
         });
       }
-    }
 
-    const responseWithBody = responseCodesWithBody.find(
-      code => operation.responses[code]
-    );
-    if (responseStatusBody && responseWithBody.content) {
-      console.log('k');
+      responseCodesWithBody.forEach(code => {
+        const response = operation.responses[code];
+        if (response && response.content) {
+          const applicationJson = response.content['application/json'];
+          const redirectCode = applicationJson['code'];
+          const message = applicationJson['message'];
+          const target = applicationJson['target'];
+
+          // 2. Every response body for status codes 30x should contain a value for code that matches on of the following values:
+          //    forwarded, resolved, moved, remote_region, remote_account, version_mismatch.
+          // 3. Every response body for status codes 30x should include "code" property.
+          if (redirectCode) {
+            for (let i = 0; i < redirectCodes.length; i++) {
+              if (redirectCode == redirectCodes[i]) break;
+              else if (i === redirectCodes.length - 1) {
+                errors.push({
+                  message: `Redirect code should match one of the following: ${redirectCodes.join(
+                    ' or '
+                  )}`,
+                  path: [...path, 'responses'],
+                });
+              }
+            }
+          } else {
+            errors.push({
+              message:
+                'Response body for response codes 301, 302, 305 and 307 should include "code" field',
+              path: [...path, 'responses'],
+            });
+          }
+
+          // 4. Every response body for status codes 30x should include "message" property.
+          if (!message)
+            errors.push({
+              message:
+                'Response body for response codes 301, 302, 305 and 307 should include "message" field',
+              path: [...path, 'responses'],
+            });
+
+          // 5. Every response body for status codes 30x should include "message" property.
+          if (!target)
+            errors.push({
+              message:
+                'Response body for response codes 301, 302, 305 and 307 should include "target" field',
+              path: [...path, 'responses'],
+            });
+        }
+      });
     }
   }
 

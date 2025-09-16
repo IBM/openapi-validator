@@ -163,17 +163,21 @@ function responseStatusCodes(operation, path, apidef) {
     }
 
     //10. Status codes 301, 302, 305, 307 should include a response body.
-    const response30x = ['301', '302', '305', '307'].find(
+    /*const response30x = ['301', '302', '305', '307'].find(
       code => operation.responses[code]
-    );
+    );*/
 
-    if (response30x && !response30x.content) {
-      errors.push({
-        message:
-          'A 301, 302, 305 or 307 response should include a response body, use a different status code for responses without content',
-        path: [...path, 'responses'],
-      });
-    }
+    ['301', '302', '305', '307'].forEach(code => {
+      const response30x = operation.responses[code];
+
+      if (response30x && !response30x.content) {
+        errors.push({
+          message:
+            'A 301, 302, 305 or 307 response should include a response body, use a different status code for responses without content',
+          path: [...path, 'responses'],
+        });
+      }
+    });
   }
 
   if (errors.length) {

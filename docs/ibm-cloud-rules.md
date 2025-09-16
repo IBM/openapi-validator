@@ -98,6 +98,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-required-array-properties-in-response](#ibm-required-array-properties-in-response)
   * [ibm-required-enum-properties-in-response](#ibm-required-enum-properties-in-response)
   * [ibm-resource-response-consistency](#ibm-resource-response-consistency)
+  * [ibm-response-status-body] (#ibm-response-status-body)
   * [ibm-response-status-codes](#ibm-response-status-codes)
   * [ibm-schema-casing-convention](#ibm-schema-casing-convention)
   * [ibm-schema-description](#ibm-schema-description)
@@ -577,6 +578,12 @@ has non-form content. <b>This rule is disabled by default.</b></td>
 <td><a href="#ibm-resource-response-consistency">ibm-resource-response-consistency</a></td>
 <td>warn</td>
 <td>Operations that create or update a resource should return the same schema as the "GET" request for the resource.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<td><a href="#ibm-response-status-body">ibm-response-status-body</a></td>
+<td>error</td>
+<td>Performs multiple checks on the operation response bodies based on status codes.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -5967,6 +5974,68 @@ paths:
             'application/json':
               schema:
                 $ref: '#/components/schemas/Thing'
+</pre>
+</td>
+</tr>
+</table>
+
+### ibm-response-status-body
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-response-status-body</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule performs a few different checks on the operation response bodies based on status codes:
+<ul>
+<li>Regarding <code>30x</code> responses a response body should only accompany any <code>301</code>, <code>302</code>, <code>305</code>, <code>307</code>.</li>
+<li>If a response body is provided for a 30x response, it must contain the following fields: code, target and message.</li>
+<li>For a 30x response the code field must contain one of the following values for redirect code and nothing else: forwarded, resolved, moved, remote_region, remote_account, version_mismatch.</li>
+</ul>
+<p>References:
+<ul>
+<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>warn</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: 'Create a Thing instance.'
+      responses:
+        '301':
+          description: 'Only partial data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+              code: 'remote_region',
+              message: 'The requested resource is in a different region',
+              target:
+                crn: 'crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::share:r134-a0c07083-f411-446c-9316-7b08d6448c86',
+                href: 'https://us-south.iaas.cloud.ibm.com/v1/shares/r134-a0c07083-f411-446c-9316-7b08d6448c86',
+                id: 'r134-a0c07083-f411-446c-9316-7b08d6448c86',
+                name: 'my-share',
+                remote:
+                  region:
+                    href: 'https://us-east.iaas.cloud.ibm.com/v1/regions/us-south',
+                    name: 'us-south',
+                    resource_type: 'region',
+                resource_type: 'share',
 </pre>
 </td>
 </tr>

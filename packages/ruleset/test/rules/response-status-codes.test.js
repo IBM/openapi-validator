@@ -199,6 +199,23 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('PATCH operation returns 301 with response body', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/cars/{car_id}'].patch.responses['301'] = {
+        description: 'Only partial data',
+        content: {
+          'application/json': {
+            code: 'remote_region',
+            message: 'The requested resource is in a different region',
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
