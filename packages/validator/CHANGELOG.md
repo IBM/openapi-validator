@@ -1,3 +1,28 @@
+## ibm-openapi-validator [1.36.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.36.0...ibm-openapi-validator@1.36.1) (2025-08-27)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.32.1
+
+# ibm-openapi-validator [1.36.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.35.3...ibm-openapi-validator@1.36.0) (2025-08-27)
+
+
+### Features
+
+* **ibm-operationid-naming-convention:** extend operationid naming check ([#757](https://github.com/IBM/openapi-validator/issues/757)) ([72bf9f2](https://github.com/IBM/openapi-validator/commit/72bf9f22ef26c30d8268435de81d387f82c18039))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.32.0
+
 ## ibm-openapi-validator [1.35.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.35.2...ibm-openapi-validator@1.35.3) (2025-08-04)
 
 
