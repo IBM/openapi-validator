@@ -349,6 +349,11 @@ module.exports = {
     denominator: 'operations',
     categories: ['usability'],
   },
+  'ibm-response-status-body': {
+    coefficient: 1,
+    denominator: 'operations',
+    categories: ['usability', 'robustness', 'evolution'],
+  },
   'ibm-response-status-codes': {
     coefficient: 1,
     denominator: 'operations',

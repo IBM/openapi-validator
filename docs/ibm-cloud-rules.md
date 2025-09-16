@@ -6001,7 +6001,7 @@ paths:
 </tr>
 <tr>
 <td><b>Severity:</b></td>
-<td>warn</td>
+<td>error</td>
 </tr>
 <tr>
 <td><b>OAS Versions:</b></td>
