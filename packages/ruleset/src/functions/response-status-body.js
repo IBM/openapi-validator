@@ -78,7 +78,7 @@ function responseStatusBody(operation, path) {
         if (response && response.content) {
           const applicationJson = response.content['application/json'];
 
-          if (!applicationJson) return errors;
+          if (!applicationJson) return;
 
           const redirectCode = applicationJson['code'];
           const message = applicationJson['message'];
