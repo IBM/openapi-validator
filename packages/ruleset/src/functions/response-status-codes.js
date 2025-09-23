@@ -163,10 +163,6 @@ function responseStatusCodes(operation, path, apidef) {
     }
 
     //10. Status codes 301, 302, 305, 307 should include a response body.
-    /*const response30x = ['301', '302', '305', '307'].find(
-      code => operation.responses[code]
-    );*/
-
     ['301', '302', '305', '307'].forEach(code => {
       const response30x = operation.responses[code];
 

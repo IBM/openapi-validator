@@ -254,7 +254,9 @@ describe(`Spectral rule: ${ruleId}`, () => {
         'Operation responses should use status code 303 or 307 instead of 302'
       );
       expect(results[0].severity).toBe(expectedSeverity);
-      expect(results[0].path.join('.')).toBe('paths./v1/drinks.post.responses');
+      expect(results[1].path.join('.')).toBe(
+        'paths./v1/drinks.post.responses.302'
+      );
     });
 
     it('101 status code along with 2xx codes', async () => {

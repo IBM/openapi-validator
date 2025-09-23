@@ -19,7 +19,7 @@ module.exports = function (operation, _opts, context) {
 };
 
 /**
- * This function performs a few checks on each operation!s response field:
+ * This function performs a few checks on each operation's response field:
  * 1.  Only status codes 301, 302, 305, 307 should include a response body for 30x response codes.
  * 2.  Every response body for status codes 30x should contain a value for code that matches on of the following values:
  *     forwarded, resolved, moved, remote_region, remote_account, version_mismatch.
@@ -29,7 +29,6 @@ module.exports = function (operation, _opts, context) {
  * @param {*} operation an operation within the API definition.
  * @param {*} path the array of path segments indicating the "location" of the operation within the API definition.
  */
-
 function responseStatusBody(operation, path) {
   if (!operation.responses) {
     return [];
@@ -56,31 +55,36 @@ function responseStatusBody(operation, path) {
       'version_mismatch',
     ];
 
-    const responses = statusCodes.filter(code => code.startsWith('3'));
-    if (responses.length) {
-      const responseCode = responses.filter(
+    const redirectResponses = statusCodes.filter(code => code.startsWith('3'));
+    if (redirectResponses.length) {
+      const responseCodes = redirectResponses.filter(
         code => !responseCodesWithBody.includes(code)
       );
-      const response = operation.responses[responseCode];
 
       // 1. Only status codes 301, 302, 305, 307 should include a response body for 30x response codes.
-      if (response && response.content) {
-        errors.push({
-          message:
-            'Only a 301, 302, 305, 307 response should include a response body',
-          path: [...path, 'responses'],
-        });
-      }
+      responseCodes.forEach(responseCode => {
+        const response = operation.responses[responseCode];
+        if (response && response.content) {
+          errors.push({
+            message:
+              'Only a 301, 302, 305, 307 response should include a response body',
+            path: [...path, 'responses'],
+          });
+        }
+      });
 
       responseCodesWithBody.forEach(code => {
         const response = operation.responses[code];
         if (response && response.content) {
           const applicationJson = response.content['application/json'];
+
+          if (!applicationJson) return errors;
+
           const redirectCode = applicationJson['code'];
           const message = applicationJson['message'];
           const target = applicationJson['target'];
 
-          // 2. Every response body for status codes 30x should contain a value for code that matches on of the following values:
+          // 2. Every response body for status codes 30x should contain a value for code that matches one of the following values:
           //    forwarded, resolved, moved, remote_region, remote_account, version_mismatch.
           // 3. Every response body for status codes 30x should include "code" property.
           if (redirectCode) {
@@ -111,7 +115,7 @@ function responseStatusBody(operation, path) {
               path: [...path, 'responses'],
             });
 
-          // 5. Every response body for status codes 30x should include "message" property.
+          // 5. Every response body for status codes 30x should include "target" property.
           if (!target)
             errors.push({
               message:
