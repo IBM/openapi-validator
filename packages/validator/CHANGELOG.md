@@ -1,3 +1,18 @@
+# ibm-openapi-validator [1.37.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.36.1...ibm-openapi-validator@1.37.0) (2025-09-23)
+
+
+### Features
+
+* **ibm-redirect-response-body:** introduce new validation rule ([#758](https://github.com/IBM/openapi-validator/issues/758)) ([ac0d8dc](https://github.com/IBM/openapi-validator/commit/ac0d8dcd997cb5d6ce9fb5daa52397d3f738593f))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.0
+
 ## ibm-openapi-validator [1.36.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.36.0...ibm-openapi-validator@1.36.1) (2025-08-27)
 
 
