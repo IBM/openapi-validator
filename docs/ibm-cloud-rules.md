@@ -91,6 +91,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
   * [ibm-property-casing-convention](#ibm-property-casing-convention)
   * [ibm-property-consistent-name-and-type](#ibm-property-consistent-name-and-type)
   * [ibm-property-description](#ibm-property-description)
+  * [ibm-redirect-response-body](#ibm-redirect-response-body)
   * [ibm-ref-pattern](#ibm-ref-pattern)
   * [ibm-request-and-response-content](#ibm-request-and-response-content)
   * [ibm-requestbody-is-object](#ibm-requestbody-is-object)
@@ -535,6 +536,13 @@ or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
+<td><a href="#ibm-redirect-response-body">ibm-redirect-response-body</a></td>
+<td>error</td>
+<td>Performs multiple checks on the operation redirect response bodies based on status codes.</td>
+<td>oas3</td>
+</tr>
+<tr>
+<tr>
 <td><a href="#ibm-ref-pattern">ibm-ref-pattern</a></td>
 <td>warn</td>
 <td>Ensures that <code>$ref</code> values follow the correct patterns.</td>
@@ -579,7 +587,6 @@ has non-form content. <b>This rule is disabled by default.</b></td>
 <td>Operations that create or update a resource should return the same schema as the "GET" request for the resource.</td>
 <td>oas3</td>
 </tr>
-<tr>
 <td><a href="#ibm-response-status-codes">ibm-response-status-codes</a></td>
 <td>warn</td>
 <td>Performs multiple checks on the status codes used in operation responses.</td>
@@ -5474,6 +5481,89 @@ components:
 </table>
 
 
+### ibm-redirect-response-body
+<table>
+<tr>
+<td><b>Rule id:</b></td>
+<td><b>ibm-redirect-response-body</b></td>
+</tr>
+<tr>
+<td valign=top><b>Description:</b></td>
+<td>This rule performs a few different checks on the operation redirect response bodies based on status codes:
+<ul>
+<li>Regarding <code>30x</code> responses a response body should only accompany any <code>301</code>, <code>302</code>, <code>305</code>, <code>307</code>.</li>
+<li>If a response body is provided for a 30x response, it must contain the following fields: <code>code</code>, <code>target</code> and <code>message</code>.</li>
+<li>For a 30x response the code field must contain one of the following values for redirect code and nothing else: <code>forwarded</code>, <code>resolved</code>, <code>moved</code>, <code>remote_region</code>, <code>remote_account</code>, <code>version_mismatch</code>.</li>
+</ul>
+<p>References:
+<ul>
+<li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
+</ul>
+</td>
+</tr>
+<tr>
+<td><b>Severity:</b></td>
+<td>error</td>
+</tr>
+<tr>
+<td><b>OAS Versions:</b></td>
+<td>oas3</td>
+</tr>
+<tr>
+<td valign=top><b>Compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: 'Create a Thing instance.'
+      responses:
+        '301':
+          description: 'Only partial data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+              code: 'remote_region'
+              message: 'The requested resource is in a different region'
+              target:
+                crn: 'crn:v1:bluemix:public:is:us-south-1:a/aa2432b1fa4d4ace891e9b80fc104e34::share:r134-a0c07083-f411-446c-9316-7b08d6448c86'
+                href: 'https://us-south.iaas.cloud.ibm.com/v1/shares/r134-a0c07083-f411-446c-9316-7b08d6448c86'
+                id: 'r134-a0c07083-f411-446c-9316-7b08d6448c86'
+                name: 'my-share'
+                remote:
+                  region:
+                    href: 'https://us-east.iaas.cloud.ibm.com/v1/regions/us-south'
+                    name: 'us-south'
+                    resource_type: 'region'
+                resource_type: 'share'
+</pre>
+</td>
+</tr>
+<tr>
+<td valign=top><b>Non-compliant example:<b></td>
+<td>
+<pre>
+paths:
+  '/v1/things':
+    post:
+      operationId: create_thing
+      description: 'Create a Thing instance.'
+      responses:
+        '301':
+          description: 'Only partial data'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Thing'
+              code: 'remote'
+</pre>
+</td>
+</tr>
+</table>
+
+
 ### ibm-ref-pattern
 <table>
 <tr>
@@ -5999,6 +6089,7 @@ there is no body representation for the resource).</li>
 or <code>202 - Accepted</code> status code.</li>
 <li>A PATCH operation must return either a <code>200 - OK</code>
 or a <code>202 - Accepted</code> status code.</li>
+<li>Status codes <code>301</code>, <code>302</code>, <code>305</code>, <code>307</code> should include a response body.</li>
 <p>Note that for the purposes of this rule, an operation is considered to be a "create"-type operation if the
 operationId starts with "create" or the operation is a POST request and there is another path
 present in the API that is similar to the path of the "create" operation, but with a trailing path parameter reference.

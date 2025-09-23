@@ -314,6 +314,11 @@ module.exports = {
     denominator: 'schemas',
     categories: ['usability', 'robustness'],
   },
+  'ibm-redirect-response-body': {
+    coefficient: 1,
+    denominator: 'operations',
+    categories: ['usability', 'robustness', 'evolution'],
+  },
   'ibm-ref-pattern': {
     coefficient: 1,
     denominator: 'operations',

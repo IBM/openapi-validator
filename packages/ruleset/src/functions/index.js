@@ -56,6 +56,7 @@ module.exports = {
   propertyConsistentNameAndType: require('./property-consistent-name-and-type'),
   propertyDescriptionExists: require('./property-description-exists'),
   propertyNameCollision: require('./property-name-collision'),
+  redirectResponseBody: require('./redirect-response-body'),
   refPattern: require('./ref-pattern'),
   refSiblingDuplicateDescription: require('./ref-sibling-duplicate-description'),
   requestAndResponseContent: require('./request-and-response-content'),
