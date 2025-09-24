@@ -16,7 +16,7 @@ module.exports = {
   then: {
     function: operationIdNamingConvention,
     functionOptions: {
-      namingCheck: true,
+      strict: true,
     },
   },
 };

@@ -8,8 +8,7 @@ const { operationMethods } = require('../utils');
 const inflected = require('inflected');
 
 module.exports = function (rootDocument, options) {
-  const fullNamingCheck = options.namingCheck;
-  return operationIdNamingConvention(rootDocument, fullNamingCheck);
+  return operationIdNamingConvention(rootDocument, options.strict);
 };
 
 function operationIdNamingConvention(resolvedSpec, fullNamingCheck) {

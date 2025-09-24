@@ -4389,7 +4389,26 @@ For example, <code>create_thing</code> would be preferred over <code>manufacture
 when deciding on an operationId for the <code>POST /v1/things</code> operation.
 Likewise, for the <code>GET /v1/things/{thing_id}</code> operation, we might prefer
 <code>get_thing</code> over <code>retrieve_thing</code> for the operationId.
-<p>This rule will analyze the operations, looking for operationId values that are not using the recommended verbs.
+<p>This rule will analyze the operations, looking for operationId values that are not using the recommended verbs. Furthermore it can also validate the complete name of the operation id by comparing it to the path segments.
+</td>
+</tr>
+<tr>
+<td valign=top><b>Configuration:</b></td>
+<td>This rule can be configured to validate the complete name of the operation id, or only the verb it begins with.
+<p>The default configuration object provided in the rule definition is:
+<pre>
+{
+  strict: true
+}
+</pre>
+<p>To switch off the complete name validation and only validate the verbs the operation ids begin with, you'll need to
+<a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
+custom ruleset</a> and modify the configuration such that the value of the <code>strict</code> field to <code>false</code>
+<pre>
+{
+  strict: false
+}
+</pre>
 </td>
 </tr>
 <tr>
@@ -4410,6 +4429,10 @@ paths:
       operationId: manufacture_thing
       description: Create a new Thing instance.
       summary: Create a Thing
+    get:
+      operationId: retrieve_things
+      description: Retrieve all Thing instances.
+      summary: Retrieve Things
   '/v1/things/{thing_id}':
     get:
       operationId: retrieve_thing
@@ -4428,6 +4451,10 @@ paths:
       operationId: create_thing
       description: Create a new Thing instance.
       summary: Create a Thing
+    get:
+      operationId: list_things
+      description: List all Thing instances.
+      summery: List Things
   '/v1/things/{thing_id}':
     get:
       operationId: get_thing
