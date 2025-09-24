@@ -17,7 +17,7 @@ const expectedSeverity = severityCodes.warning;
 const strictExpectedMsgPrefix =
   /^operationIds should follow naming convention: operationId should be.*$/;
 const notStrictstrictstrictExpectedMsgPrefix =
-        /^operationIds should follow naming convention: operationId verb should be.*$/;
+  /^operationIds should follow naming convention: operationId verb should be.*$/;
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
