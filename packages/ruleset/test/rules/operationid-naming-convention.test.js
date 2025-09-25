@@ -14,9 +14,9 @@ const {
 const rule = operationIdNamingConvention;
 const ruleId = 'ibm-operation-id-naming-convention';
 const expectedSeverity = severityCodes.warning;
-const strictExpectedMsgPrefix =
+const expectedStrictMsgPrefix =
   /^operationIds should follow naming convention: operationId should be.*$/;
-const notStrictstrictstrictExpectedMsgPrefix =
+const expectedNotStrictMsgPrefix =
   /^operationIds should follow naming convention: operationId verb should be.*$/;
 
 describe(`Spectral rule: ${ruleId}`, () => {
@@ -206,7 +206,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*list_drinks*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe('paths./v1/drinks.get.operationId');
@@ -222,7 +222,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*get_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -243,7 +243,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*get_drink_glass or check_drink_glass*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -259,7 +259,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*create_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe('paths./v1/drinks.post.operationId');
@@ -276,7 +276,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*create_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -295,7 +295,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*update_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -314,7 +314,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*replace_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -333,7 +333,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*replace_drinks*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe('paths./v1/drinks.put.operationId');
@@ -350,7 +350,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*replace_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -371,7 +371,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(
         /^.*replace_drink_glasses or set_drink_glasses*/
       );
@@ -394,7 +394,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*replace_drink_glass or add_drink_glass*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -413,7 +413,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*delete_drink*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -434,7 +434,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(
         /^.*delete_drink_glasses or unset_drink_glasses*/
       );
@@ -457,7 +457,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(strictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedStrictMsgPrefix);
       expect(r.message).toMatch(/^.*delete_drink_glass or remove_drink_glass*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
@@ -465,7 +465,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       );
     });
 
-    it('path has multiple path params, delete', async () => {
+    it('path has multiple path params, delete, not strict', async () => {
       const testDocument = makeCopy(rootDocument);
 
       testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
@@ -480,7 +480,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(1);
       const r = results[0];
       expect(r.code).toBe(ruleId);
-      expect(r.message).toMatch(notStrictstrictstrictExpectedMsgPrefix);
+      expect(r.message).toMatch(expectedNotStrictMsgPrefix);
       expect(r.message).toMatch(/^.*delete or remove*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(

@@ -4430,9 +4430,9 @@ paths:
       description: Create a new Thing instance.
       summary: Create a Thing
     get:
-      operationId: retrieve_things
-      description: Retrieve all Thing instances.
-      summary: Retrieve Things
+      operationId: list_thing
+      description: List all Thing instances.
+      summary: List Thing
   '/v1/things/{thing_id}':
     get:
       operationId: retrieve_thing
