@@ -7,11 +7,11 @@ const { each, merge, pickBy, reduce } = require('lodash');
 const { operationMethods } = require('../utils');
 const inflected = require('inflected');
 
-module.exports = function (rootDocument) {
-  return operationIdNamingConvention(rootDocument);
+module.exports = function (rootDocument, options) {
+  return operationIdNamingConvention(rootDocument, options.strict);
 };
 
-function operationIdNamingConvention(resolvedSpec) {
+function operationIdNamingConvention(resolvedSpec, fullNamingCheck) {
   const operations = reduce(
     resolvedSpec.paths,
     (arr, path, pathKey) => {
@@ -59,23 +59,31 @@ function operationIdNamingConvention(resolvedSpec) {
             p.startsWith(op.pathKey + '/{')
           );
 
-      const { checkPassed, correctIds, operationId } =
+      const { checkPassed, correctIds, operationId, verbs } =
         operationIdPassedConventionCheck(
           isResourceOriented,
           op['opKey'],
           op.operationId,
           pathEndsWithParam,
           numParamRefs,
-          op.pathKey
+          op.pathKey,
+          fullNamingCheck
         );
 
       if (checkPassed === false) {
-        errors.push({
-          message: `operationIds should follow naming convention: operationId should be ${correctIds.join(
-            ' or '
-          )} but it's ${operationId} instead`,
-          path: [...op.path, 'operationId'],
-        });
+        if (fullNamingCheck) {
+          errors.push({
+            message: `operationIds should follow naming convention: operationId should be ${correctIds.join(
+              ' or '
+            )} but it's ${operationId} instead`,
+            path: [...op.path, 'operationId'],
+          });
+        } else {
+          errors.push({
+            message: `operationIds should follow naming convention: operationId verb should be ${verbs.join(' or ')}`,
+            path: [...op.path, 'operationId'],
+          });
+        }
       }
     }
   });
@@ -139,7 +147,8 @@ function operationIdPassedConventionCheck(
   operationId,
   pathEndsWithParam,
   numParamRefs,
-  fullPath
+  fullPath,
+  fullNamingCheck
 ) {
   // Useful for debugging.
   // console.log(`Debug: ${httpMethod} ${isResourceOriented} ${pathEndsWithParam} ${numParamRefs}  ${operationId}`);
@@ -202,27 +211,36 @@ function operationIdPassedConventionCheck(
   // that the operationId starts with that verb
   // and that the rest of the operation id matches
   // the path according to the naming conventions
-  const convertedPath = fullPath
-    .replace(/^\/+/, '')
-    .split('/')
-    .filter(part => !part.startsWith('{') && !part.endsWith('}'))
-    .filter(part => !/^v\d+$/.test(part));
+  if (fullNamingCheck) {
+    const convertedPath = fullPath
+      .replace(/^\/+/, '')
+      .split('/')
+      .filter(part => !part.startsWith('{') && !part.endsWith('}'))
+      .filter(part => !/^v\d+$/.test(part));
 
-  const isPlural = pluralVerbs.some(verb => verbs.includes(verb));
+    const isPlural = pluralVerbs.some(verb => verbs.includes(verb));
 
-  // Singularize the words in the path according to the naming conventions.
-  for (let i = 0; i < convertedPath.length; i++) {
-    if (i !== convertedPath.length - 1 || !isPlural || pathEndsWithParam)
-      convertedPath[i] = inflected.singularize(convertedPath[i]);
+    // Singularize the words in the path according to the naming conventions.
+    for (let i = 0; i < convertedPath.length; i++) {
+      if (i !== convertedPath.length - 1 || !isPlural || pathEndsWithParam)
+        convertedPath[i] = inflected.singularize(convertedPath[i]);
+    }
+
+    const correctIds = [];
+
+    for (let i = 0; i < verbs.length; i++) {
+      const correctId = verbs[i] + '_' + convertedPath.join('_');
+      if (correctId === operationId) return { checkPassed: true };
+      else correctIds.push(correctId);
+    }
+
+    return { checkPassed: false, correctIds, operationId };
+  } else {
+    if (verbs.length > 0) {
+      const checkPassed = verbs
+        .map(verb => operationId.startsWith(verb))
+        .some(v => v);
+      return { checkPassed, verbs: verbs };
+    }
   }
-
-  const correctIds = [];
-
-  for (let i = 0; i < verbs.length; i++) {
-    const correctId = verbs[i] + '_' + convertedPath.join('_');
-    if (correctId === operationId) return { checkPassed: true };
-    else correctIds.push(correctId);
-  }
-
-  return { checkPassed: false, correctIds, operationId };
 }
