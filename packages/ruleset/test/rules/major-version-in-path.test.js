@@ -135,4 +135,21 @@ describe(`Spectral rule: ${ruleId}`, () => {
     expect(validation.path).toStrictEqual([]);
     expect(validation.severity).toBe(severityCodes.warning);
   });
+
+  it('should error when paths start with different versions', async () => {
+    const testDocument = makeCopy(rootDocument);
+    testDocument.paths['metadata/v1/some_path'] = {};
+
+    const results = await testRule(ruleId, rule, testDocument);
+
+    expect(results).toHaveLength(1);
+
+    const validation = results[0];
+    expect(validation.code).toBe(ruleId);
+    expect(validation.message).toBe(
+      "First segment of path isn't the major version of the API"
+    );
+    expect(validation.path).toStrictEqual(['paths']);
+    expect(validation.severity).toBe(severityCodes.warning);
+  });
 });
