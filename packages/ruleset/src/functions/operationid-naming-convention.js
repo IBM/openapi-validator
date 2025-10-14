@@ -216,7 +216,6 @@ function operationIdPassedConventionCheck(
       .replace(/^\/+/, '')
       .split('/')
       .filter(part => !part.startsWith('{') && !part.endsWith('}'));
-    //.filter(part => !/^v\d+$/.test(part));
 
     const versionIndex = tempPath.findIndex(part => /^v\d+$/.test(part));
 
