@@ -2400,7 +2400,7 @@ components:
 <td valign=top><b>Description:</b></td>
 <td>Each path defined within the API definition should include a path segment for the API major version,
 of the form <code>v&lt;n&gt;</code>, and all paths should have the same API major version segment.
-The API major version can appear in either the server URL or in each path entry.
+The API major version can appear in either the server URL or in each path entry. In the path entry, the first segment of the API's path MUST be the major version of the API.
 </td>
 </tr>
 <tr>
