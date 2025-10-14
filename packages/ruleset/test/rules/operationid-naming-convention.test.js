@@ -128,7 +128,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('path has multiple path params, put', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
+      testDocument.paths['metadata/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
         put: {
           operationId: 'add_drink_glass',
         },
@@ -468,11 +468,12 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('path has multiple path params, delete, not strict', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      testDocument.paths['/v1/drinks/{drink_id}/glasses/{glass_id}'] = {
-        delete: {
-          operationId: 'smash_drink_glass',
-        },
-      };
+      testDocument.paths['/metadata/v1/drinks/{drink_id}/glasses/{glass_id}'] =
+        {
+          delete: {
+            operationId: 'smash_drink_glass',
+          },
+        };
 
       rule.then.functionOptions.strict = false;
 
@@ -484,7 +485,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(r.message).toMatch(/^.*delete or remove*/);
       expect(r.severity).toBe(expectedSeverity);
       expect(r.path.join('.')).toBe(
-        'paths./v1/drinks/{drink_id}/glasses/{glass_id}.delete.operationId'
+        'paths./metadata/v1/drinks/{drink_id}/glasses/{glass_id}.delete.operationId'
       );
     });
   });
