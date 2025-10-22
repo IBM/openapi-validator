@@ -106,16 +106,6 @@ function checkMajorVersion(apiDef) {
       return [];
     }
 
-    if (!verionIsFirstInPaths(urls) && versionIsInPath(urls)) {
-      logger.debug(`${ruleId}: first segment of path isn't the major version`);
-      return [
-        {
-          message: "First segment of path isn't the major version of the API",
-          path: ['paths'],
-        },
-      ];
-    }
-
     const versions = urls.map(url => getVersion(url));
 
     if (versions.length > 1 && !versions.every(v => v === versions[0])) {
@@ -132,6 +122,16 @@ function checkMajorVersion(apiDef) {
           message:
             'Major version segments in paths do not match. Found: ' +
             uniqueVersions.join(', '),
+          path: ['paths'],
+        },
+      ];
+    }
+
+    if (!versionIsFirstInPaths(urls) && versionIsInPath(urls)) {
+      logger.debug(`${ruleId}: first segment of path isn't the major version`);
+      return [
+        {
+          message: "First segment of path isn't the major version of the API",
           path: ['paths'],
         },
       ];
@@ -208,7 +208,7 @@ function getDefaultUrl(server) {
   return urlString;
 }
 
-function verionIsFirstInPaths(paths) {
+function versionIsFirstInPaths(paths) {
   const versionRegex = /^\/v\d+\//;
 
   return paths.every(path => versionRegex.test(path));
