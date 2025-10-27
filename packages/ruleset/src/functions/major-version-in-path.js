@@ -127,6 +127,16 @@ function checkMajorVersion(apiDef) {
       ];
     }
 
+    if (!versionIsFirstInPaths(urls) && versionIsInPath(urls)) {
+      logger.debug(`${ruleId}: first segment of path isn't the major version`);
+      return [
+        {
+          message: "First segment of path isn't the major version of the API",
+          path: ['paths'],
+        },
+      ];
+    }
+
     if (versions.length >= 1 && versions[0]) {
       // Major version present in server URL and all match -- all good
       logger.debug(
@@ -196,4 +206,16 @@ function getDefaultUrl(server) {
   }
 
   return urlString;
+}
+
+function versionIsFirstInPaths(paths) {
+  const versionRegex = /^\/v\d+\//;
+
+  return paths.every(path => versionRegex.test(path));
+}
+
+function versionIsInPath(paths) {
+  const versionRegex = /\/v\d+\//;
+
+  return paths.every(path => versionRegex.test(path));
 }
