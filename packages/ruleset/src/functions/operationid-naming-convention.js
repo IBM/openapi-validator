@@ -212,11 +212,15 @@ function operationIdPassedConventionCheck(
   // and that the rest of the operation id matches
   // the path according to the naming conventions
   if (fullNamingCheck) {
-    const convertedPath = fullPath
+    const tempPath = fullPath
       .replace(/^\/+/, '')
       .split('/')
-      .filter(part => !part.startsWith('{') && !part.endsWith('}'))
-      .filter(part => !/^v\d+$/.test(part));
+      .filter(part => !part.startsWith('{') && !part.endsWith('}'));
+
+    const versionIndex = tempPath.findIndex(part => /^v\d+$/.test(part));
+
+    const convertedPath =
+      versionIndex >= 0 ? tempPath.slice(versionIndex + 1) : tempPath;
 
     const isPlural = pluralVerbs.some(verb => verbs.includes(verb));
 
