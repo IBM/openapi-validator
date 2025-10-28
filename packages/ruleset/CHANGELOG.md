@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.1...@ibm-cloud/openapi-ruleset@1.33.2) (2025-10-27)
+
+
+### Bug Fixes
+
+* **ibm-major-version-in-path:** extend rule to check major version is the first segment ([#766](https://github.com/IBM/openapi-validator/issues/766)) ([ed61873](https://github.com/IBM/openapi-validator/commit/ed61873884e0e8dcb53c0ced1f04aaa7856cdc14))
+
 ## @ibm-cloud/openapi-ruleset [1.33.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.0...@ibm-cloud/openapi-ruleset@1.33.1) (2025-09-25)
 
 
