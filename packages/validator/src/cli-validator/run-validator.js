@@ -202,7 +202,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       if (fileExtension === 'json') {
         input = JSON.parse(originalFile);
       } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-        input = readYaml.safeLoad(originalFile);
+        input = readYaml.load(originalFile);
       }
 
       if (!isPlainObject(input)) {
