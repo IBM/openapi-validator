@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.37.5](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.4...ibm-openapi-validator@1.37.5) (2025-11-14)
+
+
+### Bug Fixes
+
+* switch from `yaml.safeLoad` to `yaml.load` ([#771](https://github.com/IBM/openapi-validator/issues/771)) ([22e214a](https://github.com/IBM/openapi-validator/commit/22e214a65f33e65e4146c63bcd443eb030216b34))
+
 ## ibm-openapi-validator [1.37.4](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.3...ibm-openapi-validator@1.37.4) (2025-11-14)
 
 
