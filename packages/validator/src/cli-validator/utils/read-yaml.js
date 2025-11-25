@@ -11,7 +11,7 @@ async function readYaml(path) {
   // Use a "promisified" version of fs.readFile().
   const readFile = util.promisify(fs.readFile);
   const fileContents = await readFile(path, 'utf8');
-  return jsYaml.safeLoad(fileContents);
+  return jsYaml.load(fileContents);
 }
 
 module.exports = readYaml;

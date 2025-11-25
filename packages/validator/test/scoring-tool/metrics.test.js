@@ -14,7 +14,7 @@ describe('scoring-tool metrics tests', function () {
   beforeAll(async function () {
     const fileToTest = `${__dirname}/../cli-validator/mock-files/oas3/clean.yml`;
     const contents = await readFile(fileToTest, { encoding: 'utf8' });
-    apiDef = readYaml.safeLoad(contents);
+    apiDef = readYaml.load(contents);
   });
 
   it('should initialize members in constructor', function () {
