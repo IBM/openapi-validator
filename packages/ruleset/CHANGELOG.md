@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.3...@ibm-cloud/openapi-ruleset@1.33.4) (2025-11-28)
+
+
+### Bug Fixes
+
+* **build:** bump validator.js to avoid CVE-2025-12758 ([#774](https://github.com/IBM/openapi-validator/issues/774)) ([71ab499](https://github.com/IBM/openapi-validator/commit/71ab499b10b94255dadb7b6e68f5eb7205185400))
+
 ## @ibm-cloud/openapi-ruleset [1.33.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.2...@ibm-cloud/openapi-ruleset@1.33.3) (2025-10-28)
 
 
