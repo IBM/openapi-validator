@@ -284,6 +284,34 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it("depends_on doesn't yield error", async () => {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.components.schemas.Movie.properties.metadata = {
+        oneOf: [
+          {
+            type: 'object',
+            properties: {
+              depends_on: {
+                maxLength: '25',
+                type: 'string',
+              },
+            },
+          },
+          {
+            type: 'object',
+            properties: {
+              irrelevant: {
+                type: 'boolean',
+              },
+            },
+          },
+        ],
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {
