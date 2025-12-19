@@ -65,7 +65,12 @@ function isDateBasedName(name) {
     /.*timestamp.*/,
   ];
 
-  return dateBasedNamePatterns.some(regex => regex.test(name));
+  const exceptionNamePatterns = [/.*depends_on$/];
+
+  return (
+    dateBasedNamePatterns.some(regex => regex.test(name)) &&
+    !exceptionNamePatterns.some(regex => regex.test(name))
+  );
 }
 
 /**
