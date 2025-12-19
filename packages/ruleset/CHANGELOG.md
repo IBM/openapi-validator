@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.5](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.4...@ibm-cloud/openapi-ruleset@1.33.5) (2025-12-19)
+
+
+### Bug Fixes
+
+* **ibm-use-date-based-format:** extend date-based-utils with exceptions ([#776](https://github.com/IBM/openapi-validator/issues/776)) ([1797114](https://github.com/IBM/openapi-validator/commit/1797114f27c56aa45cdef8e15844679f2a61c783))
+
 ## @ibm-cloud/openapi-ruleset [1.33.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.3...@ibm-cloud/openapi-ruleset@1.33.4) (2025-11-28)
 
 
