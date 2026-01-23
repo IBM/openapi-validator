@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.6](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.5...@ibm-cloud/openapi-ruleset@1.33.6) (2026-01-23)
+
+
+### Bug Fixes
+
+* bump lodash version to avoid CVEs ([#777](https://github.com/IBM/openapi-validator/issues/777)) ([54368a0](https://github.com/IBM/openapi-validator/commit/54368a0dac1a7a24bc0655fe7a9c96dca467e34b))
+
 ## @ibm-cloud/openapi-ruleset [1.33.5](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.4...@ibm-cloud/openapi-ruleset@1.33.5) (2025-12-19)
 
 
