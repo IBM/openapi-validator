@@ -37,7 +37,7 @@
     "globby": "^11.0.4",
     "js-yaml": "^4.1.1",
     "json-dup-key-validator": "^1.0.3",
-    "lodash": "^4.17.21",
+    "lodash": "^4.17.23",
     "nimma": "^0.7.0",
     "pad": "^2.3.0",
     "semver": "^7.6.0"
