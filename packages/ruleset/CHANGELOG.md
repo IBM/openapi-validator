@@ -1,3 +1,24 @@
+## @ibm-cloud/openapi-ruleset [1.33.6](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.5...@ibm-cloud/openapi-ruleset@1.33.6) (2026-01-23)
+
+
+### Bug Fixes
+
+* bump lodash version to avoid CVEs ([#777](https://github.com/IBM/openapi-validator/issues/777)) ([54368a0](https://github.com/IBM/openapi-validator/commit/54368a0dac1a7a24bc0655fe7a9c96dca467e34b))
+
+## @ibm-cloud/openapi-ruleset [1.33.5](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.4...@ibm-cloud/openapi-ruleset@1.33.5) (2025-12-19)
+
+
+### Bug Fixes
+
+* **ibm-use-date-based-format:** extend date-based-utils with exceptions ([#776](https://github.com/IBM/openapi-validator/issues/776)) ([1797114](https://github.com/IBM/openapi-validator/commit/1797114f27c56aa45cdef8e15844679f2a61c783))
+
+## @ibm-cloud/openapi-ruleset [1.33.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.3...@ibm-cloud/openapi-ruleset@1.33.4) (2025-11-28)
+
+
+### Bug Fixes
+
+* **build:** bump validator.js to avoid CVE-2025-12758 ([#774](https://github.com/IBM/openapi-validator/issues/774)) ([71ab499](https://github.com/IBM/openapi-validator/commit/71ab499b10b94255dadb7b6e68f5eb7205185400))
+
 ## @ibm-cloud/openapi-ruleset [1.33.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.2...@ibm-cloud/openapi-ruleset@1.33.3) (2025-10-28)
 
 

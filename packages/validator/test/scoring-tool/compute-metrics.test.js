@@ -14,7 +14,7 @@ describe('scoring-tool compute-metrics tests', function () {
   beforeAll(async function () {
     const fileToTest = `${__dirname}/../cli-validator/mock-files/oas3/clean.yml`;
     const contents = await readFile(fileToTest, { encoding: 'utf8' });
-    const apiDef = readYaml.safeLoad(contents);
+    const apiDef = readYaml.load(contents);
     metrics = await computeMetrics(apiDef);
   });
 

@@ -1,3 +1,59 @@
+## ibm-openapi-validator [1.37.9](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.8...ibm-openapi-validator@1.37.9) (2026-01-23)
+
+
+### Bug Fixes
+
+* bump lodash version to avoid CVEs ([#777](https://github.com/IBM/openapi-validator/issues/777)) ([54368a0](https://github.com/IBM/openapi-validator/commit/54368a0dac1a7a24bc0655fe7a9c96dca467e34b))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.6
+
+## ibm-openapi-validator [1.37.8](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.7...ibm-openapi-validator@1.37.8) (2025-12-19)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.5
+
+## ibm-openapi-validator [1.37.7](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.6...ibm-openapi-validator@1.37.7) (2025-11-28)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.4
+
+## ibm-openapi-validator [1.37.6](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.5...ibm-openapi-validator@1.37.6) (2025-11-26)
+
+
+### Bug Fixes
+
+* replace remaining `safeLoad` with `load` ([#773](https://github.com/IBM/openapi-validator/issues/773)) ([6077c45](https://github.com/IBM/openapi-validator/commit/6077c45455beff7c1f9e9310b95724cb7133bad7))
+
+## ibm-openapi-validator [1.37.5](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.4...ibm-openapi-validator@1.37.5) (2025-11-14)
+
+
+### Bug Fixes
+
+* switch from `yaml.safeLoad` to `yaml.load` ([#771](https://github.com/IBM/openapi-validator/issues/771)) ([22e214a](https://github.com/IBM/openapi-validator/commit/22e214a65f33e65e4146c63bcd443eb030216b34))
+
+## ibm-openapi-validator [1.37.4](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.3...ibm-openapi-validator@1.37.4) (2025-11-14)
+
+
+### Bug Fixes
+
+* **build:** bump version to avoid CVEs ([#770](https://github.com/IBM/openapi-validator/issues/770)) ([7dd6040](https://github.com/IBM/openapi-validator/commit/7dd6040fa6ee76b5aa403fd6d0a62ce514a63c52))
+
 ## ibm-openapi-validator [1.37.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.2...ibm-openapi-validator@1.37.3) (2025-10-28)
 
 
