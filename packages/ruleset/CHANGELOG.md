@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.7](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.6...@ibm-cloud/openapi-ruleset@1.33.7) (2026-02-05)
+
+
+### Bug Fixes
+
+* **ibm-schema-keywords:** allow examples keyword ([#769](https://github.com/IBM/openapi-validator/issues/769)) ([807e522](https://github.com/IBM/openapi-validator/commit/807e5227aaada39d1685acaddc6e8cacc716638f))
+
 ## @ibm-cloud/openapi-ruleset [1.33.6](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.5...@ibm-cloud/openapi-ruleset@1.33.6) (2026-01-23)
 
 
