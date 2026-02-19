@@ -29,7 +29,7 @@
     "@stoplight/spectral-core": "^1.19.4",
     "@stoplight/spectral-parsers": "^1.0.5",
     "@stoplight/spectral-ref-resolver": "^1.0.5",
-    "ajv": "^8.17.1",
+    "ajv": "^8.18.0",
     "chalk": "^4.1.2",
     "commander": "^10.0.1",
     "console-table-printer": "^2.12.1",
