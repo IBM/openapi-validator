@@ -110,7 +110,7 @@ module.exports = class LoggerFactory {
       // If the name of the logger matches the (potential) glob-pattern
       // previously-specified via the command-line, then apply the
       // specified log level to that logger.
-      if (minimatch(name, setting.loggerName)) {
+      if (minimatch.minimatch(name, setting.loggerName)) {
         logger.setLevel(setting.logLevel);
       }
     }
