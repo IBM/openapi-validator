@@ -6,10 +6,12 @@
 [![CLA assistant](https://cla-assistant.io/readme/badge/ibm/openapi-validator)](https://cla-assistant.io/ibm/openapi-validator)
 
 # OpenAPI Validator
+
 The IBM OpenAPI Validator lets you validate [OpenAPI 3.0.x](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.0.0.md)
 and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/3.1.0.md) documents for compliance with the OpenAPI specifications, as well as IBM-defined best practices.
 
 #### Prerequisites
+
 - Node 16.0.0+
 - NPM 8.3.0+
 
@@ -64,6 +66,7 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
 <!-- tocstop -->
 
 ## Getting Started
+
 The validator analyzes your API definition and reports any problems within. The validator is highly customizable,
 and supports OpenAPI 3.0.x and 3.1.x documents.
 The tool also supports a number of rules from [Spectral](https://stoplight.io/open-source/spectral/). You can easily extend the tool with custom rules to meet your specific needs and ensure compliance to your standards.
@@ -71,6 +74,7 @@ The tool also supports a number of rules from [Spectral](https://stoplight.io/op
 Get started by [installing the tool](#installation), then [run the tool](#usage) on your API definition.
 
 ### Ruleset
+
 By default, the validator will use the [IBM Cloud Validation Ruleset](docs/ibm-cloud-rules.md) (npm package `@ibm-cloud/openapi-ruleset`).
 However, if the validator detects the presence of any of the standard Spectral ruleset files (`spectral.yaml`, `spectral.yml`, `spectral.json`,
 or `spectral.js`) in the current directory (from which the validator is being run) or in any containing directory within the file system,
@@ -88,6 +92,7 @@ Details about these options are provided below in the [Usage](#usage) section.
 You can modify the behavior of the validator for your project to meet your preferred standards. See the [customization documentation](docs/ibm-cloud-rules.md#customization) for more information.
 
 ## Installation
+
 There are three ways to install the validator: using NPM, downloading a platform-specific binary, or building from source.
 
 ### Install with NPM (recommended)
@@ -101,6 +106,7 @@ The `-g` flag installs the tool globally so that the validator can be run from a
 Platform-specific binary files are packaged with each release for MacOS, Linux, and Windows. See [the releases](https://github.com/IBM/openapi-validator/releases) page to download the executable for your platform. These do not depend on Node.JS being installed.
 
 ### Build from source
+
 1. Clone or download this repository
 2. Navigate to the root directory of this project.
 3. Install the dependencies using `npm install`
@@ -109,13 +115,15 @@ Platform-specific binary files are packaged with each release for MacOS, Linux, 
 _If you installed the validator using `npm install -g ibm-openapi-validator`, you will need to run `npm uninstall -g ibm-openapi-validator` before running `npm run link`._
 
 #### Build platform-specific binaries
-It is also possible to build platform specific binaries from the source code by running `npm run pkg` in the project root directory.  The binaries (lint-openapi-macos, lint-openapi-linux, lint-openapi-windows.exe) will be in the project's `packages/validator/bin` directory.
+
+It is also possible to build platform specific binaries from the source code by running `npm run pkg` in the project root directory. The binaries (lint-openapi-macos, lint-openapi-linux, lint-openapi-windows.exe) will be in the project's `packages/validator/bin` directory.
 
 ### Container image
 
 Run the validator with the container image by mounting your API definition.
 
 If it is named `openapi.yaml` in the current directory, then run:
+
 ```bash
 docker run \
   --rm --tty \
@@ -129,6 +137,7 @@ You should **replace `latest` with a specific tagged version** to avoid any surp
 Flag and argument syntax is the same as described in [Usage](#usage), but file paths are relative to `/data`.
 
 To use a custom ruleset named `ruleset.yaml` in the current directory, run:
+
 ```bash
 docker run \
   --rm --tty \
@@ -150,7 +159,9 @@ RUN npm install -g ${your-ruleset-pkg-here}
 ```
 
 ## Usage
+
 ### Command Syntax
+
 ```bash
 Usage: lint-openapi [options] [file...]
 
@@ -171,16 +182,20 @@ Options:
   --version                      output the version number
   -h, --help                     display help for command
 ```
+
 where `[file...]` is a space-separated list containing the filenames of one or more OpenAPI 3.x documents to be validated.
 The validator supports OpenAPI documents in either JSON or YAML format, using these supported file extensions:
+
 ```
 .json
 .yaml
 .yml
 ```
+
 Assuming your command shell supports the use of wildcards, you can use wildcards when specifying the names of files to be validated.
 For example, to run the validator on all `.yaml` files contained in the `/my/apis` directory, you could use
 this command:
+
 ```bash
 lint-openapi /my/apis/*.yaml
 ```
@@ -188,38 +203,48 @@ lint-openapi /my/apis/*.yaml
 Note that the `-i`/`--ignore` option can be particularly useful when using wildcards because it allows you to skip the
 validation of specific files which might otherwise be included in a validation run.
 For example, to validate all `.yaml` files in the `/my/apis` directory, except for `/my/apis/broken-api.yaml` use the command:
+
 ```bash
 lint-openapi /my/apis/*.yaml -i /my/apis/broken-api.yaml
 ```
 
 ### Configuration
+
 In addition to command-line options, the validator supports the use of a configuration file containing options as well.
 A configuration file can be in JSON, YAML or Javascript format, using these supported extensions: `.json`, `.yaml`, `.yml`, and `.js`.
 Its structure must comply with [this JSON schema](packages/validator/src/schemas/config-file.yaml).
 
-You can specify the name of your configuration file with the `-c`/`--config` option.  Here's an example:
+You can specify the name of your configuration file with the `-c`/`--config` option. Here's an example:
+
 ```bash
 lint-openapi -c my-config.yaml my-api.json
 ```
+
 where `my-config.yaml` might contain the following:
+
 ```yaml
 errorsOnly: true
 limits:
   warnings: 25
-outputFormat: 'json'
+outputFormat: "json"
 summaryOnly: true
 ```
+
 This would be equivalent to this command:
+
 ```bash
 lint-openapi --errors-only --warnings-limit=25 --json --summary-only my-api.json
 ```
+
 When using both a configuration file and various command-line options, be aware that the options specified
 via the command-line will take precendence and override any corresponding properties specified in the configuration file.
 
 #### Configuration Properties
+
 This section provides information about each of the properties that are supported within a configuration file.
 
 ##### colorizeOutput
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -264,6 +289,7 @@ module.exports = {
 </table>
 
 ##### errorsOnly
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -309,6 +335,7 @@ module.exports = {
 </table>
 
 ##### files
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -362,6 +389,7 @@ module.exports = {
 </table>
 
 ##### ignoreFiles
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -419,6 +447,7 @@ module.exports = {
 </table>
 
 ##### limits
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -471,6 +500,7 @@ module.exports = {
 </table>
 
 ##### logLevels
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -524,6 +554,7 @@ module.exports = {
 </table>
 
 ##### outputFormat
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -569,6 +600,7 @@ module.exports = {
 </table>
 
 ##### ruleset
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -580,11 +612,12 @@ This corresponds to the <code>-r</code>/<code>--ruleset</code> command-line opti
 
 By default, the validator will look for the standard Spectral ruleset files (<code>.spectral.yaml</code>, <code>.spectral.yml</code>,
 <code>.spectral.json</code>, or <code>.spectral.js</code>) in the current working directory and
-its parent directories within the filesystem.  If none are found, then the IBM Cloud Validation Ruleset
+its parent directories within the filesystem. If none are found, then the IBM Cloud Validation Ruleset
 will be used.
 
 If you want to force the use of the IBM Cloud Validation Ruleset even if one of the standard Spectral ruleset files are present,
 you can specify <code>'default'</code> for the <code>ruleset</code> configuration property.
+
 </td>
 <td><code>null</code>, which implies that a standard Spectral ruleset file will be used (if present),
 otherwise the IBM Cloud Validation Ruleset will be used.</td>
@@ -623,6 +656,7 @@ module.exports = {
 </table>
 
 ##### summaryOnly
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -668,6 +702,7 @@ module.exports = {
 </table>
 
 ##### produceImpactScore
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -720,6 +755,7 @@ module.exports = {
 </table>
 
 ##### markdownReport
+
 <table border=1>
 <tr>
 <td><b>Description</b></td>
@@ -771,10 +807,12 @@ module.exports = {
 </table>
 
 ### Programmatic Usage
+
 While the validator does not expose an API for usage within a Node.js program, you can achieve programmatic behavior
 consistent with the CLI by using the open-source tool [Spectral's Node API](https://meta.stoplight.io/docs/spectral/eb68e7afd463e-spectral-in-java-script)
 and the [IBM OpenAPI Ruleset package](https://www.npmjs.com/package/@ibm-cloud/openapi-ruleset).
 Here is a simple example of what that might look like:
+
 ```js
 const ibmOpenapiRuleset = require('@ibm-cloud/openapi-ruleset');
 const { Spectral } = require('@stoplight/spectral-core');
@@ -788,7 +826,8 @@ function async runSpectral(openapiDocument) {
 ```
 
 ## Validator Output
-The validator can produce output in either text or JSON format.  The default is `text` output, and this can be
+
+The validator can produce output in either text or JSON format. The default is `text` output, and this can be
 controlled with the `-j`/`--json` command-line option or `outputFormat` configuration property.
 
 **NOTE** The text (i.e. "human readable") output is not a part of the tool's contract and may change in a minor
@@ -796,7 +835,9 @@ or patch release. If you are building automation or scripts with this tool, use 
 and subject to semantic versioning.
 
 ### Text
+
 Here is an example of text output:
+
 ```
 IBM OpenAPI Validator (validator: 0.97.5; ruleset: 0.45.5), @Copyright IBM Corporation 2017, 2023.
 
@@ -832,15 +873,18 @@ Summary:
   Warnings:
    2 (100%) : Operation summaries should not have a trailing period
 ```
+
 As you can see, any errors detected by the validator are listed first, then
 warnings, and finally a summary section.
 
 #### Additional Customization
+
 - The `-s`/`--summary-only` command-line option or the `summaryOnly` configuration property causes only the summary to be displayed.
 - The `-e`/`--errors-only` option or `errorsOnly` configuration property causes only error-level violations to be displayed.
 - The `-q`/`--impact-score` option or `produceImpactScore` configuration property causes the validator to show aggregated impact scores. See the example below:
 
 Example of impact score tables that are appended to the standard output:
+
 ```
 ┌────────────────┬───────────┐
 │       category │ max score │
@@ -861,10 +905,12 @@ Example of impact score tables that are appended to the standard output:
 ```
 
 ### JSON
+
 When displaying JSON output, the validator will produce a JSON object which complies with
 [this JSON schema](packages/validator/src/schemas/results-object.yaml). The JSON data will include information about all rule violations,
 as well as all impact score information computed from the rule violations.
 Here is an example of JSON output:
+
 ```json
 {
   "error": {
@@ -972,11 +1018,13 @@ Here is an example of JSON output:
   }
 }
 ```
+
 The JSON output is also affected by the `-s`/`--summary-only` and `-e`/`--errors-only` options as well as the `summaryOnly` and `errorsOnly`
 configuration properties. It is _not_ affected by the `-q`/`--impact-score` option or `produceImpactScore` property.
 
 ## Logging
-The validator uses a *logger* for displaying messages on the console.
+
+The validator uses a _logger_ for displaying messages on the console.
 The core validator uses a single logger named `root`, while each of the rules contained in the
 IBM Cloud Validation Ruleset uses their own unique logger whose name will match the rule's id
 (e.g. `ibm-accept-header`, `ibm-schema-description-exists`, etc.).
@@ -992,7 +1040,7 @@ To set the level of the logger used by the `ibm-accept-header` rule to `debug`,
 you could use this option: `-l ibm-accept-header=debug`.
 
 You can also use a glob-like value for a logger name to set the level on multiple loggers.
-For example, to set the level for *all* loggers whose name starts with `ibm-property`, try this:
+For example, to set the level for _all_ loggers whose name starts with `ibm-property`, try this:
 `-l ibm-property*=debug`.
 
 Enabling debug logging for a specific rule might be useful in a situation where the rule is
@@ -1001,6 +1049,7 @@ might be helpful in determining why the violations are occurring, and could poss
 For example, suppose the `ibm-pagination-style` rule is reporting several violations,
 but yet at first glance it's not obvious why these violations are occurring.
 To enable debug logging for this rule, use a command like this:
+
 ```
 lint_openapi -l ibm-pagination-style=debug my-new-api.yaml
 ```
@@ -1014,4 +1063,4 @@ See [CONTRIBUTING](CONTRIBUTING.md).
 
 ## License
 
-This project is licensed under Apache 2.0.  Full license text is available in [LICENSE](LICENSE).
+This project is licensed under Apache 2.0. Full license text is available in [LICENSE](LICENSE).
