@@ -76,8 +76,8 @@ Get started by [installing the tool](#installation), then [run the tool](#usage)
 ### Ruleset
 
 By default, the validator will use the [IBM Cloud Validation Ruleset](docs/ibm-cloud-rules.md) (npm package `@ibm-cloud/openapi-ruleset`).
-However, if the validator detects the presence of any of the standard Spectral ruleset files (`spectral.yaml`, `spectral.yml`, `spectral.json`,
-or `spectral.js`) in the current directory (from which the validator is being run) or in any containing directory within the file system,
+However, if the validator detects the presence of any of the standard Spectral ruleset files (`.spectral.yaml`, `.spectral.yml`, `.spectral.json`,
+or `.spectral.js`) in the current directory (from which the validator is being run) or in any containing directory within the file system,
 then that ruleset file will be used instead.
 To explicitly specify an alternate ruleset, you can use the `-r`/`--ruleset` option (or the `ruleset` configuration property)
 to specify the name of your custom ruleset file.
