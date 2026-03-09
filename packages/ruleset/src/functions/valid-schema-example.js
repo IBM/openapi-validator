@@ -5,7 +5,7 @@
 
 const { validate } = require('jsonschema');
 const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+const { nestedSchemaKeys, LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
@@ -50,6 +50,14 @@ function checkSchemaExamples(schema, path) {
 function validateExamples(examples) {
   return examples
     .map(({ schema, example, path }) => {
+      if (hasUnresolvedRefs(schema)) {
+        logger.debug(
+          `Skipping example validation at path ${path.join(".")}: schema contains unresolved $ref references`
+        );
+        // Skip validation for schemas with unresolved references.
+        return undefined;
+      }
+
       // Setting required: true prevents undefined values from passing validation.
       const { valid, errors } = validate(example, schema, { required: true });
       if (!valid) {
@@ -60,7 +68,46 @@ function validateExamples(examples) {
         };
       }
     })
-    .filter(e => isDefined(e));
+    .filter((e) => isDefined(e));
+}
+
+/**
+ * Recursively checks if a schema or any of its nested schemas contain unresolved $ref references.
+ * @param {object} schema - The schema to check
+ * @returns {boolean} - True if the schema contains unresolved $ref references
+ */
+function hasUnresolvedRefs(schema) {
+  if (!schema || typeof schema !== 'object') {
+    return false;
+  }
+
+  if (schema.$ref) {
+    return true;
+  }
+
+  // Recursively check nested schemas in common locations.
+  for (const key of nestedSchemaKeys) {
+    if (schema[key]) {
+      if (Array.isArray(schema[key])) {
+        // Check each item in arrays (allOf, anyOf, oneOf).
+        if (schema[key].some(item => hasUnresolvedRefs(item))) {
+          return true;
+        }
+      } else if (key === 'properties') {
+        // Check each property in properties object.
+        if (Object.values(schema[key]).some(prop => hasUnresolvedRefs(prop))) {
+          return true;
+        }
+      } else {
+        // Check single nested schema (items, additionalProperties, not).
+        if (hasUnresolvedRefs(schema[key])) {
+          return true;
+        }
+      }
+    }
+  }
+
+  return false;
 }
 
 function isDefined(x) {
