@@ -68,7 +68,7 @@ function validateExamples(examples) {
         };
       }
     })
-    .filter((e) => isDefined(e));
+    .filter(e => isDefined(e));
 }
 
 /**

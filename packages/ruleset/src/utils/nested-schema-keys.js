@@ -4,13 +4,13 @@
  */
 
 const NestedSchemaKeys = [
-    'items',
-    'additionalProperties',
-    'properties',
-    'allOf',
-    'anyOf',
-    'oneOf',
-    'not',
+  "items",
+  "additionalProperties",
+  "properties",
+  "allOf",
+  "anyOf",
+  "oneOf",
+  "not",
 ];
 
 module.exports = NestedSchemaKeys;
