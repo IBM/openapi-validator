@@ -52,7 +52,7 @@ function validateExamples(examples) {
     .map(({ schema, example, path }) => {
       if (hasUnresolvedRefs(schema)) {
         logger.debug(
-          `Skipping example validation at path ${path.join(".")}: schema contains unresolved $ref references`
+          `Skipping example validation at path ${path.join('.')}: schema contains unresolved $ref references`
         );
         // Skip validation for schemas with unresolved references.
         return undefined;

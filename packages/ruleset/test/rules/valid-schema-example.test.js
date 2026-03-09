@@ -7,7 +7,6 @@ const { validSchemaExample } = require('../../src/rules');
 const {
   makeCopy,
   rootDocument,
-  recursiveAPI,
   testRule,
   severityCodes,
 } = require('../test-utils');
