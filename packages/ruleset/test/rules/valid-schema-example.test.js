@@ -22,6 +22,125 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, rootDocument);
       expect(results).toHaveLength(0);
     });
+
+    it('Recursive schema should not make the rule fail', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // Replace the API structure with the recursiveAPI structure
+      testDocument.paths = {
+        '/test': {
+          get: {
+            description: 'Test',
+            operationId: 'listTest',
+            parameters: [],
+            responses: {
+              200: {
+                description: 'Paginated list of objects',
+                content: {
+                  'application/json': {
+                    schema: {
+                      $ref: '#/components/schemas/TestListResponse',
+                    },
+                  },
+                },
+              },
+            },
+            security: [
+              {
+                bearer: [],
+              },
+            ],
+            summary: 'List test',
+            tags: ['Test'],
+          },
+        },
+      };
+
+      testDocument.tags = [
+        {
+          name: 'Test',
+        },
+      ];
+
+      testDocument.components.securitySchemes = {
+        bearer: {
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          type: 'http',
+        },
+      };
+
+      testDocument.components.schemas = {
+        Templates: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'number',
+              example: 1234,
+              description: 'Id',
+            },
+            templates: {
+              description: 'Nested check templates',
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Templates',
+              },
+            },
+          },
+          required: ['id'],
+        },
+        TestResponse: {
+          type: 'object',
+          properties: {
+            id: {
+              type: 'number',
+              example: 12345,
+              description: 'test id',
+            },
+            templates: {
+              description: 'templates',
+              example: [
+                {
+                  id: 2,
+                  templates: [
+                    {
+                      id: 3,
+                    },
+                    {
+                      id: 4,
+                    },
+                  ],
+                },
+              ],
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/Templates',
+              },
+            },
+          },
+          required: ['id', 'templates'],
+        },
+        TestListResponse: {
+          type: 'object',
+          properties: {
+            data: {
+              type: 'array',
+              items: {
+                $ref: '#/components/schemas/TestResponse',
+              },
+            },
+          },
+          required: ['data'],
+        },
+      };
+
+      // Remove responses and requestBodies that reference old schemas
+      delete testDocument.components.responses;
+      delete testDocument.components.requestBodies;
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
   });
 
   describe('Should yield errors', () => {

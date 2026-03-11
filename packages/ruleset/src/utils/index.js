@@ -18,6 +18,7 @@ module.exports = {
   isRequestBodyExploded: require('./is-requestbody-exploded'),
   LoggerFactory: require('./logger-factory'),
   mergeAllOfSchemaProperties: require('./merge-allof-schema-properties'),
+  nestedSchemaKeys: require('./nested-schema-keys'),
   operationMethods: require('./constants'),
   pathHasMinimallyRepresentedResource: require('./path-has-minimally-represented-resource'),
   pathMatchesRegexp: require('./path-matches-regexp'),
