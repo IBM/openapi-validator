@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.8](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.7...@ibm-cloud/openapi-ruleset@1.33.8) (2026-03-11)
+
+
+### Bug Fixes
+
+* **ibm-valid-schema-example:** prevent recursive schemas from failing the validator ([#797](https://github.com/IBM/openapi-validator/issues/797)) ([48c4bf0](https://github.com/IBM/openapi-validator/commit/48c4bf0836590862b72234959237366c97155e73))
+
 ## @ibm-cloud/openapi-ruleset [1.33.7](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.6...@ibm-cloud/openapi-ruleset@1.33.7) (2026-02-05)
 
 
