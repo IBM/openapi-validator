@@ -158,6 +158,22 @@ describe('cli tool - test error handling', function () {
     );
   });
 
+  it('should not reject valid JSON that uses an empty string key', async function () {
+    let exitCode;
+    try {
+      exitCode = await testValidator([
+        './test/cli-validator/mock-files/oas3/empty-string-key.json',
+      ]);
+    } catch (err) {
+      exitCode = err;
+    }
+
+    const capturedText = getCapturedText(consoleSpy.mock.calls);
+
+    expect(exitCode).toEqual(0);
+    expect(capturedText.join('\n')).not.toContain('Syntax error: empty string near');
+  });
+
   it('should return an error when a JSON document contains a trailing comma', async function () {
     let exitCode;
     try {
