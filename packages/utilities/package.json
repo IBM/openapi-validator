@@ -22,9 +22,9 @@
     "pkg": "echo no executables to build in this package"
   },
   "devDependencies": {
-    "@stoplight/spectral-core": "^1.19.4",
-    "jest": "^29.7.0",
-    "typescript": "^5.8.3"
+    "@stoplight/spectral-core": "1.19.4",
+    "jest": "29.7.0",
+    "typescript": "5.8.3"
   },
   "engines": {
     "node": ">=16.0.0"
