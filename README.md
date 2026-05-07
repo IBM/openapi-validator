@@ -12,8 +12,8 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
 
 #### Prerequisites
 
-- Node 16.0.0+
-- NPM 8.3.0+
+- Node 24.0.0+
+- NPM 11.0.0+
 
 ## Table of contents
 

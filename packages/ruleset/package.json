@@ -39,7 +39,7 @@
     "jest": "^29.7.0"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=24.0.0"
   },
   "jest": {
     "collectCoverage": true,
