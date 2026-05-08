@@ -1,7 +1,7 @@
 {
   "name": "@ibm-cloud/openapi-ruleset-utilities",
   "description": "Programmatic utility functions for creating Spectral-formatted OpenAPI Rulesets",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "license": "Apache-2.0",
   "private": false,
   "main": "./src/index.js",
@@ -22,9 +22,9 @@
     "pkg": "echo no executables to build in this package"
   },
   "devDependencies": {
-    "@stoplight/spectral-core": "^1.19.4",
-    "jest": "^29.7.0",
-    "typescript": "^5.8.3"
+    "@stoplight/spectral-core": "1.19.4",
+    "jest": "29.7.0",
+    "typescript": "5.8.3"
   },
   "engines": {
     "node": ">=24.0.0"

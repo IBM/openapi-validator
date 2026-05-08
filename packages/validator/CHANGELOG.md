@@ -1,3 +1,19 @@
+## ibm-openapi-validator [1.37.13](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.12...ibm-openapi-validator@1.37.13) (2026-05-07)
+
+
+### Bug Fixes
+
+* **deps:** lock dependencies ([#807](https://github.com/IBM/openapi-validator/issues/807)) ([404e07b](https://github.com/IBM/openapi-validator/commit/404e07b878887ae60563dbb33edc1de668842437))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.9
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.1
+
 ## ibm-openapi-validator [1.37.12](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.11...ibm-openapi-validator@1.37.12) (2026-03-11)
 
 

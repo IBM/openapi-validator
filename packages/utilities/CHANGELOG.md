@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset-utilities [1.9.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.9.0...@ibm-cloud/openapi-ruleset-utilities@1.9.1) (2026-05-07)
+
+
+### Bug Fixes
+
+* **deps:** lock dependencies ([#807](https://github.com/IBM/openapi-validator/issues/807)) ([404e07b](https://github.com/IBM/openapi-validator/commit/404e07b878887ae60563dbb33edc1de668842437))
+
 # @ibm-cloud/openapi-ruleset-utilities [1.9.0](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.8.1...@ibm-cloud/openapi-ruleset-utilities@1.9.0) (2025-04-23)
 
 
