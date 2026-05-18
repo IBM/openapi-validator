@@ -10,7 +10,10 @@ const {
 const { scoreResults } = require('./score');
 const { computeMetrics } = require('./compute-metrics');
 
-async function produceQualityScore(validatorResults, { apiDefinition, logger }) {
+async function produceQualityScore(
+  validatorResults,
+  { apiDefinition, logger }
+) {
   const metrics = await computeMetrics(apiDefinition);
   logger.debug(`API scaling metrics: ${metrics.toString()}`);
 

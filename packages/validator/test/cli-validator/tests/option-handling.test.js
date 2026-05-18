@@ -201,7 +201,9 @@ describe('cli tool - test option handling', function () {
       expect(
         outputObject.qualityScore.categorizedSummary.usability
       ).toBeTruthy();
-      expect(outputObject.qualityScore.categorizedSummary.security).toBeTruthy();
+      expect(
+        outputObject.qualityScore.categorizedSummary.security
+      ).toBeTruthy();
       expect(
         outputObject.qualityScore.categorizedSummary.robustness
       ).toBeTruthy();
