@@ -197,19 +197,21 @@ describe('cli tool - test option handling', function () {
         'Every operation must have unique "operationId".'
       );
 
-      // Representative sample of the impact score information.
+      // Representative sample of the quality score information.
       expect(
-        outputObject.impactScore.categorizedSummary.usability
-      ).toBeTruthy();
-      expect(outputObject.impactScore.categorizedSummary.security).toBeTruthy();
-      expect(
-        outputObject.impactScore.categorizedSummary.robustness
+        outputObject.qualityScore.categorizedSummary.usability
       ).toBeTruthy();
       expect(
-        outputObject.impactScore.categorizedSummary.evolution
+        outputObject.qualityScore.categorizedSummary.security
       ).toBeTruthy();
-      expect(outputObject.impactScore.categorizedSummary.overall).toBeTruthy();
-      expect(outputObject.impactScore.scoringData.length).toBeGreaterThan(0);
+      expect(
+        outputObject.qualityScore.categorizedSummary.robustness
+      ).toBeTruthy();
+      expect(
+        outputObject.qualityScore.categorizedSummary.evolution
+      ).toBeTruthy();
+      expect(outputObject.qualityScore.categorizedSummary.overall).toBeTruthy();
+      expect(outputObject.qualityScore.scoringData.length).toBeGreaterThan(0);
 
       // json output should comply with written schema
       const outputSchemaPath =
@@ -256,8 +258,8 @@ describe('cli tool - test option handling', function () {
     expect(outputObject.warning.summary.total).toBeGreaterThan(0);
   });
 
-  it.each(['-q', '--impact-score'])(
-    'should print two scoring tables when the -q/--impact-score option is specified',
+  it.each(['-q', '--quality-score'])(
+    'should print two scoring tables when the -q/--quality-score option is specified',
     async function (option) {
       await testValidator([
         option,
@@ -282,10 +284,10 @@ describe('cli tool - test option handling', function () {
         'rule',
         'count',
         'func',
-        'usability impact',
-        'security impact',
-        'robustness impact',
-        'evolution impact',
+        'usability quality',
+        'security quality',
+        'robustness quality',
+        'evolution quality',
         'rule total',
       ]);
     }

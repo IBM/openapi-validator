@@ -76,12 +76,12 @@ function createCLIOptions() {
       'include only the summary information and skip individual errors and warnings (default is false)'
     )
     .option(
-      '-q, --impact-score',
-      'compute scores representing the API impact of rule violations and include with the results'
+      '-q, --quality-score',
+      'compute scores representing the API quality of rule violations and include with the results'
     )
     .option(
       '-m, --markdown-report',
-      'write a markdown report to a file, consisting of rule violations and impact scores'
+      'write a markdown report to a file, consisting of rule violations and quality scores'
     )
     .option(
       '-w, --warnings-limit <number>',

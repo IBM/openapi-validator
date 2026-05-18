@@ -42,7 +42,7 @@ const defaultConfig = {
   outputFormat: 'text',
   ruleset: null,
   summaryOnly: false,
-  produceImpactScore: false,
+  produceQualityScore: false,
   markdownReport: false,
 };
 
@@ -238,8 +238,8 @@ async function processArgs(args, cliParseOptions) {
     configObj.limits.warnings = opts.warningsLimit;
   }
 
-  if ('impactScore' in opts) {
-    configObj.produceImpactScore = true;
+  if ('qualityScore' in opts) {
+    configObj.produceQualityScore = true;
   }
 
   if ('markdownReport' in opts) {

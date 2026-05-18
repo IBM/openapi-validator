@@ -25,7 +25,7 @@ Options:
   -n, --no-colors                disable colorizing of the output (default is false)
   -r, --ruleset <file>           use Spectral ruleset contained in `<file>` ("default" forces use of default IBM Cloud Validation Ruleset)
   -s, --summary-only             include only the summary information and skip individual errors and warnings (default is false)
-  -q, --impact-score             compute scores representing the API impact of rule violations and include with the results (default is false)
+  -q, --quality-score             compute scores representing the API quality of rule violations and include with the results (default is false)
   -m, --markdown-report          generate a Markdown file with a report on all validator results (default is false)
   -w, --warnings-limit <number>  set warnings limit to <number> (default is -1)
   --version                      output the version number
@@ -38,4 +38,4 @@ Again, this page displays abbreviated information. The following links may be he
 
 - [Detailed information about the configuration options](../../README.md#configuration)
 - [Detailed information about the default ruleset](../../docs/ibm-cloud-rules.md)
-- [Detailed information about the `--impact-score` feature](../../docs/automated-quality-screening.md)
+- [Detailed information about the `--quality-score` feature](../../docs/automated-quality-screening.md)

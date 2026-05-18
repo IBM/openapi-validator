@@ -47,7 +47,7 @@ describe('Configuration Manager tests', function () {
       expect(defaultConfig.outputFormat).toBe('text');
       expect(defaultConfig.ruleset).toBe(null);
       expect(defaultConfig.summaryOnly).toBe(false);
-      expect(defaultConfig.produceImpactScore).toBe(false);
+      expect(defaultConfig.produceQualityScore).toBe(false);
       expect(defaultConfig.markdownReport).toBe(false);
     });
   });
@@ -189,7 +189,7 @@ describe('Configuration Manager tests', function () {
         },
         outputFormat: 'text',
         summaryOnly: false,
-        produceImpactScore: false,
+        produceQualityScore: false,
         markdownReport: false,
         ruleset: null,
       });
@@ -213,7 +213,7 @@ describe('Configuration Manager tests', function () {
           '--summary-only',
           '--warnings-limit',
           '-1',
-          '--impact-score',
+          '--quality-score',
           '--markdown-report',
         ],
         cliParseOptions
@@ -235,7 +235,7 @@ describe('Configuration Manager tests', function () {
         },
         ruleset: 'my-rules.yml',
         summaryOnly: true,
-        produceImpactScore: true,
+        produceQualityScore: true,
         markdownReport: true,
       });
     });
@@ -274,7 +274,7 @@ describe('Configuration Manager tests', function () {
             },
             outputFormat: 'text',
             summaryOnly: false,
-            produceImpactScore: false,
+            produceQualityScore: false,
             markdownReport: false,
           };
 
@@ -410,11 +410,11 @@ describe('Configuration Manager tests', function () {
         }
       );
 
-      it.each(['-q', '--impact-score'])(
-        `should produce correct config with -q/--impact-score option`,
+      it.each(['-q', '--quality-score'])(
+        `should produce correct config with -q/--quality-score option`,
         async function (option) {
           const expectedConfig = {
-            produceImpactScore: true,
+            produceQualityScore: true,
           };
 
           const { context } = await processArgs([option], cliParseOptions);

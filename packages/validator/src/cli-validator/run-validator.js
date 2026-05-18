@@ -25,7 +25,7 @@ const {
 } = require('./utils');
 
 const { runSpectral } = require('../spectral');
-const { produceImpactScore, printScoreTables } = require('../scoring-tool');
+const { produceQualityScore, printScoreTables } = require('../scoring-tool');
 const { printMarkdownReport } = require('../markdown-report');
 
 let logger;
@@ -157,11 +157,11 @@ async function runValidator(cliArgs, parseOptions = {}) {
     return Promise.reject(2);
   }
 
-  // If multiple files were specified and the impact score is requested, exit with an error.
+  // If multiple files were specified and the quality score is requested, exit with an error.
   // We could change this behavior in the future.
-  if (filesToValidate.length > 1 && context.config.produceImpactScore) {
+  if (filesToValidate.length > 1 && context.config.produceQualityScore) {
     logger.error(
-      'At most one file can be specified when the impact score is requested.'
+      'At most one file can be specified when the quality score is requested.'
     );
     return Promise.reject(2);
   }
@@ -238,30 +238,30 @@ async function runValidator(cliArgs, parseOptions = {}) {
       continue;
     }
 
-    // Compute scoring information if 1) the user requested the "impact score"
+    // Compute scoring information if 1) the user requested the "quality score"
     // option, 2) if JSON output is requested, or 3) if the markdown report is
     // requested. The JSON output and markdown report always include all results,
     // including the standard rule violations and the scoring information.
-    let impactScoreInformation = {};
+    let qualityScoreInformation = {};
     if (
-      context.config.produceImpactScore ||
+      context.config.produceQualityScore ||
       outputIsJSON(context) ||
       context.config.markdownReport
     ) {
-      logger.info('Impact scores are being calculated...');
-      impactScoreInformation = await produceImpactScore(results, context);
+      logger.info('Quality scores are being calculated...');
+      qualityScoreInformation = await produceQualityScore(results, context);
     } else {
       logger.info(
-        'Impact scores are not being calculated. Scores are calculated when' +
+        'Quality scores are not being calculated. Scores are calculated when' +
           'requested, or when JSON output or a Markdown report is requested.'
       );
     }
 
-    // Combine validator and impact score results into one object.
+    // Combine validator and quality score results into one object.
     results = {
       ...results,
-      impactScore: {
-        ...impactScoreInformation,
+      qualityScore: {
+        ...qualityScoreInformation,
       },
     };
 
@@ -293,7 +293,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
     // If summary output is requested, filter out extraneous information here.
     if (context.config.summaryOnly) {
       // Remove verbose scoring data.
-      results.impactScore.scoringData = [];
+      results.qualityScore.scoringData = [];
 
       // Remove individual rule violation results.
       ['error', 'warning', 'info', 'hint'].forEach(sev => {
@@ -307,9 +307,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
     } else if (results.hasResults) {
       printResults(context, results);
 
-      // If the user requested the "impact score" option, print
+      // If the user requested the "quality score" option, print
       // the scoring tables in addition to the standard output.
-      if (context.config.produceImpactScore) {
+      if (context.config.produceQualityScore) {
         printScoreTables(context, results);
       }
     } else {
