@@ -26,11 +26,11 @@ Findings (errors and warnings) produced by each rule of the validator will reduc
 one or more quality dimensions. The size of the reduction is determined by the number of findings for
 the rule and a qualitative weight assigned to the rule, scaled to the overall size of the API.
 
-For each quality dimension, there is distinct criteria for assigning quality:
+For each quality dimension, there is distinct criteria for assigning impact:
 
 - **Usability** is the broadest category, as most problems with an API will manifest as (at least)
   usability problems. Anything from stylistic deviation from standards (for example `camelCase` vs.
-  `snake_case`) to underspecified behavior has a usability quality.
+  `snake_case`) to underspecified behavior has a usability impact.
 - **Security** quality can come from clear deviations from best practices within an API design, but
   very often comes from undefined or excessively permissive validation constraints on values handled
   in an API. While some constraints may be enforced by a service implementation without being
@@ -43,6 +43,6 @@ For each quality dimension, there is distinct criteria for assigning quality:
   difficult, expensive, or impossible to provide backward compatibility when certain kinds of new
   features are added to a service.
 
-Note that rules that identify undefined behavior often have an quality across all four quality
+Note that rules that identify undefined behavior often have an impact across all four quality
 dimensions.
 

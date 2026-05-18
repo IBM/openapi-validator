@@ -21,7 +21,7 @@ Version: ${apiDefinition.info.version}
 ${primary(results)}
 
 The API quality score, also known as the "Automated Quality Screening" score, is calculated
-by the IBM OpenAPI Validator to help users understand the quality of the rule violations
+by the IBM OpenAPI Validator to help users understand the impact of the rule violations
 reported by the validator. The scores are designed to help users evaluate risk and make
 decisions about investing in the quality of their service's API.
 For more information, see [the AQS documentation](https://github.com/IBM/openapi-validator/blob/main/docs/automated-quality-screening.md).
