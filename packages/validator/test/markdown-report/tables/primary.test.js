@@ -11,7 +11,7 @@ describe('primary table tests', function () {
     const tableRows = primary(validatorResults).split('\n');
 
     expect(tableRows).toHaveLength(3);
-    expect(tableRows[0]).toBe('| Impact Score | Error Count | Warning Count |');
+    expect(tableRows[0]).toBe('| Quality Score | Error Count | Warning Count |');
     expect(tableRows[1]).toBe('| --- | --- | --- |');
     expect(tableRows[2]).toBe('| 96 / 100 | 2 | 1 |');
   });

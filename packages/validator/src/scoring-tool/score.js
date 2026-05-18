@@ -8,7 +8,7 @@ const rubric = require('./rubric');
 
 /**
  * Uses the validator results to calculate categorized demerits for each rule
- * violation, which are then used to compute categorized impact scores for the API.
+ * violation, which are then used to compute categorized quality scores for the API.
  *
  * @param object result - the validator results
  * @param Metrics metrics - the metric tracking class instance for scaling rule violations
@@ -46,7 +46,7 @@ function scoreResults(result, metrics, logger) {
       demeritSumsByCategory[category] += demerit;
     }
 
-    // After adding category totals, we can calculate the total impact for the given rule.
+    // After adding category totals, we can calculate the total quality score for the given rule.
     data.demerits.total = includeDecimals(
       Object.values(data.demerits).reduce((sum, num) => sum + num, 0.0),
       2

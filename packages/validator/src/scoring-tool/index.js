@@ -10,7 +10,7 @@ const {
 const { scoreResults } = require('./score');
 const { computeMetrics } = require('./compute-metrics');
 
-async function produceImpactScore(validatorResults, { apiDefinition, logger }) {
+async function produceQualityScore(validatorResults, { apiDefinition, logger }) {
   const metrics = await computeMetrics(apiDefinition);
   logger.debug(`API scaling metrics: ${metrics.toString()}`);
 
@@ -18,11 +18,11 @@ async function produceImpactScore(validatorResults, { apiDefinition, logger }) {
   return scoreResults(validatorResults, metrics, logger);
 }
 
-function printScoreTables({ config }, { impactScore }) {
-  printCategorizedScoresTable(impactScore);
+function printScoreTables({ config }, { qualityScore }) {
+  printCategorizedScoresTable(qualityScore);
 
   if (!config.summaryOnly) {
-    printScoringDataTable(impactScore);
+    printScoringDataTable(qualityScore);
   }
 
   // Print a new line at the end to be consistent with other validator output.
@@ -30,6 +30,6 @@ function printScoreTables({ config }, { impactScore }) {
 }
 
 module.exports = {
-  produceImpactScore,
+  produceQualityScore,
   printScoreTables,
 };

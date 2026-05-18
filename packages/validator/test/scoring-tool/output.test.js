@@ -53,10 +53,10 @@ describe('scoring-tool output tests', function () {
       'rule',
       'count',
       'func',
-      'usability impact',
-      'security impact',
-      'robustness impact',
-      'evolution impact',
+      'usability quality',
+      'security quality',
+      'robustness quality',
+      'evolution quality',
       'rule total',
     ]);
 

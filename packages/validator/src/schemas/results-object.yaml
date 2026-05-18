@@ -21,7 +21,7 @@ properties:
   hasResults:
     type: boolean
     description: A convenience flag indicating there is at least one result at any severity level
-  impactScore:
+  qualityScore:
     type: object
     description: Data translating the validation results into numeric scores
     required:
@@ -30,7 +30,7 @@ properties:
     properties:
       categorizedSummary:
         type: object
-        description: Holds the max score for each API impact category
+        description: Holds the max score for each API quality category
         required:
           # Must match the category enum values in the "rubric-entry" schema.
           - usability
@@ -75,7 +75,7 @@ properties:
               description: A string representation of the formula used to compute the demerits
             demerits:
               type: object
-              description: The categorized, numeric impact a rule violation has on the score
+              description: The categorized, numeric quality a rule violation has on the score
               # Must match the category enum values in the "rubric-entry" schema.
               properties:
                 usability:
@@ -162,10 +162,10 @@ $defs:
         description: The percentage of total violations for a given severity that this rule comprises
   MaxScore:
     type: integer
-    description: A number describing the maximum score for an API after accounting for the impact of rule violations
+    description: A number describing the maximum score for an API after accounting for the quality of rule violations
     minimum: 0
     maximum: 100
   Demerit:
     type: number
-    description: A number describing the demerit impact a rule has on an API
+    description: A number describing the demerit quality a rule has on an API
     minimum: 0.01

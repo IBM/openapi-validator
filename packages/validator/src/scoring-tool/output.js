@@ -30,7 +30,7 @@ function printCategorizedScoresTable({ categorizedSummary }) {
 }
 
 // Print out a table with all of the rule-based data used to compute the score.
-// rule │ count │ func │ usability impact │ security impact │ robustness impact │ evolution impact │ total
+// rule │ count │ func │ usability quality │ security quality │ robustness quality │ evolution quality │ total
 function printScoringDataTable({ scoringData }) {
   const table = new Table();
 
@@ -44,7 +44,7 @@ function printScoringDataTable({ scoringData }) {
       };
 
       getCategories().forEach(c => {
-        row[`${c} impact`] = sd.demerits[c];
+        row[`${c} quality`] = sd.demerits[c];
       });
 
       row['rule total'] = sd.demerits.total;

@@ -11,7 +11,7 @@ describe('categorizedScores table tests', function () {
     const tableRows = categorizedScores(validatorResults).split('\n');
 
     expect(tableRows).toHaveLength(7);
-    expect(tableRows[0]).toBe('| Category | Impact Score |');
+    expect(tableRows[0]).toBe('| Category | Quality Score |');
     expect(tableRows[1]).toBe('| --- | --- |');
     expect(tableRows[2]).toBe('| usability | 94 / 100 |');
     expect(tableRows[3]).toBe('| security | 96 / 100 |');

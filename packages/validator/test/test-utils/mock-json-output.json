@@ -81,7 +81,7 @@
     }
   },
   "hasResults": true,
-  "impactScore": {
+  "qualityScore": {
     "categorizedSummary": {
       "usability": 94,
       "security": 96,

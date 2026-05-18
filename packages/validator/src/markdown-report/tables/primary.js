@@ -5,15 +5,15 @@
 
 const MarkdownTable = require('../markdown-table');
 
-function getTable({ impactScore, error, warning }) {
+function getTable({ qualityScore, error, warning }) {
   const table = new MarkdownTable(
-    'Impact Score',
+    'Quality Score',
     'Error Count',
     'Warning Count'
   );
 
   table.addRow(
-    `${impactScore.categorizedSummary.overall} / 100`,
+    `${qualityScore.categorizedSummary.overall} / 100`,
     error.summary.total,
     warning.summary.total
   );

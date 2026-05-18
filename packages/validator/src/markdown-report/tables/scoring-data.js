@@ -5,16 +5,16 @@
 
 const MarkdownTable = require('../markdown-table');
 
-function getTable({ impactScore }) {
-  const { scoringData } = impactScore;
+function getTable({ qualityScore }) {
+  const { scoringData } = qualityScore;
   const table = new MarkdownTable(
     'Rule',
     'Count',
     'Func',
-    'Usability Impact',
-    'Security Impact',
-    'Robustness Impact',
-    'Evolution Impact',
+    'Usability Quality',
+    'Security Quality',
+    'Robustness Quality',
+    'Evolution Quality',
     'Rule Total'
   );
 

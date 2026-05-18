@@ -52,7 +52,7 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
       - [outputFormat](#outputformat)
       - [ruleset](#ruleset)
       - [summaryOnly](#summaryonly)
-      - [produceImpactScore](#produceimpactscore)
+      - [produceQualityScore](#producequalityscore)
       - [markdownReport](#markdownreport)
   * [Programmatic Usage](#programmatic-usage)
 - [Validator Output](#validator-output)
@@ -176,7 +176,7 @@ Options:
   -n, --no-colors                disable colorizing of the output (default is false)
   -r, --ruleset <file>           use Spectral ruleset contained in `<file>` ("default" forces use of default IBM Cloud Validation Ruleset)
   -s, --summary-only             include only the summary information and skip individual errors and warnings (default is false)
-  -q, --impact-score             compute scores representing the API impact of rule violations and include with the results (default is false)
+  -q, --quality-score             compute scores representing the API quality of rule violations and include with the results (default is false)
   -m, --markdown-report          generate a Markdown file with a report on all validator results (default is false)
   -w, --warnings-limit <number>  set warnings limit to <number> (default is -1)
   --version                      output the version number
@@ -701,7 +701,7 @@ module.exports = {
 </tr>
 </table>
 
-##### produceImpactScore
+##### produceQualityScore
 
 <table border=1>
 <tr>
@@ -709,13 +709,13 @@ module.exports = {
 <td width=25%><b>Default</b></td>
 </tr>
 <tr>
-<td>The <code>produceImpactScore</code> configuration property corresponds to the
-<code>-q</code>/<code>--impact-score</code> command-line option. If set to true,
+<td>The <code>produceQualityScore</code> configuration property corresponds to the
+<code>-q</code>/<code>--quality-score</code> command-line option. If set to true,
 the validator will, in addition to reporting individual rule violations, use the
-rule violation data to produce API impact scores based on the categories of usability,
+rule violation data to produce API quality scores based on the categories of usability,
 security, robustness, and cost of evolution. By default, the data demonstrating how
 the scores are calculated from each rule is displayed. If this option is combined with
-the "summary only" configuration option, only the categorized impact scores are displayed.
+the "summary only" configuration option, only the categorized quality scores are displayed.
 These scores are useful for "Automated Quality Screening". See [this documentation](docs/automated-quality-screening.md)
 for more information about the purpose of these scores and how they are computed.
 </td>
@@ -734,20 +734,20 @@ for more information about the purpose of these scores and how they are computed
 <tr>
 <td>
 <pre>
-produceImpactScore: true
+produceQualityScore: true
 </pre>
 </td>
 <td>
 <pre>
 {
-  "produceImpactScore": true
+  "produceQualityScore": true
 }
 </pre>
 </td>
 <td>
 <pre>
 module.exports = {
-  produceImpactScore: true
+  produceQualityScore: true
 };
 </pre>
 </td>
@@ -765,7 +765,7 @@ module.exports = {
 <td>The <code>markdownReport</code> configuration property corresponds to the
 <code>-m</code>/<code>--markdown-report</code> command-line option.
 If set to true, the validator will generate a Markdown file containing a report on all of the validator results,
-including the individual rule violations, the impact scores, and the data used to compute the impact scores.
+including the individual rule violations, the quality scores, and the data used to compute the quality scores.
 It provides a single location to see all of the information produced by the validator.
 A default filename is always used and is based on the name of the API definition file provided to the validator.
 If a file of the same name already exists, it will be overwritten by default. This is because the primary use-case
@@ -881,9 +881,9 @@ warnings, and finally a summary section.
 
 - The `-s`/`--summary-only` command-line option or the `summaryOnly` configuration property causes only the summary to be displayed.
 - The `-e`/`--errors-only` option or `errorsOnly` configuration property causes only error-level violations to be displayed.
-- The `-q`/`--impact-score` option or `produceImpactScore` configuration property causes the validator to show aggregated impact scores. See the example below:
+- The `-q`/`--quality-score` option or `produceQualityScore` configuration property causes the validator to show aggregated quality scores. See the example below:
 
-Example of impact score tables that are appended to the standard output:
+Example of quality score tables that are appended to the standard output:
 
 ```
 ┌────────────────┬───────────┐
@@ -896,7 +896,7 @@ Example of impact score tables that are appended to the standard output:
 │ overall (mean) │   91 /100 │
 └────────────────┴───────────┘
 ┌──────────────────────────────┬───────┬─────────────────┬──────────────────┬─────────────────┬───────────────────┬──────────────────┬────────────┐
-│                         rule │ count │            func │ usability impact │ security impact │ robustness impact │ evolution impact │ rule total │
+│                         rule │ count │            func │ usability quality │ security quality │ robustness quality │ evolution quality │ rule total │
 ├──────────────────────────────┼───────┼─────────────────┼──────────────────┼─────────────────┼───────────────────┼──────────────────┼────────────┤
 │ operation-operationId-unique │     1 │  1×3÷operations │                1 │                 │                 2 │                3 │          6 │
 │       ibm-no-array-responses │     2 │ 2×10÷operations │                  │                 │                   │               20 │         20 │
@@ -908,7 +908,7 @@ Example of impact score tables that are appended to the standard output:
 
 When displaying JSON output, the validator will produce a JSON object which complies with
 [this JSON schema](packages/validator/src/schemas/results-object.yaml). The JSON data will include information about all rule violations,
-as well as all impact score information computed from the rule violations.
+as well as all quality score information computed from the rule violations.
 Here is an example of JSON output:
 
 ```json
@@ -987,7 +987,7 @@ Here is an example of JSON output:
     }
   },
   "hasResults": true
-  "impactScore": {
+  "qualityScore": {
     "categorizedSummary": {
       "usability": 94,
       "security": 100,
@@ -1020,7 +1020,7 @@ Here is an example of JSON output:
 ```
 
 The JSON output is also affected by the `-s`/`--summary-only` and `-e`/`--errors-only` options as well as the `summaryOnly` and `errorsOnly`
-configuration properties. It is _not_ affected by the `-q`/`--impact-score` option or `produceImpactScore` property.
+configuration properties. It is _not_ affected by the `-q`/`--quality-score` option or `produceQualityScore` property.
 
 ## Logging
 

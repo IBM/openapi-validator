@@ -12,7 +12,7 @@ describe('scoringData table tests', function () {
 
     expect(tableRows).toHaveLength(5);
     expect(tableRows[0]).toBe(
-      '| Rule | Count | Func | Usability Impact | Security Impact | Robustness Impact | Evolution Impact | Rule Total |'
+      '| Rule | Count | Func | Usability Quality | Security Quality | Robustness Quality | Evolution Quality | Rule Total |'
     );
     expect(tableRows[1]).toBe(
       '| --- | --- | --- | --- | --- | --- | --- | --- |'
