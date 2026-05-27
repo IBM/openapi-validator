@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { useDateBasedFormat } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { useDateBasedFormat } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Heuristically determine when a schema should have a format of "date" or "date-time"',
   message: '{{error}}',

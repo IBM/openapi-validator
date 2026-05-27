@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  operations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { responseStatusCodes } = require('../functions');
+import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { responseStatusCodes } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Performs multiple checks on the status codes used in operation responses',
   message: '{{error}}',

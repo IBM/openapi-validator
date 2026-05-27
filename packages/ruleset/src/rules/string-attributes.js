@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { stringAttributes } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { stringAttributes } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'String schemas should have certain attributes defined',
   message: '{{error}}',
   severity: 'warn',

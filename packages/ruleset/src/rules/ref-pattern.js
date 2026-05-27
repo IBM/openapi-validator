@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { refPattern } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { refPattern } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: '$refs must follow the correct pattern.',
   message: '{{error}}',
   given: '$..$ref',

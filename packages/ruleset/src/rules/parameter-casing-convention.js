@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  parameters,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { parameterCasingConvention } = require('../functions');
+import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { parameterCasingConvention } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Parameter names must follow case conventions',
   message: '{{error}}',
   formats: [oas3],

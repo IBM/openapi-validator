@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  operations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { preconditionHeader } = require('../functions');
+import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { preconditionHeader } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Operations with `412` response must support at least one conditional header.',
   message: '{{error}}',

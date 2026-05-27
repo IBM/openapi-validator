@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  paths,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { consecutivePathSegments } = require('../functions');
+import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { consecutivePathSegments } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Path strings should not contain two or more consecutive path parameter references',
   message: '{{error}}',

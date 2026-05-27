@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { unusedTags } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { unusedTags } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Checks that each defined tag is actually used',
   message: '{{error}}',
   given: ['$'],

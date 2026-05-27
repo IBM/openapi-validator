@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { propertyDescriptionExists } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { propertyDescriptionExists } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Schema properties should have a non-empty description',
   message: '{{error}}',
   given: schemas,

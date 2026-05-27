@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { falsy } = require('@stoplight/spectral-functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { falsy } from '@stoplight/spectral-functions';
 
-module.exports = {
+export default {
   description: '*/* should only be used when all content types are supported',
   formats: [oas3],
   severity: 'warn',

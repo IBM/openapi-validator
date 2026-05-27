@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  patchOperations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { patchRequestContentType } = require('../functions');
+import { patchOperations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { patchRequestContentType } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'PATCH operations should support content types application/json-patch+json or application/merge-patch+json',
   message: '{{description}}',

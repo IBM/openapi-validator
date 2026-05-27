@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { schemaTypeFormat } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { schemaTypeFormat } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Schemas and schema properties must use a valid combination of type and format',
   message: '{{error}}',

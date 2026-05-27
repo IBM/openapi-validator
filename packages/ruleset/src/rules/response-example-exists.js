@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { responseExampleExists } = require('../functions');
+import { responseExampleExists } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Each response should include an example',
   message: '{{error}}',
   given:

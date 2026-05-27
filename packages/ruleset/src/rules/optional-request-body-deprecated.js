@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { optionalRequestBodyDeprecated } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { optionalRequestBodyDeprecated } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'An optional requestBody with required properties should probably be required',
   message: '{{description}}',

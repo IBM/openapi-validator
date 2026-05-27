@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { majorVersionInPath } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { majorVersionInPath } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'All paths must contain the API major version as a distinct path segment',
   message: '{{error}}',

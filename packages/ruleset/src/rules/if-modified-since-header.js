@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  parameters,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { disallowedHeaderParameter } = require('../functions');
+import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { disallowedHeaderParameter } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Operations should support the If-None-Match header parameter instead of If-Modified-Since',
   message: '{{description}}',

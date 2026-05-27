@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { pattern } = require('@stoplight/spectral-functions');
-const { oas3 } = require('@stoplight/spectral-formats');
+import { pattern } from '@stoplight/spectral-functions';
+import { oas3 } from '@stoplight/spectral-formats';
 
-module.exports = {
+export default {
   description: 'Examples name should not contain space',
   message: '{{description}}',
   severity: 'warn',

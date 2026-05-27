@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { noNullableProperties } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { noNullableProperties } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Nullable properties should exist only in JSON merge-patch request bodies',
   message: '{{error}}',

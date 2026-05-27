@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  operations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { arrayResponses } = require('../functions');
+import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { arrayResponses } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Operations should not return an array as the top-level structure of a response.',
   message: '{{error}}',

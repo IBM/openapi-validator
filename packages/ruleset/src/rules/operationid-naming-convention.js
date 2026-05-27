@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas2, oas3 } = require('@stoplight/spectral-formats');
-const { operationIdNamingConvention } = require('../functions');
+import { oas2, oas3 } from '@stoplight/spectral-formats';
+import { operationIdNamingConvention } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Operation ids should follow naming convention',
   message: '{{error}}',
   given: ['$'],

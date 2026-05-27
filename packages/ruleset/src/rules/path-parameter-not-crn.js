@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { pathParameterNotCRN } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { pathParameterNotCRN } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Path parameters should not be defined as a CRN (Cloud Resource Name) value',
   message: '{{error}}',

@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  securitySchemes,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { securitySchemeAttributes } = require('../functions');
+import { securitySchemes } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { securitySchemeAttributes } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Validates the attributes of security schemes within an OpenAPI 3 document',
   message: '{{error}}',

@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { schema } = require('@stoplight/spectral-functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { schema } from '@stoplight/spectral-functions';
 
-module.exports = {
+export default {
   description: 'Ensures that x-sdk-operations fields are properly structured',
   message: '{{error}}',
   given: '$.',

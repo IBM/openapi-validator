@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { pattern } = require('@stoplight/spectral-functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { pattern } from '@stoplight/spectral-functions';
 
-module.exports = {
+export default {
   description: 'Operation summaries should not have a trailing period',
   severity: 'warn',
   formats: [oas3],

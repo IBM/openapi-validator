@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { schemaTypeExists } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { schemaTypeExists } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Schemas and schema properties should have a non-empty `type` field. **This rule is disabled by default.**',
   message: '{{error}}',

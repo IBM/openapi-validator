@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { securitySchemes } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { securitySchemes } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Validates the security schemes within an OpenAPI 3 document',
   message: '{{error}}',
   given: ['$'],

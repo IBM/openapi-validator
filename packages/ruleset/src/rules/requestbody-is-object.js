@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { enumeration } = require('@stoplight/spectral-functions');
+import { enumeration } from '@stoplight/spectral-functions';
 
-module.exports = {
+export default {
   description: 'All request bodies MUST be structured as an object',
   given:
     '$.paths[*][*].requestBody.content[?(@property ~= "^application\\\\/json(;.*)*$")].schema',

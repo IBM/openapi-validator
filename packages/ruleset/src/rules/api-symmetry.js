@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { apiSymmetry } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { apiSymmetry } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Variations of a resource schema should be graph fragments of the canonical schema',
   message: '{{error}}',

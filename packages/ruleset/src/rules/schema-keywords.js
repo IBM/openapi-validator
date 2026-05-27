@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3_1 } = require('@stoplight/spectral-formats');
-const { allowedKeywords } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3_1 } from '@stoplight/spectral-formats';
+import { allowedKeywords } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Verifies that schema objects include only allowed-listed keywords',
   message: '{{error}}',

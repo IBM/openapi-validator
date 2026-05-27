@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  paths,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { validatePathSegments } = require('../functions');
+import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { validatePathSegments } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Validates individual path segments within a path string',
   message: '{{error}}',
   formats: [oas3],

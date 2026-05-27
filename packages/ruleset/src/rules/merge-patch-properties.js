@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { mergePatchProperties } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { mergePatchProperties } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'A JSON merge-patch requestBody should have no required properties',
   message: '{{description}}',

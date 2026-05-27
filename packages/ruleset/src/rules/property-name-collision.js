@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { propertyNameCollision } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { propertyNameCollision } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Avoid duplicate property names within a schema, even if they differ by case convention',
   message: '{{error}}',

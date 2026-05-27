@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3_1 } = require('@stoplight/spectral-formats');
-const { noUnsupportedKeywords } = require('../functions');
+import { oas3_1 } from '@stoplight/spectral-formats';
+import { noUnsupportedKeywords } from '../functions/index.js';
 
-module.exports = {
+export default {
   description:
     'Verifies that unsupported OpenAPI 3.1 keywords are not used in the API document.',
   message: '{{error}}',

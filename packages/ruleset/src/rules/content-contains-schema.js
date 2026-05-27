@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { truthy } = require('@stoplight/spectral-functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { truthy } from '@stoplight/spectral-functions';
 
-module.exports = {
+export default {
   description: 'Content entries must specify a schema',
   formats: [oas3],
   given: [

@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { schemaCasingConvention } = require('../functions');
+import { oas3 } from '@stoplight/spectral-formats';
+import { schemaCasingConvention } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Schema names must follow a specified case convention',
   message: '{{error}}',
   formats: [oas3],

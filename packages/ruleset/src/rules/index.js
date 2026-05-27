@@ -3,97 +3,96 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  acceptAndReturnModels: require('./accept-and-return-models'),
-  acceptHeader: require('./accept-header'),
-  anchoredPatterns: require('./anchored-patterns'),
-  apiSymmetry: require('./api-symmetry'),
-  arrayAttributes: require('./array-attributes'),
-  arrayOfArrays: require('./array-of-arrays'),
-  arrayResponses: require('./array-responses'),
-  authorizationHeader: require('./authorization-header'),
-  avoidMultipleTypes: require('./avoid-multiple-types'),
-  binarySchemas: require('./binary-schemas'),
-  circularRefs: require('./circular-refs'),
-  collectionArrayProperty: require('./collection-array-property'),
-  consecutivePathSegments: require('./consecutive-path-segments'),
-  contentContainsSchema: require('./content-contains-schema'),
-  contentTypeHeader: require('./content-type-header'),
-  contentTypeIsSpecific: require('./content-type-is-specific'),
-  deleteBody: require('./delete-body'),
-  discriminatorPropertyExists: require('./discriminator-property-exists'),
-  duplicatePathParameter: require('./duplicate-path-parameter'),
-  etagHeaderExists: require('./etag-header-exists'),
-  enumCasingConvention: require('./enum-casing-convention'),
-  errorContentTypeIsJson: require('./error-content-type-is-json'),
-  errorResponseSchemas: require('./error-response-schemas'),
-  examplesNameContainsSpace: require('./examples-name-contains-space'),
-  ibmSdkOperations: require('./ibm-sdk-operations'),
-  ifModifiedSinceHeader: require('./if-modified-since-header'),
-  ifUnmodifiedSinceHeader: require('./if-unmodified-since-header'),
-  inlineSchemas: require('./inline-schemas'),
-  integerAttributes: require('./integer-attributes'),
-  majorVersionInPath: require('./major-version-in-path'),
-  mergePatchProperties: require('./merge-patch-properties'),
-  noAmbiguousPaths: require('./no-ambiguous-paths'),
-  noNullableProperties: require('./no-nullable-properties'),
-  noOperationRequestBody: require('./no-operation-requestbody'),
-  noRefInExample: require('./no-ref-in-example'),
-  noSuperfluousAllOf: require('./no-superfluous-allof'),
-  noUnsupportedKeywords: require('./no-unsupported-keywords'),
-  operationIdCasingConvention: require('./operationid-casing-convention'),
-  operationIdNamingConvention: require('./operationid-naming-convention'),
-  operationResponses: require('./operation-responses'),
-  operationSummaryExists: require('./operation-summary-exists'),
-  operationSummaryLength: require('./operation-summary-length'),
-  optionalRequestBody: require('./optional-request-body'),
-  optionalRequestBodyDeprecated: require('./optional-request-body-deprecated'),
-  paginationStyle: require('./pagination-style'),
-  parameterCasingConvention: require('./parameter-casing-convention'),
-  parameterDefault: require('./parameter-default'),
-  parameterDescriptionExists: require('./parameter-description-exists'),
-  parameterOrder: require('./parameter-order'),
-  parameterSchemaOrContentExists: require('./parameter-schema-or-content-exists'),
-  patchRequestContentType: require('./patch-request-content-type'),
-  pathParameterNotCRN: require('./path-parameter-not-crn'),
-  pathSegmentCasingConvention: require('./path-segment-casing-convention'),
-  patternProperties: require('./pattern-properties'),
-  preconditionHeader: require('./precondition-header'),
-  preferTokenPagination: require('./prefer-token-pagination'),
-  propertyAttributes: require('./property-attributes'),
-  propertyCasingConvention: require('./property-casing-convention'),
-  propertyConsistentNameAndType: require('./property-consistent-name-and-type'),
-  propertyDescriptionExists: require('./property-description-exists'),
-  propertyNameCollision: require('./property-name-collision'),
-  redirectResponseBody: require('./redirect-response-body'),
-  refPattern: require('./ref-pattern'),
-  refSiblingDuplicateDescription: require('./ref-sibling-duplicate-description'),
-  requestAndResponseContent: require('./request-and-response-content'),
-  requestBodyIsObject: require('./requestbody-is-object'),
-  requestBodyName: require('./requestbody-name'),
-  requiredArrayPropertiesInResponse: require('./required-array-properties-in-response'),
-  requiredEnumPropertiesInResponse: require('./required-enum-properties-in-response'),
-  requiredPropertyMissing: require('./required-property-missing'),
-  resourceResponseConsistency: require('./resource-response-consistency'),
-  responseExampleExists: require('./response-example-exists'),
-  responseStatusCodes: require('./response-status-codes'),
-  schemaCasingConvention: require('./schema-casing-convention'),
-  schemaDescriptionExists: require('./schema-description-exists'),
-  schemaKeywords: require('./schema-keywords'),
-  schemaNamingConvention: require('./schema-naming-convention'),
-  schemaTypeExists: require('./schema-type-exists'),
-  schemaTypeFormat: require('./schema-type-format'),
-  securitySchemes: require('./securityschemes'),
-  securitySchemeAttributes: require('./securityscheme-attributes'),
-  serverVariableDefaultValue: require('./server-variable-default-value'),
-  stringAttributes: require('./string-attributes'),
-  summarySentenceStyle: require('./summary-sentence-style'),
-  typedEnum: require('./typed-enum'),
-  unevaluatedProperties: require('./unevaluated-properties'),
-  unusedTags: require('./unused-tags'),
-  uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
-  useDateBasedFormat: require('./use-date-based-format'),
-  validPathSegments: require('./valid-path-segments'),
-  validSchemaExample: require('./valid-schema-example'),
-  wellDefinedDictionaries: require('./well-defined-dictionaries'),
-};
+export { default as acceptAndReturnModels } from './accept-and-return-models.js';
+export { default as acceptHeader } from './accept-header.js';
+export { default as anchoredPatterns } from './anchored-patterns.js';
+export { default as apiSymmetry } from './api-symmetry.js';
+export { default as arrayAttributes } from './array-attributes.js';
+export { default as arrayOfArrays } from './array-of-arrays.js';
+export { default as arrayResponses } from './array-responses.js';
+export { default as authorizationHeader } from './authorization-header.js';
+export { default as avoidMultipleTypes } from './avoid-multiple-types.js';
+export { default as binarySchemas } from './binary-schemas.js';
+export { default as circularRefs } from './circular-refs.js';
+export { default as collectionArrayProperty } from './collection-array-property.js';
+export { default as consecutivePathSegments } from './consecutive-path-segments.js';
+export { default as contentContainsSchema } from './content-contains-schema.js';
+export { default as contentTypeHeader } from './content-type-header.js';
+export { default as contentTypeIsSpecific } from './content-type-is-specific.js';
+export { default as deleteBody } from './delete-body.js';
+export { default as discriminatorPropertyExists } from './discriminator-property-exists.js';
+export { default as duplicatePathParameter } from './duplicate-path-parameter.js';
+export { default as etagHeaderExists } from './etag-header-exists.js';
+export { default as enumCasingConvention } from './enum-casing-convention.js';
+export { default as errorContentTypeIsJson } from './error-content-type-is-json.js';
+export { default as errorResponseSchemas } from './error-response-schemas.js';
+export { default as examplesNameContainsSpace } from './examples-name-contains-space.js';
+export { default as ibmSdkOperations } from './ibm-sdk-operations.js';
+export { default as ifModifiedSinceHeader } from './if-modified-since-header.js';
+export { default as ifUnmodifiedSinceHeader } from './if-unmodified-since-header.js';
+export { default as inlineSchemas } from './inline-schemas.js';
+export { default as integerAttributes } from './integer-attributes.js';
+export { default as majorVersionInPath } from './major-version-in-path.js';
+export { default as mergePatchProperties } from './merge-patch-properties.js';
+export { default as noAmbiguousPaths } from './no-ambiguous-paths.js';
+export { default as noNullableProperties } from './no-nullable-properties.js';
+export { default as noOperationRequestBody } from './no-operation-requestbody.js';
+export { default as noRefInExample } from './no-ref-in-example.js';
+export { default as noSuperfluousAllOf } from './no-superfluous-allof.js';
+export { default as noUnsupportedKeywords } from './no-unsupported-keywords.js';
+export { default as operationIdCasingConvention } from './operationid-casing-convention.js';
+export { default as operationIdNamingConvention } from './operationid-naming-convention.js';
+export { default as operationResponses } from './operation-responses.js';
+export { default as operationSummaryExists } from './operation-summary-exists.js';
+export { default as operationSummaryLength } from './operation-summary-length.js';
+export { default as optionalRequestBody } from './optional-request-body.js';
+export { default as optionalRequestBodyDeprecated } from './optional-request-body-deprecated.js';
+export { default as paginationStyle } from './pagination-style.js';
+export { default as parameterCasingConvention } from './parameter-casing-convention.js';
+export { default as parameterDefault } from './parameter-default.js';
+export { default as parameterDescriptionExists } from './parameter-description-exists.js';
+export { default as parameterOrder } from './parameter-order.js';
+export { default as parameterSchemaOrContentExists } from './parameter-schema-or-content-exists.js';
+export { default as patchRequestContentType } from './patch-request-content-type.js';
+export { default as pathParameterNotCRN } from './path-parameter-not-crn.js';
+export { default as pathSegmentCasingConvention } from './path-segment-casing-convention.js';
+export { default as patternProperties } from './pattern-properties.js';
+export { default as preconditionHeader } from './precondition-header.js';
+export { default as preferTokenPagination } from './prefer-token-pagination.js';
+export { default as propertyAttributes } from './property-attributes.js';
+export { default as propertyCasingConvention } from './property-casing-convention.js';
+export { default as propertyConsistentNameAndType } from './property-consistent-name-and-type.js';
+export { default as propertyDescriptionExists } from './property-description-exists.js';
+export { default as propertyNameCollision } from './property-name-collision.js';
+export { default as redirectResponseBody } from './redirect-response-body.js';
+export { default as refPattern } from './ref-pattern.js';
+export { default as refSiblingDuplicateDescription } from './ref-sibling-duplicate-description.js';
+export { default as requestAndResponseContent } from './request-and-response-content.js';
+export { default as requestBodyIsObject } from './requestbody-is-object.js';
+export { default as requestBodyName } from './requestbody-name.js';
+export { default as requiredArrayPropertiesInResponse } from './required-array-properties-in-response.js';
+export { default as requiredEnumPropertiesInResponse } from './required-enum-properties-in-response.js';
+export { default as requiredPropertyMissing } from './required-property-missing.js';
+export { default as resourceResponseConsistency } from './resource-response-consistency.js';
+export { default as responseExampleExists } from './response-example-exists.js';
+export { default as responseStatusCodes } from './response-status-codes.js';
+export { default as schemaCasingConvention } from './schema-casing-convention.js';
+export { default as schemaDescriptionExists } from './schema-description-exists.js';
+export { default as schemaKeywords } from './schema-keywords.js';
+export { default as schemaNamingConvention } from './schema-naming-convention.js';
+export { default as schemaTypeExists } from './schema-type-exists.js';
+export { default as schemaTypeFormat } from './schema-type-format.js';
+export { default as securitySchemes } from './securityschemes.js';
+export { default as securitySchemeAttributes } from './securityscheme-attributes.js';
+export { default as serverVariableDefaultValue } from './server-variable-default-value.js';
+export { default as stringAttributes } from './string-attributes.js';
+export { default as summarySentenceStyle } from './summary-sentence-style.js';
+export { default as typedEnum } from './typed-enum.js';
+export { default as unevaluatedProperties } from './unevaluated-properties.js';
+export { default as unusedTags } from './unused-tags.js';
+export { default as uniqueParameterRequestPropertyNames } from './unique-parameter-request-property-names.js';
+export { default as useDateBasedFormat } from './use-date-based-format.js';
+export { default as validPathSegments } from './valid-path-segments.js';
+export { default as validSchemaExample } from './valid-schema-example.js';
+export { default as wellDefinedDictionaries } from './well-defined-dictionaries.js';
+

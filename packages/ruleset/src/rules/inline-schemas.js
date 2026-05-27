@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  unresolvedSchemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { inlineSchemas } = require('../functions');
+import { unresolvedSchemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { inlineSchemas } from '../functions/index.js';
 
-module.exports = {
+export default {
   description: 'Nested objects should be defined as a $ref to a named schema',
   message: '{{error}}',
   formats: [oas3],

@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas } = require('@stoplight/spectral-rulesets');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas } from '@stoplight/spectral-rulesets';
 
 // Spectral's "typed-enum" rule matches any object that happens to have a
 // "type" and "enum" field on it. This results in false positives when
@@ -23,4 +21,4 @@ typedEnum.given = schemas.map(s =>
   )
 );
 
-module.exports = typedEnum;
+export default typedEnum;
