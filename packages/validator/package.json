@@ -1,5 +1,6 @@
 {
   "name": "ibm-openapi-validator",
+  "type": "module",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
   "version": "1.37.13",
   "private": false,

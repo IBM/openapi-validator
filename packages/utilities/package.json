@@ -1,11 +1,16 @@
 {
   "name": "@ibm-cloud/openapi-ruleset-utilities",
+  "type": "module",
   "description": "Programmatic utility functions for creating Spectral-formatted OpenAPI Rulesets",
   "version": "1.9.1",
   "license": "Apache-2.0",
   "private": false,
-  "main": "./src/index.js",
-  "types": "./types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/IBM/openapi-validator.git",
