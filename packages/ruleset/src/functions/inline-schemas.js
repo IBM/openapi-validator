@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isArraySchema,
   isPrimitiveSchema,
   validateSubschemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
-const {
+import {
   isJsonMimeType,
   isEmptyObjectSchema,
   isRefSiblingSchema,
-} = require('../utils');
+} from '../utils/index.js';
 
 /**
  * Checks to make sure that nested object schemas are defined using a $ref rather than
@@ -33,7 +33,7 @@ const {
  * @param {*} path the array of path segments indicating the location of "schema" within the API definition
  * @returns an array containing the violations found or [] if no violations
  */
-module.exports = function (schema, options, { path }) {
+export default function (schema, options, { path }) {
   return validateSubschemas(schema, path, checkForInlineObjectSchemas);
 };
 

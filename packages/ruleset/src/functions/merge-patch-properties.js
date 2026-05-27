@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { schemaHasConstraint } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+import { schemaHasConstraint } from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (schema, _opts, context) {
+export default function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return mergePatchOptionalProperties(schema, context.path);
-};
+}
 
 /**
  * This function is invoked for each merge-patch operation's requestBody schema and

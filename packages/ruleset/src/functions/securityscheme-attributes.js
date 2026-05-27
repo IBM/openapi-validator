@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const stringValidator = require('validator');
-const { LoggerFactory } = require('../utils');
+import stringValidator from 'validator';
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (securityScheme, _opts, context) {
+export default function (securityScheme, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

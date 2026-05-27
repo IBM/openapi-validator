@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { casing } = require('@stoplight/spectral-functions');
-const { LoggerFactory } = require('../utils');
+import { casing } from '@stoplight/spectral-functions';
+import { LoggerFactory } from '../utils/index.js';
 
 let casingConfig;
 let ruleId;
 let logger;
 
-module.exports = function (operation, options, context) {
+export default function (operation, options, context) {
   // Save this rule's "functionOptions" value since we need
   // to pass it on to Spectral's "casing" function.
   casingConfig = options;

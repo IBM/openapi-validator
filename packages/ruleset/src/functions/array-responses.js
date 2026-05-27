@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+import { isArraySchema } from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
-module.exports = function (operation, _opts, context) {
+export default function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForArrayResponses(operation, context.path);
-};
+}
 
 /**
  * Checks for operations that are defined as returning a top-level array in

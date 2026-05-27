@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   schemaHasConstraint,
   validateSubschemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const {
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import {
   isMergePatchMimeType,
   LoggerFactory,
   operationMethods,
-} = require('../utils');
+} from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (schema, _options, context) {
+export default function (schema, _options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

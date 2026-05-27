@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (operation, _opts, context) {
+export default function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return parameterOrder(operation, context.path);
-};
+}
 
 function parameterOrder(op, path) {
   if (op.parameters && op.parameters.length > 0) {

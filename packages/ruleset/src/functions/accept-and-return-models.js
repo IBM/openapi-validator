@@ -3,12 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  isObject,
-  isObjectSchema,
-  schemaHasConstraint,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { supportsJsonContent, LoggerFactory } = require('../utils');
+import { isObject, isObjectSchema, schemaHasConstraint } from '@ibm-cloud/openapi-ruleset-utilities';
+import { supportsJsonContent, LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -25,13 +21,13 @@ let logger;
  *
  */
 
-module.exports = function acceptAndReturnModels(operation, options, context) {
+export default function acceptAndReturnModels(operation, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForProperties(operation, context.path);
-};
+}
 
 /**
  * This function checks to ensure a request or response body schema

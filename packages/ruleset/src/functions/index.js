@@ -3,84 +3,80 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  acceptAndReturnModels: require('./accept-and-return-models'),
-  allowedKeywords: require('./allowed-keywords'),
-  anchoredPatterns: require('./anchored-patterns'),
-  apiSymmetry: require('./api-symmetry'),
-  arrayAttributes: require('./array-attributes'),
-  arrayOfArrays: require('./array-of-arrays'),
-  arrayResponses: require('./array-responses'),
-  avoidMultipleTypes: require('./avoid-multiple-types'),
-  binarySchemas: require('./binary-schemas'),
-  circularRefs: require('./circular-refs'),
-  collectionArrayProperty: require('./collection-array-property'),
-  consecutivePathSegments: require('./consecutive-path-segments'),
-  deleteBody: require('./delete-body'),
-  disallowedHeaderParameter: require('./disallowed-header-parameter'),
-  discriminatorPropertyExists: require('./discriminator-property-exists'),
-  duplicatePathParameter: require('./duplicate-path-parameter'),
-  enumCasingConvention: require('./enum-casing-convention'),
-  errorResponseSchemas: require('./error-response-schemas'),
-  etagHeaderExists: require('./etag-header-exists'),
-  inlineSchemas: require('./inline-schemas'),
-  integerAttributes: require('./integer-attributes'),
-  majorVersionInPath: require('./major-version-in-path'),
-  mergePatchProperties: require('./merge-patch-properties'),
-  noAmbiguousPaths: require('./no-ambiguous-paths'),
-  noNullableProperties: require('./no-nullable-properties'),
-  noOperationRequestBody: require('./no-operation-requestbody'),
-  noRefInExample: require('./no-ref-in-example'),
-  noSuperfluousAllOf: require('./no-superfluous-allof'),
-  noUnsupportedKeywords: require('./no-unsupported-keywords'),
-  operationIdCasingConvention: require('./operationid-casing-convention'),
-  operationIdNamingConvention: require('./operationid-naming-convention'),
-  operationSummaryExists: require('./operation-summary-exists'),
-  operationSummaryLength: require('./operation-summary-length'),
-  optionalRequestBody: require('./optional-request-body').optionalRequestBody,
-  optionalRequestBodyDeprecated: require('./optional-request-body')
-    .optionalRequestBodyDeprecated,
-  paginationStyle: require('./pagination-style'),
-  parameterCasingConvention: require('./parameter-casing-convention'),
-  parameterDefault: require('./parameter-default'),
-  parameterDescriptionExists: require('./parameter-description-exists'),
-  parameterOrder: require('./parameter-order'),
-  patchRequestContentType: require('./patch-request-content-type'),
-  pathParameterNotCRN: require('./path-parameter-not-crn'),
-  pathSegmentCasingConvention: require('./path-segment-casing-convention'),
-  patternPropertiesCheck: require('./pattern-properties'),
-  preconditionHeader: require('./precondition-header'),
-  preferTokenPagination: require('./prefer-token-pagination'),
-  propertyAttributes: require('./property-attributes'),
-  propertyCasingConvention: require('./property-casing-convention'),
-  propertyConsistentNameAndType: require('./property-consistent-name-and-type'),
-  propertyDescriptionExists: require('./property-description-exists'),
-  propertyNameCollision: require('./property-name-collision'),
-  redirectResponseBody: require('./redirect-response-body'),
-  refPattern: require('./ref-pattern'),
-  refSiblingDuplicateDescription: require('./ref-sibling-duplicate-description'),
-  requestAndResponseContent: require('./request-and-response-content'),
-  requestBodyName: require('./requestbody-name'),
-  requiredArrayPropertiesInResponse: require('./required-array-properties-in-response'),
-  requiredEnumPropertiesInResponse: require('./required-enum-properties-in-response'),
-  requiredProperty: require('./required-property'),
-  resourceResponseConsistency: require('./resource-response-consistency'),
-  responseExampleExists: require('./response-example-exists'),
-  responseStatusCodes: require('./response-status-codes'),
-  schemaCasingConvention: require('./schema-casing-convention'),
-  schemaDescriptionExists: require('./schema-description-exists'),
-  schemaNamingConvention: require('./schema-naming-convention'),
-  schemaOrContentProvided: require('./schema-or-content-provided'),
-  schemaTypeExists: require('./schema-type-exists'),
-  schemaTypeFormat: require('./schema-type-format'),
-  securitySchemeAttributes: require('./securityscheme-attributes'),
-  securitySchemes: require('./securityschemes'),
-  stringAttributes: require('./string-attributes'),
-  unevaluatedProperties: require('./unevaluated-properties'),
-  uniqueParameterRequestPropertyNames: require('./unique-parameter-request-property-names'),
-  unusedTags: require('./unused-tags'),
-  useDateBasedFormat: require('./use-date-based-format'),
-  validatePathSegments: require('./valid-path-segments'),
-  validSchemaExample: require('./valid-schema-example'),
-  wellDefinedDictionaries: require('./well-defined-dictionaries'),
-};
+export { default as acceptAndReturnModels } from './accept-and-return-models.js';
+export { default as allowedKeywords } from './allowed-keywords.js';
+export { default as anchoredPatterns } from './anchored-patterns.js';
+export { default as apiSymmetry } from './api-symmetry.js';
+export { default as arrayAttributes } from './array-attributes.js';
+export { default as arrayOfArrays } from './array-of-arrays.js';
+export { default as arrayResponses } from './array-responses.js';
+export { default as avoidMultipleTypes } from './avoid-multiple-types.js';
+export { default as binarySchemas } from './binary-schemas.js';
+export { default as circularRefs } from './circular-refs.js';
+export { default as collectionArrayProperty } from './collection-array-property.js';
+export { default as consecutivePathSegments } from './consecutive-path-segments.js';
+export { default as deleteBody } from './delete-body.js';
+export { default as disallowedHeaderParameter } from './disallowed-header-parameter.js';
+export { default as discriminatorPropertyExists } from './discriminator-property-exists.js';
+export { default as duplicatePathParameter } from './duplicate-path-parameter.js';
+export { default as enumCasingConvention } from './enum-casing-convention.js';
+export { default as errorResponseSchemas } from './error-response-schemas.js';
+export { default as etagHeaderExists } from './etag-header-exists.js';
+export { default as inlineSchemas } from './inline-schemas.js';
+export { default as integerAttributes } from './integer-attributes.js';
+export { default as majorVersionInPath } from './major-version-in-path.js';
+export { default as mergePatchProperties } from './merge-patch-properties.js';
+export { default as noAmbiguousPaths } from './no-ambiguous-paths.js';
+export { default as noNullableProperties } from './no-nullable-properties.js';
+export { default as noOperationRequestBody } from './no-operation-requestbody.js';
+export { default as noRefInExample } from './no-ref-in-example.js';
+export { default as noSuperfluousAllOf } from './no-superfluous-allof.js';
+export { default as noUnsupportedKeywords } from './no-unsupported-keywords.js';
+export { default as operationIdCasingConvention } from './operationid-casing-convention.js';
+export { default as operationIdNamingConvention } from './operationid-naming-convention.js';
+export { default as operationSummaryExists } from './operation-summary-exists.js';
+export { default as operationSummaryLength } from './operation-summary-length.js';
+export { optionalRequestBody, optionalRequestBodyDeprecated } from './optional-request-body.js';
+export { default as paginationStyle } from './pagination-style.js';
+export { default as parameterCasingConvention } from './parameter-casing-convention.js';
+export { default as parameterDefault } from './parameter-default.js';
+export { default as parameterDescriptionExists } from './parameter-description-exists.js';
+export { default as parameterOrder } from './parameter-order.js';
+export { default as patchRequestContentType } from './patch-request-content-type.js';
+export { default as pathParameterNotCRN } from './path-parameter-not-crn.js';
+export { default as pathSegmentCasingConvention } from './path-segment-casing-convention.js';
+export { default as patternPropertiesCheck } from './pattern-properties.js';
+export { default as preconditionHeader } from './precondition-header.js';
+export { default as preferTokenPagination } from './prefer-token-pagination.js';
+export { default as propertyAttributes } from './property-attributes.js';
+export { default as propertyCasingConvention } from './property-casing-convention.js';
+export { default as propertyConsistentNameAndType } from './property-consistent-name-and-type.js';
+export { default as propertyDescriptionExists } from './property-description-exists.js';
+export { default as propertyNameCollision } from './property-name-collision.js';
+export { default as redirectResponseBody } from './redirect-response-body.js';
+export { default as refPattern } from './ref-pattern.js';
+export { default as refSiblingDuplicateDescription } from './ref-sibling-duplicate-description.js';
+export { default as requestAndResponseContent } from './request-and-response-content.js';
+export { default as requestBodyName } from './requestbody-name.js';
+export { default as requiredArrayPropertiesInResponse } from './required-array-properties-in-response.js';
+export { default as requiredEnumPropertiesInResponse } from './required-enum-properties-in-response.js';
+export { default as requiredProperty } from './required-property.js';
+export { default as resourceResponseConsistency } from './resource-response-consistency.js';
+export { default as responseExampleExists } from './response-example-exists.js';
+export { default as responseStatusCodes } from './response-status-codes.js';
+export { default as schemaCasingConvention } from './schema-casing-convention.js';
+export { default as schemaDescriptionExists } from './schema-description-exists.js';
+export { default as schemaNamingConvention } from './schema-naming-convention.js';
+export { default as schemaOrContentProvided } from './schema-or-content-provided.js';
+export { default as schemaTypeExists } from './schema-type-exists.js';
+export { default as schemaTypeFormat } from './schema-type-format.js';
+export { default as securitySchemeAttributes } from './securityscheme-attributes.js';
+export { default as securitySchemes } from './securityschemes.js';
+export { default as stringAttributes } from './string-attributes.js';
+export { default as unevaluatedProperties } from './unevaluated-properties.js';
+export { default as uniqueParameterRequestPropertyNames } from './unique-parameter-request-property-names.js';
+export { default as unusedTags } from './unused-tags.js';
+export { default as useDateBasedFormat } from './use-date-based-format.js';
+export { default as validatePathSegments } from './valid-path-segments.js';
+export { default as validSchemaExample } from './valid-schema-example.js';
+export { default as wellDefinedDictionaries } from './well-defined-dictionaries.js';

@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   getPaginatedOperationFromPath,
   getOffsetParamIndex,
   LoggerFactory,
-} = require('../utils');
+} from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (pathObj, _opts, context) {
+export default function (pathObj, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isObject,
   getResolvedSpec,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const {
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import {
   LoggerFactory,
   pathHasMinimallyRepresentedResource,
-} = require('../utils');
+} from '../utils/index.js';
 
 let ruleId;
 let logger;
@@ -23,7 +23,7 @@ let logger;
  *
  */
 
-module.exports = function requestAndResponseContent(
+export default function requestAndResponseContent(
   operation,
   options,
   context

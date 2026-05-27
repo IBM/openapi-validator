@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { each, merge, pickBy, reduce } = require('lodash');
-const { operationMethods } = require('../utils');
-const inflected = require('inflected');
+import { each, merge, pickBy, reduce } from 'lodash';
+import { operationMethods } from '../utils/index.js';
+import inflected from 'inflected';
 
-module.exports = function (rootDocument, options) {
+export default function (rootDocument, options) {
   return operationIdNamingConvention(rootDocument, options.strict);
 };
 
