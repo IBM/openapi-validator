@@ -21,4 +21,4 @@ function isOperationOfType(type, path) {
   return type === path[path.length - 1].toString().trim().toLowerCase();
 }
 
-module.exports = isOperationOfType;
+export default isOperationOfType;

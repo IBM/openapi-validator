@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const log = require('loglevel');
-const minimatch = require('minimatch');
-const prefix = require('loglevel-plugin-prefix');
-const chalk = require('chalk');
+import log from 'loglevel';
+import minimatch from 'minimatch';
+import prefix from 'loglevel-plugin-prefix';
+import chalk from 'chalk';
 
 const colors = {
   TRACE: chalk.magenta,
@@ -21,7 +21,7 @@ const colors = {
  * The primary benefit provided by this factory class is the ability to honor logging-level-related
  * command-line options for loggers that haven't yet been created.
  */
-module.exports = class LoggerFactory {
+export default class LoggerFactory {
   constructor() {
     this.rootLogger = log;
     this.loggerSettings = [];
