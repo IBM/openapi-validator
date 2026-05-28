@@ -1,3 +1,19 @@
+## ibm-openapi-validator [1.37.14](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.13...ibm-openapi-validator@1.37.14) (2026-05-20)
+
+
+### Bug Fixes
+
+* bump spectral packages ([#812](https://github.com/IBM/openapi-validator/issues/812)) ([5475c4c](https://github.com/IBM/openapi-validator/commit/5475c4c265c38f8285b588ad2aff583f1d2999b2))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.10
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.2
+
 ## ibm-openapi-validator [1.37.13](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.12...ibm-openapi-validator@1.37.13) (2026-05-07)
 
 
