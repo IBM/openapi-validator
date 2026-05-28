@@ -6,7 +6,7 @@
 /**
  * @private
  */
-const SchemaPath = require('./schema-path');
+import SchemaPath from './schema-path.js';
 
 /**
  * Performs validation on a schema and all of its composed schemas.
@@ -92,4 +92,4 @@ function validateComposedSchemas(
   return errors;
 }
 
-module.exports = validateComposedSchemas;
+export default validateComposedSchemas;

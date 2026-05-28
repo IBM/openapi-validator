@@ -33,8 +33,4 @@ function getNodes(context) {
   return context.documentInventory.graph.nodes;
 }
 
-module.exports = {
-  getNodes,
-  getResolvedSpec,
-  getUnresolvedSpec,
-};
+export { getNodes, getResolvedSpec, getUnresolvedSpec };

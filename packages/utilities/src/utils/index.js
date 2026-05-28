@@ -3,18 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  collectFromComposedSchemas: require('./collect-from-composed-schemas'),
-  getExamplesForSchema: require('./get-examples-for-schema'),
-  getPropertyNamesForSchema: require('./get-property-names-for-schema'),
-  ...require('./get-schema-type'),
-  isObject: require('./is-object'),
-  schemaHasConstraint: require('./schema-has-constraint'),
-  schemaHasProperty: require('./schema-has-property'),
-  schemaLooselyHasConstraint: require('./schema-loosely-has-constraint'),
-  schemaRequiresProperty: require('./schema-requires-property'),
-  ...require('./spectral-context-utils'),
-  validateComposedSchemas: require('./validate-composed-schemas'),
-  validateNestedSchemas: require('./validate-nested-schemas'),
-  validateSubschemas: require('./validate-subschemas'),
-};
+export { default as collectFromComposedSchemas } from './collect-from-composed-schemas.js';
+export { default as getExamplesForSchema } from './get-examples-for-schema.js';
+export { default as getPropertyNamesForSchema } from './get-property-names-for-schema.js';
+export * from './get-schema-type.js';
+export { default as isObject } from './is-object.js';
+export { default as schemaHasConstraint } from './schema-has-constraint.js';
+export { default as schemaHasProperty } from './schema-has-property.js';
+export { default as schemaLooselyHasConstraint } from './schema-loosely-has-constraint.js';
+export { default as schemaRequiresProperty } from './schema-requires-property.js';
+export * from './spectral-context-utils.js';
+export { default as validateComposedSchemas } from './validate-composed-schemas.js';
+export { default as validateNestedSchemas } from './validate-nested-schemas.js';
+export { default as validateSubschemas } from './validate-subschemas.js';

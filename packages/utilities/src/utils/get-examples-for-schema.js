@@ -6,7 +6,7 @@
 /**
  * @private
  */
-const collectFromComposedSchemas = require('./collect-from-composed-schemas');
+import collectFromComposedSchemas from './collect-from-composed-schemas.js';
 
 /**
  * Returns an array of examples for a simple or composite schema. For each composed schema, if
@@ -26,4 +26,4 @@ function getExamplesForSchema(schema) {
   });
 }
 
-module.exports = getExamplesForSchema;
+export default getExamplesForSchema;
