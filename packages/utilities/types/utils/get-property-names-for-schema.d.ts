@@ -1,4 +1,4 @@
-export = getPropertyNamesForSchema;
+export default getPropertyNamesForSchema;
 /**
  * Returns an array of property names for a simple or composite schema,
  * optionally filtered by a lambda function.

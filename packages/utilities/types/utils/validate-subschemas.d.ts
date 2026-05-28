@@ -1,4 +1,4 @@
-export = validateSubschemas;
+export default validateSubschemas;
 /**
  * Performs validation on a schema and all of its subschemas.
  *
