@@ -21,7 +21,7 @@
     "test-utilities": "npm run test --workspace packages/utilities",
     "test-validator": "npm run test --workspace packages/validator",
     "test-docker": "npm run build-docker && docker run --rm --volume \"$PWD\"/packages/validator/test/cli-validator/alternate-spectral-configs/extends-default.yaml:/data/ruleset.yaml --volume \"$PWD\"/packages/validator/test/cli-validator/mock-files/oas3/clean.yml:/data/openapi.yaml ibmdevxsdk/openapi-validator:latest --ruleset ruleset.yaml openapi.yaml",
-    "jest": "jest",
+    "jest": "NODE_OPTIONS=--experimental-vm-modules jest",
     "test-travis": "npm run test-travis --workspaces",
     "lint": "npm run lint --workspaces && eslint --cache --max-warnings 0 scripts .eslintrc.js",
     "fix": "npm run fix --workspaces && eslint --fix scripts .eslintrc.js",
