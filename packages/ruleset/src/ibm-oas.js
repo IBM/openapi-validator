@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { oas } = require('@stoplight/spectral-rulesets');
-const ibmRules = require('./rules');
+import { oas3 } from '@stoplight/spectral-formats';
+import { oas } from '@stoplight/spectral-rulesets';
+import ibmRules from './rules';
 
 // Spectral's "no-$ref-siblings" rule is configured to run on
 // OpenAPI 3.0.x documents (ref sibling attributes are allowed in OpenAPI 3.1.x).
@@ -13,7 +13,7 @@ const ibmRules = require('./rules');
 // so we'll just tweak Spectral's rule definition here.
 oas.rules['no-$ref-siblings'].formats = [oas3];
 
-module.exports = {
+export default {
   extends: oas,
   documentationUrl:
     'https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md',
