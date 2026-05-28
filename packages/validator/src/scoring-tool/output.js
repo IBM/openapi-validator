@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Table } = require('console-table-printer');
-const { getCategories } = require('./categories');
+import { Table } from 'console-table-printer';
+import { getCategories } from './categories';
 
 // Print out a table summarizing the max score for each category.
 // category | max score
-function printCategorizedScoresTable({ categorizedSummary }) {
+export function printCategorizedScoresTable({ categorizedSummary }) {
   const table = new Table();
 
   table.addRows(
@@ -31,7 +31,7 @@ function printCategorizedScoresTable({ categorizedSummary }) {
 
 // Print out a table with all of the rule-based data used to compute the score.
 // rule │ count │ func │ usability quality │ security quality │ robustness quality │ evolution quality │ total
-function printScoringDataTable({ scoringData }) {
+export function printScoringDataTable({ scoringData }) {
   const table = new Table();
 
   table.addRows(
@@ -55,8 +55,3 @@ function printScoringDataTable({ scoringData }) {
 
   table.printTable();
 }
-
-module.exports = {
-  printCategorizedScoresTable,
-  printScoringDataTable,
-};

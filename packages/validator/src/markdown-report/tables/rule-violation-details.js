@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const MarkdownTable = require('../markdown-table');
+import MarkdownTable from '../markdown-table.js';
 
-function getTable({ error, warning }) {
+export default function getTable({ error, warning }) {
   const table = new MarkdownTable(
     'Rule',
     'Message',
@@ -24,5 +24,3 @@ function getTable({ error, warning }) {
 
   return table.render();
 }
-
-module.exports = getTable;

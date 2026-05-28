@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { writeFileSync } = require('fs');
-const path = require('path');
+import { writeFileSync } from 'fs';
+import path from 'path';
 
-function writeReportToFile({ currentFilename }, report) {
+export default function writeReportToFile({ currentFilename }, report) {
   // For now, only a default filename is supported, which
   // is based on the name of the API definition file.
   const { name } = path.parse(currentFilename);
@@ -19,5 +19,3 @@ function writeReportToFile({ currentFilename }, report) {
   // later use in the logs shown to the user.
   return path.resolve(process.cwd(), reportFilename);
 }
-
-module.exports = writeReportToFile;

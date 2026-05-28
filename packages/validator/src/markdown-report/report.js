@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   categorizedScores,
   primary,
   ruleViolationDetails,
   errorSummary,
   scoringData,
   warningSummary,
-} = require('./tables');
+} from './tables/index.js';
 
-function getReport({ apiDefinition }, results) {
+export default function getReport({ apiDefinition }, results) {
   return `# ${apiDefinition.info.title}
 
 Version: ${apiDefinition.info.version}
@@ -46,5 +46,3 @@ ${warningSummary(results)}
 ${ruleViolationDetails(results)}
 `;
 }
-
-module.exports = getReport;

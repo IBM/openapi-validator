@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getCategories, getCategoryCoefficient } = require('./categories');
-const rubric = require('./rubric');
+import { getCategories, getCategoryCoefficient } from './categories';
+import rubric from './rubric';
 
 /**
  * Uses the validator results to calculate categorized demerits for each rule
@@ -15,7 +15,7 @@ const rubric = require('./rubric');
  * @param object logger - the root logger from the validator context
  * @returns void
  */
-function scoreResults(result, metrics, logger) {
+export function scoreResults(result, metrics, logger) {
   // The `talliedResults` variable contains an object where each key is the name
   // of a validator rule and each value is an object that contains a "count" field
   // representing how many times the validator rule was violated by the given API.
@@ -76,8 +76,10 @@ function scoreResults(result, metrics, logger) {
   };
 }
 
+// The following functions are only exported for testing purposes.
+
 // Calculate the numerical demerit severity for each rule.
-function compute(rule, count, metrics) {
+export function compute(rule, count, metrics) {
   let denom = 1;
   let coef = 1;
 
@@ -92,7 +94,7 @@ function compute(rule, count, metrics) {
   return (coef * count) / denom;
 }
 
-function computeCategorizedScores(rule, count, metrics) {
+export function computeCategorizedScores(rule, count, metrics) {
   const baseScore = compute(rule, count, metrics);
   // Initialize categories to zero to see "0" values in table.
   const result = {};
@@ -106,7 +108,7 @@ function computeCategorizedScores(rule, count, metrics) {
 }
 
 // Show the user the formula used to calculate the demerit, as a string.
-function getFunc(rule, count) {
+export function getFunc(rule, count) {
   let func = String(count);
 
   if (rule.coefficient !== undefined) {
@@ -123,7 +125,7 @@ function getFunc(rule, count) {
 // Tally up the number of occurances for each rule present in the results.
 // Returns an object where the keys are rule names and the values are objects
 // with the total stored under the field name "count".
-function tally(result, logger) {
+export function tally(result, logger) {
   const results = [...result.error.results, ...result.warning.results];
 
   return results.reduce((tallies, result) => {
@@ -151,7 +153,7 @@ function tally(result, logger) {
 // that it couldn't go below zero. The thing that's kind of arbitrary
 // is the "/40", which is just scaling the input subjectively — it's
 // a number we will keep tuning alongside tuning the demerit coefficients.
-function computeOverallScore(demeritSum) {
+export function computeOverallScore(demeritSum) {
   return includeDecimals(
     100 - (100 * Math.atan(demeritSum / 40)) / Math.asin(1),
     0
@@ -163,13 +165,3 @@ function computeOverallScore(demeritSum) {
 function includeDecimals(value, number) {
   return parseFloat(value.toFixed(number));
 }
-
-module.exports = {
-  scoreResults,
-  // The following functions are only exported for testing purposes.
-  compute,
-  computeCategorizedScores,
-  getFunc,
-  tally,
-  computeOverallScore,
-};

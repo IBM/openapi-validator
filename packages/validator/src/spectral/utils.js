@@ -3,11 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const findUp = require('find-up');
+import findUp from 'find-up';
 
-module.exports = {
-  findSpectralRuleset,
-};
+export default findSpectralRuleset;
 
 /**
  * Checks the user configuration and the file system for local

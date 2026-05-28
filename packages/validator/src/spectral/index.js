@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Document, Spectral } = require('@stoplight/spectral-core');
-const Parsers = require('@stoplight/spectral-parsers');
-const {
-  getRuleset,
-} = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
-const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
+import { Document, Spectral } from '@stoplight/spectral-core';
+import Parsers from '@stoplight/spectral-parsers';
+import {
+  getRuleset
+} from '@stoplight/spectral-cli/dist/services/linter/utils/getRuleset';
+import ibmRuleset from '@ibm-cloud/openapi-ruleset';
 
-const {
+import {
   checkRulesetVersion,
   getFileExtension,
   getLocalRulesetVersion,
-} = require('../cli-validator/utils');
+} from '../cli-validator/utils';
 
-const { findSpectralRuleset } = require('./utils');
+import { findSpectralRuleset } from './utils';
 
 /**
  * Creates a Spectral document from the input, runs spectral, converts the results
@@ -161,10 +161,7 @@ async function setup({ config, logger }) {
 
   return spectral;
 }
-
-module.exports = {
-  runSpectral,
-};
+export default runSpectral;
 
 function checkGetRulesetError(logger, error, file) {
   const isAggregateError = error instanceof AggregateError;

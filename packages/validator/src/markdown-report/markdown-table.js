@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-class MarkdownTable {
+export default class MarkdownTable {
   #headerRow; // String, with the header row.
   #rows = []; // Array of strings, all rows of the table body.
   #length; // Integer, the number of columns.
@@ -49,5 +49,3 @@ class MarkdownTable {
     return row;
   }
 }
-
-module.exports = MarkdownTable;

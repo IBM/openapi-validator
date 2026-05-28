@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
+export default {
   'ibm-accept-and-return-models': {
     coefficient: 3,
     denominator: 'operations',

@@ -1,19 +1,19 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   collections,
   isArraySchema,
   isBinarySchema,
   isIntegerSchema,
   isObjectSchema,
   isStringSchema,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { Metrics } = require('./metrics');
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { Metrics } from './metrics';
 
-async function computeMetrics(unresolvedApiDef) {
+export default async function computeMetrics(unresolvedApiDef) {
   // For some metrics, we just want to identify every unique instance
   // identified by a JSONPath. For others, we need a more specific condition.
   // Use this callback for the simple instances.
@@ -50,7 +50,3 @@ async function computeMetrics(unresolvedApiDef) {
 
   return metrics;
 }
-
-module.exports = {
-  computeMetrics,
-};

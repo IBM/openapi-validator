@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -19,15 +19,10 @@ const categories = {
   },
 };
 
-function getCategories() {
+export function getCategories() {
   return Object.keys(categories);
 }
 
-function getCategoryCoefficient(category) {
+export function getCategoryCoefficient(category) {
   return categories[category].coefficient;
 }
-
-module.exports = {
-  getCategories,
-  getCategoryCoefficient,
-};
