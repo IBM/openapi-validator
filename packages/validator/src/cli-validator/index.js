@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 /**
- * Copyright 2017 - 2023 IBM Corporation.
+ * Copyright 2017 - 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
 // this module enforces that the user is running a supported version
 // of Node by exiting the process if the version is less than
-// the passed in argument (currently 16.0.0)
-require('./utils/check-version')('16.0.0');
+// the passed in argument (currently 24.0.0)
+import checkVersion from './utils/check-version.js';
+checkVersion('24.0.0');
 
-const runValidator = require('./run-validator');
+import runValidator from './run-validator.js';
 runValidator(process.argv)
   .then(exitCode => {
     process.exitCode = exitCode;

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const Ajv = require('ajv');
+import Ajv from 'ajv';
 
 /**
  * This function verifies that "data" complies with "schema".
@@ -30,4 +30,4 @@ function validateSchema(data, schema) {
   return messages;
 }
 
-module.exports = validateSchema;
+export default validateSchema;

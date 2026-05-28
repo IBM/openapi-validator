@@ -3,19 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  checkRulesetVersion: require('./check-ruleset-version'),
-  createCLIOptions: require('./cli-options'),
-  getCopyrightString: require('./get-copyright-string'),
-  getDefaultRulesetVersion: require('./get-default-ruleset-version'),
-  getLocalRulesetVersion: require('./get-local-ruleset-version'),
-  getVersionString: require('./get-version-string'),
-  preprocessFile: require('./preprocess-file'),
-  printJson: require('./print-json'),
-  printResults: require('./print-results'),
-  printVersions: require('./print-versions'),
-  readYaml: require('./read-yaml'),
-  validateSchema: require('./validate-schema'),
-  ...require('./configuration-manager'),
-  ...require('./file-extension-validator'),
-};
+export { default as checkRulesetVersion } from './check-ruleset-version.js';
+export { default as createCLIOptions } from './cli-options.js';
+export { default as getCopyrightString } from './get-copyright-string.js';
+export { default as getDefaultRulesetVersion } from './get-default-ruleset-version.js';
+export { default as getLocalRulesetVersion } from './get-local-ruleset-version.js';
+export { default as getVersionString } from './get-version-string.js';
+export { default as preprocessFile } from './preprocess-file.js';
+export { default as printJson } from './print-json.js';
+export { default as printResults } from './print-results.js';
+export { default as printVersions } from './print-versions.js';
+export { default as readYaml } from './read-yaml.js';
+export { default as validateSchema } from './validate-schema.js';
+export * from './configuration-manager.js';
+export * from './file-extension-validator.js';

@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const semver = require('semver');
-const chalk = require('chalk');
+import semver from 'semver';
+import chalk from 'chalk';
 
 // this module can be used to handle any version-specific functionality
 // it will be called immediately when the program is run
 
-module.exports = function (requiredVersion) {
+export default function (requiredVersion) {
   // this is called since the code uses features that require `requiredVersion`
   const isSupportedVersion = semver.gte(process.version, requiredVersion);
   if (!isSupportedVersion) {
@@ -32,4 +32,4 @@ module.exports = function (requiredVersion) {
         ` (30 April 2021).\n`
     );
   }
-};
+}

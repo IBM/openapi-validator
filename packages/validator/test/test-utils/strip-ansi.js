@@ -1,8 +1,8 @@
-const ansiRegex = require('ansi-regex');
+import ansiRegex from 'ansi-regex';
 
 const regex = ansiRegex();
 
-function stripAnsi(string) {
+export function stripAnsi(string) {
   if (typeof string !== 'string') {
     throw new TypeError(`Expected a \`string\`, got \`${typeof string}\``);
   }
@@ -12,5 +12,3 @@ function stripAnsi(string) {
   // and doing it manually has a performance penalty.
   return string.replace(regex, '');
 }
-
-module.exports.stripAnsi = stripAnsi;

@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const chalk = require('chalk');
-const fs = require('fs');
-const globby = require('globby');
-const isPlainObject = require('lodash/isPlainObject');
-const jsonValidator = require('json-dup-key-validator');
-const path = require('path');
-const readYaml = require('js-yaml');
-const util = require('util');
+import chalk from 'chalk';
+import fs from 'fs';
+import globby from 'globby';
+import isPlainObject from 'lodash/isPlainObject.js';
+import jsonValidator from 'json-dup-key-validator';
+import path from 'path';
+import readYaml from 'js-yaml';
+import util from 'util';
 
-const {
+import {
   getCopyrightString,
   getFileExtension,
   preprocessFile,
@@ -22,11 +22,11 @@ const {
   printVersions,
   processArgs,
   supportedFileExtension,
-} = require('./utils');
+} from './utils/index.js';
 
-const { runSpectral } = require('../spectral');
-const { produceQualityScore, printScoreTables } = require('../scoring-tool');
-const { printMarkdownReport } = require('../markdown-report');
+import { runSpectral } from '../spectral/index.js';
+import { produceQualityScore, printScoreTables } from '../scoring-tool/index.js';
+import { printMarkdownReport } from '../markdown-report/index.js';
 
 let logger;
 
@@ -392,4 +392,4 @@ function outputIsJSON(context) {
   return context.config.outputFormat === 'json';
 }
 
-module.exports = runValidator;
+export default runValidator;

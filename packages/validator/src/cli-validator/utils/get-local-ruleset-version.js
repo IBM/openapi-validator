@@ -3,10 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const findUp = require('find-up');
-const { dirname, join } = require('path');
-
-module.exports = getLocalRulesetVersion;
+import findUp from 'find-up';
+import { dirname, join } from 'path';
 
 /**
  * Looks for a locally installed version of the IBM Cloud OpenAPI
@@ -39,8 +37,8 @@ async function getLocalRulesetVersion(localRuleset, logger) {
   if (packagePath) {
     logger.debug('Found IBM ruleset package file at:', packagePath);
     try {
-      // Read the JSON file using `require`.
-      const rulesetPackageFile = require(packagePath);
+      // Read the JSON file using dynamic import.
+      const rulesetPackageFile = await import(packagePath, { assert: { type: 'json' } }).then(m => m.default);
 
       // Return the value of the `version` field in the `package.json`.
       // Note: the "|| {}" just makes sure we don't get a type error from `hasOwn`.
@@ -110,3 +108,5 @@ async function lookForRulesetPackage(rulesetDir) {
   await findUp(matchIBMRulesetPackage, opts);
   return pathToPackage;
 }
+
+export default getLocalRulesetVersion;

@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const packageConfig = require('../../../package.json');
-
-module.exports = getDefaultRulesetVersion;
+import packageConfig from '../../../package.json' assert { type: 'json' };
 
 /**
  * Looks at the validator tool's declared dependencies and
@@ -18,3 +16,5 @@ module.exports = getDefaultRulesetVersion;
 function getDefaultRulesetVersion() {
   return packageConfig.dependencies['@ibm-cloud/openapi-ruleset'];
 }
+
+export default getDefaultRulesetVersion;

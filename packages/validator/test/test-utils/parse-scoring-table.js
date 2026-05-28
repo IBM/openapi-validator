@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-function extractValuesFromTable(table) {
+export function extractValuesFromTable(table) {
   return table
     .replaceAll('\x1B[37m', '')
     .replaceAll('\x1B[0m', '')
@@ -16,7 +16,3 @@ function extractValuesFromTable(table) {
         .slice(1, -1)
     );
 }
-
-module.exports = {
-  extractValuesFromTable,
-};

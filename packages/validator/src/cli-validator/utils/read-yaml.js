@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const fs = require('fs');
-const util = require('util');
-const jsYaml = require('js-yaml');
+import fs from 'fs';
+import util from 'util';
+import jsYaml from 'js-yaml';
 
 async function readYaml(path) {
   // Use a "promisified" version of fs.readFile().
@@ -14,4 +14,4 @@ async function readYaml(path) {
   return jsYaml.load(fileContents);
 }
 
-module.exports = readYaml;
+export default readYaml;

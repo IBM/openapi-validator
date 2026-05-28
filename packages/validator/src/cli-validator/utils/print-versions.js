@@ -3,13 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const getDefaultRulesetVersion = require('./get-default-ruleset-version.js');
-const getLocalRulesetVersion = require('./get-local-ruleset-version');
-const getVersionString = require('./get-version-string');
-const checkRulesetVersion = require('./check-ruleset-version');
-const { findSpectralRuleset } = require('../../spectral/utils');
-
-module.exports = printVersions;
+import getDefaultRulesetVersion from './get-default-ruleset-version.js';
+import getLocalRulesetVersion from './get-local-ruleset-version.js';
+import getVersionString from './get-version-string.js';
+import checkRulesetVersion from './check-ruleset-version.js';
+import { findSpectralRuleset } from '../../spectral/utils.js';
 
 /**
  * Prints the "version" strings upon request. It always
@@ -92,3 +90,5 @@ async function collectVersionInfo({ config, logger }) {
 
   return versionInfo;
 }
+
+export default printVersions;

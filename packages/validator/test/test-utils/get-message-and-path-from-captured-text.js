@@ -3,10 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports.getMessageAndPathFromCapturedText =
-  getMessageAndPathFromCapturedText;
-
-function getMessageAndPathFromCapturedText(pattern, capturedText) {
+export function getMessageAndPathFromCapturedText(pattern, capturedText) {
   const messages = [];
   for (let i = 0; i < capturedText.length; i++) {
     if (capturedText[i].includes(pattern)) {
