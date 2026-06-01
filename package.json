@@ -20,7 +20,6 @@
     "test-utilities": "npm run test --workspace packages/utilities",
     "test-validator": "npm run test --workspace packages/validator",
     "test-docker": "npm run build-docker && docker run --rm --volume \"$PWD\"/packages/validator/test/cli-validator/alternate-spectral-configs/extends-default.yaml:/data/ruleset.yaml --volume \"$PWD\"/packages/validator/test/cli-validator/mock-files/oas3/clean.yml:/data/openapi.yaml ibmdevxsdk/openapi-validator:latest --ruleset ruleset.yaml openapi.yaml",
-    "jest": "jest",
     "test-travis": "npm run test-travis --workspaces",
     "lint": "npm run lint --workspaces && eslint --cache --max-warnings 0 scripts .eslintrc.js",
     "fix": "npm run fix --workspaces && eslint --fix scripts .eslintrc.js",
@@ -40,10 +39,10 @@
     "eslint": "8.57.1",
     "eslint-config-prettier": "8.10.2",
     "eslint-plugin-prettier": "5.5.5",
-    "jest": "29.7.0",
     "jsdoc": "4.0.5",
     "mustache": "4.2.0",
-    "semantic-release": "25.0.3"
+    "semantic-release": "25.0.3",
+    "vitest": "^4.1.7"
   },
   "overrides": {
     "proxy-agent": "6.3.0",

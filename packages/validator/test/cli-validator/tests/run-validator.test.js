@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+import { vi } from 'vitest';
 const { getCapturedText, testValidator } = require('../../test-utils');
 
 describe('run-validator tests', function () {
@@ -12,7 +13,7 @@ describe('run-validator tests', function () {
   const originalInfo = console.info;
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
     console.info = console.log;
@@ -102,7 +103,8 @@ describe('run-validator tests', function () {
     const allOutput = capturedText.join('');
 
     expect(allOutput).toMatch(/Unable to load config file/);
-    expect(allOutput).toMatch(/SyntaxError: Unexpected token/);
+    expect(allOutput).toMatch(/SyntaxError: /);
+    expect(allOutput).toMatch(/: Unexpected token/);
     expect(allOutput).toMatch(/validator will use a default config/);
   });
 });

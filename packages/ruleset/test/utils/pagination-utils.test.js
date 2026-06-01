@@ -164,7 +164,7 @@ describe('Pagination utility functions', () => {
   });
 
   describe('getPaginatedOperationFromPath()', () => {
-    const mockLogger = jest.fn();
+    const mockLogger = vi.fn();
     const logInfo = {
       logger: { debug: mockLogger },
       ruleId: 'test',

@@ -18,6 +18,7 @@ const {
   readYaml,
   validateSchema,
 } = require('../../../src/cli-validator/utils');
+import { vi } from 'vitest';
 
 describe('cli tool - test option handling', function () {
   let consoleSpy;
@@ -27,7 +28,7 @@ describe('cli tool - test option handling', function () {
   const copyrightString = getCopyrightString();
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
     console.info = console.log;

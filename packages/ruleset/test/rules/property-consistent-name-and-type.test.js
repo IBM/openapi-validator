@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+import { vi } from 'vitest';
 const {
   makeCopy,
   rootDocument,
@@ -26,7 +27,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
   // its list of "visited properties" between tests, which prevents proper
   // isolation between the tests. this will reset that variable after each test
   afterEach(() => {
-    jest.resetModules();
+    vi.resetModules();
     rule = require('../../src/rules').propertyConsistentNameAndType;
     rule.severity = 'warn';
   });

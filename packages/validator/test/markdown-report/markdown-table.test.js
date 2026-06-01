@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+import { vi } from 'vitest';
 const MarkdownTable = require('../../src/markdown-report/markdown-table');
 
 describe('MarkdownTable tests', function () {
@@ -22,7 +23,7 @@ describe('MarkdownTable tests', function () {
   });
 
   it('addRow logs an error if it receives a bad number of arguments', function () {
-    const consoleErrorSpy = jest
+    const consoleErrorSpy = vi
       .spyOn(console, 'error')
       .mockImplementation(() => {});
     const table = new MarkdownTable('exactly', 'two');

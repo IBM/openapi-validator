@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+import { vi } from 'vitest';
 const {
   makeCopy,
   rootDocument,
@@ -18,7 +19,7 @@ const expectedMsg = 'operations should not define a requestBody';
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     afterEach(() => {
-      jest.resetModules();
+      vi.resetModules();
       rule = require('../../src/rules').noOperationRequestBody;
     });
     it('Clean spec', async () => {
