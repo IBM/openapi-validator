@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { writeFileSync } = require('fs');
-const path = require('path');
+import { writeFileSync } from 'fs';
+import { parse, resolve } from 'path';
 
 function writeReportToFile({ currentFilename }, report) {
   // For now, only a default filename is supported, which
   // is based on the name of the API definition file.
-  const { name } = path.parse(currentFilename);
+  const { name } = parse(currentFilename);
   const reportFilename = `${name}-validator-report.md`;
 
   // Write the output to a file. It will overwrite an existing file.
@@ -17,7 +17,7 @@ function writeReportToFile({ currentFilename }, report) {
 
   // Return the filename as a confirmation of the success and for
   // later use in the logs shown to the user.
-  return path.resolve(process.cwd(), reportFilename);
+  return resolve(process.cwd(), reportFilename);
 }
 
-module.exports = writeReportToFile;
+export default writeReportToFile;

@@ -53,4 +53,4 @@ class MarkdownTable {
   }
 }
 
-module.exports = MarkdownTable;
+export default MarkdownTable;

@@ -3,19 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { schemaTypeExists } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { schemaTypeExists } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
-const rule = schemaTypeExists;
 // this rule is turned off by default - enable it to run tests
 // but still verify it is defined in the rule as "off"
-const originalSeverity = makeCopy(rule.severity);
-rule.severity = 'warn';
+const originalSeverity = makeCopy(schemaTypeExists.severity);
+// Create a mutable copy of the rule with severity set to 'warn'
+const rule = { ...schemaTypeExists, severity: 'warn' };
 
 const ruleId = 'ibm-schema-type';
 const expectedSeverity = severityCodes.warning;

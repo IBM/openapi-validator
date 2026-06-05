@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const MarkdownTable = require('../markdown-table');
-const { splitMessage } = require('../../spectral/utils');
+import MarkdownTable from '../markdown-table.js';
+import { splitMessage } from '../../spectral/utils.js';
 
 function groupResultsByRule(results) {
   const groupedByRule = {};
@@ -96,4 +96,4 @@ function getTable({ error, warning }) {
   return sections.join('\n').trim();
 }
 
-module.exports = getTable;
+export default getTable;

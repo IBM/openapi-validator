@@ -3,19 +3,20 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   scoreResults,
   compute,
   computeCategorizedScores,
   getFunc,
   tally,
   computeOverallScore,
-} = require('../../src/scoring-tool/score');
+} from '../../src/scoring-tool/score';
 
-const { Metrics } = require('../../src/scoring-tool/metrics');
+import { Metrics } from '../../src/scoring-tool/metrics';
+import { vi } from 'vitest';
 
 describe('scoring-tool score tests', function () {
-  const debug = jest.fn();
+  const debug = vi.fn();
   const mockLogger = { debug };
   const metrics = new Metrics();
   // Fake the metrics by hardcoding the metadata.

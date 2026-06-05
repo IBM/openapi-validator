@@ -82,4 +82,4 @@ function getSchemaNameFromReference(reference) {
   return reference.split('.').at(-1);
 }
 
-module.exports = getSchemaNameAtPath;
+export default getSchemaNameAtPath;

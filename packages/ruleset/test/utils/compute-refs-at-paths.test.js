@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { computeRefsAtPaths } = require('../../src/utils');
+import { computeRefsAtPaths } from '../../src/utils';
 
 describe('Utility function: computeRefsAtPaths()', () => {
   it('should return empty when there are no refs in the nodes', () => {

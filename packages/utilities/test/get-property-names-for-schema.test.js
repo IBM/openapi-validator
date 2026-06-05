@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getPropertyNamesForSchema } = require('../src');
+import { getPropertyNamesForSchema } from '../src';
 
 describe('Utility function: getPropertyNamesForSchema()', () => {
   it('should return `[]` for `undefined`', async () => {

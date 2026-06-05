@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { refSiblingDuplicateDescription } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { refSiblingDuplicateDescription } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const rule = refSiblingDuplicateDescription;
 const ruleId = 'ibm-no-duplication-description-with-ref-sibling';

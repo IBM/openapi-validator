@@ -75,10 +75,12 @@ jobs:
         run: |
           npm pack --workspace packages/validator
           npm pack --workspace packages/ruleset
+          npm pack --workspace packages/utilities
 
           # Test without a custom ruleset
           npx --yes --prefer-online \
-            -p ./ibm-cloud-openapi-ruleset-*.tgz \
+            -p ./ibm-cloud-openapi-ruleset-utilities-*.tgz \
+            -p ./ibm-cloud-openapi-ruleset-[0-9]*.tgz \
             -p ./ibm-openapi-validator-*.tgz \
             lint-openapi packages/validator/test/cli-validator/mock-files/oas3/clean.yml
 
@@ -86,7 +88,8 @@ jobs:
           printf "const ibmRuleset = require('@ibm-cloud/openapi-ruleset');\nmodule.exports = { extends: [[ibmRuleset, 'all']], rules: {} };\n" > /tmp/test-spectral.js
 
           npx --yes --prefer-online \
-            -p ./ibm-cloud-openapi-ruleset-*.tgz \
+            -p ./ibm-cloud-openapi-ruleset-utilities-*.tgz \
+            -p ./ibm-cloud-openapi-ruleset-[0-9]*.tgz \
             -p ./ibm-openapi-validator-*.tgz \
             lint-openapi --ruleset /tmp/test-spectral.js \
             packages/validator/test/cli-validator/mock-files/oas3/clean.yml

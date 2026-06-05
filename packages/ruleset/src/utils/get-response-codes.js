@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
+import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
 
 /**
  * For an OpenAPI 'responses' object, gather all of the defined
@@ -21,4 +21,4 @@ function getResponseCodes(responses) {
   return [statusCodes, successCodes];
 }
 
-module.exports = getResponseCodes;
+export default getResponseCodes;

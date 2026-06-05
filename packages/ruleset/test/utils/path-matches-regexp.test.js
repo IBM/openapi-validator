@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { pathMatchesRegexp } = require('../../src/utils');
+import { pathMatchesRegexp } from '../../src/utils';
 
 describe('Test pathMatchesRegexp() function', () => {
   it('Positive tests', () => {

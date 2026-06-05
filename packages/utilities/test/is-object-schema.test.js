@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObjectSchema } = require('../src');
+import { isObjectSchema } from '../src';
 
 describe('Utility function: isObjectSchema()', () => {
   it('should return `false` for `undefined`', async () => {

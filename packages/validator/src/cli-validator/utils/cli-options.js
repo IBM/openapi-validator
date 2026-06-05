@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Command } = require('commander');
-const getCopyrightString = require('./get-copyright-string');
+import { Command } from 'commander';
+import getCopyrightString from './get-copyright-string.js';
 
 /**
  * This function is used to gather multi-valued arguments into an array.
@@ -115,4 +115,4 @@ function createCLIOptions() {
   return command;
 }
 
-module.exports = createCLIOptions;
+export default createCLIOptions;

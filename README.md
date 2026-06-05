@@ -281,7 +281,7 @@ colorizeOutput: false
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   colorizeOutput: false
 };
 </pre>
@@ -327,7 +327,7 @@ errorsOnly: true
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   errorsOnly: true
 };
 </pre>
@@ -378,7 +378,7 @@ files:
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   files: [
     'file1.json',
     'file2.yaml'
@@ -437,7 +437,7 @@ ignoreFiles:
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   ignoreFiles: [
     '/my/apis/file1.yml'
   ]
@@ -490,7 +490,7 @@ limits:
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   limits: {
     warnings: 25
   }
@@ -543,7 +543,7 @@ logLevels:
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   logLevels: {
     root: 'error',
     'ibm-schema-description-exists': 'debug'
@@ -592,7 +592,7 @@ outputFormat: json
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   outputFormat: 'json'
 };
 </pre>
@@ -648,7 +648,7 @@ ruleset: my-custom-rules.yaml
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   ruleset: 'my-custom-rules.yaml'
 };
 </pre>
@@ -694,7 +694,7 @@ summaryOnly: true
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   summaryOnly: true
 };
 </pre>
@@ -747,7 +747,7 @@ produceQualityScore: true
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   produceQualityScore: true
 };
 </pre>
@@ -799,7 +799,7 @@ markdownReport: true
 </td>
 <td>
 <pre>
-module.exports = {
+export default {
   markdownReport: true
 };
 </pre>
@@ -815,13 +815,13 @@ and the [IBM OpenAPI Ruleset package](https://www.npmjs.com/package/@ibm-cloud/o
 Here is a simple example of what that might look like:
 
 ```js
-const ibmOpenapiRuleset = require('@ibm-cloud/openapi-ruleset');
-const { Spectral } = require('@stoplight/spectral-core');
+import ibmOpenapiRuleset from '@ibm-cloud/openapi-ruleset';
+import { Spectral } from '@stoplight/spectral-core';
 
-function async runSpectral(openapiDocument) {
+async function runSpectral(openapiDocument) {
   const spectral = new Spectral();
   spectral.setRuleset(ibmOpenapiRuleset);
-  results = await spectral.run(openapiDocument);
+  const results = await spectral.run(openapiDocument);
   console.log(results);
 }
 ```

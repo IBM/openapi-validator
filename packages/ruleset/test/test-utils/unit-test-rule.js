@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Spectral } = require('@stoplight/spectral-core');
+import SpectralCore from '@stoplight/spectral-core';
+const { Spectral } = SpectralCore;
 
 /**
  * This is a test utility function that uses spectral to invoke the specified rule
@@ -44,4 +45,4 @@ async function unitTestRule(
   }
 }
 
-module.exports = unitTestRule;
+export default unitTestRule;

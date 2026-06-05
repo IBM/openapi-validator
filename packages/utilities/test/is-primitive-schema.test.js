@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isPrimitiveSchema } = require('../src');
+import { isPrimitiveSchema } from '../src';
 
 describe('Utility function: isPrimitiveSchema()', () => {
   it('should return `false` for `undefined`', async () => {

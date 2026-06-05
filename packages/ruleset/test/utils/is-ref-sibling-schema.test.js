@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isRefSiblingSchema } = require('../../src/utils');
+import { isRefSiblingSchema } from '../../src/utils';
 
 describe('Utility function: isRefSiblingSchema()', () => {
   describe('Should return false', () => {

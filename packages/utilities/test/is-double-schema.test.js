@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isDoubleSchema } = require('../src');
+import { isDoubleSchema } from '../src';
 
 describe('Utility function: isDoubleSchema()', () => {
   it('should return `false` for `undefined`', async () => {

@@ -3,12 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { vi, beforeEach } from 'vitest';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 let rule;
 const ruleId = 'ibm-no-circular-refs';
@@ -20,9 +16,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
   // to store the set of unique flagged $ref values.
   // Because the global variable's value is retained across testcases, we need to reset
   // everything before each testcase.
-  beforeEach(() => {
-    jest.resetModules();
-    rule = require('../../src/rules').circularRefs;
+  beforeEach(async () => {
+    vi.resetModules();
+    const rulesModule = await import('../../src/rules/index.js');
+    rule = rulesModule.circularRefs;
   });
 
   describe('Should not yield errors', () => {

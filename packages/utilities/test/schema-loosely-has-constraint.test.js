@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { schemaLooselyHasConstraint } = require('../src');
+import { schemaLooselyHasConstraint } from '../src';
 
 const fredIsNull = s => s.fred === null;
 

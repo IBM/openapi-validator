@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getNodes, getResolvedSpec, getUnresolvedSpec } = require('../src');
+import { getNodes, getResolvedSpec, getUnresolvedSpec } from '../src';
 
 describe('Utility functions: Spectral Context Utils', () => {
   const mockSpectralContextObject = {

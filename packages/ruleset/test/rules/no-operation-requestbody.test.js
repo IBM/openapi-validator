@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
-let rule = require('../../src/rules').noOperationRequestBody;
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
+import { noOperationRequestBody } from '../../src/rules';
 
 const ruleId = 'ibm-no-operation-requestbody';
 const expectedSeverity = severityCodes.warning;
@@ -17,12 +12,12 @@ const expectedMsg = 'operations should not define a requestBody';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
-    afterEach(() => {
-      jest.resetModules();
-      rule = require('../../src/rules').noOperationRequestBody;
-    });
     it('Clean spec', async () => {
-      const results = await testRule(ruleId, rule, rootDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        rootDocument
+      );
       expect(results).toHaveLength(0);
     });
 
@@ -30,7 +25,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       // omit 'delete' from the list of methods.
-      rule.then.functionOptions.httpMethods = ['get', 'head', 'options'];
+      const rule = {
+        ...noOperationRequestBody,
+        then: {
+          ...noOperationRequestBody.then,
+          functionOptions: {
+            httpMethods: ['get', 'head', 'options'],
+          },
+        },
+      };
 
       testDocument.paths['/v1/drinks/{drink_id}'].delete = {
         operationId: 'delete_drink',
@@ -87,7 +90,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       };
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        testDocument
+      );
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(`DELETE ${expectedMsg}`);
@@ -122,7 +129,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       };
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        testDocument
+      );
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(`GET ${expectedMsg}`);
@@ -157,7 +168,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       };
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        testDocument
+      );
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(`HEAD ${expectedMsg}`);
@@ -192,7 +207,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       };
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        testDocument
+      );
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(`OPTIONS ${expectedMsg}`);
@@ -204,13 +223,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('POST operation w/requestBody - post in config', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      rule.then.functionOptions.httpMethods = [
-        'delete',
-        'get',
-        'head',
-        'options',
-        'POST',
-      ];
+      const rule = {
+        ...noOperationRequestBody,
+        then: {
+          ...noOperationRequestBody.then,
+          functionOptions: {
+            httpMethods: ['delete', 'get', 'head', 'options', 'POST'],
+          },
+        },
+      };
 
       // No need to change testDocument because there are plenty of post
       // operations with a requestBody :)
