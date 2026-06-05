@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const { vi } = require('vitest');
 const {
   getSuccessResponseSchemaForOperation,
   getRequestBodySchemaForOperation,
@@ -354,7 +355,7 @@ describe('Schema finding utility functions', () => {
   });
 
   describe('getCanonicalSchemaForPath()', () => {
-    const mockLogger = jest.fn();
+    const mockLogger = vi.fn();
     const logInfo = {
       logger: { debug: mockLogger },
       ruleId: 'test',

@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const { vi } = require('vitest');
 const { LoggerFactory } = require('../../src/utils');
 
 describe('LoggerFactory tests', () => {
@@ -14,7 +15,7 @@ describe('LoggerFactory tests', () => {
   const originalError = console.error;
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.debug = console.log;
     console.info = console.log;
     console.warn = console.log;

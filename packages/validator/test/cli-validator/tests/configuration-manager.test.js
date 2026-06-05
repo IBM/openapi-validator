@@ -9,6 +9,7 @@ const {
   loadConfig,
   processArgs,
 } = require('../../../src/cli-validator/utils');
+const { vi } = require('vitest');
 
 // Use these parse options since we're not actually retrieving process args.
 const cliParseOptions = { from: 'user' };
@@ -20,7 +21,7 @@ describe('Configuration Manager tests', function () {
   const originalInfo = console.info;
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
     console.info = console.log;

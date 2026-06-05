@@ -37,7 +37,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const logger = LoggerFactory.getInstance().getLogger(ruleId);
-      const debugSpy = jest.spyOn(logger, 'error').mockImplementation(() => {});
+      const debugSpy = vi.spyOn(logger, 'error').mockImplementation(() => {});
 
       const results = await testRule(ruleId, rule, testDocument);
 

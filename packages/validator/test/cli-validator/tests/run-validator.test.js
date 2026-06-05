@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const { vi } = require('vitest');
 const { getCapturedText, testValidator } = require('../../test-utils');
 
 describe('run-validator tests', function () {
@@ -12,7 +13,7 @@ describe('run-validator tests', function () {
   const originalInfo = console.info;
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
     console.info = console.log;

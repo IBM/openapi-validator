@@ -13,9 +13,10 @@ const {
 } = require('../../src/scoring-tool/score');
 
 const { Metrics } = require('../../src/scoring-tool/metrics');
+const { vi } = require('vitest');
 
 describe('scoring-tool score tests', function () {
-  const debug = jest.fn();
+  const debug = vi.fn();
   const mockLogger = { debug };
   const metrics = new Metrics();
   // Fake the metrics by hardcoding the metadata.

@@ -8,12 +8,13 @@ const {
   printCategorizedScoresTable,
   printScoringDataTable,
 } = require('../../src/scoring-tool/output');
+const { vi } = require('vitest');
 
 describe('scoring-tool output tests', function () {
   let consoleSpy;
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {
