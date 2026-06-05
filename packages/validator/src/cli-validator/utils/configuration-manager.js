@@ -86,7 +86,9 @@ async function loadConfig(filename) {
           }
         }
       } catch (err) {
-        throw new Error(`Unable to load config file '${configFile}': ${err}`);
+        throw new Error(`Unable to load config file '${configFile}': ${err}`, {
+          cause: err,
+        });
       }
     } else {
       throw new Error(

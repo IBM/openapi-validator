@@ -46,7 +46,7 @@ function checkMajorVersion(apiDef) {
             if (version) {
               versions.push(version);
             }
-          } catch (error) {
+          } catch {
             // Ignore any exceptions while parsing the URL string.
           }
         }

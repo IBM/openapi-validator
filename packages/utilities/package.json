@@ -27,7 +27,7 @@
     "typescript": "5.8.3"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": ">=24.0.0"
   },
   "jest": {
     "collectCoverage": true,
