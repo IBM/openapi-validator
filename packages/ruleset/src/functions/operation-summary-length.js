@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -15,7 +15,7 @@ let logger;
  * - operation-summary: all operations define a non-empty summary
  */
 
-module.exports = function (summary, _opts, context) {
+export default function (summary, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

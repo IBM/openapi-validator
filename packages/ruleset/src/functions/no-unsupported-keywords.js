@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -11,7 +11,7 @@ let logger;
 const ErrorMsg =
   'An unsupported OpenAPI 3.1 keyword was found in the OpenAPI document:';
 
-module.exports = function (apidef, _opts, context) {
+export default function (apidef, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

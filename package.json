@@ -1,5 +1,6 @@
 {
   "name": "ibm-openapi-validator",
+  "type": "module",
   "workspaces": [
     "packages/utilities",
     "packages/ruleset",

@@ -1,10 +1,11 @@
 {
   "name": "@ibm-cloud/openapi-ruleset",
+  "type": "module",
   "description": "Spectral ruleset for validating IBM Cloud services",
   "version": "1.33.9",
   "license": "Apache-2.0",
   "private": false,
-  "main": "./src/ibm-oas.js",
+  "exports": "./src/ibm-oas.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/IBM/openapi-validator.git",

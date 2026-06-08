@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = function (response) {
+export default function (response) {
   if (!responseLevelExamples(response) && !schemaLevelExample(response)) {
     return [
       {

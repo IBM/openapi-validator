@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { casing, pattern } = require('@stoplight/spectral-functions');
-const { isDeprecated, LoggerFactory } = require('../utils');
+import { casing, pattern } from "@stoplight/spectral-functions";
+import { isDeprecated, LoggerFactory } from "../utils";
 
 // Error message prefix for each parameter type.
 const errorMsgPrefix = {
@@ -19,7 +19,7 @@ const errorMsgNoIn = "Parameters must have a valid 'in' value";
 let ruleId;
 let logger;
 
-module.exports = function (param, options, context) {
+export default function (param, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

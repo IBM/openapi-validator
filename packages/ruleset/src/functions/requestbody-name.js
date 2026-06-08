@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  isFormMimeType,
-  isRequestBodyExploded,
-  LoggerFactory,
-} = require('../utils');
+import { 
+  isFormMimeType, 
+  isRequestBodyExploded, 
+  LoggerFactory 
+} from "../utils";
 
 let ruleId;
 let logger;
 
-module.exports = function (operation, _opts, context) {
+export default function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

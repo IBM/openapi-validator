@@ -3,9 +3,6 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-// Necessary to get exceptions thrown for attempts to modify frozen objects
-'use strict';
-
 const SchemaPath = require('../src/utils/schema-path');
 
 describe('Utility class: SchemaPath', () => {

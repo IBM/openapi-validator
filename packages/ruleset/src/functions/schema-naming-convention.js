@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   schemaHasProperty,
   getNodes,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
+} from "@ibm-cloud/openapi-ruleset-utilities";
 
-const {
+import {
   LoggerFactory,
   computeRefsAtPaths,
   getCanonicalSchemaForPath,
@@ -16,7 +16,7 @@ const {
   getResourceOrientedPaths,
   getSchemaNameAtPath,
   getSuccessResponseSchemaForOperation,
-} = require('../utils');
+} from "../utils";
 
 let ruleId;
 let logger;
@@ -38,7 +38,7 @@ let logger;
  * - ibm-schema-casing-convention: schema names use upper camel case
  */
 
-module.exports = function schemaNames(apidef, options, context) {
+export default function schemaNames(apidef, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isJsonPatchMimeType,
   isMergePatchMimeType,
   LoggerFactory,
-} = require('../utils');
+} from "../utils";
 
 let ruleId;
 let logger;
 
-module.exports = function (operation, _opts, context) {
+export default function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

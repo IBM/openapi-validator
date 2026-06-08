@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   getSchemaType,
   validateSubschemas,
   SchemaType,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+} from "@ibm-cloud/openapi-ruleset-utilities";
+import { LoggerFactory } from "../utils";
 
 // We need to look at properties across the entire API definition.
 // This will act as a global variable to hold all of the properties
@@ -19,7 +19,7 @@ let excludedProperties;
 let ruleId;
 let logger;
 
-module.exports = function (schema, options, context) {
+export default function (schema, options, context) {
   excludedProperties = options.excludedProperties;
 
   if (!logger) {

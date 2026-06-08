@@ -3,21 +3,21 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   getNodes,
   getSchemaType,
   isObject,
   isArraySchema,
   validateSubschemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
+} from "@ibm-cloud/openapi-ruleset-utilities";
 
-const {
+import {
   LoggerFactory,
   computeRefsAtPaths,
   getCanonicalSchemaForPath,
   getResourceOrientedPaths,
   getSchemaNameAtPath,
-} = require('../utils');
+} from "../utils";
 
 let ruleId;
 let logger;
@@ -42,7 +42,7 @@ const infoLogStack = [];
  * - ibm-schema-naming-convention: schemas have appropriate, purpose-based names
  */
 
-module.exports = function apiSymmetry(apidef, options, context) {
+export default function apiSymmetry(apidef, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

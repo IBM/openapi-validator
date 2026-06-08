@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getResolvedSpec } = require('@ibm-cloud/openapi-ruleset-utilities');
-const {
+import { getResolvedSpec } from "@ibm-cloud/openapi-ruleset-utilities";
+import {
   LoggerFactory,
   isCreateOperation,
   isOperationOfType,
   getResourceSpecificSiblingPath,
   getResponseCodes,
   pathHasMinimallyRepresentedResource,
-} = require('../utils');
+} from "../utils";
 
 let ruleId;
 let logger;
 
-module.exports = function (operation, _opts, context) {
+export default function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);

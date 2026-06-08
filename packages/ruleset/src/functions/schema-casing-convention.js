@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { pattern } = require('@stoplight/spectral-functions');
-const { LoggerFactory } = require('../utils');
+import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
+import { pattern } from '@stoplight/spectral-functions';
+import { LoggerFactory } from '../utils';
 
 let patternConfig;
 let ruleId;
@@ -18,7 +18,7 @@ let logger;
  * - ibm-avoid-inline-schemas: all relevant schemas are named (defined with references)
  */
 
-module.exports = function (components, options, context) {
+export default function (components, options, context) {
   // Save this rule's "functionOptions" value since we need
   // to pass it on to Spectral's "pattern" function.
   patternConfig = options;
