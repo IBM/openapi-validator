@@ -3,13 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getCapturedText } = require('../../test-utils');
-const {
-  getDefaultConfig,
-  loadConfig,
-  processArgs,
-} = require('../../../src/cli-validator/utils');
-const { vi } = require('vitest');
+import { getCapturedText } from '../../test-utils';
+import { getDefaultConfig, loadConfig, processArgs } from '../../../src/cli-validator/utils';
+import { vi } from 'vitest';
 
 // Use these parse options since we're not actually retrieving process args.
 const cliParseOptions = { from: 'user' };

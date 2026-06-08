@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { vi } = require('vitest');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { vi } from 'vitest';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 let rule;
 const ruleId = 'ibm-no-circular-refs';

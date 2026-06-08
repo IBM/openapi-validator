@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { readFile } = require('node:fs/promises');
-const readYaml = require('js-yaml');
-const { collections } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { Metrics } = require('../../src/scoring-tool/metrics');
-const { vi } = require('vitest');
+import { readFile } from 'node:fs/promises';
+import { load } from 'js-yaml';
+import { collections } from '@ibm-cloud/openapi-ruleset-utilities';
+import { Metrics } from '../../src/scoring-tool/metrics';
+import { vi } from 'vitest';
 
 describe('scoring-tool metrics tests', function () {
   let apiDef;
@@ -15,7 +15,7 @@ describe('scoring-tool metrics tests', function () {
   beforeAll(async function () {
     const fileToTest = `${__dirname}/../cli-validator/mock-files/oas3/clean.yml`;
     const contents = await readFile(fileToTest, { encoding: 'utf8' });
-    apiDef = readYaml.load(contents);
+    apiDef = load(contents);
   });
 
   it('should initialize members in constructor', function () {

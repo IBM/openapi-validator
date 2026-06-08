@@ -3,12 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { vi } = require('vitest');
-const {
-  getSuccessResponseSchemaForOperation,
-  getRequestBodySchemaForOperation,
-  getCanonicalSchemaForPath,
-} = require('../../src/utils');
+import { vi } from 'vitest';
+import { getSuccessResponseSchemaForOperation, getRequestBodySchemaForOperation, getCanonicalSchemaForPath } from '../../src/utils';
 
 describe('Schema finding utility functions', () => {
   describe('getSuccessResponseSchemaForOperation()', () => {

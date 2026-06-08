@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { vi } = require('vitest');
-const { getCapturedText, testValidator } = require('../../test-utils');
+import { vi } from 'vitest';
+import { getCapturedText, testValidator } from '../../test-utils';
 
 describe('run-validator tests', function () {
   let consoleSpy;

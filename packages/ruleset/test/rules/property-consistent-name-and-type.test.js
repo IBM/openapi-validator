@@ -3,42 +3,28 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { vi } = require('vitest');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
-let rule = require('../../src/rules').propertyConsistentNameAndType;
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
+import { propertyConsistentNameAndType } from '../../src/rules';
 
 const ruleId = 'ibm-property-consistent-name-and-type';
 
-// this rule is turned off by default - enable it to run tests
-// but still verify it is defined in the rule as "off"
-const originalSeverity = makeCopy(rule.severity);
-rule.severity = 'warn';
+function getRule() {
+  const rule = structuredClone(propertyConsistentNameAndType);
+  rule.severity = 'warn';
+  return rule;
+}
 
+const originalSeverity = makeCopy(propertyConsistentNameAndType.severity);
 const expectedSeverity = severityCodes.warning;
 
 describe(`Spectral rule: ${ruleId}`, () => {
-  // this is required because of the "global" variable we are using in the file
-  // that holds the implementation for this rule. By default, it will maintain
-  // its list of "visited properties" between tests, which prevents proper
-  // isolation between the tests. this will reset that variable after each test
-  afterEach(() => {
-    vi.resetModules();
-    rule = require('../../src/rules').propertyConsistentNameAndType;
-    rule.severity = 'warn';
-  });
-
   it('Should originally be set to severity: "off"', () => {
     expect(originalSeverity).toBe('off');
   });
 
   describe('Should not yield errors', () => {
     it('should not error with clean spec', async () => {
-      const results = await testRule(ruleId, rule, rootDocument);
+      const results = await testRule(ruleId, getRule(), rootDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -58,7 +44,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
       };
 
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(ruleId, getRule(), testDocument);
       expect(results).toHaveLength(0);
     });
 
@@ -106,7 +92,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
       };
 
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(ruleId, getRule(), testDocument);
 
       expect(results).toHaveLength(0);
     });
@@ -155,7 +141,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
       };
 
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(ruleId, getRule(), testDocument);
 
       expect(results).toHaveLength(0);
     });
@@ -204,7 +190,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
       };
 
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(ruleId, getRule(), testDocument);
 
       expect(results).toHaveLength(0);
     });
@@ -253,7 +239,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
       };
 
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(ruleId, getRule(), testDocument);
 
       expect(results).toHaveLength(0);
     });
@@ -283,7 +269,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
       };
 
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(ruleId, getRule(), testDocument);
 
       expect(results).toHaveLength(2);
 
@@ -352,7 +338,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
         },
       };
 
-      const results = await testRule(ruleId, rule, testDocument);
+      const results = await testRule(ruleId, getRule(), testDocument);
 
       expect(results).toHaveLength(3);
 

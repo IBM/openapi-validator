@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { vi } = require('vitest');
-const MarkdownTable = require('../../src/markdown-report/markdown-table');
+import { vi } from 'vitest';
+import MarkdownTable from '../../src/markdown-report/markdown-table';
 
 describe('MarkdownTable tests', function () {
   it('constructor creates new instance of MarkdownTable', function () {

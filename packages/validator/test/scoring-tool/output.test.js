@@ -3,12 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { extractValuesFromTable } = require('../test-utils');
-const {
-  printCategorizedScoresTable,
-  printScoringDataTable,
-} = require('../../src/scoring-tool/output');
-const { vi } = require('vitest');
+import { extractValuesFromTable } from '../test-utils';
+import { printCategorizedScoresTable, printScoringDataTable } from '../../src/scoring-tool/output';
+import { vi } from 'vitest';
 
 describe('scoring-tool output tests', function () {
   let consoleSpy;

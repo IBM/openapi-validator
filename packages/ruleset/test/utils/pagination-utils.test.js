@@ -3,14 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { vi } = require('vitest');
-const {
-  getOffsetParamIndex,
-  getPageTokenParamIndex,
-  getSuccessCode,
-  getResponseSchema,
-  getPaginatedOperationFromPath,
-} = require('../../src/utils');
+import { vi } from 'vitest';
+import { getOffsetParamIndex, getPageTokenParamIndex, getSuccessCode, getResponseSchema, getPaginatedOperationFromPath } from '../../src/utils';
 
 describe('Pagination utility functions', () => {
   describe('getOffsetParamIndex()', () => {

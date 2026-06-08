@@ -3,17 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  scoreResults,
-  compute,
-  computeCategorizedScores,
-  getFunc,
-  tally,
-  computeOverallScore,
-} = require('../../src/scoring-tool/score');
+import { scoreResults, compute, computeCategorizedScores, getFunc, tally, computeOverallScore } from '../../src/scoring-tool/score';
 
-const { Metrics } = require('../../src/scoring-tool/metrics');
-const { vi } = require('vitest');
+import { Metrics } from '../../src/scoring-tool/metrics';
+import { vi } from 'vitest';
 
 describe('scoring-tool score tests', function () {
   const debug = vi.fn();

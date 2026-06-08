@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { vi } = require('vitest');
-const { LoggerFactory } = require('../../src/utils');
+import { vi } from 'vitest';
+import { LoggerFactory } from '../../src/utils';
 
 describe('LoggerFactory tests', () => {
   let consoleSpy;

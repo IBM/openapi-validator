@@ -3,22 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { existsSync, unlinkSync } = require('fs');
+import { existsSync, unlinkSync } from 'fs';
 
-const {
-  extractValuesFromTable,
-  getCapturedText,
-  getCapturedTextWithColor,
-  stripAnsi,
-  testValidator,
-} = require('../../test-utils');
+import { extractValuesFromTable, getCapturedText, getCapturedTextWithColor, stripAnsi, testValidator } from '../../test-utils';
 
-const {
-  getCopyrightString,
-  readYaml,
-  validateSchema,
-} = require('../../../src/cli-validator/utils');
-const { vi } = require('vitest');
+import { getCopyrightString, readYaml, validateSchema } from '../../../src/cli-validator/utils';
+import { vi } from 'vitest';
 
 describe('cli tool - test option handling', function () {
   let consoleSpy;
