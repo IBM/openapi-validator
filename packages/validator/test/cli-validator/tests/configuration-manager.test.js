@@ -4,7 +4,11 @@
  */
 
 import { getCapturedText } from '../../test-utils';
-import { getDefaultConfig, loadConfig, processArgs } from '../../../src/cli-validator/utils';
+import {
+  getDefaultConfig,
+  loadConfig,
+  processArgs,
+} from '../../../src/cli-validator/utils';
 import { vi } from 'vitest';
 
 // Use these parse options since we're not actually retrieving process args.

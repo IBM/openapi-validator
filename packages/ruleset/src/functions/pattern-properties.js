@@ -6,8 +6,8 @@
 import {
   isObject,
   validateSubschemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -24,7 +24,7 @@ export default function (schema, _opts, context) {
     true,
     false
   );
-};
+}
 
 /**
  * Enforces certain restrictions on the use of "patternProperties" within a schema:

@@ -7,8 +7,8 @@ import {
   isArraySchema,
   isObject,
   validateNestedSchemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -22,7 +22,7 @@ export default function (schema, _opts, context) {
   return validateNestedSchemas(schema, context.path, (s, p) => {
     return checkForOptionalArrays(s, p, []);
   });
-};
+}
 
 /**
  * Checks "schema" for any optional array properties, including

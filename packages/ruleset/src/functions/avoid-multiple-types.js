@@ -21,7 +21,7 @@ export default function (schema, _opts, context) {
     true,
     false
   );
-};
+}
 
 /**
  * Warns about the presence of multiple types within a schema's "type" field.

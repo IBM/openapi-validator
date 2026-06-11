@@ -14,7 +14,7 @@ export default function (operation, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return operationSummary(operation, context.path);
-};
+}
 
 function operationSummary(operation, path) {
   logger.debug(

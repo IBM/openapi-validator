@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { isStringSchema, schemaHasConstraint } from '@ibm-cloud/openapi-ruleset-utilities';
+import {
+  isStringSchema,
+  schemaHasConstraint,
+} from '@ibm-cloud/openapi-ruleset-utilities';
 import { LoggerFactory } from '../utils';
 
 let ruleId;
@@ -15,7 +18,7 @@ export default function (pathParam, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return pathParameterNotCRN(pathParam, context.path);
-};
+}
 
 /**
  * This function will check "pathParam" (assumed to be a path parameter object)

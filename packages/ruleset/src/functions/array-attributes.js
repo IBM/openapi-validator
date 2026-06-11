@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { isPlainObject } from "lodash";
+import { isPlainObject } from 'lodash';
 import {
   validateNestedSchemas,
   isArraySchema,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { getCompositeSchemaAttribute, LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { getCompositeSchemaAttribute, LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -25,7 +25,7 @@ export default function (schema, _opts, context) {
     true,
     false
   );
-};
+}
 
 function arrayAttributeErrors(schema, path) {
   logger.debug(

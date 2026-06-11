@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { oas3_1 } from "@stoplight/spectral-formats";
-import { patternPropertiesCheck } from "../functions";
-import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3_1 } from '@stoplight/spectral-formats';
+import { patternPropertiesCheck } from '../functions';
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 
 export const description =
   'Enforces certain restrictions on the use of "patternProperties" within a schema.';
-export const message = "{{error}}";
+export const message = '{{error}}';
 export const given = schemas;
-export const severity = "error";
+export const severity = 'error';
 export const formats = [oas3_1];
 export const resolved = true;
 export const then = {

@@ -29,7 +29,7 @@ export default function (components, options, context) {
   }
 
   return schemaCaseConvention(components, context.path);
-};
+}
 
 function schemaCaseConvention(components, path) {
   if (!components.schemas || !isObject(components.schemas)) {

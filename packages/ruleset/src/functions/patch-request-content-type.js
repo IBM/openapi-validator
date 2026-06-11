@@ -7,7 +7,7 @@ import {
   isJsonPatchMimeType,
   isMergePatchMimeType,
   LoggerFactory,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -18,7 +18,7 @@ export default function (operation, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return patchRequestContentType(operation, context.path);
-};
+}
 
 /**
  * This function checks to make sure that each PATCH operation supports only the request

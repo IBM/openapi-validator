@@ -6,9 +6,9 @@
 import {
   isIntegerSchema,
   validateNestedSchemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
-import { getCompositeSchemaAttribute, LoggerFactory } from "../utils";
+import { getCompositeSchemaAttribute, LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -24,7 +24,7 @@ export default function (schema, _opts, context) {
     true,
     false
   );
-};
+}
 
 // These are the valid format values that can be used with integer schemas.
 const intFormats = ['int32', 'int64'];

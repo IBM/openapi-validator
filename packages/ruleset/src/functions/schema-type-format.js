@@ -59,7 +59,7 @@ export default function (schema, _opts, context) {
   }
 
   return validateSubschemas(schema, context.path, typeFormatErrors);
-};
+}
 
 function typeFormatErrors(schema, path) {
   logger.debug(

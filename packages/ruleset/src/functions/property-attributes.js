@@ -9,8 +9,8 @@ import {
   isNumberSchema,
   isIntegerSchema,
   isObjectSchema,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -20,7 +20,7 @@ export default function (schema, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return validateSubschemas(schema, context.path, checkPropertyAttributes);
-};
+}
 
 /**
  * This rule performs the following checks on each schema (and schema property)

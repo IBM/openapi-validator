@@ -16,7 +16,7 @@ export default function (schema, _opts, context) {
   }
 
   return validateSubschemas(schema, context.path, checkForSuperfluousAllOf);
-};
+}
 
 function checkForSuperfluousAllOf(schema, path) {
   // We're interested only in schemas that contain ONLY a single-element allOf list.

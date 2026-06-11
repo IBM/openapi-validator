@@ -4,7 +4,11 @@
  */
 
 import { vi } from 'vitest';
-import { getSuccessResponseSchemaForOperation, getRequestBodySchemaForOperation, getCanonicalSchemaForPath } from '../../src/utils';
+import {
+  getSuccessResponseSchemaForOperation,
+  getRequestBodySchemaForOperation,
+  getCanonicalSchemaForPath,
+} from '../../src/utils';
 
 describe('Schema finding utility functions', () => {
   describe('getSuccessResponseSchemaForOperation()', () => {

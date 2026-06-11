@@ -7,8 +7,8 @@ import {
   isEnumerationSchema,
   isObject,
   validateNestedSchemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -22,7 +22,7 @@ export default function (schema, _opts, context) {
   return validateNestedSchemas(schema, context.path, (s, p) => {
     return checkForOptionalEnumerations(s, p, []);
   });
-};
+}
 
 /**
  * Checks "schema" for any optional enumeration properties (i.e. type string w/"enum" field present).

@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { casing, pattern } from "@stoplight/spectral-functions";
-import { isDeprecated, LoggerFactory } from "../utils";
+import { casing, pattern } from '@stoplight/spectral-functions';
+import { isDeprecated, LoggerFactory } from '../utils';
 
 // Error message prefix for each parameter type.
 const errorMsgPrefix = {
@@ -25,7 +25,7 @@ export default function (param, options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return parameterCasingConvention(param, context.path, options);
-};
+}
 
 /**
  * This function will check 'param' to make sure that its name

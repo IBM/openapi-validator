@@ -16,7 +16,7 @@ export default function (schema, _opts, context) {
   }
 
   return validateSubschemas(schema, context.path, checkDuplicateDescription);
-};
+}
 
 function checkDuplicateDescription(schema, path) {
   // We're only interested in a schema or schema property that has an allOf list.

@@ -7,9 +7,9 @@ import {
   schemaHasConstraint,
   isStringSchema,
   validateNestedSchemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
-import { getCompositeSchemaAttribute, LoggerFactory } from "../utils";
+import { getCompositeSchemaAttribute, LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -25,7 +25,7 @@ export default function (schema, _opts, context) {
     true,
     false
   );
-};
+}
 
 // An object holding a list of "format" values to be bypassed when checking
 // for the "pattern", "minLength" and "maxLength" fields of a string property, respectively.

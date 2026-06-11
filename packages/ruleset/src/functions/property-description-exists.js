@@ -6,8 +6,8 @@
 import {
   schemaHasConstraint,
   validateSubschemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory, isSchemaProperty } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory, isSchemaProperty } from '../utils';
 
 let ruleId;
 let logger;
@@ -19,7 +19,7 @@ export default function (schema, _opts, context) {
   }
 
   return validateSubschemas(schema, context.path, propertyDescriptionExists);
-};
+}
 
 function propertyDescriptionExists(schema, path) {
   // If "schema" is a schema property, then check for a description.

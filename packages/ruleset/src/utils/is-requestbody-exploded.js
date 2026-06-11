@@ -1,5 +1,5 @@
-const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { supportsJsonContent } = require('./mimetype-utils');
+import { isArraySchema } from '@ibm-cloud/openapi-ruleset-utilities';
+import { supportsJsonContent } from './mimetype-utils';
 
 /**
  * Returns true iff the specified requestBody defines JSON content that will be exploded by
@@ -89,4 +89,4 @@ function isSchemaAbstract(schema) {
   return false;
 }
 
-module.exports = isRequestBodyExploded;
+export default isRequestBodyExploded;

@@ -4,15 +4,12 @@
  */
 
 const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
-const getResponseCodes = require('./get-response-codes');
+const getResponseCodes = require('./get-response-codes').default;
 
-const {
-  isJsonMimeType,
-  isJsonPatchMimeType,
-  isMergePatchMimeType,
-} = require('./mimetype-utils');
+const { isJsonMimeType, isJsonPatchMimeType, isMergePatchMimeType } =
+  require('./mimetype-utils').default;
 
-const getSchemaNameAtPath = require('./get-schema-name-at-path');
+const getSchemaNameAtPath = require('./get-schema-name-at-path').default;
 
 /**
  * Takes an operation object/path combo and finds the JSON success

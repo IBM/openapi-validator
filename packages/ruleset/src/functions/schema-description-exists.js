@@ -6,8 +6,8 @@
 import {
   validateSubschemas,
   schemaHasConstraint,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory, isPrimarySchema } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory, isPrimarySchema } from '../utils';
 
 let ruleId;
 let logger;
@@ -19,7 +19,7 @@ export default function (schema, _opts, context) {
   }
 
   return validateSubschemas(schema, context.path, schemaDescriptionExists);
-};
+}
 
 function schemaDescriptionExists(schema, path) {
   // Check to see if "path" represents a primary schema (i.e. not a schema property).

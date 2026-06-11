@@ -8,8 +8,8 @@ import {
   isIntegerSchema,
   isObject,
   isStringSchema,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -21,7 +21,7 @@ export default function (schema, _opts, context) {
   }
 
   return checkErrorContainerModelSchema(schema, context.path);
-};
+}
 
 /**
  * This function will verify that "schema" complies with the API Handbook's

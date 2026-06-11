@@ -21,7 +21,7 @@ export default function (summary, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkSummaryLength(summary, context.path);
-};
+}
 
 function checkSummaryLength(summary, path) {
   logger.debug(

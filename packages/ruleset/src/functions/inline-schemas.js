@@ -7,13 +7,13 @@ import {
   isArraySchema,
   isPrimitiveSchema,
   validateSubschemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
 import {
   isJsonMimeType,
   isEmptyObjectSchema,
   isRefSiblingSchema,
-} from "../utils";
+} from '../utils';
 
 /**
  * Checks to make sure that nested object schemas are defined using a $ref rather than
@@ -35,7 +35,7 @@ import {
  */
 export default function (schema, options, { path }) {
   return validateSubschemas(schema, path, checkForInlineObjectSchemas);
-};
+}
 
 /**
  * Checks the specified schema to determine if it's an inline object schema.

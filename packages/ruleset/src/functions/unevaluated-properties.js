@@ -21,7 +21,7 @@ export default function (schema, _opts, context) {
     true,
     false
   );
-};
+}
 
 /**
  * If 'unevaluatedProperties' is specified within "schema" then it must be set to false.

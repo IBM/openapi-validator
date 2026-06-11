@@ -11,11 +11,11 @@ import {
   getSuccessCode,
   getResponseSchema,
   getPaginatedOperationFromPath,
-} from "../utils";
+} from '../utils';
 import {
   isIntegerSchema,
   isStringSchema,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
 let ruleId;
 let logger;
@@ -26,7 +26,7 @@ export default function (pathObj, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return paginationStyle(pathObj, context.path);
-};
+}
 
 /**
  * This function implements the pagination-style rule which performs numerous checks

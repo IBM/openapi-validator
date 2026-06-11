@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { getResolvedSpec } from "@ibm-cloud/openapi-ruleset-utilities";
+import { getResolvedSpec } from '@ibm-cloud/openapi-ruleset-utilities';
 import {
   LoggerFactory,
   isCreateOperation,
@@ -11,7 +11,7 @@ import {
   getResourceSpecificSiblingPath,
   getResponseCodes,
   pathHasMinimallyRepresentedResource,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -23,7 +23,7 @@ export default function (operation, _opts, context) {
   }
 
   return responseStatusCodes(operation, context.path, getResolvedSpec(context));
-};
+}
 
 /**
  * This function performs a few checks on each operation's responses field:

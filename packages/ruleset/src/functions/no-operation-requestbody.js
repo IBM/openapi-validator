@@ -14,7 +14,7 @@ export default function (operation, options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return noOperationRequestBody(operation, context.path, options);
-};
+}
 
 /**
  * This function will check to make sure that certain operations do not have a requestBody.

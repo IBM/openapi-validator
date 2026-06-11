@@ -8,8 +8,8 @@ import {
   isArraySchema,
   isObject,
   getUnresolvedSpec,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -24,7 +24,7 @@ export default function (schema, _opts, context) {
     context.path,
     getUnresolvedSpec(context)
   );
-};
+}
 
 /**
  * This function checks to make sure that for a collection "list" type operation,

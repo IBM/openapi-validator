@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { flatten, isEqual, uniqWith } from "lodash";
-import { operationMethods, LoggerFactory } from "../utils";
+import { flatten, isEqual, uniqWith } from 'lodash';
+import { operationMethods, LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -15,7 +15,7 @@ export default function (pathItem, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return duplicatePathParameter(pathItem, context.path);
-};
+}
 
 // Regex used to identify references to path params within a path string.
 const pathParamReferenceRegex = /\{(.*?)\}/g;

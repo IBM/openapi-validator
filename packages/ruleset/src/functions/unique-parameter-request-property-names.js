@@ -6,7 +6,7 @@
 import {
   isObject,
   schemaHasConstraint,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
 import {
   isJsonMimeType,
@@ -14,7 +14,7 @@ import {
   isMergePatchMimeType,
   LoggerFactory,
   operationMethods,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -25,7 +25,7 @@ export default function (pathItem, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForNameCollisions(pathItem, context.path);
-};
+}
 
 /**
  * This function checks each operation to see check for collisions between

@@ -2,9 +2,10 @@
  * Copyright 2023 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
-const { isArraySchema } = require('@ibm-cloud/openapi-ruleset-utilities');
-const mergeAllOfSchemaProperties = require('./merge-allof-schema-properties');
-const { isJsonMimeType } = require('./mimetype-utils');
+import { isArraySchema } from '@ibm-cloud/openapi-ruleset-utilities';
+import mergeAllOfSchemaProperties from './merge-allof-schema-properties';
+import mimetypeUtils from './mimetype-utils';
+const { isJsonMimeType } = mimetypeUtils;
 
 /**
  * Looks for a query parameter called "offset" and returns the
@@ -192,7 +193,7 @@ function getPaginatedOperationFromPath(pathItem, path, logInfo) {
   return operation;
 }
 
-module.exports = {
+export default {
   getOffsetParamIndex,
   getPageTokenParamIndex,
   getSuccessCode,

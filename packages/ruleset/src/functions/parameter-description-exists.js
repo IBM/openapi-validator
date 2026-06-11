@@ -14,7 +14,7 @@ export default function (param, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return parameterDescription(param, context.path);
-};
+}
 
 function parameterDescription(param, path) {
   logger.debug(

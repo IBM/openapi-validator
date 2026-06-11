@@ -11,7 +11,7 @@ export default function (response) {
       },
     ];
   }
-};
+}
 
 function responseLevelExamples(response) {
   return response.example || response.examples;

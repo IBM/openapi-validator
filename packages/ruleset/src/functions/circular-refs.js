@@ -14,7 +14,7 @@ export default function ($ref, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForCircularRef($ref, context.path);
-};
+}
 
 // This set is used to make sure that we warn about each distinct $ref value only once.
 const reportedRefValues = new Set();

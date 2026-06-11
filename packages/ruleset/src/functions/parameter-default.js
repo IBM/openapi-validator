@@ -14,7 +14,7 @@ export default function (param, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return parameterDefault(param, context.path);
-};
+}
 
 const errorMsg = 'Required parameters should not define a default value';
 

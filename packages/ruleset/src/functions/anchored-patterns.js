@@ -6,9 +6,9 @@
 import {
   isStringSchema,
   validateSubschemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
-import { LoggerFactory } from "../utils";
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -24,7 +24,7 @@ export default function (schema, _opts, context) {
     true,
     false
   );
-};
+}
 
 /**
  * This function will check the "pattern" attribute found on each string schema

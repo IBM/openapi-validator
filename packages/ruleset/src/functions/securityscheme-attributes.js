@@ -20,7 +20,7 @@ export default function (securityScheme, _opts, context) {
     context.path,
     context.document
   );
-};
+}
 
 const API_KEY = 'apiKey';
 const OAUTH2 = 'oauth2';

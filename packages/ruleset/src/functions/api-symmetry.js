@@ -9,7 +9,7 @@ import {
   isObject,
   isArraySchema,
   validateSubschemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
 import {
   LoggerFactory,
@@ -17,7 +17,7 @@ import {
   getCanonicalSchemaForPath,
   getResourceOrientedPaths,
   getSchemaNameAtPath,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -48,7 +48,7 @@ export default function apiSymmetry(apidef, options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkApiForSymmetry(apidef, getNodes(context));
-};
+}
 
 /**
  * This function checks for most of the API Handbook's rules about schema

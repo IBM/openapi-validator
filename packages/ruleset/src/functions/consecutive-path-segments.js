@@ -14,7 +14,7 @@ export default function (pathItem, options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return consecutivePathSegments(context.path);
-};
+}
 
 /**
  * This function detects the presence of two or more consecutive path segments

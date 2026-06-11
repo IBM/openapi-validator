@@ -6,12 +6,12 @@
 import {
   schemaHasConstraint,
   validateSubschemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 import {
   isMergePatchMimeType,
   LoggerFactory,
   operationMethods,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -22,7 +22,7 @@ export default function (schema, _options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return validateSubschemas(schema, context.path, noNullableProperties);
-};
+}
 
 /**
  * This function will check to make sure that nullable properties exist only

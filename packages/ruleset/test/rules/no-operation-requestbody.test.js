@@ -13,7 +13,11 @@ const expectedMsg = 'operations should not define a requestBody';
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {
     it('Clean spec', async () => {
-      const results = await testRule(ruleId, noOperationRequestBody, rootDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        rootDocument
+      );
       expect(results).toHaveLength(0);
     });
 
@@ -79,7 +83,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       };
-      const results = await testRule(ruleId, noOperationRequestBody, testDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        testDocument
+      );
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(`DELETE ${expectedMsg}`);
@@ -114,7 +122,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       };
-      const results = await testRule(ruleId, noOperationRequestBody, testDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        testDocument
+      );
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(`GET ${expectedMsg}`);
@@ -149,7 +161,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       };
-      const results = await testRule(ruleId, noOperationRequestBody, testDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        testDocument
+      );
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(`HEAD ${expectedMsg}`);
@@ -184,7 +200,11 @@ describe(`Spectral rule: ${ruleId}`, () => {
           },
         },
       };
-      const results = await testRule(ruleId, noOperationRequestBody, testDocument);
+      const results = await testRule(
+        ruleId,
+        noOperationRequestBody,
+        testDocument
+      );
       expect(results).toHaveLength(1);
       expect(results[0].code).toBe(ruleId);
       expect(results[0].message).toBe(`OPTIONS ${expectedMsg}`);

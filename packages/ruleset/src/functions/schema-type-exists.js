@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { validateSubschemas } from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory, mergeAllOfSchemaProperties } from "../utils";
+import { validateSubschemas } from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory, mergeAllOfSchemaProperties } from '../utils';
 
 let ruleId;
 let logger;
@@ -16,7 +16,7 @@ export default function (schema, _opts, context) {
   }
 
   return validateSubschemas(schema, context.path, schemaTypeExists);
-};
+}
 
 function schemaTypeExists(schema, path) {
   // If we're looking at an allOf list element schema, then

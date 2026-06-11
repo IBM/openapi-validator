@@ -7,7 +7,7 @@ import {
   getPaginatedOperationFromPath,
   getOffsetParamIndex,
   LoggerFactory,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -18,7 +18,7 @@ export default function (pathObj, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkTypeOfPagination(pathObj, context.path);
-};
+}
 
 /**
  * This function implements the prefer-token-pagination rule which checks

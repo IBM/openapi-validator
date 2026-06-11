@@ -14,7 +14,7 @@ export default function (apiDef, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkMajorVersion(apiDef);
-};
+}
 
 // Check:
 // - Each url in the servers object has a path segment of the form v followed by a number,

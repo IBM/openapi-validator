@@ -6,7 +6,7 @@
 import {
   schemaHasProperty,
   getNodes,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
 import {
   LoggerFactory,
@@ -16,7 +16,7 @@ import {
   getResourceOrientedPaths,
   getSchemaNameAtPath,
   getSuccessResponseSchemaForOperation,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -44,7 +44,7 @@ export default function schemaNames(apidef, options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkSchemaNames(apidef, getNodes(context));
-};
+}
 
 /**
  * This function checks for most of the API Handbook's schema naming conventions.

@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { each, merge, pickBy, reduce } from "lodash";
-import { operationMethods } from "../utils";
-import { singularize } from "inflected";
+import { each, merge, pickBy, reduce } from 'lodash';
+import { operationMethods } from '../utils';
+import { singularize } from 'inflected';
 
 export default function (rootDocument, options) {
   return operationIdNamingConvention(rootDocument, options.strict);
-};
+}
 
 function operationIdNamingConvention(resolvedSpec, fullNamingCheck) {
   const operations = reduce(

@@ -3,7 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { scoreResults, compute, computeCategorizedScores, getFunc, tally, computeOverallScore } from '../../src/scoring-tool/score';
+import {
+  scoreResults,
+  compute,
+  computeCategorizedScores,
+  getFunc,
+  tally,
+  computeOverallScore,
+} from '../../src/scoring-tool/score';
 
 import { Metrics } from '../../src/scoring-tool/metrics';
 import { vi } from 'vitest';

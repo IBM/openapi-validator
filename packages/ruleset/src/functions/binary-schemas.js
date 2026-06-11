@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { isBinarySchema } from "@ibm-cloud/openapi-ruleset-utilities";
+import { isBinarySchema } from '@ibm-cloud/openapi-ruleset-utilities';
 
 import {
   isJsonMimeType,
@@ -12,7 +12,7 @@ import {
   isRequestBodySchema,
   isResponseSchema,
   LoggerFactory,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -23,7 +23,7 @@ export default function (schema, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return binarySchemaCheck(schema, context.path);
-};
+}
 
 /**
  * This function implements the 'binary-schemas' rule which makes sure that

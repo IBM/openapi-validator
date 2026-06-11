@@ -6,8 +6,8 @@
 import {
   isArraySchema,
   validateSubschemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -17,7 +17,7 @@ export default function (schema, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return validateSubschemas(schema, context.path, arrayOfArrays, true, false);
-};
+}
 
 function arrayOfArrays(schema, path) {
   if (isArraySchema(schema) && schema.items) {

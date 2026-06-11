@@ -15,7 +15,7 @@ export default function (pathItem, options, context) {
   }
 
   return validatePathSegments(context.path);
-};
+}
 
 /**
  * This function validates individual path segments within a path string.

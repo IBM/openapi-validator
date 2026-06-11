@@ -5,9 +5,19 @@
 
 import { existsSync, unlinkSync } from 'fs';
 
-import { extractValuesFromTable, getCapturedText, getCapturedTextWithColor, stripAnsi, testValidator } from '../../test-utils';
+import {
+  extractValuesFromTable,
+  getCapturedText,
+  getCapturedTextWithColor,
+  stripAnsi,
+  testValidator,
+} from '../../test-utils';
 
-import { getCopyrightString, readYaml, validateSchema } from '../../../src/cli-validator/utils';
+import {
+  getCopyrightString,
+  readYaml,
+  validateSchema,
+} from '../../../src/cli-validator/utils';
 import { vi } from 'vitest';
 
 describe('cli tool - test option handling', function () {

@@ -15,7 +15,7 @@ export default function ($ref, _opts, context) {
   }
 
   return checkRefPattern($ref, context.path);
-};
+}
 
 // This object is used to categorize a $ref value, based on its path (location within the API document).
 // Each entry corresponds to a particular type of object to which we support references,

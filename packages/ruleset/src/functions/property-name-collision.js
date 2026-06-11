@@ -15,7 +15,7 @@ export default function (schema, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return validateSubschemas(schema, context.path, propertyNameCollision);
-};
+}
 
 const errorMsg =
   'Avoid duplicate property names within a schema, even if different case conventions are used';

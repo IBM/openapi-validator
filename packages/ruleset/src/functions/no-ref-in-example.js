@@ -15,7 +15,7 @@ export default function (exampleObj, options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return noRefInExample(exampleObj, context.path);
-};
+}
 
 /**
  * This function will perform a recursive check to make sure that the specified

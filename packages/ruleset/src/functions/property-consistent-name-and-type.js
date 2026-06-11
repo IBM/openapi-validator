@@ -7,8 +7,8 @@ import {
   getSchemaType,
   validateSubschemas,
   SchemaType,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 // We need to look at properties across the entire API definition.
 // This will act as a global variable to hold all of the properties
@@ -31,7 +31,7 @@ export default function (schema, options, context) {
     context.path,
     propertyConsistentNameAndType
   );
-};
+}
 
 function propertyConsistentNameAndType(schema, path) {
   if (schema.properties) {

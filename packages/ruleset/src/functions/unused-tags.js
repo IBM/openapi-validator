@@ -15,7 +15,7 @@ export default function (rootDocument, _opts, context) {
   }
 
   return checkUnusedTags(rootDocument);
-};
+}
 
 /**
  * This function implements the 'unused-tag' validation rule.

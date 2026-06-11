@@ -8,8 +8,8 @@ import {
   isObjectSchema,
   schemaHasConstraint,
   validateNestedSchemas,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -28,7 +28,7 @@ export default function (schema, _opts, context) {
   }
 
   return validateNestedSchemas(schema, context.path, wellDefinedDictionaries);
-};
+}
 
 function wellDefinedDictionaries(schema, path) {
   // We only care about object schemas.

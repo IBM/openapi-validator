@@ -15,7 +15,7 @@ export default function (schema, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return mergePatchOptionalProperties(schema, context.path);
-};
+}
 
 /**
  * This function is invoked for each merge-patch operation's requestBody schema and

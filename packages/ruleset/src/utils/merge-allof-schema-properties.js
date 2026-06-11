@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject, mergeWith } = require('lodash');
+import { isObject, mergeWith } from 'lodash';
 
 // Takes a schema, and if an allOf field is provided,
 // merges all allOf schema properties to create one schema
@@ -69,4 +69,4 @@ function customizer(targetValue, sourceValue) {
     : undefined;
 }
 
-module.exports = mergeAllOfSchemaProperties;
+export default mergeAllOfSchemaProperties;

@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { oas3 } from "@stoplight/spectral-formats";
-import { falsy } from "@stoplight/spectral-functions";
+import { oas3 } from '@stoplight/spectral-formats';
+import { falsy } from '@stoplight/spectral-functions';
 
 export const description =
-  "*/* should only be used when all content types are supported";
+  '*/* should only be used when all content types are supported';
 export const formats = [oas3];
-export const severity = "warn";
+export const severity = 'warn';
 export const resolved = true;
 export const given = [
-  "$.paths[*][*][parameters,responses][*].content",
-  "$.paths[*][*][requestBody].content",
+  '$.paths[*][*][parameters,responses][*].content',
+  '$.paths[*][*][requestBody].content',
 ];
 export const then = {
-  field: "*/*",
+  field: '*/*',
   function: falsy,
 };

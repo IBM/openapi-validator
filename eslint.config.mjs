@@ -23,7 +23,7 @@ export default [
     files: ['**/*.js'],
     languageOptions: {
       ecmaVersion: 13,
-      sourceType: 'commonjs',
+      sourceType: 'module',
       globals: {
         ...globals.node,
         ...globals.es2021,

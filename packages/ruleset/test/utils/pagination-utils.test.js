@@ -4,7 +4,13 @@
  */
 
 import { vi } from 'vitest';
-import { getOffsetParamIndex, getPageTokenParamIndex, getSuccessCode, getResponseSchema, getPaginatedOperationFromPath } from '../../src/utils';
+import {
+  getOffsetParamIndex,
+  getPageTokenParamIndex,
+  getSuccessCode,
+  getResponseSchema,
+  getPaginatedOperationFromPath,
+} from '../../src/utils';
 
 describe('Pagination utility functions', () => {
   describe('getOffsetParamIndex()', () => {

@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { isEqual } from "lodash";
+import { isEqual } from 'lodash';
 import {
   isObject,
   getResolvedSpec,
   getNodes,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 import {
   computeRefsAtPaths,
   getResourceSpecificSiblingPath,
@@ -19,7 +19,7 @@ import {
   isJsonMimeType,
   isOperationOfType,
   LoggerFactory,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -36,7 +36,7 @@ export default function (operation, _opts, context) {
     getResolvedSpec(context),
     getNodes(context)
   );
-};
+}
 
 /**
  * Checks that operations that create or update a resource should

@@ -3,11 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { 
-  isFormMimeType, 
-  isRequestBodyExploded, 
-  LoggerFactory 
-} from "../utils";
+import { isFormMimeType, isRequestBodyExploded, LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -19,7 +15,7 @@ export default function (operation, _opts, context) {
   }
 
   return requestBodyName(operation, context.path);
-};
+}
 
 // Name of the extension that we're looking for.
 const EXTENSION_NAME = 'x-codegen-request-body-name';

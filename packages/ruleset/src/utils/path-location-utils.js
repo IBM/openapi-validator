@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const pathMatchesRegexp = require('./path-matches-regexp');
+import pathMatchesRegexp from './path-matches-regexp';
 
 /**
  * Returns true if the path points to a schema object within
@@ -109,7 +109,7 @@ function isSchemaProperty(path) {
   return matches;
 }
 
-module.exports = {
+export default {
   isParamContentSchema,
   isParamSchema,
   isPrimarySchema,

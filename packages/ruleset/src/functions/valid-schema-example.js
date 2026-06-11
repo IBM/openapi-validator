@@ -17,7 +17,7 @@ export default function (schema, _opts, context) {
   }
 
   return validateSubschemas(schema, context.path, checkSchemaExamples);
-};
+}
 
 function checkSchemaExamples(schema, path) {
   if (!isDefined(schema.example) && !definesElements(schema.examples)) {

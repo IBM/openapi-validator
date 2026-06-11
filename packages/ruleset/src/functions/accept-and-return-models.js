@@ -7,8 +7,8 @@ import {
   isObject,
   isObjectSchema,
   schemaHasConstraint,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { supportsJsonContent, LoggerFactory } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { supportsJsonContent, LoggerFactory } from '../utils';
 
 let ruleId;
 let logger;
@@ -31,7 +31,7 @@ export default function acceptAndReturnModels(operation, options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForProperties(operation, context.path);
-};
+}
 
 /**
  * This function checks to ensure a request or response body schema

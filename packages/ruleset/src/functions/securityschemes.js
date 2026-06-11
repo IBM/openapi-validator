@@ -15,7 +15,7 @@ export default function (rootDocument, _opts, context) {
   }
 
   return checkSecuritySchemes(rootDocument);
-};
+}
 
 // Security scheme types that support scopes.
 const schemeTypesSupportScopes = ['oauth2', 'openIdConnect'];

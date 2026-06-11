@@ -14,7 +14,7 @@ export default function (operation, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return preconditionHeader(operation, context.path);
-};
+}
 
 /**
  * This function checks if an operation contains a 412 response it must support at least one conditional header.

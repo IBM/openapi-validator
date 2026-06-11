@@ -4,8 +4,9 @@
  */
 
 const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
-const isOperationOfType = require('./is-operation-of-type');
-const getResourceSpecificSiblingPath = require('./get-resource-specific-sibling-path');
+const isOperationOfType = require('./is-operation-of-type').default;
+const getResourceSpecificSiblingPath =
+  require('./get-resource-specific-sibling-path').default;
 
 /**
  * Returns `true` if the operation represents a "create" operation.

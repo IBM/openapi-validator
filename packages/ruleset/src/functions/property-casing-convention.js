@@ -26,7 +26,7 @@ export default function (schema, options, context) {
     context.path,
     checkPropertyCasingConvention
   );
-};
+}
 
 function checkPropertyCasingConvention(schema, path) {
   if (schema.properties) {

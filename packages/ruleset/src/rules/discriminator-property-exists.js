@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
-import { oas3 } from "@stoplight/spectral-formats";
-import { discriminatorPropertyExists } from "../functions";
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { discriminatorPropertyExists } from '../functions';
 
 export const description =
-  "The discriminator property name must be defined in this schema";
-export const message = "{{error}}";
+  'The discriminator property name must be defined in this schema';
+export const message = '{{error}}';
 export const given = schemas;
-export const severity = "error";
+export const severity = 'error';
 export const formats = [oas3];
 export const resolved = true;
 export const then = {

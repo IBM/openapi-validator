@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { parameters } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
-import { oas3 } from "@stoplight/spectral-formats";
-import { parameterCasingConvention } from "../functions";
+import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { parameterCasingConvention } from '../functions';
 
-export const description = "Parameter names must follow case conventions";
-export const message = "{{error}}";
+export const description = 'Parameter names must follow case conventions';
+export const message = '{{error}}';
 export const formats = [oas3];
 export const given = parameters;
-export const severity = "error";
+export const severity = 'error';
 export const resolved = true;
 export const then = {
   function: parameterCasingConvention,
@@ -28,25 +28,25 @@ export const then = {
     // Allow snake case for query parameter names,
     // but also allow '.' within the name.
     query: {
-      type: "snake",
+      type: 'snake',
       separator: {
-        char: ".",
+        char: '.',
       },
     },
 
     // Allow snake case for path parameter names.
     path: {
-      type: "snake",
+      type: 'snake',
     },
 
     // Spectral casing convention types aren't robust enough to handle
     // the complexity of headers, so we define our own kebab/pascal case regex.
     header: {
-      match: "/^[A-Z]+[a-z0-9]*-*([A-Z]+[a-z0-9]*-*)*$/",
+      match: '/^[A-Z]+[a-z0-9]*-*([A-Z]+[a-z0-9]*-*)*$/',
     },
 
     // Define an alternate message for the header pattern validation
     // to avoid using the default Spectral message.
-    headerMessage: "Header parameter names must be kebab-separated pascal case",
+    headerMessage: 'Header parameter names must be kebab-separated pascal case',
   },
 };

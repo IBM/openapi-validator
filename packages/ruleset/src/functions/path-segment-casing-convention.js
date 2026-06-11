@@ -21,7 +21,7 @@ export default function (pathItem, options, context) {
   }
 
   return pathSegmentCasingConvention(context.path);
-};
+}
 
 function pathSegmentCasingConvention(path) {
   logger.debug(

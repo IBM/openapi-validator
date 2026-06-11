@@ -6,8 +6,8 @@
 import {
   isObject,
   getResolvedSpec,
-} from "@ibm-cloud/openapi-ruleset-utilities";
-import { LoggerFactory, pathHasMinimallyRepresentedResource } from "../utils";
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory, pathHasMinimallyRepresentedResource } from '../utils';
 
 let ruleId;
 let logger;
@@ -20,17 +20,13 @@ let logger;
  *
  */
 
-export default function requestAndResponseContent(
-  operation,
-  options,
-  context
-) {
+export default function requestAndResponseContent(operation, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForContent(operation, context.path, getResolvedSpec(context));
-};
+}
 
 /**
  * This function checks to ensure an operation defines "content" on its

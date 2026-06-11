@@ -4,7 +4,10 @@
  */
 
 import { extractValuesFromTable } from '../test-utils';
-import { printCategorizedScoresTable, printScoringDataTable } from '../../src/scoring-tool/output';
+import {
+  printCategorizedScoresTable,
+  printScoringDataTable,
+} from '../../src/scoring-tool/output';
 import { vi } from 'vitest';
 
 describe('scoring-tool output tests', function () {

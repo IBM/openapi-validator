@@ -14,7 +14,7 @@ export default function (operation, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForArrayResponses(operation, context.path);
-};
+}
 
 /**
  * Checks for operations that are defined as returning a top-level array in

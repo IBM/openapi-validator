@@ -30,7 +30,7 @@ export default function (operation, _opts, context) {
     }
   }
   return deleteBody(operation, context.path);
-};
+}
 
 // This rule warns about a delete operation if it has a requestBody.
 function deleteBody(operation, path) {

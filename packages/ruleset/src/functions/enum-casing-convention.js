@@ -22,7 +22,7 @@ export default function (schema, options, context) {
   }
 
   return validateSubschemas(schema, context.path, checkEnumCaseConvention);
-};
+}
 
 function checkEnumCaseConvention(schema, path) {
   // If 'schema' has an enum field with string values,

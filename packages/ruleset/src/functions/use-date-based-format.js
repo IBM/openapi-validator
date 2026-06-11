@@ -12,7 +12,7 @@ import {
   isStringSchema,
   validateNestedSchemas,
   getResolvedSpec,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
 import {
   LoggerFactory,
@@ -23,7 +23,7 @@ import {
   isRequestBodySchema,
   isResponseSchema,
   isSchemaProperty,
-} from "../utils";
+} from '../utils';
 
 let ruleId;
 let logger;
@@ -51,7 +51,7 @@ export default function (schema, _opts, context) {
     context.path,
     getResolvedSpec(context)
   );
-};
+}
 
 /**
  * This function implements a rule that enforces date-based schemas use either

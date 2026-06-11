@@ -21,7 +21,7 @@ export default function (operation, options, context) {
   }
 
   return operationIdCaseConvention(operation, context.path);
-};
+}
 
 function operationIdCaseConvention(operation, path) {
   // Bypass the check if the operationId value is missing (the existence

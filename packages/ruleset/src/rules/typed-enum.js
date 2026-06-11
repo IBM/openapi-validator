@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
-import { oas } from "@stoplight/spectral-rulesets";
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas } from '@stoplight/spectral-rulesets';
 
 // Spectral's "typed-enum" rule matches any object that happens to have a
 // "type" and "enum" field on it. This results in false positives when
@@ -13,12 +13,12 @@ import { oas } from "@stoplight/spectral-rulesets";
 // This solves the issue by replacing the "given" field with our "schemas"
 // collection, modified to only give schemas with a "type" and "enum" field,
 // while otherwise maintaining Spectral's implementation of the rule.
-const typedEnum = oas.rules["typed-enum"];
-typedEnum.given = schemas.map((s) =>
+const typedEnum = oas.rules['typed-enum'];
+typedEnum.given = schemas.map(s =>
   s.replace(
-    "[*].schema",
-    "[?(@.schema && @.schema.type && @.schema.enum)].schema",
-  ),
+    '[*].schema',
+    '[?(@.schema && @.schema.type && @.schema.enum)].schema'
+  )
 );
 
 export default typedEnum;

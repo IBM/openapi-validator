@@ -14,7 +14,7 @@ export default function etagHeaderExists(pathItem, options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return etagHeaderCheck(pathItem, context.path);
-};
+}
 
 /**
  * This function checks a path item (object containing operations) to make sure that

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
+import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
 
 /**
  * This function checks for a "minimally represented resource" (i.e. a resource
@@ -38,4 +38,4 @@ function pathHasMinimallyRepresentedResource(path, apidef) {
   return false;
 }
 
-module.exports = pathHasMinimallyRepresentedResource;
+export default pathHasMinimallyRepresentedResource;

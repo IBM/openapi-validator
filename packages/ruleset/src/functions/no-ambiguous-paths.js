@@ -15,7 +15,7 @@ export default function (paths, _options, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkAmbiguousPaths(paths);
-};
+}
 
 /**
  * This function will check for "ambiguous" paths within the API definition.

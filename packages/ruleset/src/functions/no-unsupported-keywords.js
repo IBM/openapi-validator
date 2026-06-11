@@ -17,7 +17,7 @@ export default function (apidef, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return noUnsupportedKeywords(apidef);
-};
+}
 
 /**
  * If 'unevaluatedProperties' is specified within "schema" then it must be set to false.

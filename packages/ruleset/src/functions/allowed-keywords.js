@@ -21,7 +21,7 @@ export default function (obj, options, context) {
     true,
     true
   );
-};
+}
 
 /**
  * This function will check to make sure that 'obj' is an object that contains only fields (keys)

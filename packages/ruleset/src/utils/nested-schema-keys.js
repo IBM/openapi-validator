@@ -13,4 +13,4 @@ const nestedSchemaKeys = [
   'not',
 ];
 
-module.exports = nestedSchemaKeys;
+export default nestedSchemaKeys;

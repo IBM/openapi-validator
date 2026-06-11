@@ -14,7 +14,7 @@ export default function (operation, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return parameterOrder(operation, context.path);
-};
+}
 
 function parameterOrder(op, path) {
   if (op.parameters && op.parameters.length > 0) {

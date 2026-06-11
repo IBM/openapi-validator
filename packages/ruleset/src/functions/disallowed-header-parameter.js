@@ -35,7 +35,7 @@ export default function (param, options, context) {
     context.path,
     options.headerName.trim().toLowerCase()
   );
-};
+}
 
 // Return an error if 'param' is a header parameter named '<headerName>'.
 

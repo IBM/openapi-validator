@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { responseSchemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { responseSchemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 
-import { requiredArrayPropertiesInResponse } from "../functions";
+import { requiredArrayPropertiesInResponse } from '../functions';
 
 export const description =
-  "Array properties defined in a response should be required.";
-export const message = "{{error}}";
+  'Array properties defined in a response should be required.';
+export const message = '{{error}}';
 export const given = responseSchemas;
-export const severity = "error";
+export const severity = 'error';
 export const resolved = true;
 export const then = {
   function: requiredArrayPropertiesInResponse,
