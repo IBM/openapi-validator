@@ -6,7 +6,8 @@
 /**
  * @private
  */
-const collectFromComposedSchemas = require('./collect-from-composed-schemas');
+const collectFromComposedSchemas =
+  require('./collect-from-composed-schemas').default;
 
 /**
  * Returns an array of examples for a simple or composite schema. For each composed schema, if

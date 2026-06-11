@@ -6,11 +6,11 @@
 /**
  * @private
  */
-const schemaHasConstraint = require('./schema-has-constraint');
+import schemaHasConstraint from './schema-has-constraint';
 /**
  * @private
  */
-const schemaHasProperty = require('./schema-has-property');
+import schemaHasProperty from './schema-has-property';
 
 /**
  * This function will return `true` if all possible variations of a (possibly composite) schema
@@ -29,4 +29,4 @@ function schemaRequiresProperty(schema, propertyName) {
   );
 }
 
-module.exports = schemaRequiresProperty;
+export default schemaRequiresProperty;

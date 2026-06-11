@@ -47,4 +47,4 @@ class SchemaPath extends Array {
   }
 }
 
-module.exports = SchemaPath;
+export default SchemaPath;

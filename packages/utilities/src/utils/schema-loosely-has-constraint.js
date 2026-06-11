@@ -6,7 +6,7 @@
 /**
  * @private
  */
-const isObject = require('./is-object');
+import isObject from './is-object';
 
 /**
  * This function is a looser adaptation of the `schemaHasConstraint()` function.
@@ -48,4 +48,4 @@ function schemaLooselyHasConstraint(schema, hasConstraint) {
   return false;
 }
 
-module.exports = schemaLooselyHasConstraint;
+export default schemaLooselyHasConstraint;

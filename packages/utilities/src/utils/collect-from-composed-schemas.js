@@ -53,4 +53,4 @@ function collectFromComposedSchemas(
   return [...new Set(items)]; // de-duplicate
 }
 
-module.exports = collectFromComposedSchemas;
+export default collectFromComposedSchemas;

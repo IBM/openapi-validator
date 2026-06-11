@@ -6,11 +6,11 @@
 /**
  * @private
  */
-const isObject = require('./is-object');
+import isObject from './is-object';
 /**
  * @private
  */
-const SchemaPath = require('./schema-path');
+import SchemaPath from './schema-path';
 
 /**
  * Performs validation on a schema and all of its nested schemas.
@@ -172,4 +172,4 @@ function validateNestedSchemas(
   return errors;
 }
 
-module.exports = validateNestedSchemas;
+export default validateNestedSchemas;

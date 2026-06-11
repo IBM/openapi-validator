@@ -6,7 +6,7 @@
 /**
  * @private
  */
-const isObject = require('./is-object');
+import isObject from './is-object';
 
 /**
  * This function will return `true` if all possible variations of a (possibly composite) schema
@@ -67,4 +67,4 @@ function schemaHasConstraint(schema, hasConstraint) {
   return false;
 }
 
-module.exports = schemaHasConstraint;
+export default schemaHasConstraint;

@@ -6,11 +6,11 @@
 /**
  * @private
  */
-const schemaHasConstraint = require('./schema-has-constraint');
+import schemaHasConstraint from './schema-has-constraint';
 /**
  * @private
  */
-const isObject = require('./is-object');
+import isObject from './is-object';
 
 /**
  * This function will return `true` if all possible variations of a (possibly composite) schema
@@ -26,4 +26,4 @@ function schemaHasProperty(schema, propertyName) {
   );
 }
 
-module.exports = schemaHasProperty;
+export default schemaHasProperty;

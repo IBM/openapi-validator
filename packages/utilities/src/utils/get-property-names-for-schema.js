@@ -6,11 +6,12 @@
 /**
  * @private
  */
-const isObject = require('./is-object');
+const isObject = require('./is-object').default;
 /**
  * @private
  */
-const collectFromComposedSchemas = require('./collect-from-composed-schemas');
+const collectFromComposedSchemas =
+  require('./collect-from-composed-schemas').default;
 
 /**
  * Returns an array of property names for a simple or composite schema,
