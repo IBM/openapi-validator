@@ -1,4 +1,4 @@
-declare const _exports: {
+declare const _default: {
     collections: {
         operations: string[];
         parameters: string[];
@@ -12,17 +12,17 @@ declare const _exports: {
         unresolvedResponseSchemas: string[];
         unresolvedSchemas: string[];
     };
-    validateComposedSchemas: typeof import("./utils/validate-composed-schemas");
-    validateNestedSchemas: typeof import("./utils/validate-nested-schemas");
-    validateSubschemas: typeof import("./utils/validate-subschemas");
-    getNodes: typeof import("./utils/spectral-context-utils").getNodes;
-    getResolvedSpec: typeof import("./utils/spectral-context-utils").getResolvedSpec;
-    getUnresolvedSpec: typeof import("./utils/spectral-context-utils").getUnresolvedSpec;
-    isObject: typeof import("./utils/is-object");
-    schemaHasConstraint: typeof import("./utils/schema-has-constraint");
-    schemaHasProperty: typeof import("./utils/schema-has-property");
-    schemaLooselyHasConstraint: typeof import("./utils/schema-loosely-has-constraint");
-    schemaRequiresProperty: typeof import("./utils/schema-requires-property");
+    validateComposedSchemas: typeof import("./utils/validate-composed-schemas").default;
+    validateNestedSchemas: typeof import("./utils/validate-nested-schemas").default;
+    validateSubschemas: typeof import("./utils/validate-subschemas").default;
+    getNodes: (context: object) => object;
+    getResolvedSpec: (context: object) => object;
+    getUnresolvedSpec: (context: object) => object;
+    isObject: typeof import("./utils/is-object").default;
+    schemaHasConstraint: typeof import("./utils/schema-has-constraint").default;
+    schemaHasProperty: typeof import("./utils/schema-has-property").default;
+    schemaLooselyHasConstraint: typeof import("./utils/schema-loosely-has-constraint").default;
+    schemaRequiresProperty: typeof import("./utils/schema-requires-property").default;
     SchemaType: {
         ARRAY: symbol;
         BINARY: symbol;
@@ -41,27 +41,27 @@ declare const _exports: {
         STRING: symbol;
         UNKNOWN: symbol;
     };
-    getSchemaType: typeof import("./utils/get-schema-type").getSchemaType;
-    isArraySchema: typeof import("./utils/get-schema-type").isArraySchema;
-    isBinarySchema: typeof import("./utils/get-schema-type").isBinarySchema;
-    isBooleanSchema: typeof import("./utils/get-schema-type").isBooleanSchema;
-    isByteSchema: typeof import("./utils/get-schema-type").isByteSchema;
-    isDateSchema: typeof import("./utils/get-schema-type").isDateSchema;
-    isDateTimeSchema: typeof import("./utils/get-schema-type").isDateTimeSchema;
-    isDoubleSchema: typeof import("./utils/get-schema-type").isDoubleSchema;
-    isEnumerationSchema: typeof import("./utils/get-schema-type").isEnumerationSchema;
-    isFloatSchema: typeof import("./utils/get-schema-type").isFloatSchema;
-    isInt32Schema: typeof import("./utils/get-schema-type").isInt32Schema;
-    isInt64Schema: typeof import("./utils/get-schema-type").isInt64Schema;
-    isIntegerSchema: typeof import("./utils/get-schema-type").isIntegerSchema;
-    isNumberSchema: typeof import("./utils/get-schema-type").isNumberSchema;
-    isObjectSchema: typeof import("./utils/get-schema-type").isObjectSchema;
-    isPrimitiveSchema: typeof import("./utils/get-schema-type").isPrimitiveSchema;
-    isStringSchema: typeof import("./utils/get-schema-type").isStringSchema;
-    schemaIsOfType: typeof import("./utils/get-schema-type").schemaIsOfType;
-    collectFromComposedSchemas: typeof import("./utils/collect-from-composed-schemas");
+    getSchemaType: (schema: object) => symbol;
+    isArraySchema: (schema: object) => boolean;
+    isBinarySchema: (schema: object) => boolean;
+    isBooleanSchema: (schema: object) => boolean;
+    isByteSchema: (schema: object) => boolean;
+    isDateSchema: (schema: object) => boolean;
+    isDateTimeSchema: (schema: object) => boolean;
+    isDoubleSchema: (schema: object) => boolean;
+    isEnumerationSchema: (schema: object) => boolean;
+    isFloatSchema: (schema: object) => boolean;
+    isInt32Schema: (schema: object) => boolean;
+    isInt64Schema: (schema: object) => boolean;
+    isIntegerSchema: (schema: object) => boolean;
+    isNumberSchema: (schema: object) => boolean;
+    isObjectSchema: (schema: object) => boolean;
+    isPrimitiveSchema: (schema: object) => boolean;
+    isStringSchema: (schema: object) => boolean;
+    schemaIsOfType: (schema: object, type: string) => boolean;
+    collectFromComposedSchemas: typeof import("./utils/collect-from-composed-schemas").default;
     getExamplesForSchema: typeof import("./utils/get-examples-for-schema");
     getPropertyNamesForSchema: typeof import("./utils/get-property-names-for-schema");
 };
-export = _exports;
+export default _default;
 //# sourceMappingURL=index.d.ts.map

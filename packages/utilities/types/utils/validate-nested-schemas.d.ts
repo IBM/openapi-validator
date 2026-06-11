@@ -1,4 +1,4 @@
-export = validateNestedSchemas;
+export default validateNestedSchemas;
 /**
  * Performs validation on a schema and all of its nested schemas.
  *

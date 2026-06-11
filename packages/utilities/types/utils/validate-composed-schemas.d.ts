@@ -1,4 +1,4 @@
-export = validateComposedSchemas;
+export default validateComposedSchemas;
 /**
  * Performs validation on a schema and all of its composed schemas.
  *

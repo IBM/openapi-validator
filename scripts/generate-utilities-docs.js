@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const mustache = require('mustache');
-const { readFileSync, writeFileSync } = require('fs');
-const { execSync } = require('child_process');
+import mustache from 'mustache';
+import { readFileSync, writeFileSync } from 'fs';
+import { execSync } from 'child_process';
 
 const template = readFileSync('scripts/templates/package.mustache', {
   encoding: 'utf8',
