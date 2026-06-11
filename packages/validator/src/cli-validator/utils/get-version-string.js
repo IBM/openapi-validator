@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const packageConfig = require('../../../package.json');
+import { version } from '../../../package.json';
 
-module.exports = function () {
-  return `validator: ${packageConfig.version}`;
-};
+export default function () {
+  return `validator: ${version}`;
+}

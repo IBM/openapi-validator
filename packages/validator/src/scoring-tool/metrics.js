@@ -3,11 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  validateNestedSchemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { Resolver } = require('@stoplight/spectral-ref-resolver');
-const Nimma = require('nimma').default;
+import { validateNestedSchemas } from '@ibm-cloud/openapi-ruleset-utilities';
+import { Resolver } from '@stoplight/spectral-ref-resolver';
+import Nimma from 'nimma';
 
 class Metrics {
   // Holds the callback functions to be paired with each JSONPath.
@@ -194,6 +192,6 @@ class Metrics {
   }
 }
 
-module.exports = {
+export default {
   Metrics,
 };

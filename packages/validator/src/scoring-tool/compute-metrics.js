@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   collections,
   isArraySchema,
   isBinarySchema,
   isIntegerSchema,
   isObjectSchema,
   isStringSchema,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { Metrics } = require('./metrics');
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { Metrics } from './metrics';
 
 async function computeMetrics(unresolvedApiDef) {
   // For some metrics, we just want to identify every unique instance
@@ -51,6 +51,6 @@ async function computeMetrics(unresolvedApiDef) {
   return metrics;
 }
 
-module.exports = {
+export default {
   computeMetrics,
 };

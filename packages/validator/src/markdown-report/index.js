@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const getReport = require('./report');
-const writeReportToFile = require('./write-file');
+import getReport from './report';
+import writeReportToFile from './write-file';
 
 function printMarkdownReport(context, results) {
   const report = getReport(context, results);
   return writeReportToFile(context, report);
 }
 
-module.exports = { printMarkdownReport };
+export default { printMarkdownReport };

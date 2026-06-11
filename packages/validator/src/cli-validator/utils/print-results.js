@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const each = require('lodash/each');
-const pad = require('pad');
+import each from 'lodash/each';
+import pad from 'pad';
 
 // this function prints all of the output
-module.exports = function print(context, results) {
+export default function print(context, results) {
   const { chalk, config } = context;
   const types = ['error', 'warning', 'info', 'hint'];
 
@@ -45,7 +45,7 @@ module.exports = function print(context, results) {
 
   // Print the summary here
   printSummary(results, types, context);
-};
+}
 
 function printSummary(results, types, { chalk, config }) {
   console.log(chalk.cyan('Summary:'));

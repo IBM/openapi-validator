@@ -3,8 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getCategories, getCategoryCoefficient } = require('./categories');
-const rubric = require('./rubric');
+import categoriesModule from './categories.js';
+const { getCategories, getCategoryCoefficient } = categoriesModule;
+import rubric from './rubric.js';
 
 /**
  * Uses the validator results to calculate categorized demerits for each rule
@@ -164,7 +165,7 @@ function includeDecimals(value, number) {
   return parseFloat(value.toFixed(number));
 }
 
-module.exports = {
+export default {
   scoreResults,
   // The following functions are only exported for testing purposes.
   compute,

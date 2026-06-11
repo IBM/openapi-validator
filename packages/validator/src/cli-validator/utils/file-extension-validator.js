@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const last = require('lodash/last');
+import last from 'lodash/last';
 
 const getExtension = filename => {
   return last(filename.split('.')).toLowerCase();
@@ -18,7 +18,5 @@ const validateExtension = (filename, supportedFileTypes) => {
   return goodExtension;
 };
 
-module.exports = {
-  supportedFileExtension: validateExtension,
-  getFileExtension: getExtension,
-};
+export const supportedFileExtension = validateExtension;
+export const getFileExtension = getExtension;

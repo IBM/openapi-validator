@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const semver = require('semver');
-const getDefaultRulesetVersion = require('./get-default-ruleset-version');
+import { lt } from 'semver';
+import getDefaultRulesetVersion from './get-default-ruleset-version';
 
-module.exports = checkRulesetVersion;
+export default checkRulesetVersion;
 
 /**
  * Checks the locally installed version of the IBM Cloud OpenAPI
@@ -30,7 +30,7 @@ function checkRulesetVersion(local) {
   }
 
   const defaultVersion = getDefaultRulesetVersion();
-  if (semver.lt(local, defaultVersion)) {
+  if (lt(local, defaultVersion)) {
     return `Note: local version of the IBM OpenAPI Ruleset is behind the default version, which is ${defaultVersion}.`;
   }
 
