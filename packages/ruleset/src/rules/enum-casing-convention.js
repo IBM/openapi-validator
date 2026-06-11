@@ -3,22 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { enumCasingConvention } = require('../functions');
+import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { enumCasingConvention } from "../functions";
 
-module.exports = {
-  description: 'Enum values must follow a specified case convention',
-  message: '{{error}}',
-  formats: [oas3],
-  given: schemas,
-  severity: 'error',
-  then: {
-    function: enumCasingConvention,
-    functionOptions: {
-      type: 'snake',
-    },
+export const description =
+  "Enum values must follow a specified case convention";
+export const message = "{{error}}";
+export const formats = [oas3];
+export const given = schemas;
+export const severity = "error";
+export const then = {
+  function: enumCasingConvention,
+  functionOptions: {
+    type: "snake",
   },
 };

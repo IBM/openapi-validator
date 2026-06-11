@@ -3,17 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { schemaNamingConvention } = require('../functions');
+import { oas3 } from "@stoplight/spectral-formats";
+import { schemaNamingConvention } from "../functions";
 
-module.exports = {
-  description: 'Schemas should follow naming conventions in the API Handbook',
-  message: '{{error}}',
-  given: ['$'],
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: schemaNamingConvention,
-  },
+export const description =
+  "Schemas should follow naming conventions in the API Handbook";
+export const message = "{{error}}";
+export const given = ["$"];
+export const severity = "warn";
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: schemaNamingConvention,
 };

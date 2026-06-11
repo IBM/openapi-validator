@@ -3,21 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { propertyAttributes } = require('../functions');
+import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { propertyAttributes } from "../functions";
 
-module.exports = {
-  description:
-    'Performs checks on specific attributes of a schema or schema property',
-  message: '{{error}}',
-  given: schemas,
-  severity: 'error',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: propertyAttributes,
-  },
+export const description =
+  "Performs checks on specific attributes of a schema or schema property";
+export const message = "{{error}}";
+export const given = schemas;
+export const severity = "error";
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: propertyAttributes,
 };

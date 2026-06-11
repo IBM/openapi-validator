@@ -3,19 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { requiredProperty } = require('../functions');
+import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { requiredProperty } from "../functions";
 
-module.exports = {
-  description: 'A required property is not in the schema',
-  message: '{{error}}',
-  formats: [oas3],
-  given: schemas,
-  severity: 'error',
-  then: {
-    function: requiredProperty,
-  },
+export const description = "A required property is not in the schema";
+export const message = "{{error}}";
+export const formats = [oas3];
+export const given = schemas;
+export const severity = "error";
+export const then = {
+  function: requiredProperty,
 };

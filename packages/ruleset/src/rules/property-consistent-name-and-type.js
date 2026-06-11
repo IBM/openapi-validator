@@ -3,24 +3,20 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { propertyConsistentNameAndType } = require('../functions');
+import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { propertyConsistentNameAndType } from "../functions";
 
-module.exports = {
-  description:
-    'Schema properties that have the same name should also have the same types.',
-  message: '{{error}}',
-  formats: [oas3],
-  given: schemas,
-  severity: 'off',
-  resolved: true,
-  then: {
-    function: propertyConsistentNameAndType,
-    functionOptions: {
-      excludedProperties: ['code', 'default', 'type', 'value'],
-    },
+export const description =
+  "Schema properties that have the same name should also have the same types.";
+export const message = "{{error}}";
+export const formats = [oas3];
+export const given = schemas;
+export const severity = "off";
+export const resolved = true;
+export const then = {
+  function: propertyConsistentNameAndType,
+  functionOptions: {
+    excludedProperties: ["code", "default", "type", "value"],
   },
 };

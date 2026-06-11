@@ -3,21 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { refSiblingDuplicateDescription } = require('../functions');
+import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { refSiblingDuplicateDescription } from "../functions";
 
-module.exports = {
-  description:
-    'Schemas and schema properties should avoid duplicate descriptions within allOf $ref siblings',
-  message: '{{error}}',
-  given: schemas,
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: refSiblingDuplicateDescription,
-  },
+export const description =
+  "Schemas and schema properties should avoid duplicate descriptions within allOf $ref siblings";
+export const message = "{{error}}";
+export const given = schemas;
+export const severity = "warn";
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: refSiblingDuplicateDescription,
 };

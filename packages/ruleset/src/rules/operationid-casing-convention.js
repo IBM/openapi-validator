@@ -3,22 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  operations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { operationIdCasingConvention } = require('../functions');
+import { operations } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { operationIdCasingConvention } from "../functions";
 
-module.exports = {
-  description: 'Operation ids must follow a specified case convention',
-  message: '{{error}}',
-  formats: [oas3],
-  given: operations,
-  severity: 'warn',
-  then: {
-    function: operationIdCasingConvention,
-    functionOptions: {
-      type: 'snake',
-    },
+export const description =
+  "Operation ids must follow a specified case convention";
+export const message = "{{error}}";
+export const formats = [oas3];
+export const given = operations;
+export const severity = "warn";
+export const then = {
+  function: operationIdCasingConvention,
+  functionOptions: {
+    type: "snake",
   },
 };

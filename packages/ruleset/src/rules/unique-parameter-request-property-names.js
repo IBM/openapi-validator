@@ -3,21 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  paths,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { uniqueParameterRequestPropertyNames } = require('../functions');
+import { paths } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { uniqueParameterRequestPropertyNames } from "../functions";
 
-module.exports = {
-  description:
-    'Names of requestBody properties should not be the same as operation parameter names',
-  message: '{{error}}',
-  given: paths,
-  severity: 'error',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: uniqueParameterRequestPropertyNames,
-  },
+export const description =
+  "Names of requestBody properties should not be the same as operation parameter names";
+export const message = "{{error}}";
+export const given = paths;
+export const severity = "error";
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: uniqueParameterRequestPropertyNames,
 };

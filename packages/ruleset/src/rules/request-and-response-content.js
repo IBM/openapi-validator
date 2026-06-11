@@ -3,20 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  operations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { requestAndResponseContent } = require('../functions');
+import { operations } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { requestAndResponseContent } from "../functions";
 
-module.exports = {
-  description:
-    'Request bodies and non-204 responses should define a content object',
-  given: operations,
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: requestAndResponseContent,
-  },
+export const description =
+  "Request bodies and non-204 responses should define a content object";
+export const given = operations;
+export const severity = "warn";
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: requestAndResponseContent,
 };

@@ -3,19 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { optionalRequestBody } = require('../functions');
+import { oas3 } from "@stoplight/spectral-formats";
+import { optionalRequestBody } from "../functions";
 
-module.exports = {
-  description:
-    'An optional requestBody with required properties should probably be required',
-  message: '{{description}}',
-  given:
-    "$.paths[*][*][?(@property === 'requestBody' && @.required !== true)].content[*].schema",
-  severity: 'info',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: optionalRequestBody,
-  },
+export const description =
+  "An optional requestBody with required properties should probably be required";
+export const message = "{{description}}";
+export const given =
+  "$.paths[*][*][?(@property === 'requestBody' && @.required !== true)].content[*].schema";
+export const severity = "info";
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: optionalRequestBody,
 };

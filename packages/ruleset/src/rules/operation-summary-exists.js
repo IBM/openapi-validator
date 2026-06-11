@@ -3,19 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  operations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { operationSummaryExists } = require('../functions');
+import { operations } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { operationSummaryExists } from "../functions";
 
-module.exports = {
-  description: 'Operations must have a non-empty summary',
-  given: operations,
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: operationSummaryExists,
-  },
+export const description = "Operations must have a non-empty summary";
+export const given = operations;
+export const severity = "warn";
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: operationSummaryExists,
 };

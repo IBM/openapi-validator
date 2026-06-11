@@ -3,21 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3_1 } = require('@stoplight/spectral-formats');
-const { patternPropertiesCheck } = require('../functions');
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
+import { oas3_1 } from "@stoplight/spectral-formats";
+import { patternPropertiesCheck } from "../functions";
+import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
 
-module.exports = {
-  description:
-    'Enforces certain restrictions on the use of "patternProperties" within a schema.',
-  message: '{{error}}',
-  given: schemas,
-  severity: 'error',
-  formats: [oas3_1],
-  resolved: true,
-  then: {
-    function: patternPropertiesCheck,
-  },
+export const description =
+  'Enforces certain restrictions on the use of "patternProperties" within a schema.';
+export const message = "{{error}}";
+export const given = schemas;
+export const severity = "error";
+export const formats = [oas3_1];
+export const resolved = true;
+export const then = {
+  function: patternPropertiesCheck,
 };

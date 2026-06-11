@@ -3,20 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  parameters,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { parameterDescriptionExists } = require('../functions');
+import { parameters } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { parameterDescriptionExists } from "../functions";
 
-module.exports = {
-  description: 'Parameters should have a non-empty description',
-  message: '{{error}}',
-  given: parameters,
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: parameterDescriptionExists,
-  },
+export const description = "Parameters should have a non-empty description";
+export const message = "{{error}}";
+export const given = parameters;
+export const severity = "warn";
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: parameterDescriptionExists,
 };

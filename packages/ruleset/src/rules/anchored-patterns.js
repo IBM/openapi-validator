@@ -3,20 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { anchoredPatterns } = require('../functions');
+import { schemas } from "@ibm-cloud/openapi-ruleset-utilities/src/collections";
+import { oas3 } from "@stoplight/spectral-formats";
+import { anchoredPatterns } from "../functions";
 
-module.exports = {
-  description: 'Pattern attributes should be anchored with ^ and $',
-  message: '{{error}}',
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  given: schemas,
-  then: {
-    function: anchoredPatterns,
-  },
+export const description = "Pattern attributes should be anchored with ^ and $";
+export const message = "{{error}}";
+export const severity = "warn";
+export const formats = [oas3];
+export const resolved = true;
+export const given = schemas;
+export const then = {
+  function: anchoredPatterns,
 };

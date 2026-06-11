@@ -3,23 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  parameters,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { disallowedHeaderParameter } = require('../functions');
+import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { oas3 } from '@stoplight/spectral-formats';
+import { disallowedHeaderParameter } from '../functions';
 
-module.exports = {
-  description:
-    'Operations should not explicitly define the Accept header parameter',
-  message: '{{description}}',
-  formats: [oas3],
-  given: parameters,
-  severity: 'warn',
-  then: {
-    function: disallowedHeaderParameter,
-    functionOptions: {
-      headerName: 'Accept',
-    },
+export const description = 'Operations should not explicitly define the Accept header parameter';
+export const message = '{{description}}';
+export const formats = [oas3];
+export const given = parameters;
+export const severity = 'warn';
+export const then = {
+  function: disallowedHeaderParameter,
+  functionOptions: {
+    headerName: 'Accept',
   },
 };
