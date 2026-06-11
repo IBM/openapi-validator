@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { parameterSchemaOrContentExists } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { parameterSchemaOrContentExists } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const ruleId = 'ibm-parameter-schema-or-content';
 const rule = parameterSchemaOrContentExists;

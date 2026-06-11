@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getResponseCodes } = require('../../src/utils');
+import { getResponseCodes } from '../../src/utils';
 
 describe('Utility function: getResponseCodes', () => {
   it('should return a tuple of empty arrays if responses is undefined', () => {

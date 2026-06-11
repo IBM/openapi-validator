@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getResourceOrientedPaths } = require('../../src/utils');
+import { getResourceOrientedPaths } from '../../src/utils';
 
 describe('Utility function: getResourceOrientedPaths()', () => {
   it('should return an empty object if given a non-object', () => {

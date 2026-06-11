@@ -3,62 +3,39 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  openapi: '3.0.2',
-  info: {
-    title: 'Subschema examples',
-    description:
-      'A collection of schemas with various kinds of subschemas for testing.',
-    version: '0.0.1',
-    contact: {
-      email: 'example@example.com',
-    },
+export const openapi = '3.0.2';
+export const info = {
+  title: 'Subschema examples',
+  description: 'A collection of schemas with various kinds of subschemas for testing.',
+  version: '0.0.1',
+  contact: {
+    email: 'example@example.com',
   },
-  tags: [
-    {
-      name: 'Index',
-    },
-  ],
-  servers: [
-    {
-      url: '/api/v3',
-    },
-  ],
-  paths: {
-    '/schema': {
-      get: {
-        tags: ['Index'],
-        summary: 'Get the index',
-        description: 'Get the index.',
-        operationId: 'get_index',
-        responses: {
-          200: {
-            description: "Here's the index.",
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/Index',
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    '/every_flavor': {
-      get: {
-        tags: ['Index'],
-        summary: 'Get every flavor',
-        description: 'Get every flavor.',
-        operationId: 'get_every_flavor',
-        responses: {
-          200: {
-            description: "Here's every flavor.",
-            content: {
-              'application/json': {
-                schema: {
-                  $ref: '#/components/schemas/EveryFlavor',
-                },
+};
+export const tags = [
+  {
+    name: 'Index',
+  },
+];
+export const servers = [
+  {
+    url: '/api/v3',
+  },
+];
+export const paths = {
+  '/schema': {
+    get: {
+      tags: ['Index'],
+      summary: 'Get the index',
+      description: 'Get the index.',
+      operationId: 'get_index',
+      responses: {
+        200: {
+          description: "Here's the index.",
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/Index',
               },
             },
           },
@@ -66,150 +43,163 @@ module.exports = {
       },
     },
   },
-  components: {
-    schemas: {
-      Index: {
-        type: 'object',
-        properties: {
-          schema_with_property_schema: {
-            $ref: '#/components/schemas/SchemaWithPropertySchema',
-          },
-          schema_with_additional_properties_schema: {
-            $ref: '#/components/schemas/SchemaWithAdditionalPropertiesSchema',
-          },
-          schema_with_items_schema: {
-            $ref: '#/components/schemas/SchemaWithItemsSchema',
-          },
-          schema_with_all_of_schema: {
-            $ref: '#/components/schemas/SchemaWithAllOfSchema',
-          },
-          schema_with_one_of_schema: {
-            $ref: '#/components/schemas/SchemaWithOneOfSchema',
-          },
-          schema_with_any_of_schema: {
-            $ref: '#/components/schemas/SchemaWithAnyOfSchema',
-          },
-          schema_with_not_schema: {
-            $ref: '#/components/schemas/SchemaWithNotSchema',
+  '/every_flavor': {
+    get: {
+      tags: ['Index'],
+      summary: 'Get every flavor',
+      description: 'Get every flavor.',
+      operationId: 'get_every_flavor',
+      responses: {
+        200: {
+          description: "Here's every flavor.",
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/EveryFlavor',
+              },
+            },
           },
         },
       },
-      EveryFlavor: {
-        properties: {
-          property_schema: {
-            $ref: '#/components/schemas/SchemaWithPropertySchema',
-          },
+    },
+  },
+};
+export const components = {
+  schemas: {
+    Index: {
+      type: 'object',
+      properties: {
+        schema_with_property_schema: {
+          $ref: '#/components/schemas/SchemaWithPropertySchema',
         },
-        additionalProperties: {
-          $ref: '#/components/schemas/AdditionalPropertiesSchema',
+        schema_with_additional_properties_schema: {
+          $ref: '#/components/schemas/SchemaWithAdditionalPropertiesSchema',
         },
-        items: {
-          $ref: '#/components/schemas/ItemsSchema',
+        schema_with_items_schema: {
+          $ref: '#/components/schemas/SchemaWithItemsSchema',
         },
-        allOf: [
-          {
-            $ref: '#/components/schemas/AllOfSchema',
-          },
-        ],
-        oneOf: [
-          {
-            $ref: '#/components/schemas/OneOfSchema',
-          },
-        ],
-        anyOf: [
-          {
-            $ref: '#/components/schemas/AnyOfSchema',
-          },
-        ],
-        not: {
-          $ref: '#/components/schemas/NotSchema',
+        schema_with_all_of_schema: {
+          $ref: '#/components/schemas/SchemaWithAllOfSchema',
         },
-      },
-      SchemaWithPropertySchema: {
-        type: 'object',
-        properties: {
-          property_schema: {
-            $ref: '#/components/schemas/PropertySchema',
-          },
+        schema_with_one_of_schema: {
+          $ref: '#/components/schemas/SchemaWithOneOfSchema',
+        },
+        schema_with_any_of_schema: {
+          $ref: '#/components/schemas/SchemaWithAnyOfSchema',
+        },
+        schema_with_not_schema: {
+          $ref: '#/components/schemas/SchemaWithNotSchema',
         },
       },
-      PropertySchema: {
-        type: 'string',
-        description:
-          'This schema is reachable from `EveryFlavor` and `SchemaWithPropertySchema`.',
-      },
-      SchemaWithAdditionalPropertiesSchema: {
-        type: 'object',
-        additionalProperties: {
-          $ref: '#/components/schemas/AdditionalPropertiesSchema',
+    },
+    EveryFlavor: {
+      properties: {
+        property_schema: {
+          $ref: '#/components/schemas/SchemaWithPropertySchema',
         },
       },
-      AdditionalPropertiesSchema: {
-        type: 'string',
-        description:
-          'This schema is reachable from `EveryFlavor` and `SchemaWithAdditionalPropertiesSchema`.',
+      additionalProperties: {
+        $ref: '#/components/schemas/AdditionalPropertiesSchema',
       },
-      SchemaWithItemsSchema: {
-        type: 'array',
-        items: {
-          $ref: '#/components/schemas/ItemsSchema',
+      items: {
+        $ref: '#/components/schemas/ItemsSchema',
+      },
+      allOf: [
+        {
+          $ref: '#/components/schemas/AllOfSchema',
+        },
+      ],
+      oneOf: [
+        {
+          $ref: '#/components/schemas/OneOfSchema',
+        },
+      ],
+      anyOf: [
+        {
+          $ref: '#/components/schemas/AnyOfSchema',
+        },
+      ],
+      not: {
+        $ref: '#/components/schemas/NotSchema',
+      },
+    },
+    SchemaWithPropertySchema: {
+      type: 'object',
+      properties: {
+        property_schema: {
+          $ref: '#/components/schemas/PropertySchema',
         },
       },
-      ItemsSchema: {
-        type: 'string',
-        description:
-          'This schema is reachable from `EveryFlavor` and `SchemaWithItemsSchema`.',
+    },
+    PropertySchema: {
+      type: 'string',
+      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithPropertySchema`.',
+    },
+    SchemaWithAdditionalPropertiesSchema: {
+      type: 'object',
+      additionalProperties: {
+        $ref: '#/components/schemas/AdditionalPropertiesSchema',
       },
-      SchemaWithAllOfSchema: {
-        type: 'string',
-        allOf: [
-          {
-            $ref: '#/components/schemas/AllOfSchema',
-          },
-        ],
+    },
+    AdditionalPropertiesSchema: {
+      type: 'string',
+      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithAdditionalPropertiesSchema`.',
+    },
+    SchemaWithItemsSchema: {
+      type: 'array',
+      items: {
+        $ref: '#/components/schemas/ItemsSchema',
       },
-      AllOfSchema: {
-        type: 'string',
-        description:
-          'This schema is reachable from `EveryFlavor` and `SchemaWithAllOfSchema`.',
-      },
-      SchemaWithOneOfSchema: {
-        type: 'string',
-        oneOf: [
-          {
-            $ref: '#/components/schemas/OneOfSchema',
-          },
-        ],
-      },
-      OneOfSchema: {
-        type: 'string',
-        description:
-          'This schema is reachable from `EveryFlavor` and `SchemaWithOneOfSchema`.',
-      },
-      SchemaWithAnyOfSchema: {
-        type: 'string',
-        anyOf: [
-          {
-            $ref: '#/components/schemas/AnyOfSchema',
-          },
-        ],
-      },
-      AnyOfSchema: {
-        type: 'string',
-        description:
-          'This schema is reachable from `EveryFlavor` and `SchemaWithAnyOfSchema`.',
-      },
-      SchemaWithNotSchema: {
-        type: 'string',
-        not: {
-          $ref: '#/components/schemas/NotSchema',
+    },
+    ItemsSchema: {
+      type: 'string',
+      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithItemsSchema`.',
+    },
+    SchemaWithAllOfSchema: {
+      type: 'string',
+      allOf: [
+        {
+          $ref: '#/components/schemas/AllOfSchema',
         },
+      ],
+    },
+    AllOfSchema: {
+      type: 'string',
+      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithAllOfSchema`.',
+    },
+    SchemaWithOneOfSchema: {
+      type: 'string',
+      oneOf: [
+        {
+          $ref: '#/components/schemas/OneOfSchema',
+        },
+      ],
+    },
+    OneOfSchema: {
+      type: 'string',
+      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithOneOfSchema`.',
+    },
+    SchemaWithAnyOfSchema: {
+      type: 'string',
+      anyOf: [
+        {
+          $ref: '#/components/schemas/AnyOfSchema',
+        },
+      ],
+    },
+    AnyOfSchema: {
+      type: 'string',
+      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithAnyOfSchema`.',
+    },
+    SchemaWithNotSchema: {
+      type: 'string',
+      not: {
+        $ref: '#/components/schemas/NotSchema',
       },
-      NotSchema: {
-        type: 'string',
-        description:
-          'This schema is reachable from `EveryFlavor` and `SchemaWithNotSchema`.',
-      },
+    },
+    NotSchema: {
+      type: 'string',
+      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithNotSchema`.',
     },
   },
 };

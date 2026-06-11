@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { operationMethods } = require('../../src/utils');
+import { operationMethods } from '../../src/utils';
 
 describe('Utility function: operationMethods()', () => {
   it('should include relevant operation method names', async () => {

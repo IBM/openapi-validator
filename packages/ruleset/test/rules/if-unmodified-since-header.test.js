@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { ifUnmodifiedSinceHeader } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { ifUnmodifiedSinceHeader } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const rule = ifUnmodifiedSinceHeader;
 const ruleId = 'ibm-no-if-unmodified-since-header';

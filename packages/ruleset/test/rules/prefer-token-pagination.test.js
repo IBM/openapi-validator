@@ -3,14 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { preferTokenPagination } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-  helperArtifacts,
-} = require('../test-utils');
+import { preferTokenPagination } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes, helperArtifacts } from '../test-utils';
 const { offsetPaginationBase, offsetParameter } = helperArtifacts;
 
 const rule = preferTokenPagination;

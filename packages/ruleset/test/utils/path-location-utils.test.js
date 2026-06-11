@@ -3,14 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  isParamContentSchema,
-  isParamSchema,
-  isPrimarySchema,
-  isRequestBodySchema,
-  isResponseSchema,
-  isSchemaProperty,
-} = require('../../src/utils');
+import { isParamContentSchema, isParamSchema, isPrimarySchema, isRequestBodySchema, isResponseSchema, isSchemaProperty } from '../../src/utils';
 
 describe('Path Location utility functions', () => {
   describe('isParamContentSchema()', () => {

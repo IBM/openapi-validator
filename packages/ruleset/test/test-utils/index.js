@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const allSchemasDocument = require('./all-schemas-document');
-const makeCopy = require('./make-copy');
-const testRule = require('./test-rule');
-const unitTestRule = require('./unit-test-rule');
-const rootDocument = require('./root-document');
-const severityCodes = require('./severity-codes');
-const helperArtifacts = require('./helper-artifacts');
+import allSchemasDocument from './all-schemas-document';
+import makeCopy from './make-copy';
+import testRule from './test-rule';
+import unitTestRule from './unit-test-rule';
+import rootDocument from './root-document';
+import severityCodes from './severity-codes';
+import helperArtifacts from './helper-artifacts';
 
-module.exports = {
+export default {
   allSchemasDocument,
   makeCopy,
   rootDocument,
