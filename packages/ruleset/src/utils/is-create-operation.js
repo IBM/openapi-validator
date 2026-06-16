@@ -3,10 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
-const isOperationOfType = require('./is-operation-of-type').default;
-const getResourceSpecificSiblingPath =
-  require('./get-resource-specific-sibling-path').default;
+import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
+import isOperationOfType from './is-operation-of-type.js';
+import getResourceSpecificSiblingPath from './get-resource-specific-sibling-path.js';
 
 /**
  * Returns `true` if the operation represents a "create" operation.
@@ -40,4 +39,4 @@ function isCreateOperation(operation, path, apidef) {
   return !!siblingPath;
 }
 
-module.exports = isCreateOperation;
+export default isCreateOperation;

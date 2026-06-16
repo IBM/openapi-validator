@@ -1,5 +1,7 @@
 import { isArraySchema } from '@ibm-cloud/openapi-ruleset-utilities';
-import { supportsJsonContent } from './mimetype-utils';
+import mimetypeUtils from './mimetype-utils.js';
+
+const { supportsJsonContent } = mimetypeUtils;
 
 /**
  * Returns true iff the specified requestBody defines JSON content that will be exploded by

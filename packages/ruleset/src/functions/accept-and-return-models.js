@@ -8,7 +8,7 @@ import {
   isObjectSchema,
   schemaHasConstraint,
 } from '@ibm-cloud/openapi-ruleset-utilities';
-import { supportsJsonContent, LoggerFactory } from '../utils';
+import { supportsJsonContent, LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;

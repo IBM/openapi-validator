@@ -5,7 +5,11 @@
   "version": "1.9.1",
   "license": "Apache-2.0",
   "private": false,
-  "exports": "./src/index.js",
+  "exports": {
+    ".": "./src/index.js",
+    "./src/collections": "./src/collections/index.js",
+    "./src/utils": "./src/utils/index.js"
+  },
   "types": "./types/index.d.ts",
   "repository": {
     "type": "git",

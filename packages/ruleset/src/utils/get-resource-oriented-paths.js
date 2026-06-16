@@ -4,7 +4,7 @@
  */
 
 import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
-import getResourceSpecificSiblingPath from './get-resource-specific-sibling-path';
+import getResourceSpecificSiblingPath from './get-resource-specific-sibling-path.js';
 
 /**
  * Cycles through the path strings within an API definition to collect the paths

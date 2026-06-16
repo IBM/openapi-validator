@@ -3,32 +3,83 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  computeRefsAtPaths: require('./compute-refs-at-paths').default,
-  getCompositeSchemaAttribute: require('./get-composite-schema-attribute')
-    .default,
-  getResourceSpecificSiblingPath:
-    require('./get-resource-specific-sibling-path').default,
-  getResourceOrientedPaths: require('./get-resource-oriented-paths').default,
-  getResponseCodes: require('./get-response-codes').default,
-  getSchemaNameAtPath: require('./get-schema-name-at-path').default,
-  isCreateOperation: require('./is-create-operation'),
-  isDeprecated: require('./is-deprecated').default,
-  isEmptyObjectSchema: require('./is-empty-object-schema').default,
-  isOperationOfType: require('./is-operation-of-type').default,
-  isRefSiblingSchema: require('./is-ref-sibling-schema').default,
-  isRequestBodyExploded: require('./is-requestbody-exploded').default,
-  LoggerFactory: require('./logger-factory').default,
-  mergeAllOfSchemaProperties: require('./merge-allof-schema-properties')
-    .default,
-  nestedSchemaKeys: require('./nested-schema-keys').default,
-  operationMethods: require('./constants').default,
-  pathHasMinimallyRepresentedResource:
-    require('./path-has-minimally-represented-resource').default,
-  pathMatchesRegexp: require('./path-matches-regexp').default,
-  ...require('./date-based-utils').default,
-  ...require('./mimetype-utils').default,
-  ...require('./pagination-utils').default,
-  ...require('./path-location-utils').default,
-  ...require('./schema-finding-utils'),
+import computeRefsAtPaths from './compute-refs-at-paths.js';
+import getCompositeSchemaAttribute from './get-composite-schema-attribute.js';
+import getResourceSpecificSiblingPath from './get-resource-specific-sibling-path.js';
+import getResourceOrientedPaths from './get-resource-oriented-paths.js';
+import getResponseCodes from './get-response-codes.js';
+import getSchemaNameAtPath from './get-schema-name-at-path.js';
+import isCreateOperation from './is-create-operation.js';
+import isDeprecated from './is-deprecated.js';
+import isEmptyObjectSchema from './is-empty-object-schema.js';
+import isOperationOfType from './is-operation-of-type.js';
+import isRefSiblingSchema from './is-ref-sibling-schema.js';
+import isRequestBodyExploded from './is-requestbody-exploded.js';
+import LoggerFactory from './logger-factory.js';
+import mergeAllOfSchemaProperties from './merge-allof-schema-properties.js';
+import nestedSchemaKeys from './nested-schema-keys.js';
+import operationMethods from './constants.js';
+import pathHasMinimallyRepresentedResource from './path-has-minimally-represented-resource.js';
+import pathMatchesRegexp from './path-matches-regexp.js';
+import dateBasedUtils from './date-based-utils.js';
+import mimetypeUtils from './mimetype-utils.js';
+import paginationUtils from './pagination-utils.js';
+import pathLocationUtils from './path-location-utils.js';
+import * as schemaFindingUtils from './schema-finding-utils.js';
+
+export {
+  computeRefsAtPaths,
+  getCompositeSchemaAttribute,
+  getResourceSpecificSiblingPath,
+  getResourceOrientedPaths,
+  getResponseCodes,
+  getSchemaNameAtPath,
+  isCreateOperation,
+  isDeprecated,
+  isEmptyObjectSchema,
+  isOperationOfType,
+  isRefSiblingSchema,
+  isRequestBodyExploded,
+  LoggerFactory,
+  mergeAllOfSchemaProperties,
+  nestedSchemaKeys,
+  operationMethods,
+  pathHasMinimallyRepresentedResource,
+  pathMatchesRegexp,
 };
+
+// Re-export all named exports from utility modules
+export const {
+  isDateBasedName,
+  isDateBasedValue,
+} = dateBasedUtils;
+
+export const {
+  isFormMimeType,
+  isJsonMimeType,
+  isJsonPatchMimeType,
+  isMergePatchMimeType,
+  supportsJsonContent,
+} = mimetypeUtils;
+
+export const {
+  getOffsetParamIndex,
+  getLimitParamIndex,
+  getPageTokenParamIndex,
+  getResponseSchema,
+  getPaginatedOperationFromPath,
+} = paginationUtils;
+
+export const {
+  isPathParam,
+  pathHasTemplates,
+  pathMatchesTemplate,
+} = pathLocationUtils;
+
+export const {
+  getSuccessResponseSchemaForOperation,
+  getRequestBodySchemaForOperation,
+  getCanonicalSchemaForPath,
+} = schemaFindingUtils;
+
+// Made with Bob

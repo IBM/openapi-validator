@@ -8,10 +8,13 @@
  * in the context of a Spectral ruleset.
  * @module @ibm-cloud/openapi-ruleset-utilities
  */
+import utils from './utils/index.js';
+import collections from './collections/index.js';
+
 export default {
-  ...require('./utils').default,
+  ...utils,
 
   collections: {
-    ...require('./collections').default,
+    ...collections,
   },
 };

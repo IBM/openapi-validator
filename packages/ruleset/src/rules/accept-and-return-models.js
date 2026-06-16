@@ -8,7 +8,7 @@ import {
   requestBodySchemas,
 } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import { oas3 } from '@stoplight/spectral-formats';
-import { acceptAndReturnModels } from '../functions';
+import acceptAndReturnModels from '../functions/accept-and-return-models.js';
 
 export const description =
   'Request and response bodies must be defined as model instances';

@@ -3,13 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
-const getResponseCodes = require('./get-response-codes').default;
+import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
+import getResponseCodes from './get-response-codes.js';
+import mimetypeUtils from './mimetype-utils.js';
+import getSchemaNameAtPath from './get-schema-name-at-path.js';
 
-const { isJsonMimeType, isJsonPatchMimeType, isMergePatchMimeType } =
-  require('./mimetype-utils').default;
-
-const getSchemaNameAtPath = require('./get-schema-name-at-path').default;
+const { isJsonMimeType, isJsonPatchMimeType, isMergePatchMimeType } = mimetypeUtils;
 
 /**
  * Takes an operation object/path combo and finds the JSON success
@@ -210,7 +209,7 @@ function getCanonicalSchemaForPath(
   };
 }
 
-module.exports = {
+export {
   getSuccessResponseSchemaForOperation,
   getRequestBodySchemaForOperation,
   getCanonicalSchemaForPath,

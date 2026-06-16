@@ -6,12 +6,11 @@
 /**
  * @private
  */
-const isObject = require('./is-object').default;
+import isObject from './is-object.js';
 /**
  * @private
  */
-const collectFromComposedSchemas =
-  require('./collect-from-composed-schemas').default;
+import collectFromComposedSchemas from './collect-from-composed-schemas.js';
 
 /**
  * Returns an array of property names for a simple or composite schema,
@@ -36,4 +35,4 @@ function getPropertyNamesForSchema(schema, propertyFilter = () => true) {
   });
 }
 
-module.exports = getPropertyNamesForSchema;
+export default getPropertyNamesForSchema;
