@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { LoggerFactory, operationMethods } from '../utils';
+import { LoggerFactory, operationMethods } from '../utils/index.js';
 
 let ruleId;
 let logger;

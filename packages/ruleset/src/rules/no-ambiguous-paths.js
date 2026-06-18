@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { noAmbiguousPaths } from '../functions';
+const { oas3 } = spectralFormats;
+import { noAmbiguousPaths } from '../functions/index.js';
 
 export const description =
   'Avoid ambiguous path strings within an OpenAPI document';

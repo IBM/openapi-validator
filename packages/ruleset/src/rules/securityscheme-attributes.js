@@ -5,8 +5,8 @@
 
 import { securitySchemes } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { securitySchemeAttributes } from '../functions';
+const { oas3 } = spectralFormats;
+import { securitySchemeAttributes } from '../functions/index.js';
 
 export const description =
   'Validates the attributes of security schemes within an OpenAPI 3 document';

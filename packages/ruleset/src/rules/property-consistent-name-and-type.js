@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { propertyConsistentNameAndType } from '../functions';
+const { oas3 } = spectralFormats;
+import { propertyConsistentNameAndType } from '../functions/index.js';
 
 export const description =
   'Schema properties that have the same name should also have the same types.';

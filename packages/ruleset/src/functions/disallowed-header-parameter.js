@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { LoggerFactory } from '../utils';
+import { LoggerFactory } from '../utils/index.js';
 
 /**
  * This custom rule function is used to check for disallowed header parameters,

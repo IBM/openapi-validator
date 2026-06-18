@@ -4,8 +4,9 @@
  */
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas3_1 } from '@stoplight/spectral-formats';
 import { truthy } from '@stoplight/spectral-functions';
+import spectralFormats from '@stoplight/spectral-formats'
+const { oas3_1 } = spectralFormats;
 
 export const description =
   'Verifies that each operation has a "responses" field';

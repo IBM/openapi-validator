@@ -5,8 +5,8 @@
 
 import { unresolvedSchemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { inlineSchemas } from '../functions';
+const { oas3 } = spectralFormats;
+import { inlineSchemas } from '../functions/index.js';
 
 export const description =
   'Nested objects should be defined as a $ref to a named schema';

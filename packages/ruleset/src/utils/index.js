@@ -49,10 +49,7 @@ export {
 };
 
 // Re-export all named exports from utility modules
-export const {
-  isDateBasedName,
-  isDateBasedValue,
-} = dateBasedUtils;
+export const { isDateBasedName, isDateBasedValue } = dateBasedUtils;
 
 export const {
   isFormMimeType,

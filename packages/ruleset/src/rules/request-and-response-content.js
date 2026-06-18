@@ -5,8 +5,8 @@
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { requestAndResponseContent } from '../functions';
+const { oas3 } = spectralFormats;
+import { requestAndResponseContent } from '../functions/index.js';
 
 export const description =
   'Request bodies and non-204 responses should define a content object';

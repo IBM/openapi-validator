@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { refPattern } from '../functions';
+const { oas3 } = spectralFormats;
+import { refPattern } from '../functions/index.js';
 
 export const description = '$refs must follow the correct pattern.';
 export const message = '{{error}}';

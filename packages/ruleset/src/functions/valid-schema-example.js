@@ -5,7 +5,7 @@
 
 import { validate } from 'jsonschema';
 import { validateSubschemas } from '@ibm-cloud/openapi-ruleset-utilities';
-import { nestedSchemaKeys, LoggerFactory } from '../utils';
+import { nestedSchemaKeys, LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;

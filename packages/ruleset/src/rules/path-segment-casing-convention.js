@@ -5,8 +5,8 @@
 
 import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { pathSegmentCasingConvention } from '../functions';
+const { oas3 } = spectralFormats;
+import { pathSegmentCasingConvention } from '../functions/index.js';
 
 export const description =
   'Path segments must follow a specified case convention';

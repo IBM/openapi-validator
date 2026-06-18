@@ -8,7 +8,7 @@ import {
   validateNestedSchemas,
 } from '@ibm-cloud/openapi-ruleset-utilities';
 
-import { getCompositeSchemaAttribute, LoggerFactory } from '../utils';
+import { getCompositeSchemaAttribute, LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;

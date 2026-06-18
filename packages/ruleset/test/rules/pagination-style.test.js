@@ -4,7 +4,13 @@
  */
 
 import { paginationStyle } from '../../src/rules';
-import { makeCopy, rootDocument, testRule, severityCodes, helperArtifacts } from '../test-utils';
+import {
+  makeCopy,
+  rootDocument,
+  testRule,
+  severityCodes,
+  helperArtifacts,
+} from '../test-utils';
 
 // These are pre-defined objects with correct style for offset/limit pagination
 // to use as a baseline. They aren't used in the root document because overall,

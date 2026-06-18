@@ -5,8 +5,8 @@
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { deleteBody } from '../functions';
+const { oas3 } = spectralFormats;
+import { deleteBody } from '../functions/index.js';
 
 export const description =
   'Delete operations should not contain a requestBody.';

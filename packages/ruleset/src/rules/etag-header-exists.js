@@ -5,8 +5,8 @@
 
 import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { etagHeaderExists } from '../functions';
+const { oas3 } = spectralFormats;
+import { etagHeaderExists } from '../functions/index.js';
 
 export const description =
   'ETag response header should be defined in GET operation for resources that support If-Match or If-None-Match header parameters';

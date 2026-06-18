@@ -4,7 +4,7 @@
  */
 
 import { casing, pattern } from '@stoplight/spectral-functions';
-import { isDeprecated, LoggerFactory } from '../utils';
+import { isDeprecated, LoggerFactory } from '../utils/index.js';
 
 // Error message prefix for each parameter type.
 const errorMsgPrefix = {

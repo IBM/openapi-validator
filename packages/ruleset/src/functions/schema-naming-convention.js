@@ -16,7 +16,7 @@ import {
   getResourceOrientedPaths,
   getSchemaNameAtPath,
   getSuccessResponseSchemaForOperation,
-} from '../utils';
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

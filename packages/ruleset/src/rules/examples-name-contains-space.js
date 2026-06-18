@@ -5,7 +5,7 @@
 
 import { pattern } from '@stoplight/spectral-functions';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
+const { oas3 } = spectralFormats;
 
 export const description = 'Examples name should not contain space';
 export const message = '{{description}}';

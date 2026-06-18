@@ -4,8 +4,9 @@
  */
 
 import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas2, oas3 } from '@stoplight/spectral-formats';
-import { parameterDefault } from '../functions';
+import { parameterDefault } from '../functions/index.js';
+import spectralFormats from '@stoplight/spectral-formats'
+const { oas2, oas3 } = spectralFormats;
 
 export const description =
   'Required parameters should not define a default value';

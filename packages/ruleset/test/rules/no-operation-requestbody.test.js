@@ -25,8 +25,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const testDocument = makeCopy(rootDocument);
 
       // omit 'delete' from the list of methods.
-      const rule = structuredClone(noOperationRequestBody);
-      rule.then.functionOptions.httpMethods = ['get', 'head', 'options'];
+      const rule = {
+        ...noOperationRequestBody,
+        then: {
+          ...noOperationRequestBody.then,
+          functionOptions: {
+            httpMethods: ['get', 'head', 'options'],
+          },
+        },
+      };
 
       testDocument.paths['/v1/drinks/{drink_id}'].delete = {
         operationId: 'delete_drink',
@@ -216,14 +223,15 @@ describe(`Spectral rule: ${ruleId}`, () => {
     it('POST operation w/requestBody - post in config', async () => {
       const testDocument = makeCopy(rootDocument);
 
-      const rule = structuredClone(noOperationRequestBody);
-      rule.then.functionOptions.httpMethods = [
-        'delete',
-        'get',
-        'head',
-        'options',
-        'POST',
-      ];
+      const rule = {
+        ...noOperationRequestBody,
+        then: {
+          ...noOperationRequestBody.then,
+          functionOptions: {
+            httpMethods: ['delete', 'get', 'head', 'options', 'POST'],
+          },
+        },
+      };
 
       // No need to change testDocument because there are plenty of post
       // operations with a requestBody :)

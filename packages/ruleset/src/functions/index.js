@@ -3,112 +3,83 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-export const acceptAndReturnModels = require('./accept-and-return-models');
-export const allowedKeywords = require('./allowed-keywords');
-export const anchoredPatterns = require('./anchored-patterns');
-export const apiSymmetry = require('./api-symmetry');
-export const arrayAttributes = require('./array-attributes');
-export const arrayOfArrays = require('./array-of-arrays');
-export const arrayResponses = require('./array-responses');
-export const avoidMultipleTypes = require('./avoid-multiple-types');
-export const binarySchemas = require('./binary-schemas');
-export const circularRefs = require('./circular-refs');
-export const collectionArrayProperty = require('./collection-array-property');
-export const consecutivePathSegments = require('./consecutive-path-segments');
-export const deleteBody = require('./delete-body');
-export const disallowedHeaderParameter = require('./disallowed-header-parameter');
-export const discriminatorPropertyExists = require('./discriminator-property-exists');
-export const duplicatePathParameter = require('./duplicate-path-parameter');
-export const enumCasingConvention = require('./enum-casing-convention');
-export const errorResponseSchemas = require('./error-response-schemas');
-export const etagHeaderExists = require('./etag-header-exists');
-export const inlineSchemas = require('./inline-schemas').default;
-export const integerAttributes = require('./integer-attributes').default;
-export const majorVersionInPath = require('./major-version-in-path').default;
-export const mergePatchProperties = require('./merge-patch-properties').default;
-export const noAmbiguousPaths = require('./no-ambiguous-paths').default;
-export const noNullableProperties = require('./no-nullable-properties').default;
-export const noOperationRequestBody =
-  require('./no-operation-requestbody').default;
-export const noRefInExample = require('./no-ref-in-example').default;
-export const noSuperfluousAllOf = require('./no-superfluous-allof').default;
-export const noUnsupportedKeywords =
-  require('./no-unsupported-keywords').default;
-export const operationIdCasingConvention =
-  require('./operationid-casing-convention').default;
-export const operationIdNamingConvention =
-  require('./operationid-naming-convention').default;
-export const operationSummaryExists =
-  require('./operation-summary-exists').default;
-export const operationSummaryLength =
-  require('./operation-summary-length').default;
-export const optionalRequestBody = require('./optional-request-body').default
-  .optionalRequestBody;
-export const optionalRequestBodyDeprecated = require('./optional-request-body')
-  .default.optionalRequestBodyDeprecated;
-export const paginationStyle = require('./pagination-style').default;
-export const parameterCasingConvention =
-  require('./parameter-casing-convention').default;
-export const parameterDefault = require('./parameter-default').default;
-export const parameterDescriptionExists =
-  require('./parameter-description-exists').default;
-export const parameterOrder = require('./parameter-order').default;
-export const patchRequestContentType =
-  require('./patch-request-content-type').default;
-export const pathParameterNotCRN = require('./path-parameter-not-crn').default;
-export const pathSegmentCasingConvention =
-  require('./path-segment-casing-convention').default;
-export const patternPropertiesCheck = require('./pattern-properties').default;
-export const preconditionHeader = require('./precondition-header').default;
-export const preferTokenPagination =
-  require('./prefer-token-pagination').default;
-export const propertyAttributes = require('./property-attributes').default;
-export const propertyCasingConvention =
-  require('./property-casing-convention').default;
-export const propertyConsistentNameAndType =
-  require('./property-consistent-name-and-type').default;
-export const propertyDescriptionExists =
-  require('./property-description-exists').default;
-export const propertyNameCollision =
-  require('./property-name-collision').default;
-export const redirectResponseBody = require('./redirect-response-body').default;
-export const refPattern = require('./ref-pattern').default;
-export const refSiblingDuplicateDescription =
-  require('./ref-sibling-duplicate-description').default;
-export const requestAndResponseContent =
-  require('./request-and-response-content').default;
-export const requestBodyName = require('./requestbody-name').default;
-export const requiredArrayPropertiesInResponse =
-  require('./required-array-properties-in-response').default;
-export const requiredEnumPropertiesInResponse =
-  require('./required-enum-properties-in-response').default;
-export const requiredProperty = require('./required-property').default;
-export const resourceResponseConsistency =
-  require('./resource-response-consistency').default;
-export const responseExampleExists =
-  require('./response-example-exists').default;
-export const responseStatusCodes = require('./response-status-codes').default;
-export const schemaCasingConvention =
-  require('./schema-casing-convention').default;
-export const schemaDescriptionExists =
-  require('./schema-description-exists').default;
-export const schemaNamingConvention =
-  require('./schema-naming-convention').default;
-export const schemaOrContentProvided =
-  require('./schema-or-content-provided').default;
-export const schemaTypeExists = require('./schema-type-exists').default;
-export const schemaTypeFormat = require('./schema-type-format').default;
-export const securitySchemeAttributes =
-  require('./securityscheme-attributes').default;
-export const securitySchemes = require('./securityschemes').default;
-export const stringAttributes = require('./string-attributes').default;
-export const unevaluatedProperties =
-  require('./unevaluated-properties').default;
-export const uniqueParameterRequestPropertyNames =
-  require('./unique-parameter-request-property-names').default;
-export const unusedTags = require('./unused-tags').default;
-export const useDateBasedFormat = require('./use-date-based-format').default;
-export const validatePathSegments = require('./valid-path-segments').default;
-export const validSchemaExample = require('./valid-schema-example').default;
-export const wellDefinedDictionaries =
-  require('./well-defined-dictionaries').default;
+export { default as acceptAndReturnModels } from './accept-and-return-models.js';
+export { default as allowedKeywords } from './allowed-keywords.js';
+export { default as anchoredPatterns } from './anchored-patterns.js';
+export { default as apiSymmetry } from './api-symmetry.js';
+export { default as arrayAttributes } from './array-attributes.js';
+export { default as arrayOfArrays } from './array-of-arrays.js';
+export { default as arrayResponses } from './array-responses.js';
+export { default as avoidMultipleTypes } from './avoid-multiple-types.js';
+export { default as binarySchemas } from './binary-schemas.js';
+export { default as circularRefs } from './circular-refs.js';
+export { default as collectionArrayProperty } from './collection-array-property.js';
+export { default as consecutivePathSegments } from './consecutive-path-segments.js';
+export { default as deleteBody } from './delete-body.js';
+export { default as disallowedHeaderParameter } from './disallowed-header-parameter.js';
+export { default as discriminatorPropertyExists } from './discriminator-property-exists.js';
+export { default as duplicatePathParameter } from './duplicate-path-parameter.js';
+export { default as enumCasingConvention } from './enum-casing-convention.js';
+export { default as errorResponseSchemas } from './error-response-schemas.js';
+export { default as etagHeaderExists } from './etag-header-exists.js';
+export { default as inlineSchemas } from './inline-schemas.js';
+export { default as integerAttributes } from './integer-attributes.js';
+export { default as majorVersionInPath } from './major-version-in-path.js';
+export { default as mergePatchProperties } from './merge-patch-properties.js';
+export { default as noAmbiguousPaths } from './no-ambiguous-paths.js';
+export { default as noNullableProperties } from './no-nullable-properties.js';
+export { default as noOperationRequestBody } from './no-operation-requestbody.js';
+export { default as noRefInExample } from './no-ref-in-example.js';
+export { default as noSuperfluousAllOf } from './no-superfluous-allof.js';
+export { default as noUnsupportedKeywords } from './no-unsupported-keywords.js';
+export { default as operationIdCasingConvention } from './operationid-casing-convention.js';
+export { default as operationIdNamingConvention } from './operationid-naming-convention.js';
+export { default as operationSummaryExists } from './operation-summary-exists.js';
+export { default as operationSummaryLength } from './operation-summary-length.js';
+export {
+  optionalRequestBody,
+  optionalRequestBodyDeprecated,
+} from './optional-request-body.js';
+export { default as paginationStyle } from './pagination-style.js';
+export { default as parameterCasingConvention } from './parameter-casing-convention.js';
+export { default as parameterDefault } from './parameter-default.js';
+export { default as parameterDescriptionExists } from './parameter-description-exists.js';
+export { default as parameterOrder } from './parameter-order.js';
+export { default as patchRequestContentType } from './patch-request-content-type.js';
+export { default as pathParameterNotCRN } from './path-parameter-not-crn.js';
+export { default as pathSegmentCasingConvention } from './path-segment-casing-convention.js';
+export { default as patternPropertiesCheck } from './pattern-properties.js';
+export { default as preconditionHeader } from './precondition-header.js';
+export { default as preferTokenPagination } from './prefer-token-pagination.js';
+export { default as propertyAttributes } from './property-attributes.js';
+export { default as propertyCasingConvention } from './property-casing-convention.js';
+export { default as propertyConsistentNameAndType } from './property-consistent-name-and-type.js';
+export { default as propertyDescriptionExists } from './property-description-exists.js';
+export { default as propertyNameCollision } from './property-name-collision.js';
+export { default as redirectResponseBody } from './redirect-response-body.js';
+export { default as refPattern } from './ref-pattern.js';
+export { default as refSiblingDuplicateDescription } from './ref-sibling-duplicate-description.js';
+export { default as requestAndResponseContent } from './request-and-response-content.js';
+export { default as requestBodyName } from './requestbody-name.js';
+export { default as requiredArrayPropertiesInResponse } from './required-array-properties-in-response.js';
+export { default as requiredEnumPropertiesInResponse } from './required-enum-properties-in-response.js';
+export { default as requiredProperty } from './required-property.js';
+export { default as resourceResponseConsistency } from './resource-response-consistency.js';
+export { default as responseExampleExists } from './response-example-exists.js';
+export { default as responseStatusCodes } from './response-status-codes.js';
+export { default as schemaCasingConvention } from './schema-casing-convention.js';
+export { default as schemaDescriptionExists } from './schema-description-exists.js';
+export { default as schemaNamingConvention } from './schema-naming-convention.js';
+export { default as schemaOrContentProvided } from './schema-or-content-provided.js';
+export { default as schemaTypeExists } from './schema-type-exists.js';
+export { default as schemaTypeFormat } from './schema-type-format.js';
+export { default as securitySchemeAttributes } from './securityscheme-attributes.js';
+export { default as securitySchemes } from './securityschemes.js';
+export { default as stringAttributes } from './string-attributes.js';
+export { default as unevaluatedProperties } from './unevaluated-properties.js';
+export { default as uniqueParameterRequestPropertyNames } from './unique-parameter-request-property-names.js';
+export { default as unusedTags } from './unused-tags.js';
+export { default as useDateBasedFormat } from './use-date-based-format.js';
+export { default as validatePathSegments } from './valid-path-segments.js';
+export { default as validSchemaExample } from './valid-schema-example.js';
+export { default as wellDefinedDictionaries } from './well-defined-dictionaries.js';

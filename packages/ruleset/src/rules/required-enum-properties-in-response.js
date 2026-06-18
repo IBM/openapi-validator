@@ -5,7 +5,7 @@
 
 import { responseSchemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 
-import { requiredEnumPropertiesInResponse } from '../functions';
+import { requiredEnumPropertiesInResponse } from '../functions/index.js';
 
 export const description =
   'Enumeration properties defined in a response must be required.';

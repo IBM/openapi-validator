@@ -5,7 +5,7 @@
 
 import { casing } from '@stoplight/spectral-functions';
 import { validateSubschemas } from '@ibm-cloud/openapi-ruleset-utilities';
-import { LoggerFactory } from '../utils';
+import { LoggerFactory } from '../utils/index.js';
 
 let casingConfig;
 let ruleId;

@@ -8,7 +8,7 @@ import {
   validateSubschemas,
   SchemaType,
 } from '@ibm-cloud/openapi-ruleset-utilities';
-import { LoggerFactory } from '../utils';
+import { LoggerFactory } from '../utils/index.js';
 
 // We need to look at properties across the entire API definition.
 // This will act as a global variable to hold all of the properties

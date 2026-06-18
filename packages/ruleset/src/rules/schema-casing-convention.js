@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { schemaCasingConvention } from '../functions';
+const { oas3 } = spectralFormats;
+import { schemaCasingConvention } from '../functions/index.js';
 
 export const description =
   'Schema names must follow a specified case convention';

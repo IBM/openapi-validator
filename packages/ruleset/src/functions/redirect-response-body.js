@@ -4,7 +4,7 @@
  */
 
 import { getResolvedSpec } from '@ibm-cloud/openapi-ruleset-utilities';
-import { LoggerFactory, getResponseCodes } from '../utils';
+import { LoggerFactory, getResponseCodes } from '../utils/index.js';
 
 let ruleId;
 let logger;

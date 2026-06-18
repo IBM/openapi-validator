@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { propertyCasingConvention } from '../functions';
+const { oas3 } = spectralFormats;
+import { propertyCasingConvention } from '../functions/index.js';
 
 export const description =
   'Property names must follow a specified case convention';

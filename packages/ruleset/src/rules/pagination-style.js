@@ -5,8 +5,8 @@
 
 import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { paginationStyle } from '../functions';
+const { oas3 } = spectralFormats;
+import { paginationStyle } from '../functions/index.js';
 
 export const description =
   'List operations should have correct pagination style';

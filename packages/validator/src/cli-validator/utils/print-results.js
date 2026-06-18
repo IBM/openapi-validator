@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import each from 'lodash/each';
+import each from 'lodash/each.js';
 import pad from 'pad';
 
 // this function prints all of the output

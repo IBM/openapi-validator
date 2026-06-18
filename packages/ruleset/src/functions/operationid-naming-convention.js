@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import each from 'lodash/each';
-import merge from 'lodash/merge';
-import pickBy from 'lodash/pickBy';
-import reduce from 'lodash/reduce';
-import { operationMethods } from '../utils';
+import each from 'lodash/each.js';
+import merge from 'lodash/merge.js';
+import pickBy from 'lodash/pickBy.js';
+import reduce from 'lodash/reduce.js';
+import { operationMethods } from '../utils/index.js';
 import { singularize } from 'inflected';
 
 export default function (rootDocument, options) {

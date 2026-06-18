@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import flatten from 'lodash/flatten';
-import isEqual from 'lodash/isEqual';
-import uniqWith from 'lodash/uniqWith'
-import { operationMethods, LoggerFactory } from '../utils';
+import flatten from 'lodash/flatten.js';
+import isEqual from 'lodash/isEqual.js';
+import uniqWith from 'lodash/uniqWith.js';
+import { operationMethods, LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;

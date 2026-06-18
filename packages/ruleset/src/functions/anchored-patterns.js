@@ -8,7 +8,7 @@ import {
   validateSubschemas,
 } from '@ibm-cloud/openapi-ruleset-utilities';
 
-import { LoggerFactory } from '../utils';
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;

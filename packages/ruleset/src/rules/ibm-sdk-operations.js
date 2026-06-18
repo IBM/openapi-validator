@@ -4,7 +4,7 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
+const { oas3 } = spectralFormats;
 import { schema } from '@stoplight/spectral-functions';
 
 export const description =

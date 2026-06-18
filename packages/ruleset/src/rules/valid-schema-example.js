@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { validSchemaExample } from '../functions';
+const { oas3 } = spectralFormats;
+import { validSchemaExample } from '../functions/index.js';
 
 export const description =
   'Schema examples should validate against the schema they are defined for';

@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { optionalRequestBodyDeprecated } from '../functions';
+const { oas3 } = spectralFormats;
+import { optionalRequestBodyDeprecated } from '../functions/index.js';
 
 export const description =
   'An optional requestBody with required properties should probably be required';

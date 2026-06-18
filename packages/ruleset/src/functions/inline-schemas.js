@@ -13,7 +13,7 @@ import {
   isJsonMimeType,
   isEmptyObjectSchema,
   isRefSiblingSchema,
-} from '../utils';
+} from '../utils/index.js';
 
 /**
  * Checks to make sure that nested object schemas are defined using a $ref rather than

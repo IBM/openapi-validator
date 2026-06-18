@@ -5,8 +5,8 @@
 
 import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { validatePathSegments } from '../functions';
+const { oas3 } = spectralFormats;
+import { validatePathSegments } from '../functions/index.js';
 
 export const description =
   'Validates individual path segments within a path string';

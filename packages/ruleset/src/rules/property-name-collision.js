@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { propertyNameCollision } from '../functions';
+const { oas3 } = spectralFormats;
+import { propertyNameCollision } from '../functions/index.js';
 
 export const description =
   'Avoid duplicate property names within a schema, even if they differ by case convention';

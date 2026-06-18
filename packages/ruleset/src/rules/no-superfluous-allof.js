@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { noSuperfluousAllOf } from '../functions';
+const { oas3 } = spectralFormats;
+import { noSuperfluousAllOf } from '../functions/index.js';
 
 export const description =
   'Avoid schemas containing only a single-element allOf';

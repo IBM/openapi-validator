@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { circularRefs } from '../functions';
+const { oas3 } = spectralFormats;
+import { circularRefs } from '../functions/index.js';
 
 export const description =
   'API definition should not contain circular references.';

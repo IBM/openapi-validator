@@ -5,8 +5,8 @@
 
 import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { uniqueParameterRequestPropertyNames } from '../functions';
+const { oas3 } = spectralFormats;
+import { uniqueParameterRequestPropertyNames } from '../functions/index.js';
 
 export const description =
   'Names of requestBody properties should not be the same as operation parameter names';

@@ -7,7 +7,10 @@ import {
   isObject,
   getResolvedSpec,
 } from '@ibm-cloud/openapi-ruleset-utilities';
-import { LoggerFactory, pathHasMinimallyRepresentedResource } from '../utils';
+import {
+  LoggerFactory,
+  pathHasMinimallyRepresentedResource,
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

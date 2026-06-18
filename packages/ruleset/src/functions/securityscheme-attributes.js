@@ -3,8 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { isURL } from 'validator';
-import { LoggerFactory } from '../utils';
+import validator from 'validator';
+import { LoggerFactory } from '../utils/index.js';
+
+const { isURL } = validator;
 
 let ruleId;
 let logger;

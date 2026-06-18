@@ -5,8 +5,8 @@
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { preconditionHeader } from '../functions';
+const { oas3 } = spectralFormats;
+import { preconditionHeader } from '../functions/index.js';
 
 export const description =
   'Operations with `412` response must support at least one conditional header.';

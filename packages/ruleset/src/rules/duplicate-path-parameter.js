@@ -5,8 +5,8 @@
 
 import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { duplicatePathParameter } from '../functions';
+const { oas3 } = spectralFormats;
+import { duplicatePathParameter } from '../functions/index.js';
 
 export const description =
   'Common path parameters should be defined on the path object.';

@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { securitySchemes } from '../functions';
+const { oas3 } = spectralFormats;
+import { securitySchemes } from '../functions/index.js';
 
 export const description =
   'Validates the security schemes within an OpenAPI 3 document';

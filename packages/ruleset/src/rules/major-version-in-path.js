@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { majorVersionInPath } from '../functions';
+const { oas3 } = spectralFormats;
+import { majorVersionInPath } from '../functions/index.js';
 
 export const description =
   'All paths must contain the API major version as a distinct path segment';

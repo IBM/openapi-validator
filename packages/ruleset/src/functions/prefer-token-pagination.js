@@ -7,7 +7,7 @@ import {
   getPaginatedOperationFromPath,
   getOffsetParamIndex,
   LoggerFactory,
-} from '../utils';
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

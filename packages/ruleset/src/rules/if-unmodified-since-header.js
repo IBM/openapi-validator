@@ -5,8 +5,8 @@
 
 import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { disallowedHeaderParameter } from '../functions';
+const { oas3 } = spectralFormats;
+import { disallowedHeaderParameter } from '../functions/index.js';
 
 export const description =
   'Operations should support the If-Match header parameter instead of If-Unmodified-Since';

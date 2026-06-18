@@ -4,7 +4,7 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
+const { oas3 } = spectralFormats;
 import { oas } from '@stoplight/spectral-rulesets';
 import {
   typedEnum,

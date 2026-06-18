@@ -4,7 +4,7 @@
  */
 
 import { validateSubschemas } from '@ibm-cloud/openapi-ruleset-utilities';
-import { LoggerFactory, mergeAllOfSchemaProperties } from '../utils';
+import { LoggerFactory, mergeAllOfSchemaProperties } from '../utils/index.js';
 
 let ruleId;
 let logger;

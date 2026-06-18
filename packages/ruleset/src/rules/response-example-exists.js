@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { responseExampleExists } from '../functions';
+import { responseExampleExists } from '../functions/index.js';
 
 export const description = 'Each response should include an example';
 export const message = '{{error}}';

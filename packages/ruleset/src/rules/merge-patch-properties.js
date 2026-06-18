@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { mergePatchProperties } from '../functions';
+const { oas3 } = spectralFormats;
+import { mergePatchProperties } from '../functions/index.js';
 
 export const description =
   'A JSON merge-patch requestBody should have no required properties';

@@ -23,7 +23,7 @@ import {
   isRequestBodySchema,
   isResponseSchema,
   isSchemaProperty,
-} from '../utils';
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

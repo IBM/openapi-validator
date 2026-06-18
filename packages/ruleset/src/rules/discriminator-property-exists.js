@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { discriminatorPropertyExists } from '../functions';
+const { oas3 } = spectralFormats;
+import { discriminatorPropertyExists } from '../functions/index.js';
 
 export const description =
   'The discriminator property name must be defined in this schema';

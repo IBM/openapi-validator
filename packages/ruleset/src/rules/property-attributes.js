@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { propertyAttributes } from '../functions';
+const { oas3 } = spectralFormats;
+import { propertyAttributes } from '../functions/index.js';
 
 export const description =
   'Performs checks on specific attributes of a schema or schema property';

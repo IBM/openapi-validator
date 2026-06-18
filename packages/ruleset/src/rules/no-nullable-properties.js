@@ -4,9 +4,9 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
+const { oas3 } = spectralFormats;
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { noNullableProperties } from '../functions';
+import { noNullableProperties } from '../functions/index.js';
 
 export const description =
   'Nullable properties should exist only in JSON merge-patch request bodies';

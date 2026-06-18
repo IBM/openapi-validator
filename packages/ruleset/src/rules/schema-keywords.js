@@ -4,8 +4,9 @@
  */
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas3_1 } from '@stoplight/spectral-formats';
-import { allowedKeywords } from '../functions';
+import { allowedKeywords } from '../functions/index.js';
+import spectralFormats from '@stoplight/spectral-formats'
+const { oas3_1 } = spectralFormats;
 
 export const description =
   'Verifies that schema objects include only allowed-listed keywords';

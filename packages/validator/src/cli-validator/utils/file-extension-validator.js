@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import last from 'lodash/last';
+import last from 'lodash/last.js';
 
 const getExtension = filename => {
   return last(filename.split('.')).toLowerCase();

@@ -5,8 +5,8 @@
 
 import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { consecutivePathSegments } from '../functions';
+const { oas3 } = spectralFormats;
+import { consecutivePathSegments } from '../functions/index.js';
 
 export const description =
   'Path strings should not contain two or more consecutive path parameter references';

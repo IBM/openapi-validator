@@ -8,7 +8,8 @@ import getResponseCodes from './get-response-codes.js';
 import mimetypeUtils from './mimetype-utils.js';
 import getSchemaNameAtPath from './get-schema-name-at-path.js';
 
-const { isJsonMimeType, isJsonPatchMimeType, isMergePatchMimeType } = mimetypeUtils;
+const { isJsonMimeType, isJsonPatchMimeType, isMergePatchMimeType } =
+  mimetypeUtils;
 
 /**
  * Takes an operation object/path combo and finds the JSON success

@@ -5,8 +5,8 @@
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { arrayResponses } from '../functions';
+const { oas3 } = spectralFormats;
+import { arrayResponses } from '../functions/index.js';
 
 export const description =
   'Operations should not return an array as the top-level structure of a response.';

@@ -5,8 +5,8 @@
 
 import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { preferTokenPagination } from '../functions';
+const { oas3 } = spectralFormats;
+import { preferTokenPagination } from '../functions/index.js';
 
 export const description =
   'Paginated list operations should use token-based pagination, rather than offset/limit pagination.';

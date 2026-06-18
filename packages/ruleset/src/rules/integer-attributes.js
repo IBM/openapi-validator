@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { integerAttributes } from '../functions';
+const { oas3 } = spectralFormats;
+import { integerAttributes } from '../functions/index.js';
 
 export const description =
   'Integer schemas should have certain attributes defined';

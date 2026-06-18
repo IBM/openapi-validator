@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { pathParameterNotCRN } from '../functions';
+const { oas3 } = spectralFormats;
+import { pathParameterNotCRN } from '../functions/index.js';
 
 export const description =
   'Path parameters should not be defined as a CRN (Cloud Resource Name) value';

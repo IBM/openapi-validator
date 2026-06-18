@@ -5,8 +5,8 @@
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { parameterOrder } from '../functions';
+const { oas3 } = spectralFormats;
+import { parameterOrder } from '../functions/index.js';
 
 export const description =
   'All required operation parameters should be listed before any optional parameters.';

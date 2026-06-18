@@ -11,7 +11,7 @@ import {
   getSuccessCode,
   getResponseSchema,
   getPaginatedOperationFromPath,
-} from '../utils';
+} from '../utils/index.js';
 import {
   isIntegerSchema,
   isStringSchema,

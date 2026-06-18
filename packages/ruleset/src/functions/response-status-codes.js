@@ -11,7 +11,7 @@ import {
   getResourceSpecificSiblingPath,
   getResponseCodes,
   pathHasMinimallyRepresentedResource,
-} from '../utils';
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

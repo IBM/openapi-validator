@@ -4,7 +4,13 @@
  */
 
 import { preferTokenPagination } from '../../src/rules';
-import { makeCopy, rootDocument, testRule, severityCodes, helperArtifacts } from '../test-utils';
+import {
+  makeCopy,
+  rootDocument,
+  testRule,
+  severityCodes,
+  helperArtifacts,
+} from '../test-utils';
 const { offsetPaginationBase, offsetParameter } = helperArtifacts;
 
 const rule = preferTokenPagination;

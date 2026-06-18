@@ -5,8 +5,8 @@
 
 import { patchOperations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { patchRequestContentType } from '../functions';
+const { oas3 } = spectralFormats;
+import { patchRequestContentType } from '../functions/index.js';
 
 export const description =
   'PATCH operations should support content types application/json-patch+json or application/merge-patch+json';

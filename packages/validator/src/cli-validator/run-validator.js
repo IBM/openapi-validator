@@ -7,7 +7,7 @@
 import chalk, { underline } from 'chalk';
 import { readFile as _readFile } from 'fs';
 import globby from 'globby';
-import isPlainObject from 'lodash/isPlainObject';
+import isPlainObject from 'lodash/isPlainObject.js';
 import { validate } from 'json-dup-key-validator';
 import { resolve, relative } from 'path';
 import { load } from 'js-yaml';

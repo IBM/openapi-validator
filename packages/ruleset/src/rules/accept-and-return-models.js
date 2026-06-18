@@ -8,7 +8,7 @@ import {
   requestBodySchemas,
 } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
+const { oas3 } = spectralFormats;
 import acceptAndReturnModels from '../functions/accept-and-return-models.js';
 
 export const description =

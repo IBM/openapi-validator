@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { resourceResponseConsistency } from '../functions';
+const { oas3 } = spectralFormats;
+import { resourceResponseConsistency } from '../functions/index.js';
 
 export const description =
   'Operations that create or update a resource should return the same schema as the "GET" request for the resource.';

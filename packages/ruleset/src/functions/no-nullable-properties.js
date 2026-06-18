@@ -11,7 +11,7 @@ import {
   isMergePatchMimeType,
   LoggerFactory,
   operationMethods,
-} from '../utils';
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

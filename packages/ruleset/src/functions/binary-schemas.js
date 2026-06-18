@@ -12,7 +12,7 @@ import {
   isRequestBodySchema,
   isResponseSchema,
   LoggerFactory,
-} from '../utils';
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

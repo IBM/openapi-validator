@@ -7,7 +7,7 @@ import {
   isJsonPatchMimeType,
   isMergePatchMimeType,
   LoggerFactory,
-} from '../utils';
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

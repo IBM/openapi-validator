@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { collectionArrayProperty } from '../functions';
+const { oas3 } = spectralFormats;
+import { collectionArrayProperty } from '../functions/index.js';
 
 export const description =
   'Collection list operation response schema should define array property whose name matches the final path segment of the operation path';

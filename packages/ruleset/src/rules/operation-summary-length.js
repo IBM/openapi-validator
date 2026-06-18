@@ -5,8 +5,8 @@
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { operationSummaryLength } from '../functions';
+const { oas3 } = spectralFormats;
+import { operationSummaryLength } from '../functions/index.js';
 
 export const description =
   'Operation summaries must be 80 characters or less in length';

@@ -21,4 +21,12 @@ export default {
   helperArtifacts,
 };
 
-export { allSchemasDocument, makeCopy, rootDocument, testRule, unitTestRule, severityCodes, helperArtifacts };
+export {
+  allSchemasDocument,
+  makeCopy,
+  rootDocument,
+  testRule,
+  unitTestRule,
+  severityCodes,
+  helperArtifacts,
+};

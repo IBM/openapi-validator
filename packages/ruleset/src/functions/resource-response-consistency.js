@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import isEqual from 'lodash/isEqual';
+import isEqual from 'lodash/isEqual.js';
 import {
   isObject,
   getResolvedSpec,
@@ -19,7 +19,7 @@ import {
   isJsonMimeType,
   isOperationOfType,
   LoggerFactory,
-} from '../utils';
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

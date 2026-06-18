@@ -3,7 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { isFormMimeType, isRequestBodyExploded, LoggerFactory } from '../utils';
+import {
+  isFormMimeType,
+  isRequestBodyExploded,
+  LoggerFactory,
+} from '../utils/index.js';
 
 let ruleId;
 let logger;

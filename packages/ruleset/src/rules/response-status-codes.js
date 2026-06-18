@@ -5,8 +5,8 @@
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { responseStatusCodes } from '../functions';
+const { oas3 } = spectralFormats;
+import { responseStatusCodes } from '../functions/index.js';
 
 export const description =
   'Performs multiple checks on the status codes used in operation responses';

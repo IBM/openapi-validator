@@ -5,8 +5,8 @@
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { requestBodyName } from '../functions';
+const { oas3 } = spectralFormats;
+import { requestBodyName } from '../functions/index.js';
 
 export const description =
   'Verifies that operations have the x-codegen-request-body-name extension set when needed';

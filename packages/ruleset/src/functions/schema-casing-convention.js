@@ -5,7 +5,7 @@
 
 import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
 import { pattern } from '@stoplight/spectral-functions';
-import { LoggerFactory } from '../utils';
+import { LoggerFactory } from '../utils/index.js';
 
 let patternConfig;
 let ruleId;

@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { apiSymmetry } from '../functions';
+const { oas3 } = spectralFormats;
+import { apiSymmetry } from '../functions/index.js';
 
 export const description =
   'Variations of a resource schema should be graph fragments of the canonical schema';

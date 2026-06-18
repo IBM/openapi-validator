@@ -302,7 +302,8 @@ export const paths = {
     get: {
       operationId: 'list_movies',
       summary: 'List movies',
-      description: 'Retrieve a list of movies using an optional genre qualifier.',
+      description:
+        'Retrieve a list of movies using an optional genre qualifier.',
       tags: ['TestTag'],
       security: [
         {
@@ -603,7 +604,8 @@ export const components = {
       },
     },
     ExpediteParam: {
-      description: 'An optional parameter to speed up the car manufacturing process.',
+      description:
+        'An optional parameter to speed up the car manufacturing process.',
       name: 'hurry_up',
       required: false,
       in: 'query',
@@ -713,7 +715,8 @@ export const components = {
     },
     Drink: {
       type: 'object',
-      description: 'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
+      description:
+        'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
       properties: {
         id: {
           $ref: '#/components/schemas/IdString',
@@ -738,7 +741,8 @@ export const components = {
     },
     DrinkPrototype: {
       type: 'object',
-      description: 'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
+      description:
+        'A Drink can be either a Juice or Soda instance. Sorry, no Beer or Whisky allowed.',
       oneOf: [
         {
           $ref: '#/components/schemas/Juice',
@@ -819,7 +823,8 @@ export const components = {
           required: ['drinks'],
           properties: {
             drinks: {
-              description: 'The set of Drink instances in this page of results.',
+              description:
+                'The set of Drink instances in this page of results.',
               type: 'array',
               minItems: 0,
               maxItems: 50,
@@ -865,7 +870,8 @@ export const components = {
           required: ['movies'],
           properties: {
             movies: {
-              description: 'The set of Movie instances in this page of results.',
+              description:
+                'The set of Movie instances in this page of results.',
               type: 'array',
               minItems: 0,
               maxItems: 50,
@@ -966,7 +972,8 @@ export const components = {
       pattern: '^.*$',
     },
     TokenPaginationBase: {
-      description: 'A base schema containing properties that support token-based pagination.',
+      description:
+        'A base schema containing properties that support token-based pagination.',
       type: 'object',
       required: ['limit', 'total_count'],
       properties: {
@@ -1027,7 +1034,8 @@ export const components = {
           type: 'array',
           minItems: 0,
           maxItems: 100,
-          description: 'The array of error entries associated with the error response',
+          description:
+            'The array of error entries associated with the error response',
           items: {
             $ref: '#/components/schemas/Error',
           },
@@ -1088,7 +1096,8 @@ export const components = {
           enum: ['field', 'header', 'parameter'],
         },
         name: {
-          description: 'The name of the field/header/query parameter associated with the error.',
+          description:
+            'The name of the field/header/query parameter associated with the error.',
           type: 'string',
           pattern: '^[a-zA-Z0-9 ]+$',
           minLength: 1,
@@ -1279,7 +1288,8 @@ export const components = {
   },
   links: {
     CarIdLink: {
-      description: 'Link the `create_car` response `id` property to the `get_car` path parameter named `car_id`.',
+      description:
+        'Link the `create_car` response `id` property to the `get_car` path parameter named `car_id`.',
       operationId: 'get_car',
       parameters: {
         car_id: '$response.body#/id',
@@ -1288,4 +1298,15 @@ export const components = {
   },
   callbacks: {},
   headers: {},
+};
+
+
+export default {
+  openapi,
+  info,
+  servers,
+  security,
+  tags,
+  paths,
+  components,
 };

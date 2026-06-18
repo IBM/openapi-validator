@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { schemaOrContentProvided } from '../functions';
+const { oas3 } = spectralFormats;
+import { schemaOrContentProvided } from '../functions/index.js';
 
 export const description = 'Parameter must provide either a schema or content';
 export const message = '{{error}}';

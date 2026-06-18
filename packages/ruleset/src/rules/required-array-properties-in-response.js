@@ -5,7 +5,7 @@
 
 import { responseSchemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 
-import { requiredArrayPropertiesInResponse } from '../functions';
+import { requiredArrayPropertiesInResponse } from '../functions/index.js';
 
 export const description =
   'Array properties defined in a response should be required.';

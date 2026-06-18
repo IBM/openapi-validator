@@ -7,7 +7,7 @@ import {
   schemaHasConstraint,
   validateSubschemas,
 } from '@ibm-cloud/openapi-ruleset-utilities';
-import { LoggerFactory, isSchemaProperty } from '../utils';
+import { LoggerFactory, isSchemaProperty } from '../utils/index.js';
 
 let ruleId;
 let logger;

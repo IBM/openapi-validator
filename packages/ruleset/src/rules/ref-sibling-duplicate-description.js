@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { refSiblingDuplicateDescription } from '../functions';
+const { oas3 } = spectralFormats;
+import { refSiblingDuplicateDescription } from '../functions/index.js';
 
 export const description =
   'Schemas and schema properties should avoid duplicate descriptions within allOf $ref siblings';

@@ -5,8 +5,8 @@
 
 import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { parameterCasingConvention } from '../functions';
+const { oas3 } = spectralFormats;
+import { parameterCasingConvention } from '../functions/index.js';
 
 export const description = 'Parameter names must follow case conventions';
 export const message = '{{error}}';

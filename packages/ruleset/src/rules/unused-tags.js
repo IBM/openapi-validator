@@ -4,8 +4,8 @@
  */
 
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { unusedTags } from '../functions';
+const { oas3 } = spectralFormats;
+import { unusedTags } from '../functions/index.js';
 
 export const description = 'Checks that each defined tag is actually used';
 export const message = '{{error}}';

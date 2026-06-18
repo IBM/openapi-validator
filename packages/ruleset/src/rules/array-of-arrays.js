@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { arrayOfArrays } from '../functions';
+const { oas3 } = spectralFormats;
+import { arrayOfArrays } from '../functions/index.js';
 
 export const description =
   'Array schema with items of type array should be avoided';

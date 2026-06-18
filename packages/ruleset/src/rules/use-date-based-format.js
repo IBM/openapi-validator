@@ -5,8 +5,8 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import spectralFormats from '@stoplight/spectral-formats';
-const { oas3 } = spectralFormats;;
-import { useDateBasedFormat } from '../functions';
+const { oas3 } = spectralFormats;
+import { useDateBasedFormat } from '../functions/index.js';
 
 export const description =
   'Heuristically determine when a schema should have a format of "date" or "date-time"';
