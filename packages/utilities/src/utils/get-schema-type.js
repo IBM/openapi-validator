@@ -6,11 +6,11 @@
 /**
  * @private
  */
-import isObject from './is-object';
+import isObject from './is-object.js';
 /**
  * @private
  */
-import schemaHasConstraint from './schema-has-constraint';
+import schemaHasConstraint from './schema-has-constraint.js';
 
 /**
  * An enumeration of non-mutually-exclusive schema types.

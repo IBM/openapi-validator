@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { isPlainObject } from 'lodash';
+import  isPlainObject from 'lodash/isPlainObject';
 import {
   validateNestedSchemas,
   isArraySchema,

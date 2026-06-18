@@ -11,7 +11,7 @@ import {
   isObjectSchema,
   isStringSchema,
 } from '@ibm-cloud/openapi-ruleset-utilities';
-import { Metrics } from './metrics';
+import { Metrics } from './metrics.js';
 
 async function computeMetrics(unresolvedApiDef) {
   // For some metrics, we just want to identify every unique instance

@@ -4,7 +4,7 @@
  */
 
 import { lt } from 'semver';
-import getDefaultRulesetVersion from './get-default-ruleset-version';
+import getDefaultRulesetVersion from './get-default-ruleset-version.js';
 
 export default checkRulesetVersion;
 

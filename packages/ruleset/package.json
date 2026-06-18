@@ -22,9 +22,9 @@
   },
   "dependencies": {
     "@ibm-cloud/openapi-ruleset-utilities": "1.9.1",
-    "@stoplight/spectral-formats": "1.8.2",
-    "@stoplight/spectral-functions": "1.9.3",
-    "@stoplight/spectral-rulesets": "1.21.3",
+    "@stoplight/spectral-formats": "1.8.3",
+    "@stoplight/spectral-functions": "1.10.3",
+    "@stoplight/spectral-rulesets": "1.22.4",
     "chalk": "4.1.2",
     "inflected": "2.1.0",
     "jsonschema": "1.5.0",
@@ -35,7 +35,7 @@
     "validator": "13.15.23"
   },
   "devDependencies": {
-    "@stoplight/spectral-core": "1.19.4",
+    "@stoplight/spectral-core": "1.23.0",
     "vitest": "4.1.8"
   },
   "engines": {

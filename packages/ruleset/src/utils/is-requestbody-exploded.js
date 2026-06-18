@@ -1,5 +1,7 @@
-import { isArraySchema } from '@ibm-cloud/openapi-ruleset-utilities';
+import utils from '@ibm-cloud/openapi-ruleset-utilities';
 import mimetypeUtils from './mimetype-utils.js';
+
+const { isArraySchema } = utils;
 
 const { supportsJsonContent } = mimetypeUtils;
 

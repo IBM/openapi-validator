@@ -4,7 +4,7 @@
  */
 
 import { Command } from 'commander';
-import getCopyrightString from './get-copyright-string';
+import getCopyrightString from './get-copyright-string.js';
 
 /**
  * This function is used to gather multi-valued arguments into an array.

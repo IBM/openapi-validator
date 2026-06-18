@@ -5,8 +5,10 @@
 
 import log from 'loglevel';
 import { minimatch as _minimatch } from 'minimatch';
-import { reg, apply } from 'loglevel-plugin-prefix';
-import { magenta, cyan, green, yellow, red } from 'chalk';
+import prefix from 'loglevel-plugin-prefix';
+const { reg, apply } = prefix;
+import chalk from 'chalk';
+const { magenta, cyan, green, yellow, red } = chalk;
 
 const colors = {
   TRACE: magenta,

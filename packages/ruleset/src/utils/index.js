@@ -66,11 +66,18 @@ export const {
   getOffsetParamIndex,
   getLimitParamIndex,
   getPageTokenParamIndex,
+  getSuccessCode,
   getResponseSchema,
   getPaginatedOperationFromPath,
 } = paginationUtils;
 
 export const {
+  isParamContentSchema,
+  isParamSchema,
+  isPrimarySchema,
+  isRequestBodySchema,
+  isResponseSchema,
+  isSchemaProperty,
   isPathParam,
   pathHasTemplates,
   pathMatchesTemplate,

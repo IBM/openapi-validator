@@ -6,11 +6,11 @@
 /**
  * @private
  */
-import schemaHasConstraint from './schema-has-constraint';
+import schemaHasConstraint from './schema-has-constraint.js';
 /**
  * @private
  */
-import isObject from './is-object';
+import isObject from './is-object.js';
 
 /**
  * This function will return `true` if all possible variations of a (possibly composite) schema

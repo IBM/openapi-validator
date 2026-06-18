@@ -2,10 +2,11 @@
  * Copyright 2023 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
-import { isArraySchema } from '@ibm-cloud/openapi-ruleset-utilities';
-import mergeAllOfSchemaProperties from './merge-allof-schema-properties';
-import mimetypeUtils from './mimetype-utils';
+import utils from '@ibm-cloud/openapi-ruleset-utilities';
+import mergeAllOfSchemaProperties from './merge-allof-schema-properties.js';
+import mimetypeUtils from './mimetype-utils.js';
 const { isJsonMimeType } = mimetypeUtils;
+const { isArraySchema } = utils;
 
 /**
  * Looks for a query parameter called "offset" and returns the

@@ -6,7 +6,7 @@
 /**
  * @private
  */
-import isObject from './is-object';
+import isObject from './is-object.js';
 
 /**
  * This function is a looser adaptation of the `schemaHasConstraint()` function.

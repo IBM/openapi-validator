@@ -4,10 +4,10 @@
  */
 
 import getDefaultRulesetVersion from './get-default-ruleset-version.js';
-import getLocalRulesetVersion from './get-local-ruleset-version';
-import getVersionString from './get-version-string';
-import checkRulesetVersion from './check-ruleset-version';
-import { findSpectralRuleset } from '../../spectral/utils';
+import getLocalRulesetVersion from './get-local-ruleset-version.js';
+import getVersionString from './get-version-string.js';
+import checkRulesetVersion from './check-ruleset-version.js';
+import { findSpectralRuleset } from '../../spectral/utils.js';
 
 export default printVersions;
 

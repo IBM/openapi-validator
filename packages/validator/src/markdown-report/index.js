@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import getReport from './report';
-import writeReportToFile from './write-file';
+import getReport from './report.js';
+import writeReportToFile from './write-file.js';
 
 function printMarkdownReport(context, results) {
   const report = getReport(context, results);

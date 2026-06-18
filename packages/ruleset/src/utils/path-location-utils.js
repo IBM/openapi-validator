@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import pathMatchesRegexp from './path-matches-regexp';
+import pathMatchesRegexp from './path-matches-regexp.js';
 
 /**
  * Returns true if the path points to a schema object within

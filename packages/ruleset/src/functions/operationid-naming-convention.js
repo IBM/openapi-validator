@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { each, merge, pickBy, reduce } from 'lodash';
+import each from 'lodash/each';
+import merge from 'lodash/merge';
+import pickBy from 'lodash/pickBy';
+import reduce from 'lodash/reduce';
 import { operationMethods } from '../utils';
 import { singularize } from 'inflected';
 

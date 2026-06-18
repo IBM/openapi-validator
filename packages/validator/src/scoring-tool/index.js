@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { printCategorizedScoresTable, printScoringDataTable } from './output';
-import { scoreResults } from './score';
+import { printCategorizedScoresTable, printScoringDataTable } from './output.js';
+import { scoreResults } from './score.js';
 import computeMetricsModule from './compute-metrics.js';
 const { computeMetrics } = computeMetricsModule;
 

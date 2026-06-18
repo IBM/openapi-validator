@@ -22,7 +22,7 @@ import {
   printVersions,
   processArgs,
   supportedFileExtension,
-} from './utils';
+} from './utils/index.js';
 
 import { runSpectral } from '../spectral';
 import { produceQualityScore, printScoreTables } from '../scoring-tool';

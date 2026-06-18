@@ -14,7 +14,7 @@ import {
   getLocalRulesetVersion,
 } from '../cli-validator/utils';
 
-import { findSpectralRuleset } from './utils';
+import { findSpectralRuleset } from './utils.js';
 
 /**
  * Creates a Spectral document from the input, runs spectral, converts the results

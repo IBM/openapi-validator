@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import allSchemasDocument from './all-schemas-document';
-import makeCopy from './make-copy';
-import testRule from './test-rule';
-import unitTestRule from './unit-test-rule';
-import rootDocument from './root-document';
-import severityCodes from './severity-codes';
-import helperArtifacts from './helper-artifacts';
+import allSchemasDocument from './all-schemas-document.js';
+import makeCopy from './make-copy.js';
+import testRule from './test-rule.js';
+import unitTestRule from './unit-test-rule.js';
+import rootDocument from './root-document.js';
+import * as severityCodes from './severity-codes.js';
+import helperArtifacts from './helper-artifacts.js';
 
 export default {
   allSchemasDocument,
@@ -20,3 +20,5 @@ export default {
   severityCodes,
   helperArtifacts,
 };
+
+export { allSchemasDocument, makeCopy, rootDocument, testRule, unitTestRule, severityCodes, helperArtifacts };

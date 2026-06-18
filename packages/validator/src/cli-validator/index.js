@@ -9,7 +9,7 @@
 // the passed in argument (currently 16.0.0)
 require('./utils/check-version')('16.0.0');
 
-import runValidator from './run-validator';
+import runValidator from './run-validator.js';
 runValidator(process.argv)
   .then(exitCode => {
     process.exitCode = exitCode;

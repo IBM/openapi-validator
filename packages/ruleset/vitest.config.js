@@ -15,5 +15,5 @@ export default defineConfig({
             'nimma/legacy': '../../node_modules/@stoplight/spectral-core/node_modules/nimma/dist/legacy/cjs',
             'nimma/fallbacks': '../../node_modules/@stoplight/spectral-core/node_modules/nimma/dist/legacy/cjs/fallbacks/',
         },
-    },
+    }
 });

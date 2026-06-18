@@ -98,7 +98,7 @@ import {
   validPathSegments,
   validSchemaExample,
   wellDefinedDictionaries,
-} from './rules';
+} from './rules/index.js';
 
 // Spectral's "no-$ref-siblings" rule is configured to run on
 // OpenAPI 3.0.x documents (ref sibling attributes are allowed in OpenAPI 3.1.x).

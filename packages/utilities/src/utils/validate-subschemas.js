@@ -6,15 +6,15 @@
 /**
  * @private
  */
-import SchemaPath from './schema-path';
+import SchemaPath from './schema-path.js';
 /**
  * @private
  */
-import validateComposedSchemas from './validate-composed-schemas';
+import validateComposedSchemas from './validate-composed-schemas.js';
 /**
  * @private
  */
-import validateNestedSchemas from './validate-nested-schemas';
+import validateNestedSchemas from './validate-nested-schemas.js';
 
 /**
  * Performs validation on a schema and all of its subschemas.
