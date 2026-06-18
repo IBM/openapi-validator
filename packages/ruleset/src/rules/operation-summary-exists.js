@@ -4,7 +4,8 @@
  */
 
 import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas3 } from '@stoplight/spectral-formats';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;;
 import { operationSummaryExists } from '../functions';
 
 export const description = 'Operations must have a non-empty summary';

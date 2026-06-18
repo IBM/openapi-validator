@@ -4,7 +4,8 @@
  */
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas3 } from '@stoplight/spectral-formats';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;;
 import { binarySchemas } from '../functions';
 
 // 1. Parameters should not contain binary (type: string, format: binary) values.

@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { oas3 } from '@stoplight/spectral-formats';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;;
 import { noRefInExample } from '../functions';
 export const description =
   'The use of $ref is not valid within an example field';

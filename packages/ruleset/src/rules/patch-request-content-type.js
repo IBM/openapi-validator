@@ -4,7 +4,8 @@
  */
 
 import { patchOperations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas3 } from '@stoplight/spectral-formats';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;;
 import { patchRequestContentType } from '../functions';
 
 export const description =

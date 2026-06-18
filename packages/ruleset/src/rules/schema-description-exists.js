@@ -4,7 +4,8 @@
  */
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas3 } from '@stoplight/spectral-formats';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;;
 import { schemaDescriptionExists } from '../functions';
 
 export const description = 'Schemas should have a non-empty description';

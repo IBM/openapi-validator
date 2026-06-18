@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { oas3 } from '@stoplight/spectral-formats';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;;
 import { schemaOrContentProvided } from '../functions';
 
 export const description = 'Parameter must provide either a schema or content';

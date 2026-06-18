@@ -4,7 +4,8 @@
  */
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas3 } from '@stoplight/spectral-formats';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;;
 import { requiredProperty } from '../functions';
 
 export const description = 'A required property is not in the schema';

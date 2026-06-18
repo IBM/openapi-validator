@@ -4,7 +4,8 @@
  */
 
 import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
-import { oas3 } from '@stoplight/spectral-formats';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;;
 import { parameterDescriptionExists } from '../functions';
 
 export const description = 'Parameters should have a non-empty description';
