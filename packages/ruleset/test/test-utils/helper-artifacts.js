@@ -58,3 +58,8 @@ export const offsetPaginationBase = {
     last: pageLink,
   },
 };
+
+export default {
+  offsetParameter,
+  offsetPaginationBase,
+};

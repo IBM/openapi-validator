@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { vi } from 'vitest';
+import { vi, beforeEach } from 'vitest';
 import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 let rule;
@@ -16,9 +16,10 @@ describe(`Spectral rule: ${ruleId}`, () => {
   // to store the set of unique flagged $ref values.
   // Because the global variable's value is retained across testcases, we need to reset
   // everything before each testcase.
-  beforeEach(() => {
+  beforeEach(async () => {
     vi.resetModules();
-    rule = require('../../src/rules').circularRefs;
+    const rulesModule = await import('../../src/rules/index.js');
+    rule = rulesModule.circularRefs;
   });
 
   describe('Should not yield errors', () => {

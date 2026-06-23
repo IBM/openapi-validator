@@ -7,14 +7,14 @@ import { requestBodyName } from '../../src/rules';
 import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const ruleId = 'ibm-requestbody-name';
-const rule = requestBodyName;
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = `Operations with non-form request bodies should set a name with the 'x-codegen-request-body-name' extension`;
 
 // This rule is turned off by default - enable it to run tests
 // but still verify it is defined in the rule as "off".
-const originalSeverity = makeCopy(rule.severity);
-rule.severity = 'warn';
+const originalSeverity = makeCopy(requestBodyName.severity);
+// Create a mutable copy of the rule with severity set to 'warn'
+const rule = { ...requestBodyName, severity: 'warn' };
 
 // `Operation with non-form requestBody should set a name with the ${EXTENSION_NAME} extension.`
 describe(`Spectral rule: ${ruleId}`, () => {

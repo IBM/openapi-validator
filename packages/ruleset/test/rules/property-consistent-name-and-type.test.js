@@ -3,22 +3,35 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+import { vi, beforeEach } from 'vitest';
 import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
-import { propertyConsistentNameAndType } from '../../src/rules';
 
+let propertyConsistentNameAndType;
 const ruleId = 'ibm-property-consistent-name-and-type';
 
 function getRule() {
-  const rule = structuredClone(propertyConsistentNameAndType);
-  rule.severity = 'warn';
+  const rule = {
+    ...propertyConsistentNameAndType,
+    severity: 'warn',
+  };
   return rule;
 }
 
-const originalSeverity = makeCopy(propertyConsistentNameAndType.severity);
 const expectedSeverity = severityCodes.warning;
 
 describe(`Spectral rule: ${ruleId}`, () => {
+  // The implementation of the property-consistent-name-and-type rule uses a global variable
+  // to store visited properties across the entire API definition.
+  // Because the global variable's value is retained across testcases, we need to reset
+  // everything before each testcase.
+  beforeEach(async () => {
+    vi.resetModules();
+    const rulesModule = await import('../../src/rules/index.js');
+    propertyConsistentNameAndType = rulesModule.propertyConsistentNameAndType;
+  });
+
   it('Should originally be set to severity: "off"', () => {
+    const originalSeverity = makeCopy(propertyConsistentNameAndType.severity);
     expect(originalSeverity).toBe('off');
   });
 
