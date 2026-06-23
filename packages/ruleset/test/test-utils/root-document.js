@@ -1300,7 +1300,6 @@ export const components = {
   headers: {},
 };
 
-
 export default {
   openapi,
   info,

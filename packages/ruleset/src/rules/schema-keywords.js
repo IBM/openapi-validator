@@ -5,7 +5,7 @@
 
 import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 import { allowedKeywords } from '../functions/index.js';
-import spectralFormats from '@stoplight/spectral-formats'
+import spectralFormats from '@stoplight/spectral-formats';
 const { oas3_1 } = spectralFormats;
 
 export const description =

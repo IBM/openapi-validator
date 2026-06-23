@@ -139,13 +139,15 @@ export const operationResponses = operationResponsesModule;
 export const operationSummaryExists = operationSummaryExistsModule;
 export const operationSummaryLength = operationSummaryLengthModule;
 export const optionalRequestBody = optionalRequestBodyModule;
-export const optionalRequestBodyDeprecated = optionalRequestBodyDeprecatedModule;
+export const optionalRequestBodyDeprecated =
+  optionalRequestBodyDeprecatedModule;
 export const paginationStyle = paginationStyleModule;
 export const parameterCasingConvention = parameterCasingConventionModule;
 export const parameterDefault = parameterDefaultModule;
 export const parameterDescriptionExists = parameterDescriptionExistsModule;
 export const parameterOrder = parameterOrderModule;
-export const parameterSchemaOrContentExists = parameterSchemaOrContentExistsModule;
+export const parameterSchemaOrContentExists =
+  parameterSchemaOrContentExistsModule;
 export const patchRequestContentType = patchRequestContentTypeModule;
 export const pathParameterNotCRN = pathParameterNotCRNModule;
 export const pathSegmentCasingConvention = pathSegmentCasingConventionModule;
@@ -154,17 +156,21 @@ export const preconditionHeader = preconditionHeaderModule;
 export const preferTokenPagination = preferTokenPaginationModule;
 export const propertyAttributes = propertyAttributesModule;
 export const propertyCasingConvention = propertyCasingConventionModule;
-export const propertyConsistentNameAndType = propertyConsistentNameAndTypeModule;
+export const propertyConsistentNameAndType =
+  propertyConsistentNameAndTypeModule;
 export const propertyDescriptionExists = propertyDescriptionExistsModule;
 export const propertyNameCollision = propertyNameCollisionModule;
 export const redirectResponseBody = redirectResponseBodyModule;
 export const refPattern = refPatternModule;
-export const refSiblingDuplicateDescription = refSiblingDuplicateDescriptionModule;
+export const refSiblingDuplicateDescription =
+  refSiblingDuplicateDescriptionModule;
 export const requestAndResponseContent = requestAndResponseContentModule;
 export const requestBodyIsObject = requestBodyIsObjectModule;
 export const requestBodyName = requestBodyNameModule;
-export const requiredArrayPropertiesInResponse = requiredArrayPropertiesInResponseModule;
-export const requiredEnumPropertiesInResponse = requiredEnumPropertiesInResponseModule;
+export const requiredArrayPropertiesInResponse =
+  requiredArrayPropertiesInResponseModule;
+export const requiredEnumPropertiesInResponse =
+  requiredEnumPropertiesInResponseModule;
 export const requiredPropertyMissing = requiredPropertyMissingModule;
 export const resourceResponseConsistency = resourceResponseConsistencyModule;
 export const responseExampleExists = responseExampleExistsModule;
@@ -183,7 +189,8 @@ export const summarySentenceStyle = summarySentenceStyleModule;
 export const typedEnum = typedEnumDefault;
 export const unevaluatedProperties = unevaluatedPropertiesModule;
 export const unusedTags = unusedTagsModule;
-export const uniqueParameterRequestPropertyNames = uniqueParameterRequestPropertyNamesModule;
+export const uniqueParameterRequestPropertyNames =
+  uniqueParameterRequestPropertyNamesModule;
 export const useDateBasedFormat = useDateBasedFormatModule;
 export const validPathSegments = validPathSegmentsModule;
 export const validSchemaExample = validSchemaExampleModule;

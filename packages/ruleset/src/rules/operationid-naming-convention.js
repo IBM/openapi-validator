@@ -4,7 +4,7 @@
  */
 
 import { operationIdNamingConvention } from '../functions/index.js';
-import spectralFormats from '@stoplight/spectral-formats'
+import spectralFormats from '@stoplight/spectral-formats';
 const { oas2, oas3 } = spectralFormats;
 
 export const description = 'Operation ids should follow naming convention';
