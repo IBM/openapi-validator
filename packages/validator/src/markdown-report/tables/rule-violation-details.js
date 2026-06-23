@@ -10,16 +10,17 @@ function getTable({ error, warning }) {
     'Rule',
     'Message',
     'Path',
+    'docLink',
     'Line',
     'Severity'
   );
 
-  error.results.forEach(({ message, path, rule, line }) => {
-    table.addRow(rule, message, path.join('.'), line, 'error');
+  error.results.forEach(({ message, path, rule, line, docLink }) => {
+    table.addRow(rule, message, path.join('.'), docLink, line, 'error');
   });
 
-  warning.results.forEach(({ message, path, rule, line }) => {
-    table.addRow(rule, message, path.join('.'), line, 'warning');
+  warning.results.forEach(({ message, path, rule, line, docLink }) => {
+    table.addRow(rule, message, path.join('.'), docLink, line, 'warning');
   });
 
   return table.render();
