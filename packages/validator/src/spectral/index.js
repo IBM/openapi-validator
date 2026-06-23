@@ -87,6 +87,7 @@ function convertResults(spectralResults, { config, logger }) {
       message: r.message,
       path: r.path,
       rule: r.code,
+      docLink: getDocumentationURL(r.code),
       line: r.range.start.line + 1,
     });
 
@@ -223,4 +224,9 @@ function convertSpectralSeverity(s) {
   // we have already guaranteed s to be a number, 0-3
   const mapping = { 0: 'error', 1: 'warning', 2: 'info', 3: 'hint' };
   return mapping[s];
+}
+
+function getDocumentationURL(ruleCode) {
+  const baseUrl = 'https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md';
+  return `${baseUrl}#${ruleCode}`;
 }
