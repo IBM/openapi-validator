@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { schemaIsOfType } = require('../src');
+import { schemaIsOfType } from '../src';
 
 describe('Utility function: schemaIsOfType()', () => {
   describe('Should return true', () => {

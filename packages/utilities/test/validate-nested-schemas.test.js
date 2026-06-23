@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { validateNestedSchemas } = require('../src');
+import { validateNestedSchemas } from '../src';
 
 describe('Utility function: validateNestedSchemas()', () => {
   it('should validate a simple schema by default', async () => {

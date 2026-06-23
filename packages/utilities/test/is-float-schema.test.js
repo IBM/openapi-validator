@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isFloatSchema } = require('../src');
+import { isFloatSchema } from '../src';
 
 describe('Utility function: isFloatSchema()', () => {
   it('should return `false` for `undefined`', async () => {
