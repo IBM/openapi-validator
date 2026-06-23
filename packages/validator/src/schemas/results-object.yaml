@@ -139,6 +139,9 @@ $defs:
       rule:
         type: string
         description: The rule identifier in the Spectral ruleset
+      docLink:
+        type: string
+        description: The documentation link to the problem discovered in the API
       line:
         type: integer
         description: The line number in the original file that the problem
