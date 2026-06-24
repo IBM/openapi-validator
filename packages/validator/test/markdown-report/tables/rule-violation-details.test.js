@@ -11,16 +11,16 @@ describe('ruleViolationDetails table tests', function () {
     const tableRows = ruleViolationDetails(validatorResults).split('\n');
 
     expect(tableRows).toHaveLength(5);
-    expect(tableRows[0]).toBe('| Rule | Message | Path | Line | Severity |');
-    expect(tableRows[1]).toBe('| --- | --- | --- | --- | --- |');
+    expect(tableRows[0]).toBe('| Rule | Message | Path | docLink | Line | Severity |');
+    expect(tableRows[1]).toBe('| --- | --- | --- | --- | --- | --- |');
     expect(tableRows[2]).toBe(
-      '| ibm-no-consecutive-path-parameter-segments | Path contains two or more consecutive path parameter references: /pets/{pet_id}/{id} | paths./pets/{pet_id}/{id} | 84 | error |'
+      '| ibm-no-consecutive-path-parameter-segments | Path contains two or more consecutive path parameter references: /pets/{pet_id}/{id} | paths./pets/{pet_id}/{id} | https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-no-consecutive-path-parameter-segments | 84 | error |'
     );
     expect(tableRows[3]).toBe(
-      "| ibm-integer-attributes | Integer schemas should define property 'minimum' | components.schemas.Pet.properties.id | 133 | error |"
+      "| ibm-integer-attributes | Integer schemas should define property 'minimum' | components.schemas.Pet.properties.id | https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-integer-attributes | 133 | error |"
     );
     expect(tableRows[4]).toBe(
-      "| ibm-anchored-patterns | A regular expression used in a 'pattern' attribute should be anchored with ^ and $ | components.schemas.Error.properties.message.pattern | 233 | warning |"
+      "| ibm-anchored-patterns | A regular expression used in a 'pattern' attribute should be anchored with ^ and $ | components.schemas.Error.properties.message.pattern | https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-anchored-patterns | 233 | warning |"
     );
   });
 });
