@@ -227,6 +227,11 @@ function convertSpectralSeverity(s) {
 }
 
 function getDocumentationURL(ruleCode) {
-  const baseUrl = 'https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md';
-  return `${baseUrl}#${ruleCode}`;
+  if(ruleCode.includes('ibm')) {
+    const baseUrl = 'https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md';
+    return `${baseUrl}#${ruleCode}`;
+  } else {
+    const baseUrl = 'https://meta.stoplight.io/docs/spectral/4dec24461f3af-open-api-rules'
+    return `${baseUrl}#${ruleCode}`
+  }
 }
