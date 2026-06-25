@@ -125,6 +125,7 @@ $defs:
       - message
       - path
       - rule
+      - docLink
       - line
     properties:
       message:
@@ -172,3 +173,4 @@ $defs:
     type: number
     description: A number describing the demerit impact a rule has on an API
     minimum: 0.01
+  
