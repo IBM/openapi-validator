@@ -1,4 +1,10 @@
 export default collections;
+export const parameters: string[];
+export const patchOperations: string[];
+export const paths: string[];
+export const schemas: string[];
+export const securitySchemes: string[];
+export const unresolvedSchemas: string[];
 declare namespace collections {
     export { operations };
     export let parameters: string[];
@@ -16,9 +22,9 @@ declare namespace collections {
  * Copyright 2017 - 2024 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
-declare const operations: string[];
-declare const requestBodySchemas: string[];
-declare const responseSchemas: string[];
-declare const unresolvedRequestBodySchemas: string[];
-declare const unresolvedResponseSchemas: string[];
+export const operations: string[];
+export const requestBodySchemas: string[];
+export const responseSchemas: string[];
+export const unresolvedRequestBodySchemas: string[];
+export const unresolvedResponseSchemas: string[];
 //# sourceMappingURL=index.d.ts.map

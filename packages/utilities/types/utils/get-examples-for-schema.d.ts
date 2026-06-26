@@ -1,4 +1,4 @@
-export = getExamplesForSchema;
+export default getExamplesForSchema;
 /**
  * Returns an array of examples for a simple or composite schema. For each composed schema, if
  * `schema.examples` is present (and an array), `schema.example` is ignored.

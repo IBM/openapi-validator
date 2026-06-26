@@ -1,15 +1,15 @@
 declare const _default: {
-    validateComposedSchemas: typeof import("./validate-composed-schemas").default;
-    validateNestedSchemas: typeof import("./validate-nested-schemas").default;
-    validateSubschemas: typeof import("./validate-subschemas").default;
+    validateComposedSchemas: typeof validateComposedSchemas;
+    validateNestedSchemas: typeof validateNestedSchemas;
+    validateSubschemas: typeof validateSubschemas;
     getNodes: (context: object) => object;
     getResolvedSpec: (context: object) => object;
     getUnresolvedSpec: (context: object) => object;
-    isObject: typeof import("./is-object").default;
-    schemaHasConstraint: typeof import("./schema-has-constraint").default;
-    schemaHasProperty: typeof import("./schema-has-property").default;
-    schemaLooselyHasConstraint: typeof import("./schema-loosely-has-constraint").default;
-    schemaRequiresProperty: typeof import("./schema-requires-property").default;
+    isObject: typeof isObject;
+    schemaHasConstraint: typeof schemaHasConstraint;
+    schemaHasProperty: typeof schemaHasProperty;
+    schemaLooselyHasConstraint: typeof schemaLooselyHasConstraint;
+    schemaRequiresProperty: typeof schemaRequiresProperty;
     SchemaType: {
         ARRAY: symbol;
         BINARY: symbol;
@@ -46,9 +46,20 @@ declare const _default: {
     isPrimitiveSchema: (schema: object) => boolean;
     isStringSchema: (schema: object) => boolean;
     schemaIsOfType: (schema: object, type: string) => boolean;
-    collectFromComposedSchemas: typeof import("./collect-from-composed-schemas").default;
-    getExamplesForSchema: typeof import("./get-examples-for-schema");
-    getPropertyNamesForSchema: typeof import("./get-property-names-for-schema");
+    collectFromComposedSchemas: typeof collectFromComposedSchemas;
+    getExamplesForSchema: typeof getExamplesForSchema;
+    getPropertyNamesForSchema: typeof getPropertyNamesForSchema;
 };
 export default _default;
+import validateComposedSchemas from './validate-composed-schemas.js';
+import validateNestedSchemas from './validate-nested-schemas.js';
+import validateSubschemas from './validate-subschemas.js';
+import isObject from './is-object.js';
+import schemaHasConstraint from './schema-has-constraint.js';
+import schemaHasProperty from './schema-has-property.js';
+import schemaLooselyHasConstraint from './schema-loosely-has-constraint.js';
+import schemaRequiresProperty from './schema-requires-property.js';
+import collectFromComposedSchemas from './collect-from-composed-schemas.js';
+import getExamplesForSchema from './get-examples-for-schema.js';
+import getPropertyNamesForSchema from './get-property-names-for-schema.js';
 //# sourceMappingURL=index.d.ts.map
