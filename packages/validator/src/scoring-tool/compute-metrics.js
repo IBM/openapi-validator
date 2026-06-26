@@ -51,6 +51,4 @@ async function computeMetrics(unresolvedApiDef) {
   return metrics;
 }
 
-export default {
-  computeMetrics,
-};
+export { computeMetrics };

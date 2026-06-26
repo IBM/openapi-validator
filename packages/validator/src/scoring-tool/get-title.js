@@ -27,6 +27,4 @@ function getTitle(apiDef, filename) {
   return title;
 }
 
-export default {
-  getTitle,
-};
+export { getTitle };

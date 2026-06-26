@@ -5,7 +5,10 @@
   "version": "1.33.9",
   "license": "Apache-2.0",
   "private": false,
-  "exports": "./src/ibm-oas.js",
+  "exports": {
+    ".": "./src/ibm-oas.js",
+    "./src/utils": "./src/utils/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/IBM/openapi-validator.git",

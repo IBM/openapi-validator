@@ -3,11 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  testValidator: require('./test-validator'),
-  ...require('./get-captured-text'),
-  ...require('./get-captured-text'),
-  ...require('./get-message-and-path-from-captured-text'),
-  ...require('./strip-ansi'),
-  ...require('./parse-scoring-table'),
-};
+export { default as testValidator } from './test-validator.js';
+export { getCapturedText, getCapturedTextWithColor } from './get-captured-text.js';
+export { getMessageAndPathFromCapturedText } from './get-message-and-path-from-captured-text.js';
+export { stripAnsi } from './strip-ansi.js';
+export { default as parseScoringTable, extractValuesFromTable } from './parse-scoring-table.js';

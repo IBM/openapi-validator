@@ -11,4 +11,4 @@ function printMarkdownReport(context, results) {
   return writeReportToFile(context, report);
 }
 
-export default { printMarkdownReport };
+export { printMarkdownReport };

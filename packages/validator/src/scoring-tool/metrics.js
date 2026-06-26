@@ -192,6 +192,4 @@ class Metrics {
   }
 }
 
-export default {
-  Metrics,
-};
+export { Metrics };

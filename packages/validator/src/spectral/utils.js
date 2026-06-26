@@ -5,10 +5,6 @@
 
 import findUp from 'find-up';
 
-export default {
-  findSpectralRuleset,
-};
-
 /**
  * Checks the user configuration and the file system for local
  * Spectral config file (aka a local ruleset). If not found,
@@ -18,7 +14,7 @@ export default {
  * @param logger - the root logger instance
  * @returns string|null - the path to the local ruleset
  */
-async function findSpectralRuleset(config, logger) {
+export async function findSpectralRuleset(config, logger) {
   // Spectral only supports reading a config file in the working directory,
   // but we support looking up the file path for the nearest file (if one exists).
   let rulesetFileOverride = config.ruleset;

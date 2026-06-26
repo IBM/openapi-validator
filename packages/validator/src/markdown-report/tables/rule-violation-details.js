@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import MarkdownTable from '../markdown-table';
+import MarkdownTable from '../markdown-table.js';
 
 function getTable({ error, warning }) {
   const table = new MarkdownTable(

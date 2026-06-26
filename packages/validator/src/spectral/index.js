@@ -6,7 +6,7 @@
 import { Document, Spectral } from '@stoplight/spectral-core';
 import { Json, Yaml } from '@stoplight/spectral-parsers';
 import { getRuleset } from '@stoplight/spectral-cli/dist/services/linter/utils/getRuleset';
-import ibmRuleset from '@ibm-cloud/openapi-ruleset';
+import * as ibmRuleset from '@ibm-cloud/openapi-ruleset';
 
 import {
   checkRulesetVersion,
@@ -160,9 +160,7 @@ async function setup({ config, logger }) {
   return spectral;
 }
 
-export default {
-  runSpectral,
-};
+export { runSpectral };
 
 function checkGetRulesetError(logger, error, file) {
   const isAggregateError = error instanceof AggregateError;

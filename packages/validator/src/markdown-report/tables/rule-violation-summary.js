@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import MarkdownTable from '../markdown-table';
+import MarkdownTable from '../markdown-table.js';
 
 function errorSummary({ error }) {
   return getTable(error);
@@ -23,7 +23,4 @@ function getTable({ summary }) {
   return table.render();
 }
 
-export default {
-  errorSummary,
-  warningSummary,
-};
+export { errorSummary, warningSummary };

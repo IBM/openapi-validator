@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { readFile } = require('node:fs/promises');
-const readYaml = require('js-yaml');
-const { computeMetrics } = require('../../src/scoring-tool/compute-metrics');
-const rubric = require('../../src/scoring-tool/rubric');
+import { readFile } from 'node:fs/promises';
+import { load } from 'js-yaml';
+import { computeMetrics } from '../../src/scoring-tool/compute-metrics';
+import rubric from '../../src/scoring-tool/rubric';
 
 describe('scoring-tool compute-metrics tests', function () {
   let metrics;
@@ -14,7 +14,7 @@ describe('scoring-tool compute-metrics tests', function () {
   beforeAll(async function () {
     const fileToTest = `${__dirname}/../cli-validator/mock-files/oas3/clean.yml`;
     const contents = await readFile(fileToTest, { encoding: 'utf8' });
-    const apiDef = readYaml.load(contents);
+    const apiDef = load(contents);
     metrics = await computeMetrics(apiDef);
   });
 

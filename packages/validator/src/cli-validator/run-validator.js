@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import chalk, { underline } from 'chalk';
+import chalk from 'chalk';
 import { readFile as _readFile } from 'fs';
 import globby from 'globby';
 import isPlainObject from 'lodash/isPlainObject.js';
@@ -84,10 +84,10 @@ async function runValidator(cliArgs, parseOptions = {}) {
     return Promise.reject(2);
   }
 
-  // Turn off coloring if requested.
-  if (!context.config.colorizeOutput) {
-    chalk.level = 0;
-  }
+  // Set color level based on the config. Reset to the default (3) when
+  // colorization is enabled so that a previous `chalk.level = 0` assignment
+  // (e.g. from a prior test run) doesn't bleed into subsequent invocations.
+  chalk.level = context.config.colorizeOutput ? 3 : 0;
 
   context.chalk = chalk;
 
@@ -192,7 +192,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
     if (!outputIsJSON(context)) {
       console.log('');
-      console.log(underline(`Validation Results for ${validFile}:\n`));
+      console.log(context.chalk.underline(`Validation Results for ${validFile}:\n`));
     }
     try {
       originalFile = await readFile(validFile, 'utf8');

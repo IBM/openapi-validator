@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { version } from '../../../package.json';
+import packageJson from '../../../package.json' with { type: 'json' };
 
 export default function () {
-  return `validator: ${version}`;
+  return `validator: ${packageJson.version}`;
 }

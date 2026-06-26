@@ -5,8 +5,7 @@
 
 import { printCategorizedScoresTable, printScoringDataTable } from './output.js';
 import { scoreResults } from './score.js';
-import computeMetricsModule from './compute-metrics.js';
-const { computeMetrics } = computeMetricsModule;
+import { computeMetrics } from './compute-metrics.js';
 
 async function produceQualityScore(
   validatorResults,
@@ -30,7 +29,4 @@ function printScoreTables({ config }, { qualityScore }) {
   console.log();
 }
 
-export default {
-  produceQualityScore,
-  printScoreTables,
-};
+export { produceQualityScore, printScoreTables };

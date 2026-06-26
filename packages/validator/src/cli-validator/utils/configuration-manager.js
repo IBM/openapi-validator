@@ -3,6 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+import { readFileSync } from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import {
@@ -77,7 +78,11 @@ async function loadConfig(filename) {
       const extension = getFileExtension(configFile);
       try {
         switch (extension) {
-          case 'json':
+          case 'json': {
+            userConfig = JSON.parse(readFileSync(configFile, 'utf8'));
+            break;
+          }
+
           case 'js': {
             userConfig =
               (await import(configFile)).default || (await import(configFile));

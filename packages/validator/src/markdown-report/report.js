@@ -3,15 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import tables from './tables/index.js';
-const {
+import {
   categorizedScores,
   primary,
   ruleViolationDetails,
   errorSummary,
   scoringData,
   warningSummary,
-} = tables;
+} from './tables/index.js';
 
 function getReport({ apiDefinition }, results) {
   return `# ${apiDefinition.info.title}

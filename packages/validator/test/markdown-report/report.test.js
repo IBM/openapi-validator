@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const getReport = require('../../src/markdown-report/report');
-const validatorResults = require('../test-utils/mock-json-output.json');
+import getReport from '../../src/markdown-report/report';
+import validatorResults from '../test-utils/mock-json-output.json';
 
 describe('getReport tests', function () {
   it('should create a markdown report from the results', function () {

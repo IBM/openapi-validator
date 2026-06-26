@@ -4,7 +4,7 @@
  */
 
 import { vi } from 'vitest';
-import MarkdownTable from '../../src/markdown-report/markdown-table';
+import MarkdownTable from '../../src/markdown-report/markdown-table.js';
 
 describe('MarkdownTable tests', function () {
   it('constructor creates new instance of MarkdownTable', function () {

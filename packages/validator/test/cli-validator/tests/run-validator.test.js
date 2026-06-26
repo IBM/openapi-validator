@@ -103,7 +103,8 @@ describe('run-validator tests', function () {
     const allOutput = capturedText.join('');
 
     expect(allOutput).toMatch(/Unable to load config file/);
-    expect(allOutput).toMatch(/SyntaxError: Unexpected token/);
+    expect(allOutput).toMatch(/SyntaxError: /);
+    expect(allOutput).toMatch(/: Unexpected token/);
     expect(allOutput).toMatch(/validator will use a default config/);
   });
 });

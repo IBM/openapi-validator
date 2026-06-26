@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { dependencies } from '../../../package.json';
+import packageJson from '../../../package.json' with { type: 'json' };
 
 export default getDefaultRulesetVersion;
 
@@ -16,5 +16,5 @@ export default getDefaultRulesetVersion;
  * @returns string - the default ruleset version
  */
 function getDefaultRulesetVersion() {
-  return dependencies['@ibm-cloud/openapi-ruleset'];
+  return packageJson.dependencies['@ibm-cloud/openapi-ruleset'];
 }

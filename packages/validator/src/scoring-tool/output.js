@@ -4,8 +4,7 @@
  */
 
 import { Table } from 'console-table-printer';
-import categoriesModule from './categories.js';
-const { getCategories } = categoriesModule;
+import { getCategories } from './categories.js';
 
 // Print out a table summarizing the max score for each category.
 // category | max score
@@ -57,7 +56,7 @@ function printScoringDataTable({ scoringData }) {
   table.printTable();
 }
 
-export default {
+export {
   printCategorizedScoresTable,
   printScoringDataTable,
 };
