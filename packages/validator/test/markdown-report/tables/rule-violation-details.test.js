@@ -12,7 +12,7 @@ describe('ruleViolationDetails table tests', function () {
     const lines = output.split('\n');
 
     // Errors heading
-    expect(lines[0]).toBe('## Errors');
+    expect(lines[0]).toBe('### Errors');
     expect(lines[1]).toBe('');
 
     // 3-col table
@@ -46,7 +46,7 @@ describe('ruleViolationDetails table tests', function () {
     expect(lines[17]).toBe('');
 
     // Warnings heading
-    expect(lines[18]).toBe('## Warnings');
+    expect(lines[18]).toBe('### Warnings');
     expect(lines[19]).toBe('');
 
     // 2-col table
@@ -81,8 +81,8 @@ describe('ruleViolationDetails table tests', function () {
       warning: { results: [] },
     };
     const output = ruleViolationDetails(errorsOnly);
-    expect(output).toContain('## Errors');
-    expect(output).not.toContain('## Warnings');
+    expect(output).toContain('### Errors');
+    expect(output).not.toContain('### Warnings');
   });
 
   it('should only render the Warnings section when there are no errors', function () {
@@ -91,8 +91,8 @@ describe('ruleViolationDetails table tests', function () {
       warning: { results: validatorResults.warning.results },
     };
     const output = ruleViolationDetails(warningsOnly);
-    expect(output).not.toContain('## Errors');
-    expect(output).toContain('## Warnings');
+    expect(output).not.toContain('### Errors');
+    expect(output).toContain('### Warnings');
   });
 
   it('should deduplicate violations with the same line and path', function () {
