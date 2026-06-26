@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { getCategories, getCategoryCoefficient } from '../../src/scoring-tool/categories';
+import {
+  getCategories,
+  getCategoryCoefficient,
+} from '../../src/scoring-tool/categories';
 
 describe('scoring-tool categories tests', function () {
   it('should return the list of supported categories', function () {

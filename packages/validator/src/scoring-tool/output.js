@@ -56,7 +56,4 @@ function printScoringDataTable({ scoringData }) {
   table.printTable();
 }
 
-export {
-  printCategorizedScoresTable,
-  printScoringDataTable,
-};
+export { printCategorizedScoresTable, printScoringDataTable };

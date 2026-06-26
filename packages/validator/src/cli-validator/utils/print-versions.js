@@ -9,8 +9,6 @@ import getVersionString from './get-version-string.js';
 import checkRulesetVersion from './check-ruleset-version.js';
 import { findSpectralRuleset } from '../../spectral/utils.js';
 
-export default printVersions;
-
 /**
  * Prints the "version" strings upon request. It always
  * includes the semantic version of the validator tool
@@ -92,3 +90,5 @@ async function collectVersionInfo({ config, logger }) {
 
   return versionInfo;
 }
+
+export default printVersions;

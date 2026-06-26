@@ -5,11 +5,13 @@
 
 import { stripAnsi } from './strip-ansi';
 
-export function getCapturedText(callsToLog)
-  {   return formatCapturedText(callsToLog, false);   }
+export function getCapturedText(callsToLog) {
+  return formatCapturedText(callsToLog, false);
+}
 
-export function getCapturedTextWithColor(callsToLog)
-  {   return formatCapturedText(callsToLog, true);   }
+export function getCapturedTextWithColor(callsToLog) {
+  return formatCapturedText(callsToLog, true);
+}
 
 function formatCapturedText(callsToLog, preserveColors) {
   return callsToLog.map(args => {

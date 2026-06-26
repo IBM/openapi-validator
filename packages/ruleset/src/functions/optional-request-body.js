@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { getCompositeSchemaAttribute } from '../utils/index.js';
-import { LoggerFactory } from '../utils/index.js';
+import { getCompositeSchemaAttribute, LoggerFactory } from '../utils/index.js';
 
 const oldRuleId = 'ibm-no-optional-properties-in-required-body';
 const newRuleId = 'ibm-no-required-properties-in-optional-body';

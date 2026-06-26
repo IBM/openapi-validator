@@ -192,7 +192,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
     if (!outputIsJSON(context)) {
       console.log('');
-      console.log(context.chalk.underline(`Validation Results for ${validFile}:\n`));
+      console.log(
+        context.chalk.underline(`Validation Results for ${validFile}:\n`)
+      );
     }
     try {
       originalFile = await readFile(validFile, 'utf8');

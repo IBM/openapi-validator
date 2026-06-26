@@ -163,4 +163,3 @@ export function computeOverallScore(demeritSum) {
 function includeDecimals(value, number) {
   return parseFloat(value.toFixed(number));
 }
-

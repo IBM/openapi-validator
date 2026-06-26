@@ -7,7 +7,8 @@
 const openapi = '3.0.2';
 const info = {
   title: 'Subschema examples',
-  description: 'A collection of schemas with various kinds of subschemas for testing.',
+  description:
+    'A collection of schemas with various kinds of subschemas for testing.',
   version: '0.0.1',
   contact: {
     email: 'example@example.com',
@@ -134,7 +135,8 @@ const components = {
     },
     PropertySchema: {
       type: 'string',
-      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithPropertySchema`.',
+      description:
+        'This schema is reachable from `EveryFlavor` and `SchemaWithPropertySchema`.',
     },
     SchemaWithAdditionalPropertiesSchema: {
       type: 'object',
@@ -144,7 +146,8 @@ const components = {
     },
     AdditionalPropertiesSchema: {
       type: 'string',
-      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithAdditionalPropertiesSchema`.',
+      description:
+        'This schema is reachable from `EveryFlavor` and `SchemaWithAdditionalPropertiesSchema`.',
     },
     SchemaWithItemsSchema: {
       type: 'array',
@@ -154,7 +157,8 @@ const components = {
     },
     ItemsSchema: {
       type: 'string',
-      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithItemsSchema`.',
+      description:
+        'This schema is reachable from `EveryFlavor` and `SchemaWithItemsSchema`.',
     },
     SchemaWithAllOfSchema: {
       type: 'string',
@@ -166,7 +170,8 @@ const components = {
     },
     AllOfSchema: {
       type: 'string',
-      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithAllOfSchema`.',
+      description:
+        'This schema is reachable from `EveryFlavor` and `SchemaWithAllOfSchema`.',
     },
     SchemaWithOneOfSchema: {
       type: 'string',
@@ -178,7 +183,8 @@ const components = {
     },
     OneOfSchema: {
       type: 'string',
-      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithOneOfSchema`.',
+      description:
+        'This schema is reachable from `EveryFlavor` and `SchemaWithOneOfSchema`.',
     },
     SchemaWithAnyOfSchema: {
       type: 'string',
@@ -190,7 +196,8 @@ const components = {
     },
     AnyOfSchema: {
       type: 'string',
-      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithAnyOfSchema`.',
+      description:
+        'This schema is reachable from `EveryFlavor` and `SchemaWithAnyOfSchema`.',
     },
     SchemaWithNotSchema: {
       type: 'string',
@@ -200,7 +207,8 @@ const components = {
     },
     NotSchema: {
       type: 'string',
-      description: 'This schema is reachable from `EveryFlavor` and `SchemaWithNotSchema`.',
+      description:
+        'This schema is reachable from `EveryFlavor` and `SchemaWithNotSchema`.',
     },
   },
 };

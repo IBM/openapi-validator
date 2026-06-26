@@ -22,7 +22,7 @@ export default [
     ...prettier,
     files: ['**/*.js'],
     languageOptions: {
-      ecmaVersion: 13,
+      ecmaVersion: 2025,
       sourceType: 'module',
       globals: {
         ...globals.node,

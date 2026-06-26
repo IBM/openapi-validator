@@ -85,5 +85,3 @@ export const {
   getRequestBodySchemaForOperation,
   getCanonicalSchemaForPath,
 } = schemaFindingUtils;
-
-// Made with Bob

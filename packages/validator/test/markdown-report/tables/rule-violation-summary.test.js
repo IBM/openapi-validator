@@ -3,7 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { errorSummary, warningSummary } from '../../../src/markdown-report/tables';
+import {
+  errorSummary,
+  warningSummary,
+} from '../../../src/markdown-report/tables';
 import validatorResults from '../../test-utils/mock-json-output.json';
 
 describe('ruleViolationSummary table tests', function () {

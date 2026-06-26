@@ -11,16 +11,6 @@ import rootDocument from './root-document.js';
 import * as severityCodes from './severity-codes.js';
 import helperArtifacts from './helper-artifacts.js';
 
-export default {
-  allSchemasDocument,
-  makeCopy,
-  rootDocument,
-  testRule,
-  unitTestRule,
-  severityCodes,
-  helperArtifacts,
-};
-
 export {
   allSchemasDocument,
   makeCopy,
