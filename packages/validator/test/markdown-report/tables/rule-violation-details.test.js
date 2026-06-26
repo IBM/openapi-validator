@@ -118,9 +118,7 @@ describe('ruleViolationDetails table tests', function () {
       warning: { results: [] },
     };
     const output = ruleViolationDetails(duplicate);
-    const dataRows = output
-      .split('\n')
-      .filter(l => l.startsWith('| 10 |'));
+    const dataRows = output.split('\n').filter(l => l.startsWith('| 10 |'));
     expect(dataRows).toHaveLength(1);
   });
 
