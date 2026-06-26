@@ -12,7 +12,7 @@ import {
   checkRulesetVersion,
   getFileExtension,
   getLocalRulesetVersion,
-} from '../cli-validator/utils';
+} from '../cli-validator/utils/index.js';
 
 import { findSpectralRuleset } from './utils.js';
 
