@@ -32,9 +32,11 @@ function groupResultsByRule(results) {
 
     const pathStr = result.path.join('.');
 
-    if (!groupedByRule[result.rule].violations.some(
+    if (
+      !groupedByRule[result.rule].violations.some(
         v => v.line === result.line && v.path === pathStr
-      )) {
+      )
+    ) {
       groupedByRule[result.rule].violations.push({
         line: result.line,
         path: pathStr,
