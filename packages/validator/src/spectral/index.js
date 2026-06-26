@@ -3,11 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import { Document, Spectral } from '@stoplight/spectral-core';
-import pkg from '@stoplight/spectral-parsers';
+import SpectralCore from '@stoplight/spectral-core';
+import SpectralParsers from '@stoplight/spectral-parsers';
 import { getRuleset } from '@stoplight/spectral-cli/dist/services/linter/utils/getRuleset.js';
 import * as ibmRuleset from '@ibm-cloud/openapi-ruleset';
-const { Json, Yaml } = pkg;
+const { Json, Yaml } = SpectralParsers;
+const { Document, Spectral } = SpectralCore;
+
 
 import {
   checkRulesetVersion,

@@ -4,7 +4,8 @@
  */
 
 // NOTE: Duplicated from ruleset package. Need to revisit
-import { Spectral } from '@stoplight/spectral-core';
+import SpectralCore from '@stoplight/spectral-core';
+const { Spectral } = SpectralCore;
 
 export default async (rule, doc) => {
   const spectral = new Spectral();

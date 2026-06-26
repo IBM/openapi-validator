@@ -4,8 +4,8 @@
  */
 
 import { gte, satisfies } from 'semver';
-import pkg from 'chalk';
-const { red, yellow } = pkg;
+import chalk from 'chalk';
+const { red, yellow } = chalk;
 
 // this module can be used to handle any version-specific functionality
 // it will be called immediately when the program is run
