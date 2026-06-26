@@ -84,7 +84,7 @@ function getTable({ error, warning }) {
 
   // Process errors
   if (error.results.length > 0) {
-    sections.push('## Errors');
+    sections.push('### Errors');
     sections.push('');
     const errorGroups = groupResultsByRule(error.results);
     sections.push(renderRuleGroups(errorGroups));
@@ -92,7 +92,7 @@ function getTable({ error, warning }) {
 
   // Process warnings
   if (warning.results.length > 0) {
-    sections.push('## Warnings');
+    sections.push('### Warnings');
     sections.push('');
     const warningGroups = groupResultsByRule(warning.results);
     sections.push(renderRuleGroups(warningGroups));
