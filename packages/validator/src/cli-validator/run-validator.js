@@ -24,9 +24,9 @@ import {
   supportedFileExtension,
 } from './utils/index.js';
 
-import { runSpectral } from '../spectral';
-import { produceQualityScore, printScoreTables } from '../scoring-tool';
-import { printMarkdownReport } from '../markdown-report';
+import { runSpectral } from '../spectral/index.js';
+import { produceQualityScore, printScoreTables } from '../scoring-tool/index.js';
+import { printMarkdownReport } from '../markdown-report/index.js';
 
 let logger;
 
