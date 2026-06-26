@@ -4,9 +4,10 @@
  */
 
 import { Document, Spectral } from '@stoplight/spectral-core';
-import { Json, Yaml } from '@stoplight/spectral-parsers';
+import pkg from '@stoplight/spectral-parsers';
 import { getRuleset } from '@stoplight/spectral-cli/dist/services/linter/utils/getRuleset.js';
 import * as ibmRuleset from '@ibm-cloud/openapi-ruleset';
+const { Json, Yaml } = pkg;
 
 import {
   checkRulesetVersion,
