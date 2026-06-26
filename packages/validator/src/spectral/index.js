@@ -10,7 +10,6 @@ import * as ibmRuleset from '@ibm-cloud/openapi-ruleset';
 const { Json, Yaml } = SpectralParsers;
 const { Document, Spectral } = SpectralCore;
 
-
 import {
   checkRulesetVersion,
   getFileExtension,
