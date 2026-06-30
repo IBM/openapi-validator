@@ -55,7 +55,6 @@ function checkSchemaExamples(schema, path) {
 function validateExamples(examples) {
   return examples
     .map(({ schema, example, path }) => {
-
       // If the spec includes circular references, there may be unresolved
       // references in the schema. The JSON Schema validator needs to be
       // able to look those up, so include all of the components in the schema.
