@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.11](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.10...@ibm-cloud/openapi-ruleset@1.33.11) (2026-07-03)
+
+
+### Bug Fixes
+
+* resolve ReDoS vulnerability in casing convention rules ([#825](https://github.com/IBM/openapi-validator/issues/825)) ([30d9a51](https://github.com/IBM/openapi-validator/commit/30d9a513ca77e73a45f83810328042d21dc5f2c4))
+
 ## @ibm-cloud/openapi-ruleset [1.33.10](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.9...@ibm-cloud/openapi-ruleset@1.33.10) (2026-05-20)
 
 
