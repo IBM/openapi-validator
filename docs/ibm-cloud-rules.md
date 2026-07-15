@@ -779,8 +779,7 @@ npm install @ibm-cloud/openapi-ruleset
 If you would simply like to modify a rule's severity or disable a rule altogether,
 follow the instructions in this section.
 
-> [!CAUTION]
-> Disabling certain rules may lead to false negatives for problems identified by other rules.
+> **Caution:** Disabling certain rules may lead to false negatives for problems identified by other rules.
 >
 > For example, if you disable the `ibm-schema-type-format` rule, other rules which detect problems
 > in schemas with specific combinations of `type` and `format` may fail to identify which schemas
@@ -900,6 +899,7 @@ This section provides reference documentation about the IBM Cloud Validation Rul
 in the `@ibm-cloud/openapi-ruleset` package.
 
 ### ibm-accept-and-return-models
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -959,6 +959,7 @@ requestBody:
 </table>
 
 ### ibm-anchored-patterns
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1013,6 +1014,7 @@ components:
 </table>
 
 ### ibm-api-symmetry
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1120,6 +1122,7 @@ paths:
 
 
 ### ibm-array-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1173,6 +1176,7 @@ components:
 
 
 ### ibm-avoid-inline-schemas
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1299,6 +1303,7 @@ paths:
 
 
 ### ibm-avoid-multiple-types
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1366,6 +1371,7 @@ components:
 
 
 ### ibm-avoid-property-name-collision
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1422,6 +1428,7 @@ components:
 
 
 ### ibm-avoid-repeating-path-parameters
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1491,6 +1498,7 @@ paths:
 
 
 ### ibm-binary-schemas
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1557,6 +1565,7 @@ paths:
 
 
 ### ibm-collection-array-property
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1638,6 +1647,7 @@ paths:
 
 
 ### ibm-content-contains-schema
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1687,6 +1697,7 @@ responses:
 
 
 ### ibm-content-type-is-specific
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1735,6 +1746,7 @@ requestBody:
 
 
 ### ibm-define-required-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1800,6 +1812,7 @@ components:
 
 
 ### ibm-discriminator-property
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1870,6 +1883,7 @@ components:
 
 
 ### ibm-dont-require-merge-patch-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1950,6 +1964,7 @@ components:
 
 
 ### ibm-enum-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2025,6 +2040,7 @@ components:
 
 
 ### ibm-error-content-type-is-json
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2073,6 +2089,7 @@ responses:
 
 
 ### ibm-error-response-schemas
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2224,6 +2241,7 @@ components:
 
 
 ### ibm-etag-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2333,6 +2351,7 @@ paths:
 
 
 ### ibm-integer-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2391,6 +2410,7 @@ components:
 
 
 ### ibm-major-version-in-path
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2443,6 +2463,7 @@ paths:
 
 
 ### ibm-no-accept-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2508,6 +2529,7 @@ paths:
 
 
 ### ibm-no-ambiguous-paths
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2575,6 +2597,7 @@ paths:
 
 
 ### ibm-no-array-of-arrays
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2626,6 +2649,7 @@ requestBody:
 
 
 ### ibm-no-array-responses
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2696,6 +2720,7 @@ sample response body:
 
 
 ### ibm-no-authorization-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2780,6 +2805,7 @@ paths:
 
 
 ### ibm-no-body-for-delete
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2841,6 +2867,7 @@ paths:
 
 
 ### ibm-no-circular-refs
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2909,6 +2936,7 @@ components:
 
 
 ### ibm-no-consecutive-path-parameter-segments
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2963,6 +2991,7 @@ paths:
 
 
 ### ibm-no-content-type-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3038,6 +3067,7 @@ paths:
 
 
 ### ibm-no-crn-path-parameters
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3128,6 +3158,7 @@ components:
 
 
 ### ibm-no-default-for-required-parameter
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3188,6 +3219,7 @@ components:
 
 
 ### ibm-no-duplicate-description-with-ref-sibling
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3338,6 +3370,7 @@ components:
 
 
 ### ibm-no-if-modified-since-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3422,6 +3455,7 @@ paths:
 
 
 ### ibm-no-if-unmodified-since-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3498,6 +3532,7 @@ paths:
 
 
 ### ibm-no-nullable-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3627,6 +3662,7 @@ paths:
 
 
 ### ibm-no-operation-requestbody
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3729,6 +3765,7 @@ paths:
 
 
 ### ibm-no-optional-properties-in-required-body
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3790,6 +3827,7 @@ paths:
 
 
 ### ibm-no-ref-in-example
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3850,6 +3888,7 @@ paths:
 
 
 ### ibm-no-required-properties-in-optional-body
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3909,6 +3948,7 @@ paths:
 
 
 ### ibm-no-space-in-example-name
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3978,6 +4018,7 @@ paths:
 
 
 ### ibm-no-superfluous-allof
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4026,6 +4067,7 @@ components:
 
 
 ### ibm-no-unsupported-keywords
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4096,6 +4138,7 @@ info:
 
 
 ### ibm-openapi-tags-used
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4157,6 +4200,7 @@ paths:
 
 
 ### ibm-operation-responses
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4213,6 +4257,7 @@ paths:
 
 
 ### ibm-operation-summary
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4260,6 +4305,7 @@ paths:
 
 
 ### ibm-operation-summary-length
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4309,6 +4355,7 @@ paths:
 
 
 ### ibm-operationid-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4377,6 +4424,7 @@ paths:
 
 
 ### ibm-operationid-naming-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4467,6 +4515,7 @@ paths:
 
 
 ### ibm-pagination-style
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4551,6 +4600,7 @@ n/a
 
 
 ### ibm-parameter-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4677,6 +4727,7 @@ components:
 
 
 ### ibm-parameter-description
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4737,6 +4788,7 @@ components:
 
 
 ### ibm-parameter-order
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4818,6 +4870,7 @@ paths:
 
 
 ### ibm-parameter-schema-or-content
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4863,6 +4916,7 @@ parameters:
 
 
 ### ibm-patch-request-content-type
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4932,6 +4986,7 @@ paths:
 
 
 ### ibm-path-segment-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4987,6 +5042,7 @@ paths:
 
 
 ### ibm-pattern-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5056,6 +5112,7 @@ components:
 
 
 ### ibm-precondition-headers
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5131,6 +5188,7 @@ paths:
 
 
 ### ibm-prefer-token-pagination
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5231,6 +5289,7 @@ paths:
 
 
 ### ibm-property-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5309,6 +5368,7 @@ components:
 
 
 ### ibm-property-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5387,6 +5447,7 @@ components:
 
 
 ### ibm-property-consistent-name-and-type
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5454,6 +5515,7 @@ components:
 
 
 ### ibm-property-description
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5509,6 +5571,7 @@ components:
 
 
 ### ibm-redirect-response-body
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5592,6 +5655,7 @@ paths:
 
 
 ### ibm-ref-pattern
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5674,6 +5738,7 @@ components:
 
 
 ### ibm-request-and-response-content
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5718,6 +5783,7 @@ responses:
 
 
 ### ibm-requestbody-is-object
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5766,6 +5832,7 @@ requestBody:
 
 
 ### ibm-requestbody-name
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5833,6 +5900,7 @@ paths:
 
 
 ### ibm-required-array-properties-in-response
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5913,6 +5981,7 @@ components:
 
 
 ### ibm-required-enum-properties-in-response
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6008,6 +6077,7 @@ components:
 
 
 ### ibm-resource-response-consistency
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6091,6 +6161,7 @@ paths:
 
 
 ### ibm-response-status-codes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6214,6 +6285,7 @@ paths:
 
 
 ### ibm-schema-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6289,6 +6361,7 @@ components:
 
 
 ### ibm-schema-description
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6339,6 +6412,7 @@ components:
 
 
 ### ibm-schema-keywords
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6490,6 +6564,7 @@ components:
 
 
 ### ibm-schema-naming-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6561,6 +6636,7 @@ paths:
 
 
 ### ibm-schema-type
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6611,6 +6687,7 @@ components:
 
 
 ### ibm-schema-type-format
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6704,6 +6781,7 @@ components:
 
 
 ### ibm-sdk-operations
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6739,6 +6817,7 @@ n/a
 
 
 ### ibm-securityscheme-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6845,6 +6924,7 @@ components:
 
 
 ### ibm-securityschemes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6922,6 +7002,7 @@ components:
 
 
 ### ibm-server-variable-default-value
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6974,6 +7055,7 @@ servers:
 
 
 ### ibm-string-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7046,6 +7128,7 @@ components:
 
 
 ### ibm-success-response-example
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7107,6 +7190,7 @@ responses:
 
 
 ### ibm-summary-sentence-style
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7155,6 +7239,7 @@ paths:
 
 
 ### ibm-unevaluated-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7215,6 +7300,7 @@ components:
 
 
 ### ibm-unique-parameter-request-property-names
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7332,6 +7418,7 @@ paths:
 
 
 ### ibm-use-date-based-format
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7392,6 +7479,7 @@ Resource
 
 
 ### ibm-valid-path-segments
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7445,6 +7533,7 @@ paths:
 
 
 ### ibm-valid-schema-example
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7492,6 +7581,7 @@ components:
 
 
 ### ibm-well-defined-dictionaries
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
