@@ -7,7 +7,7 @@ import { validate } from 'jsonschema';
 import {
   validateSubschemas,
   getResolvedSpec,
-} from "@ibm-cloud/openapi-ruleset-utilities";
+} from '@ibm-cloud/openapi-ruleset-utilities';
 import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
