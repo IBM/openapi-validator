@@ -4,11 +4,15 @@
  */
 
 const { validate } = require('jsonschema');
-const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { nestedSchemaKeys, LoggerFactory } = require('../utils');
+const {
+  validateSubschemas,
+  getResolvedSpec,
+} = require('@ibm-cloud/openapi-ruleset-utilities');
+const { LoggerFactory } = require('../utils');
 
 let ruleId;
 let logger;
+let openapi;
 
 module.exports = function (schema, _opts, context) {
   if (!logger) {
@@ -16,6 +20,7 @@ module.exports = function (schema, _opts, context) {
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
+  openapi = getResolvedSpec(context);
   return validateSubschemas(schema, context.path, checkSchemaExamples);
 };
 
@@ -50,18 +55,19 @@ function checkSchemaExamples(schema, path) {
 function validateExamples(examples) {
   return examples
     .map(({ schema, example, path }) => {
-      if (hasUnresolvedRefs(schema)) {
-        logger.debug(
-          `Skipping example validation at path ${path.join('.')}: schema contains unresolved $ref references`
-        );
-        // Skip validation for schemas with unresolved references.
-        return undefined;
-      }
-
+      // If the spec includes circular references, there may be unresolved
+      // references in the schema. The JSON Schema validator needs to be
+      // able to look those up, so include all of the components in the schema.
+      const schemaWithComponents = {
+        ...schema,
+        components: openapi.components,
+      };
       // Setting required: true prevents undefined values from passing validation.
-      const { valid, errors } = validate(example, schema, { required: true });
+      const { valid, errors } = validate(example, schemaWithComponents, {
+        required: true,
+      });
       if (!valid) {
-        const message = getMessage(errors, example, schema);
+        const message = getMessage(errors, example, schemaWithComponents);
         return {
           message: `Schema example is not valid: ${message}`,
           path,
@@ -69,45 +75,6 @@ function validateExamples(examples) {
       }
     })
     .filter(e => isDefined(e));
-}
-
-/**
- * Recursively checks if a schema or any of its nested schemas contain unresolved $ref references.
- * @param {object} schema - The schema to check
- * @returns {boolean} - True if the schema contains unresolved $ref references
- */
-function hasUnresolvedRefs(schema) {
-  if (!schema || typeof schema !== 'object') {
-    return false;
-  }
-
-  if (schema.$ref) {
-    return true;
-  }
-
-  // Recursively check nested schemas in common locations.
-  for (const key of nestedSchemaKeys) {
-    if (schema[key]) {
-      if (Array.isArray(schema[key])) {
-        // Check each item in arrays (allOf, anyOf, oneOf).
-        if (schema[key].some(item => hasUnresolvedRefs(item))) {
-          return true;
-        }
-      } else if (key === 'properties') {
-        // Check each property in properties object.
-        if (Object.values(schema[key]).some(prop => hasUnresolvedRefs(prop))) {
-          return true;
-        }
-      } else {
-        // Check single nested schema (items, additionalProperties, not).
-        if (hasUnresolvedRefs(schema[key])) {
-          return true;
-        }
-      }
-    }
-  }
-
-  return false;
 }
 
 function isDefined(x) {
