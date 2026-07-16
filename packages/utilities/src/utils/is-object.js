@@ -12,4 +12,4 @@ function isObject(thing) {
   return typeof thing === 'object' && thing !== null && !Array.isArray(thing);
 }
 
-module.exports = isObject;
+export default isObject;

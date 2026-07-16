@@ -3,14 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { collectionArrayProperty } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
-const { LoggerFactory } = require('../../src/utils');
+import { collectionArrayProperty } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
+import { LoggerFactory } from '../../src/utils';
 
 const rule = collectionArrayProperty;
 const ruleId = 'ibm-collection-array-property';
@@ -37,7 +32,7 @@ describe(`Spectral rule: ${ruleId}`, () => {
       };
 
       const logger = LoggerFactory.getInstance().getLogger(ruleId);
-      const debugSpy = jest.spyOn(logger, 'error').mockImplementation(() => {});
+      const debugSpy = vi.spyOn(logger, 'error').mockImplementation(() => {});
 
       const results = await testRule(ruleId, rule, testDocument);
 

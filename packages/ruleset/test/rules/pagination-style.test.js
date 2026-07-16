@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { paginationStyle } = require('../../src/rules');
-const {
+import { paginationStyle } from '../../src/rules';
+import {
   makeCopy,
   rootDocument,
   testRule,
   severityCodes,
   helperArtifacts,
-} = require('../test-utils');
+} from '../test-utils';
 
 // These are pre-defined objects with correct style for offset/limit pagination
 // to use as a baseline. They aren't used in the root document because overall,

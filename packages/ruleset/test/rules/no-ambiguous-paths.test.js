@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
-const { noAmbiguousPaths } = require('../../src/rules');
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
+import { noAmbiguousPaths } from '../../src/rules';
 
 const rule = noAmbiguousPaths;
 const ruleId = 'ibm-no-ambiguous-paths';

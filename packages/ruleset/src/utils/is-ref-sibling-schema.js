@@ -98,4 +98,4 @@ function containsOnlySupportedAttributes(schema) {
   return true;
 }
 
-module.exports = isRefSiblingSchema;
+export default isRefSiblingSchema;

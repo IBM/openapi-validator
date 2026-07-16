@@ -3,21 +3,21 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   responseSchemas,
   requestBodySchemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { acceptAndReturnModels } = require('../functions');
+} from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import acceptAndReturnModels from '../functions/accept-and-return-models.js';
 
-module.exports = {
-  description: 'Request and response bodies must be defined as model instances',
-  given: [...responseSchemas, ...requestBodySchemas],
-  message: '{{error}}',
-  severity: 'error',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: acceptAndReturnModels,
-  },
+export const description =
+  'Request and response bodies must be defined as model instances';
+export const given = [...responseSchemas, ...requestBodySchemas];
+export const message = '{{error}}';
+export const severity = 'error';
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: acceptAndReturnModels,
 };

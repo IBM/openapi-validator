@@ -3,21 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { deleteBody } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { deleteBody } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
-const rule = deleteBody;
+// Create a mutable copy of the rule since the imported module is read-only
+const rule = { ...deleteBody, severity: 'warn' };
 const ruleId = 'ibm-no-body-for-delete';
 const expectedSeverity = severityCodes.warning;
 const expectedMsg = 'DELETE operations should not contain a requestBody';
-
-// We need to set this because the rule is now deprecated and disabled.
-rule.severity = 'warn';
 
 describe(`Spectral rule: ${ruleId}`, () => {
   describe('Should not yield errors', () => {

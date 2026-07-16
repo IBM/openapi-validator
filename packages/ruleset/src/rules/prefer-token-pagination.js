@@ -3,21 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  paths,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { preferTokenPagination } = require('../functions');
+import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { preferTokenPagination } from '../functions/index.js';
 
-module.exports = {
-  description:
-    'Paginated list operations should use token-based pagination, rather than offset/limit pagination.',
-  message: '{{error}}',
-  given: paths,
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: preferTokenPagination,
-  },
+export const description =
+  'Paginated list operations should use token-based pagination, rather than offset/limit pagination.';
+export const message = '{{error}}';
+export const given = paths;
+export const severity = 'warn';
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: preferTokenPagination,
 };

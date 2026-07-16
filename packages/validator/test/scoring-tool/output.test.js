@@ -3,17 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { extractValuesFromTable } = require('../test-utils');
-const {
+import { extractValuesFromTable } from '../test-utils';
+import {
   printCategorizedScoresTable,
   printScoringDataTable,
-} = require('../../src/scoring-tool/output');
+} from '../../src/scoring-tool/output';
+import { vi } from 'vitest';
 
 describe('scoring-tool output tests', function () {
   let consoleSpy;
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(() => {

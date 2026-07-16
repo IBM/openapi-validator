@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function etagHeaderExists(pathItem, options, context) {
+export default function etagHeaderExists(pathItem, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return etagHeaderCheck(pathItem, context.path);
-};
+}
 
 /**
  * This function checks a path item (object containing operations) to make sure that

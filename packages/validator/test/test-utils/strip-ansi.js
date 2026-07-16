@@ -1,4 +1,4 @@
-const ansiRegex = require('ansi-regex');
+import ansiRegex from 'ansi-regex';
 
 const regex = ansiRegex();
 
@@ -13,4 +13,5 @@ function stripAnsi(string) {
   return string.replace(regex, '');
 }
 
-module.exports.stripAnsi = stripAnsi;
+const _stripAnsi = stripAnsi;
+export { _stripAnsi as stripAnsi };

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isRequestBodyExploded } = require('../../src/utils');
+import { isRequestBodyExploded } from '../../src/utils';
 
 describe('Utility function: isRequestBodyExploded()', () => {
   describe('Should return false', () => {

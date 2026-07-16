@@ -3,17 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { schemaOrContentProvided } = require('../functions');
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { schemaOrContentProvided } from '../functions/index.js';
 
-module.exports = {
-  description: 'Parameter must provide either a schema or content',
-  message: '{{error}}',
-  severity: 'error',
-  formats: [oas3],
-  resolved: true,
-  given: '$.paths[*][*].parameters[*]',
-  then: {
-    function: schemaOrContentProvided,
-  },
+export const description = 'Parameter must provide either a schema or content';
+export const message = '{{error}}';
+export const severity = 'error';
+export const formats = [oas3];
+export const resolved = true;
+export const given = '$.paths[*][*].parameters[*]';
+export const then = {
+  function: schemaOrContentProvided,
 };

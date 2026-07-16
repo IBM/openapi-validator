@@ -4,16 +4,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const chalk = require('chalk');
-const fs = require('fs');
-const globby = require('globby');
-const isPlainObject = require('lodash/isPlainObject');
-const jsonValidator = require('json-dup-key-validator');
-const path = require('path');
-const readYaml = require('js-yaml');
-const util = require('util');
+import chalk from 'chalk';
+import { readFile as _readFile } from 'fs';
+import globby from 'globby';
+import isPlainObject from 'lodash/isPlainObject.js';
+import { validate } from 'json-dup-key-validator';
+import { resolve, relative } from 'path';
+import { load } from 'js-yaml';
+import { promisify } from 'util';
 
-const {
+import {
   getCopyrightString,
   getFileExtension,
   preprocessFile,
@@ -22,11 +22,14 @@ const {
   printVersions,
   processArgs,
   supportedFileExtension,
-} = require('./utils');
+} from './utils/index.js';
 
-const { runSpectral } = require('../spectral');
-const { produceQualityScore, printScoreTables } = require('../scoring-tool');
-const { printMarkdownReport } = require('../markdown-report');
+import { runSpectral } from '../spectral/index.js';
+import {
+  produceQualityScore,
+  printScoreTables,
+} from '../scoring-tool/index.js';
+import { printMarkdownReport } from '../markdown-report/index.js';
 
 let logger;
 
@@ -84,10 +87,10 @@ async function runValidator(cliArgs, parseOptions = {}) {
     return Promise.reject(2);
   }
 
-  // Turn off coloring if requested.
-  if (!context.config.colorizeOutput) {
-    chalk.level = 0;
-  }
+  // Set color level based on the config. Reset to the default (3) when
+  // colorization is enabled so that a previous `chalk.level = 0` assignment
+  // (e.g. from a prior test run) doesn't bleed into subsequent invocations.
+  chalk.level = context.config.colorizeOutput ? 3 : 0;
 
   context.chalk = chalk;
 
@@ -103,13 +106,13 @@ async function runValidator(cliArgs, parseOptions = {}) {
   // by comparing absolute paths.
   // "filteredArgs" will be "args" minus any ignored files.
   const filteredArgs = args.filter(
-    file => !context.config.ignoreFiles.includes(path.resolve(file))
+    file => !context.config.ignoreFiles.includes(resolve(file))
   );
 
   // Next, display a message for each user-specified file that is being ignored.
   const ignoredFiles = args.filter(file => !filteredArgs.includes(file));
   ignoredFiles.forEach(file => {
-    logger.warn('Ignored ' + path.relative(process.cwd(), file));
+    logger.warn('Ignored ' + relative(process.cwd(), file));
   });
 
   args = filteredArgs;
@@ -180,7 +183,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
   // The "fs" module does not return promises by default.
   // Create a version of the 'readFile' function that does.
-  const readFile = util.promisify(fs.readFile);
+  const readFile = promisify(_readFile);
 
   // Validate, then process the results for each file being validated.
   for (const validFile of filesToValidate) {
@@ -192,7 +195,9 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
     if (!outputIsJSON(context)) {
       console.log('');
-      console.log(chalk.underline(`Validation Results for ${validFile}:\n`));
+      console.log(
+        context.chalk.underline(`Validation Results for ${validFile}:\n`)
+      );
     }
     try {
       originalFile = await readFile(validFile, 'utf8');
@@ -202,7 +207,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
       if (fileExtension === 'json') {
         input = JSON.parse(originalFile);
       } else if (fileExtension === 'yaml' || fileExtension === 'yml') {
-        input = readYaml.load(originalFile);
+        input = load(originalFile);
       }
 
       if (!isPlainObject(input)) {
@@ -211,7 +216,7 @@ async function runValidator(cliArgs, parseOptions = {}) {
 
       // jsonValidator looks through the originalFile for duplicate JSON keys
       //   this is checked for by default in readYaml
-      const duplicateKeysError = jsonValidator.validate(originalFile);
+      const duplicateKeysError = validate(originalFile);
       if (fileExtension === 'json' && duplicateKeysError) {
         throw duplicateKeysError;
       }
@@ -392,4 +397,4 @@ function outputIsJSON(context) {
   return context.config.outputFormat === 'json';
 }
 
-module.exports = runValidator;
+export default runValidator;

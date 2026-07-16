@@ -3,21 +3,22 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { existsSync, unlinkSync } = require('fs');
+import { existsSync, unlinkSync } from 'fs';
 
-const {
+import {
   extractValuesFromTable,
   getCapturedText,
   getCapturedTextWithColor,
   stripAnsi,
   testValidator,
-} = require('../../test-utils');
+} from '../../test-utils';
 
-const {
+import {
   getCopyrightString,
   readYaml,
   validateSchema,
-} = require('../../../src/cli-validator/utils');
+} from '../../../src/cli-validator/utils';
+import { vi } from 'vitest';
 
 describe('cli tool - test option handling', function () {
   let consoleSpy;
@@ -27,7 +28,7 @@ describe('cli tool - test option handling', function () {
   const copyrightString = getCopyrightString();
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
     console.info = console.log;

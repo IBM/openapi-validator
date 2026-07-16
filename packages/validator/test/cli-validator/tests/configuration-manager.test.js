@@ -3,12 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getCapturedText } = require('../../test-utils');
-const {
+import { getCapturedText } from '../../test-utils';
+import {
   getDefaultConfig,
   loadConfig,
   processArgs,
-} = require('../../../src/cli-validator/utils');
+} from '../../../src/cli-validator/utils';
+import { vi } from 'vitest';
 
 // Use these parse options since we're not actually retrieving process args.
 const cliParseOptions = { from: 'user' };
@@ -20,7 +21,7 @@ describe('Configuration Manager tests', function () {
   const originalInfo = console.info;
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
     console.info = console.log;
@@ -136,7 +137,7 @@ describe('Configuration Manager tests', function () {
       // originalError(`Captured text: ${JSON.stringify(capturedText, null, 2)}`);
       expect(capturedText).toHaveLength(2);
       expect(capturedText[0]).toMatch(
-        /\[ERROR\] Unable to load config file.*SyntaxError:/
+        /\[ERROR\] Unable to load config file.*Error:/
       );
       expect(capturedText[1]).toMatch(
         /The validator will use a default config/

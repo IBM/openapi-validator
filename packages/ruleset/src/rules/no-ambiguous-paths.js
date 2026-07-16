@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { noAmbiguousPaths } = require('../functions');
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { noAmbiguousPaths } from '../functions/index.js';
 
-module.exports = {
-  description: 'Avoid ambiguous path strings within an OpenAPI document',
-  message: '{{error}}',
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  given: ['$.paths'],
-  then: {
-    function: noAmbiguousPaths,
-  },
+export const description =
+  'Avoid ambiguous path strings within an OpenAPI document';
+export const message = '{{error}}';
+export const severity = 'warn';
+export const formats = [oas3];
+export const resolved = true;
+export const given = ['$.paths'];
+export const then = {
+  function: noAmbiguousPaths,
 };

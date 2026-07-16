@@ -82,7 +82,7 @@ function supportsJsonContent(m) {
   return isJsonMimeType(m) || isJsonPatchMimeType(m) || isMergePatchMimeType(m);
 }
 
-module.exports = {
+export default {
   isFormMimeType,
   isJsonMimeType,
   isJsonPatchMimeType,

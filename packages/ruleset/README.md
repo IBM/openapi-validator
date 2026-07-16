@@ -21,9 +21,9 @@ rules:
 ### Spectral config file - JavaScript
 ```js
 // .spectral.js
-const ibmOpenapiRuleset = require('@ibm-cloud/openapi-ruleset');
+import ibmOpenapiRuleset from '@ibm-cloud/openapi-ruleset';
 
-module.exports = {
+export default {
   extends: ibmOpenapiRuleset,
   rules: {
     'content-entry-provided': 'off'
@@ -34,13 +34,13 @@ module.exports = {
 ### Programmatically running Spectral
 ```js
 // your-module.js
-const ibmOpenapiRuleset = require('@ibm-cloud/openapi-ruleset');
-const { Spectral } = require('@stoplight/spectral-core');
+import ibmOpenapiRuleset from '@ibm-cloud/openapi-ruleset';
+import { Spectral } from '@stoplight/spectral-core';
 
-function async runSpectral(openapiDocument) {
+async function runSpectral(openapiDocument) {
   const spectral = new Spectral();
   spectral.setRuleset(ibmOpenapiRuleset);
-  results = await spectral.run(openapiDocument);
+  const results = await spectral.run(openapiDocument);
   console.log(results);
 }
 ```

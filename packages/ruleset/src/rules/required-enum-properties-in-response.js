@@ -3,19 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  responseSchemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
+import { responseSchemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 
-const { requiredEnumPropertiesInResponse } = require('../functions');
+import { requiredEnumPropertiesInResponse } from '../functions/index.js';
 
-module.exports = {
-  description: 'Enumeration properties defined in a response must be required.',
-  message: '{{error}}',
-  given: responseSchemas,
-  severity: 'error',
-  resolved: true,
-  then: {
-    function: requiredEnumPropertiesInResponse,
-  },
+export const description =
+  'Enumeration properties defined in a response must be required.';
+export const message = '{{error}}';
+export const given = responseSchemas;
+export const severity = 'error';
+export const resolved = true;
+export const then = {
+  function: requiredEnumPropertiesInResponse,
 };

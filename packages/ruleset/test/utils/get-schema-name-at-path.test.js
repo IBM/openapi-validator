@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getSchemaNameAtPath } = require('../../src/utils');
+import { getSchemaNameAtPath } from '../../src/utils';
 
 describe('Utility function: getSchemaNameAtPath()', () => {
   it('should return undefined if path is undefined', () => {

@@ -3,21 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { wellDefinedDictionaries } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { wellDefinedDictionaries } from '../functions/index.js';
 
-module.exports = {
-  description:
-    'Dictionaries must be well defined and all values must share a single type.',
-  message: '{{error}}',
-  given: schemas,
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: wellDefinedDictionaries,
-  },
+export const description =
+  'Dictionaries must be well defined and all values must share a single type.';
+export const message = '{{error}}';
+export const given = schemas;
+export const severity = 'warn';
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: wellDefinedDictionaries,
 };

@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { requiredArrayPropertiesInResponse } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { requiredArrayPropertiesInResponse } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const rule = requiredArrayPropertiesInResponse;
 const ruleId = 'ibm-required-array-properties-in-response';

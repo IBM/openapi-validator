@@ -3,17 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const log = require('loglevel');
-const minimatch = require('minimatch');
-const prefix = require('loglevel-plugin-prefix');
-const chalk = require('chalk');
+import log from 'loglevel';
+import { minimatch as _minimatch } from 'minimatch';
+import prefix from 'loglevel-plugin-prefix';
+const { reg, apply } = prefix;
+import chalk from 'chalk';
+const { magenta, cyan, green, yellow, red } = chalk;
 
 const colors = {
-  TRACE: chalk.magenta,
-  DEBUG: chalk.cyan,
-  INFO: chalk.green,
-  WARN: chalk.yellow,
-  ERROR: chalk.red,
+  TRACE: magenta,
+  DEBUG: cyan,
+  INFO: green,
+  WARN: yellow,
+  ERROR: red,
 };
 
 /**
@@ -21,15 +23,15 @@ const colors = {
  * The primary benefit provided by this factory class is the ability to honor logging-level-related
  * command-line options for loggers that haven't yet been created.
  */
-module.exports = class LoggerFactory {
+export default class LoggerFactory {
   constructor() {
     this.rootLogger = log;
     this.loggerSettings = [];
 
     // Register the prefix handler with the loglevel.
     // This will control the [<level>] message prefixes.
-    prefix.reg(log);
-    prefix.apply(log, {
+    reg(log);
+    apply(log, {
       levelFormatter(level) {
         return level.toUpperCase();
       },
@@ -110,7 +112,7 @@ module.exports = class LoggerFactory {
       // If the name of the logger matches the (potential) glob-pattern
       // previously-specified via the command-line, then apply the
       // specified log level to that logger.
-      if (minimatch.minimatch(name, setting.loggerName)) {
+      if (_minimatch(name, setting.loggerName)) {
         logger.setLevel(setting.logLevel);
       }
     }
@@ -127,7 +129,7 @@ module.exports = class LoggerFactory {
       this.applyLoggerSettings(key, this.rootLogger.getLogger(key));
     }
   }
-};
+}
 
 const validLevels = ['error', 'warn', 'info', 'debug', 'trace'];
 function checkLevel(logLevel) {

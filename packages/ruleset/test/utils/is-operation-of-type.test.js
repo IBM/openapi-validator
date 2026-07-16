@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isOperationOfType } = require('../../src/utils');
+import { isOperationOfType } from '../../src/utils';
 
 describe('Utility function: isOperationOfType', () => {
   it('should return `true` when path matches the given type', () => {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isStringSchema } = require('../src');
+import { isStringSchema } from '../src';
 
 describe('Utility function: isStringSchema()', () => {
   it('should return `false` for `undefined`', async () => {

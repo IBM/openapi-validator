@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isArraySchema,
   isObject,
   validateNestedSchemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (schema, _opts, context) {
+export default function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -22,7 +22,7 @@ module.exports = function (schema, _opts, context) {
   return validateNestedSchemas(schema, context.path, (s, p) => {
     return checkForOptionalArrays(s, p, []);
   });
-};
+}
 
 /**
  * Checks "schema" for any optional array properties, including

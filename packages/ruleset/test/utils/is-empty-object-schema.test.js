@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isEmptyObjectSchema } = require('../../src/utils');
+import { isEmptyObjectSchema } from '../../src/utils';
 
 describe('Utility function: isEmptyObjectSchema()', () => {
   describe('Should return false', () => {

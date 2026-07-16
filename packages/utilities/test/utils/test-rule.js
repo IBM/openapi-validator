@@ -4,9 +4,10 @@
  */
 
 // NOTE: Duplicated from ruleset package. Need to revisit
-const { Spectral } = require('@stoplight/spectral-core');
+import SpectralCore from '@stoplight/spectral-core';
+const { Spectral } = SpectralCore;
 
-module.exports = async (rule, doc) => {
+export default async (rule, doc) => {
   const spectral = new Spectral();
 
   spectral.setRuleset({

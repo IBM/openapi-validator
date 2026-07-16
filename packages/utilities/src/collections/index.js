@@ -108,4 +108,21 @@ const collections = {
   ],
 };
 
-module.exports = collections;
+export default collections;
+
+// Export individual collections as named exports for convenience
+export {
+  operations,
+  requestBodySchemas,
+  responseSchemas,
+  unresolvedRequestBodySchemas,
+  unresolvedResponseSchemas,
+};
+
+// Re-export all collections from the collections object for backward compatibility
+export const parameters = collections.parameters;
+export const patchOperations = collections.patchOperations;
+export const paths = collections.paths;
+export const schemas = collections.schemas;
+export const securitySchemes = collections.securitySchemes;
+export const unresolvedSchemas = collections.unresolvedSchemas;

@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (operation, _opts, context) {
+export default function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -30,7 +30,7 @@ module.exports = function (operation, _opts, context) {
     }
   }
   return deleteBody(operation, context.path);
-};
+}
 
 // This rule warns about a delete operation if it has a requestBody.
 function deleteBody(operation, path) {

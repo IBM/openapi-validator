@@ -3,15 +3,20 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const path = require('path');
-const {
+import { readFileSync } from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import {
   getFileExtension,
   supportedFileExtension,
-} = require('./file-extension-validator');
-const { LoggerFactory } = require('@ibm-cloud/openapi-ruleset/src/utils');
-const validateSchema = require('./validate-schema');
-const createCLIOptions = require('./cli-options');
-const readYaml = require('./read-yaml');
+} from './file-extension-validator.js';
+import { LoggerFactory } from '@ibm-cloud/openapi-ruleset/src/utils';
+import validateSchema from './validate-schema.js';
+import createCLIOptions from './cli-options.js';
+import readYaml from './read-yaml.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Lazy initializer for the logger.
 let logger;
@@ -73,9 +78,14 @@ async function loadConfig(filename) {
       const extension = getFileExtension(configFile);
       try {
         switch (extension) {
-          case 'json':
+          case 'json': {
+            userConfig = JSON.parse(readFileSync(configFile, 'utf8'));
+            break;
+          }
+
           case 'js': {
-            userConfig = require(configFile);
+            userConfig =
+              (await import(configFile)).default || (await import(configFile));
             break;
           }
 
@@ -266,9 +276,4 @@ async function getConfigFileSchema() {
   return configFileSchema;
 }
 
-module.exports = {
-  getConfigFileSchema,
-  getDefaultConfig,
-  loadConfig,
-  processArgs,
-};
+export { getConfigFileSchema, getDefaultConfig, loadConfig, processArgs };

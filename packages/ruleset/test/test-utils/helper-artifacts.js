@@ -18,10 +18,7 @@ const pageLink = {
   },
 };
 
-// These "Offset*" objects exist to provide artifacts that act as a correct
-// baseline for offset/limit style pagination. They are not in the root
-// document because we encourage the use of token-based pagination.
-module.exports.offsetParameter = {
+export const offsetParameter = {
   name: 'offset',
   in: 'query',
   description: 'The offset (origin 0) of the first item to return.',
@@ -33,7 +30,7 @@ module.exports.offsetParameter = {
   },
 };
 
-module.exports.offsetPaginationBase = {
+export const offsetPaginationBase = {
   description:
     'A base schema containing properties that support offset-limit pagination.',
   type: 'object',
@@ -60,4 +57,9 @@ module.exports.offsetPaginationBase = {
     previous: pageLink,
     last: pageLink,
   },
+};
+
+export default {
+  offsetParameter,
+  offsetPaginationBase,
 };

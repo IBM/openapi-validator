@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Table } = require('console-table-printer');
-const { getCategories } = require('./categories');
+import { Table } from 'console-table-printer';
+import { getCategories } from './categories.js';
 
 // Print out a table summarizing the max score for each category.
 // category | max score
@@ -56,7 +56,4 @@ function printScoringDataTable({ scoringData }) {
   table.printTable();
 }
 
-module.exports = {
-  printCategorizedScoresTable,
-  printScoringDataTable,
-};
+export { printCategorizedScoresTable, printScoringDataTable };

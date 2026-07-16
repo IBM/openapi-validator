@@ -3,22 +3,20 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  paths,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { pathSegmentCasingConvention } = require('../functions');
+import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { pathSegmentCasingConvention } from '../functions/index.js';
 
-module.exports = {
-  description: 'Path segments must follow a specified case convention',
-  message: '{{error}}',
-  formats: [oas3],
-  given: paths,
-  severity: 'error',
-  then: {
-    function: pathSegmentCasingConvention,
-    functionOptions: {
-      type: 'snake',
-    },
+export const description =
+  'Path segments must follow a specified case convention';
+export const message = '{{error}}';
+export const formats = [oas3];
+export const given = paths;
+export const severity = 'error';
+export const then = {
+  function: pathSegmentCasingConvention,
+  functionOptions: {
+    type: 'snake',
   },
 };

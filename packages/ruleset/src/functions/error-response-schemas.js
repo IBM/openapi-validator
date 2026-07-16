@@ -3,25 +3,25 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isArraySchema,
   isIntegerSchema,
   isObject,
   isStringSchema,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (schema, _opts, context) {
+export default function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
   return checkErrorContainerModelSchema(schema, context.path);
-};
+}
 
 /**
  * This function will verify that "schema" complies with the API Handbook's

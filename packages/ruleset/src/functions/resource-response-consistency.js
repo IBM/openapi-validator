@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isEqual } = require('lodash');
-const {
+import isEqual from 'lodash/isEqual.js';
+import {
   isObject,
   getResolvedSpec,
   getNodes,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const {
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import {
   computeRefsAtPaths,
   getResourceSpecificSiblingPath,
   getResponseCodes,
@@ -19,12 +19,12 @@ const {
   isJsonMimeType,
   isOperationOfType,
   LoggerFactory,
-} = require('../utils');
+} from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (operation, _opts, context) {
+export default function (operation, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -36,7 +36,7 @@ module.exports = function (operation, _opts, context) {
     getResolvedSpec(context),
     getNodes(context)
   );
-};
+}
 
 /**
  * Checks that operations that create or update a resource should

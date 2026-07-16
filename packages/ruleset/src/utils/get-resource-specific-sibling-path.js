@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
+import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
 
 /**
  * Given a "generic" resource path string (e.g. '/foo'), look for a
@@ -30,4 +30,4 @@ function getResourceSpecificSiblingPath(path, apidef) {
   return Object.keys(apidef.paths).find(p => siblingPathRE.test(p));
 }
 
-module.exports = getResourceSpecificSiblingPath;
+export default getResourceSpecificSiblingPath;

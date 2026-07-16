@@ -47,4 +47,4 @@ function isEmptyObjectSchema(schema) {
   return true;
 }
 
-module.exports = isEmptyObjectSchema;
+export default isEmptyObjectSchema;

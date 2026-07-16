@@ -3,18 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { apiSymmetry } = require('../functions');
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { apiSymmetry } from '../functions/index.js';
 
-module.exports = {
-  description:
-    'Variations of a resource schema should be graph fragments of the canonical schema',
-  message: '{{error}}',
-  given: ['$'],
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: apiSymmetry,
-  },
+export const description =
+  'Variations of a resource schema should be graph fragments of the canonical schema';
+export const message = '{{error}}';
+export const given = ['$'];
+export const severity = 'warn';
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: apiSymmetry,
 };

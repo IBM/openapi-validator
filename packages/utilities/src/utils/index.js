@@ -3,18 +3,32 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  collectFromComposedSchemas: require('./collect-from-composed-schemas'),
-  getExamplesForSchema: require('./get-examples-for-schema'),
-  getPropertyNamesForSchema: require('./get-property-names-for-schema'),
-  ...require('./get-schema-type'),
-  isObject: require('./is-object'),
-  schemaHasConstraint: require('./schema-has-constraint'),
-  schemaHasProperty: require('./schema-has-property'),
-  schemaLooselyHasConstraint: require('./schema-loosely-has-constraint'),
-  schemaRequiresProperty: require('./schema-requires-property'),
-  ...require('./spectral-context-utils'),
-  validateComposedSchemas: require('./validate-composed-schemas'),
-  validateNestedSchemas: require('./validate-nested-schemas'),
-  validateSubschemas: require('./validate-subschemas'),
+import collectFromComposedSchemas from './collect-from-composed-schemas.js';
+import getExamplesForSchema from './get-examples-for-schema.js';
+import getPropertyNamesForSchema from './get-property-names-for-schema.js';
+import getSchemaType from './get-schema-type.js';
+import isObject from './is-object.js';
+import schemaHasConstraint from './schema-has-constraint.js';
+import schemaHasProperty from './schema-has-property.js';
+import schemaLooselyHasConstraint from './schema-loosely-has-constraint.js';
+import schemaRequiresProperty from './schema-requires-property.js';
+import spectralContextUtils from './spectral-context-utils.js';
+import validateComposedSchemas from './validate-composed-schemas.js';
+import validateNestedSchemas from './validate-nested-schemas.js';
+import validateSubschemas from './validate-subschemas.js';
+
+export default {
+  collectFromComposedSchemas,
+  getExamplesForSchema,
+  getPropertyNamesForSchema,
+  ...getSchemaType,
+  isObject,
+  schemaHasConstraint,
+  schemaHasProperty,
+  schemaLooselyHasConstraint,
+  schemaRequiresProperty,
+  ...spectralContextUtils,
+  validateComposedSchemas,
+  validateNestedSchemas,
+  validateSubschemas,
 };

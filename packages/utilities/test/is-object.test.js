@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('../src');
+import { isObject } from '../src';
 
 describe('Utility function: isObject()', () => {
   it('should return `false` for `undefined`', async () => {

@@ -3,23 +3,23 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   validateSubschemas,
   schemaHasConstraint,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory, isPrimarySchema } = require('../utils');
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory, isPrimarySchema } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (schema, _opts, context) {
+export default function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
   return validateSubschemas(schema, context.path, schemaDescriptionExists);
-};
+}
 
 function schemaDescriptionExists(schema, path) {
   // Check to see if "path" represents a primary schema (i.e. not a schema property).

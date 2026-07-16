@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (pathItem, options, context) {
+export default function (pathItem, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
   return validatePathSegments(context.path);
-};
+}
 
 /**
  * This function validates individual path segments within a path string.

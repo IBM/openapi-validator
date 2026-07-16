@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isCreateOperation } = require('../../src/utils');
+import { isCreateOperation } from '../../src/utils';
 
 describe('Utility function: isCreateOperation', () => {
   it(`should return true if given operation's id starts with 'create'`, () => {

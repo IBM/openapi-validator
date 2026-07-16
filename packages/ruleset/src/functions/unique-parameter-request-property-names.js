@@ -3,29 +3,29 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isObject,
   schemaHasConstraint,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
-const {
+import {
   isJsonMimeType,
   isJsonPatchMimeType,
   isMergePatchMimeType,
   LoggerFactory,
   operationMethods,
-} = require('../utils');
+} from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (pathItem, _opts, context) {
+export default function (pathItem, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForNameCollisions(pathItem, context.path);
-};
+}
 
 /**
  * This function checks each operation to see check for collisions between

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { mergeAllOfSchemaProperties } = require('../../src/utils');
+import { mergeAllOfSchemaProperties } from '../../src/utils';
 
 describe('Utility function: mergeAllOfSchemaProperties()', () => {
   it('should return original schema if no allOf', async () => {

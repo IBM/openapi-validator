@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { readYaml } = require('../../../../src/cli-validator/utils');
+import { readYaml } from '../../../../src/cli-validator/utils';
 
 describe('Read YAML tests', function () {
   it('should read a yaml file and return an object representing the contents', async () => {

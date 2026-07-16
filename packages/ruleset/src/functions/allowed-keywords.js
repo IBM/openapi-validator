@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+import { validateSubschemas } from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (obj, options, context) {
+export default function (obj, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -21,7 +21,7 @@ module.exports = function (obj, options, context) {
     true,
     true
   );
-};
+}
 
 /**
  * This function will check to make sure that 'obj' is an object that contains only fields (keys)

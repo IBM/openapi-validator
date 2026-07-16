@@ -1,4 +1,4 @@
-export = schemaLooselyHasConstraint;
+export default schemaLooselyHasConstraint;
 /**
  * This function is a looser adaptation of the `schemaHasConstraint()` function.
  * Here, we process `oneOf` and `anyOf` lists the same as `allOf`, returning `true` if:

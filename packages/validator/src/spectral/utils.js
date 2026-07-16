@@ -3,11 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const findUp = require('find-up');
-
-module.exports = {
-  findSpectralRuleset,
-};
+import findUp from 'find-up';
 
 /**
  * Checks the user configuration and the file system for local
@@ -18,7 +14,7 @@ module.exports = {
  * @param logger - the root logger instance
  * @returns string|null - the path to the local ruleset
  */
-async function findSpectralRuleset(config, logger) {
+export async function findSpectralRuleset(config, logger) {
   // Spectral only supports reading a config file in the working directory,
   // but we support looking up the file path for the nearest file (if one exists).
   let rulesetFileOverride = config.ruleset;

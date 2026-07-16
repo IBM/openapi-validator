@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { readFile } = require('node:fs/promises');
-const readYaml = require('js-yaml');
-const { collections } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { Metrics } = require('../../src/scoring-tool/metrics');
+import { readFile } from 'node:fs/promises';
+import { load } from 'js-yaml';
+import { collections } from '@ibm-cloud/openapi-ruleset-utilities';
+import { Metrics } from '../../src/scoring-tool/metrics';
+import { vi } from 'vitest';
 
 describe('scoring-tool metrics tests', function () {
   let apiDef;
@@ -14,7 +15,7 @@ describe('scoring-tool metrics tests', function () {
   beforeAll(async function () {
     const fileToTest = `${__dirname}/../cli-validator/mock-files/oas3/clean.yml`;
     const contents = await readFile(fileToTest, { encoding: 'utf8' });
-    apiDef = readYaml.load(contents);
+    apiDef = load(contents);
   });
 
   it('should initialize members in constructor', function () {
@@ -30,7 +31,7 @@ describe('scoring-tool metrics tests', function () {
     const metricName = 'paths';
     const jsonPaths = collections.paths;
     const metrics = new Metrics(apiDef);
-    const countEveryInstance = jest.fn(() => true);
+    const countEveryInstance = vi.fn(() => true);
     const input = { value: '', path: '' };
 
     metrics.register(metricName, jsonPaths, countEveryInstance);
@@ -50,7 +51,7 @@ describe('scoring-tool metrics tests', function () {
     const metricName = 'paths';
     const jsonPaths = collections.paths;
     const metrics = new Metrics(apiDef);
-    const countEveryInstance = jest.fn(() => true);
+    const countEveryInstance = vi.fn(() => true);
     const input = {
       value: {
         type: 'object',
@@ -87,7 +88,7 @@ describe('scoring-tool metrics tests', function () {
     const metricName = 'paths';
     const jsonPaths = collections.paths;
     const metrics = new Metrics(apiDef);
-    const countEveryInstance = jest.fn(() => true);
+    const countEveryInstance = vi.fn(() => true);
 
     expect(metrics.counts).toEqual({});
     expect(metrics.collectedArtifacts).toEqual({});
@@ -125,7 +126,7 @@ describe('scoring-tool metrics tests', function () {
     const metrics = new Metrics(apiDef);
     const metricName = 'paths';
     const jsonPaths = collections.paths;
-    const countEveryInstance = jest.fn(() => true);
+    const countEveryInstance = vi.fn(() => true);
     const input = { value: '', path: '' };
 
     expect(metrics.counts[metricName]).toBeUndefined();
@@ -151,7 +152,7 @@ describe('scoring-tool metrics tests', function () {
     const metricName = 'paths';
     const mockPath = '/v1/my-path';
     const mockPathObject = { get: 'my-operation' };
-    const mockCondition = jest.fn(() => true);
+    const mockCondition = vi.fn(() => true);
 
     // These would be initialized by a different method, fake it here.
     metrics.initializeMetric(metricName);
@@ -177,7 +178,7 @@ describe('scoring-tool metrics tests', function () {
     const metricName = 'paths';
     const mockPath = '/v1/my-path';
     const mockPathObject = { get: 'my-operation' };
-    const mockCondition = jest.fn(() => false);
+    const mockCondition = vi.fn(() => false);
 
     // These would be initialized by a different method, fake it here.
     metrics.initializeMetric(metricName);
@@ -203,7 +204,7 @@ describe('scoring-tool metrics tests', function () {
     const metricName = 'paths';
     const mockPath = '/v1/my-path';
     const mockPathObject = { get: 'my-operation' };
-    const mockCondition = jest.fn(() => true);
+    const mockCondition = vi.fn(() => true);
 
     // These would be initialized by a different method, fake it here.
     metrics.initializeMetric(metricName);

@@ -3,13 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import { vi } from 'vitest';
+import {
   getOffsetParamIndex,
   getPageTokenParamIndex,
   getSuccessCode,
   getResponseSchema,
   getPaginatedOperationFromPath,
-} = require('../../src/utils');
+} from '../../src/utils';
 
 describe('Pagination utility functions', () => {
   describe('getOffsetParamIndex()', () => {
@@ -164,7 +165,7 @@ describe('Pagination utility functions', () => {
   });
 
   describe('getPaginatedOperationFromPath()', () => {
-    const mockLogger = jest.fn();
+    const mockLogger = vi.fn();
     const logInfo = {
       logger: { debug: mockLogger },
       ruleId: 'test',

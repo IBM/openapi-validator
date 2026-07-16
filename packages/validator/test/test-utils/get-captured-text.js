@@ -3,13 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { stripAnsi } = require('./strip-ansi');
+import { stripAnsi } from './strip-ansi';
 
-module.exports.getCapturedText = callsToLog =>
-  formatCapturedText(callsToLog, false);
+export function getCapturedText(callsToLog) {
+  return formatCapturedText(callsToLog, false);
+}
 
-module.exports.getCapturedTextWithColor = callsToLog =>
-  formatCapturedText(callsToLog, true);
+export function getCapturedTextWithColor(callsToLog) {
+  return formatCapturedText(callsToLog, true);
+}
 
 function formatCapturedText(callsToLog, preserveColors) {
   return callsToLog.map(args => {

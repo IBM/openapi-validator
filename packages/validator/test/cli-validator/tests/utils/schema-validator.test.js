@@ -3,10 +3,10 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   getConfigFileSchema,
   validateSchema,
-} = require('../../../../src/cli-validator/utils');
+} from '../../../../src/cli-validator/utils';
 
 describe('Schema validator tests', function () {
   let configFileSchema;

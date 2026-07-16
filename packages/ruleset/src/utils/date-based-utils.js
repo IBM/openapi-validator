@@ -135,7 +135,7 @@ function isDateBasedValue(value) {
   return regularExpressions.some(r => r.test(value));
 }
 
-module.exports = {
+export default {
   isDateBasedName,
   isDateBasedValue,
 };

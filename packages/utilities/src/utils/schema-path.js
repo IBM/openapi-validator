@@ -3,9 +3,6 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-// Necessary to get exceptions thrown for attempts to modify frozen objects
-'use strict';
-
 /**
  * @private
  */
@@ -50,4 +47,4 @@ class SchemaPath extends Array {
   }
 }
 
-module.exports = SchemaPath;
+export default SchemaPath;

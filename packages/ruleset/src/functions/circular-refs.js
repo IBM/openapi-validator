@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function ($ref, _opts, context) {
+export default function ($ref, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForCircularRef($ref, context.path);
-};
+}
 
 // This set is used to make sure that we warn about each distinct $ref value only once.
 const reportedRefValues = new Set();

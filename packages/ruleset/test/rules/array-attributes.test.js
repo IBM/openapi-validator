@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { arrayAttributes } = require('../../src/rules');
-const { unitTestRule, severityCodes } = require('../test-utils');
+import { arrayAttributes } from '../../src/rules';
+import { unitTestRule, severityCodes } from '../test-utils';
 
 const rule = arrayAttributes;
 const ruleId = 'ibm-array-attributes';

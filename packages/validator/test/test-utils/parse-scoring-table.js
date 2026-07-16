@@ -17,6 +17,4 @@ function extractValuesFromTable(table) {
     );
 }
 
-module.exports = {
-  extractValuesFromTable,
-};
+export { extractValuesFromTable };

@@ -3,16 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { noRefInExample } = require('../functions');
-module.exports = {
-  description: 'The use of $ref is not valid within an example field',
-  message: '{{description}}',
-  given: ['$..example'],
-  severity: 'error',
-  formats: [oas3],
-  resolved: false,
-  then: {
-    function: noRefInExample,
-  },
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { noRefInExample } from '../functions/index.js';
+export const description =
+  'The use of $ref is not valid within an example field';
+export const message = '{{description}}';
+export const given = ['$..example'];
+export const severity = 'error';
+export const formats = [oas3];
+export const resolved = false;
+export const then = {
+  function: noRefInExample,
 };

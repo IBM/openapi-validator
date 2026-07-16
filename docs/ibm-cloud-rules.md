@@ -844,11 +844,11 @@ For this reason, we must implement our custom ruleset using javascript instead o
 Here is our custom ruleset file (`.spectral.js`):
 
 ```javascript
-const ibmCloudValidationRules = require('@ibm-cloud/openapi-ruleset');                           // Note 1
-const { propertyCasingConvention } = require('@ibm-cloud/openapi-ruleset/src/functions');
-const { schemas } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
+import ibmCloudValidationRules from '@ibm-cloud/openapi-ruleset';                               // Note 1
+import { propertyCasingConvention } from '@ibm-cloud/openapi-ruleset/src/functions';
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 
-module.exports = {
+export default {
   extends: ibmCloudValidationRules,
   rules: {
     'ibm-property-casing-convention': {                                                          // Note 2
@@ -869,7 +869,7 @@ module.exports = {
 ```
 Notes:
 1. This custom ruleset extends `@ibm-cloud/openapi-ruleset` and also references the `propertyCasingConvention` function and the
-`schemas` JSONPath collection, so we need to import each of these with `require` statements.  In addition, be sure to install
+`schemas` JSONPath collection, so we need to import each of these with `import` statements.  In addition, be sure to install
 the `@ibm-cloud/openapi-ruleset` package: `npm install @ibm-cloud/openapi-ruleset`.
 2. This custom rule is re-defining (overriding) the `ibm-property-casing-convention` rule from the `@ibm-cloud/openapi-ruleset` package
 so we need to use the same rule id (`ibm-property-casing-convention`).  Alternatively, we could have used a different rule id of our choosing,

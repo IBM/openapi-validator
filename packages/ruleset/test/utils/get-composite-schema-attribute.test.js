@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getCompositeSchemaAttribute } = require('../../src/utils');
+import { getCompositeSchemaAttribute } from '../../src/utils';
 
 describe('Utility function: getCompositeSchemaAttribute()', () => {
   it('Boundary conditions', async () => {

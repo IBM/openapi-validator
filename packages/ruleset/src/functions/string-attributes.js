@@ -3,17 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   schemaHasConstraint,
   isStringSchema,
   validateNestedSchemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
+} from '@ibm-cloud/openapi-ruleset-utilities';
 
-const { getCompositeSchemaAttribute, LoggerFactory } = require('../utils');
+import { getCompositeSchemaAttribute, LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
-module.exports = function (schema, _opts, context) {
+export default function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -25,7 +25,7 @@ module.exports = function (schema, _opts, context) {
     true,
     false
   );
-};
+}
 
 // An object holding a list of "format" values to be bypassed when checking
 // for the "pattern", "minLength" and "maxLength" fields of a string property, respectively.

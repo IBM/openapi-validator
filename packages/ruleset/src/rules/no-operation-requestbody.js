@@ -3,24 +3,22 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  operations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { noOperationRequestBody } = require('../functions');
+import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { noOperationRequestBody } from '../functions/index.js';
 
-module.exports = {
-  description: 'Certain operations should not contain a requestBody',
-  message: '{{error}}',
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  given: operations,
-  then: {
-    function: noOperationRequestBody,
-    functionOptions: {
-      // HTTP methods that should NOT have a requestBody:
-      httpMethods: ['delete', 'get', 'head', 'options'],
-    },
+export const description =
+  'Certain operations should not contain a requestBody';
+export const message = '{{error}}';
+export const severity = 'warn';
+export const formats = [oas3];
+export const resolved = true;
+export const given = operations;
+export const then = {
+  function: noOperationRequestBody,
+  functionOptions: {
+    // HTTP methods that should NOT have a requestBody:
+    httpMethods: ['delete', 'get', 'head', 'options'],
   },
 };

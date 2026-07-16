@@ -3,13 +3,13 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isObject,
   isObjectSchema,
   schemaHasConstraint,
   validateNestedSchemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
@@ -21,14 +21,14 @@ let logger;
  * - ibm-pattern-properties: patternProperties isn't empty or the wrong type
  */
 
-module.exports = function (schema, _opts, context) {
+export default function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
   return validateNestedSchemas(schema, context.path, wellDefinedDictionaries);
-};
+}
 
 function wellDefinedDictionaries(schema, path) {
   // We only care about object schemas.

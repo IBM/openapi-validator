@@ -3,13 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { each, merge, pickBy, reduce } = require('lodash');
-const { operationMethods } = require('../utils');
-const inflected = require('inflected');
+import each from 'lodash/each.js';
+import merge from 'lodash/merge.js';
+import pickBy from 'lodash/pickBy.js';
+import reduce from 'lodash/reduce.js';
+import { operationMethods } from '../utils/index.js';
+import { singularize } from 'inflected';
 
-module.exports = function (rootDocument, options) {
+export default function (rootDocument, options) {
   return operationIdNamingConvention(rootDocument, options.strict);
-};
+}
 
 function operationIdNamingConvention(resolvedSpec, fullNamingCheck) {
   const operations = reduce(
@@ -227,7 +230,7 @@ function operationIdPassedConventionCheck(
     // Singularize the words in the path according to the naming conventions.
     for (let i = 0; i < convertedPath.length; i++) {
       if (i !== convertedPath.length - 1 || !isPlural || pathEndsWithParam)
-        convertedPath[i] = inflected.singularize(convertedPath[i]);
+        convertedPath[i] = singularize(convertedPath[i]);
     }
 
     const correctIds = [];

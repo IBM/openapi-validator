@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isBooleanSchema } = require('../src');
+import { isBooleanSchema } from '../src';
 
 describe('Utility function: isBooleanSchema()', () => {
   it('should return `false` for `undefined`', async () => {

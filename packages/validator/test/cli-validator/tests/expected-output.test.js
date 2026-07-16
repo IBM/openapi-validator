@@ -3,7 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getCapturedText, testValidator } = require('../../test-utils');
+import { vi } from 'vitest';
+import { getCapturedText, testValidator } from '../../test-utils';
 
 describe('Expected output tests', function () {
   let consoleSpy;
@@ -12,7 +13,7 @@ describe('Expected output tests', function () {
   const originalInfo = console.info;
 
   beforeEach(() => {
-    consoleSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
     console.info = console.log;

@@ -3,11 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   errorSummary,
   warningSummary,
-} = require('../../../src/markdown-report/tables');
-const validatorResults = require('../../test-utils/mock-json-output.json');
+} from '../../../src/markdown-report/tables';
+import validatorResults from '../../test-utils/mock-json-output.json';
 
 describe('ruleViolationSummary table tests', function () {
   it('should produce a table with a summary of the error results', function () {

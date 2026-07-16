@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isEnumerationSchema } = require('../src');
+import { isEnumerationSchema } from '../src';
 
 describe('Utility function: isEnumerationSchema()', () => {
   it('should return `false` for `undefined`', async () => {

@@ -3,9 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = {
-  error: 0,
-  warning: 1,
-  info: 2,
-  hint: 3,
-};
+export const error = 0;
+export const warning = 1;
+export const info = 2;
+export const hint = 3;

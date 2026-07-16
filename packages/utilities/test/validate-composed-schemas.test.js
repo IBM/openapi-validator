@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { validateComposedSchemas } = require('../src');
-const SchemaPath = require('../src/utils/schema-path');
+import { validateComposedSchemas } from '../src';
+import SchemaPath from '../src/utils/schema-path';
 
 describe('Utility function: validateComposedSchemas()', () => {
   it('should validate a simple schema by default', async () => {

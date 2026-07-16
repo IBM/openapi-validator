@@ -3,8 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getCompositeSchemaAttribute } = require('../utils');
-const { LoggerFactory } = require('../utils');
+import { getCompositeSchemaAttribute, LoggerFactory } from '../utils/index.js';
 
 const oldRuleId = 'ibm-no-optional-properties-in-required-body';
 const newRuleId = 'ibm-no-required-properties-in-optional-body';
@@ -69,7 +68,4 @@ function optionalRequestBodyDeprecated(schema, _unused_options, context) {
   return optionalRequestBody(schema, _unused_options, context);
 }
 
-module.exports = {
-  optionalRequestBody,
-  optionalRequestBodyDeprecated,
-};
+export { optionalRequestBody, optionalRequestBodyDeprecated };
