@@ -17,7 +17,6 @@ import isRefSiblingSchema from './is-ref-sibling-schema.js';
 import isRequestBodyExploded from './is-requestbody-exploded.js';
 import LoggerFactory from './logger-factory.js';
 import mergeAllOfSchemaProperties from './merge-allof-schema-properties.js';
-import nestedSchemaKeys from './nested-schema-keys.js';
 import operationMethods from './constants.js';
 import pathHasMinimallyRepresentedResource from './path-has-minimally-represented-resource.js';
 import pathMatchesRegexp from './path-matches-regexp.js';
@@ -42,7 +41,6 @@ export {
   isRequestBodyExploded,
   LoggerFactory,
   mergeAllOfSchemaProperties,
-  nestedSchemaKeys,
   operationMethods,
   pathHasMinimallyRepresentedResource,
   pathMatchesRegexp,
