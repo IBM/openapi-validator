@@ -919,7 +919,7 @@ The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-models">
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 requestBody:
@@ -981,7 +981,7 @@ since an un-anchored regular expression might match on only part of the string i
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1038,7 +1038,7 @@ Note: the rule will report additional details about each violation of the graph 
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1141,7 +1141,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1201,7 +1201,7 @@ and nested schemas (e.g. a schema property, an array <code>items</code> schema, 
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1327,7 +1327,7 @@ would cause an error, but the type value <code>['string', 'null']</code> would n
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1390,7 +1390,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1450,7 +1450,7 @@ and returns a warning to alert the user that the path parameter should be define
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -1523,7 +1523,7 @@ Specifically, the rule will check to make sure a binary schema is NOT used in th
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -1599,7 +1599,7 @@ companion path string that does end with a path parameter reference (e.g. "/v1/t
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -1666,7 +1666,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 responses:
@@ -1718,7 +1718,7 @@ unless the API actually supports all content types.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 requestBody:
@@ -1772,7 +1772,7 @@ The property could be defined in any of the following ways:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1839,7 +1839,7 @@ This includes the following validations:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1905,7 +1905,7 @@ define any required properties or specify a non-zero value for the <code>minProp
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2008,7 +2008,7 @@ For example, to enforce camel case for enum values, the configuration object wou
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -2061,7 +2061,7 @@ This rule should be ignored when the API actually returns an error response that
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 responses:
@@ -2120,7 +2120,7 @@ as described in the API Handbook.</li>
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2268,7 +2268,7 @@ within the <code>GET</code> operation's response.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2372,7 +2372,7 @@ is specified as <code>int32</code> or <code>int64</code>.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -2431,7 +2431,7 @@ The API major version can appear in either the server URL or in each path entry.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 openapi: 3.0.1
@@ -2615,7 +2615,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 requestBody:
@@ -2670,7 +2670,7 @@ in the future if needed.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2748,7 +2748,7 @@ together with other documentation provided for the service.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2825,7 +2825,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2893,7 +2893,7 @@ Any reference to either "Foo" or "Bar" will be a circular reference.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -2957,7 +2957,7 @@ For example, the path <code>/v1/foos/{foo_id}/{bar_id}</code> is invalid and sho
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3011,7 +3011,7 @@ Note that the <code>Content-Type</code> header parameter is managed automaticall
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3114,7 +3114,7 @@ are true for a particular parameter, then a warning is raised for that parameter
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -3176,7 +3176,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -3320,7 +3320,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -3555,7 +3555,7 @@ This rule ensures that nullable properties are not defined elsewhere.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -3708,7 +3708,7 @@ For example, to enforce the rule for DELETE, HEAD and OPTIONS operations, the co
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3789,7 +3789,7 @@ This rule is deprecated.  Please use the <code>ibm-no-required-properties-in-opt
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3845,7 +3845,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3910,7 +3910,7 @@ request body to be required.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3966,7 +3966,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4036,7 +4036,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -4088,7 +4088,7 @@ by IBM's SDK-related tooling - specifically the <code>jsonSchemaDialect</code> a
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 openapi: 3.1.0
@@ -4156,7 +4156,7 @@ info:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 tags:
@@ -4219,7 +4219,7 @@ paths:
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4276,7 +4276,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4325,7 +4325,7 @@ per guidance in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-h
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4398,7 +4398,7 @@ For example, to enforce camel case for operation ids, the configuration object w
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4467,7 +4467,7 @@ custom ruleset</a> and modify the configuration such that the value of the <code
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4584,7 +4584,7 @@ that page of results [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 n/a
 </td>
@@ -4683,7 +4683,7 @@ on query and path parameter names, the configuration object would look like this
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -4745,7 +4745,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -4808,7 +4808,7 @@ listed first, then any optional parameters.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4888,7 +4888,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 parameters:
@@ -4938,7 +4938,7 @@ recommends that PATCH operations contain request bodies that support only conten
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5020,7 +5020,7 @@ For example, to enforce camel case for path segments, the configuration object w
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5066,7 +5066,7 @@ within a schema:
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5132,7 +5132,7 @@ For more details, please see the API Handbook section on
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5206,7 +5206,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5332,7 +5332,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5411,7 +5411,7 @@ For example, to enforce camel case for property names, the configuration object 
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5469,7 +5469,7 @@ throughout the API definition.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5533,7 +5533,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5631,7 +5631,7 @@ paths:
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5695,7 +5695,7 @@ proper locations within the API definition's <code>components</code>field.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5756,7 +5756,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 responses:
@@ -5801,7 +5801,7 @@ responses:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 requestBody:
@@ -5861,7 +5861,7 @@ that the <code>x-codegen-request-body-name</code> extension is set on the operat
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5923,7 +5923,7 @@ and not optional.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6004,7 +6004,7 @@ and not optional.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6095,7 +6095,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6233,7 +6233,7 @@ it is a synchronous or asynchronous operation.</li>
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6331,7 +6331,7 @@ For example, to disallow capitalized acronymns for schema names, the configurati
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6379,7 +6379,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6527,7 +6527,7 @@ configuration field, like this:
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6586,7 +6586,7 @@ The rule checks the names of collection schemas, resource collection element sch
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6658,7 +6658,7 @@ Schemas and schema properties should have a non-empty <code>type</code> field.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6733,7 +6733,7 @@ The following table defines the valid combinations:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6801,7 +6801,7 @@ extension, using <a href="/packages/ruleset/src/schemas/x-sdk-operations.json">t
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 n/a
 </td>
@@ -6873,7 +6873,7 @@ Valid values for the <code>in</code> property are:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6961,7 +6961,7 @@ scopes, then its scopes array MUST be empty.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -7020,7 +7020,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 servers:
@@ -7088,7 +7088,7 @@ only for string schemas.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -7148,7 +7148,7 @@ within each response <code>content</code> field entry, in order to aid in the ge
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 responses:
@@ -7209,7 +7209,7 @@ not have a trailing period.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -7259,7 +7259,7 @@ is set on a schema, then it is set to the value <code>false</code> (i.e. disable
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -7338,7 +7338,7 @@ the parameter or request body schema property to avoid the collision.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -7441,7 +7441,7 @@ the example value provided for a schema or property.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 Resource
@@ -7501,7 +7501,7 @@ For example, the path <code>/v1/foos/_{foo_id}_</code> is invalid and should pro
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -7553,7 +7553,7 @@ is a valid instance of that schema. Note that this rule is an alternative to `oa
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -7605,7 +7605,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
