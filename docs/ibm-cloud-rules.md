@@ -404,7 +404,7 @@ should probably be required instead of optional.</td>
 <tr>
 <td><a href="#ibm-no-superfluous-allof">ibm-no-superfluous-allof</a></td>
 <td>warn</td>
-<td>Warns about schemas that contain only a single-element <code>allOf</code>, which are unnecessary./td>
+<td>Warns about schemas that contain only a single-element <code>allOf</code>, which are unnecessary.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -517,7 +517,6 @@ or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<tr>
 <td><a href="#ibm-property-casing-convention">ibm-property-casing-convention</a></td>
 <td>error</td>
 <td>Schema property names should follow a specific case convention.</td>
@@ -541,7 +540,6 @@ or <code>application/merge-patch+json</code>.</td>
 <td>Performs multiple checks on the operation redirect response bodies based on status codes.</td>
 <td>oas3</td>
 </tr>
-<tr>
 <tr>
 <td><a href="#ibm-ref-pattern">ibm-ref-pattern</a></td>
 <td>warn</td>
@@ -587,6 +585,7 @@ has non-form content. <b>This rule is disabled by default.</b></td>
 <td>Operations that create or update a resource should return the same schema as the "GET" request for the resource.</td>
 <td>oas3</td>
 </tr>
+<tr>
 <td><a href="#ibm-response-status-codes">ibm-response-status-codes</a></td>
 <td>warn</td>
 <td>Performs multiple checks on the status codes used in operation responses.</td>
@@ -594,7 +593,7 @@ has non-form content. <b>This rule is disabled by default.</b></td>
 </tr>
 <tr>
 <td><a href="#ibm-schema-casing-convention">ibm-schema-casing-convention</a></td>
-<td>warm</td>
+<td>warn</td>
 <td>Schema names should follow a specific case convention.</td>
 <td>oas3</td>
 </tr>

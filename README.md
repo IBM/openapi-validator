@@ -986,7 +986,7 @@ Here is an example of JSON output:
       "entries": []
     }
   },
-  "hasResults": true
+  "hasResults": true,
   "impactScore": {
     "categorizedSummary": {
       "usability": 94,
