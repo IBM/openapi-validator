@@ -1188,8 +1188,10 @@ the SDK generator typically needs to refactor these inline schemas in order to c
 computed by the SDK generator are unlikely to be optimal from a readability standpoint.
 <p>Specifically, this rule warns about the use of inline object schemas within request bodies, responses,
 and nested schemas (e.g. a schema property, an array <code>items</code> schema, an <code>additionalProperties</code> schema, etc.).
+</p>
 <p>More information about this can be found in the
 <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#nested-object-schemas">API Handbook</a>.
+</p>
 </td>
 </tr>
 <tr>
@@ -1316,6 +1318,7 @@ ambiguity in an API definition.  Therefore, multiple types should be avoided.
 One exception to this is that the special type <code>"null"</code> is simply ignored by the rule when counting 
 the number of elements in the schema's <code>type</code> field.  So, the type value <code>['string', 'integer']</code>
 would cause an error, but the type value <code>['string', 'null']</code> would not.
+</p>
 </td>
 </tr>
 <tr>
@@ -1439,6 +1442,7 @@ components:
 defining it separately within each of the operations that exist for that path.
 <p>This rule checks for situations in which a path parameter is defined identically within multiple operations under a given path,
 and returns a warning to alert the user that the path parameter should be defined on the path object instead.
+</p>
 </td>
 </tr>
 <tr>
@@ -1581,12 +1585,14 @@ with an array property named "things" (which is presumably defined as an array o
 "list"-type operation (with or without support for pagination) to make sure that the operation's
 response schema defines an array property whose name matches the last path segment
 within the operation's path string, which should also match the plural form of the resource type.
+</p>
 <p>For the purposes of this rule, an operation is considered to be a "list"-type operation
 if it is a "get" request and one of the following are also true:
 <ol>
 <li>the operation's operationId starts with "list" (e.g. "list_things")
 <li>the operation's path string does not end with a path parameter reference, but there is a
 companion path string that does end with a path parameter reference (e.g. "/v1/things" vs "/v1/things/{thing_id}").
+</p>
 </ol>
 </td>
 </tr>
@@ -1707,6 +1713,7 @@ responses:
 <td>The use of <code>*/*</code> as a mimetype within a <code>content</code> field should be avoided
 unless the API actually supports all content types.
 <p>If the API in fact supports all content types, this warning should be ignored.
+</p>
 </td>
 </tr>
 <tr>
@@ -1894,6 +1901,7 @@ components:
 with <code>application/merge-patch+json</code> requestBody content should not
 define any required properties or specify a non-zero value for the <code>minProperties</code> field.
 <p>This rule verifies that "merge-patch" operations adhere to this requirement.
+</p>
 </td>
 </tr>
 <tr>
@@ -1990,6 +1998,7 @@ that is the appropriate configuration to be used by Spectral's <code>casing()</c
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
 to enforce the desired case convention for enum values.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   type: 'snake'
@@ -2000,6 +2009,7 @@ to enforce the desired case convention for enum values.
 custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for enum values, the configuration object would look like this:
+</p>
 <pre>
 {
   type: 'camel'
@@ -2108,6 +2118,7 @@ as described in the API Handbook.</li>
 <li>If present, the <code>target</code> property must contain a valid
 <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-target-model">error target model</a>
 as described in the API Handbook.</li>
+</p>
 </ul>
 </td>
 </tr>
@@ -2257,6 +2268,7 @@ to provide a value for the <code>If-Match</code> or <code>If-None-Match</code> h
 (sometimes referred to as an "etag value"), then the API should provide a way for the user to obtain the etag value.
 And the standard way for a service to provide an etag value to the user is by returning it as the <code>ETag</code> response header
 within the <code>GET</code> operation's response.
+</p>
 </td>
 </tr>
 <tr>
@@ -2660,6 +2672,7 @@ requestBody:
 The recommendation is to instead use an object with a property that contains the array.
 This will allow you to expand the definition of the response body (e.g. add new properties) in a compatible way
 in the future if needed.
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -2712,7 +2725,6 @@ paths:
 sample response body:
 {"things": [ {"name": "thing-1"}, {"name": "thing-2"} ]}
 </pre>
-</pre>
 </td>
 </tr>
 </table>
@@ -2734,9 +2746,11 @@ The <code>security</code> object can be defined at an operation level (which wou
 that operation) or at a global level within the API definition (which would apply to all operations).
 <p>Within generated SDKs, the <code>Authorization</code> header will be managed automatically by the
 built-in authenticator support.
+</p>
 <p>Non-SDK users (those using <code>curl</code>, for example) can infer
 the use of the Authorization header from the <code>security</code> object in the API definition
 together with other documentation provided for the service.
+</p>
 </td>
 </tr>
 <tr>
@@ -2814,6 +2828,7 @@ paths:
 <td valign=top><b>Description:</b></td>
 <td>This rule checks each DELETE operation and will return a warning if the operation contains a <code>requestBody</code>.
 <p>This rule has been deprecated and is now disabled in the IBM Cloud Validation Ruleset. Please use the <code>ibm-no-operation-requestbody</code> rule instead.
+</p>
 </td>
 </tr>
 <tr>
@@ -3083,6 +3098,7 @@ will perform the following checks:
 <li>The parameter's schema is defined with a pattern field that starts with either "crn" or "^crn" (e.g. 'crn:[-0-9A-Fa-f]+')</li>
 <li>The parameter's <code>example</code> field contains a CRN-like value (e.g. "crn:0afd-0138-2636")</li>
 <li>The parameter's <code>examples</code> field contains an entry containing a CRN-like value, as in this example:
+</p>
 <pre>
 </pre>
 components:
@@ -3259,6 +3275,7 @@ the first and next page of results, respectively.
 <p>Starting with OpenAPI 3.0, one can no longer use this pattern.  If a schema definition contains the <code>$ref</code> attribute,
 then no other attributes are allowed to be defined alongsize it.   So to work around this restriction, 
 API authors typically use the "ref sibling" allOf pattern.   The above example might look like this:
+</p>
 <pre>
 components:
   schemas:
@@ -3290,6 +3307,7 @@ second allOf list element.  Both are considered to be examples of the "ref sibli
 <p>This rule specifically looks for instances of this pattern where the overridden description is the same as the
 description defined within the referenced schema, thus making the use of the "ref sibling" pattern unnecessary.
 Here is an example of this:
+</p>
 <pre>
 components:
   schemas:
@@ -3393,6 +3411,7 @@ Operations should support <code>If-Match</code> and <code>If-None-Match</code> h
 <tr>
 <td valign=top><b>Non-compliant example:</b></td>
 <td>
+</p>
 <pre>
 paths:
   '/v1/things/{thing_id}':
@@ -3478,6 +3497,7 @@ Operations should support <code>If-Match</code> and <code>If-None-Match</code> h
 <tr>
 <td valign=top><b>Non-compliant example:</b></td>
 <td>
+</p>
 <pre>
 paths:
   '/v1/things/{thing_id}':
@@ -3690,6 +3710,7 @@ This rule ensures that these operations do not define a <code>requestBody</code>
 <td>This rule supports a configuration that specifies the set of HTTP methods that are checked
 for a <code>requestBody</code>.
 <p>The default configuration object provided with the rule is:
+</p>
 <pre>
 {
   httpMethods: ['delete', 'get', 'head', 'options']
@@ -3700,6 +3721,7 @@ for a <code>requestBody</code>.
 custom ruleset</a> and modify the configuration such that the value of the <code>httpMethods</code> field 
 specifies the desired set of HTTP methods to be checked.
 For example, to enforce the rule for DELETE, HEAD and OPTIONS operations, the configuration object would look like this:
+</p>
 <pre>
 {
   httpMethods: ['delete', 'head', 'options']
@@ -4046,7 +4068,7 @@ components:
         foo_ref:
           allOf:
             - $ref: '#/components/schemas/Foo'
-<</pre>
+</pre>
 </td>
 </tr>
 <tr>
@@ -4380,6 +4402,7 @@ that is the appropriate configuration to be used by Spectral's <code>casing()</c
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
 to enforce the desired case convention for <code>operationId</code> values.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   type: 'snake'
@@ -4390,6 +4413,7 @@ to enforce the desired case convention for <code>operationId</code> values.
 custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for operation ids, the configuration object would look like this:
+</p>
 <pre>
 {
   type: 'camel'
@@ -4437,12 +4461,14 @@ when deciding on an operationId for the <code>POST /v1/things</code> operation.
 Likewise, for the <code>GET /v1/things/{thing_id}</code> operation, we might prefer
 <code>get_thing</code> over <code>retrieve_thing</code> for the operationId.
 <p>This rule will analyze the operations, looking for operationId values that are not using the recommended verbs. Furthermore it can also validate the complete name of the operation id by comparing it to the path segments.
+</p>
 </td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
 <td>This rule can be configured to validate the complete name of the operation id, or only the verb it begins with.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   strict: true
@@ -4451,6 +4477,7 @@ Likewise, for the <code>GET /v1/things/{thing_id}</code> operation, we might pre
 <p>To switch off the complete name validation and only validate the verbs the operation ids begin with, you'll need to
 <a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
 custom ruleset</a> and modify the configuration such that the value of the <code>strict</code> field to <code>false</code>
+</p>
 <pre>
 {
   strict: false
@@ -4533,9 +4560,11 @@ paths:
 <li>The operation defines either the <code>offset</code> query parameter or a page-token type
 query parameter whose name is one of the following: <code>start</code>(preferred), 
 <code>token</code>, <code>cursor</code>, <code>page</code>, or <code>page_token</code>.</li>
+</p>
 </ul>
 <p>If an operation is recognized as a paginated list-type operation, then the following checks are
 performed:
+</p>
 <ul>
 <li>If the operation has a <code>limit</code> query parameter, then it must be of type <code>integer</code>,
 optional, and have default and maximum values defined for it [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-pagination#limit-with-page-token">1</a>,
@@ -4634,6 +4663,7 @@ or <code>pattern()</code> function [<a href="https://meta.stoplight.io/docs/spec
 (for greater control over the case convention check) to enforce the desired case convention for that parameter type.
 Additionally, you can define custom messages in the form "{parameter-type}Message".
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   query: {
@@ -4664,12 +4694,14 @@ This enforces:
 </ul>
 <p>To disable the case convention checks for a particular parameter type, simply remove
 the entry for that parameter type from the configuration object.  
+</p>
 <p>If you want to use a different configuration for this rule other than the default configuration
 mentioned above, you'll need to
 <a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
 custom ruleset</a> and modify the configuration appropriately for your needs.
 For example, to disable the case convention checks on header parameter names, while enforcing camel-case conventions
 on query and path parameter names, the configuration object would look like this:
+</p>
 <pre>
 {
   query: {
@@ -4927,6 +4959,7 @@ parameters:
 recommends that PATCH operations contain request bodies that support only content types
 <code>application/json-patch+json</code> and <code>application/merge-patch+json</code>.
 <p>This rule verifies that each PATCH operation complies with this recommendation.
+</p>
 </td>
 </tr>
 <tr>
@@ -5012,6 +5045,7 @@ to enforce a different case convention if desired.
 custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for path segments, the configuration object would look like this:
+</p>
 <pre>
 {
   type: 'camel'
@@ -5393,6 +5427,7 @@ that is the appropriate configuration to be used by Spectral's <code>casing()</c
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
 to enforce the desired case convention for property names.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   type: 'snake'
@@ -5403,6 +5438,7 @@ to enforce the desired case convention for property names.
 custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for property names, the configuration object would look like this:
+</p>
 <pre>
 {
   type: 'camel'
@@ -5587,6 +5623,7 @@ components:
 <p>References:
 <ul>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
+</p>
 </ul>
 </td>
 </tr>
@@ -5599,7 +5636,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Compliant example:<b></td>
+<td valign=top><b>Compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5676,6 +5713,7 @@ the type of object it references.  For example, a reference to a schema should f
 <li><code>#/components/responses/&lt;name&gt;</code></li>
 <li><code>#/components/schemas/&lt;name&gt;</code></li>
 <li><code>#/components/securitySchemes/&lt;name&gt;</code></li>
+</p>
 </ul>
 The validator uses the <code>$ref</code> property's location within the API definition
 to determine the type of object being referenced.  For example, if the
@@ -5850,6 +5888,7 @@ way to infer a logical name for the operation's body parameter.
 that the <code>x-codegen-request-body-name</code> extension is set on the operation.
 <br><br>
 <b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
+</p>
 </td>
 </tr>
 <tr>
@@ -6191,6 +6230,7 @@ or a <code>202 - Accepted</code> status code.</li>
 operationId starts with "create" or the operation is a POST request and there is another path
 present in the API that is similar to the path of the "create" operation, but with a trailing path parameter reference.
 For example, "process_things" would be considered a "create"-type operation:
+</p>
 <pre>
   paths:
     '/v1/things':
@@ -6221,6 +6261,7 @@ it is a synchronous or asynchronous operation.</li>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-methods">IBM Cloud API Handbook: Fundamentals/Methods</a></li>
 <li><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-6">RFC7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a></li>
+</p>
 </ul>
 </td>
 </tr>
@@ -6313,6 +6354,7 @@ that is the appropriate configuration to be used by Spectral's <code>pattern()</
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#pattern">1</a>]
 to enforce the desired case convention for schema name values.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   match: '/^[A-Z]+[a-z0-9]+([A-Z]+[a-z0-9]*)*$/'
@@ -6323,6 +6365,7 @@ to enforce the desired case convention for schema name values.
 custom ruleset</a> and modify the configuration such that the value of the <code>match</code> field 
 specifies the desired case convention.
 For example, to disallow capitalized acronymns for schema names, the configuration object would look like this:
+</p>
 <pre>
 {
   match: '/^[A-Z][a-z0-9]+([A-Z][a-z0-9]+)*$/'
@@ -6437,6 +6480,7 @@ in an OpenAPI 3.1.x document. The allowable keywords are configurable (see the <
 <td>This rule supports a configuration object that specifies the set of keywords that are allowed within a schema
 or schema property.
 <p>The default configuration object provided with the rule is:
+</p>
 <pre>
 {
   keywordAllowList: [
@@ -6485,6 +6529,7 @@ contains the desired set of keywords to be checked.
 For example, to configure the rule so that <code>uniqueItems</code> and <code>unevaluatedProperties</code> are disallowed, 
 modify the configuration to remove these keywords from the <code>keywordAllowList</code>
 configuration field, like this:
+</p>
 <pre>
 {
   keywordAllowList: [
@@ -6834,6 +6879,7 @@ with the constraints outlined in the <a href="https://github.com/OAI/OpenAPI-Spe
 <li><code>http</code></li>
 <li><code>oauth2</code></li>
 <li><code>openIdConnect</code></li>
+</p>
 </ul>
 </li>
 <li>A security scheme with type <code>apiKey</code> must specify the <code>name</code> and <code>in</code> properties.
@@ -6853,6 +6899,7 @@ Valid values for the <code>in</code> property are:
 <li><code>authorizationcode</code></li>
 <li><code>clientCredentials</code></li>
 <li><code>password</code></li>
+</p>
 </ul>
 </p>
 <p>An <code>implicit</code> oauth2 flow must specify the <code>scopes</code> and <code>authorizationUrl</code> properties.</p>
@@ -6949,6 +6996,7 @@ referenced by at least one security requirement object.
 <li>If a security requirement object is associated with a security scheme that does not support
 scopes, then its scopes array MUST be empty.
 </li>
+</p>
 </ol>
 </td>
 </tr>
@@ -7073,10 +7121,12 @@ fields in order to clearly define the set of valid values for the property.
 <li>The check for the <code>minLength</code> field is bypassed if <code>format</code> is set to
 <code>date</code>, <code>identifier</code>, or <code>url</code>.</li>
 <li>The check for the <code>maxLength</code> field is bypassed if <code>format</code> is set to <code>date</code>.</li>
+</p>
 </ul>
 <p>This rule also checks non-string schema properties to make sure they do not define the
 <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields since these fields are applicable
 only for string schemas.
+</p>
 </td>
 </tr>
 <tr>
@@ -7174,6 +7224,7 @@ responses:
           example: 'example string'
 </pre>
 <p>Alternatively, the example may be provided as a sibling to the schema object.
+</p>
 <pre>
 responses:
   200:
@@ -7182,7 +7233,7 @@ responses:
         schema:
           type: string
         example: 'example string'
-<pre>
+</pre>
 </td>
 </tr>
 </table>
@@ -7319,14 +7370,17 @@ This means that, instead of representing the operation's request body as a singl
 will expose each of the properties defined in the operation's request body
 schema such that they appear to be individual operation parameters.   This optimization makes it easier for
 an SDK user to construct an instance of the request body schema (class, struct, etc.) when invoking the operation.
+</p>
 <p>Because the request body schema properties are exposed as operation parameters, the generator must detect if there are
 any name collisions between these schema properties and the operation's other parameters.
 The generator will rename the request body schema properties if any collisions are detected,
 but the names computed by the generator are not optimal from a usability standpoint, so it's better for the API
 to be defined such that the name collisions are avoided altogether.
+</p>
 <p>This validation rule checks each operation for name collisions between the operation's parameters and its request body
 schema properties.  An error is logged for each collision.  Each of these errors should be addressed by renaming either 
 the parameter or request body schema property to avoid the collision.
+</p>
 </td>
 </tr>
 <tr>
