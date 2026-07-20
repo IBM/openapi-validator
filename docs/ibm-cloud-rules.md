@@ -1588,11 +1588,11 @@ within the operation's path string, which should also match the plural form of t
 </p>
 <p>For the purposes of this rule, an operation is considered to be a "list"-type operation
 if it is a "get" request and one of the following are also true:
+</p>
 <ol>
 <li>the operation's operationId starts with "list" (e.g. "list_things")
 <li>the operation's path string does not end with a path parameter reference, but there is a
 companion path string that does end with a path parameter reference (e.g. "/v1/things" vs "/v1/things/{thing_id}").
-</p>
 </ol>
 </td>
 </tr>
@@ -2108,6 +2108,7 @@ responses:
 <td valign=top><b>Description:</b></td>
 <td>This rule implements the guidance related to error response schemas found in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors">API Handbook</a>.
 <p>Specifically, the following checks are performed against each schema associated with an error response:
+</p>
 <ul>
 <li>The error response schema should form a valid
 <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-container-model">error container model</a> as
@@ -2118,7 +2119,6 @@ as described in the API Handbook.</li>
 <li>If present, the <code>target</code> property must contain a valid
 <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-target-model">error target model</a>
 as described in the API Handbook.</li>
-</p>
 </ul>
 </td>
 </tr>
@@ -4552,15 +4552,15 @@ paths:
 <td>This rule verifies that list-type operations implement pagination correctly per the guidelines in the 
 <a href="https://cloud.ibm.com/docs/api-handbook">API Handbook</a>.
 <p>An operation is recognized as a <i>paginated</i> list-type operation if all of the following are true:
+</p>
 <ul>
 <li>The path doesn't end in a path segment that is a path parameter reference
 (e.g. <code>/v1/things</code> vs <code>/v1/things/{thing_id}</code>).</li>
 <li>The operation is a <b>get</b>.</li>
 <li>The operation's response schema is an object containing an array property.</li>
 <li>The operation defines either the <code>offset</code> query parameter or a page-token type
-query parameter whose name is one of the following: <code>start</code>(preferred), 
+query parameter whose name is one of the following: <code>start</code>(preferred),
 <code>token</code>, <code>cursor</code>, <code>page</code>, or <code>page_token</code>.</li>
-</p>
 </ul>
 <p>If an operation is recognized as a paginated list-type operation, then the following checks are
 performed:
@@ -5621,9 +5621,9 @@ components:
 <li>For a 30x response the code field must contain one of the following values for redirect code and nothing else: <code>forwarded</code>, <code>resolved</code>, <code>moved</code>, <code>remote_region</code>, <code>remote_account</code>, <code>version_mismatch</code>.</li>
 </ul>
 <p>References:
+</p>
 <ul>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
-</p>
 </ul>
 </td>
 </tr>
@@ -5703,6 +5703,7 @@ paths:
 the type of object it references.  For example, a reference to a schema should follow the pattern 
 <code>#/components/schemas/&lt;schema-name&gt;</code>.
 <p>Here is the full set of valid patterns for <code>$ref</code> values:
+</p>
 <ul>
 <li><code>#/components/callbacks/&lt;name&gt;</code></li>
 <li><code>#/components/examples/&lt;name&gt;</code></li>
@@ -5713,7 +5714,6 @@ the type of object it references.  For example, a reference to a schema should f
 <li><code>#/components/responses/&lt;name&gt;</code></li>
 <li><code>#/components/schemas/&lt;name&gt;</code></li>
 <li><code>#/components/securitySchemes/&lt;name&gt;</code></li>
-</p>
 </ul>
 The validator uses the <code>$ref</code> property's location within the API definition
 to determine the type of object being referenced.  For example, if the
@@ -6256,12 +6256,12 @@ with a trailing path parameter reference that would give us a hint that "handle_
 success (2xx) status codes. This is because an operation should be unambiguous in terms of whether or not
 it is a synchronous or asynchronous operation.</li>
 </ul>
-<p>References: 
+<p>References:
+</p>
 <ul>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-methods">IBM Cloud API Handbook: Fundamentals/Methods</a></li>
 <li><a href="https://datatracker.ietf.org/doc/html/rfc7231#section-6">RFC7231 - Hypertext Transfer Protocol (HTTP/1.1): Semantics and Content</a></li>
-</p>
 </ul>
 </td>
 </tr>
@@ -6872,6 +6872,7 @@ n/a
 <td>Performs a series of validations on the content within security schemes to ensure they comply
 with the constraints outlined in the <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#security-scheme-object">OpenAPI Specification</a>.
 <p>Specifically, the rule will perform these checks:
+</p>
 <ol>
 <li>Each security scheme must specify the <code>type</code> property. Valid values for the <code>type</code> property are:
 <ul>
@@ -6879,7 +6880,6 @@ with the constraints outlined in the <a href="https://github.com/OAI/OpenAPI-Spe
 <li><code>http</code></li>
 <li><code>oauth2</code></li>
 <li><code>openIdConnect</code></li>
-</p>
 </ul>
 </li>
 <li>A security scheme with type <code>apiKey</code> must specify the <code>name</code> and <code>in</code> properties.
@@ -6894,14 +6894,13 @@ Valid values for the <code>in</code> property are:
 </li>
 <li>A security scheme with type <code>oauth2</code> must specify the <code>flows</code> property.
 <p>Furthermore, the <code>flows</code> property must be an object that defines at least one of the following keys:
+</p>
 <ul>
 <li><code>implicit</code></li>
 <li><code>authorizationcode</code></li>
 <li><code>clientCredentials</code></li>
 <li><code>password</code></li>
-</p>
 </ul>
-</p>
 <p>An <code>implicit</code> oauth2 flow must specify the <code>scopes</code> and <code>authorizationUrl</code> properties.</p>
 <p>A <code>password</code> or <code>clientCredentials</code> oauth2 flow must specify the <code>scopes</code> and <code>tokenUrl</code> properties.</p>
 <p>An <code>authorizationCode</code> oauth2 flow must specify the <code>scopes</code>, <code>authorizationUrl</code>, and <code>tokenUrl</code> properties.</p>
@@ -6980,6 +6979,7 @@ components:
 <td valign=top><b>Description:</b></td>
 <td>Verifies the security schemes and security requirement objects.
 <p>Specifically, the rule will perform these checks:
+</p>
 <ol>
 <li>The name used within a security requirement object must correspond to a
 security scheme that is properly defined in "components.securitySchemes".
@@ -6996,7 +6996,6 @@ referenced by at least one security requirement object.
 <li>If a security requirement object is associated with a security scheme that does not support
 scopes, then its scopes array MUST be empty.
 </li>
-</p>
 </ol>
 </td>
 </tr>
@@ -7114,14 +7113,14 @@ servers:
 fields in order to clearly define the set of valid values for the property.
 [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#string">1</a>].
 <p>Note that these checks are bypassed for the following scenarios:
+</p>
 <ul>
 <li>All checks are bypassed for string schemas that contain an <code>enum</code> field.</li>
-<li>The check for the <code>pattern</code> field is bypassed if <code>format</code> is set to 
+<li>The check for the <code>pattern</code> field is bypassed if <code>format</code> is set to
 <code>binary</code>, <code>byte</code>, <code>date</code>, <code>date-time</code>, or <code>url</code>.</li>
 <li>The check for the <code>minLength</code> field is bypassed if <code>format</code> is set to
 <code>date</code>, <code>identifier</code>, or <code>url</code>.</li>
 <li>The check for the <code>maxLength</code> field is bypassed if <code>format</code> is set to <code>date</code>.</li>
-</p>
 </ul>
 <p>This rule also checks non-string schema properties to make sure they do not define the
 <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields since these fields are applicable
