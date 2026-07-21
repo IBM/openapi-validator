@@ -3098,9 +3098,7 @@ will perform the following checks:
 <li>The parameter's schema is defined with a pattern field that starts with either "crn" or "^crn" (e.g. 'crn:[-0-9A-Fa-f]+')</li>
 <li>The parameter's <code>example</code> field contains a CRN-like value (e.g. "crn:0afd-0138-2636")</li>
 <li>The parameter's <code>examples</code> field contains an entry containing a CRN-like value, as in this example:
-</p>
 <pre>
-</pre>
 components:
   parameters:
     ThingIdParam:
@@ -3113,13 +3111,16 @@ components:
       examples:
         crn_example:
           value: 'crn:0afd-0138-2636'
+</pre>
 </li>
 <li>The parameter schema's <code>example</code> field contains a CRN-like value (e.g. "crn:0afd-0138-2636")</li>
 <li>The parameter's <code>description</code> field contains either "CRN" or "Cloud Resource Name"</li>
 <li>The parameter schema's <code>description</code> field contains either "CRN" or "Cloud Resource Name"</li>
 </ul>
 These checks are logically OR'd together, so that if any one or more of these checks
-are true for a particular parameter, then a warning is raised for that parameter. 
+are true for a particular parameter, then a warning is raised for that parameter.
+</p>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -3399,6 +3400,8 @@ components:
 recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
 Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
 <p>This rule warns about operations that support the <code>If-Modified-Since</code> header parameter.
+</p>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -3411,7 +3414,6 @@ Operations should support <code>If-Match</code> and <code>If-None-Match</code> h
 <tr>
 <td valign=top><b>Non-compliant example:</b></td>
 <td>
-</p>
 <pre>
 paths:
   '/v1/things/{thing_id}':
@@ -3485,6 +3487,8 @@ paths:
 recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
 Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
 <p>This rule warns about operations that support the <code>If-Unmodified-Since</code> header parameter.
+</p>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -3497,7 +3501,6 @@ Operations should support <code>If-Match</code> and <code>If-None-Match</code> h
 <tr>
 <td valign=top><b>Non-compliant example:</b></td>
 <td>
-</p>
 <pre>
 paths:
   '/v1/things/{thing_id}':
@@ -5090,6 +5093,7 @@ within a schema:
 <li>The <code>patternProperties</code> and <code>additionalProperties</code> fields are mutually exclusive within a particular schema.
 <li>The <code>patternProperties</code> field must contain a regular expression anchored by <code>^</code> and <code>$</code>.
 </ul>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -6119,7 +6123,7 @@ components:
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-requestbody-name</b></td>
+<td><b>ibm-resource-response-consistency</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -7299,6 +7303,7 @@ paths:
 <td>This rule ensures that <code>unevaluatedProperties</code> is not enabled within a schema.
 It checks to make sure that if the <code>unevaluatedProperties</code> field
 is set on a schema, then it is set to the value <code>false</code> (i.e. disabled).
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
