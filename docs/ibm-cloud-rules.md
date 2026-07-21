@@ -5096,8 +5096,11 @@ paths:
 within a schema:
 <ul>
 <li>The <code>patternProperties</code> field must be an object with exactly one entry.
+</li>
 <li>The <code>patternProperties</code> and <code>additionalProperties</code> fields are mutually exclusive within a particular schema.
+</li>
 <li>The <code>patternProperties</code> field must contain a regular expression anchored by <code>^</code> and <code>$</code>.
+</li>
 </ul>
 </td>
 </tr>
