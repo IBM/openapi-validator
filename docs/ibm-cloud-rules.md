@@ -6262,9 +6262,8 @@ but "handle_things" would not:
         operationId: handle_things
         ...
 </pre>
-The difference being that with the "handle_things" operation, there is no corresponding path
-with a trailing path parameter reference that would give us a hint that "handle_things" is a create-type operation.
-</li>
+<li>The difference being that with the "handle_things" operation, there is no corresponding path
+with a trailing path parameter reference that would give us a hint that "handle_things" is a create-type operation.</li>
 <li>An operation that returns a <code>202 - Accepted</code> status code should not return any other
 success (2xx) status codes. This is because an operation should be unambiguous in terms of whether or not
 it is a synchronous or asynchronous operation.</li>
