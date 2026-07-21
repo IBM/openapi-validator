@@ -1591,8 +1591,10 @@ if it is a "get" request and one of the following are also true:
 </p>
 <ol>
 <li>the operation's operationId starts with "list" (e.g. "list_things")
+</li>
 <li>the operation's path string does not end with a path parameter reference, but there is a
 companion path string that does end with a path parameter reference (e.g. "/v1/things" vs "/v1/things/{thing_id}").
+</li>
 </ol>
 </td>
 </tr>
@@ -2558,12 +2560,16 @@ In general, two paths are ambiguous if the following are true:
 <li>one or the other of the path segments is parameterized (e.g. 'foo' vs '{foo_id}')</li>
 <li>both of the path segments are parameterized (e.g. '{foo_id}' vs '{id}')</li>
 </ol>
+</li>
 </ul>
 Here are examples of paths that are ambiguous despite being unique:
 <ul>
 <li><code>/v1/things/{thing_id}</code>, <code>/v1/things/{id}</code>
+</li>
 <li><code>/v1/things/{thing_id}</code>, <code>/v1/things/other_things</code>
+</li>
 <li><code>/{version}/things</code>, <code>/v1/{things}</code>
+</li>
 </ul>
 Each of the pairs of path strings above would be considered ambiguous.
 </td>
