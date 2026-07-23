@@ -53,5 +53,8 @@
     "@stoplight/spectral-core": {
       "minimatch": "3.1.5"
     }
+  },
+  "dependencies": {
+    "fast-uri": "^3.1.3"
   }
 }
