@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.12](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.11...@ibm-cloud/openapi-ruleset@1.33.12) (2026-07-23)
+
+
+### Bug Fixes
+
+* avoid file content disclosure when merging allOf schemas ([#829](https://github.com/IBM/openapi-validator/issues/829)) ([d01b95b](https://github.com/IBM/openapi-validator/commit/d01b95b04598f72e27904ab83307301b784b7f95))
+
 ## @ibm-cloud/openapi-ruleset [1.33.11](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.10...@ibm-cloud/openapi-ruleset@1.33.11) (2026-07-03)
 
 
