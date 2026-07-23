@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.37.17](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.16...ibm-openapi-validator@1.37.17) (2026-07-23)
+
+
+### Bug Fixes
+
+* **deps:** bump dependencies to avoid various CVEs ([#835](https://github.com/IBM/openapi-validator/issues/835)) ([6d0f97b](https://github.com/IBM/openapi-validator/commit/6d0f97b02d1bd24b4bb392dad76b50f691405b32))
+
 ## ibm-openapi-validator [1.37.16](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.15...ibm-openapi-validator@1.37.16) (2026-07-23)
 
 
