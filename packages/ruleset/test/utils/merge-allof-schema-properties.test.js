@@ -291,4 +291,22 @@ describe('Utility function: mergeAllOfSchemaProperties()', () => {
 
     expect(mergeAllOfSchemaProperties(schema)).toStrictEqual(expectedResult);
   });
+
+  it('should safely handle non-object input (security: CWE-209)', async () => {
+    // Test with string input (simulates resolved file contents)
+    const stringInput = 'random_string_input';
+    expect(mergeAllOfSchemaProperties(stringInput)).toBe(stringInput);
+
+    // Test with null input
+    expect(mergeAllOfSchemaProperties(null)).toBe(null);
+
+    // Test with undefined input
+    expect(mergeAllOfSchemaProperties(undefined)).toBe(undefined);
+
+    // Test with number input
+    expect(mergeAllOfSchemaProperties(42)).toBe(42);
+
+    // Test with boolean input
+    expect(mergeAllOfSchemaProperties(true)).toBe(true);
+  });
 });
