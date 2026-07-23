@@ -779,7 +779,7 @@ If you would simply like to modify a rule's severity or disable a rule altogethe
 follow the instructions in this section.
 
 > [!CAUTION]
-Disabling certain rules may lead to false negatives for problems identified by other rules.
+> Disabling certain rules may lead to false negatives for problems identified by other rules.
 >
 > For example, if you disable the `ibm-schema-type-format` rule, other rules which detect problems
 > in schemas with specific combinations of `type` and `format` may fail to identify which schemas
