@@ -229,7 +229,7 @@ function convertSpectralSeverity(s) {
 function getDocumentationURL(ruleCode) {
   if (ruleCode.includes('ibm')) {
     const baseUrl =
-      'https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md';
+      'https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html';
     return `${baseUrl}#${ruleCode}`;
   } else {
     const baseUrl =
