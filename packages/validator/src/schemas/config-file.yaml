@@ -82,3 +82,9 @@ properties:
       A flag that causes the validator to generate a report with rule violations and impact scores as a Markdown file
     type: boolean
     default: false
+  fileOnlyRefs:
+    description: >
+      A flag that causes Spectral to use a file-only $ref resolver,
+      disabling resolution of HTTP/HTTPS references
+    type: boolean
+    default: false
