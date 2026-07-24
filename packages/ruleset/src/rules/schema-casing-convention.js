@@ -15,7 +15,7 @@ module.exports = {
   then: {
     function: schemaCasingConvention,
     functionOptions: {
-      match: '/^[A-Z](?:[A-Z]*[a-z0-9]+)+$/',
+      match: '/^[A-Z]+[a-z0-9]+([A-Z]+[a-z0-9]*)*$/',
     },
   },
 };
