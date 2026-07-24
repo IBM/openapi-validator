@@ -18,7 +18,7 @@ describe('getReport tests', function () {
     // Check all subtitle-level headers.
     const headers = report
       .split('\n')
-      .filter(l => l.startsWith('##'))
+      .filter(l => /^## /.test(l))
       .map(l => l.slice(3));
     expect(headers).toEqual([
       'Quick view',

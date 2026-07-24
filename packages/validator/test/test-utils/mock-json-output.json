@@ -8,6 +8,7 @@
           "/pets/{pet_id}/{id}"
         ],
         "rule": "ibm-no-consecutive-path-parameter-segments",
+        "docLink": "https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-no-consecutive-path-parameter-segments",
         "line": 84
       },
       {
@@ -20,6 +21,7 @@
           "id"
         ],
         "rule": "ibm-integer-attributes",
+        "docLink": "https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-integer-attributes",
         "line": 133
       }
     ],
@@ -52,6 +54,7 @@
           "pattern"
         ],
         "rule": "ibm-anchored-patterns",
+        "docLink": "https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-anchored-patterns",
         "line": 233
       }
     ],
