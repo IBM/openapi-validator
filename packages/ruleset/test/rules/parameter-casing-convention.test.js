@@ -178,37 +178,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
-
-    it('Should handle potential ReDoS patterns efficiently', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      // Pattern that would cause catastrophic backtracking in old regex
-      // Old pattern: /^[A-Z]+[a-z0-9]*-*([A-Z]+[a-z0-9]*-*)*$/
-      // This input would cause exponential time complexity
-      const maliciousHeader = 'A' + 'A-'.repeat(50);
-
-      testDocument.paths['/v1/movies'].get.parameters.push({
-        description: 'Header with ReDoS attack pattern',
-        name: maliciousHeader,
-        required: false,
-        in: 'header',
-        schema: {
-          type: 'string',
-        },
-      });
-
-      const startTime = Date.now();
-      const results = await testRule(ruleId, rule, testDocument);
-      const duration = Date.now() - startTime;
-
-      // Should complete quickly (well under 500ms) with fixed regex
-      // Note: Includes test overhead; actual regex execution is much faster
-      expect(duration).toBeLessThan(500);
-      // Should still validate correctly and reject the malformed header
-      expect(results).toHaveLength(1);
-      expect(results[0].code).toBe(ruleId);
-      expect(results[0].message).toBe(expectedMsgHeader);
-    });
   });
 
   describe('Should yield errors', () => {

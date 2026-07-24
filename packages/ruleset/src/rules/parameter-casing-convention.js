@@ -45,7 +45,7 @@ module.exports = {
       // Spectral casing convention types aren't robust enough to handle
       // the complexity of headers, so we define our own kebab/pascal case regex.
       header: {
-        match: '/^[A-Z][A-Za-z0-9]*(?:-[A-Z][A-Za-z0-9]*)*$/',
+        match: '/^[A-Z]+[a-z0-9]*-*([A-Z]+[a-z0-9]*-*)*$/',
       },
 
       // Define an alternate message for the header pattern validation

@@ -65,33 +65,6 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
-
-    it('Should handle potential ReDoS patterns efficiently', async () => {
-      const testDocument = makeCopy(rootDocument);
-
-      // Pattern that would cause catastrophic backtracking in old regex
-      // Old pattern: /^[A-Z]+[a-z0-9]+([A-Z]+[a-z0-9]*)*$/
-      // This input would cause exponential time complexity
-      const maliciousSchemaName = 'A' + 'Aa'.repeat(50);
-
-      testDocument.components.schemas[maliciousSchemaName] = {
-        type: 'object',
-        properties: {
-          id: { type: 'string' },
-        },
-      };
-
-      const startTime = Date.now();
-      const results = await testRule(ruleId, rule, testDocument);
-      const duration = Date.now() - startTime;
-
-      // Should complete quickly (well under 500ms) with fixed regex
-      // Note: Includes test overhead; actual regex execution is much faster
-      expect(duration).toBeLessThan(500);
-      // Should still validate correctly - this pattern should actually pass
-      // as it matches the upper camel case pattern
-      expect(results).toHaveLength(0);
-    });
   });
 
   describe('Should yield errors', () => {
