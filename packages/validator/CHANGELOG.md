@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.37.18](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.17...ibm-openapi-validator@1.37.18) (2026-07-24)
+
+
+### Bug Fixes
+
+* **deps:** update package versions to address vulnerabilities ([#838](https://github.com/IBM/openapi-validator/issues/838)) ([66a1d20](https://github.com/IBM/openapi-validator/commit/66a1d2046cf782ec1fd9b3485cbbeaa0a88b067a))
+
 ## ibm-openapi-validator [1.37.17](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.16...ibm-openapi-validator@1.37.17) (2026-07-23)
 
 
