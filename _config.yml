@@ -1,0 +1,16 @@
+title: IBM OpenAPI Validator
+description: A highly configurable linter/validator for OpenAPI documents.
+theme: minima
+
+exclude:
+  - README.md
+  - CHANGELOG.md
+  - CONTRIBUTING.md
+  - Migration-Guide.md
+  - docs/automated-quality-screening.md
+  - docs/openapi-ruleset-utilities.md
+  - packages/
+  - node_modules/
+  - scripts/
+  - coverage/
+  - test-local/

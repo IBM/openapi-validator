@@ -1,0 +1,27 @@
+// Fix table layout so they never cause horizontal page scroll.
+// Tables are constrained to the wrapper width; pre blocks inside
+// cells scroll only within the cell (vertically wrapping the content).
+
+.post-content {
+  table {
+    table-layout: fixed;
+    width: 100%;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+
+    td, th {
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+
+    // pre / code blocks inside table cells: scroll horizontally within
+    // the cell only, never overflow the page.
+    td pre, th pre {
+      overflow-x: auto;
+      max-width: 100%;
+      white-space: pre;
+      word-wrap: normal;
+      overflow-wrap: normal;
+    }
+  }
+}
