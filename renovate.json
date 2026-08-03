@@ -3,5 +3,5 @@
   "enabled": false,
   "prConcurrentLimit": 4,
   "reviewers": ["pyrooka", "diatrcz", "Andris28"],
-  "extends": ["config:recommended", "security:minimumReleaseAgeNpm"]
+  "extends": ["config:recommended", "security:minimumReleaseAgeNpm", "group:all"]
 }
