@@ -71,6 +71,16 @@ jobs:
           npm run lint
           npm run test-docker
 
+      - name: Test npx double-package install
+        run: |
+          npm pack --workspace packages/validator
+          npm pack --workspace packages/ruleset
+
+          npx --yes \
+            -p ./ibm-cloud-openapi-ruleset-*.tgz \
+            -p ./ibm-openapi-validator-*.tgz \
+            lint-openapi packages/validator/test/cli-validator/mock-files/oas3/clean.yml
+
   publish-release:
     needs: build
     name: semantic-release
