@@ -76,10 +76,20 @@ jobs:
           npm pack --workspace packages/validator
           npm pack --workspace packages/ruleset
 
+          # Test without a custom ruleset
           npx --yes \
             -p ./ibm-cloud-openapi-ruleset-*.tgz \
             -p ./ibm-openapi-validator-*.tgz \
             lint-openapi packages/validator/test/cli-validator/mock-files/oas3/clean.yml
+
+          # Test with a custom .spectral.js
+          printf "const ibmRuleset = require('@ibm-cloud/openapi-ruleset');\nmodule.exports = { extends: [[ibmRuleset, 'all']], rules: {} };\n" > /tmp/test-spectral.js
+
+          npx --yes \
+            -p ./ibm-cloud-openapi-ruleset-*.tgz \
+            -p ./ibm-openapi-validator-*.tgz \
+            lint-openapi --ruleset /tmp/test-spectral.js \
+            packages/validator/test/cli-validator/mock-files/oas3/clean.yml
 
   publish-release:
     needs: build
