@@ -3,9 +3,16 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Document, Ruleset, Spectral } = require('@stoplight/spectral-core');
+// Resolve spectral-core and spectral-parsers through the IBM ruleset's own
+// module-resolution context. This guarantees a single shared copy of
+// spectral-core is used across ibm-openapi-validator, @ibm-cloud/openapi-ruleset,
+// and @stoplight/spectral-cli, even when npx installs the two packages in
+// separate contexts and npm nests a second spectral-core under ibm-openapi-validator.
+const { createRequire } = require('module');
 const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
-const Parsers = require('@stoplight/spectral-parsers');
+const _req = createRequire(require.resolve('@ibm-cloud/openapi-ruleset'));
+const { Document, Ruleset, Spectral } = _req('@stoplight/spectral-core');
+const Parsers = _req('@stoplight/spectral-parsers');
 const {
   getRuleset,
 } = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
