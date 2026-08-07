@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Document, Spectral } = require('@stoplight/spectral-core');
+const { Document, Ruleset, Spectral } = require('@stoplight/spectral-core');
+const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const Parsers = require('@stoplight/spectral-parsers');
 const {
   getRuleset,
 } = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
-const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const { Resolver } = require('@stoplight/spectral-ref-resolver');
 const { resolveFile } = require('@stoplight/json-ref-readers');
 
@@ -136,9 +136,9 @@ async function setup({ config, logger }) {
     : undefined;
   const spectral = new Spectral(resolverOpts);
 
-  // We'll use the IBM ruleset by default, but also look for a user-provided
-  // ruleset and use that if one was specified.
-  let ruleset = ibmRuleset;
+  // Wrap the IBM ruleset in a Ruleset instance using the same spectral-core
+  // that this module imports.
+  let ruleset = new Ruleset(ibmRuleset, { severity: 'recommended' });
 
   const rulesetFileOverride = await findSpectralRuleset(config, logger);
   if (rulesetFileOverride) {
