@@ -3,19 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-// Resolve spectral-core and spectral-parsers through the IBM ruleset's own
-// module-resolution context. This guarantees a single shared copy of
-// spectral-core is used across ibm-openapi-validator, @ibm-cloud/openapi-ruleset,
-// and @stoplight/spectral-cli, even when npx installs the two packages in
-// separate contexts and npm nests a second spectral-core under ibm-openapi-validator.
-const { createRequire } = require('module');
-const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
-const _req = createRequire(require.resolve('@ibm-cloud/openapi-ruleset'));
-const { Document, Ruleset, Spectral } = _req('@stoplight/spectral-core');
-const Parsers = _req('@stoplight/spectral-parsers');
+const { Document, Spectral } = require('@stoplight/spectral-core');
+const Parsers = require('@stoplight/spectral-parsers');
 const {
   getRuleset,
 } = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
+const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
 const { Resolver } = require('@stoplight/spectral-ref-resolver');
 const { resolveFile } = require('@stoplight/json-ref-readers');
 
@@ -143,9 +136,9 @@ async function setup({ config, logger }) {
     : undefined;
   const spectral = new Spectral(resolverOpts);
 
-  // Wrap the IBM ruleset in a Ruleset instance using the same spectral-core
-  // that this module imports.
-  let ruleset = new Ruleset(ibmRuleset, { severity: 'recommended' });
+  // We'll use the IBM ruleset by default, but also look for a user-provided
+  // ruleset and use that if one was specified.
+  let ruleset = ibmRuleset;
 
   const rulesetFileOverride = await findSpectralRuleset(config, logger);
   if (rulesetFileOverride) {
