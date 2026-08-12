@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.38.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.1...ibm-openapi-validator@1.38.2) (2026-08-03)
+
+
+### Bug Fixes
+
+* **deps:** bump js-yaml from 5.2.1 to 5.2.2 ([#841](https://github.com/IBM/openapi-validator/issues/841)) ([dfa879d](https://github.com/IBM/openapi-validator/commit/dfa879d970472f25f51f9fe47edd71902099fbef))
+
 ## ibm-openapi-validator [1.38.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.0...ibm-openapi-validator@1.38.1) (2026-07-27)
 
 
