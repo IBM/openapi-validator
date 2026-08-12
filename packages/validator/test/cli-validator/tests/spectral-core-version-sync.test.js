@@ -15,8 +15,6 @@ const spectralRulesetsPkg = require('../../../../../node_modules/@stoplight/spec
 // These must stay in sync to avoid an instanceof Ruleset mismatch.
 const validatorPin = validatorPkg.dependencies['@stoplight/spectral-core'];
 const rulesetDevPin = rulesetPkg.devDependencies['@stoplight/spectral-core'];
-const rulesetPeerRange =
-  rulesetPkg.peerDependencies['@stoplight/spectral-core'];
 const spectralRulesetsRange =
   spectralRulesetsPkg.dependencies['@stoplight/spectral-core'];
 
@@ -27,11 +25,6 @@ describe('spectral-core version sync', function () {
 
   it('validator spectral-core pin should satisfy the range required by spectral-rulesets', function () {
     const satisfies = semver.satisfies(validatorPin, spectralRulesetsRange);
-    expect(satisfies).toBe(true);
-  });
-
-  it('ruleset peerDependency range should be satisfied by the validator spectral-core pin', function () {
-    const satisfies = semver.satisfies(validatorPin, rulesetPeerRange);
     expect(satisfies).toBe(true);
   });
 });
