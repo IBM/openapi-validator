@@ -1,15 +1,13 @@
 /**
- * Copyright 2017 - 2025 IBM Corporation.
+ * Copyright 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
-
-'use strict';
 
 const semver = require('semver');
 
 const validatorPkg = require('../../../package.json');
 const rulesetPkg = require('../../../../ruleset/package.json');
-const spectralRulesetsPkg = require('../../../../../node_modules/@stoplight/spectral-rulesets/package.json');
+const spectralRulesetsPkg = require('@stoplight/spectral-rulesets/package.json');
 
 // The version of @stoplight/spectral-core declared in each package.json.
 // These must stay in sync to avoid an instanceof Ruleset mismatch.
