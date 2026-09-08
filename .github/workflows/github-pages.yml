@@ -1,9 +1,11 @@
 name: deploy github pages
 
 on:
-  # Runs on pushes targeting the default branch
+  # Runs on pushes to main (content) or gh-pages (scaffolding)
   push:
-    branches: ["main"]
+    branches:
+      - main
+      - gh-pages
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -24,15 +26,34 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout gh-pages (Jekyll scaffolding)
         uses: actions/checkout@v4
+        with:
+          ref: gh-pages
+
+      - name: Checkout docs content from main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          sparse-checkout: |
+            docs/ibm-cloud-rules.md
+          sparse-checkout-cone-mode: false
+          path: _main_docs
+
+      - name: Copy docs content into build tree
+        run: |
+          mkdir -p docs
+          cp _main_docs/docs/ibm-cloud-rules.md docs/ibm-cloud-rules.md
+
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
           source: ./
           destination: ./_site
+
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
 
