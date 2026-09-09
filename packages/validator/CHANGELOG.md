@@ -1,3 +1,19 @@
+## ibm-openapi-validator [1.38.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.2...ibm-openapi-validator@1.38.3) (2026-09-09)
+
+
+### Bug Fixes
+
+* resolve npx double package install failure ([#848](https://github.com/IBM/openapi-validator/issues/848)) ([95fb589](https://github.com/IBM/openapi-validator/commit/95fb589c76b2ce2514526860dcbff2e8d021ee1d))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.14
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.3
+
 ## ibm-openapi-validator [1.38.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.1...ibm-openapi-validator@1.38.2) (2026-08-03)
 
 
