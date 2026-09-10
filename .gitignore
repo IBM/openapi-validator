@@ -15,3 +15,4 @@ coverage/
 .spectral.js
 .nvmrc
 .vscode/
+.bob/
