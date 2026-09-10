@@ -3,5 +3,11 @@
   "enabled": false,
   "prConcurrentLimit": 4,
   "reviewers": ["pyrooka", "diatrcz", "Andris28"],
-  "extends": ["config:recommended", "security:minimumReleaseAgeNpm", "group:all"]
+  "extends": ["config:recommended", "security:minimumReleaseAgeNpm", "group:all"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["@ibm-cloud/*"],
+      "minimumReleaseAge": "0 days"
+    }
+  ]
 }
