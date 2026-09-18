@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset-utilities [1.9.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.9.3...@ibm-cloud/openapi-ruleset-utilities@1.9.4) (2026-09-18)
+
+
+### Bug Fixes
+
+* **deps:** bump packages to latest patch version ([#856](https://github.com/IBM/openapi-validator/issues/856)) ([5018f24](https://github.com/IBM/openapi-validator/commit/5018f249002f7efd9637428082e6dc0bfea3ddc1))
+
 ## @ibm-cloud/openapi-ruleset-utilities [1.9.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.9.2...@ibm-cloud/openapi-ruleset-utilities@1.9.3) (2026-09-09)
 
 
