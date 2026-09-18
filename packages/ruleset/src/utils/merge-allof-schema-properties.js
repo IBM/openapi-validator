@@ -61,7 +61,12 @@ function mergeAllOfSchemaProperties(schema) {
  * @param {*} sourceValue a field from the merge source
  * @returns the "merged" value
  */
-function customizer(targetValue, sourceValue) {
+function customizer(targetValue, sourceValue, key) {
+  // Prevent prototype pollution by refusing to merge dangerous keys.
+  if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+    return targetValue;
+  }
+
   // Allow non-object fields from the merge source to be overwritten in the target.
   if (!isObject(sourceValue)) {
     return sourceValue;
