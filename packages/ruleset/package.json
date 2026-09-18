@@ -22,8 +22,8 @@
   },
   "dependencies": {
     "@ibm-cloud/openapi-ruleset-utilities": "1.9.3",
-    "@stoplight/spectral-formats": "1.8.2",
-    "@stoplight/spectral-functions": "1.10.1",
+    "@stoplight/spectral-formats": "1.8.5",
+    "@stoplight/spectral-functions": "1.10.5",
     "@stoplight/spectral-rulesets": "1.22.7",
     "chalk": "4.1.2",
     "inflected": "2.1.0",
@@ -31,8 +31,8 @@
     "lodash": "4.18.1",
     "loglevel": "1.9.2",
     "loglevel-plugin-prefix": "0.8.4",
-    "minimatch": "10.2.3",
-    "validator": "13.15.23"
+    "minimatch": "10.2.6",
+    "validator": "13.15.35"
   },
   "devDependencies": {
     "@stoplight/spectral-core": "1.23.1",
