@@ -17,7 +17,7 @@ describe('ruleViolationDetails table tests', function () {
 
     // 3-col table
     expect(lines[2]).toBe(
-      '### [ibm-no-consecutive-path-parameter-segments](https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-no-consecutive-path-parameter-segments)'
+      '### [ibm-no-consecutive-path-parameter-segments](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-no-consecutive-path-parameter-segments)'
     );
     expect(lines[3]).toBe('');
     expect(lines[4]).toBe(
@@ -33,7 +33,7 @@ describe('ruleViolationDetails table tests', function () {
 
     // 2-col table
     expect(lines[10]).toBe(
-      '### [ibm-integer-attributes](https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-integer-attributes)'
+      '### [ibm-integer-attributes](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-integer-attributes)'
     );
     expect(lines[11]).toBe('');
     expect(lines[12]).toBe(
@@ -51,7 +51,7 @@ describe('ruleViolationDetails table tests', function () {
 
     // 2-col table
     expect(lines[20]).toBe(
-      '### [ibm-anchored-patterns](https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#ibm-anchored-patterns)'
+      '### [ibm-anchored-patterns](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-anchored-patterns)'
     );
     expect(lines[21]).toBe('');
     expect(lines[22]).toBe(

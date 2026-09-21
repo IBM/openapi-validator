@@ -89,7 +89,7 @@ function convertResults(spectralResults, { config, logger }) {
       message: r.message,
       path: r.path,
       rule: r.code,
-      docLink: getDocumentationURL(r.code),
+      docLink: r.documentationUrl,
       line: r.range.start.line + 1,
     });
 
@@ -233,16 +233,4 @@ function convertSpectralSeverity(s) {
   // we have already guaranteed s to be a number, 0-3
   const mapping = { 0: 'error', 1: 'warning', 2: 'info', 3: 'hint' };
   return mapping[s];
-}
-
-function getDocumentationURL(ruleCode) {
-  if (ruleCode.includes('ibm')) {
-    const baseUrl =
-      'https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html';
-    return `${baseUrl}#${ruleCode}`;
-  } else {
-    const baseUrl =
-      'https://meta.stoplight.io/docs/spectral/4dec24461f3af-open-api-rules';
-    return `${baseUrl}#${ruleCode}`;
-  }
 }
