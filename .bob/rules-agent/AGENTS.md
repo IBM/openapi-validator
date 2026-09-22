@@ -15,7 +15,7 @@ This file provides guidance to agents when working with code in this repository.
 - The logger must be lazily initialized at first call using `context.rule.name` (the rule ID is not available at module load time):
   ```js
   let ruleId, logger;
-  module.exports = function(input, options, context) {
+  module.exports = function(input, _opts, context) {
     if (!logger) {
       ruleId = context.rule.name;
       logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -25,6 +25,19 @@ This file provides guidance to agents when working with code in this repository.
 - Rule functions return an array of `{ message, path }` objects (or `[]`), not throw errors
 - Import shared utilities from `@ibm-cloud/openapi-ruleset-utilities`, internal utils from `'../utils'`
 - Use `validateNestedSchemas()` / `validateComposedSchemas()` / `validateSubschemas()` from utilities to recurse into schemas (don't manually recurse)
+
+## Adding Rules: Required Checklist
+
+1. `src/functions/<name>.js` — implementation
+2. `src/rules/<name>.js` — Spectral rule object
+3. Export in `src/functions/index.js`
+4. Export in `src/rules/index.js`
+5. Register (with severity) in `src/ibm-oas.js`
+6. Test file at `test/rules/<name>.test.js`
+7. Scoring rubric entry in `packages/validator/src/scoring-tool/rubric.js`
+8. Documentation entry in `docs/ibm-cloud-rules.md`
+
+Missing any step causes silent omission from the ruleset, test failures, or an unscored rule.
 
 ## Test Patterns
 

@@ -160,7 +160,7 @@ Path: `packages/ruleset/test/rules/<rule-name>.test.js`
 Rules:
 - Start with the IBM copyright block.
 - Import from `'../../src/rules'` (not from the package).
-- Import test utilities from `'../test-utils'`: `{ makeCopy, rootDocument, testRule, severityCodes }`.
+- Import test utilities from `'../test-utils'`: `{ makeCopy, rootDocument, testRule, unitTestRule, severityCodes }`.
 - Always start with `makeCopy(rootDocument)` and mutate — never mutate `rootDocument` directly.
 - Use `testRule(ruleId, rule, document)` for integration-style tests.
 - Use `unitTestRule(ruleId, rule, input)` only when you need to bypass `given`/`formats`.
@@ -180,6 +180,7 @@ const {
   makeCopy,
   rootDocument,
   testRule,
+  unitTestRule,
   severityCodes,
 } = require('../test-utils');
 
@@ -298,7 +299,7 @@ Template (copy the structure from any nearby rule section, e.g. `### ibm-valid-p
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 <non-compliant YAML example>

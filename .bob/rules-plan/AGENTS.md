@@ -28,9 +28,10 @@ Circular dependencies would break workspace linking — utilities must have no d
 4. Export in `src/rules/index.js`
 5. Register (with severity) in `src/ibm-oas.js`
 6. Test file at `test/rules/<name>.test.js`
-7. Documentation entry in `docs/ibm-cloud-rules.md`
+7. Scoring rubric entry in `packages/validator/src/scoring-tool/rubric.js`
+8. Documentation entry in `docs/ibm-cloud-rules.md`
 
-Missing any step causes silent omission from the ruleset or test failures.
+Missing any step causes silent omission from the ruleset, test failures, or an unscored rule.
 
 ## Commit & Release
 

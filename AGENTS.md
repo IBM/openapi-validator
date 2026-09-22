@@ -75,7 +75,7 @@ Each rule has two separate files that must be kept in sync:
 Rule functions use a lazy-initialized logger from `LoggerFactory` (singleton via global):
 ```js
 let ruleId, logger;
-module.exports = function myRule(input, options, context) {
+module.exports = function myRule(input, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
