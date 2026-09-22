@@ -47,10 +47,10 @@ const runSpectral = async function ({ originalFile, validFile }, context) {
   // Save the resolved API definition for use in the scoring tool logic.
   context.apiDefinition = doc.data;
 
-  return convertResults(spectralResults, context);
+  return convertResults(spectralResults, context, spectral.ruleset.rules);
 };
 
-function convertResults(spectralResults, { config, logger }) {
+function convertResults(spectralResults, { config, logger }, rules) {
   const { errorsOnly } = config;
 
   // This structure must match the JSON Schema defined for JSON output
@@ -89,7 +89,7 @@ function convertResults(spectralResults, { config, logger }) {
       message: r.message,
       path: r.path,
       rule: r.code,
-      docLink: r.documentationUrl,
+      docLink: rules[r.code]?.documentationUrl,
       line: r.range.start.line + 1,
     });
 
