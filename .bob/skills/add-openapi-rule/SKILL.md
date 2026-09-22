@@ -14,17 +14,85 @@ or leave the rule undocumented / unscored.
 
 ---
 
-## Step 1 — Clarify Requirements
+## Step 0 — Gather Inputs Interactively
 
-Before writing any code, confirm the following with the user (if not already stated):
+**Before doing anything else**, send the user a single message that:
+1. Asks for the rule description (if not already given).
+2. Based on the description — whether supplied by the user or inferred from their request —
+   proposes concrete values for every field below and asks the user to confirm or adjust.
 
-1. **Rule name** — kebab-case, e.g. `my-new-rule`. This becomes the filename base.
-2. **Rule ID** — must be prefixed `ibm-`, e.g. `ibm-my-new-rule`. This is the key used in `ibm-oas.js`.
-3. **What does the rule check?** — Describe the violation condition briefly.
-4. **Severity** — `error`, `warn`, `info`, or `hint`. Default: `warn`.
-5. **Where does it run (`given`)?** — A JSONPath or one of the named collections from
-   `@ibm-cloud/openapi-ruleset-utilities/src/collections` (e.g. `schemas`, `paths`, `operations`).
-6. **Does it need `resolved: true`?** — Yes if the rule needs `$ref`s resolved first. Default: `true`.
+Do NOT proceed to Step 1 until the user has confirmed all four items.
+
+### Fields to confirm
+
+1. **Description** — plain English, one sentence. What is the violation?
+   - If the user already described the rule, restate it as a clean one-sentence description and
+     ask them to confirm.
+
+2. **Rule name** — kebab-case, no `ibm-` prefix (that is added automatically).
+   - Derive a short, specific name from the description (e.g. `no-nullable-properties`,
+     `operation-summary-exists`, `schema-description-exists`).
+   - The full rule ID will be `ibm-<rule-name>`.
+
+3. **Severity** — propose the most appropriate one based on the description:
+   - `error` — structural mistake that will break SDKs or clients
+   - `warn` *(most common)* — convention or style violation
+   - `info` — informational; no immediate impact
+   - `hint` — rarely used
+
+4. **Scoring rubric** — propose values based on the description:
+   - `coefficient` — `1` for typical rules; `2`–`3` for high-impact structural rules
+   - `denominator` — what the score is measured against:
+     - `schemas` if the rule targets schema definitions
+     - `operations` if the rule targets operations or request/response behaviour
+     - `paths` if the rule targets path-level structure
+   - `categories` — one or more of `usability`, `security`, `robustness`, `evolution`; suggest
+     the best fit(s) based on the rule's purpose:
+     - `usability` — readability, discoverability, developer experience
+     - `security` — auth, credentials, sensitive data
+     - `robustness` — correctness, completeness, error handling
+     - `evolution` — versioning, backward compatibility
+   - If the rule has no meaningful impact on API quality scoring, propose a comment-only entry.
+
+---
+
+## Step 1 — Check for Existing Coverage
+
+**Before writing any code**, check the existing ruleset for potential overlap.
+
+### 1a — Read the live rule list
+
+Run this command to get the current rule IDs and descriptions directly from source:
+
+```bash
+grep -rh "description:" packages/ruleset/src/rules/*.js | grep -v "^description:$" | sort -u
+```
+
+Also list the rule filenames to get their IDs:
+
+```bash
+ls packages/ruleset/src/rules/*.js | grep -v index.js | sed 's|.*/||; s|\.js$||' | sort
+```
+
+Use the output — not any cached list — to check for overlap with the user's described violation.
+
+### 1b — Decide: new rule or extend existing?
+
+After reviewing the list, present one of these outcomes to the user:
+
+**If the description overlaps significantly with an existing rule**, say so:
+> "This sounds similar to `ibm-<existing-rule>` which already checks `<existing description>`.
+> Would you like to:
+> (a) extend that rule's function to cover your case too, or
+> (b) create a separate rule anyway (e.g. different severity or `given` scope)?"
+>
+> If the user chooses (a), read `packages/ruleset/src/functions/<existing-rule>.js` and
+> `packages/ruleset/test/rules/<existing-rule>.test.js` before proceeding — the extension goes
+> into those files instead of creating new ones. Skip Steps 2, 3, 4, 5 (new files only) and adapt
+> accordingly.
+
+**If there is no meaningful overlap**, confirm:
+> "No existing rule covers this. Proceeding with a new rule `ibm-<rule-name>`."
 
 ---
 
@@ -219,17 +287,18 @@ describe(`Spectral rule: ${ruleId}`, () => {
 
 Path: `packages/validator/src/scoring-tool/rubric.js`
 
-Every IBM rule should have a scoring entry. Add it in alphabetical order by rule ID:
+Every IBM rule should have a scoring entry. Add it in alphabetical order by rule ID using the
+`coefficient`, `denominator`, and `categories` values confirmed in Step 0:
 
 ```js
 'ibm-<rule-name>': {
-  coefficient: <N>,       // weight of the rule in scoring (ask user, or use 1 as a default)
-  denominator: '<schemas|operations|paths>',  // what the score is measured against
-  categories: ['<usability|security|robustness|evolution>'],  // one or more
+  coefficient: <N>,       // weight of the rule in scoring (from Step 0; default 1)
+  denominator: '<schemas|operations|paths>',  // from Step 0
+  categories: ['<usability|security|robustness|evolution>'],  // from Step 0
 },
 ```
 
-If the rule has no meaningful impact on scoring, add a comment instead:
+If the user indicated no meaningful impact on scoring, add a comment entry instead:
 ```js
 // 'ibm-<rule-name>' - no impact
 ```
