@@ -75,7 +75,7 @@ Each rule has two separate files that must be kept in sync:
 Rule functions use a lazy-initialized logger from `LoggerFactory` (singleton via global):
 ```js
 let ruleId, logger;
-module.exports = function myRule(input, options, context) {
+module.exports = function myRule(input, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
@@ -90,11 +90,18 @@ LoggerFactory.getInstance().addLoggerSetting(ruleId, 'debug');
 
 ## Adding a New Rule
 
+The canonical checklist for adding a rule is in `.bob/skills/add-openapi-rule/SKILL.md`.
+That skill is the single source of truth for the full workflow (function, rule definition,
+barrel exports, ibm-oas registration, test, scoring rubric, documentation).
+
+Quick reference:
 1. Create `packages/ruleset/src/functions/<rule-name>.js` (implementation)
 2. Create `packages/ruleset/src/rules/<rule-name>.js` (Spectral rule object)
 3. Export from `packages/ruleset/src/functions/index.js` and `packages/ruleset/src/rules/index.js`
 4. Register in `packages/ruleset/src/ibm-oas.js`
 5. Create test at `packages/ruleset/test/rules/<rule-name>.test.js`
+6. Add scoring entry in `packages/validator/src/scoring-tool/rubric.js`
+7. Document in `docs/ibm-cloud-rules.md` (TOC, summary table, full rule section)
 
 ## Commits
 
