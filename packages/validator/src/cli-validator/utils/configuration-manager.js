@@ -44,6 +44,7 @@ const defaultConfig = {
   summaryOnly: false,
   produceQualityScore: false,
   markdownReport: false,
+  fileOnlyRefs: false,
 };
 
 const supportedConfigFileTypes = ['json', 'yaml', 'yml', 'js'];
@@ -246,6 +247,10 @@ async function processArgs(args, cliParseOptions) {
 
   if ('markdownReport' in opts) {
     configObj.markdownReport = true;
+  }
+
+  if ('fileOnlyRefs' in opts) {
+    configObj.fileOnlyRefs = !!opts.fileOnlyRefs;
   }
 
   return { context, command };

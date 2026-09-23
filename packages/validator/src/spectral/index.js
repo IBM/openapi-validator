@@ -9,6 +9,8 @@ const {
   getRuleset,
 } = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
 const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
+const { Resolver } = require('@stoplight/spectral-ref-resolver');
+const { resolveFile } = require('@stoplight/json-ref-readers');
 
 const {
   checkRulesetVersion,
@@ -125,7 +127,14 @@ function convertResults(spectralResults, { config, logger }) {
  * @returns the new Spectral instance
  */
 async function setup({ config, logger }) {
-  const spectral = new Spectral();
+  const resolverOpts = config.fileOnlyRefs
+    ? {
+        resolver: new Resolver({
+          resolvers: { file: { resolve: resolveFile } },
+        }),
+      }
+    : undefined;
+  const spectral = new Spectral(resolverOpts);
 
   // We'll use the IBM ruleset by default, but also look for a user-provided
   // ruleset and use that if one was specified.

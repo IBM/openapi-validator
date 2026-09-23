@@ -8,6 +8,12 @@ const { isObject, mergeWith } = require('lodash');
 // Takes a schema, and if an allOf field is provided,
 // merges all allOf schema properties to create one schema
 function mergeAllOfSchemaProperties(schema) {
+  // Type guard: reject non-object input before applying 'in' operator
+  // This prevents TypeError when schema is a string (e.g., resolved file contents)
+  if (typeof schema !== 'object' || schema === null) {
+    return schema;
+  }
+
   // Bail out immediately if 'schema' has no "allOf" field.
   if (!('allOf' in schema)) {
     return schema;

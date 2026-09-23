@@ -60,6 +60,7 @@ and [OpenAPI 3.1.x](https://github.com/OAI/OpenAPI-Specification/blob/master/ver
     + [Additional Customization](#additional-customization)
   * [JSON](#json)
 - [Logging](#logging)
+- [Security Notice](#security-notice)
 - [Contributing](#contributing)
 - [License](#license)
 
@@ -1056,6 +1057,21 @@ lint_openapi -l ibm-pagination-style=debug my-new-api.yaml
 
 The default log level for the `root` logger is `info`, while the default log level for
 rule-specific loggers is `warn`.
+
+## Security Notice
+
+This tool is designed to be run as a **local CLI utility** on API definitions that you own or explicitly trust.
+
+**It is not intended to be deployed or wrapped as a service** that validates arbitrary API documents submitted by external or untrusted parties. There are several reasons for this:
+
+- **Parser attack surface**: OpenAPI documents are parsed by multiple underlying libraries (e.g. YAML/JSON parsers, `$ref` resolvers). A maliciously crafted document could exploit parser vulnerabilities, trigger denial-of-service through deeply nested structures or circular references, or attempt path traversal via external `$ref` URLs.
+- **Resource exhaustion**: Large or pathological documents can cause excessive CPU and memory consumption with no built-in limits.
+- **Untrusted ruleset execution**: Custom rulesets are loaded as JavaScript modules. If an attacker can influence the ruleset path, arbitrary code execution is possible.
+
+If you need to validate untrusted API documents as part of a service, you must apply appropriate controls, such as:
+- Running the validator in an isolated sandbox (e.g. a container with no network access and strict resource limits)
+- Validating and limiting the size and structure of inputs before passing them to the validator
+- Never allowing untrusted input to influence the ruleset or configuration paths used
 
 ## Contributing
 

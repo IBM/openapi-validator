@@ -404,7 +404,7 @@ should probably be required instead of optional.</td>
 <tr>
 <td><a href="#ibm-no-superfluous-allof">ibm-no-superfluous-allof</a></td>
 <td>warn</td>
-<td>Warns about schemas that contain only a single-element <code>allOf</code>, which are unnecessary./td>
+<td>Warns about schemas that contain only a single-element <code>allOf</code>, which are unnecessary.</td>
 <td>oas3</td>
 </tr>
 <tr>
@@ -517,7 +517,6 @@ or <code>application/merge-patch+json</code>.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<tr>
 <td><a href="#ibm-property-casing-convention">ibm-property-casing-convention</a></td>
 <td>error</td>
 <td>Schema property names should follow a specific case convention.</td>
@@ -541,7 +540,6 @@ or <code>application/merge-patch+json</code>.</td>
 <td>Performs multiple checks on the operation redirect response bodies based on status codes.</td>
 <td>oas3</td>
 </tr>
-<tr>
 <tr>
 <td><a href="#ibm-ref-pattern">ibm-ref-pattern</a></td>
 <td>warn</td>
@@ -587,6 +585,7 @@ has non-form content. <b>This rule is disabled by default.</b></td>
 <td>Operations that create or update a resource should return the same schema as the "GET" request for the resource.</td>
 <td>oas3</td>
 </tr>
+<tr>
 <td><a href="#ibm-response-status-codes">ibm-response-status-codes</a></td>
 <td>warn</td>
 <td>Performs multiple checks on the status codes used in operation responses.</td>
@@ -594,7 +593,7 @@ has non-form content. <b>This rule is disabled by default.</b></td>
 </tr>
 <tr>
 <td><a href="#ibm-schema-casing-convention">ibm-schema-casing-convention</a></td>
-<td>warm</td>
+<td>warn</td>
 <td>Schema names should follow a specific case convention.</td>
 <td>oas3</td>
 </tr>
@@ -900,6 +899,7 @@ This section provides reference documentation about the IBM Cloud Validation Rul
 in the `@ibm-cloud/openapi-ruleset` package.
 
 ### ibm-accept-and-return-models
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -920,7 +920,7 @@ The <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-models">
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 requestBody:
@@ -959,6 +959,7 @@ requestBody:
 </table>
 
 ### ibm-anchored-patterns
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -981,7 +982,7 @@ since an un-anchored regular expression might match on only part of the string i
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1013,6 +1014,7 @@ components:
 </table>
 
 ### ibm-api-symmetry
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1037,7 +1039,7 @@ Note: the rule will report additional details about each violation of the graph 
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1120,6 +1122,7 @@ paths:
 
 
 ### ibm-array-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1139,7 +1142,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1173,6 +1176,7 @@ components:
 
 
 ### ibm-avoid-inline-schemas
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1185,8 +1189,10 @@ the SDK generator typically needs to refactor these inline schemas in order to c
 computed by the SDK generator are unlikely to be optimal from a readability standpoint.
 <p>Specifically, this rule warns about the use of inline object schemas within request bodies, responses,
 and nested schemas (e.g. a schema property, an array <code>items</code> schema, an <code>additionalProperties</code> schema, etc.).
+</p>
 <p>More information about this can be found in the
 <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-schemas#nested-object-schemas">API Handbook</a>.
+</p>
 </td>
 </tr>
 <tr>
@@ -1198,7 +1204,7 @@ and nested schemas (e.g. a schema property, an array <code>items</code> schema, 
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1299,6 +1305,7 @@ paths:
 
 
 ### ibm-avoid-multiple-types
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1312,6 +1319,7 @@ ambiguity in an API definition.  Therefore, multiple types should be avoided.
 One exception to this is that the special type <code>"null"</code> is simply ignored by the rule when counting 
 the number of elements in the schema's <code>type</code> field.  So, the type value <code>['string', 'integer']</code>
 would cause an error, but the type value <code>['string', 'null']</code> would not.
+</p>
 </td>
 </tr>
 <tr>
@@ -1323,7 +1331,7 @@ would cause an error, but the type value <code>['string', 'null']</code> would n
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1366,6 +1374,7 @@ components:
 
 
 ### ibm-avoid-property-name-collision
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1385,7 +1394,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1422,6 +1431,7 @@ components:
 
 
 ### ibm-avoid-repeating-path-parameters
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1433,6 +1443,7 @@ components:
 defining it separately within each of the operations that exist for that path.
 <p>This rule checks for situations in which a path parameter is defined identically within multiple operations under a given path,
 and returns a warning to alert the user that the path parameter should be defined on the path object instead.
+</p>
 </td>
 </tr>
 <tr>
@@ -1444,7 +1455,7 @@ and returns a warning to alert the user that the path parameter should be define
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -1491,6 +1502,7 @@ paths:
 
 
 ### ibm-binary-schemas
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1516,7 +1528,7 @@ Specifically, the rule will check to make sure a binary schema is NOT used in th
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -1557,6 +1569,7 @@ paths:
 
 
 ### ibm-collection-array-property
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1573,12 +1586,16 @@ with an array property named "things" (which is presumably defined as an array o
 "list"-type operation (with or without support for pagination) to make sure that the operation's
 response schema defines an array property whose name matches the last path segment
 within the operation's path string, which should also match the plural form of the resource type.
+</p>
 <p>For the purposes of this rule, an operation is considered to be a "list"-type operation
 if it is a "get" request and one of the following are also true:
+</p>
 <ol>
 <li>the operation's operationId starts with "list" (e.g. "list_things")
+</li>
 <li>the operation's path string does not end with a path parameter reference, but there is a
 companion path string that does end with a path parameter reference (e.g. "/v1/things" vs "/v1/things/{thing_id}").
+</li>
 </ol>
 </td>
 </tr>
@@ -1591,7 +1608,7 @@ companion path string that does end with a path parameter reference (e.g. "/v1/t
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -1638,6 +1655,7 @@ paths:
 
 
 ### ibm-content-contains-schema
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1657,7 +1675,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 responses:
@@ -1687,6 +1705,7 @@ responses:
 
 
 ### ibm-content-type-is-specific
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1697,6 +1716,7 @@ responses:
 <td>The use of <code>*/*</code> as a mimetype within a <code>content</code> field should be avoided
 unless the API actually supports all content types.
 <p>If the API in fact supports all content types, this warning should be ignored.
+</p>
 </td>
 </tr>
 <tr>
@@ -1708,7 +1728,7 @@ unless the API actually supports all content types.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 requestBody:
@@ -1735,6 +1755,7 @@ requestBody:
 
 
 ### ibm-define-required-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1761,7 +1782,7 @@ The property could be defined in any of the following ways:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1800,6 +1821,7 @@ components:
 
 
 ### ibm-discriminator-property
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1827,7 +1849,7 @@ This includes the following validations:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -1870,6 +1892,7 @@ components:
 
 
 ### ibm-dont-require-merge-patch-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1881,6 +1904,7 @@ components:
 with <code>application/merge-patch+json</code> requestBody content should not
 define any required properties or specify a non-zero value for the <code>minProperties</code> field.
 <p>This rule verifies that "merge-patch" operations adhere to this requirement.
+</p>
 </td>
 </tr>
 <tr>
@@ -1892,7 +1916,7 @@ define any required properties or specify a non-zero value for the <code>minProp
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -1950,6 +1974,7 @@ components:
 
 
 ### ibm-enum-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -1976,6 +2001,7 @@ that is the appropriate configuration to be used by Spectral's <code>casing()</c
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
 to enforce the desired case convention for enum values.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   type: 'snake'
@@ -1986,6 +2012,7 @@ to enforce the desired case convention for enum values.
 custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for enum values, the configuration object would look like this:
+</p>
 <pre>
 {
   type: 'camel'
@@ -1994,7 +2021,7 @@ For example, to enforce camel case for enum values, the configuration object wou
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -2025,6 +2052,7 @@ components:
 
 
 ### ibm-error-content-type-is-json
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2046,7 +2074,7 @@ This rule should be ignored when the API actually returns an error response that
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 responses:
@@ -2073,6 +2101,7 @@ responses:
 
 
 ### ibm-error-response-schemas
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2082,6 +2111,7 @@ responses:
 <td valign=top><b>Description:</b></td>
 <td>This rule implements the guidance related to error response schemas found in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors">API Handbook</a>.
 <p>Specifically, the following checks are performed against each schema associated with an error response:
+</p>
 <ul>
 <li>The error response schema should form a valid
 <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-errors#error-container-model">error container model</a> as
@@ -2104,7 +2134,7 @@ as described in the API Handbook.</li>
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2224,6 +2254,7 @@ components:
 
 
 ### ibm-etag-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2240,6 +2271,7 @@ to provide a value for the <code>If-Match</code> or <code>If-None-Match</code> h
 (sometimes referred to as an "etag value"), then the API should provide a way for the user to obtain the etag value.
 And the standard way for a service to provide an etag value to the user is by returning it as the <code>ETag</code> response header
 within the <code>GET</code> operation's response.
+</p>
 </td>
 </tr>
 <tr>
@@ -2251,7 +2283,7 @@ within the <code>GET</code> operation's response.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2333,6 +2365,7 @@ paths:
 
 
 ### ibm-integer-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2354,7 +2387,7 @@ is specified as <code>int32</code> or <code>int64</code>.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -2391,6 +2424,7 @@ components:
 
 
 ### ibm-major-version-in-path
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2412,7 +2446,7 @@ The API major version can appear in either the server URL or in each path entry.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 openapi: 3.0.1
@@ -2443,6 +2477,7 @@ paths:
 
 
 ### ibm-no-accept-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2508,6 +2543,7 @@ paths:
 
 
 ### ibm-no-ambiguous-paths
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2525,12 +2561,16 @@ In general, two paths are ambiguous if the following are true:
 <li>one or the other of the path segments is parameterized (e.g. 'foo' vs '{foo_id}')</li>
 <li>both of the path segments are parameterized (e.g. '{foo_id}' vs '{id}')</li>
 </ol>
+</li>
 </ul>
 Here are examples of paths that are ambiguous despite being unique:
 <ul>
 <li><code>/v1/things/{thing_id}</code>, <code>/v1/things/{id}</code>
+</li>
 <li><code>/v1/things/{thing_id}</code>, <code>/v1/things/other_things</code>
+</li>
 <li><code>/{version}/things</code>, <code>/v1/{things}</code>
+</li>
 </ul>
 Each of the pairs of path strings above would be considered ambiguous.
 </td>
@@ -2575,6 +2615,7 @@ paths:
 
 
 ### ibm-no-array-of-arrays
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2593,7 +2634,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 requestBody:
@@ -2626,6 +2667,7 @@ requestBody:
 
 
 ### ibm-no-array-responses
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2637,6 +2679,7 @@ requestBody:
 The recommendation is to instead use an object with a property that contains the array.
 This will allow you to expand the definition of the response body (e.g. add new properties) in a compatible way
 in the future if needed.
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -2647,7 +2690,7 @@ in the future if needed.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2689,13 +2732,13 @@ paths:
 sample response body:
 {"things": [ {"name": "thing-1"}, {"name": "thing-2"} ]}
 </pre>
-</pre>
 </td>
 </tr>
 </table>
 
 
 ### ibm-no-authorization-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2710,9 +2753,11 @@ The <code>security</code> object can be defined at an operation level (which wou
 that operation) or at a global level within the API definition (which would apply to all operations).
 <p>Within generated SDKs, the <code>Authorization</code> header will be managed automatically by the
 built-in authenticator support.
+</p>
 <p>Non-SDK users (those using <code>curl</code>, for example) can infer
 the use of the Authorization header from the <code>security</code> object in the API definition
 together with other documentation provided for the service.
+</p>
 </td>
 </tr>
 <tr>
@@ -2724,7 +2769,7 @@ together with other documentation provided for the service.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2780,6 +2825,7 @@ paths:
 
 
 ### ibm-no-body-for-delete
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2789,6 +2835,7 @@ paths:
 <td valign=top><b>Description:</b></td>
 <td>This rule checks each DELETE operation and will return a warning if the operation contains a <code>requestBody</code>.
 <p>This rule has been deprecated and is now disabled in the IBM Cloud Validation Ruleset. Please use the <code>ibm-no-operation-requestbody</code> rule instead.
+</p>
 </td>
 </tr>
 <tr>
@@ -2800,7 +2847,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2841,6 +2888,7 @@ paths:
 
 
 ### ibm-no-circular-refs
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2867,7 +2915,7 @@ Any reference to either "Foo" or "Bar" will be a circular reference.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -2909,6 +2957,7 @@ components:
 
 
 ### ibm-no-consecutive-path-parameter-segments
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2930,7 +2979,7 @@ For example, the path <code>/v1/foos/{foo_id}/{bar_id}</code> is invalid and sho
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -2963,6 +3012,7 @@ paths:
 
 
 ### ibm-no-content-type-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -2983,7 +3033,7 @@ Note that the <code>Content-Type</code> header parameter is managed automaticall
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3038,6 +3088,7 @@ paths:
 
 
 ### ibm-no-crn-path-parameters
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3055,7 +3106,6 @@ will perform the following checks:
 <li>The parameter's <code>example</code> field contains a CRN-like value (e.g. "crn:0afd-0138-2636")</li>
 <li>The parameter's <code>examples</code> field contains an entry containing a CRN-like value, as in this example:
 <pre>
-</pre>
 components:
   parameters:
     ThingIdParam:
@@ -3068,13 +3118,16 @@ components:
       examples:
         crn_example:
           value: 'crn:0afd-0138-2636'
+</pre>
 </li>
 <li>The parameter schema's <code>example</code> field contains a CRN-like value (e.g. "crn:0afd-0138-2636")</li>
 <li>The parameter's <code>description</code> field contains either "CRN" or "Cloud Resource Name"</li>
 <li>The parameter schema's <code>description</code> field contains either "CRN" or "Cloud Resource Name"</li>
 </ul>
 These checks are logically OR'd together, so that if any one or more of these checks
-are true for a particular parameter, then a warning is raised for that parameter. 
+are true for a particular parameter, then a warning is raised for that parameter.
+</p>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -3085,7 +3138,7 @@ are true for a particular parameter, then a warning is raised for that parameter
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -3128,6 +3181,7 @@ components:
 
 
 ### ibm-no-default-for-required-parameter
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3146,7 +3200,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -3188,6 +3242,7 @@ components:
 
 
 ### ibm-no-duplicate-description-with-ref-sibling
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3228,6 +3283,7 @@ the first and next page of results, respectively.
 <p>Starting with OpenAPI 3.0, one can no longer use this pattern.  If a schema definition contains the <code>$ref</code> attribute,
 then no other attributes are allowed to be defined alongsize it.   So to work around this restriction, 
 API authors typically use the "ref sibling" allOf pattern.   The above example might look like this:
+</p>
 <pre>
 components:
   schemas:
@@ -3259,6 +3315,7 @@ second allOf list element.  Both are considered to be examples of the "ref sibli
 <p>This rule specifically looks for instances of this pattern where the overridden description is the same as the
 description defined within the referenced schema, thus making the use of the "ref sibling" pattern unnecessary.
 Here is an example of this:
+</p>
 <pre>
 components:
   schemas:
@@ -3289,7 +3346,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -3338,6 +3395,7 @@ components:
 
 
 ### ibm-no-if-modified-since-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3349,6 +3407,8 @@ components:
 recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
 Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
 <p>This rule warns about operations that support the <code>If-Modified-Since</code> header parameter.
+</p>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -3422,6 +3482,7 @@ paths:
 
 
 ### ibm-no-if-unmodified-since-header
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3433,6 +3494,8 @@ paths:
 recommends against the use of the <code>If-Modified-Since</code> and <code>If-Unmodified-Since</code> header parameters.
 Operations should support <code>If-Match</code> and <code>If-None-Match</code> headers instead.
 <p>This rule warns about operations that support the <code>If-Unmodified-Since</code> header parameter.
+</p>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -3498,6 +3561,7 @@ paths:
 
 
 ### ibm-no-nullable-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3521,7 +3585,7 @@ This rule ensures that nullable properties are not defined elsewhere.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -3627,6 +3691,7 @@ paths:
 
 
 ### ibm-no-operation-requestbody
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3655,6 +3720,7 @@ This rule ensures that these operations do not define a <code>requestBody</code>
 <td>This rule supports a configuration that specifies the set of HTTP methods that are checked
 for a <code>requestBody</code>.
 <p>The default configuration object provided with the rule is:
+</p>
 <pre>
 {
   httpMethods: ['delete', 'get', 'head', 'options']
@@ -3665,6 +3731,7 @@ for a <code>requestBody</code>.
 custom ruleset</a> and modify the configuration such that the value of the <code>httpMethods</code> field 
 specifies the desired set of HTTP methods to be checked.
 For example, to enforce the rule for DELETE, HEAD and OPTIONS operations, the configuration object would look like this:
+</p>
 <pre>
 {
   httpMethods: ['delete', 'head', 'options']
@@ -3673,7 +3740,7 @@ For example, to enforce the rule for DELETE, HEAD and OPTIONS operations, the co
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3729,6 +3796,7 @@ paths:
 
 
 ### ibm-no-optional-properties-in-required-body
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3753,7 +3821,7 @@ This rule is deprecated.  Please use the <code>ibm-no-required-properties-in-opt
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3790,6 +3858,7 @@ paths:
 
 
 ### ibm-no-ref-in-example
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3808,7 +3877,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3850,6 +3919,7 @@ paths:
 
 
 ### ibm-no-required-properties-in-optional-body
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3872,7 +3942,7 @@ request body to be required.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3909,6 +3979,7 @@ paths:
 
 
 ### ibm-no-space-in-example-name
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3927,7 +3998,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -3978,6 +4049,7 @@ paths:
 
 
 ### ibm-no-superfluous-allof
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -3996,7 +4068,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -4006,7 +4078,7 @@ components:
         foo_ref:
           allOf:
             - $ref: '#/components/schemas/Foo'
-<</pre>
+</pre>
 </td>
 </tr>
 <tr>
@@ -4026,6 +4098,7 @@ components:
 
 
 ### ibm-no-unsupported-keywords
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4047,7 +4120,7 @@ by IBM's SDK-related tooling - specifically the <code>jsonSchemaDialect</code> a
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 openapi: 3.1.0
@@ -4096,6 +4169,7 @@ info:
 
 
 ### ibm-openapi-tags-used
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4114,7 +4188,7 @@ info:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 tags:
@@ -4157,6 +4231,7 @@ paths:
 
 
 ### ibm-operation-responses
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4176,7 +4251,7 @@ paths:
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4213,6 +4288,7 @@ paths:
 
 
 ### ibm-operation-summary
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4232,7 +4308,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4260,6 +4336,7 @@ paths:
 
 
 ### ibm-operation-summary-length
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4280,7 +4357,7 @@ per guidance in the <a href="https://cloud.ibm.com/docs/api-handbook?topic=api-h
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4309,6 +4386,7 @@ paths:
 
 
 ### ibm-operationid-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4334,6 +4412,7 @@ that is the appropriate configuration to be used by Spectral's <code>casing()</c
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
 to enforce the desired case convention for <code>operationId</code> values.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   type: 'snake'
@@ -4344,6 +4423,7 @@ to enforce the desired case convention for <code>operationId</code> values.
 custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for operation ids, the configuration object would look like this:
+</p>
 <pre>
 {
   type: 'camel'
@@ -4352,7 +4432,7 @@ For example, to enforce camel case for operation ids, the configuration object w
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4377,6 +4457,7 @@ paths:
 
 
 ### ibm-operationid-naming-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4390,12 +4471,14 @@ when deciding on an operationId for the <code>POST /v1/things</code> operation.
 Likewise, for the <code>GET /v1/things/{thing_id}</code> operation, we might prefer
 <code>get_thing</code> over <code>retrieve_thing</code> for the operationId.
 <p>This rule will analyze the operations, looking for operationId values that are not using the recommended verbs. Furthermore it can also validate the complete name of the operation id by comparing it to the path segments.
+</p>
 </td>
 </tr>
 <tr>
 <td valign=top><b>Configuration:</b></td>
 <td>This rule can be configured to validate the complete name of the operation id, or only the verb it begins with.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   strict: true
@@ -4404,6 +4487,7 @@ Likewise, for the <code>GET /v1/things/{thing_id}</code> operation, we might pre
 <p>To switch off the complete name validation and only validate the verbs the operation ids begin with, you'll need to
 <a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
 custom ruleset</a> and modify the configuration such that the value of the <code>strict</code> field to <code>false</code>
+</p>
 <pre>
 {
   strict: false
@@ -4420,7 +4504,7 @@ custom ruleset</a> and modify the configuration such that the value of the <code
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4467,6 +4551,7 @@ paths:
 
 
 ### ibm-pagination-style
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4477,17 +4562,19 @@ paths:
 <td>This rule verifies that list-type operations implement pagination correctly per the guidelines in the 
 <a href="https://cloud.ibm.com/docs/api-handbook">API Handbook</a>.
 <p>An operation is recognized as a <i>paginated</i> list-type operation if all of the following are true:
+</p>
 <ul>
 <li>The path doesn't end in a path segment that is a path parameter reference
 (e.g. <code>/v1/things</code> vs <code>/v1/things/{thing_id}</code>).</li>
 <li>The operation is a <b>get</b>.</li>
 <li>The operation's response schema is an object containing an array property.</li>
 <li>The operation defines either the <code>offset</code> query parameter or a page-token type
-query parameter whose name is one of the following: <code>start</code>(preferred), 
+query parameter whose name is one of the following: <code>start</code>(preferred),
 <code>token</code>, <code>cursor</code>, <code>page</code>, or <code>page_token</code>.</li>
 </ul>
 <p>If an operation is recognized as a paginated list-type operation, then the following checks are
 performed:
+</p>
 <ul>
 <li>If the operation has a <code>limit</code> query parameter, then it must be of type <code>integer</code>,
 optional, and have default and maximum values defined for it [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-pagination#limit-with-page-token">1</a>,
@@ -4536,7 +4623,7 @@ that page of results [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 n/a
 </td>
@@ -4551,6 +4638,7 @@ n/a
 
 
 ### ibm-parameter-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4585,6 +4673,7 @@ or <code>pattern()</code> function [<a href="https://meta.stoplight.io/docs/spec
 (for greater control over the case convention check) to enforce the desired case convention for that parameter type.
 Additionally, you can define custom messages in the form "{parameter-type}Message".
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   query: {
@@ -4615,12 +4704,14 @@ This enforces:
 </ul>
 <p>To disable the case convention checks for a particular parameter type, simply remove
 the entry for that parameter type from the configuration object.  
+</p>
 <p>If you want to use a different configuration for this rule other than the default configuration
 mentioned above, you'll need to
 <a href="#replace-a-rule-from-ibm-cloudopenapi-ruleset">replace this rule with a new rule within your
 custom ruleset</a> and modify the configuration appropriately for your needs.
 For example, to disable the case convention checks on header parameter names, while enforcing camel-case conventions
 on query and path parameter names, the configuration object would look like this:
+</p>
 <pre>
 {
   query: {
@@ -4634,7 +4725,7 @@ on query and path parameter names, the configuration object would look like this
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -4677,6 +4768,7 @@ components:
 
 
 ### ibm-parameter-description
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4695,7 +4787,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -4737,6 +4829,7 @@ components:
 
 
 ### ibm-parameter-order
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4757,7 +4850,7 @@ listed first, then any optional parameters.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4818,6 +4911,7 @@ paths:
 
 
 ### ibm-parameter-schema-or-content
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4836,7 +4930,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 parameters:
@@ -4863,6 +4957,7 @@ parameters:
 
 
 ### ibm-patch-request-content-type
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4874,6 +4969,7 @@ parameters:
 recommends that PATCH operations contain request bodies that support only content types
 <code>application/json-patch+json</code> and <code>application/merge-patch+json</code>.
 <p>This rule verifies that each PATCH operation complies with this recommendation.
+</p>
 </td>
 </tr>
 <tr>
@@ -4885,7 +4981,7 @@ recommends that PATCH operations contain request bodies that support only conten
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4932,6 +5028,7 @@ paths:
 
 
 ### ibm-path-segment-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4958,6 +5055,7 @@ to enforce a different case convention if desired.
 custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for path segments, the configuration object would look like this:
+</p>
 <pre>
 {
   type: 'camel'
@@ -4966,7 +5064,7 @@ For example, to enforce camel case for path segments, the configuration object w
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -4987,6 +5085,7 @@ paths:
 
 
 ### ibm-pattern-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -4998,9 +5097,13 @@ paths:
 within a schema:
 <ul>
 <li>The <code>patternProperties</code> field must be an object with exactly one entry.
+</li>
 <li>The <code>patternProperties</code> and <code>additionalProperties</code> fields are mutually exclusive within a particular schema.
+</li>
 <li>The <code>patternProperties</code> field must contain a regular expression anchored by <code>^</code> and <code>$</code>.
+</li>
 </ul>
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -5011,7 +5114,7 @@ within a schema:
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5056,6 +5159,7 @@ components:
 
 
 ### ibm-precondition-headers
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5076,7 +5180,7 @@ For more details, please see the API Handbook section on
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5131,6 +5235,7 @@ paths:
 
 
 ### ibm-prefer-token-pagination
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5149,7 +5254,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5231,6 +5336,7 @@ paths:
 
 
 ### ibm-property-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5274,7 +5380,7 @@ paths:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5309,6 +5415,7 @@ components:
 
 
 ### ibm-property-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5334,6 +5441,7 @@ that is the appropriate configuration to be used by Spectral's <code>casing()</c
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#casing">1</a>]
 to enforce the desired case convention for property names.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   type: 'snake'
@@ -5344,6 +5452,7 @@ to enforce the desired case convention for property names.
 custom ruleset</a> and modify the configuration such that the value of the <code>type</code> field 
 specifies the desired case convention.
 For example, to enforce camel case for property names, the configuration object would look like this:
+</p>
 <pre>
 {
   type: 'camel'
@@ -5352,7 +5461,7 @@ For example, to enforce camel case for property names, the configuration object 
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5387,6 +5496,7 @@ components:
 
 
 ### ibm-property-consistent-name-and-type
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5409,7 +5519,7 @@ throughout the API definition.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5454,6 +5564,7 @@ components:
 
 
 ### ibm-property-description
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5472,7 +5583,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5509,6 +5620,7 @@ components:
 
 
 ### ibm-redirect-response-body
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5523,6 +5635,7 @@ components:
 <li>For a 30x response the code field must contain one of the following values for redirect code and nothing else: <code>forwarded</code>, <code>resolved</code>, <code>moved</code>, <code>remote_region</code>, <code>remote_account</code>, <code>version_mismatch</code>.</li>
 </ul>
 <p>References:
+</p>
 <ul>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
 </ul>
@@ -5537,7 +5650,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Compliant example:<b></td>
+<td valign=top><b>Compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5569,7 +5682,7 @@ paths:
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5592,6 +5705,7 @@ paths:
 
 
 ### ibm-ref-pattern
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5603,6 +5717,7 @@ paths:
 the type of object it references.  For example, a reference to a schema should follow the pattern 
 <code>#/components/schemas/&lt;schema-name&gt;</code>.
 <p>Here is the full set of valid patterns for <code>$ref</code> values:
+</p>
 <ul>
 <li><code>#/components/callbacks/&lt;name&gt;</code></li>
 <li><code>#/components/examples/&lt;name&gt;</code></li>
@@ -5632,7 +5747,7 @@ proper locations within the API definition's <code>components</code>field.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -5674,6 +5789,7 @@ components:
 
 
 ### ibm-request-and-response-content
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5692,7 +5808,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 responses:
@@ -5718,6 +5834,7 @@ responses:
 
 
 ### ibm-requestbody-is-object
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5736,7 +5853,7 @@ responses:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 requestBody:
@@ -5766,6 +5883,7 @@ requestBody:
 
 
 ### ibm-requestbody-name
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5784,6 +5902,7 @@ way to infer a logical name for the operation's body parameter.
 that the <code>x-codegen-request-body-name</code> extension is set on the operation.
 <br><br>
 <b>This rule is disabled by default. Enable it in your Spectral config file to utilize this validation.</b>
+</p>
 </td>
 </tr>
 <tr>
@@ -5795,7 +5914,7 @@ that the <code>x-codegen-request-body-name</code> extension is set on the operat
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5833,6 +5952,7 @@ paths:
 
 
 ### ibm-required-array-properties-in-response
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5856,7 +5976,7 @@ and not optional.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -5913,6 +6033,7 @@ components:
 
 
 ### ibm-required-enum-properties-in-response
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -5936,7 +6057,7 @@ and not optional.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6008,10 +6129,11 @@ components:
 
 
 ### ibm-resource-response-consistency
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
-<td><b>ibm-requestbody-name</b></td>
+<td><b>ibm-resource-response-consistency</b></td>
 </tr>
 <tr>
 <td valign=top><b>Description:</b></td>
@@ -6026,7 +6148,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6091,6 +6213,7 @@ paths:
 
 
 ### ibm-response-status-codes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6121,6 +6244,7 @@ or a <code>202 - Accepted</code> status code.</li>
 operationId starts with "create" or the operation is a POST request and there is another path
 present in the API that is similar to the path of the "create" operation, but with a trailing path parameter reference.
 For example, "process_things" would be considered a "create"-type operation:
+</p>
 <pre>
   paths:
     '/v1/things':
@@ -6139,14 +6263,14 @@ but "handle_things" would not:
         operationId: handle_things
         ...
 </pre>
-The difference being that with the "handle_things" operation, there is no corresponding path
-with a trailing path parameter reference that would give us a hint that "handle_things" is a create-type operation.
-</li>
+<li>The difference being that with the "handle_things" operation, there is no corresponding path
+with a trailing path parameter reference that would give us a hint that "handle_things" is a create-type operation.</li>
 <li>An operation that returns a <code>202 - Accepted</code> status code should not return any other
 success (2xx) status codes. This is because an operation should be unambiguous in terms of whether or not
 it is a synchronous or asynchronous operation.</li>
 </ul>
-<p>References: 
+<p>References:
+</p>
 <ul>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-status-codes">IBM Cloud API Handbook: Fundamentals/Status Codes</a></li>
 <li><a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-methods">IBM Cloud API Handbook: Fundamentals/Methods</a></li>
@@ -6163,7 +6287,7 @@ it is a synchronous or asynchronous operation.</li>
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6214,6 +6338,7 @@ paths:
 
 
 ### ibm-schema-casing-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6242,6 +6367,7 @@ that is the appropriate configuration to be used by Spectral's <code>pattern()</
 [<a href="https://meta.stoplight.io/docs/spectral/ZG9jOjExNg-core-functions#pattern">1</a>]
 to enforce the desired case convention for schema name values.
 <p>The default configuration object provided in the rule definition is:
+</p>
 <pre>
 {
   match: '/^[A-Z]+[a-z0-9]+([A-Z]+[a-z0-9]*)*$/'
@@ -6252,6 +6378,7 @@ to enforce the desired case convention for schema name values.
 custom ruleset</a> and modify the configuration such that the value of the <code>match</code> field 
 specifies the desired case convention.
 For example, to disallow capitalized acronymns for schema names, the configuration object would look like this:
+</p>
 <pre>
 {
   match: '/^[A-Z][a-z0-9]+([A-Z][a-z0-9]+)*$/'
@@ -6260,7 +6387,7 @@ For example, to disallow capitalized acronymns for schema names, the configurati
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6289,6 +6416,7 @@ components:
 
 
 ### ibm-schema-description
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6307,7 +6435,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6339,6 +6467,7 @@ components:
 
 
 ### ibm-schema-keywords
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6364,6 +6493,7 @@ in an OpenAPI 3.1.x document. The allowable keywords are configurable (see the <
 <td>This rule supports a configuration object that specifies the set of keywords that are allowed within a schema
 or schema property.
 <p>The default configuration object provided with the rule is:
+</p>
 <pre>
 {
   keywordAllowList: [
@@ -6412,6 +6542,7 @@ contains the desired set of keywords to be checked.
 For example, to configure the rule so that <code>uniqueItems</code> and <code>unevaluatedProperties</code> are disallowed, 
 modify the configuration to remove these keywords from the <code>keywordAllowList</code>
 configuration field, like this:
+</p>
 <pre>
 {
   keywordAllowList: [
@@ -6454,7 +6585,7 @@ configuration field, like this:
 </td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6490,6 +6621,7 @@ components:
 
 
 ### ibm-schema-naming-convention
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6512,7 +6644,7 @@ The rule checks the names of collection schemas, resource collection element sch
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6561,6 +6693,7 @@ paths:
 
 
 ### ibm-schema-type
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6583,7 +6716,7 @@ Schemas and schema properties should have a non-empty <code>type</code> field.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6611,6 +6744,7 @@ components:
 
 
 ### ibm-schema-type-format
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6657,7 +6791,7 @@ The following table defines the valid combinations:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6704,6 +6838,7 @@ components:
 
 
 ### ibm-sdk-operations
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6724,7 +6859,7 @@ extension, using <a href="/packages/ruleset/src/schemas/x-sdk-operations.json">t
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 n/a
 </td>
@@ -6739,6 +6874,7 @@ n/a
 
 
 ### ibm-securityscheme-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6749,6 +6885,7 @@ n/a
 <td>Performs a series of validations on the content within security schemes to ensure they comply
 with the constraints outlined in the <a href="https://github.com/OAI/OpenAPI-Specification/blob/main/versions/3.0.2.md#security-scheme-object">OpenAPI Specification</a>.
 <p>Specifically, the rule will perform these checks:
+</p>
 <ol>
 <li>Each security scheme must specify the <code>type</code> property. Valid values for the <code>type</code> property are:
 <ul>
@@ -6770,13 +6907,13 @@ Valid values for the <code>in</code> property are:
 </li>
 <li>A security scheme with type <code>oauth2</code> must specify the <code>flows</code> property.
 <p>Furthermore, the <code>flows</code> property must be an object that defines at least one of the following keys:
+</p>
 <ul>
 <li><code>implicit</code></li>
 <li><code>authorizationcode</code></li>
 <li><code>clientCredentials</code></li>
 <li><code>password</code></li>
 </ul>
-</p>
 <p>An <code>implicit</code> oauth2 flow must specify the <code>scopes</code> and <code>authorizationUrl</code> properties.</p>
 <p>A <code>password</code> or <code>clientCredentials</code> oauth2 flow must specify the <code>scopes</code> and <code>tokenUrl</code> properties.</p>
 <p>An <code>authorizationCode</code> oauth2 flow must specify the <code>scopes</code>, <code>authorizationUrl</code>, and <code>tokenUrl</code> properties.</p>
@@ -6795,7 +6932,7 @@ Valid values for the <code>in</code> property are:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -6845,6 +6982,7 @@ components:
 
 
 ### ibm-securityschemes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6854,6 +6992,7 @@ components:
 <td valign=top><b>Description:</b></td>
 <td>Verifies the security schemes and security requirement objects.
 <p>Specifically, the rule will perform these checks:
+</p>
 <ol>
 <li>The name used within a security requirement object must correspond to a
 security scheme that is properly defined in "components.securitySchemes".
@@ -6882,7 +7021,7 @@ scopes, then its scopes array MUST be empty.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -6922,6 +7061,7 @@ components:
 
 
 ### ibm-server-variable-default-value
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6940,7 +7080,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 servers:
@@ -6974,6 +7114,7 @@ servers:
 
 
 ### ibm-string-attributes
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -6985,9 +7126,10 @@ servers:
 fields in order to clearly define the set of valid values for the property.
 [<a href="https://cloud.ibm.com/docs/api-handbook?topic=api-handbook-types#string">1</a>].
 <p>Note that these checks are bypassed for the following scenarios:
+</p>
 <ul>
 <li>All checks are bypassed for string schemas that contain an <code>enum</code> field.</li>
-<li>The check for the <code>pattern</code> field is bypassed if <code>format</code> is set to 
+<li>The check for the <code>pattern</code> field is bypassed if <code>format</code> is set to
 <code>binary</code>, <code>byte</code>, <code>date</code>, <code>date-time</code>, or <code>url</code>.</li>
 <li>The check for the <code>minLength</code> field is bypassed if <code>format</code> is set to
 <code>date</code>, <code>identifier</code>, or <code>url</code>.</li>
@@ -6996,6 +7138,7 @@ fields in order to clearly define the set of valid values for the property.
 <p>This rule also checks non-string schema properties to make sure they do not define the
 <code>pattern</code>, <code>minLength</code> and <code>maxLength</code> fields since these fields are applicable
 only for string schemas.
+</p>
 </td>
 </tr>
 <tr>
@@ -7007,7 +7150,7 @@ only for string schemas.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -7046,6 +7189,7 @@ components:
 
 
 ### ibm-success-response-example
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7066,7 +7210,7 @@ within each response <code>content</code> field entry, in order to aid in the ge
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 responses:
@@ -7092,6 +7236,7 @@ responses:
           example: 'example string'
 </pre>
 <p>Alternatively, the example may be provided as a sibling to the schema object.
+</p>
 <pre>
 responses:
   200:
@@ -7100,13 +7245,14 @@ responses:
         schema:
           type: string
         example: 'example string'
-<pre>
+</pre>
 </td>
 </tr>
 </table>
 
 
 ### ibm-summary-sentence-style
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7126,7 +7272,7 @@ not have a trailing period.</td>
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -7155,6 +7301,7 @@ paths:
 
 
 ### ibm-unevaluated-properties
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7165,6 +7312,7 @@ paths:
 <td>This rule ensures that <code>unevaluatedProperties</code> is not enabled within a schema.
 It checks to make sure that if the <code>unevaluatedProperties</code> field
 is set on a schema, then it is set to the value <code>false</code> (i.e. disabled).
+</td>
 </tr>
 <tr>
 <td><b>Severity:</b></td>
@@ -7175,7 +7323,7 @@ is set on a schema, then it is set to the value <code>false</code> (i.e. disable
 <td>oas3_1</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -7215,6 +7363,7 @@ components:
 
 
 ### ibm-unique-parameter-request-property-names
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7234,14 +7383,17 @@ This means that, instead of representing the operation's request body as a singl
 will expose each of the properties defined in the operation's request body
 schema such that they appear to be individual operation parameters.   This optimization makes it easier for
 an SDK user to construct an instance of the request body schema (class, struct, etc.) when invoking the operation.
+</p>
 <p>Because the request body schema properties are exposed as operation parameters, the generator must detect if there are
 any name collisions between these schema properties and the operation's other parameters.
 The generator will rename the request body schema properties if any collisions are detected,
 but the names computed by the generator are not optimal from a usability standpoint, so it's better for the API
 to be defined such that the name collisions are avoided altogether.
+</p>
 <p>This validation rule checks each operation for name collisions between the operation's parameters and its request body
 schema properties.  An error is logged for each collision.  Each of these errors should be addressed by renaming either 
 the parameter or request body schema property to avoid the collision.
+</p>
 </td>
 </tr>
 <tr>
@@ -7253,7 +7405,7 @@ the parameter or request body schema property to avoid the collision.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -7332,6 +7484,7 @@ paths:
 
 
 ### ibm-use-date-based-format
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7355,7 +7508,7 @@ the example value provided for a schema or property.
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 Resource
@@ -7392,6 +7545,7 @@ Resource
 
 
 ### ibm-valid-path-segments
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7414,7 +7568,7 @@ For example, the path <code>/v1/foos/_{foo_id}_</code> is invalid and should pro
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 paths:
@@ -7445,6 +7599,7 @@ paths:
 
 
 ### ibm-valid-schema-example
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7465,7 +7620,7 @@ is a valid instance of that schema. Note that this rule is an alternative to `oa
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:
@@ -7492,6 +7647,7 @@ components:
 
 
 ### ibm-well-defined-dictionaries
+
 <table>
 <tr>
 <td><b>Rule id:</b></td>
@@ -7516,7 +7672,7 @@ components:
 <td>oas3</td>
 </tr>
 <tr>
-<td valign=top><b>Non-compliant example:<b></td>
+<td valign=top><b>Non-compliant example:</b></td>
 <td>
 <pre>
 components:

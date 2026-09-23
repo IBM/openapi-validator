@@ -1,3 +1,109 @@
+## ibm-openapi-validator [1.38.4](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.3...ibm-openapi-validator@1.38.4) (2026-09-18)
+
+
+### Bug Fixes
+
+* **deps:** bump packages to latest patch version ([#856](https://github.com/IBM/openapi-validator/issues/856)) ([5018f24](https://github.com/IBM/openapi-validator/commit/5018f249002f7efd9637428082e6dc0bfea3ddc1))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.15
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.4
+
+## ibm-openapi-validator [1.38.3](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.2...ibm-openapi-validator@1.38.3) (2026-09-09)
+
+
+### Bug Fixes
+
+* resolve npx double package install failure ([#848](https://github.com/IBM/openapi-validator/issues/848)) ([95fb589](https://github.com/IBM/openapi-validator/commit/95fb589c76b2ce2514526860dcbff2e8d021ee1d))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.14
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.3
+
+## ibm-openapi-validator [1.38.2](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.1...ibm-openapi-validator@1.38.2) (2026-08-03)
+
+
+### Bug Fixes
+
+* **deps:** bump js-yaml from 5.2.1 to 5.2.2 ([#841](https://github.com/IBM/openapi-validator/issues/841)) ([dfa879d](https://github.com/IBM/openapi-validator/commit/dfa879d970472f25f51f9fe47edd71902099fbef))
+
+## ibm-openapi-validator [1.38.1](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.0...ibm-openapi-validator@1.38.1) (2026-07-27)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.13
+
+# ibm-openapi-validator [1.38.0](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.18...ibm-openapi-validator@1.38.0) (2026-07-24)
+
+
+### Features
+
+* make HTTP ref resolving be able to switched off ([#839](https://github.com/IBM/openapi-validator/issues/839)) ([ef911b4](https://github.com/IBM/openapi-validator/commit/ef911b4e7602cd69580ceb1445b9cecbab9a8272))
+
+## ibm-openapi-validator [1.37.18](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.17...ibm-openapi-validator@1.37.18) (2026-07-24)
+
+
+### Bug Fixes
+
+* **deps:** update package versions to address vulnerabilities ([#838](https://github.com/IBM/openapi-validator/issues/838)) ([66a1d20](https://github.com/IBM/openapi-validator/commit/66a1d2046cf782ec1fd9b3485cbbeaa0a88b067a))
+
+## ibm-openapi-validator [1.37.17](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.16...ibm-openapi-validator@1.37.17) (2026-07-23)
+
+
+### Bug Fixes
+
+* **deps:** bump dependencies to avoid various CVEs ([#835](https://github.com/IBM/openapi-validator/issues/835)) ([6d0f97b](https://github.com/IBM/openapi-validator/commit/6d0f97b02d1bd24b4bb392dad76b50f691405b32))
+
+## ibm-openapi-validator [1.37.16](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.15...ibm-openapi-validator@1.37.16) (2026-07-23)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.12
+
+## ibm-openapi-validator [1.37.15](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.14...ibm-openapi-validator@1.37.15) (2026-07-03)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.11
+
+## ibm-openapi-validator [1.37.14](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.13...ibm-openapi-validator@1.37.14) (2026-05-20)
+
+
+### Bug Fixes
+
+* bump spectral packages ([#812](https://github.com/IBM/openapi-validator/issues/812)) ([5475c4c](https://github.com/IBM/openapi-validator/commit/5475c4c265c38f8285b588ad2aff583f1d2999b2))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.10
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.2
+
 ## ibm-openapi-validator [1.37.13](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.37.12...ibm-openapi-validator@1.37.13) (2026-05-07)
 
 
