@@ -5,9 +5,9 @@
 
 name: build
 
-on: 
+on:
   push:
-    branches: ['main']
+    branches: ['main', 'pre-release-2.0']
   pull_request:
     branches: ['**']
   workflow_dispatch:
