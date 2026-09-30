@@ -71,7 +71,9 @@ function validateExamples(examples) {
       } catch (e) {
         // The jsonschema validator cannot handle unresolved $ref nodes left
         // behind by Spectral for circular references, skip validation.
-        logger.debug(`Skipping example validation due to unresolvable $ref: ${e.message}`);
+        logger.debug(
+          `Skipping example validation due to unresolvable $ref: ${e.message}`
+        );
         return undefined;
       }
       if (!valid) {
