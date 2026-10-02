@@ -34,7 +34,13 @@ inherently weighted by the scoring algorithm, so that security violations are 5 
 as usability violations, evolution 3 times, and robustness 2 times.
 
 ## Scoring information
+<details>
+
+<summary>Information about how the scoring gets calculated</summary>
+
 ${scoringData(results)}
+
+</details>
 
 ## Error summary
 ${errorSummary(results)}

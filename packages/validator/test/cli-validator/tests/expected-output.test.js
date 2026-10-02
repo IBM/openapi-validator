@@ -87,39 +87,39 @@ describe('Expected output tests', function () {
 
         // errors
         const errorStart = 3;
-        expect(capturedText[errorStart + 5].match(/\S+/g)[2]).toEqual('52');
-        expect(capturedText[errorStart + 10].match(/\S+/g)[2]).toEqual('96');
-        expect(capturedText[errorStart + 15].match(/\S+/g)[2]).toEqual('103');
+        expect(capturedText[errorStart + 6].match(/\S+/g)[2]).toEqual('52');
+        expect(capturedText[errorStart + 12].match(/\S+/g)[2]).toEqual('96');
+        expect(capturedText[errorStart + 18].match(/\S+/g)[2]).toEqual('103');
 
         // Specifically verify that the no-$ref-siblings error occurred.
         // We do this because this rule is inherited from Spectral's oas ruleset,
         // but we modify the rule definition in ibmoas.js so that it is run
         // against both OpenAPI 3.0 and 3.1 documents.
-        expect(capturedText[errorStart + 17].split(':')[1].trim()).toEqual(
+        expect(capturedText[errorStart + 20].split(':')[1].trim()).toEqual(
           '$ref must not be placed next to any other properties'
         );
-        expect(capturedText[errorStart + 18].split(':')[1].trim()).toEqual(
+        expect(capturedText[errorStart + 21].split(':')[1].trim()).toEqual(
           'no-$ref-siblings'
         );
-        expect(capturedText[errorStart + 19].split(':')[1].trim()).toEqual(
+        expect(capturedText[errorStart + 22].split(':')[1].trim()).toEqual(
           'components.schemas.Pet.properties.category.description'
         );
-        expect(capturedText[errorStart + 20].match(/\S+/g)[2]).toEqual('184');
+        expect(capturedText[errorStart + 24].match(/\S+/g)[2]).toEqual('184');
 
-        // warnings
-        const warningStart = 25;
+        // warnings - each warning block is now 6 lines (5 content + 1 blank)
+        const warningStart = 30;
         expect(capturedText[warningStart + 5].match(/\S+/g)[2]).toEqual('22');
-        expect(capturedText[warningStart + 10].match(/\S+/g)[2]).toEqual('24');
-        expect(capturedText[warningStart + 15].match(/\S+/g)[2]).toEqual('40');
-        expect(capturedText[warningStart + 20].match(/\S+/g)[2]).toEqual('41');
-        expect(capturedText[warningStart + 25].match(/\S+/g)[2]).toEqual('52');
-        expect(capturedText[warningStart + 30].match(/\S+/g)[2]).toEqual('56');
-        expect(capturedText[warningStart + 35].match(/\S+/g)[2]).toEqual('57');
-        expect(capturedText[warningStart + 40].match(/\S+/g)[2]).toEqual('59');
-        expect(capturedText[warningStart + 45].match(/\S+/g)[2]).toEqual('61');
-        expect(capturedText[warningStart + 50].match(/\S+/g)[2]).toEqual('96');
-        // Skip a few, then verify the last one.
-        expect(capturedText[warningStart + 145].match(/\S+/g)[2]).toEqual(
+        expect(capturedText[warningStart + 11].match(/\S+/g)[2]).toEqual('24');
+        expect(capturedText[warningStart + 17].match(/\S+/g)[2]).toEqual('40');
+        expect(capturedText[warningStart + 23].match(/\S+/g)[2]).toEqual('41');
+        expect(capturedText[warningStart + 29].match(/\S+/g)[2]).toEqual('52');
+        expect(capturedText[warningStart + 35].match(/\S+/g)[2]).toEqual('56');
+        expect(capturedText[warningStart + 41].match(/\S+/g)[2]).toEqual('57');
+        expect(capturedText[warningStart + 47].match(/\S+/g)[2]).toEqual('59');
+        expect(capturedText[warningStart + 53].match(/\S+/g)[2]).toEqual('61');
+        expect(capturedText[warningStart + 59].match(/\S+/g)[2]).toEqual('96');
+        // Skip a few, then verify the last one (29 warnings × 6 lines = 174 lines)
+        expect(capturedText[warningStart + 173].match(/\S+/g)[2]).toEqual(
           '210'
         );
       }
@@ -214,7 +214,10 @@ describe('Expected output tests', function () {
           []
         );
 
-        allMessages.forEach(msg => expect(msg).toHaveProperty('rule'));
+        allMessages.forEach(msg => {
+          expect(msg).toHaveProperty('rule');
+          expect(msg).toHaveProperty('docLink');
+        });
       }
     );
 
@@ -244,6 +247,7 @@ describe('Expected output tests', function () {
         const warningToCheck = jsonOutput.warning.results[0];
 
         expect(warningToCheck.rule).toEqual('ibm-prefer-token-pagination');
+        expect(warningToCheck.docLink).toContain('ibm-prefer-token-pagination');
         expect(warningToCheck.path.join('.')).toBe('paths./letters.get');
         expect(warningToCheck.line).toEqual(20);
       }
