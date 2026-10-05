@@ -12,11 +12,13 @@ const ibmRules = require('./rules');
 // However, we want to enable this rule also for OpenAPI 3.1.x documents,
 // so we'll just tweak Spectral's rule definition here.
 oas.rules['no-$ref-siblings'].formats = [oas3];
+oas.documentationUrl =
+  'https://meta.stoplight.io/docs/spectral/4dec24461f3af-open-api-rules';
 
 module.exports = {
   extends: oas,
   documentationUrl:
-    'https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md',
+    'https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html',
   formats: [oas3],
   rules: {
     // Original list created from Spectral with:

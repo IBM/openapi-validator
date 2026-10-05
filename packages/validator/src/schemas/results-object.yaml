@@ -125,6 +125,7 @@ $defs:
       - message
       - path
       - rule
+      - docLink
       - line
     properties:
       message:
@@ -139,6 +140,9 @@ $defs:
       rule:
         type: string
         description: The rule identifier in the Spectral ruleset
+      docLink:
+        type: string
+        description: The documentation link to the problem discovered in the API
       line:
         type: integer
         description: The line number in the original file that the problem
@@ -169,3 +173,4 @@ $defs:
     type: number
     description: A number describing the demerit quality a rule has on an API
     minimum: 0.01
+  
