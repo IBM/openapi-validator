@@ -1,0 +1,20 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Empty string key test",
+    "version": "1.0.0"
+  },
+  "paths": {},
+  "components": {
+    "schemas": {
+      "Sample": {
+        "type": "object",
+        "properties": {
+          "": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

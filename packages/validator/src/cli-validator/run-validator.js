@@ -212,7 +212,11 @@ async function runValidator(cliArgs, parseOptions = {}) {
       // jsonValidator looks through the originalFile for duplicate JSON keys
       //   this is checked for by default in readYaml
       const duplicateKeysError = jsonValidator.validate(originalFile);
-      if (fileExtension === 'json' && duplicateKeysError) {
+      if (
+        fileExtension === 'json' &&
+        duplicateKeysError &&
+        !duplicateKeysError.startsWith('Syntax error: empty string near')
+      ) {
         throw duplicateKeysError;
       }
 
