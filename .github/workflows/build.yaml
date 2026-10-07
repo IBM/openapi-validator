@@ -18,6 +18,8 @@ jobs:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     name: detect-secrets
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       matrix:
         python-version: ['3.12']
@@ -49,6 +51,8 @@ jobs:
     name: build-test (node v${{ matrix.node-version }})
     needs: detect-secrets
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     strategy:
       matrix:
         node-version: ['16', '18', '20', '22', '24']
@@ -96,6 +100,8 @@ jobs:
     name: semantic-release
     if: "github.ref_name == 'main' && github.event_name != 'pull_request'"
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
 
     steps:
       - name: Checkout repository
