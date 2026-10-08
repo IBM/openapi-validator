@@ -12,6 +12,8 @@ on:
   workflow_dispatch:
     # Allow this workflow to be triggered manually
 
+permissions: {}
+
 jobs:
   deploy-image:
     # We want to trigger this job ONLY for a published release

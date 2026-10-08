@@ -13,6 +13,8 @@ on:
   workflow_dispatch:
     # Allow workflow to be triggered manually.
 
+permissions: {}
+
 jobs:
   detect-secrets:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
