@@ -12,6 +12,8 @@ on:
   workflow_dispatch:
     # Allow this workflow to be triggered manually
 
+permissions: {}
+
 jobs:
   deploy-image:
     # We want to trigger this job ONLY for a published release
@@ -19,7 +21,9 @@ jobs:
     name: deploy-image
     if: "contains(github.ref_name, 'ibm-openapi-validator')"
     runs-on: ubuntu-latest
- 
+    permissions:
+      contents: read
+
     steps:
       # Display some info about the build for debugging purposes.
       - name: Trigger info
