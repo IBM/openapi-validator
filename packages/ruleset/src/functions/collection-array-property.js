@@ -57,7 +57,10 @@ function collectionArrayProperty(schema, path, apidef) {
 
   // If this is a collection "list"-type operation, then check to make sure
   // that "schema" defines an array property named after the last path segment.
-  if (isListOperation(operation, pathString, apidef)) {
+  if (
+    isListOperation(operation, pathString, apidef) &&
+    !isBinarySchema(schema)
+  ) {
     logger.debug('Detected list-type operation');
     const pathSegments = pathString.split('/');
     const propertyName = pathSegments[pathSegments.length - 1];
@@ -110,6 +113,17 @@ function isListOperation(operation, path, apidef) {
   );
 
   return !!siblingPath;
+}
+
+/**
+ * Returns true iff "schema" represents binary file content.
+ * @param {*} schema the schema to check
+ * @returns boolean true if the schema is a binary string schema
+ */
+function isBinarySchema(schema) {
+  return (
+    isObject(schema) && schema.type === 'string' && schema.format === 'binary'
+  );
 }
 
 /**

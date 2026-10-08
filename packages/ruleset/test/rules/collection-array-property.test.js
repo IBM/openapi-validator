@@ -24,6 +24,34 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('does not require an array property for binary file responses', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      testDocument.paths['/v1/gateway_letters'] = {
+        get: {
+          operationId: 'list_gateway_letter_of_authorization',
+          responses: {
+            200: {
+              description: 'Letter of Authorization retrieved successfully.',
+              content: {
+                'application/pdf': {
+                  schema: {
+                    description: 'Letter of Authorization',
+                    type: 'string',
+                    format: 'binary',
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+
+      expect(results).toHaveLength(0);
+    });
+
     it('would normally warn but path contains quote character, which throws off spectral', async () => {
       const testDocument = makeCopy(rootDocument);
 
