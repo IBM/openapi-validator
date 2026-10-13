@@ -173,4 +173,3 @@ $defs:
     type: number
     description: A number describing the demerit quality a rule has on an API
     minimum: 0.01
-  
