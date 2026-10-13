@@ -122,6 +122,82 @@ describe('ruleViolationDetails table tests', function () {
     expect(dataRows).toHaveLength(1);
   });
 
+  it('should keep distinct details reported on the same line and path', function () {
+    const sameLine = {
+      error: {
+        results: [
+          {
+            message: 'Base message: first',
+            path: ['paths', '/foo'],
+            rule: 'some-rule',
+            docLink: 'https://example.com',
+            line: 10,
+          },
+          {
+            message: 'Base message: second',
+            path: ['paths', '/foo'],
+            rule: 'some-rule',
+            docLink: 'https://example.com',
+            line: 10,
+          },
+        ],
+      },
+      warning: { results: [] },
+    };
+    const output = ruleViolationDetails(sameLine);
+    expect(output).toContain('| 10 | paths./foo | first |');
+    expect(output).toContain('| 10 | paths./foo | second |');
+  });
+
+  it('should render a separate section per distinct base message of a rule', function () {
+    const multiBase = {
+      error: {
+        results: [
+          {
+            message: 'Base A',
+            path: ['a'],
+            rule: 'some-rule',
+            docLink: 'https://example.com',
+            line: 1,
+          },
+          {
+            message: 'Base B',
+            path: ['b'],
+            rule: 'some-rule',
+            docLink: 'https://example.com',
+            line: 2,
+          },
+        ],
+      },
+      warning: { results: [] },
+    };
+    const output = ruleViolationDetails(multiBase);
+    expect(output.match(/### \[some-rule\]/g)).toHaveLength(1);
+    expect(output).toContain('_Base A_');
+    expect(output).toContain('_Base B_');
+    expect(output).toContain('| 1 | a |');
+    expect(output).toContain('| 2 | b |');
+  });
+
+  it('should render a plain heading when docLink is empty', function () {
+    const noLink = {
+      error: {
+        results: [
+          {
+            message: 'Base',
+            path: ['a'],
+            rule: 'some-rule',
+            docLink: '',
+            line: 1,
+          },
+        ],
+      },
+      warning: { results: [] },
+    };
+    const output = ruleViolationDetails(noLink);
+    expect(output.split('\n')[2]).toBe('### some-rule');
+  });
+
   it('should use a 3-column table when at least one violation has a detail', function () {
     const withDetail = {
       error: {

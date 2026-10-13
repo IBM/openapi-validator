@@ -24,20 +24,26 @@ function groupResultsByRule(results) {
 
     if (!groupedByRule[result.rule]) {
       groupedByRule[result.rule] = {
-        base,
         docLink: result.docLink,
-        violations: [],
+        groups: [],
       };
+    }
+
+    const ruleEntry = groupedByRule[result.rule];
+    let group = ruleEntry.groups.find(g => g.base === base);
+    if (!group) {
+      group = { base, violations: [] };
+      ruleEntry.groups.push(group);
     }
 
     const pathStr = result.path.join('.');
 
     if (
-      !groupedByRule[result.rule].violations.some(
-        v => v.line === result.line && v.path === pathStr
+      !group.violations.some(
+        v => v.line === result.line && v.path === pathStr && v.detail === detail
       )
     ) {
-      groupedByRule[result.rule].violations.push({
+      group.violations.push({
         line: result.line,
         path: pathStr,
         detail,
@@ -52,30 +58,34 @@ function renderRuleGroups(groupedByRule) {
   const sections = [];
 
   Object.entries(groupedByRule).forEach(([rule, data]) => {
-    // Create heading with link
-    sections.push(`### [${rule}](${data.docLink})`);
+    // Create heading with link or plain text when missing
+    sections.push(
+      data.docLink ? `### [${rule}](${data.docLink})` : `### ${rule}`
+    );
     sections.push('');
 
-    // Add the base message as italic description
-    sections.push(`_${data.base}_`);
-    sections.push('');
+    data.groups.forEach(({ base, violations }) => {
+      // Add the base message as italic description
+      sections.push(`_${base}_`);
+      sections.push('');
 
-    // Use a 3-col table when any violation carries extra detail
-    const hasDetail = data.violations.some(v => v.detail);
-    const table = hasDetail
-      ? new MarkdownTable('Line', 'Path', 'Detail')
-      : new MarkdownTable('Line', 'Path');
+      // Use a 3-col table when any violation carries extra detail
+      const hasDetail = violations.some(v => v.detail);
+      const table = hasDetail
+        ? new MarkdownTable('Line', 'Path', 'Detail')
+        : new MarkdownTable('Line', 'Path');
 
-    data.violations.forEach(({ line, path, detail }) => {
-      if (hasDetail) {
-        table.addRow(line, path, detail);
-      } else {
-        table.addRow(line, path);
-      }
+      violations.forEach(({ line, path, detail }) => {
+        if (hasDetail) {
+          table.addRow(line, path, detail);
+        } else {
+          table.addRow(line, path);
+        }
+      });
+
+      sections.push(table.render());
+      sections.push('');
     });
-
-    sections.push(table.render());
-    sections.push('');
   });
 
   return sections.join('\n');
