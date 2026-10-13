@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2017 - 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -89,7 +89,7 @@ function convertResults(spectralResults, { config, logger }, rules) {
       message: r.message,
       path: r.path,
       rule: r.code,
-      docLink: rules[r.code]?.documentationUrl,
+      docLink: rules[r.code]?.documentationUrl ?? '',
       line: r.range.start.line + 1,
     });
 
