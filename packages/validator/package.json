@@ -35,7 +35,7 @@
     "console-table-printer": "2.16.1",
     "find-up": "5.0.0",
     "globby": "11.1.0",
-    "js-yaml": "5.4.2",
+    "js-yaml": "5.4.3",
     "json-dup-key-validator": "1.0.3",
     "lodash": "4.18.1",
     "nimma": "0.7.2",
