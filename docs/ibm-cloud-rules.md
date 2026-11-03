@@ -126,7 +126,7 @@ which is delivered in the `@ibm-cloud/openapi-ruleset` NPM package.
 The IBM Cloud Validation Ruleset consists of:
 - IBM Cloud validation rules: a collection of rules that implement and enforce the best practices found
 in the [IBM Cloud API Handbook](https://cloud.ibm.com/docs/api-handbook).
-- Spectral's [“oas" ruleset](https://meta.stoplight.io/docs/spectral/docs/reference/openapi-rules.md): 
+- Spectral's [“oas" ruleset](https://meta.stoplight.io/docs/spectral/4dec24461f3af-open-api-rules): 
 the IBM Cloud Validation Ruleset extends the `spectral:oas` ruleset, so all of the rules contained in
 that ruleset are also available to users of the `@ibm-cloud/openapi-ruleset` package as well. 
 
