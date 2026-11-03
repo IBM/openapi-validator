@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.16](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.15...@ibm-cloud/openapi-ruleset@1.33.16) (2026-11-03)
+
+
+### Bug Fixes
+
+* **ibm-operationid-naming-convention:** do not singularize specific words ([#871](https://github.com/IBM/openapi-validator/issues/871)) ([5566f50](https://github.com/IBM/openapi-validator/commit/5566f50f7332dce7b543fc8262479210f2f6fdd7))
+
 ## @ibm-cloud/openapi-ruleset [1.33.15](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.14...@ibm-cloud/openapi-ruleset@1.33.15) (2026-09-18)
 
 

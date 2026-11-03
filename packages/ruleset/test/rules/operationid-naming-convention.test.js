@@ -194,6 +194,22 @@ describe(`Spectral rule: ${ruleId}`, () => {
       const results = await testRule(ruleId, rule, testDocument);
       expect(results).toHaveLength(0);
     });
+
+    it.each(['metadata', 'data', 'media', 'criteria'])(
+      'path ends with "%s" (not singularized), patch',
+      async word => {
+        const testDocument = makeCopy(rootDocument);
+
+        testDocument.paths[`/v1/drinks/{drink_id}/${word}`] = {
+          patch: {
+            operationId: `update_drink_${word}`,
+          },
+        };
+
+        const results = await testRule(ruleId, rule, testDocument);
+        expect(results).toHaveLength(0);
+      }
+    );
   });
 
   describe('Should yield errors', () => {
