@@ -1,3 +1,10 @@
+## @ibm-cloud/openapi-ruleset [1.33.17](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.16...@ibm-cloud/openapi-ruleset@1.33.17) (2026-11-04)
+
+
+### Bug Fixes
+
+* **ibm-collection-array-property:** don't flag binary file-download responses ([#873](https://github.com/IBM/openapi-validator/issues/873)) ([cf5b383](https://github.com/IBM/openapi-validator/commit/cf5b383c574c7b9b86ade84537a6a8b7bc630461))
+
 ## @ibm-cloud/openapi-ruleset [1.33.16](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.15...@ibm-cloud/openapi-ruleset@1.33.16) (2026-11-03)
 
 
