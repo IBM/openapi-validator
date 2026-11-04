@@ -38,7 +38,9 @@ module.exports = function print(context, results) {
       console.log(chalk[color](`  Message :   ${result.message}`));
       console.log(chalk[color](`  Rule    :   ${result.rule}`));
       console.log(chalk[color](`  Path    :   ${result.path.join('.')}`));
-      console.log(chalk[color](`  DocLink :   ${result.docLink}`));
+      if (result.docLink) {
+        console.log(chalk[color](`  DocLink :   ${result.docLink}`));
+      }
       console.log(chalk[color](`  Line    :   ${result.line}`));
       console.log('');
     });
