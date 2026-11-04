@@ -1,3 +1,10 @@
+## ibm-openapi-validator [1.38.7](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.6...ibm-openapi-validator@1.38.7) (2026-11-04)
+
+
+### Bug Fixes
+
+* **deps:** bump vulnerable packages ([#872](https://github.com/IBM/openapi-validator/issues/872)) ([2d64a83](https://github.com/IBM/openapi-validator/commit/2d64a83a08a6b19c6803c6edff4958a5bc17e124))
+
 ## ibm-openapi-validator [1.38.6](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.5...ibm-openapi-validator@1.38.6) (2026-11-03)
 
 
