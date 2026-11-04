@@ -6,7 +6,6 @@
 
 const chalk = require('chalk');
 const fs = require('fs');
-const globby = require('globby');
 const isPlainObject = require('lodash/isPlainObject');
 const jsonValidator = require('json-dup-key-validator');
 const path = require('path');
@@ -136,14 +135,13 @@ async function runValidator(cliArgs, parseOptions = {}) {
     );
   }
 
-  // Globby is used in an unconventional way here.
-  // We are not passing in globs, but an array of file names.
-  // What globby does is search through the file system looking for files
-  // that match the names in the array. It returns a list of matches (file names).
-  // Therefore, any files that are in filesWithValidExtensions, but are NOT in the
-  // array globby returns, do not actually exist. This is a convenient way of checking for file
-  // existence before iterating through and running the validator on every file.
-  const filesToValidate = await globby(filesWithValidExtensions);
+  // Check that each file exists before running the validator on it.
+  // The names are checked directly, not as glob patterns: a glob library
+  // reads Windows path separators ("\") and characters such as "(" as
+  // pattern syntax, and would report those existing files as missing.
+  const filesToValidate = [...new Set(filesWithValidExtensions)].filter(
+    isExistingFile
+  );
   const nonExistentFiles = filesWithValidExtensions.filter(
     file => !filesToValidate.includes(file)
   );
@@ -390,6 +388,14 @@ function handleSpectralError(error) {
 
 function outputIsJSON(context) {
   return context.config.outputFormat === 'json';
+}
+
+function isExistingFile(file) {
+  try {
+    return fs.statSync(file).isFile();
+  } catch {
+    return false;
+  }
 }
 
 module.exports = runValidator;

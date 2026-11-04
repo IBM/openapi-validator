@@ -1,3 +1,20 @@
+## ibm-openapi-validator [1.38.6](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.5...ibm-openapi-validator@1.38.6) (2026-11-03)
+
+
+### Bug Fixes
+
+* **validator:** check file existence directly instead of using globby ([#869](https://github.com/IBM/openapi-validator/issues/869)) ([3bd7240](https://github.com/IBM/openapi-validator/commit/3bd72402b19707b4b4bd5225b21b400019030a52))
+
+## ibm-openapi-validator [1.38.5](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.4...ibm-openapi-validator@1.38.5) (2026-11-03)
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset:** upgraded to 1.33.16
+
 ## ibm-openapi-validator [1.38.4](https://github.com/IBM/openapi-validator/compare/ibm-openapi-validator@1.38.3...ibm-openapi-validator@1.38.4) (2026-09-18)
 
 

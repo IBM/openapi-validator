@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 const { getCapturedText, testValidator } = require('../../test-utils');
 
 describe('Expected output tests', function () {
@@ -174,6 +177,43 @@ describe('Expected output tests', function () {
         ).toEqual(true);
       }
     );
+
+    it('should validate a file path that uses the platform separator', async function () {
+      // On Windows, this path contains backslashes.
+      const filename = path.join(
+        'test',
+        'cli-validator',
+        'mock-files',
+        'oas3',
+        'clean.yml'
+      );
+      const exitCode = await testValidator([filename]);
+      expect(exitCode).toEqual(0);
+
+      const allOutput = getCapturedText(consoleSpy.mock.calls).join('');
+      expect(allOutput).not.toContain('Skipping non-existent file');
+      expect(allOutput).toContain(`${filename} passed the validator`);
+    });
+
+    it('should validate a file whose name contains glob characters', async function () {
+      const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'openapi-validator-'));
+      const filename = path.join(dir, 'clean(v1).yml');
+      fs.copyFileSync(
+        './test/cli-validator/mock-files/oas3/clean.yml',
+        filename
+      );
+
+      try {
+        const exitCode = await testValidator([filename]);
+        expect(exitCode).toEqual(0);
+
+        const allOutput = getCapturedText(consoleSpy.mock.calls).join('');
+        expect(allOutput).not.toContain('Skipping non-existent file');
+        expect(allOutput).toContain(`${filename} passed the validator`);
+      } finally {
+        fs.rmSync(dir, { recursive: true, force: true });
+      }
+    });
 
     it('should not produce any errors or warnings from mock-files/oas3/clean-with-tabs.yml', async function () {
       const exitCode = await testValidator([
