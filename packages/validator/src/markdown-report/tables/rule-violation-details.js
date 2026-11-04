@@ -5,14 +5,19 @@
 
 const MarkdownTable = require('../markdown-table');
 
+// A colon only separates base from detail when followed by whitespace or the
+// end of the message, so colons embedded in paths ('/v1/things:batch') or
+// URLs ('https://...') are not treated as separators.
+const SEPARATOR = /:(?:\s|$)/;
+
 function splitMessage(message) {
-  const colonIdx = message.indexOf(':');
-  if (colonIdx === -1) {
+  const match = SEPARATOR.exec(message);
+  if (!match) {
     return { base: message, detail: null };
   }
   return {
-    base: message.slice(0, colonIdx).trim(),
-    detail: message.slice(colonIdx + 1).trim() || null,
+    base: message.slice(0, match.index).trim(),
+    detail: message.slice(match.index + 1).trim() || null,
   };
 }
 
@@ -36,19 +41,12 @@ function groupResultsByRule(results) {
       ruleEntry.groups.push(group);
     }
 
-    const pathStr = result.path.join('.');
-
-    if (
-      !group.violations.some(
-        v => v.line === result.line && v.path === pathStr && v.detail === detail
-      )
-    ) {
-      group.violations.push({
-        line: result.line,
-        path: pathStr,
-        detail,
-      });
-    }
+    // Every result is listed, so the rows always match the summary counts.
+    group.violations.push({
+      line: result.line,
+      path: result.path.join('.'),
+      detail,
+    });
   });
 
   return groupedByRule;

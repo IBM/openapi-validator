@@ -95,7 +95,7 @@ describe('ruleViolationDetails table tests', function () {
     expect(output).toContain('### Warnings');
   });
 
-  it('should deduplicate violations with the same line and path', function () {
+  it('should list identical violations so rows match the reported counts', function () {
     const duplicate = {
       error: {
         results: [
@@ -119,7 +119,7 @@ describe('ruleViolationDetails table tests', function () {
     };
     const output = ruleViolationDetails(duplicate);
     const dataRows = output.split('\n').filter(l => l.startsWith('| 10 |'));
-    expect(dataRows).toHaveLength(1);
+    expect(dataRows).toHaveLength(2);
   });
 
   it('should keep distinct details reported on the same line and path', function () {
@@ -216,5 +216,60 @@ describe('ruleViolationDetails table tests', function () {
     const output = ruleViolationDetails(withDetail);
     expect(output).toContain('| Line | Path | Detail |');
     expect(output).toContain('| 5 | paths./foo | detail value |');
+  });
+
+  it('should not split a message on colons that are not followed by whitespace', function () {
+    const embeddedColons = {
+      error: {
+        results: [
+          {
+            message:
+              "Collection schema for path '/v1/things:batch' should use the name: ThingCollection",
+            path: ['paths', '/v1/things:batch'],
+            rule: 'some-rule',
+            docLink: 'https://example.com',
+            line: 3,
+          },
+          {
+            message: 'See https://example.com/docs for details',
+            path: ['info'],
+            rule: 'other-rule',
+            docLink: 'https://example.com',
+            line: 4,
+          },
+        ],
+      },
+      warning: { results: [] },
+    };
+    const output = ruleViolationDetails(embeddedColons);
+    expect(output).toContain(
+      "_Collection schema for path '/v1/things:batch' should use the name_"
+    );
+    expect(output).toContain(
+      '| 3 | paths./v1/things:batch | ThingCollection |'
+    );
+    expect(output).toContain('_See https://example.com/docs for details_');
+    expect(output).toContain('| 4 | info |');
+  });
+
+  it('should treat a trailing colon as a separator with no detail', function () {
+    const trailingColon = {
+      error: {
+        results: [
+          {
+            message: 'Base message:',
+            path: ['a'],
+            rule: 'some-rule',
+            docLink: 'https://example.com',
+            line: 1,
+          },
+        ],
+      },
+      warning: { results: [] },
+    };
+    const output = ruleViolationDetails(trailingColon);
+    expect(output).toContain('_Base message_');
+    expect(output).toContain('| Line | Path |');
+    expect(output).not.toContain('Detail');
   });
 });
