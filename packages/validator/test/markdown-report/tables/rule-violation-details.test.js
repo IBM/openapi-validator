@@ -17,7 +17,7 @@ describe('ruleViolationDetails table tests', function () {
 
     // 3-col table
     expect(lines[2]).toBe(
-      '### [ibm-no-consecutive-path-parameter-segments](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-no-consecutive-path-parameter-segments)'
+      '#### [ibm-no-consecutive-path-parameter-segments](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-no-consecutive-path-parameter-segments)'
     );
     expect(lines[3]).toBe('');
     expect(lines[4]).toBe(
@@ -33,7 +33,7 @@ describe('ruleViolationDetails table tests', function () {
 
     // 2-col table
     expect(lines[10]).toBe(
-      '### [ibm-integer-attributes](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-integer-attributes)'
+      '#### [ibm-integer-attributes](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-integer-attributes)'
     );
     expect(lines[11]).toBe('');
     expect(lines[12]).toBe(
@@ -51,7 +51,7 @@ describe('ruleViolationDetails table tests', function () {
 
     // 2-col table
     expect(lines[20]).toBe(
-      '### [ibm-anchored-patterns](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-anchored-patterns)'
+      '#### [ibm-anchored-patterns](https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html#ibm-anchored-patterns)'
     );
     expect(lines[21]).toBe('');
     expect(lines[22]).toBe(
@@ -172,7 +172,7 @@ describe('ruleViolationDetails table tests', function () {
       warning: { results: [] },
     };
     const output = ruleViolationDetails(multiBase);
-    expect(output.match(/### \[some-rule\]/g)).toHaveLength(1);
+    expect(output.match(/#### \[some-rule\]/g)).toHaveLength(1);
     expect(output).toContain('_Base A_');
     expect(output).toContain('_Base B_');
     expect(output).toContain('| 1 | a |');
@@ -195,7 +195,7 @@ describe('ruleViolationDetails table tests', function () {
       warning: { results: [] },
     };
     const output = ruleViolationDetails(noLink);
-    expect(output.split('\n')[2]).toBe('### some-rule');
+    expect(output.split('\n')[2]).toBe('#### some-rule');
   });
 
   it('should use a 3-column table when at least one violation has a detail', function () {

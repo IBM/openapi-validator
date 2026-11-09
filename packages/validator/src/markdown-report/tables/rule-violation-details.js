@@ -58,7 +58,7 @@ function renderRuleGroups(groupedByRule) {
   Object.entries(groupedByRule).forEach(([rule, data]) => {
     // Create heading with link or plain text when missing
     sections.push(
-      data.docLink ? `### [${rule}](${data.docLink})` : `### ${rule}`
+      data.docLink ? `#### [${rule}](${data.docLink})` : `#### ${rule}`
     );
     sections.push('');
 
