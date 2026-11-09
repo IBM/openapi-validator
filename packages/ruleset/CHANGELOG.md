@@ -1,3 +1,18 @@
+## @ibm-cloud/openapi-ruleset [1.33.18](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.17...@ibm-cloud/openapi-ruleset@1.33.18) (2026-11-09)
+
+
+### Bug Fixes
+
+* **deps:** remove globby package ([#874](https://github.com/IBM/openapi-validator/issues/874)) ([521d647](https://github.com/IBM/openapi-validator/commit/521d6474adeac52cf2545cc24eaacf01322444b5))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.5
+
 ## @ibm-cloud/openapi-ruleset [1.33.17](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.16...@ibm-cloud/openapi-ruleset@1.33.17) (2026-11-04)
 
 
