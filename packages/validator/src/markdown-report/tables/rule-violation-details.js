@@ -4,22 +4,7 @@
  */
 
 const MarkdownTable = require('../markdown-table');
-
-// A colon only separates base from detail when followed by whitespace or the
-// end of the message, so colons embedded in paths ('/v1/things:batch') or
-// URLs ('https://...') are not treated as separators.
-const SEPARATOR = /:(?:\s|$)/;
-
-function splitMessage(message) {
-  const match = SEPARATOR.exec(message);
-  if (!match) {
-    return { base: message, detail: null };
-  }
-  return {
-    base: message.slice(0, match.index).trim(),
-    detail: message.slice(match.index + 1).trim() || null,
-  };
-}
+const { splitMessage } = require('../../spectral/utils');
 
 function groupResultsByRule(results) {
   const groupedByRule = {};

@@ -18,7 +18,7 @@ const {
   getLocalRulesetVersion,
 } = require('../cli-validator/utils');
 
-const { findSpectralRuleset } = require('./utils');
+const { findSpectralRuleset, splitMessage } = require('./utils');
 
 /**
  * Creates a Spectral document from the input, runs spectral, converts the results
@@ -94,7 +94,7 @@ function convertResults(spectralResults, { config, logger }, rules) {
     });
 
     // compute a generalized message for the summary
-    const genMessage = r.message.split(':')[0];
+    const { base: genMessage } = splitMessage(r.message);
     if (!summaryHelper[severity][genMessage]) {
       summaryHelper[severity][genMessage] = 0;
     }
