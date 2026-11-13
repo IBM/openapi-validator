@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2017 - 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -18,7 +18,7 @@ const {
   getLocalRulesetVersion,
 } = require('../cli-validator/utils');
 
-const { findSpectralRuleset } = require('./utils');
+const { findSpectralRuleset, splitMessage } = require('./utils');
 
 /**
  * Creates a Spectral document from the input, runs spectral, converts the results
@@ -47,10 +47,10 @@ const runSpectral = async function ({ originalFile, validFile }, context) {
   // Save the resolved API definition for use in the scoring tool logic.
   context.apiDefinition = doc.data;
 
-  return convertResults(spectralResults, context);
+  return convertResults(spectralResults, context, spectral.ruleset.rules);
 };
 
-function convertResults(spectralResults, { config, logger }) {
+function convertResults(spectralResults, { config, logger }, rules) {
   const { errorsOnly } = config;
 
   // This structure must match the JSON Schema defined for JSON output
@@ -89,11 +89,12 @@ function convertResults(spectralResults, { config, logger }) {
       message: r.message,
       path: r.path,
       rule: r.code,
+      docLink: rules?.[r.code]?.documentationUrl ?? '',
       line: r.range.start.line + 1,
     });
 
     // compute a generalized message for the summary
-    const genMessage = r.message.split(':')[0];
+    const { base: genMessage } = splitMessage(r.message);
     if (!summaryHelper[severity][genMessage]) {
       summaryHelper[severity][genMessage] = 0;
     }
