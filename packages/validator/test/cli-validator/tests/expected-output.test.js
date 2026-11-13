@@ -221,6 +221,55 @@ describe('Expected output tests', function () {
       }
     );
 
+    it.each(['-j', '--json'])(
+      'should correctly populate summary.entries with generalizedMessage in JSON output',
+      async function (option) {
+        const exitCode = await testValidator([
+          option,
+          './test/cli-validator/mock-files/oas3/err-and-warn.yaml',
+        ]);
+        expect(exitCode).toEqual(1);
+
+        const capturedText = getCapturedText(consoleSpy.mock.calls);
+        const jsonOutput = JSON.parse(capturedText);
+
+        expect(jsonOutput.error.summary.total).toBe(4);
+        expect(jsonOutput.error.summary.entries).toEqual([
+          {
+            generalizedMessage:
+              'Every operation must have unique "operationId".',
+            count: 1,
+            percentage: 25,
+          },
+          {
+            generalizedMessage:
+              'Operations should not return an array as the top-level structure of a response',
+            count: 2,
+            percentage: 50,
+          },
+          {
+            generalizedMessage:
+              '$ref must not be placed next to any other properties',
+            count: 1,
+            percentage: 25,
+          },
+        ]);
+
+        expect(jsonOutput.warning.summary.total).toBe(29);
+        const generalizedWarningMessages =
+          jsonOutput.warning.summary.entries.map(e => e.generalizedMessage);
+        expect(generalizedWarningMessages).toContain(
+          'A tag is defined but never used'
+        );
+        expect(generalizedWarningMessages).toContain(
+          'operationIds should follow naming convention'
+        );
+        expect(generalizedWarningMessages).not.toContain(
+          'A tag is defined but never used: store'
+        );
+      }
+    );
+
     it('should return exit code of 0 if there are only warnings', async function () {
       const exitCode = await testValidator([
         './test/cli-validator/mock-files/oas3/just-warn.yml',
