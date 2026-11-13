@@ -142,7 +142,10 @@ $defs:
         description: The rule identifier in the Spectral ruleset
       docLink:
         type: string
-        description: The documentation link to the problem discovered in the API
+        description: >-
+          The documentation link to the problem discovered in the API.
+          An empty string when no documentation URL is available (e.g. for
+          parser errors or custom rules without a URL).
       line:
         type: integer
         description: The line number in the original file that the problem
