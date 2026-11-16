@@ -1,5 +1,5 @@
 /**
- * Copyright 2024 IBM Corporation.
+ * Copyright 2024 - 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -56,5 +56,16 @@ describe('MarkdownTable tests', function () {
     expect(renderedTable[2]).toBe('| ibm-api-symmetry | 10 |');
     expect(renderedTable[3]).toBe('| ibm-no-ambiguous-paths |  |');
     expect(renderedTable[4]).toBe('| ibm-pagination-style | 1 |');
+  });
+
+  it('escapes pipe characters in cells so table structure is preserved', function () {
+    const table = new MarkdownTable('Pattern | Regex', 'Detail');
+
+    table.addRow('^[a|b]$', 'value with | pipe');
+
+    const renderedTable = table.render().split('\n');
+    expect(renderedTable[0]).toBe('| Pattern \\| Regex | Detail |');
+    expect(renderedTable[1]).toBe('| --- | --- |');
+    expect(renderedTable[2]).toBe('| ^[a\\|b]$ | value with \\| pipe |');
   });
 });
