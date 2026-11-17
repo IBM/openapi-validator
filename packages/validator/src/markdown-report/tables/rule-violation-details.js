@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-import MarkdownTable from '../markdown-table.js'
-import splitMessage from '../../spectral/utils.js'
+import MarkdownTable from '../markdown-table.js';
+import { splitMessage } from '../../spectral/utils.js';
 
 function groupResultsByRule(results) {
   const groupedByRule = {};

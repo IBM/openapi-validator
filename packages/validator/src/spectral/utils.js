@@ -82,7 +82,7 @@ async function lookForSpectralRuleset() {
  * @param {string} message - the message to split
  * @returns {{ base: string, detail: string|null }}
  */
-export async function splitMessage(message) {
+export function splitMessage(message) {
   const match = SEPARATOR.exec(message);
   if (!match) {
     return { base: message, detail: null };

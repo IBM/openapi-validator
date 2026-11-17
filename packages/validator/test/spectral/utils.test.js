@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { splitMessage } = require('../../src/spectral/utils');
+import { splitMessage } from '../../src/spectral/utils';
 
 describe('Spectral utils tests', function () {
   describe('splitMessage', function () {
