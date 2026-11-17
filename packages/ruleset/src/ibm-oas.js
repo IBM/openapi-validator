@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2025 IBM Corporation.
+ * Copyright 2017 - 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -106,10 +106,12 @@ import {
 // However, we want to enable this rule also for OpenAPI 3.1.x documents,
 // so we'll just tweak Spectral's rule definition here.
 oas.rules['no-$ref-siblings'].formats = [oas3];
+oas.documentationUrl =
+  'https://meta.stoplight.io/docs/spectral/4dec24461f3af-open-api-rules';
 
 export { oas as extends };
 export const documentationUrl =
-  'https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md';
+  'https://ibm.github.io/openapi-validator/docs/ibm-cloud-rules.html';
 export const formats = [oas3];
 export const rules = {
   // Original list created from Spectral with:

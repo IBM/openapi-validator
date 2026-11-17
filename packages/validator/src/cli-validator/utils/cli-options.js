@@ -88,6 +88,10 @@ function createCLIOptions() {
       'set warnings limit to <number> (default is -1)',
       parseWarningsLimit
     )
+    .option(
+      '--file-only-refs',
+      'use a file-only $ref resolver (disables HTTP/HTTPS ref resolution) (default is false)'
+    )
     .option('--version', 'output the version number')
     .showHelpAfterError()
     .addHelpText('beforeAll', getCopyrightString());

@@ -1,3 +1,24 @@
+## @ibm-cloud/openapi-ruleset-utilities [1.9.4](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.9.3...@ibm-cloud/openapi-ruleset-utilities@1.9.4) (2026-09-18)
+
+
+### Bug Fixes
+
+* **deps:** bump packages to latest patch version ([#856](https://github.com/IBM/openapi-validator/issues/856)) ([5018f24](https://github.com/IBM/openapi-validator/commit/5018f249002f7efd9637428082e6dc0bfea3ddc1))
+
+## @ibm-cloud/openapi-ruleset-utilities [1.9.3](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.9.2...@ibm-cloud/openapi-ruleset-utilities@1.9.3) (2026-09-09)
+
+
+### Bug Fixes
+
+* resolve npx double package install failure ([#848](https://github.com/IBM/openapi-validator/issues/848)) ([95fb589](https://github.com/IBM/openapi-validator/commit/95fb589c76b2ce2514526860dcbff2e8d021ee1d))
+
+## @ibm-cloud/openapi-ruleset-utilities [1.9.2](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.9.1...@ibm-cloud/openapi-ruleset-utilities@1.9.2) (2026-05-20)
+
+
+### Bug Fixes
+
+* bump spectral packages ([#812](https://github.com/IBM/openapi-validator/issues/812)) ([5475c4c](https://github.com/IBM/openapi-validator/commit/5475c4c265c38f8285b588ad2aff583f1d2999b2))
+
 ## @ibm-cloud/openapi-ruleset-utilities [1.9.1](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset-utilities@1.9.0...@ibm-cloud/openapi-ruleset-utilities@1.9.1) (2026-05-07)
 
 

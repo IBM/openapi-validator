@@ -1,5 +1,5 @@
 /**
- * Copyright 2017 - 2024 IBM Corporation.
+ * Copyright 2017 - 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
@@ -7,6 +7,8 @@ import SpectralCore from '@stoplight/spectral-core';
 import SpectralParsers from '@stoplight/spectral-parsers';
 import { getRuleset } from '@stoplight/spectral-cli/dist/services/linter/utils/getRuleset.js';
 import * as ibmRuleset from '@ibm-cloud/openapi-ruleset';
+import { Resolver } from '@stoplight/spectral-ref-resolver';
+import resolveFile from '@stoplight/json-ref-readers';
 const { Json, Yaml } = SpectralParsers;
 const { Document, Spectral } = SpectralCore;
 
@@ -16,7 +18,7 @@ import {
   getLocalRulesetVersion,
 } from '../cli-validator/utils/index.js';
 
-import { findSpectralRuleset } from './utils.js';
+import { findSpectralRuleset, splitMessage } from './utils.js';
 
 /**
  * Creates a Spectral document from the input, runs spectral, converts the results
@@ -45,10 +47,10 @@ const runSpectral = async function ({ originalFile, validFile }, context) {
   // Save the resolved API definition for use in the scoring tool logic.
   context.apiDefinition = doc.data;
 
-  return convertResults(spectralResults, context);
+  return convertResults(spectralResults, context, spectral.ruleset.rules);
 };
 
-function convertResults(spectralResults, { config, logger }) {
+function convertResults(spectralResults, { config, logger }, rules) {
   const { errorsOnly } = config;
 
   // This structure must match the JSON Schema defined for JSON output
@@ -87,11 +89,12 @@ function convertResults(spectralResults, { config, logger }) {
       message: r.message,
       path: r.path,
       rule: r.code,
+      docLink: rules?.[r.code]?.documentationUrl ?? '',
       line: r.range.start.line + 1,
     });
 
     // compute a generalized message for the summary
-    const genMessage = r.message.split(':')[0];
+    const { base: genMessage } = splitMessage(r.message);
     if (!summaryHelper[severity][genMessage]) {
       summaryHelper[severity][genMessage] = 0;
     }
@@ -125,7 +128,14 @@ function convertResults(spectralResults, { config, logger }) {
  * @returns the new Spectral instance
  */
 async function setup({ config, logger }) {
-  const spectral = new Spectral();
+  const resolverOpts = config.fileOnlyRefs
+    ? {
+        resolver: new Resolver({
+          resolvers: { file: { resolve: resolveFile } },
+        }),
+      }
+    : undefined;
+  const spectral = new Spectral(resolverOpts);
 
   // We'll use the IBM ruleset by default, but also look for a user-provided
   // ruleset and use that if one was specified.

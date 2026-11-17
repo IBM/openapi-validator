@@ -1,9 +1,14 @@
 /**
- * Copyright 2023 IBM Corporation.
+ * Copyright 2023 - 2026 IBM Corporation.
  * SPDX-License-Identifier: Apache2.0
  */
 
 import findUp from 'find-up';
+
+// A colon only separates base from detail when followed by whitespace or the
+// end of the message, so colons embedded in paths ('/v1/things:batch') or
+// URLs ('https://...') are not treated as separators.
+const SEPARATOR = /:(?:\s|$)/;
 
 /**
  * Checks the user configuration and the file system for local
@@ -69,4 +74,21 @@ async function lookForSpectralRuleset() {
   }
 
   return rulesetFile;
+}
+
+/**
+ * Splits a violation message into a base message and an optional detail.
+ *
+ * @param {string} message - the message to split
+ * @returns {{ base: string, detail: string|null }}
+ */
+export async function splitMessage(message) {
+  const match = SEPARATOR.exec(message);
+  if (!match) {
+    return { base: message, detail: null };
+  }
+  return {
+    base: message.slice(0, match.index).trim(),
+    detail: message.slice(match.index + 1).trim() || null,
+  };
 }

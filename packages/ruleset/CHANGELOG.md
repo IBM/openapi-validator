@@ -1,3 +1,69 @@
+## @ibm-cloud/openapi-ruleset [1.33.15](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.14...@ibm-cloud/openapi-ruleset@1.33.15) (2026-09-18)
+
+
+### Bug Fixes
+
+* **deps:** bump packages to latest patch version ([#856](https://github.com/IBM/openapi-validator/issues/856)) ([5018f24](https://github.com/IBM/openapi-validator/commit/5018f249002f7efd9637428082e6dc0bfea3ddc1))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.4
+
+## @ibm-cloud/openapi-ruleset [1.33.14](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.13...@ibm-cloud/openapi-ruleset@1.33.14) (2026-09-09)
+
+
+### Bug Fixes
+
+* resolve npx double package install failure ([#848](https://github.com/IBM/openapi-validator/issues/848)) ([95fb589](https://github.com/IBM/openapi-validator/commit/95fb589c76b2ce2514526860dcbff2e8d021ee1d))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.3
+
+## @ibm-cloud/openapi-ruleset [1.33.13](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.12...@ibm-cloud/openapi-ruleset@1.33.13) (2026-07-27)
+
+
+### Bug Fixes
+
+* revert regex changes to address a regression ([#840](https://github.com/IBM/openapi-validator/issues/840)) ([58e6daf](https://github.com/IBM/openapi-validator/commit/58e6daf91d40e47a53435c30a8550403d8263c48))
+
+## @ibm-cloud/openapi-ruleset [1.33.12](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.11...@ibm-cloud/openapi-ruleset@1.33.12) (2026-07-23)
+
+
+### Bug Fixes
+
+* avoid file content disclosure when merging allOf schemas ([#829](https://github.com/IBM/openapi-validator/issues/829)) ([d01b95b](https://github.com/IBM/openapi-validator/commit/d01b95b04598f72e27904ab83307301b784b7f95))
+
+## @ibm-cloud/openapi-ruleset [1.33.11](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.10...@ibm-cloud/openapi-ruleset@1.33.11) (2026-07-03)
+
+
+### Bug Fixes
+
+* resolve ReDoS vulnerability in casing convention rules ([#825](https://github.com/IBM/openapi-validator/issues/825)) ([30d9a51](https://github.com/IBM/openapi-validator/commit/30d9a513ca77e73a45f83810328042d21dc5f2c4))
+
+## @ibm-cloud/openapi-ruleset [1.33.10](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.9...@ibm-cloud/openapi-ruleset@1.33.10) (2026-05-20)
+
+
+### Bug Fixes
+
+* bump spectral packages ([#812](https://github.com/IBM/openapi-validator/issues/812)) ([5475c4c](https://github.com/IBM/openapi-validator/commit/5475c4c265c38f8285b588ad2aff583f1d2999b2))
+
+
+
+
+
+### Dependencies
+
+* **@ibm-cloud/openapi-ruleset-utilities:** upgraded to 1.9.2
+
 ## @ibm-cloud/openapi-ruleset [1.33.9](https://github.com/IBM/openapi-validator/compare/@ibm-cloud/openapi-ruleset@1.33.8...@ibm-cloud/openapi-ruleset@1.33.9) (2026-05-07)
 
 
