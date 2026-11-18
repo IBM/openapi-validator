@@ -20,7 +20,7 @@ module.exports = function (schema, _opts, context) {
   return validateSubschemas(
     schema,
     context.path,
-    checkRequiredProperties,
+    (subschema, path) => checkRequiredProperties(subschema, path, context),
     true,
     false
   );
@@ -47,9 +47,10 @@ module.exports = function (schema, _opts, context) {
  *
  * @param {*} schema the schema to check
  * @param {*} path the jsonpath location of "schema"
+ * @param {*} context the Spectral rule function context
  * @returns zero or more errors
  */
-function checkRequiredProperties(schema, path) {
+function checkRequiredProperties(schema, path, context) {
   logger.debug(
     `${ruleId}: checking for required properties in schema at location: ${path.join(
       '.'
@@ -80,20 +81,38 @@ function checkRequiredProperties(schema, path) {
         ...checkRequired(
           schema,
           [...path, 'allOf', i.toString()],
-          schema.allOf[i]
+          schema.allOf[i],
+          context
         )
       );
     }
 
     // Finally, check the "required" field in the main schema.
-    errors.push(...checkRequired(schema, path));
+    errors.push(...checkRequired(schema, path, undefined, context));
   } else {
     // For a non-allOf schema, just check its properties vs its required field.
     // This handles both non-composed schemas and oneOf/anyOf schemas.
-    errors.push(...checkRequired(schema, path));
+    errors.push(...checkRequired(schema, path, undefined, context));
   }
 
   return errors;
+}
+
+/**
+ * Returns true if the entry at "entryPath" in the resolved document was loaded
+ * from a different document than the "required" list containing it (e.g. the
+ * entry is a "$ref" to an external file or URL). If the origin cannot be
+ * determined, we assume that it is.
+ * @param {*} context the Spectral rule function context
+ * @param {*} listPath the jsonpath location of the "required" list
+ * @param {*} entryPath the jsonpath location of the entry in the list
+ * @returns boolean
+ */
+function isReferencedEntry(context, listPath, entryPath) {
+  const { documentInventory } = context;
+  const list = documentInventory.findAssociatedItemForPath(listPath, true);
+  const entry = documentInventory.findAssociatedItemForPath(entryPath, true);
+  return !list || !entry || list.document !== entry.document;
 }
 
 /**
@@ -104,7 +123,7 @@ function checkRequiredProperties(schema, path) {
  * @param {*} path the jsonpath location of "schema"
  * @returns
  */
-function checkRequired(schema, path, subschema) {
+function checkRequired(schema, path, subschema, context) {
   // In the case of an allOf, we want to check the individual subschemas
   // required list against the whole schema
   const required = subschema ? subschema.required : schema.required;
@@ -113,14 +132,19 @@ function checkRequired(schema, path, subschema) {
     const localPath = [...path, 'required'];
     logger.debug(`${ruleId}: checking ${localPath.join('.')}`);
 
-    required.forEach(name => {
+    required.forEach((name, i) => {
       logger.debug(`${ruleId}: looking for property ${name}`);
       if (!schemaHasProperty(schema, name)) {
+        // Never echo a value that was pulled in via "$ref" (e.g. the contents
+        // of a file), as it could disclose sensitive information (CWE-209).
+        const shown = isReferencedEntry(context, localPath, [...localPath, i])
+          ? '<referenced value>'
+          : name;
         errors.push({
-          message: `Required property must be defined in the schema: ${name}`,
+          message: `Required property must be defined in the schema: ${shown}`,
           path: localPath,
         });
-        logger.debug(`${ruleId}: Missing required property: ${name}`);
+        logger.debug(`${ruleId}: Missing required property: ${shown}`);
       }
     });
 

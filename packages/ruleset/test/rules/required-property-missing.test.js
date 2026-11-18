@@ -3,6 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
+const fs = require('fs');
+const os = require('os');
+const path = require('path');
 const { requiredPropertyMissing } = require('../../src/rules');
 const {
   makeCopy,
@@ -673,5 +676,45 @@ describe(`Spectral rule: ${ruleId}`, () => {
     expect(results[2].path.join('.')).toBe(
       'paths.v1/books.post.responses.201.content.application/json.schema.required'
     );
+  });
+
+  it('should not disclose the content of a file referenced from "required"', async () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'required-ref-'));
+    const secretFile = path.join(dir, 'secret.txt');
+    fs.writeFileSync(secretFile, 'TOP-SECRET-FILE-CONTENT');
+
+    try {
+      const testDocument = makeCopy(rootDocument);
+      testDocument.paths['v1/books'] = {
+        post: {
+          requestBody: {
+            content: {
+              'application/json': {
+                schema: {
+                  type: 'object',
+                  required: [{ $ref: `file:${secretFile}` }],
+                  properties: {
+                    foo: {
+                      type: 'string',
+                    },
+                  },
+                },
+              },
+            },
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+
+      expect(results).toHaveLength(1);
+      expect(results[0].code).toBe(ruleId);
+      expect(results[0].message).not.toContain('TOP-SECRET-FILE-CONTENT');
+      expect(results[0].message).toBe(
+        'Required property must be defined in the schema: <referenced value>'
+      );
+    } finally {
+      fs.rmSync(dir, { recursive: true, force: true });
+    }
   });
 });
