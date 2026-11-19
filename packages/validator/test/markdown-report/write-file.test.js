@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { existsSync, readFileSync, unlinkSync } = require('fs');
-const writeReportToFile = require('../../src/markdown-report/write-file');
+import { existsSync, readFileSync, unlinkSync } from 'fs';
+import writeReportToFile from '../../src/markdown-report/write-file';
 
 describe('writeReportToFile tests', function () {
   const baseFilename = 'test-api-def-file';

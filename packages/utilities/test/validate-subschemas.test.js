@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { allSchemasDocument, testRule } = require('./utils');
-const { validateSubschemas } = require('../src');
-const { schemas } = require('../src/collections');
+import { allSchemasDocument, testRule } from './utils';
+import { validateSubschemas } from '../src';
+import { schemas } from '../src/collections';
 
 describe('Utility: validateSubschemas', () => {
   const visitedPaths = [];

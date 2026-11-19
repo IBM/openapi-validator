@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isArraySchema } = require('../src');
+import { isArraySchema } from '../src';
 
 describe('Utility function: isArraySchema()', () => {
   it('should return `false` for `undefined`', async () => {

@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isJsonMimeType,
   isJsonPatchMimeType,
   isMergePatchMimeType,
   isFormMimeType,
-} = require('../../src/utils');
+} from '../../src/utils';
 
 describe('MimeType utility functions', () => {
   describe('isJsonMimeType()', () => {

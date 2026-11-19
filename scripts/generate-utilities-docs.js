@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-const mustache = require('mustache');
-const { readFileSync, writeFileSync } = require('fs');
-const { execSync } = require('child_process');
+import mustache from 'mustache';
+import { readFileSync, writeFileSync } from 'fs';
+import { execSync } from 'child_process';
 
 const template = readFileSync('scripts/templates/package.mustache', {
   encoding: 'utf8',
@@ -17,7 +17,7 @@ const raw = JSON.parse(
 
 const docs = raw.filter(d => d.comment !== '' && d.access !== 'private');
 
-const package = docs.find(d => d.kind === 'module');
+const packageDoc = docs.find(d => d.kind === 'module');
 
 const constants = docs
   .filter(d => d.kind === 'constant')
@@ -50,6 +50,10 @@ const functions = docs
     })),
   }));
 
-const rendered = mustache.render(template, { package, constants, functions });
+const rendered = mustache.render(template, {
+  package: packageDoc,
+  constants,
+  functions,
+});
 
 writeFileSync('docs/openapi-ruleset-utilities.md', rendered);

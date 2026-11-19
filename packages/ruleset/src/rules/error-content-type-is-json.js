@@ -3,19 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { truthy } = require('@stoplight/spectral-functions');
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { truthy } from '@stoplight/spectral-functions';
 
-module.exports = {
-  description: 'error response should support application/json',
-  formats: [oas3],
-  severity: 'warn',
-  resolved: true,
-  given: [
-    '$.paths[*][*].responses[?(@property >= 400 && @property < 600)].content',
-  ],
-  then: {
-    field: 'application/json',
-    function: truthy,
-  },
+export const description = 'error response should support application/json';
+export const formats = [oas3];
+export const severity = 'warn';
+export const resolved = true;
+export const given = [
+  '$.paths[*][*].responses[?(@property >= 400 && @property < 600)].content',
+];
+export const then = {
+  field: 'application/json',
+  function: truthy,
 };

@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const testRule = require('./test-rule');
+import testRule from './test-rule';
 
-module.exports = async (given, doc) => {
+export default async (given, doc) => {
   const visitedPaths = [];
   const rule = {
     given,

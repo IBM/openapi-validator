@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { primary } = require('../../../src/markdown-report/tables');
-const validatorResults = require('../../test-utils/mock-json-output.json');
+import { primary } from '../../../src/markdown-report/tables';
+import validatorResults from '../../test-utils/mock-json-output.json';
 
 describe('primary table tests', function () {
   it('should produce a table with the primary data from the results', function () {

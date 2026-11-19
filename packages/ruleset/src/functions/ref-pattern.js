@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function ($ref, _opts, context) {
+export default function ($ref, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
   return checkRefPattern($ref, context.path);
-};
+}
 
 // This object is used to categorize a $ref value, based on its path (location within the API document).
 // Each entry corresponds to a particular type of object to which we support references,

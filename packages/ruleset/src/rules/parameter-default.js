@@ -3,20 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  parameters,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas2, oas3 } = require('@stoplight/spectral-formats');
-const { parameterDefault } = require('../functions');
+import { parameters } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import { parameterDefault } from '../functions/index.js';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas2, oas3 } = spectralFormats;
 
-module.exports = {
-  description: 'Required parameters should not define a default value',
-  message: '{{error}}',
-  given: parameters,
-  severity: 'warn',
-  formats: [oas2, oas3],
-  resolved: true,
-  then: {
-    function: parameterDefault,
-  },
+export const description =
+  'Required parameters should not define a default value';
+export const message = '{{error}}';
+export const given = parameters;
+export const severity = 'warn';
+export const formats = [oas2, oas3];
+export const resolved = true;
+export const then = {
+  function: parameterDefault,
 };

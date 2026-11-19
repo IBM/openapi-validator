@@ -3,18 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (apiDef, _opts, context) {
+export default function (apiDef, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkMajorVersion(apiDef);
-};
+}
 
 // Check:
 // - Each url in the servers object has a path segment of the form v followed by a number,

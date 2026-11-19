@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isBinarySchema } = require('../src');
+import { isBinarySchema } from '../src';
 
 describe('Utility function: isBinarySchema()', () => {
   it('should return `false` for `undefined`', async () => {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { basename } = require('node:path');
+import { basename } from 'node:path';
 
 // Get the title for an API.
 function getTitle(apiDef, filename) {
@@ -27,6 +27,4 @@ function getTitle(apiDef, filename) {
   return title;
 }
 
-module.exports = {
-  getTitle,
-};
+export { getTitle };

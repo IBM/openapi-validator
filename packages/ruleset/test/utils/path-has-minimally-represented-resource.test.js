@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { pathHasMinimallyRepresentedResource } = require('../../src/utils');
+import { pathHasMinimallyRepresentedResource } from '../../src/utils';
 
 describe('Utility function: pathHasMinimallyRepresentedResource()', () => {
   const path = '/v1/resources';

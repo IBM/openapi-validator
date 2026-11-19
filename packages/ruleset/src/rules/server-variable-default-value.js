@@ -3,16 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { truthy } = require('@stoplight/spectral-functions');
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { truthy } from '@stoplight/spectral-functions';
 
-module.exports = {
-  description: 'Server variable should have default value',
-  severity: 'warn',
-  resolved: false,
-  formats: [oas3],
-  given: '$.servers[*][variables][*][default]',
-  then: {
-    function: truthy,
-  },
+export const description = 'Server variable should have default value';
+export const severity = 'warn';
+export const resolved = false;
+export const formats = [oas3];
+export const given = '$.servers[*][variables][*][default]';
+export const then = {
+  function: truthy,
 };

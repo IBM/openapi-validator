@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isInt32Schema } = require('../src');
+import { isInt32Schema } from '../src';
 
 describe('Utility function: isInt32Schema()', () => {
   it('should return `false` for `undefined`', async () => {

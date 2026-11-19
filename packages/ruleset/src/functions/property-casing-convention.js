@@ -3,15 +3,15 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { casing } = require('@stoplight/spectral-functions');
-const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+import { casing } from '@stoplight/spectral-functions';
+import { validateSubschemas } from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils/index.js';
 
 let casingConfig;
 let ruleId;
 let logger;
 
-module.exports = function (schema, options, context) {
+export default function (schema, options, context) {
   // Save this rule's "functionOptions" value since we need
   // to pass it on to Spectral's "casing" function.
   casingConfig = options;
@@ -26,7 +26,7 @@ module.exports = function (schema, options, context) {
     context.path,
     checkPropertyCasingConvention
   );
-};
+}
 
 function checkPropertyCasingConvention(schema, path) {
   if (schema.properties) {

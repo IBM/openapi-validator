@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isByteSchema } = require('../src');
+import { isByteSchema } from '../src';
 
 describe('Utility function: isByteSchema()', () => {
   it('should return `false` for `undefined`', async () => {

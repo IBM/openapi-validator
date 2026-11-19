@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isObject } = require('@ibm-cloud/openapi-ruleset-utilities');
-const getResourceSpecificSiblingPath = require('./get-resource-specific-sibling-path');
+import { isObject } from '@ibm-cloud/openapi-ruleset-utilities';
+import getResourceSpecificSiblingPath from './get-resource-specific-sibling-path.js';
 
 /**
  * Cycles through the path strings within an API definition to collect the paths
@@ -44,4 +44,4 @@ function getResourceOrientedPaths(apidef) {
   return pathStore;
 }
 
-module.exports = getResourceOrientedPaths;
+export default getResourceOrientedPaths;

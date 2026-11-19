@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isDateSchema } = require('../src');
+import { isDateSchema } from '../src';
 
 describe('Utility function: isDateSchema()', () => {
   it('should return `false` for `undefined`', async () => {

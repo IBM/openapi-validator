@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getExamplesForSchema } = require('../src');
+import { getExamplesForSchema } from '../src';
 
 describe('Utility function: getExamplesForSchema()', () => {
   it('should return `[]` for `undefined`', async () => {

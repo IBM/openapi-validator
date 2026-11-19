@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const findUp = require('find-up');
+import findUp from 'find-up';
 
 // A colon only separates base from detail when followed by whitespace or the
 // end of the message, so colons embedded in paths ('/v1/things:batch') or
 // URLs ('https://...') are not treated as separators.
 const SEPARATOR = /:(?:\s|$)/;
 
-module.exports = {
+export default {
   findSpectralRuleset,
   splitMessage,
 };
@@ -24,7 +24,7 @@ module.exports = {
  * @param logger - the root logger instance
  * @returns string|null - the path to the local ruleset
  */
-async function findSpectralRuleset(config, logger) {
+export async function findSpectralRuleset(config, logger) {
   // Spectral only supports reading a config file in the working directory,
   // but we support looking up the file path for the nearest file (if one exists).
   let rulesetFileOverride = config.ruleset;
@@ -87,7 +87,7 @@ async function lookForSpectralRuleset() {
  * @param {string} message - the message to split
  * @returns {{ base: string, detail: string|null }}
  */
-function splitMessage(message) {
+export function splitMessage(message) {
   const match = SEPARATOR.exec(message);
   if (!match) {
     return { base: message, detail: null };

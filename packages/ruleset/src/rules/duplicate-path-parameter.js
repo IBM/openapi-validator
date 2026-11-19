@@ -3,19 +3,17 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  paths,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { duplicatePathParameter } = require('../functions');
+import { paths } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { duplicatePathParameter } from '../functions/index.js';
 
-module.exports = {
-  description: 'Common path parameters should be defined on the path object.',
-  given: paths,
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: duplicatePathParameter,
-  },
+export const description =
+  'Common path parameters should be defined on the path object.';
+export const given = paths;
+export const severity = 'warn';
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: duplicatePathParameter,
 };

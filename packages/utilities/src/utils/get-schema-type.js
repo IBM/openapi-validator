@@ -6,11 +6,11 @@
 /**
  * @private
  */
-const isObject = require('./is-object');
+import isObject from './is-object.js';
 /**
  * @private
  */
-const schemaHasConstraint = require('./schema-has-constraint');
+import schemaHasConstraint from './schema-has-constraint.js';
 
 /**
  * An enumeration of non-mutually-exclusive schema types.
@@ -367,7 +367,7 @@ function isPrimitiveSchema(schema) {
   );
 }
 
-module.exports = {
+export default {
   SchemaType,
   getSchemaType,
   isArraySchema,

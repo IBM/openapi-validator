@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
-const { noNullableProperties } = require('../../src/rules');
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
+import { noNullableProperties } from '../../src/rules';
 
 const rule = noNullableProperties;
 const ruleId = 'ibm-no-nullable-properties';

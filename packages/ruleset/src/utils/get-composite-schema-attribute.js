@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { schemaHasConstraint } = require('@ibm-cloud/openapi-ruleset-utilities');
+import { schemaHasConstraint } from '@ibm-cloud/openapi-ruleset-utilities';
 
 /**
  * Retrieves the value of "schema"'s attribute named "attrName" either directly from "schema"
@@ -27,4 +27,4 @@ function getCompositeSchemaAttribute(schema, attrName) {
   return foundConstraint ? value : undefined;
 }
 
-module.exports = getCompositeSchemaAttribute;
+export default getCompositeSchemaAttribute;

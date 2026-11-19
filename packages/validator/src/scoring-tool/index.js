@@ -3,12 +3,12 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   printCategorizedScoresTable,
   printScoringDataTable,
-} = require('./output');
-const { scoreResults } = require('./score');
-const { computeMetrics } = require('./compute-metrics');
+} from './output.js';
+import { scoreResults } from './score.js';
+import { computeMetrics } from './compute-metrics.js';
 
 async function produceQualityScore(
   validatorResults,
@@ -32,7 +32,4 @@ function printScoreTables({ config }, { qualityScore }) {
   console.log();
 }
 
-module.exports = {
-  produceQualityScore,
-  printScoreTables,
-};
+export { produceQualityScore, printScoreTables };

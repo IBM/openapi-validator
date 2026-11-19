@@ -28,4 +28,4 @@ const pathMatchesRegexp = (path, regexp) => {
   return pathString.match(regexp) ? true : false;
 };
 
-module.exports = pathMatchesRegexp;
+export default pathMatchesRegexp;

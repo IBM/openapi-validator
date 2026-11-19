@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getTitle } = require('../../src/scoring-tool/get-title');
+import { getTitle } from '../../src/scoring-tool/get-title';
 
 describe('scoring-tool get-title tests', function () {
   it('should use title from info object and version if present', function () {

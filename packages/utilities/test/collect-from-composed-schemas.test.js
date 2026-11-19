@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { collectFromComposedSchemas } = require('../src');
+import { collectFromComposedSchemas } from '../src';
 
 describe('Utility function: collectFromComposedSchemas()', () => {
   it('should return `[]` for `undefined` or `null`', async () => {
