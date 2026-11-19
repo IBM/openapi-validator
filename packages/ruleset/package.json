@@ -31,7 +31,7 @@
     "lodash": "4.18.1",
     "loglevel": "1.9.2",
     "loglevel-plugin-prefix": "0.8.4",
-    "minimatch": "10.2.6",
+    "minimatch": "11.0.7",
     "validator": "13.15.35"
   },
   "devDependencies": {
