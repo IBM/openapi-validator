@@ -24,6 +24,26 @@ describe(`Spectral rule: ${ruleId}`, () => {
       expect(results).toHaveLength(0);
     });
 
+    it('list operation response is a binary file download (not a collection)', async () => {
+      const testDocument = makeCopy(rootDocument);
+
+      // Replace the movies list response body with a binary file download (such
+      // as a PDF). A binary response is not a collection, so the rule must not
+      // expect a "movies" array property. Regression test for the false positive
+      // reported when an operation returns binary file content.
+      testDocument.paths['/v1/movies'].get.responses['200'].content = {
+        'application/pdf': {
+          schema: {
+            type: 'string',
+            format: 'binary',
+          },
+        },
+      };
+
+      const results = await testRule(ruleId, rule, testDocument);
+      expect(results).toHaveLength(0);
+    });
+
     it('would normally warn but path contains quote character, which throws off spectral', async () => {
       const testDocument = makeCopy(rootDocument);
 

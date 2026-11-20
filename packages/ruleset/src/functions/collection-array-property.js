@@ -6,6 +6,7 @@
 const {
   schemaHasConstraint,
   isArraySchema,
+  isBinarySchema,
   isObject,
   getUnresolvedSpec,
 } = require('@ibm-cloud/openapi-ruleset-utilities');
@@ -39,6 +40,14 @@ module.exports = function (schema, _opts, context) {
  */
 function collectionArrayProperty(schema, path, apidef) {
   logger.debug(`${ruleId}: checking schema at location: ${path.join('.')}`);
+
+  // A binary response body (e.g. a file download such as a PDF served as
+  // application/pdf) is never a collection, so it should not be expected to
+  // define a collection array property.
+  if (isBinarySchema(schema)) {
+    logger.debug(`${ruleId}: skipping binary (file download) response schema`);
+    return [];
+  }
 
   const pathString = path[1];
   if (!apidef.paths[pathString]) {

@@ -7,6 +7,14 @@ const { each, merge, pickBy, reduce } = require('lodash');
 const { operationMethods } = require('../utils');
 const inflected = require('inflected');
 
+// These words are commonly used as singular nouns in APIs, but inflected would
+// singularize them (e.g. metadata -> metadatum, data -> datum, media -> medium,
+// criteria -> criterium), so update_secret_metadata would be flagged as
+// update_secret_metadatum. Keep them as-is.
+['metadata', 'data', 'media', 'criteria'].forEach(word =>
+  inflected.inflections().irregular(word, word)
+);
+
 module.exports = function (rootDocument, options) {
   return operationIdNamingConvention(rootDocument, options.strict);
 };

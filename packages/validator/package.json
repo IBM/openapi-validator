@@ -1,7 +1,7 @@
 {
   "name": "ibm-openapi-validator",
   "description": "Configurable and extensible validator/linter for OpenAPI documents",
-  "version": "1.38.4",
+  "version": "1.38.9",
   "private": false,
   "repository": {
     "type": "git",
@@ -23,10 +23,10 @@
     "pkg": "../../scripts/create-binaries.sh"
   },
   "dependencies": {
-    "@ibm-cloud/openapi-ruleset": "1.33.15",
-    "@ibm-cloud/openapi-ruleset-utilities": "1.9.4",
+    "@ibm-cloud/openapi-ruleset": "1.33.18",
+    "@ibm-cloud/openapi-ruleset-utilities": "1.9.5",
     "@stoplight/spectral-cli": "6.17.0",
-    "@stoplight/spectral-core": "1.24.0",
+    "@stoplight/spectral-core": "1.24.1",
     "@stoplight/spectral-parsers": "1.0.5",
     "@stoplight/spectral-ref-resolver": "1.0.5",
     "ajv": "8.20.0",
@@ -34,8 +34,7 @@
     "commander": "10.0.1",
     "console-table-printer": "2.16.1",
     "find-up": "5.0.0",
-    "globby": "11.1.0",
-    "js-yaml": "5.4.2",
+    "js-yaml": "5.4.3",
     "json-dup-key-validator": "1.0.3",
     "lodash": "4.18.1",
     "nimma": "0.7.2",
