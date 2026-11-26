@@ -31,6 +31,11 @@ export default {
 };
 ```
 
+CommonJS config files still work: `const ibmOpenapiRuleset = require('@ibm-cloud/openapi-ruleset');` returns the ruleset object,
+and `module.exports = { ... }` is still valid. ES module config files must use `import` and `export default`.
+Only the package root, `/src/functions`, `/src/utils` and `/package.json` can be imported; other deep imports are not exported.
+See the [migration note](https://github.com/IBM/openapi-validator/blob/main/docs/ibm-cloud-rules.md#migration-note-for-existing-javascript-rulesets) for details.
+
 ### Programmatically running Spectral
 ```js
 // your-module.js

@@ -8,7 +8,7 @@ import SpectralParsers from '@stoplight/spectral-parsers';
 import { Resolver } from '@stoplight/spectral-ref-resolver';
 import jsonRefReaders from '@stoplight/json-ref-readers';
 import { getRuleset } from '@stoplight/spectral-cli/dist/services/linter/utils/getRuleset.js';
-import * as ibmRuleset from '@ibm-cloud/openapi-ruleset';
+import ibmRuleset from '@ibm-cloud/openapi-ruleset';
 const { Json, Yaml } = SpectralParsers;
 const { Document, Spectral } = SpectralCore;
 const { resolveFile } = jsonRefReaders;

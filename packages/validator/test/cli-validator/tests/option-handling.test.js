@@ -4,6 +4,7 @@
  */
 
 import { existsSync, unlinkSync } from 'fs';
+import chalk from 'chalk';
 
 import {
   extractValuesFromTable,
@@ -22,12 +23,16 @@ import { vi } from 'vitest';
 
 describe('cli tool - test option handling', function () {
   let consoleSpy;
+  let originalChalkLevel;
   const originalWarn = console.warn;
   const originalError = console.error;
   const originalInfo = console.info;
   const copyrightString = getCopyrightString();
 
   beforeEach(() => {
+    // The validator sets chalk.level = 0 for -n/--no-colors and never resets
+    // it, so restore it after each test to avoid leaking into later tests.
+    originalChalkLevel = chalk.level;
     consoleSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
     console.warn = console.log;
     console.error = console.log;
@@ -35,6 +40,7 @@ describe('cli tool - test option handling', function () {
   });
 
   afterEach(() => {
+    chalk.level = originalChalkLevel;
     consoleSpy.mockRestore();
     console.warn = originalWarn;
     console.error = originalError;

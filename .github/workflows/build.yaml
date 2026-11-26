@@ -84,7 +84,7 @@ jobs:
             -p ./ibm-openapi-validator-*.tgz \
             lint-openapi packages/validator/test/cli-validator/mock-files/oas3/clean.yml
 
-          # Test with a custom .spectral.js
+          # Test with a custom CommonJS ruleset (covers the require(esm) path)
           printf "const ibmRuleset = require('@ibm-cloud/openapi-ruleset');\nmodule.exports = { extends: [[ibmRuleset, 'all']], rules: {} };\n" > /tmp/test-spectral.js
 
           npx --yes --prefer-online \
@@ -92,6 +92,16 @@ jobs:
             -p ./ibm-cloud-openapi-ruleset-[0-9]*.tgz \
             -p ./ibm-openapi-validator-*.tgz \
             lint-openapi --ruleset /tmp/test-spectral.js \
+            packages/validator/test/cli-validator/mock-files/oas3/clean.yml
+
+          # Test with a custom ESM ruleset (covers the default export)
+          printf "import ibmRuleset from '@ibm-cloud/openapi-ruleset';\nexport default { extends: [[ibmRuleset, 'all']], rules: {} };\n" > /tmp/test-spectral.mjs
+
+          npx --yes --prefer-online \
+            -p ./ibm-cloud-openapi-ruleset-utilities-*.tgz \
+            -p ./ibm-cloud-openapi-ruleset-[0-9]*.tgz \
+            -p ./ibm-openapi-validator-*.tgz \
+            lint-openapi --ruleset /tmp/test-spectral.mjs \
             packages/validator/test/cli-validator/mock-files/oas3/clean.yml
 
   publish-release:

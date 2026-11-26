@@ -10,11 +10,6 @@ import findUp from 'find-up';
 // URLs ('https://...') are not treated as separators.
 const SEPARATOR = /:(?:\s|$)/;
 
-export default {
-  findSpectralRuleset,
-  splitMessage,
-};
-
 /**
  * Checks the user configuration and the file system for local
  * Spectral config file (aka a local ruleset). If not found,

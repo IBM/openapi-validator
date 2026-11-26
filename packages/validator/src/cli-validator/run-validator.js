@@ -87,10 +87,10 @@ async function runValidator(cliArgs, parseOptions = {}) {
     return Promise.reject(2);
   }
 
-  // Set color level based on the config. Reset to the default (3) when
-  // colorization is enabled so that a previous `chalk.level = 0` assignment
-  // (e.g. from a prior test run) doesn't bleed into subsequent invocations.
-  chalk.level = context.config.colorizeOutput ? 3 : 0;
+  // Turn off coloring if requested.
+  if (!context.config.colorizeOutput) {
+    chalk.level = 0;
+  }
 
   context.chalk = chalk;
 

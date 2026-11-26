@@ -293,3 +293,9 @@ export const rules = {
   'ibm-valid-schema-example': validSchemaExample,
   'ibm-well-defined-dictionaries': wellDefinedDictionaries,
 };
+
+const ruleset = { extends: oas, documentationUrl, formats, rules };
+
+export default ruleset;
+// Allows CommonJS consumers to get the ruleset directly from require().
+export { ruleset as 'module.exports' };

@@ -4,6 +4,9 @@ export default defineConfig({
     test: {
         globals: true,
         environment: 'node',
+        // Vitest isn't a TTY, so chalk would otherwise detect level 0 and
+        // tests that expect colorized output would fail.
+        env: { FORCE_COLOR: '3' },
         coverage: {
             enabled: true,
             reporter: ['text', 'json', 'html'],

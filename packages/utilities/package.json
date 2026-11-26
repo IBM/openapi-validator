@@ -5,10 +5,21 @@
   "version": "1.9.4",
   "license": "Apache-2.0",
   "private": false,
+  "main": "./src/index.js",
   "exports": {
-    ".": "./src/index.js",
-    "./src/collections": "./src/collections/index.js",
-    "./src/utils": "./src/utils/index.js"
+    ".": {
+      "types": "./types/index.d.ts",
+      "default": "./src/index.js"
+    },
+    "./src/collections": {
+      "types": "./types/collections/index.d.ts",
+      "default": "./src/collections/index.js"
+    },
+    "./src/utils": {
+      "types": "./types/utils/index.d.ts",
+      "default": "./src/utils/index.js"
+    },
+    "./package.json": "./package.json"
   },
   "types": "./types/index.d.ts",
   "repository": {

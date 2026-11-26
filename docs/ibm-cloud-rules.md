@@ -885,6 +885,32 @@ within the `@ibm-cloud/openapi-ruleset` package.
 #### Define a new rule
 To define a new rule as part of your custom ruleset, please read the [Spectral Custom Rulesets](https://meta.stoplight.io/docs/spectral/ZG9jOjI1MTg5-custom-rulesets) documentation.
 
+#### Migration note for existing JavaScript rulesets
+The `@ibm-cloud/openapi-ruleset` and `@ibm-cloud/openapi-ruleset-utilities` packages are now ES modules.
+If you already have a JavaScript ruleset file (for example `.spectral.js`), here is what to know:
+
+* **CommonJS rulesets keep working.**  `require('@ibm-cloud/openapi-ruleset')` returns the ruleset object directly,
+and `module.exports = { ... }` is still valid in your own file:
+  ```javascript
+  const ibmCloudValidationRules = require('@ibm-cloud/openapi-ruleset');
+  const { propertyCasingConvention } = require('@ibm-cloud/openapi-ruleset/src/functions');
+
+  module.exports = {
+    extends: ibmCloudValidationRules,
+    rules: { /* ... */ }
+  };
+  ```
+* **ES module rulesets** must use `import` and `export default` (as in the example above) instead of `require` and `module.exports`.
+`import ibmCloudValidationRules from '@ibm-cloud/openapi-ruleset'` gives you the ruleset object.
+* **Only these subpaths can be imported** from `@ibm-cloud/openapi-ruleset`: the package root,
+`@ibm-cloud/openapi-ruleset/src/functions`, `@ibm-cloud/openapi-ruleset/src/utils`, and `@ibm-cloud/openapi-ruleset/package.json`.
+Any other deep import (for example `@ibm-cloud/openapi-ruleset/src/rules`) now fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`.
+The same applies to `@ibm-cloud/openapi-ruleset-utilities`, whose importable subpaths are the package root,
+`@ibm-cloud/openapi-ruleset-utilities/src/collections`, `@ibm-cloud/openapi-ruleset-utilities/src/utils`, and
+`@ibm-cloud/openapi-ruleset-utilities/package.json`.
+* **YAML and JSON rulesets** (`extends: '@ibm-cloud/openapi-ruleset'`) are unaffected.
+
+
 
 ### Spectral Overrides
 
