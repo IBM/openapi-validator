@@ -1,4 +1,4 @@
-export = schemaHasProperty;
+export default schemaHasProperty;
 /**
  * This function will return `true` if all possible variations of a (possibly composite) schema
  * define a property with the specified name.

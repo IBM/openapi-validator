@@ -1,4 +1,4 @@
-export = schemaHasConstraint;
+export default schemaHasConstraint;
 /**
  * This function will return `true` if all possible variations of a (possibly composite) schema
  * enforce a constraint, as checked by a `(schema) => boolean` function which checks for the

@@ -45,4 +45,4 @@ function computeRefsAtPaths(nodes) {
   return resultMap;
 }
 
-module.exports = computeRefsAtPaths;
+export default computeRefsAtPaths;

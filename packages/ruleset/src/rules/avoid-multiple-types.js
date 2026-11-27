@@ -3,21 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3_1 } = require('@stoplight/spectral-formats');
-const { avoidMultipleTypes } = require('../functions');
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
+import { avoidMultipleTypes } from '../functions/index.js';
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3_1 } = spectralFormats;
 
-module.exports = {
-  description:
-    'OpenAPI 3.1 documents should avoid multiple types in the schema "type" field.',
-  message: '{{error}}',
-  given: schemas,
-  severity: 'error',
-  formats: [oas3_1],
-  resolved: true,
-  then: {
-    function: avoidMultipleTypes,
-  },
+export const description =
+  'OpenAPI 3.1 documents should avoid multiple types in the schema "type" field.';
+export const message = '{{error}}';
+export const given = schemas;
+export const severity = 'error';
+export const formats = [oas3_1];
+export const resolved = true;
+export const then = {
+  function: avoidMultipleTypes,
 };

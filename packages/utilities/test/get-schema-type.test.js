@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getSchemaType, SchemaType } = require('../src');
+import { getSchemaType, SchemaType } from '../src';
 
 /*
  * Most of the behavior for this utility is better tested in its more specific dependencies,

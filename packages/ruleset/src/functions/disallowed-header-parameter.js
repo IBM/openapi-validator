@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { LoggerFactory } = require('../utils');
+import { LoggerFactory } from '../utils/index.js';
 
 /**
  * This custom rule function is used to check for disallowed header parameters,
@@ -19,7 +19,7 @@ const { LoggerFactory } = require('../utils');
  * @param {*} headerName the name of the header parameter to check for
  * @returns an array of size one if 'param' is flagged, or an empty array otherwise
  */
-module.exports = function (param, options, context) {
+export default function (param, options, context) {
   const ruleId = context.rule.name;
   const logger = LoggerFactory.getInstance().getLogger(ruleId);
 
@@ -35,7 +35,7 @@ module.exports = function (param, options, context) {
     context.path,
     options.headerName.trim().toLowerCase()
   );
-};
+}
 
 // Return an error if 'param' is a header parameter named '<headerName>'.
 

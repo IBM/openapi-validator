@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { parameterCasingConvention } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { parameterCasingConvention } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const rule = parameterCasingConvention;
 const ruleId = 'ibm-parameter-casing-convention';

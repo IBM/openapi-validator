@@ -3,20 +3,20 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { validateSubschemas } = require('@ibm-cloud/openapi-ruleset-utilities');
-const { LoggerFactory } = require('../utils');
+import { validateSubschemas } from '@ibm-cloud/openapi-ruleset-utilities';
+import { LoggerFactory } from '../utils/index.js';
 
 let ruleId;
 let logger;
 
-module.exports = function (schema, _opts, context) {
+export default function (schema, _opts, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
 
   return validateSubschemas(schema, context.path, checkDuplicateDescription);
-};
+}
 
 function checkDuplicateDescription(schema, path) {
   // We're only interested in a schema or schema property that has an allOf list.

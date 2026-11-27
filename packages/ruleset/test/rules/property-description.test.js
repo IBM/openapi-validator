@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { propertyDescriptionExists } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { propertyDescriptionExists } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const rule = propertyDescriptionExists;
 const ruleId = 'ibm-property-description';

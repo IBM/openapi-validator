@@ -3,19 +3,19 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const path = require('path');
-const { getCategories } = require('../../src/scoring-tool/categories');
-const readYaml = require('../../src/cli-validator/utils/read-yaml.js');
-const rubric = require('../../src/scoring-tool/rubric');
-const validateSchema = require('../../src/cli-validator/utils/validate-schema');
+import { join } from 'path';
+import { getCategories } from '../../src/scoring-tool/categories';
+import readYaml from '../../src/cli-validator/utils/read-yaml.js';
+import rubric from '../../src/scoring-tool/rubric';
+import validateSchema from '../../src/cli-validator/utils/validate-schema';
 
-const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
+import { rules } from '@ibm-cloud/openapi-ruleset';
 
 describe('scoring-tool rubric tests', function () {
   it('should define entries that have a valid structure', async function () {
     // Read in the rubric entry schema in order to validate each entry.
     const rubricEntrySchema = await readYaml(
-      path.join(__dirname, '../../src/schemas/rubric-entry.yaml')
+      join(__dirname, '../../src/schemas/rubric-entry.yaml')
     );
 
     Object.values(rubric).forEach(entry => {
@@ -53,8 +53,8 @@ describe('scoring-tool rubric tests', function () {
       'oas2-unused-definition',
     ];
 
-    Object.keys(ibmRuleset.rules).forEach(rule => {
-      if (!ignoredRules.includes(rule) && ibmRuleset.rules[rule] !== 'off') {
+    Object.keys(rules).forEach(rule => {
+      if (!ignoredRules.includes(rule) && rules[rule] !== 'off') {
         expect(Object.keys(rubric)).toContain(rule);
       }
     });

@@ -3,10 +3,11 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const findUp = require('find-up');
-const { dirname, join } = require('path');
+import findUp from 'find-up';
+import { dirname, join } from 'path';
+import { createRequire } from 'module';
 
-module.exports = getLocalRulesetVersion;
+const require = createRequire(import.meta.url);
 
 /**
  * Looks for a locally installed version of the IBM Cloud OpenAPI
@@ -110,3 +111,5 @@ async function lookForRulesetPackage(rulesetDir) {
   await findUp(matchIBMRulesetPackage, opts);
   return pathToPackage;
 }
+
+export default getLocalRulesetVersion;

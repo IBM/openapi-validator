@@ -27,7 +27,4 @@ function getCategoryCoefficient(category) {
   return categories[category].coefficient;
 }
 
-module.exports = {
-  getCategories,
-  getCategoryCoefficient,
-};
+export { getCategories, getCategoryCoefficient };

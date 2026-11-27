@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isDateBasedName, isDateBasedValue } = require('../../src/utils');
+import { isDateBasedName, isDateBasedValue } from '../../src/utils';
 
 describe('Date-based utility functions', () => {
   describe('isDateBasedValue()', () => {

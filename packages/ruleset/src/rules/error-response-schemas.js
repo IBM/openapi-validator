@@ -3,19 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { oas3 } = require('@stoplight/spectral-formats');
-const { errorResponseSchemas } = require('../functions');
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { errorResponseSchemas } from '../functions/index.js';
 
-module.exports = {
-  description:
-    'Error response schemas should comply with API Handbook guidance',
-  message: '{{error}}',
-  given:
-    '$.paths[*][*].responses[?(@property >= 400 && @property < 600)].content[*].schema',
-  severity: 'warn',
-  formats: [oas3],
-  resolved: true,
-  then: {
-    function: errorResponseSchemas,
-  },
+export const description =
+  'Error response schemas should comply with API Handbook guidance';
+export const message = '{{error}}';
+export const given =
+  '$.paths[*][*].responses[?(@property >= 400 && @property < 600)].content[*].schema';
+export const severity = 'warn';
+export const formats = [oas3];
+export const resolved = true;
+export const then = {
+  function: errorResponseSchemas,
 };

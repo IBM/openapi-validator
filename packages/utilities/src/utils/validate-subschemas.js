@@ -6,15 +6,15 @@
 /**
  * @private
  */
-const SchemaPath = require('./schema-path');
+import SchemaPath from './schema-path.js';
 /**
  * @private
  */
-const validateComposedSchemas = require('./validate-composed-schemas');
+import validateComposedSchemas from './validate-composed-schemas.js';
 /**
  * @private
  */
-const validateNestedSchemas = require('./validate-nested-schemas');
+import validateNestedSchemas from './validate-nested-schemas.js';
 
 /**
  * Performs validation on a schema and all of its subschemas.
@@ -84,4 +84,4 @@ function validateSubschemas(
   );
 }
 
-module.exports = validateSubschemas;
+export default validateSubschemas;

@@ -3,22 +3,23 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { Document, Spectral } = require('@stoplight/spectral-core');
-const Parsers = require('@stoplight/spectral-parsers');
-const {
-  getRuleset,
-} = require('@stoplight/spectral-cli/dist/services/linter/utils/getRuleset');
-const ibmRuleset = require('@ibm-cloud/openapi-ruleset');
-const { Resolver } = require('@stoplight/spectral-ref-resolver');
-const { resolveFile } = require('@stoplight/json-ref-readers');
+import SpectralCore from '@stoplight/spectral-core';
+import SpectralParsers from '@stoplight/spectral-parsers';
+import { Resolver } from '@stoplight/spectral-ref-resolver';
+import jsonRefReaders from '@stoplight/json-ref-readers';
+import { getRuleset } from '@stoplight/spectral-cli/dist/services/linter/utils/getRuleset.js';
+import ibmRuleset from '@ibm-cloud/openapi-ruleset';
+const { Json, Yaml } = SpectralParsers;
+const { Document, Spectral } = SpectralCore;
+const { resolveFile } = jsonRefReaders;
 
-const {
+import {
   checkRulesetVersion,
   getFileExtension,
   getLocalRulesetVersion,
-} = require('../cli-validator/utils');
+} from '../cli-validator/utils/index.js';
 
-const { findSpectralRuleset, splitMessage } = require('./utils');
+import { findSpectralRuleset, splitMessage } from './utils.js';
 
 /**
  * Creates a Spectral document from the input, runs spectral, converts the results
@@ -36,9 +37,9 @@ const runSpectral = async function ({ originalFile, validFile }, context) {
   const spectral = await setup(context);
 
   const fileExtension = getFileExtension(validFile);
-  let parser = Parsers.Json;
+  let parser = Json;
   if (['yaml', 'yml'].includes(fileExtension)) {
-    parser = Parsers.Yaml;
+    parser = Yaml;
   }
 
   const doc = new Document(originalFile, parser, validFile);
@@ -172,9 +173,7 @@ async function setup({ config, logger }) {
   return spectral;
 }
 
-module.exports = {
-  runSpectral,
-};
+export { runSpectral };
 
 function checkGetRulesetError(logger, error, file) {
   const isAggregateError = error instanceof AggregateError;

@@ -1,4 +1,4 @@
-FROM node:18-alpine
+FROM node:24-alpine
 LABEL org.opencontainers.image.source="https://github.com/IBM/openapi-validator"
 LABEL org.opencontainers.image.documentation="https://github.com/IBM/openapi-validator#container-image"
 LABEL org.opencontainers.image.licenses="Apache-2.0"

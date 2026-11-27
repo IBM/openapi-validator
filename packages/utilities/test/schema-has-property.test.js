@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { schemaHasProperty } = require('../src');
+import { schemaHasProperty } from '../src';
 
 describe('Utility function: schemaHasProperty()', () => {
   it('should return `false` for `undefined`', async () => {

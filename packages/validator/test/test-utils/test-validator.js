@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const runValidator = require('../../src/cli-validator/run-validator');
+import runValidator from '../../src/cli-validator/run-validator';
 
 /**
  * This function is used by testcases to run the validator via CLI options.
@@ -19,4 +19,4 @@ async function testValidator(cliArgs) {
   return runValidator(cliArgs, { from: 'user' });
 }
 
-module.exports = testValidator;
+export default testValidator;

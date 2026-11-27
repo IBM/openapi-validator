@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { categorizedScores } = require('../../../src/markdown-report/tables');
-const validatorResults = require('../../test-utils/mock-json-output.json');
+import { categorizedScores } from '../../../src/markdown-report/tables';
+import validatorResults from '../../test-utils/mock-json-output.json';
 
 describe('categorizedScores table tests', function () {
   it('should produce a table with categorized scores from the results', function () {

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { testRule } = require('../test-utils');
+import { testRule } from '../test-utils';
 
 // Test cases for dependencies on subtle and possibly fragile Spectral behavior
 describe('Spectral behavior dependencies', () => {

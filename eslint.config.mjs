@@ -13,7 +13,7 @@ export default [
     languageOptions: {
       globals: {
         ...globals.node,
-        ...globals.jest,
+        ...globals.vitest,
         ...globals.mocha,
       },
     },
@@ -22,8 +22,8 @@ export default [
     ...prettier,
     files: ['**/*.js'],
     languageOptions: {
-      ecmaVersion: 13,
-      sourceType: 'commonjs',
+      ecmaVersion: 2025,
+      sourceType: 'module',
       globals: {
         ...globals.node,
         ...globals.es2021,

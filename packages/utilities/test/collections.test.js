@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { collections } = require('../src');
-const testRulePaths = require('./utils/test-rule-paths');
+import { collections } from '../src';
+import testRulePaths from './utils/test-rule-paths';
 
 describe('Collections', () => {
   describe('operations', () => {

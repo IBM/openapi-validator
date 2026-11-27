@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { majorVersionInPath } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { majorVersionInPath } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const ruleId = 'ibm-major-version-in-path';
 const rule = majorVersionInPath;

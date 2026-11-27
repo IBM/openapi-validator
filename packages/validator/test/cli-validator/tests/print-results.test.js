@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const printResults = require('../../../src/cli-validator/utils/print-results');
+import printResults from '../../../src/cli-validator/utils/print-results';
 
 const identity = s => s;
 const chalk = {
@@ -43,7 +43,7 @@ describe('print-results tests', function () {
   let logSpy;
 
   beforeEach(function () {
-    logSpy = jest.spyOn(console, 'log').mockImplementation(() => {});
+    logSpy = vi.spyOn(console, 'log').mockImplementation(() => {});
   });
 
   afterEach(function () {

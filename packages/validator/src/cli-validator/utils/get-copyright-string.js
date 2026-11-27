@@ -3,8 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const getVersionString = require('./get-version-string');
+import getVersionString from './get-version-string.js';
 
-module.exports = function () {
+export default function () {
   return `IBM OpenAPI Validator (${getVersionString()}), @Copyright IBM Corporation 2017, ${new Date().getFullYear()}.`;
-};
+}

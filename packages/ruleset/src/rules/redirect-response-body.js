@@ -3,21 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  operations,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { redirectResponseBody } = require('../functions');
+import { operations } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { redirectResponseBody } from '../functions/index.js';
 
-module.exports = {
-  description:
-    'Performs multiple checks on the response body based on status codes',
-  message: '{{error}}',
-  formats: [oas3],
-  given: operations,
-  severity: 'error',
-  resolved: true,
-  then: {
-    function: redirectResponseBody,
-  },
+export const description =
+  'Performs multiple checks on the response body based on status codes';
+export const message = '{{error}}';
+export const formats = [oas3];
+export const given = operations;
+export const severity = 'error';
+export const resolved = true;
+export const then = {
+  function: redirectResponseBody,
 };

@@ -3,14 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
+import {
   isObject,
   getResolvedSpec,
-} = require('@ibm-cloud/openapi-ruleset-utilities');
-const {
+} from '@ibm-cloud/openapi-ruleset-utilities';
+import {
   LoggerFactory,
   pathHasMinimallyRepresentedResource,
-} = require('../utils');
+} from '../utils/index.js';
 
 let ruleId;
 let logger;
@@ -23,17 +23,13 @@ let logger;
  *
  */
 
-module.exports = function requestAndResponseContent(
-  operation,
-  options,
-  context
-) {
+export default function requestAndResponseContent(operation, options, context) {
   if (!logger) {
     ruleId = context.rule.name;
     logger = LoggerFactory.getInstance().getLogger(ruleId);
   }
   return checkForContent(operation, context.path, getResolvedSpec(context));
-};
+}
 
 /**
  * This function checks to ensure an operation defines "content" on its

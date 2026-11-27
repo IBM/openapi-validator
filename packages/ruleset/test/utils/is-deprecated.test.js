@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isDeprecated } = require('../../src/utils');
+import { isDeprecated } from '../../src/utils';
 
 describe('Utility function: isDeprecated()', () => {
   it('should return false if given a non-object', () => {

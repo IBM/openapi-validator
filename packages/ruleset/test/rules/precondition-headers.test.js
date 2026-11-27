@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { preconditionHeader } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { preconditionHeader } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const rule = preconditionHeader;
 const ruleId = 'ibm-precondition-headers';

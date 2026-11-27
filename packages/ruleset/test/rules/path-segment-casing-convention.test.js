@@ -3,13 +3,8 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { pathSegmentCasingConvention } = require('../../src/rules');
-const {
-  makeCopy,
-  rootDocument,
-  testRule,
-  severityCodes,
-} = require('../test-utils');
+import { pathSegmentCasingConvention } from '../../src/rules';
+import { makeCopy, rootDocument, testRule, severityCodes } from '../test-utils';
 
 const rule = pathSegmentCasingConvention;
 const ruleId = 'ibm-path-segment-casing-convention';

@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { isNumberSchema } = require('../src');
+import { isNumberSchema } from '../src';
 
 describe('Utility function: isNumberSchema()', () => {
   it('should return `false` for `undefined`', async () => {

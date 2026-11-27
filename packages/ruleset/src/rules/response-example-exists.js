@@ -3,16 +3,14 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { responseExampleExists } = require('../functions');
+import { responseExampleExists } from '../functions/index.js';
 
-module.exports = {
-  description: 'Each response should include an example',
-  message: '{{error}}',
-  given:
-    '$.paths[*][*].responses[?(@property >= 200 && @property < 300)].content.application/json',
-  severity: 'warn',
-  resolved: true,
-  then: {
-    function: responseExampleExists,
-  },
+export const description = 'Each response should include an example';
+export const message = '{{error}}';
+export const given =
+  '$.paths[*][*].responses[?(@property >= 200 && @property < 300)].content.application/json';
+export const severity = 'warn';
+export const resolved = true;
+export const then = {
+  function: responseExampleExists,
 };

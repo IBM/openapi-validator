@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const rules = require('../../src/rules');
+import rules from '../../src/rules';
 
 // Test cases to enforce rule style
 describe.each(Object.entries(rules))(

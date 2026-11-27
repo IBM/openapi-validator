@@ -3,6 +3,6 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-module.exports = obj => {
+export default obj => {
   return JSON.parse(JSON.stringify(obj));
 };

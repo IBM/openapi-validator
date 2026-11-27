@@ -3,20 +3,18 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const {
-  schemas,
-} = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
-const { oas3 } = require('@stoplight/spectral-formats');
-const { integerAttributes } = require('../functions');
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
+import spectralFormats from '@stoplight/spectral-formats';
+const { oas3 } = spectralFormats;
+import { integerAttributes } from '../functions/index.js';
 
-module.exports = {
-  description: 'Integer schemas should have certain attributes defined',
-  message: '{{error}}',
-  severity: 'error',
-  formats: [oas3],
-  resolved: true,
-  given: schemas,
-  then: {
-    function: integerAttributes,
-  },
+export const description =
+  'Integer schemas should have certain attributes defined';
+export const message = '{{error}}';
+export const severity = 'error';
+export const formats = [oas3];
+export const resolved = true;
+export const given = schemas;
+export const then = {
+  function: integerAttributes,
 };

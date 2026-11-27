@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache2.0
  */
 
-const { getResourceSpecificSiblingPath } = require('../../src/utils');
+import { getResourceSpecificSiblingPath } from '../../src/utils';
 
 describe('Utility function: getResourceSpecificSiblingPath', () => {
   it('should find sibling path when present', () => {

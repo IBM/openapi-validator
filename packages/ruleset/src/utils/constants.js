@@ -15,4 +15,4 @@ const operationMethods = [
   'trace',
 ];
 
-module.exports = operationMethods;
+export default operationMethods;

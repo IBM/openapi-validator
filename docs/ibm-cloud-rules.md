@@ -843,11 +843,11 @@ For this reason, we must implement our custom ruleset using javascript instead o
 Here is our custom ruleset file (`.spectral.js`):
 
 ```javascript
-const ibmCloudValidationRules = require('@ibm-cloud/openapi-ruleset');                           // Note 1
-const { propertyCasingConvention } = require('@ibm-cloud/openapi-ruleset/src/functions');
-const { schemas } = require('@ibm-cloud/openapi-ruleset-utilities/src/collections');
+import ibmCloudValidationRules from '@ibm-cloud/openapi-ruleset';                               // Note 1
+import { propertyCasingConvention } from '@ibm-cloud/openapi-ruleset/src/functions';
+import { schemas } from '@ibm-cloud/openapi-ruleset-utilities/src/collections';
 
-module.exports = {
+export default {
   extends: ibmCloudValidationRules,
   rules: {
     'ibm-property-casing-convention': {                                                          // Note 2
@@ -868,7 +868,7 @@ module.exports = {
 ```
 Notes:
 1. This custom ruleset extends `@ibm-cloud/openapi-ruleset` and also references the `propertyCasingConvention` function and the
-`schemas` JSONPath collection, so we need to import each of these with `require` statements.  In addition, be sure to install
+`schemas` JSONPath collection, so we need to import each of these with `import` statements.  In addition, be sure to install
 the `@ibm-cloud/openapi-ruleset` package: `npm install @ibm-cloud/openapi-ruleset`.
 2. This custom rule is re-defining (overriding) the `ibm-property-casing-convention` rule from the `@ibm-cloud/openapi-ruleset` package
 so we need to use the same rule id (`ibm-property-casing-convention`).  Alternatively, we could have used a different rule id of our choosing,
@@ -884,6 +884,32 @@ within the `@ibm-cloud/openapi-ruleset` package.
 
 #### Define a new rule
 To define a new rule as part of your custom ruleset, please read the [Spectral Custom Rulesets](https://meta.stoplight.io/docs/spectral/ZG9jOjI1MTg5-custom-rulesets) documentation.
+
+#### Migration note for existing JavaScript rulesets
+The `@ibm-cloud/openapi-ruleset` and `@ibm-cloud/openapi-ruleset-utilities` packages are now ES modules.
+If you already have a JavaScript ruleset file (for example `.spectral.js`), here is what to know:
+
+* **CommonJS rulesets keep working.**  `require('@ibm-cloud/openapi-ruleset')` returns the ruleset object directly,
+and `module.exports = { ... }` is still valid in your own file:
+  ```javascript
+  const ibmCloudValidationRules = require('@ibm-cloud/openapi-ruleset');
+  const { propertyCasingConvention } = require('@ibm-cloud/openapi-ruleset/src/functions');
+
+  module.exports = {
+    extends: ibmCloudValidationRules,
+    rules: { /* ... */ }
+  };
+  ```
+* **ES module rulesets** must use `import` and `export default` (as in the example above) instead of `require` and `module.exports`.
+`import ibmCloudValidationRules from '@ibm-cloud/openapi-ruleset'` gives you the ruleset object.
+* **Only these subpaths can be imported** from `@ibm-cloud/openapi-ruleset`: the package root,
+`@ibm-cloud/openapi-ruleset/src/functions`, `@ibm-cloud/openapi-ruleset/src/utils`, and `@ibm-cloud/openapi-ruleset/package.json`.
+Any other deep import (for example `@ibm-cloud/openapi-ruleset/src/rules`) now fails with `ERR_PACKAGE_PATH_NOT_EXPORTED`.
+The same applies to `@ibm-cloud/openapi-ruleset-utilities`, whose importable subpaths are the package root,
+`@ibm-cloud/openapi-ruleset-utilities/src/collections`, `@ibm-cloud/openapi-ruleset-utilities/src/utils`, and
+`@ibm-cloud/openapi-ruleset-utilities/package.json`.
+* **YAML and JSON rulesets** (`extends: '@ibm-cloud/openapi-ruleset'`) are unaffected.
+
 
 
 ### Spectral Overrides
